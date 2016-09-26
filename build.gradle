@@ -1,0 +1,13 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion project.properties.projectCompileSdkVersion
+    buildToolsVersion project.properties.projectBuildToolsVersion
+}
+
+dependencies {
+    compile project(':android-query')
+    compile project.properties.projectAppCompatVersion
+    compile 'com.google.android.gms:play-services-base:9.2.0'
+    compile 'com.android.support:multidex:1.0.1'
+}
