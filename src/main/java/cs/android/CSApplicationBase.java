@@ -6,9 +6,9 @@ import cs.android.lang.IApplication;
 import cs.android.viewbase.ContextController;
 import cs.java.lang.Lang;
 
-public abstract class ApplicationBase extends ContextController implements IApplication {
+public abstract class CSApplicationBase extends ContextController implements IApplication {
 
-    public ApplicationBase() {
+    public CSApplicationBase() {
         super(CSAndroidApplication.instance());
         Lang.setApplication(this);
     }
