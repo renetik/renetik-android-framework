@@ -12,14 +12,14 @@ import java.util.List;
 
 import cs.android.HasActivity;
 import cs.android.R;
-import cs.android.viewbase.ContextController;
+import cs.android.viewbase.CSContextController;
 import cs.java.callback.Run;
 import cs.java.callback.RunWith;
 import cs.java.callback.RunWithWith;
 
 import static cs.java.lang.Lang.*;
 
-public class CSAlertDialog extends ContextController {
+public class CSAlertDialog extends CSContextController {
 
     private Builder _builder;
     private EditText _inputField;

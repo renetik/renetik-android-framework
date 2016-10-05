@@ -10,11 +10,11 @@ import java.io.File;
 
 import cs.android.viewbase.CSView;
 import cs.android.viewbase.CSViewController;
-import cs.android.viewbase.ContextController;
+import cs.android.viewbase.CSContextController;
 
 public class CSQuery extends AbstractAQuery<CSQuery> {
 
-    public CSQuery(ContextController controller) {
+    public CSQuery(CSContextController controller) {
         super(controller.context());
     }
 

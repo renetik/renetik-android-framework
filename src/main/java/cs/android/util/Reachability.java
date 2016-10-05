@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import cs.android.viewbase.ContextController;
+import cs.android.viewbase.CSContextController;
 import cs.java.callback.RunWith;
 import cs.java.event.CSEvent;
 import cs.java.event.CSEvent.EventRegistration;
@@ -14,7 +14,7 @@ import cs.java.event.CSListener;
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 import static cs.java.lang.Lang.*;
 
-public class Reachability extends ContextController {
+public class Reachability extends CSContextController {
 
     private final CSEvent _eventOnConnected = event();
     private final CSEvent _eventOnDisConnected = event();

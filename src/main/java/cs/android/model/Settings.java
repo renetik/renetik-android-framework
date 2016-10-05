@@ -11,13 +11,13 @@ import cs.android.json.JSONArray;
 import cs.android.json.JSONData;
 import cs.android.json.JSONObject;
 import cs.android.json.JSONType;
-import cs.android.viewbase.ContextController;
+import cs.android.viewbase.CSContextController;
 import cs.java.collections.CSList;
 import cs.java.collections.CSMapItem;
 
 import static cs.java.lang.Lang.*;
 
-public class Settings extends ContextController {
+public class Settings extends CSContextController {
 
     public static final String SETTING_USERNAME = "username";
     public static final String SETTING_PASSWORD = "password";

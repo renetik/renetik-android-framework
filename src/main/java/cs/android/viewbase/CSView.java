@@ -63,7 +63,7 @@ import cs.java.common.CSPoint;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static cs.java.lang.Lang.*;
 
-public class CSView<T extends View> extends ContextController implements IsView {
+public class CSView<T extends View> extends CSContextController implements IsView {
 
     private CSView<View> _viewField;
     private View _view;

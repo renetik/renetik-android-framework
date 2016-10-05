@@ -3,7 +3,7 @@ package cs.android.rpc;
 import com.androidquery.callback.AjaxStatus;
 
 import cs.android.viewbase.CSViewController;
-import cs.android.viewbase.ContextController;
+import cs.android.viewbase.CSContextController;
 import cs.java.callback.Run;
 import cs.java.callback.RunWith;
 import cs.java.collections.CSList;
@@ -26,7 +26,7 @@ import static cs.java.lang.Lang.notImplemented;
 import static cs.java.lang.Lang.set;
 import static cs.java.lang.Lang.string;
 
-public class Response<Data> extends ContextController {
+public class Response<Data> extends CSContextController {
 
     public static final String NO_INTERNET = "No Internet";
 

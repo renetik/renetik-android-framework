@@ -42,20 +42,20 @@ import static android.text.format.DateFormat.getDateFormat;
 import static android.text.format.DateFormat.getTimeFormat;
 import static cs.java.lang.Lang.*;
 
-public abstract class ContextController extends Base implements HasContext {
+public abstract class CSContextController extends Base implements HasContext {
 
     private Context _context;
     private CSQuery _aq;
 
-    public ContextController() {
+    public CSContextController() {
         _context = CSAndroidApplication.instance();
     }
 
-    public ContextController(Context context) {
+    public CSContextController(Context context) {
         setContext(context);
     }
 
-    public ContextController(HasContext context) {
+    public CSContextController(HasContext context) {
         setContext(context.context());
     }
 
