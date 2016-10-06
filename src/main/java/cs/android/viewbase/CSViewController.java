@@ -316,9 +316,10 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         return _parent;
     }
 
-    public void hide() {
+    public CSView<View> hide() {
         if (is(_parentInView)) _parentInView.hide();
         else super.hide();
+        return null;
     }
 
     public CSView<View> show() {

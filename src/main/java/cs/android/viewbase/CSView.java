@@ -463,8 +463,9 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         return (WebView) findView(id);
     }
 
-    public void hide() {
+    public CSView<T> hide() {
         hide(asView());
+        return this;
     }
 
     public void hide(boolean hide, int viewId, int... viewIds) {

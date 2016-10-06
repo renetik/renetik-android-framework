@@ -1,5 +1,6 @@
 package cs.android.viewbase;
 
+import android.view.View;
 import android.view.animation.AnimationUtils;
 
 import cs.java.lang.Value;
@@ -40,8 +41,9 @@ public class InViewController extends CSViewController {
         }
     }
 
-    public void hide() {
+    public CSView<View> hide() {
         hideController(YES);
+        return null;
     }
 
     public void hideController(boolean animation) {
