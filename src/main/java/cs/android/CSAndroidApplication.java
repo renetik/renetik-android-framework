@@ -1,5 +1,6 @@
 package cs.android;
 
+import android.app.Application;
 import android.support.multidex.MultiDexApplication;
 
 import com.androidquery.callback.BitmapAjaxCallback;
@@ -8,7 +9,7 @@ import cs.java.lang.Lang;
 
 import static cs.java.lang.Lang.*;
 
-public class CSAndroidApplication extends MultiDexApplication {
+public class CSAndroidApplication extends Application {
 
     private static CSAndroidApplication _instance;
 

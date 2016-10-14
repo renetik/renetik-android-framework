@@ -154,13 +154,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         } else run(onGranted);
     }
 
-    private String[] getDeniedPermissions(List<String> permissions) {
-        List<String> deniedPermissions = list();
-        for (String permission : permissions)
-            if (checkSelfPermission(activity(), permission) != PERMISSION_GRANTED)
-                deniedPermissions.add(permission);
-        return toStringArray(deniedPermissions);
-    }
+
 
     public void startActivityForUri(Uri uri, RunWith<ActivityNotFoundException> onActivityNotFound) {
         startActivityForUriAndType(uri, null, onActivityNotFound);

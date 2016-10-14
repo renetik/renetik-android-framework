@@ -31,6 +31,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 import cs.android.CSAndroidApplication;
 import cs.android.HasContext;
@@ -38,6 +39,8 @@ import cs.android.aq.CSQuery;
 import cs.java.collections.CSList;
 import cs.java.lang.Base;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static android.text.format.DateFormat.getDateFormat;
 import static android.text.format.DateFormat.getTimeFormat;
 import static cs.java.lang.Lang.*;
@@ -279,6 +282,18 @@ public abstract class CSContextController extends Base implements HasContext {
     protected void onDestroy() {
         _context = null;
         _aq = null;
+    }
+
+    protected String[] getDeniedPermissions(List<String> permissions) {
+        List<String> deniedPermissions = list();
+        for (String permission : permissions)
+            if (isPermissionGranted(permission))
+                deniedPermissions.add(permission);
+        return toStringArray(deniedPermissions);
+    }
+
+    protected boolean isPermissionGranted(String permission) {
+        return checkSelfPermission(context(), permission) != PERMISSION_GRANTED;
     }
 
 }

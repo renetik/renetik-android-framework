@@ -9,5 +9,5 @@ dependencies {
     compile project(':AndroidQuery')
     compile project.properties.projectAppCompatVersion
     compile 'com.google.android.gms:play-services-base:9.2.0'
-    compile 'com.android.support:multidex:1.0.1'
+//    compile 'com.android.support:multidex:1.0.1'
 }
