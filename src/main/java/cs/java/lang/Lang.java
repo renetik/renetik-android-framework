@@ -495,7 +495,7 @@ public class Lang {
         };
     }
 
-    public static Object nullAsString(Object value) {
+    public static String nullAsString(Object value) {
         if (no(value)) return "";
         return value + "";
     }

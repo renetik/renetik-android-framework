@@ -34,9 +34,23 @@ import cs.java.lang.Value;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.os.Build.VERSION.SDK_INT;
-import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static cs.java.lang.CSMath.randomInt;
-import static cs.java.lang.Lang.*;
+import static cs.java.lang.Lang.NO;
+import static cs.java.lang.Lang.YES;
+import static cs.java.lang.Lang.doLater;
+import static cs.java.lang.Lang.error;
+import static cs.java.lang.Lang.event;
+import static cs.java.lang.Lang.exception;
+import static cs.java.lang.Lang.fire;
+import static cs.java.lang.Lang.format;
+import static cs.java.lang.Lang.info;
+import static cs.java.lang.Lang.is;
+import static cs.java.lang.Lang.list;
+import static cs.java.lang.Lang.no;
+import static cs.java.lang.Lang.run;
+import static cs.java.lang.Lang.set;
+import static cs.java.lang.Lang.unexpected;
+import static cs.java.lang.Lang.warn;
 
 public abstract class CSViewController extends CSView<View> implements HasActivity {
 
@@ -155,7 +169,6 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     }
 
 
-
     public void startActivityForUri(Uri uri, RunWith<ActivityNotFoundException> onActivityNotFound) {
         startActivityForUriAndType(uri, null, onActivityNotFound);
     }
@@ -184,6 +197,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
                 parent.onInViewControllerHide, parent.onConfigurationChanged,
                 parent.onRequestPermissionsResult).add(new CSListener() {
             public void onEvent(EventRegistration registration, Object argument) {
+                if (isDestroyed()) return;
                 if (registration.event() == parent.onBeforeCreate)
                     onBeforeCreate((Bundle) argument);
                 else if (registration.event() == parent.onCreate)
@@ -313,13 +327,13 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     public CSView<View> hide() {
         if (is(_parentInView)) _parentInView.hide();
         else super.hide();
-        return null;
+        return this;
     }
 
     public CSView<View> show() {
         if (is(_parentInView)) _parentInView.showController(this);
         else super.show();
-        return null;
+        return this;
     }
 
     public Context context() {
@@ -667,6 +681,11 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
 
         public void show() {
             _visible = YES;
+            if (_controller.isCreated()) _controller.invalidateOptionsMenu();
+        }
+
+        public void visible(boolean visible) {
+            _visible = visible;
             if (_controller.isCreated()) _controller.invalidateOptionsMenu();
         }
     }

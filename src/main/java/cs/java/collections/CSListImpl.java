@@ -104,6 +104,12 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return this;
     }
 
+    public CSList<T> append(List<T> items) {
+        for (T item : items)
+            add(item);
+        return this;
+    }
+
     public CSList<T> insert(int index, T item) {
         add(index, item);
         return this;

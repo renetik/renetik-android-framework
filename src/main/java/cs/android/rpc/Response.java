@@ -1,9 +1,7 @@
 package cs.android.rpc;
 
-import com.androidquery.callback.AjaxStatus;
-
-import cs.android.viewbase.CSViewController;
 import cs.android.viewbase.CSContextController;
+import cs.android.viewbase.CSViewController;
 import cs.java.callback.Run;
 import cs.java.callback.RunWith;
 import cs.java.collections.CSList;
@@ -393,11 +391,6 @@ public class Response<Data> extends CSContextController {
         return _controller;
     }
 
-    protected void onHandleContentFailed(String message, Object content, AjaxStatus status, Exception e) {
-        error(e, status.getError(), status.getCode(), status.getMessage(), status.getRedirect(), url(), content);
-        if (status.getCode() == AjaxStatus.NETWORK_ERROR) failed(e, NO_INTERNET);
-        else failed(e, message);
-        status.invalidate();
-    }
+
 }
 

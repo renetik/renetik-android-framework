@@ -35,7 +35,6 @@ import java.util.List;
 
 import cs.android.CSAndroidApplication;
 import cs.android.HasContext;
-import cs.android.aq.CSQuery;
 import cs.java.collections.CSList;
 import cs.java.lang.Base;
 
@@ -43,12 +42,18 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static android.text.format.DateFormat.getDateFormat;
 import static android.text.format.DateFormat.getTimeFormat;
-import static cs.java.lang.Lang.*;
+import static cs.java.lang.Lang.close;
+import static cs.java.lang.Lang.empty;
+import static cs.java.lang.Lang.error;
+import static cs.java.lang.Lang.is;
+import static cs.java.lang.Lang.list;
+import static cs.java.lang.Lang.set;
+import static cs.java.lang.Lang.toStringArray;
+import static cs.java.lang.Lang.warn;
 
 public abstract class CSContextController extends Base implements HasContext {
 
     private Context _context;
-    private CSQuery _aq;
 
     public CSContextController() {
         _context = CSAndroidApplication.instance();
@@ -72,11 +77,6 @@ public abstract class CSContextController extends Base implements HasContext {
 
     public Context context() {
         return _context;
-    }
-
-    public CSQuery aq() {
-        if (no(_aq)) _aq = new CSQuery(this);
-        return _aq;
     }
 
     protected void unregisterReceiver(BroadcastReceiver receiver) {
@@ -281,7 +281,6 @@ public abstract class CSContextController extends Base implements HasContext {
 
     protected void onDestroy() {
         _context = null;
-        _aq = null;
     }
 
     protected String[] getDeniedPermissions(List<String> permissions) {
