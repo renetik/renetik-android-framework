@@ -44,8 +44,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.androidquery.callback.BitmapAjaxCallback;
-import com.androidquery.callback.ImageOptions;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
 import java.util.Calendar;
@@ -53,7 +54,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import cs.android.HasContext;
-import cs.android.aq.CSQuery;
 import cs.android.view.adapter.TextWatcherAdapter;
 import cs.java.callback.Run;
 import cs.java.callback.RunWith;
@@ -61,13 +61,23 @@ import cs.java.collections.CSList;
 import cs.java.common.CSPoint;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static cs.java.lang.Lang.*;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static cs.java.lang.Lang.NO;
+import static cs.java.lang.Lang.YES;
+import static cs.java.lang.Lang.as;
+import static cs.java.lang.Lang.doLater;
+import static cs.java.lang.Lang.empty;
+import static cs.java.lang.Lang.format;
+import static cs.java.lang.Lang.is;
+import static cs.java.lang.Lang.list;
+import static cs.java.lang.Lang.no;
+import static cs.java.lang.Lang.set;
 
 public class CSView<T extends View> extends CSContextController implements IsView {
 
     private CSView<View> _viewField;
     private View _view;
-    private CSQuery _aq;
 
     //Needed for CSViewController constructor
     CSView() {
@@ -202,14 +212,17 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> width(int width) {
-        aq().width(width);
+//        aq().width(width);
+        size(YES, width, YES);
         return this;
     }
 
-    public CSQuery aq() {
-        if (no(_aq)) _aq = new CSQuery(this);
-        _aq.id(asView());
-        return _aq;
+    private void size(boolean width, int n, boolean dip) {
+        LayoutParams lp = asView().getLayoutParams();
+        if (n > 0 && dip) n = (int) toPixel(n);
+        if (width) lp.width = n;
+        else lp.height = n;
+        asView().setLayoutParams(lp);
     }
 
     public void fade(boolean fadeIn) {
@@ -272,7 +285,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public void show(View view) {
-        view.setVisibility(View.VISIBLE);
+        view.setVisibility(VISIBLE);
     }
 
     public AlphaAnimation fadeOut(final View view, final RunWith<View> onDone) {
@@ -312,7 +325,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public void hide(View view) {
-        view.setVisibility(View.GONE);
+        view.setVisibility(GONE);
     }
 
     public void invisible() {
@@ -325,7 +338,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<View> view(View view) {
-        aq().id(view);
+//        aq().id(view);
         return _viewField = new CSView<>(this).setView(view);
     }
 
@@ -500,6 +513,10 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         return context().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
+    public boolean isLandscape() {
+        return !isPortrait();
+    }
+
     public boolean isVisible(int id) {
         return isShown(findView(id));
     }
@@ -536,6 +553,10 @@ public class CSView<T extends View> extends CSContextController implements IsVie
 
     public int getDisplayWidth() {
         return getDisplay().getWidth();
+    }
+
+    public int getDisplayHeight() {
+        return getDisplay().getHeight();
     }
 
     public void setPercentWidth(int viewId, int percent, int minimal, int maximal) {
@@ -601,7 +622,8 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> text(int string) {
-        aq().text(string);
+//        aq().text(string);
+        asTextView().setText(string);
         return this;
     }
 
@@ -635,31 +657,38 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> image(String url) {
-        aq().image(url);
-        return this;
-    }
-
-    public CSView<T> image(String url, int fallBackResId) {
-        aq().image(url, true, true, 0, fallBackResId);
+//        aq().image(url);
+        if (empty(url)) return this;
+        Picasso.with(context()).load(url).into(asImageView());
         return this;
     }
 
     public CSView<T> image(Drawable drawable) {
-        aq().image(drawable);
+//        aq().image(drawable);
+        asImageView().setImageDrawable(drawable);
         return this;
     }
 
     public CSView<T> image(int resId) {
-        aq().image(resId);
+        Picasso.with(context()).load(resId).into(asImageView());
         return this;
     }
 
-    public void image(String url, ImageOptions options) {
-        aq().image(url, options);
+    public CSView<T> image(String url, int width) {
+        if (empty(url)) return this;
+//        aq().image(url, options);
+        Picasso.with(context()).load(url).resize(width, 0).into(asImageView());
+        return this;
+    }
+
+    public void image(File file, int width) {
+        Picasso.with(context()).load(file).resize(width, 0).into(asImageView());
+//        aq().image(url, options);
     }
 
     public CSView<T> image(File file) {
-        aq().image(file);
+        Picasso.with(context()).load(file).into(asImageView());
+//        aq().image(file);
         return this;
     }
 
@@ -667,13 +696,18 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         asView().setFocusable(focusable);
     }
 
-    public CSView<T> image(File file, boolean memCache, int targetWidth, BitmapAjaxCallback callback) {
-        aq().image(file, memCache, targetWidth, callback);
+    public CSView<T> image(File file, boolean memCache, int targetWidth) {
+//        aq().image(file, memCache, targetWidth, callback);
+        RequestCreator creator = Picasso.with(context()).load(file).resize(targetWidth, 0);
+        if (!memCache)
+            creator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
+        creator.into(asImageView());
         return this;
     }
 
     public CSView<T> text(int resId, Object... formatArgs) {
-        aq().text(resId, formatArgs);
+//        aq().text(resId, formatArgs);
+        asTextView().setText(format(getStringResource(resId), formatArgs));
         return this;
     }
 
@@ -682,8 +716,8 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> visible(boolean visible) {
-        if (visible) aq().visible();
-        else aq().gone();
+        if (visible) asView().setVisibility(VISIBLE);
+        else asView().setVisibility(GONE);
         return this;
     }
 
@@ -730,7 +764,8 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> height(int height) {
-        aq().height(height, YES);
+//        aq().height(height, YES);
+        size(false, height, YES);
         return this;
     }
 
@@ -739,7 +774,6 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         _viewField = null;
         if (is(_view)) _view.setTag(null);
         _view = null;
-        _aq = null;
     }
 
     public CSView<T> hideIfEmpty() {

@@ -1,14 +1,12 @@
 package cs.android;
 
-import android.support.multidex.MultiDexApplication;
-
-import com.androidquery.callback.BitmapAjaxCallback;
+import android.app.Application;
 
 import cs.java.lang.Lang;
 
-import static cs.java.lang.Lang.*;
+import static cs.java.lang.Lang.info;
 
-public class CSAndroidApplication extends MultiDexApplication {
+public class CSAndroidApplication extends Application {
 
     private static CSAndroidApplication _instance;
 
@@ -22,7 +20,6 @@ public class CSAndroidApplication extends MultiDexApplication {
 
     public void onLowMemory() {
         info("onLowMemory");
-        BitmapAjaxCallback.clearCache();
         Lang.application().logger().onLowMemory();
         super.onLowMemory();
     }

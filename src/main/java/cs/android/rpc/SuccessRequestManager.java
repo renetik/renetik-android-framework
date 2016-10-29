@@ -1,6 +1,6 @@
 package cs.android.rpc;
 
-import cs.android.lang.DoLater;
+import cs.android.lang.IfResumedAfter;
 import cs.android.util.Reachability;
 import cs.android.viewbase.CSViewController;
 import cs.java.callback.Run;
@@ -21,7 +21,7 @@ public abstract class SuccessRequestManager<T> extends CSViewController {
         else reachability = new Reachability() {
             @Override
             protected void onNetworkConnected() {
-                new DoLater(SuccessRequestManager.this, 3 * SECOND) {
+                new IfResumedAfter(SuccessRequestManager.this, 3 * SECOND) {
                     public void run() {
                         process();
                     }
@@ -34,7 +34,7 @@ public abstract class SuccessRequestManager<T> extends CSViewController {
     private void process() {
         createRequest().onFailed(new Run() {
             public void run() {
-                new DoLater(SuccessRequestManager.this, 15 * SECOND) {
+                new IfResumedAfter(SuccessRequestManager.this, 15 * SECOND) {
                     public void run() {
                         start();
                     }

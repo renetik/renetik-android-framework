@@ -40,6 +40,8 @@ public interface CSList<T> extends java.util.List<T> {
 
 	CSList<T> append(T... item);
 
+	CSList<T> append(List<T> items);
+
 	CSList<T> insert(int index, T item);
 
 	CSList<T> reload(List<T> values);
