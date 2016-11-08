@@ -10,5 +10,4 @@ dependencies {
     compile 'com.google.android.gms:play-services-base:9.2.0'
     compile 'com.amitshekhar.android:android-networking:0.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-//    compile 'com.android.support:multidex:1.0.1'
 }

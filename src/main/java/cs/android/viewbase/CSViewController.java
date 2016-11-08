@@ -146,7 +146,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         return no(_inView) && is(parent()) ? parent().inView() : _inView;
     }
 
-    protected void requestPermissions(List<String> permissions, final Run onGranted) {
+    public void requestPermissions(List<String> permissions, final Run onGranted) {
         if (SDK_INT < 23) {
             run(onGranted);
             return;
