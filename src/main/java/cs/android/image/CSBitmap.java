@@ -1,7 +1,7 @@
 package cs.android.image;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.media.ExifInterface;
@@ -11,11 +11,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.graphics.Bitmap.CompressFormat.JPEG;
 import static android.graphics.Bitmap.createBitmap;
 import static android.graphics.Bitmap.createScaledBitmap;
+import static android.graphics.BitmapFactory.decodeStream;
 import static android.graphics.Matrix.ScaleToFit.CENTER;
+import static android.media.ExifInterface.ORIENTATION_FLIP_HORIZONTAL;
+import static android.media.ExifInterface.ORIENTATION_FLIP_VERTICAL;
+import static android.media.ExifInterface.ORIENTATION_NORMAL;
+import static android.media.ExifInterface.ORIENTATION_ROTATE_180;
+import static android.media.ExifInterface.ORIENTATION_ROTATE_270;
+import static android.media.ExifInterface.ORIENTATION_ROTATE_90;
+import static android.media.ExifInterface.ORIENTATION_TRANSPOSE;
+import static android.media.ExifInterface.ORIENTATION_TRANSVERSE;
+import static android.media.ExifInterface.TAG_ORIENTATION;
 import static cs.java.lang.Lang.close;
 import static cs.java.lang.Lang.error;
+import static java.lang.Math.max;
 
 public class CSBitmap {
 
@@ -45,19 +57,18 @@ public class CSBitmap {
     public static void resizeImage(String file, int maxTargetWidth, int maxTargetHeight) {
         try {
             InputStream in = new FileInputStream(file);
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
+            Options options = new Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(in, null, options);
+            decodeStream(in, null, options);
             close(in);
 
             int inWidth = options.outWidth;
             int inHeight = options.outHeight;
 
             in = new FileInputStream(file);
-            options = new BitmapFactory.Options();
-            options.inSampleSize = Math.max(inWidth / maxTargetWidth, inHeight / maxTargetHeight);
-            Bitmap roughBitmap = BitmapFactory.decodeStream(in, null, options);
+            options = new Options();
+            options.inSampleSize = max(inWidth / maxTargetWidth, inHeight / maxTargetHeight);
+            Bitmap roughBitmap = decodeStream(in, null, options);
 
             Matrix m = new Matrix();
             RectF inRect = new RectF(0, 0, roughBitmap.getWidth(), roughBitmap.getHeight());
@@ -67,12 +78,12 @@ public class CSBitmap {
             m.getValues(values);
 
             Bitmap resizedBitmap = createScaledBitmap(roughBitmap,
-                    (int) (roughBitmap.getWidth() * values[0]), (int) (roughBitmap.getHeight() * values[4]),
-                    true);
+                    (int) (roughBitmap.getWidth() * values[0]),
+                    (int) (roughBitmap.getHeight() * values[4]), true);
 
             resizedBitmap = rotateBitmap(file, resizedBitmap);
             FileOutputStream out = new FileOutputStream(file);
-            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+            resizedBitmap.compress(JPEG, 80, out);
             close(out);
         } catch (Exception e) {
             error(e);
@@ -81,25 +92,24 @@ public class CSBitmap {
 
     private static Bitmap rotateBitmap(String src, Bitmap bitmap) {
         try {
-            int orientation = new ExifInterface(src).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-            if (orientation == 1) return bitmap;
-
+            int orientation = new ExifInterface(src).getAttributeInt(TAG_ORIENTATION, 1);
             Matrix matrix = new Matrix();
-            if (orientation == 2) matrix.setScale(1, 1);
-            else if (orientation == 3) matrix.setRotate(180);
-            else if (orientation == 4) {
+            if (orientation == ORIENTATION_NORMAL) return bitmap;
+            if (orientation == ORIENTATION_FLIP_HORIZONTAL) matrix.setScale(-1, 1);
+            else if (orientation == ORIENTATION_ROTATE_180) matrix.setRotate(180);
+            else if (orientation == ORIENTATION_FLIP_VERTICAL) {
                 matrix.setRotate(180);
-                matrix.postScale(1, 1);
-            } else if (orientation == 5) {
+                matrix.postScale(-1, 1);
+            } else if (orientation == ORIENTATION_TRANSPOSE) {
                 matrix.setRotate(90);
-                matrix.postScale(1, 1);
-            } else if (orientation == 6) {
+                matrix.postScale(-1, 1);
+            } else if (orientation == ORIENTATION_ROTATE_90) {
                 matrix.setRotate(90);
-            } else if (orientation == 7) {
-                matrix.setRotate(90);
-                matrix.postScale(1, 1);
-            } else if (orientation == 8) {
-                matrix.setRotate(90);
+            } else if (orientation == ORIENTATION_TRANSVERSE) {
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+            } else if (orientation == ORIENTATION_ROTATE_270) {
+                matrix.setRotate(-90);
             } else return bitmap;
             try {
                 Bitmap oriented = createBitmap(bitmap, 0, 0,
@@ -108,7 +118,6 @@ public class CSBitmap {
                 return oriented;
             } catch (OutOfMemoryError e) {
                 error(e);
-                return bitmap;
             }
         } catch (IOException e) {
             error(e);

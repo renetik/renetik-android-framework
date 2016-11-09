@@ -311,11 +311,12 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     }
 
     public View asView() {
+        if (isDestroyed()) return null;
         if (is(getView())) return getView();
         else if (set(_viewId)) {
             setView(parent().asView().findViewById(_viewId));
             if (no(getView())) throw unexpected("Expected", this, "in parent", parent());
-        } else if (set(_layoutId)) setView(inflateLayout(_layoutId.layoutId));
+        } else if (set(_layoutId)) setView(inflateLayout(_layoutId.id));
         else setView(parent().asView());
         return getView();
     }

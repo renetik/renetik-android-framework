@@ -1,9 +1,9 @@
 package cs.android.viewbase;
 
 public class LayoutId {
-	public final int layoutId;
+	public final int id;
 
 	public LayoutId(int layoutId) {
-		this.layoutId = layoutId;
+		this.id = layoutId;
 	}
 }

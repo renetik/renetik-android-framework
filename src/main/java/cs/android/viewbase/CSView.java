@@ -85,7 +85,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
 
     public CSView(HasContext hascontext, LayoutId layoutId) {
         this(hascontext);
-        setInflateView(layoutId.layoutId);
+        setInflateView(layoutId.id);
     }
 
     public CSView(HasContext hascontext) {
@@ -106,7 +106,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
                 return parent.getContext();
             }
         });
-        setView(inflateLayout(parent, layoutId.layoutId));
+        setView(inflateLayout(parent, layoutId.id));
     }
 
     public CSView(CSView<?> parent, int viewId) {
@@ -119,7 +119,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView(LayoutId layoutId) {
-        this(layoutId.layoutId);
+        this(layoutId.id);
     }
 
     public static int getTopRelativeTo(View view, View relativeTo) {
@@ -144,13 +144,11 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public View inflateLayout(int layout_id) {
-//        return service(LAYOUT_INFLATER_SERVICE, LayoutInflater.class).inflate(layout_id, null, NO);
         return LayoutInflater.from(context()).inflate(layout_id, null);
     }
 
     public View inflateLayout(ViewGroup parent, int layout_id) {
         return LayoutInflater.from(context()).inflate(layout_id, parent, NO);
-//        return service(LAYOUT_INFLATER_SERVICE, LayoutInflater.class).inflate(layout_id, parent, NO);
     }
 
     public View findView(int id) {
@@ -212,7 +210,6 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> width(int width) {
-//        aq().width(width);
         size(YES, width, YES);
         return this;
     }
@@ -338,16 +335,15 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<View> view(View view) {
-//        aq().id(view);
         return _viewField = new CSView<>(this).setView(view);
     }
 
     public CSView<View> view(LayoutId layout) {
-        return view(inflateLayout(layout.layoutId));
+        return view(inflateLayout(layout.id));
     }
 
     public CSView<View> view(LayoutId layout, ViewGroup parent) {
-        CSView<View> view = view(service(LAYOUT_INFLATER_SERVICE, LayoutInflater.class).inflate(layout.layoutId, parent, false));
+        CSView<View> view = view(service(LAYOUT_INFLATER_SERVICE, LayoutInflater.class).inflate(layout.id, parent, false));
         parent.addView(view.asView());
         return view;
     }
@@ -433,10 +429,6 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         return (TimePicker) findView(id);
     }
 
-//    public ToggleButton getToggleButton(int id) {
-//        return (ToggleButton) findView(id);
-//    }
-
     public int getTopRelativeTo(View view) {
         return getTopRelativeTo(asView(), view);
     }
@@ -459,10 +451,6 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     public <V extends View> V getView(int id, Class<V> clazz) {
         return (V) findView(id);
     }
-
-//    public ViewAnimator getViewAnimator(int id) {
-//        return (ViewAnimator) findView(id);
-//    }
 
     public ViewGroup getViewGroup(int id) {
         return (ViewGroup) findView(id);
@@ -622,7 +610,6 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> text(int string) {
-//        aq().text(string);
         asTextView().setText(string);
         return this;
     }
@@ -657,14 +644,12 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> image(String url) {
-//        aq().image(url);
         if (empty(url)) return this;
         Picasso.with(context()).load(url).into(asImageView());
         return this;
     }
 
     public CSView<T> image(Drawable drawable) {
-//        aq().image(drawable);
         asImageView().setImageDrawable(drawable);
         return this;
     }
@@ -676,19 +661,16 @@ public class CSView<T extends View> extends CSContextController implements IsVie
 
     public CSView<T> image(String url, int width) {
         if (empty(url)) return this;
-//        aq().image(url, options);
         Picasso.with(context()).load(url).resize(width, 0).into(asImageView());
         return this;
     }
 
     public void image(File file, int width) {
         Picasso.with(context()).load(file).resize(width, 0).into(asImageView());
-//        aq().image(url, options);
     }
 
     public CSView<T> image(File file) {
         Picasso.with(context()).load(file).into(asImageView());
-//        aq().image(file);
         return this;
     }
 
@@ -697,7 +679,6 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> image(File file, boolean memCache, int targetWidth) {
-//        aq().image(file, memCache, targetWidth, callback);
         RequestCreator creator = Picasso.with(context()).load(file).resize(targetWidth, 0);
         if (!memCache)
             creator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
@@ -706,7 +687,6 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> text(int resId, Object... formatArgs) {
-//        aq().text(resId, formatArgs);
         asTextView().setText(format(getStringResource(resId), formatArgs));
         return this;
     }
@@ -757,14 +737,12 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         else show();
     }
 
-
     public CSView<T> setBackgroundColor(int backgroundColor) {
         asView().setBackgroundResource(backgroundColor);
         return this;
     }
 
     public CSView<T> height(int height) {
-//        aq().height(height, YES);
         size(false, height, YES);
         return this;
     }
