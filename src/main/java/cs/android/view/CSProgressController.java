@@ -13,7 +13,11 @@ import cs.android.viewbase.CSViewController;
 import cs.java.callback.Run;
 
 import static android.graphics.Color.TRANSPARENT;
-import static cs.java.lang.Lang.*;
+import static cs.java.lang.Lang.NO;
+import static cs.java.lang.Lang.YES;
+import static cs.java.lang.Lang.is;
+import static cs.java.lang.Lang.no;
+import static cs.java.lang.Lang.set;
 
 public class CSProgressController extends CSViewController {
 
@@ -63,7 +67,7 @@ public class CSProgressController extends CSViewController {
         return showProgress(null);
     }
 
-    public CSProgressController showProgress(final Response response) {
+    private CSProgressController showProgress(final Response response) {
         _response = response;
         if (isProgressVisible()) return this;
         if (is(response)) view(_labelId).text(response.title());
@@ -73,12 +77,14 @@ public class CSProgressController extends CSViewController {
                 view(_cancelId).onClick(new OnClick() {
                     public void onClick(View v) {
                         response.cancel();
+                        hideProgress();
                     }
                 }).show();
             else view(_cancelId).hide();
         }
         _dialog = new Dialog(context());
-        _dialog.getWindow().setBackgroundDrawable(new ColorDrawable(TRANSPARENT));
+        if (is(_dialog.getWindow()))
+            _dialog.getWindow().setBackgroundDrawable(new ColorDrawable(TRANSPARENT));
         _dialog.setContentView(asView());
         _dialog.setCancelable(NO);
         _dialog.setCanceledOnTouchOutside(NO);
