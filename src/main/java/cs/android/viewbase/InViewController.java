@@ -43,7 +43,7 @@ public class InViewController extends CSViewController {
 
     public CSView<View> hide() {
         hideController(YES);
-        return null;
+        return this;
     }
 
     public void hideController(boolean animation) {

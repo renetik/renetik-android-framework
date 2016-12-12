@@ -105,9 +105,9 @@ public abstract class ActivityBase extends AppCompatActivity implements CSActivi
     }
 
     public void onBackPressed() {
-        Value<Boolean> willPressBack = new Value<>(true);
-        _controller.onBackPressed(willPressBack);
-        if (willPressBack.get()) super.onBackPressed();
+        Value<Boolean> goBack = new Value<>(true);
+        _controller.onBackPressed(goBack);
+        if (goBack.get()) super.onBackPressed();
     }
 
     protected void onUserLeaveHint() {
