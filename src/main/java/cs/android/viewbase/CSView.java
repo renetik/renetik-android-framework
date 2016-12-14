@@ -687,7 +687,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> text(int resId, Object... formatArgs) {
-        asTextView().setText(format(getStringResource(resId), formatArgs));
+        asTextView().setText(format(getString(resId), formatArgs));
         return this;
     }
 
