@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
+import android.view.Window;
 import android.widget.ProgressBar;
 
 import cs.android.rpc.Response;
@@ -72,19 +73,12 @@ public class CSProgressController extends CSViewController {
         if (isProgressVisible()) return this;
         if (is(response)) view(_labelId).text(response.title());
         updateBars();
-        if (set(_cancelId)) {
-            if (is(response))
-                view(_cancelId).onClick(new OnClick() {
-                    public void onClick(View v) {
-                        response.cancel();
-                        hideProgress();
-                    }
-                }).show();
-            else view(_cancelId).hide();
-        }
+        updateCancelButton(response);
         _dialog = new Dialog(context());
-        if (is(_dialog.getWindow()))
+        if (is(_dialog.getWindow())) {
             _dialog.getWindow().setBackgroundDrawable(new ColorDrawable(TRANSPARENT));
+            _dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
         _dialog.setContentView(asView());
         _dialog.setCancelable(NO);
         _dialog.setCanceledOnTouchOutside(NO);
@@ -95,6 +89,19 @@ public class CSProgressController extends CSViewController {
         });
         _dialog.show();
         return this;
+    }
+
+    private void updateCancelButton(final Response response) {
+        if (set(_cancelId)) {
+            if (is(response))
+                view(_cancelId).onClick(new OnClick() {
+                    public void onClick(View v) {
+                        response.cancel();
+                        hideProgress();
+                    }
+                }).show();
+            else view(_cancelId).hide();
+        }
     }
 
     private void onDismiss() {
@@ -110,8 +117,7 @@ public class CSProgressController extends CSViewController {
     }
 
     private void update(Response response) {
-        if (is(response) && response.isSending())
-            showProgress(response);
+        if (is(response) && response.isSending()) showProgress(response);
         else hideProgress();
     }
 
