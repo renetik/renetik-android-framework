@@ -1,8 +1,8 @@
 package cs.java.collections;
 
-import cs.java.lang.HasValue;
+import cs.java.lang.CSIValue;
 
-public interface CSIterated<T> extends HasValue<T> {
+public interface CSIterated<T> extends CSIValue<T> {
 	T getNext();
 
 	T getPrevious();

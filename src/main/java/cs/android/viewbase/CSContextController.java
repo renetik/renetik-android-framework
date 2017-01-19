@@ -17,10 +17,13 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.BatteryManager;
+import android.os.IBinder;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
+import android.view.inputmethod.InputMethodManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -34,7 +37,7 @@ import java.util.Date;
 import java.util.List;
 
 import cs.android.CSAndroidApplication;
-import cs.android.HasContext;
+import cs.android.CSIContext;
 import cs.java.collections.CSList;
 import cs.java.lang.Base;
 
@@ -42,16 +45,16 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static android.text.format.DateFormat.getDateFormat;
 import static android.text.format.DateFormat.getTimeFormat;
-import static cs.java.lang.Lang.close;
-import static cs.java.lang.Lang.empty;
-import static cs.java.lang.Lang.error;
-import static cs.java.lang.Lang.is;
-import static cs.java.lang.Lang.list;
-import static cs.java.lang.Lang.set;
-import static cs.java.lang.Lang.toStringArray;
-import static cs.java.lang.Lang.warn;
+import static cs.java.lang.CSLang.close;
+import static cs.java.lang.CSLang.empty;
+import static cs.java.lang.CSLang.error;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.list;
+import static cs.java.lang.CSLang.set;
+import static cs.java.lang.CSLang.toStringArray;
+import static cs.java.lang.CSLang.warn;
 
-public abstract class CSContextController extends Base implements HasContext {
+public abstract class CSContextController extends Base implements CSIContext {
 
     private Context _context;
 
@@ -63,7 +66,7 @@ public abstract class CSContextController extends Base implements HasContext {
         setContext(context);
     }
 
-    public CSContextController(HasContext context) {
+    public CSContextController(CSIContext context) {
         setContext(context.context());
     }
 
@@ -159,12 +162,9 @@ public abstract class CSContextController extends Base implements HasContext {
     }
 
     public boolean isNetworkConnected() {
-        ConnectivityManager connectivity = getConnectivity();
-        return is(connectivity.getActiveNetworkInfo()) && connectivity.getActiveNetworkInfo().isConnected();
-    }
-
-    protected ConnectivityManager getConnectivity() {
-        return (ConnectivityManager) context().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = service(Context.CONNECTIVITY_SERVICE, ConnectivityManager.class)
+                .getActiveNetworkInfo();
+        return is(activeNetworkInfo) && activeNetworkInfo.isConnected();
     }
 
     public Bitmap loadBitmap(int id) {
@@ -188,8 +188,21 @@ public abstract class CSContextController extends Base implements HasContext {
         return context().getResources().getColor(color);
     }
 
-    protected <T> T service(String serviceName, Class<T> serviceClass) {
+    public <T> T service(String serviceName, Class<T> serviceClass) {
         return (T) context().getSystemService(serviceName);
+    }
+
+    public void hideKeyboard(IBinder windowToken) {
+        InputMethodManager service = service(Context.INPUT_METHOD_SERVICE, InputMethodManager.class);
+        service.hideSoftInputFromWindow(windowToken, 0);
+    }
+
+    public int getStatusBarHeight() {
+        int resource = context().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resource > 0) {
+            return context().getResources().getDimensionPixelSize(resource);
+        }
+        return 0;
     }
 
     protected Date timeFormatParse(String text) {

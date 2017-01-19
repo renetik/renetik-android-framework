@@ -2,9 +2,9 @@ package cs.android;
 
 import android.support.multidex.MultiDexApplication;
 
-import cs.java.lang.Lang;
+import cs.java.lang.CSLang;
 
-import static cs.java.lang.Lang.info;
+import static cs.java.lang.CSLang.info;
 
 public class CSAndroidApplication extends MultiDexApplication {
 
@@ -20,7 +20,7 @@ public class CSAndroidApplication extends MultiDexApplication {
 
     public void onLowMemory() {
         info("onLowMemory");
-        Lang.application().logger().onLowMemory();
+        CSLang.application().logger().onLowMemory();
         super.onLowMemory();
     }
 

@@ -1,11 +1,11 @@
 package cs.java.event;
 
-import cs.java.callback.Run;
+import cs.java.callback.CSRun;
 
 /**
  * Created by renedohan on 23/07/15.
  */
-public abstract class CSListenerRun implements CSListener<Void>, Run {
+public abstract class CSListenerRun implements CSListener<Void>, CSRun {
     public void onEvent(CSEvent.EventRegistration registration, Void arg) {
         run();
     }

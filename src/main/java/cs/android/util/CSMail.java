@@ -1,8 +1,8 @@
 package cs.android.util;
 
-import static cs.java.lang.Lang.is;
-import static cs.java.lang.Lang.list;
-import static cs.java.lang.Lang.warn;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.list;
+import static cs.java.lang.CSLang.warn;
 import android.content.Intent;
 import android.net.Uri;
 import cs.android.viewbase.CSViewController;

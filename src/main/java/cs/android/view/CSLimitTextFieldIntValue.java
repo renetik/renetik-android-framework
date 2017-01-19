@@ -5,7 +5,7 @@ import android.view.View.OnFocusChangeListener;
 
 import cs.android.viewbase.CSViewController;
 
-import static cs.java.lang.Lang.*;
+import static cs.java.lang.CSLang.*;
 
 public class CSLimitTextFieldIntValue extends CSViewController {
 

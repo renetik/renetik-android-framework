@@ -3,17 +3,17 @@ package cs.android.view;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 
-import cs.android.view.adapter.OnQueryText;
+import cs.android.view.adapter.CSOnQueryText;
 import cs.android.viewbase.CSViewController;
-import cs.android.viewbase.OnMenu;
-import cs.java.callback.RunWith;
+import cs.android.viewbase.CSOnMenu;
+import cs.java.callback.CSRunWith;
 
-import static cs.java.lang.Lang.*;
+import static cs.java.lang.CSLang.*;
 
 public class CSSearchController extends CSViewController {
 
     private final int _searchMenuId;
-    private RunWith<String> _queryListener;
+    private CSRunWith<String> _queryListener;
     private String _query;
     private SearchView _searchView;
     private boolean _expanded;
@@ -24,17 +24,17 @@ public class CSSearchController extends CSViewController {
         menu(_searchMenuId);
     }
 
-    public CSSearchController setQueryListener(RunWith<String> queryListener) {
+    public CSSearchController setQueryListener(CSRunWith<String> queryListener) {
         _queryListener = queryListener;
         return this;
     }
 
-    public void onPrepareOptionsMenu(OnMenu menu) {
+    public void onPrepareOptionsMenu(CSOnMenu menu) {
         super.onPrepareOptionsMenu(menu);
         if (isPaused()) return;
         _searchView = (SearchView) MenuItemCompat.getActionView(menu.find(_searchMenuId));
         _searchView.setQuery(_query, NO);
-        _searchView.setOnQueryTextListener(new OnQueryText() {
+        _searchView.setOnQueryTextListener(new CSOnQueryText() {
             public boolean onQueryTextChange(String query) {
                 _query = query;
                 if (is(_queryListener)) _queryListener.run(query);
@@ -52,7 +52,7 @@ public class CSSearchController extends CSViewController {
     }
 
     public void clear() {
-        RunWith<String> tmpListener = _queryListener;
+        CSRunWith<String> tmpListener = _queryListener;
         _queryListener = null;
         _searchView.setQuery("", NO);
         _searchView.clearFocus();

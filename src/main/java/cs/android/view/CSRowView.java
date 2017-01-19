@@ -1,8 +1,8 @@
 package cs.android.view;
 
-import cs.android.viewbase.IsView;
+import cs.android.viewbase.CSIView;
 
-public interface CSRowView<T> extends IsView {
+public interface CSRowView<T> extends CSIView {
 	T data();
 
 	void load(T row);

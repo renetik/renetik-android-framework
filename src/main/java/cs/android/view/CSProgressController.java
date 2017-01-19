@@ -8,24 +8,24 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
 
-import cs.android.rpc.Response;
-import cs.android.view.adapter.OnClick;
+import cs.android.rpc.CSResponse;
+import cs.android.view.adapter.CSClick;
 import cs.android.viewbase.CSViewController;
-import cs.java.callback.Run;
+import cs.java.callback.CSRun;
 
 import static android.graphics.Color.TRANSPARENT;
-import static cs.java.lang.Lang.NO;
-import static cs.java.lang.Lang.YES;
-import static cs.java.lang.Lang.is;
-import static cs.java.lang.Lang.no;
-import static cs.java.lang.Lang.set;
+import static cs.java.lang.CSLang.NO;
+import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.no;
+import static cs.java.lang.CSLang.set;
 
 public class CSProgressController extends CSViewController {
 
     private int _cancelId;
     private int _determinateBarId;
     private int _labelId;
-    private Response<?> _response;
+    private CSResponse<?> _response;
     private int _indeterminateProgressBarId;
     private Dialog _dialog;
     private boolean _barVisible;
@@ -48,15 +48,15 @@ public class CSProgressController extends CSViewController {
         return view(_determinateBarId, ProgressBar.class).asView();
     }
 
-    public void setResponse(final Response<?> response) {
+    public void setResponse(final CSResponse<?> response) {
         if (no(response)) return;
         if (response.isDone()) return;
         if (is(_response)) return;
-        response.onSend(new Run() {
+        response.onSend(new CSRun() {
             public void run() {
                 showProgress(response);
             }
-        }).onDone(new Run() {
+        }).onDone(new CSRun() {
             public void run() {
                 hideProgress();
             }
@@ -68,7 +68,7 @@ public class CSProgressController extends CSViewController {
         return showProgress(null);
     }
 
-    private CSProgressController showProgress(final Response response) {
+    private CSProgressController showProgress(final CSResponse response) {
         _response = response;
         if (isProgressVisible()) return this;
         if (is(response)) view(_labelId).text(response.title());
@@ -91,10 +91,10 @@ public class CSProgressController extends CSViewController {
         return this;
     }
 
-    private void updateCancelButton(final Response response) {
+    private void updateCancelButton(final CSResponse response) {
         if (set(_cancelId)) {
             if (is(response))
-                view(_cancelId).onClick(new OnClick() {
+                view(_cancelId).onClick(new CSClick() {
                     public void onClick(View v) {
                         response.cancel();
                         hideProgress();
@@ -116,7 +116,7 @@ public class CSProgressController extends CSViewController {
         view(_determinateBarId).visible(_barVisible);
     }
 
-    private void update(Response response) {
+    private void update(CSResponse response) {
         if (is(response) && response.isSending()) showProgress(response);
         else hideProgress();
     }

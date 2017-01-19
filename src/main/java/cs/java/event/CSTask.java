@@ -4,15 +4,15 @@ import cs.android.viewbase.CSViewController;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent.EventRegistration;
 
-import static cs.java.lang.Lang.is;
-import static cs.java.lang.Lang.list;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.list;
 
 public class CSTask<Argument> implements CSListener<Argument> {
 
     protected Object _argument;
     protected EventRegistration _registration;
     protected CSList<EventRegistration> _registrations = list();
-    private CSListener _listener;
+    private CSListener<Argument> _listener;
     private CSViewController _parent;
 
     @SafeVarargs
@@ -37,7 +37,7 @@ public class CSTask<Argument> implements CSListener<Argument> {
         _registrations.clear();
     }
 
-    public CSTask add(CSListener listener) {
+    public CSTask add(CSListener<Argument> listener) {
         _listener = listener;
         return this;
     }

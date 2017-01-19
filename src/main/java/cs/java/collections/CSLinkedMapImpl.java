@@ -1,6 +1,6 @@
 package cs.java.collections;
 
-import static cs.java.lang.Lang.list;
+import static cs.java.lang.CSLang.list;
 
 public class CSLinkedMapImpl<K, V> extends java.util.LinkedHashMap<K, V> implements CSLinkedMap<K, V> {
 

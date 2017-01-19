@@ -3,7 +3,7 @@ package cs.java.collections;
 import java.util.List;
 import java.util.Map;
 
-import static cs.java.lang.Lang.list;
+import static cs.java.lang.CSLang.list;
 
 public class CSMapIterator<K, V> extends CSIterator<CSMapped<K, V>> implements CSMapped<K, V> {
 

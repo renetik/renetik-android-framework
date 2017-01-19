@@ -25,8 +25,8 @@ import static android.media.ExifInterface.ORIENTATION_ROTATE_90;
 import static android.media.ExifInterface.ORIENTATION_TRANSPOSE;
 import static android.media.ExifInterface.ORIENTATION_TRANSVERSE;
 import static android.media.ExifInterface.TAG_ORIENTATION;
-import static cs.java.lang.Lang.close;
-import static cs.java.lang.Lang.error;
+import static cs.java.lang.CSLang.close;
+import static cs.java.lang.CSLang.error;
 import static java.lang.Math.max;
 
 public class CSBitmap {

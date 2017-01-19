@@ -2,15 +2,15 @@ package cs.android;
 
 import java.io.File;
 
-import cs.android.lang.IApplication;
+import cs.android.lang.CSApplication;
 import cs.android.viewbase.CSContextController;
-import cs.java.lang.Lang;
+import cs.java.lang.CSLang;
 
-public abstract class CSApplicationBase extends CSContextController implements IApplication {
+public abstract class CSApplicationBase extends CSContextController implements CSApplication {
 
     public CSApplicationBase() {
         super(CSAndroidApplication.instance());
-        Lang.setApplication(this);
+        CSLang.setApplication(this);
     }
 
     public File cacheDir() {

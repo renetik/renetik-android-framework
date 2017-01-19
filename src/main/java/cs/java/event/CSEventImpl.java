@@ -3,7 +3,7 @@ package cs.java.event;
 import cs.java.collections.CSList;
 import cs.java.lang.Base;
 
-import static cs.java.lang.Lang.*;
+import static cs.java.lang.CSLang.*;
 
 public class CSEventImpl<T> extends Base implements CSEvent<T> {
 

@@ -1,8 +1,7 @@
 package cs.android.view;
 
-import static cs.java.lang.Lang.list;
+import static cs.java.lang.CSLang.list;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import cs.android.viewbase.CSViewController;

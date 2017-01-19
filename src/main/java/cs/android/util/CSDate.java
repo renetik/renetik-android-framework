@@ -1,6 +1,6 @@
 package cs.android.util;
 
-import static cs.java.lang.Lang.error;
+import static cs.java.lang.CSLang.error;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

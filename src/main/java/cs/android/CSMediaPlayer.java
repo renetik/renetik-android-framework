@@ -4,7 +4,7 @@ import android.media.MediaPlayer;
 
 import cs.android.viewbase.CSViewController;
 
-import static cs.java.lang.Lang.is;
+import static cs.java.lang.CSLang.is;
 
 public class CSMediaPlayer extends CSViewController {
 

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -19,40 +20,40 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.List;
 
-import cs.android.HasActivity;
+import cs.android.CSIActivity;
 import cs.android.view.CSAlertDialog;
-import cs.android.view.adapter.OnClick;
-import cs.java.callback.Run;
-import cs.java.callback.RunWith;
-import cs.java.callback.RunWithWith;
+import cs.android.view.adapter.CSClick;
+import cs.java.callback.CSRun;
+import cs.java.callback.CSRunWith;
+import cs.java.callback.CSRunWithWith;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
 import cs.java.event.CSEvent.EventRegistration;
 import cs.java.event.CSListener;
 import cs.java.event.CSTask;
-import cs.java.lang.Value;
+import cs.java.lang.CSValue;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.os.Build.VERSION.SDK_INT;
+import static cs.java.lang.CSLang.NO;
+import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.doLater;
+import static cs.java.lang.CSLang.error;
+import static cs.java.lang.CSLang.event;
+import static cs.java.lang.CSLang.exception;
+import static cs.java.lang.CSLang.fire;
+import static cs.java.lang.CSLang.format;
+import static cs.java.lang.CSLang.info;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.list;
+import static cs.java.lang.CSLang.no;
+import static cs.java.lang.CSLang.run;
+import static cs.java.lang.CSLang.set;
+import static cs.java.lang.CSLang.unexpected;
+import static cs.java.lang.CSLang.warn;
 import static cs.java.lang.CSMath.randomInt;
-import static cs.java.lang.Lang.NO;
-import static cs.java.lang.Lang.YES;
-import static cs.java.lang.Lang.doLater;
-import static cs.java.lang.Lang.error;
-import static cs.java.lang.Lang.event;
-import static cs.java.lang.Lang.exception;
-import static cs.java.lang.Lang.fire;
-import static cs.java.lang.Lang.format;
-import static cs.java.lang.Lang.info;
-import static cs.java.lang.Lang.is;
-import static cs.java.lang.Lang.list;
-import static cs.java.lang.Lang.no;
-import static cs.java.lang.Lang.run;
-import static cs.java.lang.Lang.set;
-import static cs.java.lang.Lang.unexpected;
-import static cs.java.lang.Lang.warn;
 
-public abstract class CSViewController extends CSView<View> implements HasActivity {
+public abstract class CSViewController extends CSView<View> implements CSIActivity {
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static boolean _startingActivity;
@@ -60,7 +61,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     public final CSEvent<Void> onPause = event();
     public final CSEvent<Bundle> onCreate = event();
     public final CSEvent<Bundle> onBeforeCreate = event();
-    public final CSEvent<Value<Boolean>> onBack = event();
+    public final CSEvent<CSValue<Boolean>> onBack = event();
     public final CSEvent<Void> onStart = event();
     public final CSEvent<Void> onStop = event();
     public final CSEvent<Void> onLowMemory = event();
@@ -68,19 +69,19 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     public final CSEvent<Void> onDestroy = event();
     public final CSEvent<Void> onResume = event();
     public final CSEvent<Void> onUserLeaveHint = event();
-    public final CSEvent<OnMenu> onPrepareOptionsMenu = event();
+    public final CSEvent<CSOnMenu> onPrepareOptionsMenu = event();
     public final CSEvent<Configuration> onConfigurationChanged = event();
-    public final CSEvent<OnMenuItem> onOptionsItemSelected = event();
-    public final CSEvent<OnMenu> onCreateOptionsMenu = event();
-    public final CSEvent<ActivityResult> onActivityResult = event();
-    public final CSEvent<OnKeyDownResult> onKeyDown = event();
+    public final CSEvent<CSOnMenuItem> onOptionsItemSelected = event();
+    public final CSEvent<CSOnMenu> onCreateOptionsMenu = event();
+    public final CSEvent<CSActivityResult> onActivityResult = event();
+    public final CSEvent<CSOnKeyDownResult> onKeyDown = event();
     public final CSEvent<Intent> onNewIntent = event();
     public final CSEvent<CSViewController> onInViewControllerShow = event();
     public final CSEvent<CSViewController> onInViewControllerHide = event();
-    public final CSEvent<RequestPermissionResult> onRequestPermissionsResult = event();
+    public final CSEvent<CSRequestPermissionResult> onRequestPermissionsResult = event();
     private final CSEvent<Void> onPauseNative = event();
     private final CSEvent<Void> onResumeNative = event();
-    private final InViewController _inView;
+    private final CSInViewController _inView;
     private CSViewController _parent;
     private Activity _activity;
     private Bundle state;
@@ -90,12 +91,12 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     private boolean _isPaused;
     private boolean _isDestroyed;
     private int _viewId;
-    private LayoutId _layoutId;
+    private CSLayoutId _layoutId;
     private boolean _isStarted;
-    private InViewController _parentInView;
+    private CSInViewController _parentInView;
     private CSList<CSMenuItem> _menuItems = list();
 
-    public CSViewController(InViewController parentInView, LayoutId layoutId) {
+    public CSViewController(CSInViewController parentInView, CSLayoutId layoutId) {
         super(parentInView);
         _inView = createInView();
         _parent = parentInView.parent();
@@ -103,7 +104,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         _layoutId = layoutId;
     }
 
-    public CSViewController(Activity activity, LayoutId layoutId) {
+    public CSViewController(Activity activity, CSLayoutId layoutId) {
         super(activity);
         _inView = createInView();
         _startingActivity = NO;
@@ -126,7 +127,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         initializeFromParent(parent);
     }
 
-    public CSViewController(CSViewController parent, LayoutId id) {
+    public CSViewController(CSViewController parent, CSLayoutId id) {
         super(parent);
         _inView = null;
         _parent = parent;
@@ -142,11 +143,11 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         return _root;
     }
 
-    public InViewController inView() {
+    public CSInViewController inView() {
         return no(_inView) && is(parent()) ? parent().inView() : _inView;
     }
 
-    public void requestPermissions(List<String> permissions, final Run onGranted) {
+    public void requestPermissions(List<String> permissions, final CSRun onGranted) {
         if (SDK_INT < 23) {
             run(onGranted);
             return;
@@ -155,8 +156,8 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         if (set(deniedPermissions)) {
             final int MY_PERMISSIONS_REQUEST = randomInt(0, 999);
             ActivityCompat.requestPermissions(activity(), deniedPermissions, MY_PERMISSIONS_REQUEST);
-            onRequestPermissionsResult.add(new CSListener<RequestPermissionResult>() {
-                public void onEvent(EventRegistration registration, RequestPermissionResult arg) {
+            onRequestPermissionsResult.add(new CSListener<CSRequestPermissionResult>() {
+                public void onEvent(EventRegistration registration, CSRequestPermissionResult arg) {
                     if (arg.requestCode == MY_PERMISSIONS_REQUEST) {
                         registration.cancel();
                         for (int result : arg.grantResults)
@@ -169,11 +170,11 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     }
 
 
-    public void startActivityForUri(Uri uri, RunWith<ActivityNotFoundException> onActivityNotFound) {
+    public void startActivityForUri(Uri uri, CSRunWith<ActivityNotFoundException> onActivityNotFound) {
         startActivityForUriAndType(uri, null, onActivityNotFound);
     }
 
-    public void startActivityForUriAndType(Uri uri, String type, RunWith<ActivityNotFoundException> onActivityNotFound) {
+    public void startActivityForUriAndType(Uri uri, String type, CSRunWith<ActivityNotFoundException> onActivityNotFound) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, type);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -217,17 +218,17 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
                 else if (registration.event() == parent.onDestroy)
                     onDestroy();
                 else if (registration.event() == parent.onBack)
-                    onBackPressed((Value<Boolean>) argument);
+                    onBackPressed((CSValue<Boolean>) argument);
                 else if (registration.event() == parent.onActivityResult)
-                    onActivityResult((ActivityResult) argument);
+                    onActivityResult((CSActivityResult) argument);
                 else if (registration.event() == parent.onCreateOptionsMenu)
-                    onCreateOptionsMenu((OnMenu) argument);
+                    onCreateOptionsMenu((CSOnMenu) argument);
                 else if (registration.event() == parent.onOptionsItemSelected)
-                    onOptionsItemSelectedImpl((OnMenuItem) argument);
+                    onOptionsItemSelectedImpl((CSOnMenuItem) argument);
                 else if (registration.event() == parent.onPrepareOptionsMenu)
-                    onPrepareOptionsMenuImpl((OnMenu) argument);
+                    onPrepareOptionsMenuImpl((CSOnMenu) argument);
                 else if (registration.event() == parent.onKeyDown)
-                    onKeyDown((OnKeyDownResult) argument);
+                    onKeyDown((CSOnKeyDownResult) argument);
                 else if (registration.event() == parent.onNewIntent)
                     onNewIntent((Intent) argument);
                 else if (registration.event() == parent.onUserLeaveHint)
@@ -239,7 +240,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
                 else if (registration.event() == parent.onConfigurationChanged)
                     onConfigurationChanged((Configuration) argument);
                 else if (registration.event() == parent.onRequestPermissionsResult)
-                    onRequestPermissionsResult((RequestPermissionResult) argument);
+                    onRequestPermissionsResult((CSRequestPermissionResult) argument);
                 else throw unexpected();
             }
         });
@@ -253,48 +254,59 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         return _root == this;
     }
 
-    protected void onBackPressed(Value<Boolean> goBack) {
+    protected void onBackPressed(CSValue<Boolean> goBack) {
         fire(onBack, goBack);
         if (goBack.get()) goBack.set(onGoBack());
     }
 
-    protected void onActivityResult(ActivityResult result) {
+    protected void onActivityResult(CSActivityResult result) {
         fire(onActivityResult, result);
     }
 
-    protected void onCreateOptionsMenu(OnMenu menu) {
+    protected void onCreateOptionsMenu(CSOnMenu menu) {
         fire(onCreateOptionsMenu, menu);
     }
 
-    void onOptionsItemSelectedImpl(OnMenuItem onItem) {
+    void onOptionsItemSelectedImpl(CSOnMenuItem onItem) {
         if (!onItem.consumed()) {
             fire(onOptionsItemSelected, onItem);
             if (!onItem.consumed()) onOptionsItemSelected(onItem);
         }
     }
 
-    protected void onOptionsItemSelected(OnMenuItem onItem) {
+    protected void onOptionsItemSelected(CSOnMenuItem onItem) {
         if (isMenuVisible()) {
-            for (CSMenuItem item : _menuItems) if (onItem.consume(item.id())) item.run();
+            for (CSMenuItem item : _menuItems)
+                if (onItem.consume(item.id()))
+                    if (onItem.isCheckable())
+                        item.onChecked(onItem);
+                    else
+                        item.run();
             invalidateOptionsMenu();
         }
     }
 
-    void onPrepareOptionsMenuImpl(OnMenu menu) {
+    void onPrepareOptionsMenuImpl(CSOnMenu menu) {
         fire(onPrepareOptionsMenu, menu);
         onPrepareOptionsMenu(menu);
     }
 
-    protected void onPrepareOptionsMenu(OnMenu menu) {
+    protected void onPrepareOptionsMenu(CSOnMenu menu) {
         if (isMenuVisible())
-            for (CSMenuItem item : _menuItems) if (item.isVisible()) menu.show(item.id());
+            for (CSMenuItem item : _menuItems)
+                if (item.isVisible()) {
+                    MenuItem androidItem = menu.show(item.id());
+                    if (androidItem.isCheckable())
+                        androidItem.setChecked(item.isChecked());
+                }
+
     }
 
     protected boolean isMenuVisible() {
         return isActive();
     }
 
-    protected void onKeyDown(OnKeyDownResult onKey) {
+    protected void onKeyDown(CSOnKeyDownResult onKey) {
         fire(onKeyDown, onKey);
     }
 
@@ -358,6 +370,11 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         return ((CSActivity) activity()).getSupportActionBar();
     }
 
+    public int getActionBarHeight() {
+        if(is(getActionBar())) return getActionBar().getHeight();
+        return 0;
+    }
+
     public void goBack() {
         if (is(parent()))
             parent().goBack();
@@ -371,8 +388,12 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     /**
      * Have to call from onResume
      */
-    protected CSTask listen(CSEvent<?>... events) {
+    protected CSTask listenAll(CSEvent<?>... events) {
         return new CSTask(this, events);
+    }
+
+    protected <Argument> CSTask<Argument> listen(CSEvent<Argument> event) {
+        return new CSTask<Argument>(this, event);
     }
 
     public Intent intent() {
@@ -439,7 +460,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
                 googleAPI.getErrorDialog(activity(), result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else
                 new CSAlertDialog(this).show("Google Play Services missing application cannot continue", null, "OK",
-                        new RunWithWith<String, CSAlertDialog>() {
+                        new CSRunWithWith<String, CSAlertDialog>() {
                             public void run(String value, CSAlertDialog dialog) {
                                 activity().finish();
                             }
@@ -447,7 +468,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         }
     }
 
-    protected InViewController createInView() {
+    protected CSInViewController createInView() {
         return null;
     }
 
@@ -456,7 +477,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     }
 
     protected void hideOnViewClick() {
-        new OnClick(this) {
+        new CSClick(this) {
             public void onClick(View v) {
                 hide();
             }
@@ -493,8 +514,6 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     }
 
     protected void setActivity(Activity activity) {
-        if (no(activity))
-            warn("Activity is null impossible !!!");
         _activity = activity;
         setContext(activity);
     }
@@ -613,7 +632,7 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
     }
 
     protected void restartActivity() {
-        doLater(new Run() {
+        doLater(new CSRun() {
             public void run() {
                 Intent intent = activity().getIntent();
                 activity().finish();
@@ -642,53 +661,8 @@ public abstract class CSViewController extends CSView<View> implements HasActivi
         fire(onConfigurationChanged, newConfig);
     }
 
-    public void onRequestPermissionsResult(RequestPermissionResult requestPermissionResult) {
+    public void onRequestPermissionsResult(CSRequestPermissionResult requestPermissionResult) {
         fire(onRequestPermissionsResult, requestPermissionResult);
-    }
-
-    public static class CSMenuItem {
-        private CSViewController _controller;
-        private int _id;
-        private Run _run;
-        private boolean _visible = YES;
-
-        public CSMenuItem(CSViewController controller, int id) {
-            _controller = controller;
-            _id = id;
-        }
-
-        public CSMenuItem onClick(Run run) {
-            _run = run;
-            return this;
-        }
-
-        public int id() {
-            return _id;
-        }
-
-        public void run() {
-            if (is(_run)) _run.run();
-        }
-
-        public CSMenuItem hide() {
-            _visible = NO;
-            if (_controller.isCreated()) _controller.invalidateOptionsMenu();
-            return this;
-        }
-
-        public boolean isVisible() {
-            return _visible;
-        }
-
-        public void show() {
-            _visible = YES;
-            if (_controller.isCreated()) _controller.invalidateOptionsMenu();
-        }
-
-        public void visible(boolean visible) {
-            _visible = visible;
-            if (_controller.isCreated()) _controller.invalidateOptionsMenu();
-        }
     }
 
     public void startApplication(String packageName) {

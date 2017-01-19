@@ -45,7 +45,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
@@ -53,28 +52,30 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-import cs.android.HasContext;
-import cs.android.view.adapter.TextWatcherAdapter;
-import cs.java.callback.Run;
-import cs.java.callback.RunWith;
+import cs.android.CSIContext;
+import cs.android.view.adapter.CSTextWatcherAdapter;
+import cs.java.callback.CSRun;
+import cs.java.callback.CSRunWith;
 import cs.java.collections.CSList;
 import cs.java.common.CSPoint;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static cs.java.lang.Lang.NO;
-import static cs.java.lang.Lang.YES;
-import static cs.java.lang.Lang.as;
-import static cs.java.lang.Lang.doLater;
-import static cs.java.lang.Lang.empty;
-import static cs.java.lang.Lang.format;
-import static cs.java.lang.Lang.is;
-import static cs.java.lang.Lang.list;
-import static cs.java.lang.Lang.no;
-import static cs.java.lang.Lang.set;
+import static com.squareup.picasso.NetworkPolicy.OFFLINE;
+import static com.squareup.picasso.Picasso.with;
+import static cs.java.lang.CSLang.NO;
+import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.as;
+import static cs.java.lang.CSLang.doLater;
+import static cs.java.lang.CSLang.empty;
+import static cs.java.lang.CSLang.format;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.list;
+import static cs.java.lang.CSLang.no;
+import static cs.java.lang.CSLang.set;
 
-public class CSView<T extends View> extends CSContextController implements IsView {
+public class CSView<T extends View> extends CSContextController implements CSIView {
 
     private CSView<View> _viewField;
     private View _view;
@@ -83,12 +84,12 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     CSView() {
     }
 
-    public CSView(HasContext hascontext, LayoutId layoutId) {
+    public CSView(CSIContext hascontext, CSLayoutId layoutId) {
         this(hascontext);
         setInflateView(layoutId.id);
     }
 
-    public CSView(HasContext hascontext) {
+    public CSView(CSIContext hascontext) {
         super(hascontext);
     }
 
@@ -100,8 +101,8 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         setInflateView(layoutId);
     }
 
-    public CSView(final ViewGroup parent, LayoutId layoutId) {
-        super(new HasContext() {
+    public CSView(final ViewGroup parent, CSLayoutId layoutId) {
+        super(new CSIContext() {
             public Context context() {
                 return parent.getContext();
             }
@@ -118,7 +119,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         setView(view);
     }
 
-    public CSView(LayoutId layoutId) {
+    public CSView(CSLayoutId layoutId) {
         this(layoutId.id);
     }
 
@@ -127,8 +128,8 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         return view.getTop() + getTopRelativeTo((View) view.getParent(), relativeTo);
     }
 
-    protected static LayoutId layout(int id) {
-        return new LayoutId(id);
+    protected static CSLayoutId layout(int id) {
+        return new CSLayoutId(id);
     }
 
     public static <T extends View> CSView<T> load(View view) {
@@ -285,7 +286,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         view.setVisibility(VISIBLE);
     }
 
-    public AlphaAnimation fadeOut(final View view, final RunWith<View> onDone) {
+    public AlphaAnimation fadeOut(final View view, final CSRunWith<View> onDone) {
         AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
 
         if (is(view.getAnimation())) view.getAnimation().cancel();
@@ -300,7 +301,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         animation.setAnimationListener(new AnimationListener() {
             public void onAnimationEnd(Animation animation) {
                 hide(view);
-                if (is(onDone)) doLater(new Run() {
+                if (is(onDone)) doLater(new CSRun() {
                     public void run() {
                         onDone.run(view);
                     }
@@ -338,11 +339,11 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         return _viewField = new CSView<>(this).setView(view);
     }
 
-    public CSView<View> view(LayoutId layout) {
+    public CSView<View> view(CSLayoutId layout) {
         return view(inflateLayout(layout.id));
     }
 
-    public CSView<View> view(LayoutId layout, ViewGroup parent) {
+    public CSView<View> view(CSLayoutId layout, ViewGroup parent) {
         CSView<View> view = view(service(LAYOUT_INFLATER_SERVICE, LayoutInflater.class).inflate(layout.id, parent, false));
         parent.addView(view.asView());
         return view;
@@ -482,7 +483,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public void hideKeyboard() {
-        service(Context.INPUT_METHOD_SERVICE, InputMethodManager.class).hideSoftInputFromWindow(asView().getWindowToken(), 0);
+        hideKeyboard(asView().getWindowToken());
     }
 
     public CompoundButton getCompound(int id) {
@@ -645,8 +646,14 @@ public class CSView<T extends View> extends CSContextController implements IsVie
 
     public CSView<T> image(String url) {
         if (empty(url)) return this;
-        Picasso.with(context()).load(url).into(asImageView());
+        picassoImage(url).into(asImageView());
         return this;
+    }
+
+    private RequestCreator picassoImage(String url) {
+        RequestCreator creator = with(context()).load(url).fit().centerCrop();
+        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
+        return creator;
     }
 
     public CSView<T> image(Drawable drawable) {
@@ -655,22 +662,22 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> image(int resId) {
-        Picasso.with(context()).load(resId).into(asImageView());
+        with(context()).load(resId).into(asImageView());
         return this;
     }
 
     public CSView<T> image(String url, int width) {
         if (empty(url)) return this;
-        Picasso.with(context()).load(url).resize(width, 0).into(asImageView());
+        picassoImage(url).resize(width, 0).into(asImageView());
         return this;
     }
 
     public void image(File file, int width) {
-        Picasso.with(context()).load(file).resize(width, 0).into(asImageView());
+        with(context()).load(file).resize(width, 0).into(asImageView());
     }
 
     public CSView<T> image(File file) {
-        Picasso.with(context()).load(file).into(asImageView());
+        with(context()).load(file).into(asImageView());
         return this;
     }
 
@@ -679,7 +686,7 @@ public class CSView<T extends View> extends CSContextController implements IsVie
     }
 
     public CSView<T> image(File file, boolean memCache, int targetWidth) {
-        RequestCreator creator = Picasso.with(context()).load(file).resize(targetWidth, 0);
+        RequestCreator creator = with(context()).load(file).resize(targetWidth, 0);
         if (!memCache)
             creator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
         creator.into(asImageView());
@@ -723,8 +730,8 @@ public class CSView<T extends View> extends CSContextController implements IsVie
         return asView().isEnabled();
     }
 
-    public CSView<T> onTextChange(final RunWith<String> runWith) {
-        asTextView().addTextChangedListener(new TextWatcherAdapter() {
+    public CSView<T> onTextChange(final CSRunWith<String> runWith) {
+        asTextView().addTextChangedListener(new CSTextWatcherAdapter() {
             public void afterTextChanged(Editable editable) {
                 runWith.run(editable.toString());
             }

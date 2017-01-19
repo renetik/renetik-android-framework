@@ -2,7 +2,7 @@ package cs.java.collections;
 
 import java.util.Iterator;
 
-import static cs.java.lang.Lang.unexpected;
+import static cs.java.lang.CSLang.unexpected;
 
 public abstract class CSIterator<T> implements CSIteration<T> {
     private int index = -1;
