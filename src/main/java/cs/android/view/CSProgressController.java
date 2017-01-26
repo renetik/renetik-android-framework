@@ -74,7 +74,7 @@ public class CSProgressController extends CSViewController {
         if (is(response)) view(_labelId).text(response.title());
         updateBars();
         updateCancelButton(response);
-        _dialog = new Dialog(context());
+        _dialog = new Dialog(context(), android.R.style.Theme);
         if (is(_dialog.getWindow())) {
             _dialog.getWindow().setBackgroundDrawable(new ColorDrawable(TRANSPARENT));
             _dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
