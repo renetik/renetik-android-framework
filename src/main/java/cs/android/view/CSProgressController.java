@@ -16,6 +16,7 @@ import cs.java.callback.CSRun;
 import static android.graphics.Color.TRANSPARENT;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.set;
@@ -96,7 +97,11 @@ public class CSProgressController extends CSViewController {
             if (is(response))
                 view(_cancelId).onClick(new CSClick() {
                     public void onClick(View v) {
-                        response.cancel();
+                        try {
+                            response.cancel();
+                        } catch (Exception e) {
+                            error(e);
+                        }
                         hideProgress();
                     }
                 }).show();

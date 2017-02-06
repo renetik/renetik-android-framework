@@ -23,6 +23,7 @@ import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.notImplemented;
 import static cs.java.lang.CSLang.set;
 import static cs.java.lang.CSLang.string;
+import static cs.java.lang.CSLang.warn;
 
 public class CSResponse<Data> extends CSContextController {
 
@@ -153,7 +154,10 @@ public class CSResponse<Data> extends CSContextController {
 
     protected final void onDoneImpl() {
         info("Response onDone", this);
-        if (_done) throw exception("already done");
+        if (_done) {
+            error(exception("already done"));
+            return;
+        }
         _done = YES;
         _sending = NO;
         onDone();
