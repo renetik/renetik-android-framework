@@ -2,22 +2,23 @@ package cs.android.lang;
 
 import cs.java.callback.CSRun;
 
+import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.doLater;
 import static cs.java.lang.CSLang.is;
 
 public class CSWork {
     private int _delay_milliseconds;
-    private final CSRun _runnable;
-    private boolean _stop = true;
+    private final CSRun _workToInvoke;
+    private boolean _stop = YES;
     private CSDoLater _doLater;
 
-    public CSWork(int delay_milliseconds, CSRun runnable) {
+    public CSWork(int delay_milliseconds, CSRun workToInvoke) {
         _delay_milliseconds = delay_milliseconds;
-        _runnable = runnable;
+        _workToInvoke = workToInvoke;
     }
 
     public CSWork run() {
-        _runnable.run();
+        _workToInvoke.run();
         return this;
     }
 
@@ -55,7 +56,7 @@ public class CSWork {
         _doLater = doLater(_delay_milliseconds, new CSRun() {
             public void run() {
                 if (!_stop) {
-                    _runnable.run();
+                    _workToInvoke.run();
                     process();
                 }
             }
