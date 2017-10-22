@@ -5,8 +5,8 @@ import java.util.Map;
 import cs.java.collections.CSIteration;
 import cs.java.collections.CSList;
 import cs.java.collections.CSMapped;
-import cs.java.lang.CSIKeyValue;
-import cs.java.lang.CSIText;
+import cs.java.lang.CSKeyValue;
+import cs.java.lang.CSTextInterface;
 import cs.java.lang.CSLang;
 
 import static cs.java.lang.CSLang.iterate;
@@ -17,7 +17,7 @@ import static cs.java.lang.CSLang.urlEncode;
 
 public class CSURL {
 
-    private final CSList<CSIKeyValue<String, String>> _arguments = list();
+    private final CSList<CSKeyValue<String, String>> _arguments = list();
     private String _baseUrl;
 
     public CSURL(String url, String... arguments) {
@@ -41,21 +41,21 @@ public class CSURL {
     }
 
     public CSURL add(String argument, Object value) {
-        _arguments.add(new CSIKeyValue<>(argument, urlEncode(CSLang.string(value))));
+        _arguments.add(new CSKeyValue<>(argument, urlEncode(CSLang.string(value))));
         return this;
     }
 
     public CSURL remove(String key) {
-        CSIteration<CSIKeyValue<String, String>> iteration = iterate(_arguments);
-        for (CSIKeyValue<String, String> argument : iteration)
+        CSIteration<CSKeyValue<String, String>> iteration = iterate(_arguments);
+        for (CSKeyValue<String, String> argument : iteration)
             if (argument.key.equals(key)) iteration.remove();
         return this;
     }
 
     public String toString() {
-        CSIText url = text(_baseUrl);
+        CSTextInterface url = text(_baseUrl);
         url.add("?");
-        for (CSIKeyValue<String, String> argument : _arguments)
+        for (CSKeyValue<String, String> argument : _arguments)
             url.add(argument.key, "=", argument.value, "&");
         url.cutEnd(1);
         return url.toString();

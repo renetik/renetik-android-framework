@@ -8,7 +8,7 @@ import cs.java.collections.CSList;
 
 import static cs.java.lang.CSLang.*;
 
-public class CSJSONData implements Iterable<String>, CSIJSON {
+public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
 
     private CSJSONObject _data;
     private int _index;

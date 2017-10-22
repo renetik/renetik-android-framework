@@ -20,7 +20,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.List;
 
-import cs.android.CSIActivity;
+import cs.android.CSActivityInterface;
 import cs.android.view.CSAlertDialog;
 import cs.android.view.adapter.CSClick;
 import cs.java.callback.CSRun;
@@ -53,7 +53,7 @@ import static cs.java.lang.CSLang.unexpected;
 import static cs.java.lang.CSLang.warn;
 import static cs.java.lang.CSMath.randomInt;
 
-public abstract class CSViewController extends CSView<View> implements CSIActivity {
+public abstract class CSViewController extends CSView<View> implements CSActivityInterface {
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static boolean _startingActivity;
@@ -388,7 +388,7 @@ public abstract class CSViewController extends CSView<View> implements CSIActivi
     /**
      * Have to call from onResume
      */
-    protected CSTask listenAll(CSEvent<?>... events) {
+    protected CSTask<Object> listenAll(CSEvent... events) {
         return new CSTask(this, events);
     }
 

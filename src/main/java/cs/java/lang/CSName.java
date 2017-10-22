@@ -1,5 +1,5 @@
 package cs.java.lang;
 
-public interface CSIName {
+public interface CSName {
 	String name();
 }

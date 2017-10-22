@@ -1,5 +1,5 @@
 package cs.java.lang;
 
-public interface CSIID {
+public interface CSID {
     String id();
 }

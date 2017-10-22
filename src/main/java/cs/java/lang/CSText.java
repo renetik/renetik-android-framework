@@ -10,7 +10,7 @@ import cs.java.collections.CSList;
 
 import static cs.java.lang.CSLang.*;
 
-public class CSText implements CSIText {
+public class CSText implements CSTextInterface {
 
     private final StringBuilder value = new StringBuilder();
 
@@ -18,62 +18,62 @@ public class CSText implements CSIText {
         add(strings);
     }
 
-    public CSIText add(CharSequence... strings) {
+    public CSTextInterface add(CharSequence... strings) {
         for (CharSequence string : strings)
             value.append(string);
         return this;
     }
 
-    public CSIText add(CharSequence string) {
+    public CSTextInterface add(CharSequence string) {
         value.append(string);
         return this;
     }
 
-    public CSIText add(Object... objects) {
+    public CSTextInterface add(Object... objects) {
         for (Object object : objects) add(object);
         return this;
     }
 
-    public CSIText add(Object object) {
+    public CSTextInterface add(Object object) {
         value.append(String.valueOf(object));
         return this;
     }
 
-    public CSIText addLine() {
+    public CSTextInterface addLine() {
         return add(NEWLINE);
     }
 
-    public CSIText addSpace() {
+    public CSTextInterface addSpace() {
         return add(" ");
     }
 
-    public CSIText caseDown() {
+    public CSTextInterface caseDown() {
         set(toString().toLowerCase());
         return this;
     }
 
-    public CSIText caseUp(int index) {
+    public CSTextInterface caseUp(int index) {
         set(value.substring(0, index) + value.substring(index, index + 1).toUpperCase()
                 + value.substring(index + 1, length()));
         return this;
     }
 
-    public CSIText cut(int start, int end) {
+    public CSTextInterface cut(int start, int end) {
         if (start >= length()) return this;
         if (end > length()) end = length();
         value.delete(start, end);
         return this;
     }
 
-    public CSIText cutEnd(int length) {
+    public CSTextInterface cutEnd(int length) {
         return cut(length() - length, length());
     }
 
-    public CSIText leaveStart(int length) {
+    public CSTextInterface leaveStart(int length) {
         return cut(length, length());
     }
 
-    public CSIText cutStart(int length) {
+    public CSTextInterface cutStart(int length) {
         return cut(0, length);
     }
 
@@ -81,7 +81,7 @@ public class CSText implements CSIText {
         return value.length() == 0;
     }
 
-    public CSIText remove(String... strings) {
+    public CSTextInterface remove(String... strings) {
         String text = toString();
         for (String string : strings)
             text = text.replaceAll(string, "");
@@ -89,25 +89,25 @@ public class CSText implements CSIText {
         return this;
     }
 
-    public CSIText replace(String regex, String replace) {
+    public CSTextInterface replace(String regex, String replace) {
         set(toString().replaceAll(regex, replace));
         return this;
     }
 
-    public CSIText replaceEnd(String string) {
+    public CSTextInterface replaceEnd(String string) {
         cutEnd(string.length());
         add(string);
         return this;
     }
 
-    public CSList<CSIText> split(String regex) {
-        CSList<CSIText> split = list();
+    public CSList<CSTextInterface> split(String regex) {
+        CSList<CSTextInterface> split = list();
         for (String string : toString().split(regex))
             split.add(new CSText(string));
         return split;
     }
 
-    public CSIText trim() {
+    public CSTextInterface trim() {
         set(toString().trim());
         return this;
     }

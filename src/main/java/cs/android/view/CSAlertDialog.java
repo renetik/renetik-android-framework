@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import java.util.List;
 
-import cs.android.CSIActivity;
+import cs.android.CSActivityInterface;
 import cs.android.R;
 import cs.android.viewbase.CSContextController;
 import cs.java.callback.CSRun;
@@ -35,7 +35,7 @@ public class CSAlertDialog extends CSContextController {
         _builder = new Builder(context);
     }
 
-    public CSAlertDialog(CSIActivity hasActivity) {
+    public CSAlertDialog(CSActivityInterface hasActivity) {
         this(hasActivity.context());
     }
 

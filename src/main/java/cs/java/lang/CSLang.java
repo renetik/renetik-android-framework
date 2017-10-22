@@ -74,44 +74,44 @@ public class CSLang {
         CSSettings.get().save(DEBUG_MODE, value);
     }
 
-    public static <T extends CSIID> String toIDs(List<T> hasIds) {
+    public static <T extends CSID> String toIDs(List<T> hasIds) {
         CSList<String> IDs = list();
-        for (CSIID hasId : hasIds) IDs.add(hasId.id());
+        for (CSID hasId : hasIds) IDs.add(hasId.id());
         return toJSONString(IDs);
     }
 
-    public static <T extends CSIID> T findById(CSIValues<T> listData, String id) {
+    public static <T extends CSID> T findById(CSValues<T> listData, String id) {
         if (no(listData)) return null;
         for (T hasId : listData.values()) if (equal(hasId.id(), id)) return hasId;
         return null;
     }
 
-    public static <T extends CSIID> T findById(CSIValues<T> listData, CSIID hasId) {
+    public static <T extends CSID> T findById(CSValues<T> listData, CSID hasId) {
         return findById(listData, hasId.id());
     }
 
-    public static <T extends CSIID> int findIndexById(CSIValues<T> listData, CSIID hasId) {
+    public static <T extends CSID> int findIndexById(CSValues<T> listData, CSID hasId) {
         return is(hasId) ? findIndexById(listData, hasId.id()) : -1;
     }
 
-    public static <T extends CSIID> int findIndexById(CSIValues<T> listData, String id) {
+    public static <T extends CSID> int findIndexById(CSValues<T> listData, String id) {
         if (is(listData))
             for (int index = 0; index < listData.values().size(); index++)
                 if (equal(listData.values().get(index).id(), id)) return index;
         return -1;
     }
 
-    public static <T extends CSIName> CSList<String> toNames(CSIValues<T> listData) {
+    public static <T extends CSName> CSList<String> toNames(CSValues<T> listData) {
         return toNames(is(listData) ? listData.values() : CSLang.<T>list());
     }
 
-    public static <T extends CSIName> CSList<String> toNames(List<T> listData) {
+    public static <T extends CSName> CSList<String> toNames(List<T> listData) {
         CSList<String> names = list();
-        for (CSIName hasName : listData) names.add(hasName.name());
+        for (CSName hasName : listData) names.add(hasName.name());
         return names;
     }
 
-    public static String id(CSIID hasId) {
+    public static String id(CSID hasId) {
         return is(hasId) ? hasId.id() : "";
     }
 
@@ -184,7 +184,7 @@ public class CSLang {
     }
 
     public static String string(String separator, String... values) {
-        CSIText text = text();
+        CSTextInterface text = text();
         for (String string : values) if (set(string)) text.add(string).add(separator);
         if (!text.isEmpty()) text.cutEnd(separator.length());
         return text.toString();
@@ -198,7 +198,7 @@ public class CSLang {
         return strings;
     }
 
-    public static CSIText text(String... values) {
+    public static CSTextInterface text(String... values) {
         return new CSText(values);
     }
 
@@ -322,7 +322,7 @@ public class CSLang {
         if (object instanceof Boolean) return !(Boolean) object;
         if (object instanceof CharSequence) return ((CharSequence) object).length() == 0;
         if (object instanceof Collection) return ((Collection<?>) object).size() == 0;
-        if (object instanceof CSIValue<?>) return empty(((CSIValue<?>) object).get());
+        if (object instanceof CSValueInterface<?>) return empty(((CSValueInterface<?>) object).get());
         if (object instanceof CSMap) return ((CSMap<?, ?>) object).size() == 0;
         if (object instanceof Object[]) return ((Object[]) object).length == 0;
         if (object instanceof int[]) return ((int[]) object).length == 0;

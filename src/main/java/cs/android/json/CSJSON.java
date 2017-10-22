@@ -50,7 +50,7 @@ public class CSJSON {
     }
 
     public static CSJSONType create(Object value) {
-        if (value instanceof CSIJSON) return ((CSIJSON) value).asJSON();
+        if (value instanceof CSJSONDataInterface) return ((CSJSONDataInterface) value).asJSON();
         if (value instanceof List) return new CSJSONArray().add((List) value);
         if (value instanceof Map) return new CSJSONObject().put((Map) value);
         if (value instanceof org.json.JSONObject) return new CSJSONObject((org.json.JSONObject) value);

@@ -1,6 +1,6 @@
 package cs.java.lang;
 
-public class CSValue<T> implements CSIValue<T> {
+public class CSValue<T> implements CSValueInterface<T> {
 
     private T value;
 

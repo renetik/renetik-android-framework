@@ -37,7 +37,7 @@ import java.util.Date;
 import java.util.List;
 
 import cs.android.CSAndroidApplication;
-import cs.android.CSIContext;
+import cs.android.CSContextInterface;
 import cs.java.collections.CSList;
 import cs.java.lang.Base;
 
@@ -54,7 +54,7 @@ import static cs.java.lang.CSLang.set;
 import static cs.java.lang.CSLang.toStringArray;
 import static cs.java.lang.CSLang.warn;
 
-public abstract class CSContextController extends Base implements CSIContext {
+public abstract class CSContextController extends Base implements CSContextInterface {
 
     private Context _context;
 
@@ -66,7 +66,7 @@ public abstract class CSContextController extends Base implements CSIContext {
         setContext(context);
     }
 
-    public CSContextController(CSIContext context) {
+    public CSContextController(CSContextInterface context) {
         setContext(context.context());
     }
 

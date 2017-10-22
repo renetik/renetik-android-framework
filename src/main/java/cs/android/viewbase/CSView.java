@@ -52,7 +52,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-import cs.android.CSIContext;
+import cs.android.CSContextInterface;
 import cs.android.view.adapter.CSTextWatcherAdapter;
 import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
@@ -75,7 +75,7 @@ import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.set;
 
-public class CSView<T extends View> extends CSContextController implements CSIView {
+public class CSView<T extends View> extends CSContextController implements CSViewInterface {
 
     private CSView<View> _viewField;
     private View _view;
@@ -84,12 +84,12 @@ public class CSView<T extends View> extends CSContextController implements CSIVi
     CSView() {
     }
 
-    public CSView(CSIContext hascontext, CSLayoutId layoutId) {
+    public CSView(CSContextInterface hascontext, CSLayoutId layoutId) {
         this(hascontext);
         setInflateView(layoutId.id);
     }
 
-    public CSView(CSIContext hascontext) {
+    public CSView(CSContextInterface hascontext) {
         super(hascontext);
     }
 
@@ -102,7 +102,7 @@ public class CSView<T extends View> extends CSContextController implements CSIVi
     }
 
     public CSView(final ViewGroup parent, CSLayoutId layoutId) {
-        super(new CSIContext() {
+        super(new CSContextInterface() {
             public Context context() {
                 return parent.getContext();
             }
