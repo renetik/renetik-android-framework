@@ -5,6 +5,9 @@ import org.json.JSONTokener;
 import java.util.List;
 import java.util.Map;
 
+import cs.java.collections.CSMap;
+
+import static cs.java.lang.CSLang.map;
 import static cs.java.lang.CSLang.unexpected;
 
 public class CSJSON {
@@ -31,7 +34,7 @@ public class CSJSON {
 
     public static <T extends CSJSONData> CSJSONArray create(List<T> objects) {
         CSJSONArray array = createArray();
-        for (T jsonData : objects) array.add(jsonData.data());
+        for (T jsonData : objects) array.add(jsonData.asJSONObject());
         return array;
     }
 
@@ -49,8 +52,25 @@ public class CSJSON {
         }
     }
 
+//    public static Object parse2(String json) {
+//        try {
+//            return convertJSONTypes(new JSONTokener(json).nextValue());
+//        } catch (Exception e) {
+//            return new CSJSONNoType();
+//        }
+//    }
+//
+//    private static Object convertJSONTypes(Object value) {
+//        if(value instanceof org.json.JSONObject) {
+//            CSMap<String, Object> map = map();
+//            for (String key : (org.json.JSONObject) value)
+//                value.put(key, get(key).getValue());
+//            return value;
+//        }
+//    }
+
     public static CSJSONType create(Object value) {
-        if (value instanceof CSJSONDataInterface) return ((CSJSONDataInterface) value).asJSON();
+        if (value instanceof CSJSONDataInterface) return ((CSJSONDataInterface) value).asJSONObject();
         if (value instanceof List) return new CSJSONArray().add((List) value);
         if (value instanceof Map) return new CSJSONObject().put((Map) value);
         if (value instanceof org.json.JSONObject) return new CSJSONObject((org.json.JSONObject) value);

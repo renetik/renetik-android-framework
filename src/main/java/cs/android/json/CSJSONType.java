@@ -1,15 +1,13 @@
 package cs.android.json;
 
-import java.util.Map;
-
 import static cs.java.lang.CSLang.is;
 
-public class CSJSONType {
+public abstract class CSJSONType {
 
-    private final Object _value;
+    final Object _jsonValue;
 
     public CSJSONType(Object value) {
-        this._value = value;
+        this._jsonValue = value;
     }
 
     public CSJSONArray asArray() {
@@ -18,14 +16,14 @@ public class CSJSONType {
 
     public Boolean asBoolean() {
         CSJSONBoolean json = asJSONBoolean();
-        if (is(json)) return json.get();
+        if (is(json)) return json.getValue();
         return null;
     }
 
     public Double asDouble() {
         CSJSONNumber json = asJSONNumber();
         if (is(json)) {
-            Number number = json.get();
+            Number number = json.getValue();
             if (is(number)) return number.doubleValue();
         }
         return null;
@@ -49,23 +47,22 @@ public class CSJSONType {
 
     public String asString() {
         CSJSONString jsonString = asJSONString();
-        if (is(jsonString)) return jsonString.get();
+        if (is(jsonString)) return jsonString.getValue();
         return null;
     }
 
-    public Object getValue() {
-        return _value;
+    public Object getJSONValue() {
+        return _jsonValue;
     }
 
+    public abstract Object getValue();
+
     public String toJSONString() {
-        return String.valueOf(getValue());
+        return String.valueOf(getJSONValue());
     }
 
     public String toString() {
         return toJSONString();
     }
 
-    public Map<String, String> asMap() {
-        return asObject().asMap(String.class);
-    }
 }

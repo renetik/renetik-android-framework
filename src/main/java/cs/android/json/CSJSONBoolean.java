@@ -19,7 +19,7 @@ public class CSJSONBoolean extends CSJSONType {
         return this;
     }
 
-    public Boolean get() {
+    public Boolean getValue() {
         return _value;
     }
 }

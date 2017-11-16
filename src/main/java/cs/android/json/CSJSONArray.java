@@ -1,20 +1,21 @@
 package cs.android.json;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.Iterator;
 import java.util.List;
 
 import cs.java.collections.CSIterator;
+import cs.java.collections.CSList;
 
-import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.exception;
 import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.warn;
 
 public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
 
-    private final org.json.JSONArray _value;
 
     public CSJSONArray() {
         this(new org.json.JSONArray());
@@ -22,7 +23,6 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
 
     public CSJSONArray(org.json.JSONArray value) {
         super(value);
-        _value = value;
     }
 
     public void add(boolean value) {
@@ -42,7 +42,7 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         if (is(value)) {
             CSJSONArray typeValue = value.asArray();
             if (is(typeValue)) return typeValue;
-            throw exception("Expected JSONArray, found ", value.getValue());
+            throw exception("Expected JSONArray, found ", value.getJSONValue());
         }
         return null;
     }
@@ -51,8 +51,8 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         CSJSONType value = get(index);
         if (is(value)) {
             CSJSONBoolean typeValue = value.asJSONBoolean();
-            if (is(typeValue)) return typeValue.get();
-            throw exception("Expected Boolean, found ", value.getValue());
+            if (is(typeValue)) return typeValue.getValue();
+            throw exception("Expected Boolean, found ", value.getJSONValue());
         }
         return null;
     }
@@ -61,8 +61,8 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         CSJSONType value = get(index);
         if (is(value)) {
             CSJSONNumber typeValue = value.asJSONNumber();
-            if (is(typeValue)) return typeValue.get();
-            throw exception("Expected Number, found ", value.getValue());
+            if (is(typeValue)) return typeValue.getValue();
+            throw exception("Expected Number, found ", value.getJSONValue());
         }
         return null;
     }
@@ -72,7 +72,7 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         if (is(value)) {
             CSJSONObject typeValue = value.asObject();
             if (is(typeValue)) return typeValue;
-            throw exception("Expected JSONObject, found ", value.getValue());
+            throw exception("Expected JSONObject, found ", value.getJSONValue());
         }
         return null;
     }
@@ -81,8 +81,8 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         CSJSONType value = get(index);
         if (is(value)) {
             CSJSONString typeValue = value.asJSONString();
-            if (is(typeValue)) return typeValue.get();
-            throw exception("Expected String, found ", value.getValue());
+            if (is(typeValue)) return typeValue.getValue();
+            throw exception("Expected String, found ", value.getJSONValue());
         }
         return null;
     }
@@ -102,15 +102,19 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
 
     public CSJSONType get(int index) {
         try {
-            return CSJSON.create(_value.get(index));
+            return CSJSON.create(getJSONValue().get(index));
         } catch (JSONException e) {
             warn(e);
         }
         return null;
     }
 
+    public JSONArray getJSONValue() {
+        return (JSONArray) super.getJSONValue();
+    }
+
     public int getSize() {
-        return _value.length();
+        return getJSONValue().length();
     }
 
     public Iterator<CSJSONType> iterator() {
@@ -123,10 +127,16 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
 
     public void set(int index, CSJSONType type) {
         try {
-            _value.put(index, type.getValue());
+            getJSONValue().put(index, type.getJSONValue());
         } catch (JSONException e) {
             warn(e);
         }
+    }
+
+    public CSList<Object> getValue() {
+        CSList<Object> value = list();
+        for (CSJSONType type : this) value.add(type.getValue());
+        return value;
     }
 
 }

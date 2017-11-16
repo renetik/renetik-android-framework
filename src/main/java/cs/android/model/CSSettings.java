@@ -148,7 +148,7 @@ public class CSSettings extends CSContextController {
 
     public void save(String key, CSJSONData data) {
         if (no(data)) clear(key);
-        else save(key, data.data().toJSONString());
+        else save(key, data.asJSONObject().toJSONString());
     }
 
     public <T extends CSJSONData> void save(String key, CSList<T> data) {

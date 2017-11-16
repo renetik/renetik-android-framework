@@ -28,8 +28,8 @@ import cs.android.CSAndroidApplication;
 import cs.android.json.CSJSON;
 import cs.android.json.CSJSONObject;
 import cs.android.json.CSJSONType;
-import cs.android.lang.CSDoLater;
 import cs.android.lang.CSApplication;
+import cs.android.lang.CSDoLater;
 import cs.android.lang.CSWork;
 import cs.android.model.CSSettings;
 import cs.java.callback.CSRun;
@@ -51,6 +51,9 @@ import static cs.android.json.CSJSON.toJSONString;
 
 public class CSLang {
 
+    public final static int ASCENDING = -1;
+    public final static int EQUAL = 0;
+    public final static int DESCENDING = 1;
     public final static int KB = 1024;
     public final static int MB = 1024 * KB;
     public static final boolean YES = true;
@@ -238,7 +241,7 @@ public class CSLang {
         return Boolean.parseBoolean(string(value));
     }
 
-    public static int asInt(Object value) {
+    public static Integer asInt(Object value) {
         try {
             return Integer.parseInt(string(value));
         } catch (NumberFormatException e) {
@@ -322,7 +325,8 @@ public class CSLang {
         if (object instanceof Boolean) return !(Boolean) object;
         if (object instanceof CharSequence) return ((CharSequence) object).length() == 0;
         if (object instanceof Collection) return ((Collection<?>) object).size() == 0;
-        if (object instanceof CSValueInterface<?>) return empty(((CSValueInterface<?>) object).get());
+        if (object instanceof CSValueInterface<?>)
+            return empty(((CSValueInterface<?>) object).get());
         if (object instanceof CSMap) return ((CSMap<?, ?>) object).size() == 0;
         if (object instanceof Object[]) return ((Object[]) object).length == 0;
         if (object instanceof int[]) return ((int[]) object).length == 0;
@@ -656,6 +660,12 @@ public class CSLang {
         if (is(run)) run.run();
     }
 
+    public static int compare(Integer x, Integer y) {
+        return is(x) ? x.compareTo(y) : -1;
+    }
 
+    public static int compare(Float x, Float y) {
+        return is(x) ? x.compareTo(y) : -1;
+    }
 
 }

@@ -7,14 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewParent;
-import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -45,6 +43,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
@@ -63,7 +62,6 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.squareup.picasso.NetworkPolicy.OFFLINE;
-import static com.squareup.picasso.Picasso.with;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.as;
@@ -391,10 +389,6 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (DatePicker) findView(id);
     }
 
-    public Display getDisplay() {
-        return ((WindowManager) context().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-    }
-
     public EditText getEditText(int id) {
         return (EditText) findView(id);
     }
@@ -541,11 +535,11 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public int getDisplayWidth() {
-        return getDisplay().getWidth();
+        return getDefaultDisplay().getWidth();
     }
 
     public int getDisplayHeight() {
-        return getDisplay().getHeight();
+        return getDefaultDisplay().getHeight();
     }
 
     public void setPercentWidth(int viewId, int percent, int minimal, int maximal) {
@@ -651,7 +645,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     private RequestCreator picassoImage(String url) {
-        RequestCreator creator = with(context()).load(url).fit().centerCrop();
+        RequestCreator creator = Picasso.with(context()).load(url).fit().centerCrop();
         if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
         return creator;
     }
@@ -662,22 +656,24 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSView<T> image(int resId) {
-        with(context()).load(resId).into(asImageView());
+        Picasso.with(context()).load(resId).into(asImageView());
         return this;
     }
 
     public CSView<T> image(String url, int width) {
         if (empty(url)) return this;
-        picassoImage(url).resize(width, 0).into(asImageView());
+        RequestCreator creator = Picasso.with(context()).load(url);
+        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
+        creator.resize(width, 0).centerInside().into(asImageView());
         return this;
     }
 
     public void image(File file, int width) {
-        with(context()).load(file).resize(width, 0).into(asImageView());
+        Picasso.with(context()).load(file).resize(width, 0).centerInside().into(asImageView());
     }
 
     public CSView<T> image(File file) {
-        with(context()).load(file).into(asImageView());
+        Picasso.with(context()).load(file).into(asImageView());
         return this;
     }
 
@@ -686,7 +682,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSView<T> image(File file, boolean memCache, int targetWidth) {
-        RequestCreator creator = with(context()).load(file).resize(targetWidth, 0);
+        RequestCreator creator = Picasso.with(context()).load(file).resize(targetWidth, 0).centerInside();
         if (!memCache)
             creator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
         creator.into(asImageView());

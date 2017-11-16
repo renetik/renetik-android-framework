@@ -6,4 +6,7 @@ public class CSJSONNoType extends CSJSONType {
         super(null);
     }
 
+    public Object getValue() {
+        return null;
+    }
 }

@@ -13,8 +13,7 @@ public class CSJSONString extends CSJSONType {
         return this;
     }
 
-    public String get() {
+    public String getValue() {
         return _value;
     }
-
 }

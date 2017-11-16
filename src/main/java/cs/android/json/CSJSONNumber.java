@@ -16,4 +16,8 @@ public class CSJSONNumber extends CSJSONType {
     public Number get() {
         return _value;
     }
+
+    public Number getValue() {
+        return _value;
+    }
 }

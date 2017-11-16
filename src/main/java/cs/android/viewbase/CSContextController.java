@@ -2,8 +2,6 @@ package cs.android.viewbase;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
-import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,8 +19,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.IBinder;
-import android.telephony.TelephonyManager;
 import android.util.Base64;
+import android.view.Display;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import java.io.ByteArrayOutputStream;
@@ -74,10 +73,6 @@ public abstract class CSContextController extends Base implements CSContextInter
         this._context = context;
     }
 
-    public NotificationManager notifications() {
-        return (NotificationManager) context().getSystemService(Context.NOTIFICATION_SERVICE);
-    }
-
     public Context context() {
         return _context;
     }
@@ -88,10 +83,6 @@ public abstract class CSContextController extends Base implements CSContextInter
         } catch (IllegalArgumentException e) {
             warn(e);
         }
-    }
-
-    public AlarmManager getAlarmManager() {
-        return (AlarmManager) context().getSystemService(Context.ALARM_SERVICE);
     }
 
     public String getAppKeyHash() {
@@ -162,9 +153,8 @@ public abstract class CSContextController extends Base implements CSContextInter
     }
 
     public boolean isNetworkConnected() {
-        NetworkInfo activeNetworkInfo = service(Context.CONNECTIVITY_SERVICE, ConnectivityManager.class)
-                .getActiveNetworkInfo();
-        return is(activeNetworkInfo) && activeNetworkInfo.isConnected();
+        NetworkInfo info = service(Context.CONNECTIVITY_SERVICE, ConnectivityManager.class).getActiveNetworkInfo();
+        return is(info) && info.isConnected();
     }
 
     public Bitmap loadBitmap(int id) {
@@ -195,6 +185,10 @@ public abstract class CSContextController extends Base implements CSContextInter
     public void hideKeyboard(IBinder windowToken) {
         InputMethodManager service = service(Context.INPUT_METHOD_SERVICE, InputMethodManager.class);
         service.hideSoftInputFromWindow(windowToken, 0);
+    }
+
+    public Display getDefaultDisplay() {
+        return service(Context.WINDOW_SERVICE, WindowManager.class).getDefaultDisplay();
     }
 
     public int getStatusBarHeight() {
@@ -262,18 +256,10 @@ public abstract class CSContextController extends Base implements CSContextInter
         return inputStream;
     }
 
-    protected TelephonyManager getTelephony() {
-        return (TelephonyManager) context().getSystemService(Context.TELEPHONY_SERVICE);
-    }
-
     protected boolean isServiceRunning(Class<? extends Service> serviceClass) {
-        for (RunningServiceInfo service : getActivityManager().getRunningServices(Integer.MAX_VALUE))
+        for (RunningServiceInfo service : service(Context.ACTIVITY_SERVICE, ActivityManager.class).getRunningServices(Integer.MAX_VALUE))
             if (serviceClass.getName().equals(service.service.getClassName())) return true;
         return false;
-    }
-
-    public ActivityManager getActivityManager() {
-        return (ActivityManager) _context.getSystemService(Context.ACTIVITY_SERVICE);
     }
 
     protected void startService(Class<? extends Service> serviceClass) {

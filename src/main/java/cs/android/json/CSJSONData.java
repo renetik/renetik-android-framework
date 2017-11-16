@@ -1,17 +1,27 @@
 package cs.android.json;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 
 import cs.java.callback.CSReturn;
 import cs.java.collections.CSList;
+import cs.java.collections.CSMap;
 
-import static cs.java.lang.CSLang.*;
+import static cs.java.lang.CSLang.asDouble;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.iterate;
+import static cs.java.lang.CSLang.json;
+import static cs.java.lang.CSLang.list;
+import static cs.java.lang.CSLang.newInstance;
+import static cs.java.lang.CSLang.no;
 
 public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
 
     private CSJSONObject _data;
     private int _index;
+    private String _key;
 
     public CSJSONData() {
         _data = CSJSON.createObject();
@@ -30,7 +40,7 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     protected void onLoad(CSJSONObject data) {
     }
 
-    public CSJSONObject get(String key) {
+    public CSJSONObject getObject(String key) {
         return _data.getObject(key);
     }
 
@@ -51,9 +61,14 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
         }
     }
 
+    public String getString(CSJSONData data, String key) {
+        if (is(data)) return data.getString(key);
+        return "";
+    }
+
     public String getString(String key) {
         CSJSONType jsonType = _data.get(key);
-        return is(jsonType) ? jsonType.getValue() + "" : "";
+        return is(jsonType) ? jsonType.getJSONValue() + "" : "";
     }
 
     public Long getLong(String key) {
@@ -72,8 +87,28 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
         }
     }
 
+    public Object getValue(String key) {
+        return asJSONObject().get(key).getValue();
+    }
+
+    public CSMap getMap(String key) {
+        Object value = getValue(key);
+        if (value instanceof CSMap) return (CSMap) value;
+        return null;
+    }
+
+    public CSList getList(String key) {
+        Object value = getValue(key);
+        if (value instanceof CSList) return (CSList) value;
+        return null;
+    }
+
     public int index() {
         return _index;
+    }
+
+    public String key() {
+        return _key;
     }
 
     public Iterator<String> iterator() {
@@ -81,11 +116,7 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     }
 
     public void load(CSJSONData data) {
-        load(data.object());
-    }
-
-    public CSJSONObject object() {
-        return _data;
+        load(data.asJSONObject());
     }
 
     public CSList<String> getStrings(String id) {
@@ -137,30 +168,11 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     }
 
     public String toJSONString() {
-        return object().toJSONString();
+        return asJSONObject().toJSONString();
     }
 
     public String toString() {
         return toJSONString();
-    }
-
-    protected <T extends CSJSONData> CSList<T> createList(String id, final Class<T> type) {
-        return createList(id, new CSReturn<T>() {
-            public T invoke() {
-                return newInstance(type);
-            }
-        });
-    }
-
-    protected <T extends CSJSONData> CSList<T> createList(String id, CSReturn<T> factory) {
-        CSList list = list();
-        int index = -1;
-        for (CSJSONType type : iterate(getArray(id))) {
-            T item = load(factory.invoke(), type.asObject());
-            item.setIndex(++index);
-            list.add(item);
-        }
-        return list;
     }
 
     public CSJSONArray getArray(String key) {
@@ -173,15 +185,17 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
         return data;
     }
 
-    public void setIndex(int index) {
+    public CSJSONData setIndex(int index) {
         _index = index;
+        return this;
     }
 
-    public CSJSONObject asJSON() {
-        return data();
+    public CSJSONData setKey(String key) {
+        _key = key;
+        return this;
     }
 
-    public final CSJSONObject data() {
+    public CSJSONObject asJSONObject() {
         return _data;
     }
 
@@ -205,7 +219,7 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     }
 
     protected void save(CSJSONObject object, String id, CSJSONData data) {
-        if (is(data)) object.put(id, data.data());
+        if (is(data)) object.put(id, data.asJSONObject());
     }
 
     protected void save(CSJSONObject object, String id, String string) {
@@ -215,4 +229,71 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     public CSJSONObject cloneObject() {
         return json(toJSONString()).asObject();
     }
+
+    protected <T extends CSJSONData> CSList<T> createList(final Class<T> type, String arrayId) {
+        return createList(type, getArray(arrayId));
+    }
+
+    protected <T extends CSJSONData> CSList<T> createList(final Class<T> type, CSJSONArray array) {
+        return createList(new CSReturn<T>() {
+            public T invoke() {
+                return newInstance(type);
+            }
+        }, array);
+    }
+
+    protected <T extends CSJSONData> CSList<T> createList(CSReturn<T> factory, CSJSONArray array) {
+        CSList<T> list = list();
+        int index = 0;
+        for (CSJSONType type : iterate(array)) {
+            T item = load(factory.invoke(), type.asObject());
+            item.setIndex(index++);
+            list.add(item);
+        }
+        return list;
+    }
+
+    protected <T extends CSJSONData> CSList<CSList<T>> createListOfList(Class<T> type, String arrayOfArrayId) {
+        return createListOfList(type, getArray(arrayOfArrayId));
+    }
+
+    protected <T extends CSJSONData> CSList<CSList<T>> createListOfList(Class<T> type, CSJSONArray arrayOfArray) {
+        if (no(arrayOfArray)) return null;
+        CSList<CSList<T>> list = list();
+        for (CSJSONType arrayInArray : arrayOfArray) {
+            int index = 0;
+            CSList<T> listInList = list.put((CSList) list());
+            for (CSJSONType value : iterate(arrayInArray.asArray()))
+                listInList.put(load(newInstance(type), value.asObject())).setIndex(index++);
+        }
+        return list;
+    }
+
+    protected <T extends CSJSONData> CSList<T> createListByObject(Class<T> type, String objectId) {
+        return createListByObject(type, getObject(objectId));
+    }
+
+    protected <T extends CSJSONData> CSList<T> createListByObject(Class<T> type, CSJSONObject objectOfObjects) {
+        if (no(objectOfObjects)) return null;
+        CSList<T> list = list();
+        int count = 0;
+        for (String key : objectOfObjects) {
+            CSJSONData data = list.put(load(newInstance(type), objectOfObjects.getObject(key)));
+            data.setIndex(count++);
+            data.setKey(key);
+        }
+        return list;
+    }
+
+    protected <T extends CSJSONData> CSList<T> sort(CSList<T> data, Comparator<T> comparator) {
+        Collections.sort(data, comparator);
+        return reIndex(data);
+    }
+
+    protected <T extends CSJSONData> CSList<T> reIndex(CSList<T> array) {
+        int index = 0;
+        for (CSJSONData data : array) data.setIndex(index++);
+        return array;
+    }
+
 }

@@ -5,11 +5,11 @@ import org.json.JSONException;
 import java.util.Iterator;
 import java.util.Map;
 
+import cs.java.collections.CSMap;
+
 import static cs.java.lang.CSLang.asBool;
 import static cs.java.lang.CSLang.error;
-import static cs.java.lang.CSLang.exception;
 import static cs.java.lang.CSLang.is;
-import static cs.java.lang.CSLang.json;
 import static cs.java.lang.CSLang.map;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.warn;
@@ -27,19 +27,18 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
         this._value = value;
     }
 
-    public <T> Map<String, T> asMap(Class<T> valueType) {
-        Map<String, T> value = map();
-        for (String key : this)
-            value.put(key, (T) get(key).getValue());
-        return value;
-    }
-
     public boolean contains(String key) {
         return is(get(key));
     }
 
     public CSJSONType get(String key) {
-        return getImpl(key);
+        Object valueKey = null;
+        try {
+            valueKey = _value.get(key);
+        } catch (Exception e) {
+        }
+        if (is(valueKey)) return CSJSON.create(valueKey);
+        return null;
     }
 
     public CSJSONArray getArray(String key) {
@@ -47,7 +46,7 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
         if (is(value)) {
             CSJSONArray typeValue = value.asArray();
             if (is(typeValue)) return typeValue;
-            warn("Expected JSONArray, found ", value.getValue());
+            warn("Expected JSONArray, found ", value.getJSONValue());
         }
         return null;
     }
@@ -55,7 +54,7 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
     public Boolean getBoolean(String key) {
         CSJSONType value = get(key);
         if (is(value)) {
-            return asBool(value.getValue());
+            return asBool(value.getJSONValue());
         }
         return null;
     }
@@ -82,8 +81,8 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
         CSJSONType value = get(key);
         if (is(value)) {
             CSJSONNumber typevalue = value.asJSONNumber();
-            if (is(typevalue)) return typevalue.get();
-            warn("Expected Number, found ", value.getValue());
+            if (is(typevalue)) return typevalue.getValue();
+            warn("Expected Number, found ", value.getJSONValue());
         }
         return null;
     }
@@ -93,7 +92,7 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
         if (is(value)) {
             CSJSONObject typevalue = value.asObject();
             if (is(typevalue)) return typevalue;
-            warn("Expected JSONObject, found ", value.getValue(), " in ", asJSONString());
+            warn("Expected JSONObject, found ", value.getJSONValue(), " in ", asJSONString());
         }
         return null;
     }
@@ -102,8 +101,8 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
         CSJSONType value = get(key);
         if (is(value)) {
             CSJSONString typevalue = value.asJSONString();
-            if (is(typevalue)) return typevalue.get();
-            warn("Expected String, found ", value.getValue());
+            if (is(typevalue)) return typevalue.getValue();
+            warn("Expected String, found ", value.getJSONValue());
         }
         return null;
     }
@@ -116,16 +115,6 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
         Boolean value = getBoolean(key);
         if (no(value)) return defaultValue;
         return value;
-    }
-
-    public CSJSONType getImpl(String key) {
-        Object valueKey = null;
-        try {
-            valueKey = _value.get(key);
-        } catch (Exception e) {
-        }
-        if (is(valueKey)) return CSJSON.create(valueKey);
-        return null;
     }
 
     public Integer getInteger(String key, Integer defaultValue) {
@@ -144,7 +133,7 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
 
     public void put(String key, CSJSONType value) {
         try {
-            this._value.put(key, value.getValue());
+            this._value.put(key, value.getJSONValue());
         } catch (JSONException e) {
             error(e);
         }
@@ -169,5 +158,12 @@ public class CSJSONObject extends CSJSONType implements Iterable<String> {
     public CSJSONObject put(Map data) {
         for (Object key : data.keySet()) put(key + "", CSJSON.create(data.get(key)));
         return this;
+    }
+
+    public CSMap<String, Object> getValue() {
+        CSMap<String, Object> value = map();
+        for (String key : this)
+            value.put(key, get(key).getValue());
+        return value;
     }
 }
