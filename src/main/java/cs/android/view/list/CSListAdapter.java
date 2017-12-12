@@ -13,7 +13,7 @@ public class CSListAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return _controller.getItemsCount();
+        return _controller.size();
     }
 
     public int getViewTypeCount() {
@@ -25,7 +25,7 @@ public class CSListAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return _controller.data().at(position);
+        return _controller.dataAt(position);
     }
 
     public int getItemViewType(int position) {

@@ -65,7 +65,7 @@ public class CSListController<RowType> extends CSViewController {
         final CSList<RowType> checkedRows = list();
         SparseBooleanArray positions = asAbsListView().getCheckedItemPositions();
         if (positions != null) for (int i = 0; i < positions.size(); i++)
-            if (positions.valueAt(i)) checkedRows.add(data().get(positions.keyAt(i)));
+            if (positions.valueAt(i)) checkedRows.add(dataAt(positions.keyAt(i)));
         return checkedRows;
     }
 
@@ -85,7 +85,7 @@ public class CSListController<RowType> extends CSViewController {
             view = rowView.asView();
             view.setTag(rowView);
         } else rowView = asRowView(view);
-        rowView.load(_dataList.get(position));
+        rowView.load(dataAt(position));
         return view;
     }
 
@@ -209,7 +209,7 @@ public class CSListController<RowType> extends CSViewController {
         }
     }
 
-    int getItemsCount() {
+    public int size() {
         return _dataList.size();
     }
 
