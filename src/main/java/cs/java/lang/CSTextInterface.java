@@ -22,7 +22,7 @@ public interface CSTextInterface extends CharSequence, Appendable, Iterable<Char
 
 	CSTextInterface cut(int start, int end);
 
-	CSTextInterface cutEnd(int length);
+	CSTextInterface deleteLast(int length);
 
 	CSTextInterface leaveStart(int length);
 

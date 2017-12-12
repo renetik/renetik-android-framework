@@ -27,27 +27,22 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return null;
     }
 
-    @Override
     public boolean delete(T item) {
         return remove(item);
     }
 
-    @Override
     public T first() {
         return at(0);
     }
 
-    @Override
     public T second() {
         return at(1);
     }
 
-    @Override
     public int index(T item) {
         return indexOf(item);
     }
 
-    @Override
     public boolean hasItems() {
         return size() > 0;
     }
@@ -56,22 +51,18 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return last() == item;
     }
 
-    @Override
     public T last() {
         return at(lastIndex());
     }
 
-    @Override
     public int lastIndex() {
         return size() - 1;
     }
 
-    @Override
     public CSList<T> range(int fromIndex) {
         return range(fromIndex, size());
     }
 
-    @Override
     public CSList<T> range(int fromIndex, int toIndex) {
         return new CSListImpl<T>(subList(fromIndex, toIndex));
     }
@@ -86,6 +77,10 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
 
     public boolean has(T object) {
         return super.contains(object);
+    }
+
+    public int length() {
+        return size();
     }
 
     public CSList<T> removeAll() {
@@ -118,6 +113,10 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
     public CSList<T> reload(List<T> values) {
         clear();
         addAll(values);
+        return this;
+    }
+
+    public List<T> values() {
         return this;
     }
 }

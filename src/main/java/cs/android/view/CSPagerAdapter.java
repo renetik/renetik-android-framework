@@ -1,43 +1,49 @@
 package cs.android.view;
 
-import static cs.java.lang.CSLang.list;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+
 import cs.android.viewbase.CSViewController;
 import cs.java.collections.CSList;
 
-public class CSPagerAdapter extends PagerAdapter {
+import static cs.java.lang.CSLang.list;
 
-	private CSList<View> _views = list();
-	private CSList<String> _titles;
+public class CSPagerAdapter<T extends CSViewController & CSPagerPageInterface> extends PagerAdapter {
 
-	public CSPagerAdapter(CSList<String> titles, CSViewController... views) {
-		_titles = titles;
-		for (CSViewController viewController : views)
-			_views.add(viewController.asView());
-	}
+    private CSList<T> _controllers = list();
 
-	@Override public void destroyItem(ViewGroup container, int position, Object object) {
-		container.removeView((View) object);
-	}
+    public CSPagerAdapter(CSList<T> controllers) {
+        _controllers = controllers;
+    }
 
-	@Override public int getCount() {
-		return _views.count();
-	}
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View) object);
+    }
 
-	public CharSequence getPageTitle(int position) {
-		return _titles.at(position);
-	}
+    public int getCount() {
+        return _controllers.count();
+    }
 
-	@Override public Object instantiateItem(ViewGroup container, int position) {
-		View view = _views.at(position);
-		container.addView(view, 0);
-		return view;
-	}
+    public CharSequence getPageTitle(int position) {
+//        if (set(_icons)) {
+//            Drawable image = rootController().getDrawable(_icons.get(position));
+//            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+//            SpannableString sb = new SpannableString(" " + _titles.get(position));
+//            sb.setSpan(new ImageSpan(image), 0, 1, SPAN_EXCLUSIVE_EXCLUSIVE);
+//            return sb;
+//        }
+        return _controllers.at(position).csPagerControllerTitle();
+    }
 
-	@Override public boolean isViewFromObject(View view, Object object) {
-		return view == object;
-	}
+    public Object instantiateItem(ViewGroup container, int position) {
+        View view = _controllers.at(position).asView();
+        container.addView(view, 0);
+        return view;
+    }
+
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
 
 }

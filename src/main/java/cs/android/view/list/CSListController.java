@@ -1,19 +1,16 @@
 package cs.android.view.list;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.SparseBooleanArray;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import java.util.List;
 
-import cs.android.view.CSRowView;
 import cs.android.viewbase.CSView;
 import cs.android.viewbase.CSViewController;
 import cs.java.callback.CSReturnWith;
@@ -26,7 +23,7 @@ import static cs.java.lang.CSLang.*;
 public class CSListController<RowType> extends CSViewController {
     private final CSList<RowType> _dataList = list();
     private final CSEvent<List<RowType>> onLoad = event();
-    private final CSReturnWith<CSRowView<RowType>, Integer> _createView;
+    private final CSReturnWith<CSIRowView<RowType>, Integer> _createView;
     private BaseAdapter _listAdapter = new CSListAdapter(this);
     private int savedSelectionIndex;
     private int _firstVisiblePosition;
@@ -34,12 +31,12 @@ public class CSListController<RowType> extends CSViewController {
     private CSView _emptyView;
     private boolean _firstLoad;
     private SparseBooleanArray _savedCheckedItems;
-    private CSRunWithWith<Integer, CSRowView<RowType>> _onItemClick;
+    private CSRunWithWith<Integer, CSIRowView<RowType>> _onItemClick;
     private CSReturnWith<Integer, Integer> _positionViewType;
-    private CSRunWithWith<Integer, CSRowView<RowType>> _onItemLongClick;
+    private CSRunWithWith<Integer, CSIRowView<RowType>> _onItemLongClick;
     private CSReturnWith<Boolean, Integer> _isEnabled;
 
-    public CSListController(CSViewController parent, int listViewId, CSReturnWith<CSRowView<RowType>, Integer> createView) {
+    public CSListController(CSViewController parent, int listViewId, CSReturnWith<CSIRowView<RowType>, Integer> createView) {
         super(parent, listViewId);
         _createView = createView;
     }
@@ -79,19 +76,19 @@ public class CSListController<RowType> extends CSViewController {
 
     @SuppressWarnings({"unchecked"})
     public View getRowView(int position, View view) {
-        CSRowView<RowType> rowView;
+        CSIRowView<RowType> rowView;
         if (no(view)) {
             rowView = createView(getItemViewType(position));
             view = rowView.asView();
             view.setTag(rowView);
         } else rowView = asRowView(view);
-        rowView.load(_dataList.get(position));
+        rowView.rowData(_dataList.get(position));
         return view;
     }
 
     @SuppressWarnings({"unchecked"})
-    private CSRowView<RowType> asRowView(View view) {
-        return (CSRowView<RowType>) view.getTag();
+    private CSIRowView<RowType> asRowView(View view) {
+        return (CSIRowView<RowType>) view.getTag();
     }
 
     public CSListController<RowType> loadAdd(List<RowType> list) {
@@ -171,7 +168,7 @@ public class CSListController<RowType> extends CSViewController {
         else _emptyView.hide();
     }
 
-    protected final CSRowView<RowType> createView(int viewType) {
+    protected final CSIRowView<RowType> createView(int viewType) {
         return _createView.invoke(viewType);
     }
 
@@ -182,17 +179,12 @@ public class CSListController<RowType> extends CSViewController {
     protected void onCreate() {
         super.onCreate();
         asAbsListView().setFastScrollEnabled(YES);
-        asAbsListView().setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (is(_onItemClick)) _onItemClick.run(position, asRowView(view));
-            }
-
+        asAbsListView().setOnItemClickListener((parent, view, position, id) -> {
+            if (is(_onItemClick)) _onItemClick.run(position, asRowView(view));
         });
-        asAbsListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (is(_onItemLongClick)) _onItemLongClick.run(position, asRowView(view));
-                return true;
-            }
+        asAbsListView().setOnItemLongClickListener((parent, view, position, id) -> {
+            if (is(_onItemLongClick)) _onItemLongClick.run(position, asRowView(view));
+            return true;
         });
     }
 
@@ -218,12 +210,12 @@ public class CSListController<RowType> extends CSViewController {
         return this;
     }
 
-    public CSListController<RowType> onItemClick(CSRunWithWith<Integer, CSRowView<RowType>> onItemClick) {
+    public CSListController<RowType> onItemClick(CSRunWithWith<Integer, CSIRowView<RowType>> onItemClick) {
         _onItemClick = onItemClick;
         return this;
     }
 
-    public CSListController<RowType> onItemLongClick(CSRunWithWith<Integer, CSRowView<RowType>> onItemLongClick) {
+    public CSListController<RowType> onItemLongClick(CSRunWithWith<Integer, CSIRowView<RowType>> onItemLongClick) {
         _onItemLongClick = onItemLongClick;
         return this;
     }
@@ -255,5 +247,10 @@ public class CSListController<RowType> extends CSViewController {
     public CSListController setEmptyText(int emptyView, String message) {
         setEmptyView(emptyView).text(message);
         return this;
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        reloadData();
     }
 }

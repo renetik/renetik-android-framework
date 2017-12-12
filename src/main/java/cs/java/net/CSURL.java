@@ -57,7 +57,7 @@ public class CSURL {
         url.add("?");
         for (CSKeyValue<String, String> argument : _arguments)
             url.add(argument.key, "=", argument.value, "&");
-        url.cutEnd(1);
+        url.deleteLast(1);
         return url.toString();
     }
 

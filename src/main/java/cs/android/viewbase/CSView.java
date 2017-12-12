@@ -67,11 +67,11 @@ import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.as;
 import static cs.java.lang.CSLang.doLater;
 import static cs.java.lang.CSLang.empty;
-import static cs.java.lang.CSLang.format;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.set;
+import static cs.java.lang.CSLang.stringf;
 
 public class CSView<T extends View> extends CSContextController implements CSViewInterface {
 
@@ -82,21 +82,17 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     CSView() {
     }
 
-    public CSView(CSContextInterface hascontext, CSLayoutId layoutId) {
-        this(hascontext);
+    public CSView(CSContextInterface context, CSLayoutId layoutId) {
+        this(context);
         setInflateView(layoutId.id);
     }
 
-    public CSView(CSContextInterface hascontext) {
-        super(hascontext);
+    public CSView(CSContextInterface context) {
+        super(context);
     }
 
     public CSView(Context context) {
         super(context);
-    }
-
-    public CSView(int layoutId) {
-        setInflateView(layoutId);
     }
 
     public CSView(final ViewGroup parent, CSLayoutId layoutId) {
@@ -118,7 +114,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSView(CSLayoutId layoutId) {
-        this(layoutId.id);
+        setInflateView(layoutId.id);
     }
 
     public static int getTopRelativeTo(View view, View relativeTo) {
@@ -130,12 +126,9 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return new CSLayoutId(id);
     }
 
-    public static <T extends View> CSView<T> load(View view) {
-        try {
-            return (CSView<T>) view.getTag();
-        } catch (ClassCastException e) {
-            return null;
-        }
+    public static <T extends View> CSView<T> wrap(View view) {
+        if (view.getTag() instanceof CSView) return (CSView) view.getTag();
+        return new CSView<>(view);
     }
 
     protected void setInflateView(int layoutId) {
@@ -209,15 +202,15 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSView<T> width(int width) {
-        size(YES, width, YES);
+        setSize(YES, width, YES);
         return this;
     }
 
-    private void size(boolean width, int n, boolean dip) {
+    private void setSize(boolean width, int value, boolean dip) {
         LayoutParams lp = asView().getLayoutParams();
-        if (n > 0 && dip) n = (int) toPixel(n);
-        if (width) lp.width = n;
-        else lp.height = n;
+        if (value > 0 && dip) value = (int) toPixel(value);
+        if (width) lp.width = value;
+        else lp.height = value;
         asView().setLayoutParams(lp);
     }
 
@@ -433,11 +426,8 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSView<T> setView(View view) {
-        if (is(view))
-            view.setTag(this);
-        else {
-            if (is(_view)) _view.setTag(null);
-        }
+        if (is(view)) view.setTag(this);
+        if (is(_view)) _view.setTag(null);
         _view = view;
         return this;
     }
@@ -690,7 +680,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSView<T> text(int resId, Object... formatArgs) {
-        asTextView().setText(format(getString(resId), formatArgs));
+        asTextView().setText(stringf(getString(resId), formatArgs));
         return this;
     }
 
@@ -740,13 +730,18 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         else show();
     }
 
-    public CSView<T> setBackgroundColor(int backgroundColor) {
+    public CSView<T> backgroundColor(int backgroundColor) {
         asView().setBackgroundResource(backgroundColor);
         return this;
     }
 
+    public CSView<T> textColor(int color) {
+        asTextView().setTextColor(color);
+        return this;
+    }
+
     public CSView<T> height(int height) {
-        size(false, height, YES);
+        setSize(false, height, YES);
         return this;
     }
 
@@ -785,4 +780,6 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     public ScrollView asScroll() {
         return (ScrollView) asView();
     }
+
+
 }

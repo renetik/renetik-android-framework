@@ -2,7 +2,9 @@ package cs.java.collections;
 
 import java.util.List;
 
-public interface CSList<T> extends java.util.List<T> {
+import cs.java.lang.CSValues;
+
+public interface CSList<T> extends java.util.List<T> , CSValues<T> {
 
 	T at(int index);
 
@@ -47,4 +49,6 @@ public interface CSList<T> extends java.util.List<T> {
 	CSList<T> reload(List<T> values);
 
 	boolean has(T bow);
+
+    int length();
 }

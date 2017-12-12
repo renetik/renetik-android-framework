@@ -42,13 +42,13 @@ import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.event;
 import static cs.java.lang.CSLang.exception;
 import static cs.java.lang.CSLang.fire;
-import static cs.java.lang.CSLang.format;
 import static cs.java.lang.CSLang.info;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.run;
 import static cs.java.lang.CSLang.set;
+import static cs.java.lang.CSLang.stringf;
 import static cs.java.lang.CSLang.unexpected;
 import static cs.java.lang.CSLang.warn;
 import static cs.java.lang.CSMath.randomInt;
@@ -79,20 +79,20 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     public final CSEvent<CSViewController> onInViewControllerShow = event();
     public final CSEvent<CSViewController> onInViewControllerHide = event();
     public final CSEvent<CSRequestPermissionResult> onRequestPermissionsResult = event();
-    private final CSEvent<Void> onPauseNative = event();
-    private final CSEvent<Void> onResumeNative = event();
+    public final CSEvent<Void> onPauseNative = event();
+    public final CSEvent<Void> onResumeNative = event();
     private final CSInViewController _inView;
-    private CSViewController _parent;
-    private Activity _activity;
-    private Bundle state;
-    private CSTask<?> _parentEventsTask;
     private boolean _isCreated;
     private boolean _isResumed;
     private boolean _isPaused;
     private boolean _isDestroyed;
+    private boolean _isStarted;
+    private CSViewController _parent;
+    private Activity _activity;
+    private Bundle state;
+    private CSTask<?> _parentEventsTask;
     private int _viewId;
     private CSLayoutId _layoutId;
-    private boolean _isStarted;
     private CSInViewController _parentInView;
     private CSList<CSMenuItem> _menuItems = list();
 
@@ -139,8 +139,12 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         return _startingActivity;
     }
 
-    public static CSViewController root() {
+    public static CSViewController rootController() {
         return _root;
+    }
+
+    public static Activity rootActivity() {
+        return is(_root) ? _root.activity() : null;
     }
 
     public CSInViewController inView() {
@@ -371,7 +375,7 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     }
 
     public int getActionBarHeight() {
-        if(is(getActionBar())) return getActionBar().getHeight();
+        if (is(getActionBar())) return getActionBar().getHeight();
         return 0;
     }
 
@@ -642,7 +646,7 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     }
 
     public void startMapsNavigation(double latitude, double longitude, String title) {
-        String uri = format("http://maps.google.com/maps?&daddr=%f,%f (%s)", latitude, longitude, title);
+        String uri = stringf("http://maps.google.com/maps?&daddr=%f,%f (%s)", latitude, longitude, title);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         try {

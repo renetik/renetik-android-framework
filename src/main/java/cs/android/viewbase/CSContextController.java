@@ -19,6 +19,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.Display;
 import android.view.WindowManager;
@@ -164,7 +165,7 @@ public abstract class CSContextController extends Base implements CSContextInter
     }
 
     public Drawable getDrawable(int id) {
-        return context().getResources().getDrawable(id);
+        return ContextCompat.getDrawable(context(), id);
     }
 
     protected float getBatteryPercent() {

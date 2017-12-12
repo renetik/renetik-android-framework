@@ -8,7 +8,9 @@ import java.util.Iterator;
 import cs.java.collections.CSIterator;
 import cs.java.collections.CSList;
 
-import static cs.java.lang.CSLang.*;
+import static cs.java.lang.CSLang.NEWLINE;
+import static cs.java.lang.CSLang.list;
+import static cs.java.lang.CSLang.string;
 
 public class CSText implements CSTextInterface {
 
@@ -16,6 +18,10 @@ public class CSText implements CSTextInterface {
 
     public CSText(CharSequence... strings) {
         add(strings);
+    }
+
+    public static String remove(String string, String toRemove) {
+        return string.replace(toRemove, "");
     }
 
     public CSTextInterface add(CharSequence... strings) {
@@ -65,7 +71,7 @@ public class CSText implements CSTextInterface {
         return this;
     }
 
-    public CSTextInterface cutEnd(int length) {
+    public CSTextInterface deleteLast(int length) {
         return cut(length() - length, length());
     }
 
@@ -95,7 +101,7 @@ public class CSText implements CSTextInterface {
     }
 
     public CSTextInterface replaceEnd(String string) {
-        cutEnd(string.length());
+        deleteLast(string.length());
         add(string);
         return this;
     }
@@ -150,6 +156,7 @@ public class CSText implements CSTextInterface {
         return value.append(csq, start, end);
     }
 
+    @NonNull
     public Iterator<Character> iterator() {
         return new CSIterator<Character>(length()) {
             public Character getValue() {

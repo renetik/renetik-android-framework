@@ -1,23 +1,43 @@
 package cs.android.view;
 
+import android.support.design.widget.TabLayout;
+
 import cs.android.view.adapter.CSOnPageChange;
 import cs.android.viewbase.CSView;
 import cs.android.viewbase.CSViewController;
 import cs.java.collections.CSList;
+import cs.java.lang.CSLang;
 
-import static cs.java.lang.CSLang.*;
+import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.empty;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.iterate;
+import static cs.java.lang.CSLang.set;
+import static cs.java.lang.CSLang.size;
 
-public class CSPagerController extends CSViewController {
+public class CSPagerController<T extends CSViewController & CSPagerPageInterface> extends CSViewController {
 
-    private CSList<String> _titles;
-    private CSViewController[] _views;
+    private CSList<T> _controllers;
     private CSView _emptyView;
+    private int _tabLayout;
 
-    public CSPagerController(CSViewController parent, int pagerId, CSList<String> titles, CSViewController... views) {
+    public CSPagerController(CSViewController parent, int pagerId) {
+        this(parent, pagerId, 0, null);
+    }
+
+    public CSPagerController(CSViewController parent, int pagerId, int tabLayout) {
+        this(parent, pagerId, tabLayout, null);
+    }
+
+    public CSPagerController(CSViewController parent, int pagerId, CSList<T> controllers) {
+        this(parent, pagerId, 0, controllers);
+    }
+
+    public CSPagerController(CSViewController parent, int pagerId, int tabLayout, CSList<T> controllers) {
         super(parent, pagerId);
-        _titles = titles;
-        _views = views;
-        visible(set(_titles));
+        gone(YES);
+        _tabLayout = tabLayout;
+        _controllers = controllers;
     }
 
     public CSView setEmptyView(int id) {
@@ -26,38 +46,45 @@ public class CSPagerController extends CSViewController {
 
     public CSView setEmptyView(CSView view) {
         _emptyView = view;
-        if (is(_emptyView)) _emptyView.visible(empty(_titles));
+        if (is(_emptyView)) _emptyView.visible(empty(_controllers));
         return _emptyView;
     }
 
-    public void reload(CSList<String> titles, CSViewController[] views) {
+    public CSPagerController reload(CSList<T> controllers) {
         int currentItem = asPager().getCurrentItem();
-        for (CSViewController controller : _views){
+        for (CSViewController controller : iterate(_controllers)) {
             controller.onDeinitialize(null);
             controller.onDestroy();
         }
-        _titles = titles;
-        _views = views;
-        asPager().setAdapter(new CSPagerAdapter(_titles, _views));
-        for (CSViewController controller : _views) controller.onInitialize();
-        updateControllersState(views.length > currentItem ? currentItem : 0);
-        if (is(_emptyView)) _emptyView.visible(empty(_titles));
-        visible(set(_titles));
-        if (views.length > currentItem) asPager().setCurrentItem(currentItem, YES);
+        _controllers = controllers;
+        for (T controller : _controllers) controller.onInitialize();
+        updateControllersState(_controllers.length() > currentItem ? currentItem : 0);
+        if (_controllers.length() > currentItem) asPager().setCurrentItem(currentItem, YES);
+        updateView();
+        return this;
     }
 
-    public void reload(CSViewController[] views) {
-        reload(_titles, views);
+    private void updateView() {
+        if (is(_controllers)) asPager().setAdapter(new CSPagerAdapter(_controllers));
+        visible(set(_controllers));
+        if (is(_emptyView)) _emptyView.visible(empty(_controllers));
+        if (set(_tabLayout)) {
+            for (int i = 0; i < _controllers.size(); i++) {
+                T controller = _controllers.get(i);
+                if (set(controller.csPagerControllerImage()))
+                    getView(_tabLayout, TabLayout.class).getTabAt(i).setIcon(controller.csPagerControllerImage());
+            }
+        }
     }
 
     protected void onCreate() {
         super.onCreate();
-        asPager().setAdapter(new CSPagerAdapter(_titles, _views));
         asPager().addOnPageChangeListener(new CSOnPageChange() {
             public void onPageSelected(int index) {
                 updateControllersState(index);
             }
         });
+        updateView();
     }
 
     public void onResume() {
@@ -66,9 +93,9 @@ public class CSPagerController extends CSViewController {
     }
 
     private void updateControllersState(int index) {
-        for (int i = 0; i < _views.length; i++)
-            if (i == index) _views[i].onResumeNative();
-            else _views[i].onPauseNative();
+        for (int i = 0; i < size(_controllers); i++)
+            if (i == index) _controllers.get(i).onResumeNative();
+            else _controllers.get(i).onPauseNative();
         invalidateOptionsMenu();
     }
 }

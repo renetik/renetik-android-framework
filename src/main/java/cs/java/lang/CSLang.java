@@ -108,7 +108,7 @@ public class CSLang {
         return toNames(is(listData) ? listData.values() : CSLang.<T>list());
     }
 
-    public static <T extends CSName> CSList<String> toNames(List<T> listData) {
+    private static <T extends CSName> CSList<String> toNames(List<T> listData) {
         CSList<String> names = list();
         for (CSName hasName : listData) names.add(hasName.name());
         return names;
@@ -189,7 +189,7 @@ public class CSLang {
     public static String string(String separator, String... values) {
         CSTextInterface text = text();
         for (String string : values) if (set(string)) text.add(string).add(separator);
-        if (!text.isEmpty()) text.cutEnd(separator.length());
+        if (!text.isEmpty()) text.deleteLast(separator.length());
         return text.toString();
     }
 
@@ -339,6 +339,25 @@ public class CSLang {
         return NO;
     }
 
+    public static int size(Object object) {
+        if (object == null) return 0;
+        if (object instanceof Number) return ((Number) object).intValue();
+        if (object instanceof CharSequence) return ((CharSequence) object).length();
+        if (object instanceof Collection) return ((Collection<?>) object).size();
+        if (object instanceof CSValueInterface<?>)
+            return size(((CSValueInterface<?>) object).get());
+        if (object instanceof CSMap) return ((CSMap<?, ?>) object).size();
+        if (object instanceof Object[]) return ((Object[]) object).length;
+        if (object instanceof int[]) return ((int[]) object).length;
+        if (object instanceof double[]) return ((double[]) object).length;
+        if (object instanceof long[]) return ((long[]) object).length;
+        if (object instanceof char[]) return ((char[]) object).length;
+        if (object instanceof float[]) return ((float[]) object).length;
+        if (object instanceof boolean[]) return ((boolean[]) object).length;
+        if (object instanceof byte[]) return ((byte[]) object).length;
+        return 1;
+    }
+
     public static boolean equalOne(Object object, Object... possibilities) {
         for (Object possibility : possibilities)
             if (equal(object, possibility)) return true;
@@ -392,7 +411,7 @@ public class CSLang {
         Collections.addAll(list, items);
     }
 
-    public static String format(String format, Object... args) {
+    public static String stringf(String format, Object... args) {
         return String.format(Locale.ENGLISH, format, args);
     }
 
@@ -488,7 +507,7 @@ public class CSLang {
     }
 
     public static <T> CSIterator<T> iterate(CSList<T> items) {
-        return new CSListIterator<>(items);
+        return new CSListIterator<>(list(items));
     }
 
     public static CSIteration<View> iterate(final ViewGroup layout) {
