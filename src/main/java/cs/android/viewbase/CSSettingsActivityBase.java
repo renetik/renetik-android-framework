@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import cs.android.viewbase.menu.CSOnMenu;
+import cs.android.viewbase.menu.CSOnMenuItem;
 import cs.java.lang.CSValue;
 
 import static cs.java.lang.CSLang.YES;
@@ -64,7 +66,7 @@ public abstract class CSSettingsActivityBase extends PreferenceActivity implemen
 
     public void onBackPressed() {
         CSValue<Boolean> willPressBack = new CSValue<Boolean>(true);
-        _controller.onBackPressed(willPressBack);
+        _controller.onBack(willPressBack);
         if (willPressBack.get()) super.onBackPressed();
     }
 

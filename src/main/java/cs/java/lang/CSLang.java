@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import cs.android.CSAndroidApplication;
 import cs.android.json.CSJSON;
@@ -63,7 +64,7 @@ public class CSLang {
     public static final int MINUTE = 60 * SECOND;
     public static final int HOUR = 60 * MINUTE;
     public static final int DAY = 24 * HOUR;
-    public static final Object INVOKE_FAILED = "invoke_failed";
+    public static final String INVOKE_FAILED = "invoke_failed";
     public static final String NEWLINE = "\n";
     private static final String DEBUG_MODE = "DEBUG_MODE";
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
@@ -105,12 +106,12 @@ public class CSLang {
     }
 
     public static <T extends CSName> CSList<String> toNames(CSValues<T> listData) {
-        return toNames(is(listData) ? listData.values() : CSLang.<T>list());
+        return toNames((List<T>) (is(listData) ? listData.values() : CSLang.<T>list()));
     }
 
     private static <T extends CSName> CSList<String> toNames(List<T> listData) {
         CSList<String> names = list();
-        for (CSName hasName : listData) names.add(hasName.name());
+        for (CSName hasName : iterate(listData)) names.add(hasName.name());
         return names;
     }
 
@@ -119,12 +120,12 @@ public class CSLang {
     }
 
     public static void alert(Object... messages) {
-        Toast.makeText(CSAndroidApplication.instance(), string(" ", strings(messages)), Toast.LENGTH_LONG).show();
+        Toast.makeText(CSAndroidApplication.applicationInstance(), stringify(" ", strings(messages)), Toast.LENGTH_LONG).show();
         application().logger().info(messages);
     }
 
     public static void alertWarn(Object... messages) {
-        Toast.makeText(CSAndroidApplication.instance(), "Warn: " + string(" ", strings(messages)),
+        Toast.makeText(CSAndroidApplication.applicationInstance(), "Warn: " + stringify(" ", strings(messages)),
                 Toast.LENGTH_LONG).show();
         application().logger().warn(messages);
     }
@@ -141,7 +142,7 @@ public class CSLang {
             throws IOException {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         long count = 0;
-        int n = 0;
+        int n;
         while (-1 != (n = input.read(buffer))) {
             output.write(buffer, 0, n);
             count += n;
@@ -152,7 +153,7 @@ public class CSLang {
     public static long copyLarge(Reader input, Writer output) throws IOException {
         char[] buffer = new char[DEFAULT_BUFFER_SIZE];
         long count = 0;
-        int n = 0;
+        int n;
         while (-1 != (n = input.read(buffer))) {
             output.write(buffer, 0, n);
             count += n;
@@ -162,9 +163,7 @@ public class CSLang {
 
     public static int copy(Reader input, Writer output) throws IOException {
         long count = copyLarge(input, output);
-        if (count > Integer.MAX_VALUE) {
-            return -1;
-        }
+        if (count > Integer.MAX_VALUE) return -1;
         return (int) count;
     }
 
@@ -186,8 +185,8 @@ public class CSLang {
         return _application;
     }
 
-    public static String string(String separator, String... values) {
-        CSTextInterface text = text();
+    public static String stringify(String separator, String... values) {
+        CSTextInterface text = string();
         for (String string : values) if (set(string)) text.add(string).add(separator);
         if (!text.isEmpty()) text.deleteLast(separator.length());
         return text.toString();
@@ -196,16 +195,17 @@ public class CSLang {
     public static String[] strings(Object[] objects) {
         String[] strings = new String[objects.length];
         for (int index = 0; index < objects.length; index++) {
-            strings[index] = string(objects[index]);
+            strings[index] = stringify(objects[index]);
         }
         return strings;
     }
 
-    public static CSTextInterface text(String... values) {
+    public static CSTextInterface string(String... values) {
         return new CSText(values);
     }
 
-    public static String string(Object value) {
+    public static String stringify(Object value) {
+        if (value == null) return "";
         return String.valueOf(value);
     }
 
@@ -231,19 +231,19 @@ public class CSLang {
 
     public static double asDouble(Object value) {
         try {
-            return Double.parseDouble(string(value));
+            return Double.parseDouble(stringify(value));
         } catch (NumberFormatException e) {
             return 0;
         }
     }
 
     public static boolean asBool(Object value) {
-        return Boolean.parseBoolean(string(value));
+        return Boolean.parseBoolean(stringify(value));
     }
 
     public static Integer asInt(Object value) {
         try {
-            return Integer.parseInt(string(value));
+            return Integer.parseInt(stringify(value));
         } catch (NumberFormatException e) {
             return 0;
         }
@@ -269,15 +269,15 @@ public class CSLang {
     }
 
     public static String asString(Intent value) {
-        String string = value.toString();
+        StringBuilder string = new StringBuilder(value.toString());
         if (is(value.getExtras())) {
-            string += " Extras: ";
+            string.append(" Extras: ");
             for (String key : value.getExtras().keySet()) {
                 Object info = value.getExtras().get(key);
-                string += String.format("%s %s (%s)", key, info, is(info) ? info.getClass().getName() : "");
+                string.append(stringf("%s %s (%s)", key, info, is(info) ? info.getClass().getName() : ""));
             }
         }
-        return string;
+        return string.toString();
     }
 
     public static boolean between(int value, int from, int to) {
@@ -313,35 +313,14 @@ public class CSLang {
         return new CSDoLater(runnable);
     }
 
-    public static boolean empty(Object... objects) {
-        for (Object object : objects)
-            if (!empty(object)) return false;
-        return true;
-    }
-
     public static boolean empty(Object object) {
-        if (object == null) return YES;
-        if (object instanceof Number) return ((Number) object).floatValue() == 0;
-        if (object instanceof Boolean) return !(Boolean) object;
-        if (object instanceof CharSequence) return ((CharSequence) object).length() == 0;
-        if (object instanceof Collection) return ((Collection<?>) object).size() == 0;
-        if (object instanceof CSValueInterface<?>)
-            return empty(((CSValueInterface<?>) object).get());
-        if (object instanceof CSMap) return ((CSMap<?, ?>) object).size() == 0;
-        if (object instanceof Object[]) return ((Object[]) object).length == 0;
-        if (object instanceof int[]) return ((int[]) object).length == 0;
-        if (object instanceof double[]) return ((double[]) object).length == 0;
-        if (object instanceof long[]) return ((long[]) object).length == 0;
-        if (object instanceof char[]) return ((char[]) object).length == 0;
-        if (object instanceof float[]) return ((float[]) object).length == 0;
-        if (object instanceof boolean[]) return ((boolean[]) object).length == 0;
-        if (object instanceof byte[]) return ((byte[]) object).length == 0;
-        return NO;
+        return size(object) == 0;
     }
 
     public static int size(Object object) {
         if (object == null) return 0;
         if (object instanceof Number) return ((Number) object).intValue();
+        if (object instanceof Boolean) return (Boolean) object ? 1 : 0;
         if (object instanceof CharSequence) return ((CharSequence) object).length();
         if (object instanceof Collection) return ((Collection<?>) object).size();
         if (object instanceof CSValueInterface<?>)
@@ -369,6 +348,10 @@ public class CSLang {
         return obj1.equals(obj2);
     }
 
+    public static <E extends Enum<E>> boolean equal(Enum<E> enumItem, Integer index) {
+        return enumItem.ordinal() == index;
+    }
+
     public static void error(Object... values) {
         application().logger().error(values);
     }
@@ -378,11 +361,12 @@ public class CSLang {
     }
 
     public static RuntimeException exception(Object... values) {
-        return new RuntimeException(string(" ", strings(values)));
+        return new RuntimeException(stringify(" ", strings(values)));
     }
 
-    public static <T> void fire(CSEvent<T> event, T argument) {
+    public static <T> T fire(CSEvent<T> event, T argument) {
         event.fire(argument);
+        return argument;
     }
 
     public static void fire(CSEvent<Void> eventVoid) {
@@ -531,6 +515,10 @@ public class CSLang {
         return CSJSON.create(data);
     }
 
+    public static CSJSONObject json(Object... values) {
+        return CSJSON.create(map(values));
+    }
+
     public static CSJSONObject jsonObject(String json_string) {
         return json(json_string).asObject();
     }
@@ -576,7 +564,7 @@ public class CSLang {
     }
 
     public static RuntimeException notImplemented(Object... msg) {
-        return new RuntimeException(text("Unimplemented ").add(string(" ", strings(msg))).toString());
+        return new RuntimeException(string("Unimplemented ").add(stringify(" ", strings(msg))).toString());
     }
 
     public static boolean respondsTo(Object object, String methodName) {
@@ -588,8 +576,8 @@ public class CSLang {
         }
     }
 
-    public static CSWork schedule(final int delayMilliseconds, final CSRun runnable) {
-        return new CSWork(delayMilliseconds, runnable);
+    public static CSWork schedule(int milliseconds, CSRun runnable) {
+        return new CSWork(milliseconds, runnable);
     }
 
     public static boolean allSet(Object... objects) {
@@ -624,7 +612,7 @@ public class CSLang {
     }
 
     public static RuntimeException unexpected(Object... msg) {
-        return new RuntimeException(text("Unexpected ").add(string(" ", strings(msg))).toString());
+        return new RuntimeException(string("Unexpected ").add(stringify(" ", strings(msg))).toString());
     }
 
     public static String urlEncode(String argument) {
@@ -658,7 +646,7 @@ public class CSLang {
     }
 
     public static Throwable getRootCause(Throwable throwable) {
-        List<Throwable> list = new ArrayList<Throwable>();
+        List<Throwable> list = new ArrayList<>();
         while (throwable != null && !list.contains(throwable)) {
             list.add(throwable);
             throwable = throwable.getCause();
@@ -671,8 +659,8 @@ public class CSLang {
         return is(cause) ? cause.getMessage() : "";
     }
 
-    public static <T> void run(CSRunWith<T> runWith, T date) {
-        if (is(runWith)) runWith.run(date);
+    public static <T> void run(CSRunWith<T> runWith, T value) {
+        if (is(runWith)) runWith.run(value);
     }
 
     public static void run(CSRun run) {
@@ -687,4 +675,17 @@ public class CSLang {
         return is(x) ? x.compareTo(y) : -1;
     }
 
+    public static String generateRandomStringOfLength(int length) {
+        final Random random = new Random();
+        final String letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++)
+            text[i] = letters.charAt(random.nextInt(letters.length()));
+        return new String(text);
+    }
+
+    public static boolean containsNoCase(String string1, String string2) {
+        if (no(string1) || no(string2)) return NO;
+        return string1.toLowerCase().contains(string2.toLowerCase());
+    }
 }

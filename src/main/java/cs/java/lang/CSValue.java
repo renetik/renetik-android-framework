@@ -8,8 +8,7 @@ public class CSValue<T> implements CSValueInterface<T> {
         this.value = value;
     }
 
-    @Override
-		public T get() {
+    public T get() {
         return value;
     }
 

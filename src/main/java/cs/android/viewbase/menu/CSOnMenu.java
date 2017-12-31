@@ -1,4 +1,4 @@
-package cs.android.viewbase;
+package cs.android.viewbase.menu;
 
 import android.app.Activity;
 import android.view.Menu;

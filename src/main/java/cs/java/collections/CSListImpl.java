@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static cs.java.lang.CSLang.empty;
+import static java.util.Arrays.asList;
+
 public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
 
     public CSListImpl() {
@@ -68,6 +71,7 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
     }
 
     public T removeLast() {
+        if (isEmpty()) return null;
         return remove(size() - 1);
     }
 
@@ -94,14 +98,14 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
     }
 
     public CSList<T> append(T... items) {
-        for (T item : items)
-            add(item);
+        if (empty(items)) return this;
+        addAll(asList(items));
         return this;
     }
 
     public CSList<T> append(List<T> items) {
-        for (T item : items)
-            add(item);
+        if (empty(items)) return this;
+        addAll(items);
         return this;
     }
 
@@ -116,7 +120,7 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return this;
     }
 
-    public List<T> values() {
+    public CSList<T> values() {
         return this;
     }
 }

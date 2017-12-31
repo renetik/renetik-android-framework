@@ -1,18 +1,25 @@
 package cs.java.collections;
 
+import cs.java.lang.CSLang;
+
 public interface CSMap<K, V> extends java.util.Map<K, V> {
-	@Override
-	@Deprecated public boolean containsKey(Object key);
+    static <T, D> D value(CSMap<T, D> map, T key) {
+        if (CSLang.no(map)) return null;
+        return map.value(key);
+    }
 
-	@Override
-	@Deprecated public boolean containsValue(Object value);
+    @Deprecated
+    public boolean containsKey(Object key);
 
-	@Override
-	@Deprecated V get(Object key);
+    @Deprecated
+    public boolean containsValue(Object value);
 
-	boolean hasKey(K key);
+    @Deprecated
+    V get(Object key);
 
-	boolean hasValue(V value);
+    boolean hasKey(K key);
 
-	V value(K key);
+    boolean hasValue(V value);
+
+    V value(K key);
 }

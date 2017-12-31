@@ -9,7 +9,7 @@ import cs.java.lang.CSLang;
 public abstract class CSApplicationBase extends CSContextController implements CSApplication {
 
     public CSApplicationBase() {
-        super(CSAndroidApplication.instance());
+        super(CSAndroidApplication.applicationInstance());
         CSLang.setApplication(this);
     }
 

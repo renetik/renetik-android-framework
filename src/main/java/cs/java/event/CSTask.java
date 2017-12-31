@@ -1,54 +1,40 @@
 package cs.java.event;
 
 import cs.android.viewbase.CSViewController;
-import cs.java.collections.CSList;
 import cs.java.event.CSEvent.EventRegistration;
 
 import static cs.java.lang.CSLang.is;
-import static cs.java.lang.CSLang.list;
 
-public class CSTask<Argument> implements CSListener<Argument> {
+public class CSTask<Argument> extends CSEventRegistrations implements CSListener<Argument> {
 
-    protected Object _argument;
-    protected EventRegistration _registration;
-    protected CSList<EventRegistration> _registrations = list();
     private CSListener<Argument> _listener;
     private CSViewController _parent;
 
-    @SafeVarargs
     public CSTask(CSEvent<Argument>... events) {
-        for (CSEvent<Argument> event : events) _registrations.add(event.add(this));
+        register(events);
     }
 
-    @SafeVarargs
     public CSTask(CSViewController parent, CSEvent<Argument>... events) {
-        this._parent = parent;
-        for (CSEvent<Argument> event : events) _registrations.add(event.add(this));
-        parent.onPause.add(new CSListener<Void>() {
-            public void onEvent(EventRegistration r, Void arg) {
-                r.cancel();
-                cancel();
-            }
+        (_parent = parent).onPause.add((r, arg) -> {
+            r.cancel();
+            cancel();
         });
+        register(events);
     }
 
-    public void cancel() {
-        for (EventRegistration reg : _registrations) reg.cancel();
-        _registrations.clear();
-    }
-
-    public CSTask add(CSListener<Argument> listener) {
+    public CSTask onEvent(CSListener<Argument> listener) {
         _listener = listener;
         return this;
     }
 
-    public void onEvent(EventRegistration registration, Argument argument) {
-        this._registration = registration;
-        this._argument = argument;
-        if (is(_parent) && _parent.isPaused())
-            return;
-        _listener.onEvent(registration, argument);
+    public CSTask register(CSEvent<Argument>... events) {
+        for (CSEvent<Argument> event : events) register(event.add(this));
+        return this;
     }
 
+    public void onEvent(EventRegistration registration, Argument argument) {
+        if (is(_parent) && _parent.isPaused()) return;
+        _listener.onEvent(registration, argument);
+    }
 
 }

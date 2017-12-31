@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -59,7 +60,7 @@ public abstract class CSContextController extends Base implements CSContextInter
     private Context _context;
 
     public CSContextController() {
-        _context = CSAndroidApplication.instance();
+        _context = CSAndroidApplication.applicationInstance();
     }
 
     public CSContextController(Context context) {
@@ -293,6 +294,14 @@ public abstract class CSContextController extends Base implements CSContextInter
 
     protected boolean isPermissionGranted(String permission) {
         return checkSelfPermission(context(), permission) != PERMISSION_GRANTED;
+    }
+
+    public boolean isPortrait() {
+        return context().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    public boolean isLandscape() {
+        return !isPortrait();
     }
 
 }

@@ -3,11 +3,14 @@ package cs.android.viewbase;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
+import cs.android.viewbase.menu.CSOnMenuItem;
+import cs.java.lang.CSLang;
 import cs.java.lang.CSValue;
 
-import static android.support.v7.appcompat.R.*;
+import static android.support.v7.appcompat.R.anim;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.info;
 import static cs.java.lang.CSLang.is;
 
 public class CSInViewController extends CSViewController {
@@ -22,12 +25,16 @@ public class CSInViewController extends CSViewController {
         _frameId = frameId;
     }
 
+    protected CSInViewController createInView() {
+        return this;
+    }
+
     public CSViewController controller() {
         return _controller;
     }
 
-    public void onBackPressed(CSValue<Boolean> goBack) {
-        super.onBackPressed(goBack);
+    public void onBack(CSValue<Boolean> goBack) {
+        super.onBack(goBack);
         if (isVisible() && goBack.get()) {
             goBack.set(NO);
             hide();
@@ -54,7 +61,7 @@ public class CSInViewController extends CSViewController {
         if (animation)
             controller.asView().startAnimation(AnimationUtils.loadAnimation(context(), anim.abc_shrink_fade_out_from_bottom));
         controller.onDeinitialize(getState());
-        getViewGroup(_frameId).removeView(controller.asView());
+        viewGroup(_frameId).removeView(controller.asView());
         controller.onDestroy();
         _parent.onInViewControllerHide(controller);
     }
@@ -72,12 +79,23 @@ public class CSInViewController extends CSViewController {
         showControllerImpl(controller);
     }
 
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     private void showControllerImpl(CSViewController controller) {
         _controller = controller;
-        getViewGroup(_frameId).addView(controller.asView());
+        if (asView() == null)
+            info("");
+        viewGroup(_frameId).addView(controller.asView());
         _parent.onInViewControllerShow(controller);
-        controller.onInitialize();
+
+        controller.onBeforeCreate(null);
+        controller.onCreate(null);
+        controller.onStart();
+
         controller.asView().startAnimation(AnimationUtils.loadAnimation(context(), anim.abc_grow_fade_in_from_bottom));
+        controller.onResumeNative();
     }
 
 }

@@ -1,17 +1,11 @@
 package cs.android.view;
 
-import cs.android.viewbase.CSViewInterface;
+import cs.android.viewbase.CSIViewController;
 
 /**
- * Created by renetik on 05/12/17.
+ * Created by Rene Dohan on 05/12/17.
  */
 
-public interface CSPagerPageInterface extends CSViewInterface {
-    default String csPagerControllerTitle() {
-        return null;
-    }
-
-    default Integer csPagerControllerImage() {
-        return null;
-    }
+public interface CSPagerPageInterface extends CSIViewController {
+    String csPagerControllerTitle();
 }

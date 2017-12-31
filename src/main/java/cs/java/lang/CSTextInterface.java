@@ -4,40 +4,42 @@ import cs.java.collections.CSList;
 
 public interface CSTextInterface extends CharSequence, Appendable, Iterable<Character> {
 
-	CSTextInterface add(CharSequence... string);
+    CSTextInterface add(CharSequence... string);
 
-	CSTextInterface add(CharSequence string);
+    CSTextInterface add(CharSequence string);
 
-	CSTextInterface add(Object... msg);
+    CSTextInterface add(Object... msg);
 
-	CSTextInterface add(Object msg);
+    CSTextInterface add(Object msg);
 
-	CSTextInterface addLine();
+    CSTextInterface addLine();
 
-	CSTextInterface addSpace();
+    CSTextInterface addSpace();
 
-	CSTextInterface caseDown();
+    CSTextInterface caseDown();
 
-	CSTextInterface caseUp(int index);
+    CSTextInterface caseUp(int index);
 
-	CSTextInterface cut(int start, int end);
+    CSTextInterface cut(int start, int end);
 
-	CSTextInterface deleteLast(int length);
+    CSTextInterface deleteLast(int length);
 
-	CSTextInterface leaveStart(int length);
+    CSTextInterface leaveStart(int length);
 
-	CSTextInterface cutStart(int length);
+    CSTextInterface cutStart(int length);
 
-	boolean isEmpty();
+    boolean isEmpty();
 
-	CSTextInterface remove(String... strings);
+    CSTextInterface remove(String... strings);
 
-	CSTextInterface replace(String regex, String replace);
+    CSTextInterface replace(String regex, String replace);
 
-	CSTextInterface replaceEnd(String string);
+    CSTextInterface replaceEnd(String string);
 
-	CSList<CSTextInterface> split(String string);
+    CSList<CSTextInterface> split(String string);
 
-	CSTextInterface trim();
+    CSTextInterface trim();
+
+    CSText removeEnd(String end);
 
 }

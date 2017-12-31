@@ -6,8 +6,6 @@ import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
-import cs.java.event.CSEvent.EventRegistration;
-import cs.java.event.CSListener;
 import cs.java.net.CSURL;
 
 import static cs.java.lang.CSLang.NO;
@@ -22,12 +20,11 @@ import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.notImplemented;
 import static cs.java.lang.CSLang.set;
-import static cs.java.lang.CSLang.string;
-import static cs.java.lang.CSLang.warn;
+import static cs.java.lang.CSLang.stringify;
 
 public class CSResponse<Data> extends CSContextController {
 
-    public static final String NO_INTERNET = "No Internet";
+    protected static final String NO_INTERNET = "No Internet";
 
     private final CSEvent<CSResponse<Data>> _onDone = event();
     private final CSEvent<CSResponse<?>> _onFailed = event();
@@ -67,74 +64,60 @@ public class CSResponse<Data> extends CSContextController {
         _controller = controller;
     }
 
-    public void addNoReportMessage(String string) {
+    protected void addNoReportMessage(String string) {
         _noReportMessage.add(string);
     }
 
     public CSResponse<Data> onSuccess(final CSRunWith<Data> run) {
-        _onSuccess.add(new CSListener<CSResponse<Data>>() {
-            public void onEvent(EventRegistration registration, CSResponse<Data> arg) {
-                if (is(run)) run.run(_data);
-            }
+        _onSuccess.add((registration, arg) -> {
+            if (is(run)) run.run(_data);
         });
         return this;
     }
 
-    public CSResponse<Data> cached(boolean cached) {
+    protected CSResponse<Data> cached(boolean cached) {
         _cached = cached;
         return this;
     }
 
     public CSResponse<Data> onSuccess(final CSViewController parent, final CSRunWith<Data> run) {
-        _onSuccess.add(new CSListener<CSResponse<Data>>() {
-            public void onEvent(EventRegistration registration, CSResponse<Data> arg) {
-                if (parent.isResumed()) if (is(run)) run.run(_data);
-            }
+        _onSuccess.add((registration, arg) -> {
+            if (parent.isResumed()) if (is(run)) run.run(_data);
         });
         return this;
     }
 
     public CSResponse<Data> onSuccess(final CSRun run) {
-        _onSuccess.add(new CSListener<CSResponse<Data>>() {
-            public void onEvent(EventRegistration registration, CSResponse<Data> arg) {
-                if (is(run)) run.run();
-            }
+        _onSuccess.add((registration, arg) -> {
+            if (is(run)) run.run();
         });
         return this;
     }
 
     public CSResponse<Data> onSuccess(final CSViewController parent, final CSRun run) {
-        _onSuccess.add(new CSListener<CSResponse<Data>>() {
-            public void onEvent(EventRegistration registration, CSResponse<Data> arg) {
-                if (parent.isResumed()) if (is(run)) run.run();
-            }
+        _onSuccess.add((registration, arg) -> {
+            if (parent.isResumed()) if (is(run)) run.run();
         });
         return this;
     }
 
     public CSResponse<Data> onFailed(final CSRunWith<CSResponse> run) {
-        _onFailed.add(new CSListener<CSResponse<?>>() {
-            public void onEvent(EventRegistration registration, CSResponse<?> arg) {
-                if (is(run)) run.run((CSResponse) arg);
-            }
+        _onFailed.add((registration, arg) -> {
+            if (is(run)) run.run(arg);
         });
         return this;
     }
 
     public CSResponse<Data> onFailed(final CSViewController parent, final CSRun run) {
-        _onFailed.add(new CSListener<CSResponse<?>>() {
-            public void onEvent(EventRegistration registration, CSResponse<?> arg) {
-                if (!parent.isDestroyed()) if (is(run)) run.run();
-            }
+        _onFailed.add((registration, arg) -> {
+            if (!parent.isDestroyed()) if (is(run)) run.run();
         });
         return this;
     }
 
     public CSResponse<Data> onFailed(final CSRun run) {
-        _onFailed.add(new CSListener<CSResponse<?>>() {
-            public void onEvent(EventRegistration registration, CSResponse<?> arg) {
-                if (is(run)) run.run();
-            }
+        _onFailed.add((registration, arg) -> {
+            if (is(run)) run.run();
         });
         return this;
     }
@@ -190,14 +173,14 @@ public class CSResponse<Data> extends CSContextController {
     protected final void onFailedImpl(CSResponse<?> response) {
         info("Response onFailedImpl", this, url());
         if (_done)
-            throw exception("already done");
+            error(exception("already done"));
         if (_failed)
-            throw exception("already failed");
+            error(exception("already failed"));
         _failedResponse = response;
         _failed = YES;
         _sending = NO;
         if (set(response.getException()))
-            _message = string(" ", response.message(), getRootCauseMessage(response.getException()));
+            _message = stringify(" ", response.message(), getRootCauseMessage(response.getException()));
         else _message = response.message();
         _exception = set(response.getException()) ? response.getException() : new Throwable();
         error(_exception, _message);
@@ -235,11 +218,7 @@ public class CSResponse<Data> extends CSContextController {
     }
 
     public <T> CSResponse<T> failIfFail(final CSResponse<T> response) {
-        response.onFailed(new CSRunWith<CSResponse>() {
-            public void run(CSResponse failedResponse) {
-                failed(failedResponse);
-            }
-        });
+        response.onFailed(this::failed);
         return response;
     }
 
@@ -277,46 +256,36 @@ public class CSResponse<Data> extends CSContextController {
     }
 
     public CSResponse<Data> onDone(final CSRunWith<CSResponse<Data>> run) {
-        _onDone.add(new CSListener<CSResponse<Data>>() {
-            public void onEvent(EventRegistration registration, CSResponse<Data> arg) {
-                if (is(run)) run.run(CSResponse.this);
-            }
+        _onDone.add((registration, arg) -> {
+            if (is(run)) run.run(CSResponse.this);
         });
         return this;
     }
 
     public CSResponse<Data> onDone(final CSViewController parent, final CSRun run) {
-        _onDone.add(new CSListener<CSResponse<Data>>() {
-            public void onEvent(EventRegistration registration, CSResponse<Data> arg) {
-                if (parent.isResumed()) if (is(run)) run.run();
-            }
+        _onDone.add((registration, arg) -> {
+            if (parent.isResumed()) if (is(run)) run.run();
         });
         return this;
     }
 
     public CSResponse<Data> onDone(final CSRun run) {
-        _onDone.add(new CSListener<CSResponse<Data>>() {
-            public void onEvent(EventRegistration registration, CSResponse<Data> arg) {
-                if (is(run)) run.run();
-            }
+        _onDone.add((registration, arg) -> {
+            if (is(run)) run.run();
         });
         return this;
     }
 
     public CSResponse<Data> onSend(final CSRun run) {
-        _onSend.add(new CSListener<CSResponse<?>>() {
-            public void onEvent(EventRegistration registration, CSResponse<?> arg) {
-                if (is(run)) run.run();
-            }
+        _onSend.add((registration, arg) -> {
+            if (is(run)) run.run();
         });
         return this;
     }
 
     public CSResponse<Data> onSend(final CSRunWith<CSResponse<Data>> run) {
-        _onSend.add(new CSListener<CSResponse<?>>() {
-            public void onEvent(EventRegistration registration, CSResponse<?> arg) {
-                if (is(run)) run.run(CSResponse.this);
-            }
+        _onSend.add((registration, arg) -> {
+            if (is(run)) run.run(CSResponse.this);
         });
         return this;
     }
@@ -368,9 +337,9 @@ public class CSResponse<Data> extends CSContextController {
 
     private void onSuccessImpl() {
         info("Response onSuccessImpl", this, url());
-        if (_failed) throw exception("already failed");
-        if (_success) throw exception("already success");
-        if (_done) throw exception("already done");
+        if (_failed) error(exception("already failed"));
+        if (_success) error(exception("already success"));
+        if (_done) error(exception("already done"));
         _success = YES;
         _sending = NO;
         onSuccess();
@@ -388,21 +357,16 @@ public class CSResponse<Data> extends CSContextController {
     }
 
     public CSResponse<Data> successIfSuccess(final CSResponse<Data> response) {
-        return response.onSuccess(new CSRunWith<Data>() {
-            public void run(Data data) {
-                success(data);
-            }
-        });
+        return response.onSuccess((CSRunWith<Data>) this::success);
     }
 
     public String toString() {
-        return string(" ", _title, string(_url));
+        return stringify(" ", _title, stringify(_url));
     }
 
     protected CSViewController controller() {
         return _controller;
     }
-
 
 }
 

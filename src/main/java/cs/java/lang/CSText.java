@@ -1,7 +1,5 @@
 package cs.java.lang;
 
-import android.support.annotation.NonNull;
-
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -10,7 +8,7 @@ import cs.java.collections.CSList;
 
 import static cs.java.lang.CSLang.NEWLINE;
 import static cs.java.lang.CSLang.list;
-import static cs.java.lang.CSLang.string;
+import static cs.java.lang.CSLang.stringify;
 
 public class CSText implements CSTextInterface {
 
@@ -71,6 +69,10 @@ public class CSText implements CSTextInterface {
         return this;
     }
 
+    public CSTextInterface delete(int start, int length) {
+        return cut(start, start + length);
+    }
+
     public CSTextInterface deleteLast(int length) {
         return cut(length() - length, length());
     }
@@ -123,9 +125,8 @@ public class CSText implements CSTextInterface {
         value.append(text);
     }
 
-    @NonNull
     public String toString() {
-        return string(value);
+        return stringify(value);
     }
 
     private void clear() {
@@ -156,12 +157,17 @@ public class CSText implements CSTextInterface {
         return value.append(csq, start, end);
     }
 
-    @NonNull
     public Iterator<Character> iterator() {
         return new CSIterator<Character>(length()) {
             public Character getValue() {
                 return charAt(index());
             }
         };
+    }
+
+    public CSText removeEnd(String end) {
+        int start = value.lastIndexOf(end);
+        if (start > -1) delete(start, end.length());
+        return this;
     }
 }

@@ -37,10 +37,11 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
         _childDataKey = key;
     }
 
-    public void load(CSJSONObject data) {
-        if (no(data)) return;
+    public CSJSONData load(CSJSONObject data) {
+        if (no(data)) return this;
         _data = data;
         onLoad(data);
+        return this;
     }
 
     protected void onLoad(CSJSONObject data) {
@@ -126,10 +127,15 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
         return null;
     }
 
-    public CSList getList(String key) {
-        Object value = getValue(key);
+    public CSList getList(CSJSONObject data, String key) {
+        if (no(data) || !data.contains(key)) return null;
+        Object value = data.get(key).getValue();
         if (value instanceof CSList) return (CSList) value;
         return null;
+    }
+
+    public CSList getList(String key) {
+        return getList(asJSONObject(), key);
     }
 
     public int index() {
@@ -150,9 +156,9 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
 
     public CSList<String> getStrings(String id) {
         if (!data().contains(id)) return null;
-        CSList<String> stringlist = list();
-        loadStrings(stringlist, data(), id);
-        return stringlist;
+        CSList<String> list = list();
+        loadStrings(list, data(), id);
+        return list;
     }
 
     public void loadStrings(CSList<String> list, CSJSONObject data, String id) {
@@ -268,11 +274,7 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     }
 
     protected <T extends CSJSONData> CSList<T> createList(final Class<T> type, CSJSONArray array) {
-        return createList(new CSReturn<T>() {
-            public T invoke() {
-                return newInstance(type);
-            }
-        }, array);
+        return createList(() -> newInstance(type), array);
     }
 
     protected <T extends CSJSONData> CSList<T> createList(CSReturn<T> factory, CSJSONArray array) {
@@ -319,11 +321,13 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     }
 
     protected <T extends CSJSONData> CSList<T> sort(CSList<T> data, Comparator<T> comparator) {
+        if (no(data)) return null;
         Collections.sort(data, comparator);
         return reIndex(data);
     }
 
     protected <T extends CSJSONData> CSList<T> reIndex(CSList<T> array) {
+        if (no(array)) return null;
         int index = 0;
         for (CSJSONData data : array) data.setIndex(index++);
         return array;

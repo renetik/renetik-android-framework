@@ -9,6 +9,7 @@ import java.util.List;
 import cs.java.collections.CSIterator;
 import cs.java.collections.CSList;
 
+import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.exception;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
@@ -42,7 +43,7 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         if (is(value)) {
             CSJSONArray typeValue = value.asArray();
             if (is(typeValue)) return typeValue;
-            throw exception("Expected JSONArray, found ", value.getJSONValue());
+            error(exception("Expected JSONArray, found ", value.getJSONValue()));
         }
         return null;
     }
@@ -52,7 +53,7 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         if (is(value)) {
             CSJSONBoolean typeValue = value.asJSONBoolean();
             if (is(typeValue)) return typeValue.getValue();
-            throw exception("Expected Boolean, found ", value.getJSONValue());
+            error(exception("Expected Boolean, found ", value.getJSONValue()));
         }
         return null;
     }
@@ -62,7 +63,7 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         if (is(value)) {
             CSJSONNumber typeValue = value.asJSONNumber();
             if (is(typeValue)) return typeValue.getValue();
-            throw exception("Expected Number, found ", value.getJSONValue());
+            error(exception("Expected Number, found ", value.getJSONValue()));
         }
         return null;
     }
@@ -72,7 +73,7 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         if (is(value)) {
             CSJSONObject typeValue = value.asObject();
             if (is(typeValue)) return typeValue;
-            throw exception("Expected JSONObject, found ", value.getJSONValue());
+            error(exception("Expected JSONObject, found ", value.getJSONValue()));
         }
         return null;
     }
@@ -82,7 +83,7 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
         if (is(value)) {
             CSJSONString typeValue = value.asJSONString();
             if (is(typeValue)) return typeValue.getValue();
-            throw exception("Expected String, found ", value.getJSONValue());
+            error(exception("Expected String, found ", value.getJSONValue()));
         }
         return null;
     }

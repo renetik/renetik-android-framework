@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import cs.android.viewbase.menu.CSOnMenu;
+import cs.android.viewbase.menu.CSOnMenuItem;
 import cs.java.lang.CSValue;
 
 import static cs.java.lang.CSLang.*;
@@ -106,7 +108,7 @@ public abstract class CSActivityBase extends AppCompatActivity implements CSActi
 
     public void onBackPressed() {
         CSValue<Boolean> goBack = new CSValue<>(true);
-        _controller.onBackPressed(goBack);
+        _controller.onBack(goBack);
         if (goBack.get()) super.onBackPressed();
     }
 

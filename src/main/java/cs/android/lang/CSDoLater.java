@@ -2,6 +2,7 @@ package cs.android.lang;
 
 import android.os.Handler;
 
+import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.exception;
 
 public class CSDoLater {
@@ -10,12 +11,13 @@ public class CSDoLater {
 
     public CSDoLater(Runnable runnable, int delayMilliseconds) {
         _runnable = runnable;
-        if (!handler.postDelayed(_runnable, delayMilliseconds)) throw exception();
+        if (!handler.postDelayed(_runnable, delayMilliseconds))
+            error(exception("Runnable not run"));
     }
 
     public CSDoLater(Runnable runnable) {
         _runnable = runnable;
-        if (!handler.post(_runnable)) throw exception();
+        if (!handler.post(_runnable)) error(exception("Runnable not run"));
     }
 
     public static void initialize() {

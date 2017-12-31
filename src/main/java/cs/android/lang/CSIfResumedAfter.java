@@ -5,15 +5,15 @@ import cs.java.callback.CSRun;
 
 import static cs.java.lang.CSLang.doLater;
 
-public abstract class CSIfResumedAfter implements CSRun {
+public class CSIfResumedAfter {
 
-    public CSIfResumedAfter(final CSViewController parent, int milliseconds) {
-        doLater(milliseconds, new CSRun() {
-            @Override
-            public void run() {
-                if (parent.isResumed()) CSIfResumedAfter.this.run();
-                onFinally();
-            }
+    private CSRun _run;
+
+    public CSIfResumedAfter(final CSViewController parent, int milliseconds, CSRun run) {
+        _run = run;
+        doLater(milliseconds, (CSRun) () -> {
+            if (parent.isResumed()) _run.run();
+            onFinally();
         });
     }
 

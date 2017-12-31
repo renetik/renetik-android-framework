@@ -14,7 +14,7 @@ public class CSAndroidApplication extends MultiDexApplication {
         _instance = this;
     }
 
-    public static CSAndroidApplication instance() {
+    public static CSAndroidApplication applicationInstance() {
         return _instance;
     }
 

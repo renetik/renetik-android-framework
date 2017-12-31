@@ -5,9 +5,15 @@ import static cs.java.lang.CSLang.fire;
 import static cs.java.lang.CSLang.info;
 import android.view.MotionEvent;
 import android.view.View;
+
+import cs.android.viewbase.CSView;
 import cs.java.event.CSEvent;
 
 public class CSSwipeDetector implements View.OnTouchListener {
+
+	public CSSwipeDetector(CSView<?> widget) {
+		widget.asView().setOnTouchListener(this);
+	}
 
 	public enum CSSwipeType {
 		BottomToTop, LeftToRight, RightToLeft, TopToBottom,

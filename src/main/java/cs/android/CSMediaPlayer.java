@@ -8,25 +8,25 @@ import static cs.java.lang.CSLang.is;
 
 public class CSMediaPlayer extends CSViewController {
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer _mediaPlayer;
 
     public CSMediaPlayer(CSViewController parent) {
         super(parent);
     }
 
     public void play(int resource) {
-        if (mediaPlayer != null) {
+        if (_mediaPlayer != null) {
             stop();
             reset();
             release();
         }
-        mediaPlayer = MediaPlayer.create(context(), resource);
-        mediaPlayer.start();
+        _mediaPlayer = MediaPlayer.create(context(), resource);
+        _mediaPlayer.start();
     }
 
     public void stop() {
         try {
-            mediaPlayer.stop();
+            _mediaPlayer.stop();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class CSMediaPlayer extends CSViewController {
 
     public void release() {
         try {
-            mediaPlayer.release();
+            _mediaPlayer.release();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class CSMediaPlayer extends CSViewController {
 
     public void reset() {
         try {
-            mediaPlayer.reset();
+            _mediaPlayer.reset();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class CSMediaPlayer extends CSViewController {
 
     public void onPause() {
         super.onPause();
-        if (is(mediaPlayer)) {
+        if (is(_mediaPlayer)) {
             reset();
             release();
         }

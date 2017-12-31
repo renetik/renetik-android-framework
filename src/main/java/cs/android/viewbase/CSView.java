@@ -1,7 +1,6 @@
 package cs.android.viewbase;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -60,6 +59,7 @@ import cs.java.common.CSPoint;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.squareup.picasso.NetworkPolicy.OFFLINE;
 import static cs.java.lang.CSLang.NO;
@@ -75,12 +75,8 @@ import static cs.java.lang.CSLang.stringf;
 
 public class CSView<T extends View> extends CSContextController implements CSViewInterface {
 
-    private CSView<View> _viewField;
+    private CSView _viewField;
     private View _view;
-
-    //Needed for CSViewController constructor
-    CSView() {
-    }
 
     public CSView(CSContextInterface context, CSLayoutId layoutId) {
         this(context);
@@ -96,11 +92,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSView(final ViewGroup parent, CSLayoutId layoutId) {
-        super(new CSContextInterface() {
-            public Context context() {
-                return parent.getContext();
-            }
-        });
+        super(parent::getContext);
         setView(inflateLayout(parent, layoutId.id));
     }
 
@@ -147,7 +139,6 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return asView().findViewById(id);
     }
 
-    @SuppressWarnings("unchecked")
     public T asView() {
         return (T) _view;
     }
@@ -164,7 +155,6 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (GridView) asView();
     }
 
-    @SuppressWarnings("unchecked")
     public <A extends Adapter> AdapterView<A> asAdapterView() {
         return (AdapterView<A>) asView();
     }
@@ -260,10 +250,6 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return animation;
     }
 
-    public AlphaAnimation fadeOut(final View view) {
-        return fadeOut(view, null);
-    }
-
     public boolean isShown(View view) {
         if (no(view)) return NO;
         return view.isShown();
@@ -277,13 +263,13 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         view.setVisibility(VISIBLE);
     }
 
-    public AlphaAnimation fadeOut(final View view, final CSRunWith<View> onDone) {
+    public AlphaAnimation fadeOut(final View view) {
         AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
 
         if (is(view.getAnimation())) view.getAnimation().cancel();
 
         if (isHidden(view) && no(view.getAnimation())) {
-            if (is(onDone)) onDone.run(view);
+            if (is(null)) ((CSRunWith<View>) null).run(view);
             return animation;
         }
 
@@ -292,11 +278,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         animation.setAnimationListener(new AnimationListener() {
             public void onAnimationEnd(Animation animation) {
                 hide(view);
-                if (is(onDone)) doLater(new CSRun() {
-                    public void run() {
-                        onDone.run(view);
-                    }
-                });
+                if (is(null)) doLater((CSRun) () -> ((CSRunWith<View>) null).run(view));
             }
 
             public void onAnimationRepeat(Animation animation) {
@@ -317,8 +299,13 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         view.setVisibility(GONE);
     }
 
+
+    public void invisible(View view) {
+        view.setVisibility(INVISIBLE);
+    }
+
     public void invisible() {
-        asView().setVisibility(View.INVISIBLE);
+        invisible(asView());
     }
 
     public CSView parent() {
@@ -326,18 +313,23 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return view((View) parent);
     }
 
-    public CSView<View> view(View view) {
-        return _viewField = new CSView<>(this).setView(view);
+    public <V extends View> CSView<V> view(View view) {
+        return _viewField = new CSView<V>(this).setView(view);
     }
 
     public CSView<View> view(CSLayoutId layout) {
         return view(inflateLayout(layout.id));
     }
 
-    public CSView<View> view(CSLayoutId layout, ViewGroup parent) {
-        CSView<View> view = view(service(LAYOUT_INFLATER_SERVICE, LayoutInflater.class).inflate(layout.id, parent, false));
-        parent.addView(view.asView());
+    public CSView<View> view(CSLayoutId layout, ViewGroup parentToAddTo) {
+        CSView<View> view = view(service(LAYOUT_INFLATER_SERVICE, LayoutInflater.class)
+                .inflate(layout.id, parentToAddTo, false));
+        parentToAddTo.addView(view.asView());
         return view;
+    }
+
+    public CSView<View> view(CSLayoutId layout, int parentToAddTo) {
+        return view(layout, viewGroup(parentToAddTo));
     }
 
     public CSView<View> view() {
@@ -390,7 +382,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (FrameLayout) findView(id);
     }
 
-    public LinearLayout getLinear(int id) {
+    public LinearLayout linearLayout(int id) {
         return (LinearLayout) findView(id);
     }
 
@@ -437,7 +429,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (V) findView(id);
     }
 
-    public ViewGroup getViewGroup(int id) {
+    public ViewGroup viewGroup(int id) {
         return (ViewGroup) findView(id);
     }
 
@@ -466,6 +458,12 @@ public class CSView<T extends View> extends CSContextController implements CSVie
             hide(findView(id));
     }
 
+    public void invisible(int viewId, int... viewIds) {
+        invisible(findView(viewId));
+        for (int id : viewIds)
+            invisible(findView(id));
+    }
+
     public void hideKeyboard() {
         hideKeyboard(asView().getWindowToken());
     }
@@ -482,14 +480,6 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return isShown(asView());
     }
 
-    public boolean isPortrait() {
-        return context().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-    }
-
-    public boolean isLandscape() {
-        return !isPortrait();
-    }
-
     public boolean isVisible(int id) {
         return isShown(findView(id));
     }
@@ -503,16 +493,13 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return this;
     }
 
-    public void setPercentAspectWidth(int viewId, int percent, int minimal, int maximal) {
-        setPercentAspectWidth(findView(viewId), percent, minimal, maximal);
+    public void setPercentAspectWidth(int viewId, int percent) {
+        setPercentAspectWidth(findView(viewId), percent);
     }
 
-    public void setPercentAspectWidth(View view, int percent, int minimal, int maximal) {
+    public void setPercentAspectWidth(View view, int percent) {
         float onePercent = getDisplayWidth() / (float) 100;
         float wantedWidth = onePercent * percent;
-        if (set(minimal) && wantedWidth < minimal)
-            wantedWidth = minimal;
-        else if (set(maximal) && wantedWidth > maximal) wantedWidth = maximal;
 
         float scalingFactor = wantedWidth / view.getLayoutParams().width;
         int scaledHeight = (int) (view.getLayoutParams().height * scalingFactor);
@@ -594,8 +581,8 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (TextView) asView();
     }
 
-    public CSView<T> text(int string) {
-        asTextView().setText(string);
+    public CSView<T> text(int resourceId) {
+        asTextView().setText(resourceId);
         return this;
     }
 
@@ -620,8 +607,8 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return dp * (getDisplayMetrics().densityDpi / 160f);
     }
 
-    public CSView<View> view(int id) {
-        return view(findView(id));
+    public <V extends View> CSView<V> view(int id) {
+        return (CSView<V>) view(findView(id));
     }
 
     public <V extends View> CSView<V> view(int id, Class<V> clazz) {
@@ -646,7 +633,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSView<T> image(int resId) {
-        Picasso.with(context()).load(resId).into(asImageView());
+        if (set(resId)) Picasso.with(context()).load(resId).into(asImageView());
         return this;
     }
 
@@ -730,8 +717,8 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         else show();
     }
 
-    public CSView<T> backgroundColor(int backgroundColor) {
-        asView().setBackgroundResource(backgroundColor);
+    public CSView<T> backgroundColor(int backgroundColorResource) {
+        asView().setBackgroundResource(backgroundColorResource);
         return this;
     }
 
@@ -752,7 +739,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         _view = null;
     }
 
-    public CSView<T> hideIfEmpty() {
+    public CSView<T> hideIfTextEmpty() {
         visible(set(text()));
         return this;
     }
@@ -781,5 +768,40 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (ScrollView) asView();
     }
 
+    public CSView<T> add(CSView view, LayoutParams layoutParams) {
+        asGroup().addView(view.asView(), layoutParams);
+        return this;
+    }
 
+    public CSView<T> add(View view, LayoutParams layoutParams) {
+        asGroup().addView(view, layoutParams);
+        return this;
+    }
+
+    public CSView<T> add(CSView view) {
+        asGroup().addView(view.asView());
+        return this;
+    }
+
+    public <V extends View> CSView<V> lastSubview() {
+        return view(asGroup().getChildAt(subviewsCount() - 1));
+    }
+
+    public int subviewsCount() {
+        return asGroup().getChildCount();
+    }
+
+    public CSView<T> clearSubviews() {
+        asGroup().removeAllViews();
+        return this;
+    }
+
+    public boolean hasSubviews() {
+        return subviewsCount() > 0;
+    }
+
+    public CSView<T> removeLastView() {
+        asGroup().removeViewAt(subviewsCount() - 1);
+        return this;
+    }
 }

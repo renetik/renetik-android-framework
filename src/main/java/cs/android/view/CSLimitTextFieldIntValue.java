@@ -19,12 +19,10 @@ public class CSLimitTextFieldIntValue extends CSViewController {
         _minValue = minValue;
         _maxValue = maxValue;
         _alertString = alertString;
-        asView().setOnFocusChangeListener(new OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                    _beforeChangeValue = intValue();
-                else if (intValue() > _maxValue || intValue() < _minValue) onWrongNumberEntered();
-            }
+        asView().setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus)
+                _beforeChangeValue = intValue();
+            else if (intValue() > _maxValue || intValue() < _minValue) onWrongNumberEntered();
         });
     }
 
@@ -33,7 +31,7 @@ public class CSLimitTextFieldIntValue extends CSViewController {
     }
 
     private void onWrongNumberEntered() {
-        view().text(string(_beforeChangeValue));
+        view().text(stringify(_beforeChangeValue));
         alert(getString(_alertString));
     }
 
@@ -43,7 +41,7 @@ public class CSLimitTextFieldIntValue extends CSViewController {
     }
 
     private void validate() {
-        if (intValue() > _maxValue) view().text(string(_maxValue));
-        if (intValue() < _minValue) view().text(string(_minValue));
+        if (intValue() > _maxValue) view().text(stringify(_maxValue));
+        if (intValue() < _minValue) view().text(stringify(_minValue));
     }
 }

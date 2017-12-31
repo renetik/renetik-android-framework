@@ -6,18 +6,14 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ListView;
 
-import java.util.List;
-
 import cs.android.viewbase.CSView;
 import cs.android.viewbase.CSViewController;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
-import cs.java.event.CSEvent.EventRegistration;
-import cs.java.event.CSListener;
 
 import static android.view.Gravity.BOTTOM;
 import static android.view.Gravity.CENTER;
-import static android.view.ViewGroup.LayoutParams.*;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.event;
 import static cs.java.lang.CSLang.fire;
@@ -30,22 +26,16 @@ public class CSListLoadNextController extends CSViewController {
     private EndlessScrollListener _scrollListener;
     private boolean _loading;
 
-    public <T> CSListLoadNextController(CSListController<T> parent, int loadViewLayout) {
+    public CSListLoadNextController(CSListController parent, int loadViewLayout) {
         super(parent);
         _loadView = new CSView(this, layout(loadViewLayout));
-        parent.getOnLoad().add(new CSListener<List<T>>() {
-            public void onEvent(EventRegistration registration, List<T> arg) {
-                onListLoad((CSList<?>) arg);
-            }
-        });
+        parent.getOnLoad().add((registration, arg) -> onListLoad((CSList<?>) arg));
     }
 
     private void onListLoad(CSList<?> data) {
         _loadView.hide();
         if (no(_scrollListener)) _scrollListener = new EndlessScrollListener();
-        else {
-            if (data.isEmpty()) _scrollListener = null;
-        }
+        else if (data.isEmpty()) _scrollListener = null;
         updateScrollListener();
         _loading = false;
     }
@@ -64,21 +54,15 @@ public class CSListLoadNextController extends CSViewController {
         _loadView.show();
     }
 
-//    private int totalItemCount() {
-//        return is(_data) ? _data.size() : 0;
-//    }
-
     public void onResume() {
         super.onResume();
         updateScrollListener();
         if (asView() instanceof ListView) {
             asListView().addFooterView(_loadView.asView());
             asListView().setFooterDividersEnabled(NO);
-        } else {
-            if (!_loadView.hasParent())
-                ((FrameLayout) asView().getParent().getParent()).addView(_loadView.asView(),
-                        new LayoutParams(WRAP_CONTENT, WRAP_CONTENT, BOTTOM | CENTER));
-        }
+        } else if (!_loadView.hasParent())
+            ((FrameLayout) asView().getParent().getParent()).addView(_loadView.asView(),
+                    new LayoutParams(WRAP_CONTENT, WRAP_CONTENT, BOTTOM | CENTER));
         _loadView.hide();
     }
 

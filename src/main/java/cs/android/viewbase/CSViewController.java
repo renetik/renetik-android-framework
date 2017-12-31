@@ -20,16 +20,15 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.List;
 
-import cs.android.CSActivityInterface;
 import cs.android.view.CSAlertDialog;
-import cs.android.view.adapter.CSClick;
+import cs.android.viewbase.menu.CSMenuItem;
+import cs.android.viewbase.menu.CSOnMenu;
+import cs.android.viewbase.menu.CSOnMenuItem;
 import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
-import cs.java.callback.CSRunWithWith;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
-import cs.java.event.CSEvent.EventRegistration;
-import cs.java.event.CSListener;
+import cs.java.event.CSEventRegistrations;
 import cs.java.event.CSTask;
 import cs.java.lang.CSValue;
 
@@ -42,7 +41,6 @@ import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.event;
 import static cs.java.lang.CSLang.exception;
 import static cs.java.lang.CSLang.fire;
-import static cs.java.lang.CSLang.info;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
@@ -53,7 +51,7 @@ import static cs.java.lang.CSLang.unexpected;
 import static cs.java.lang.CSLang.warn;
 import static cs.java.lang.CSMath.randomInt;
 
-public abstract class CSViewController extends CSView<View> implements CSActivityInterface {
+public abstract class CSViewController extends CSView<View> implements CSIViewController {
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static boolean _startingActivity;
@@ -89,12 +87,15 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     private boolean _isStarted;
     private CSViewController _parent;
     private Activity _activity;
-    private Bundle state;
-    private CSTask<?> _parentEventsTask;
+    private Bundle _state;
+    private CSEventRegistrations _parentEventsTask;
     private int _viewId;
     private CSLayoutId _layoutId;
     private CSInViewController _parentInView;
     private CSList<CSMenuItem> _menuItems = list();
+    private boolean _isResumeFirstTime = YES;
+    private boolean _isActive = YES;
+    private boolean _isBeforeCreate;
 
     public CSViewController(CSInViewController parentInView, CSLayoutId layoutId) {
         super(parentInView);
@@ -116,7 +117,7 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         super(parent);
         _inView = null;
         _parent = parent;
-        initializeFromParent(parent);
+        parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
 
     public CSViewController(CSViewController parent, int viewId) {
@@ -124,7 +125,7 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         _inView = null;
         _parent = parent;
         _viewId = viewId;
-        initializeFromParent(parent);
+        parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
 
     public CSViewController(CSViewController parent, CSLayoutId id) {
@@ -132,7 +133,7 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         _inView = null;
         _parent = parent;
         _layoutId = id;
-        initializeFromParent(parent);
+        parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
 
     public static boolean isStartingActivity() {
@@ -145,6 +146,10 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
 
     public static Activity rootActivity() {
         return is(_root) ? _root.activity() : null;
+    }
+
+    public CSViewController asController() {
+        return this;
     }
 
     public CSInViewController inView() {
@@ -160,19 +165,16 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         if (set(deniedPermissions)) {
             final int MY_PERMISSIONS_REQUEST = randomInt(0, 999);
             ActivityCompat.requestPermissions(activity(), deniedPermissions, MY_PERMISSIONS_REQUEST);
-            onRequestPermissionsResult.add(new CSListener<CSRequestPermissionResult>() {
-                public void onEvent(EventRegistration registration, CSRequestPermissionResult arg) {
-                    if (arg.requestCode == MY_PERMISSIONS_REQUEST) {
-                        registration.cancel();
-                        for (int result : arg.grantResults)
-                            if (PERMISSION_GRANTED != result) return;
-                        run(onGranted);
-                    }
+            onRequestPermissionsResult.add((registration, arg) -> {
+                if (arg.requestCode == MY_PERMISSIONS_REQUEST) {
+                    registration.cancel();
+                    for (int result : arg.grantResults)
+                        if (PERMISSION_GRANTED != result) return;
+                    run(onGranted);
                 }
             });
         } else run(onGranted);
     }
-
 
     public void startActivityForUri(Uri uri, CSRunWith<ActivityNotFoundException> onActivityNotFound) {
         startActivityForUriAndType(uri, null, onActivityNotFound);
@@ -190,64 +192,31 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         }
     }
 
-    private void initializeFromParent(final CSViewController parent) {
-        if (is(_parentEventsTask)) warn("_parentEventsTask should not exist at this point");
-        setActivity(parent.activity());
-        _parentEventsTask = new CSTask(parent.onBeforeCreate, parent.onCreate, parent.onStart,
-                parent.onResumeNative, parent.onPauseNative, parent.onStop, parent.onSaveInstance,
-                parent.onDestroy, parent.onBack, parent.onActivityResult,
-                parent.onCreateOptionsMenu, parent.onOptionsItemSelected,
-                parent.onPrepareOptionsMenu, parent.onKeyDown, parent.onNewIntent,
-                parent.onUserLeaveHint, parent.onLowMemory, parent.onInViewControllerShow,
-                parent.onInViewControllerHide, parent.onConfigurationChanged,
-                parent.onRequestPermissionsResult).add(new CSListener() {
-            public void onEvent(EventRegistration registration, Object argument) {
-                if (isDestroyed()) return;
-                if (registration.event() == parent.onBeforeCreate)
-                    onBeforeCreate((Bundle) argument);
-                else if (registration.event() == parent.onCreate)
-                    onCreate((Bundle) argument);
-                else if (registration.event() == parent.onStart)
-                    onStart();
-                else if (registration.event() == parent.onResumeNative)
-                    onResumeNative();
-                else if (registration.event() == parent.onPauseNative)
-                    onPauseNative();
-                else if (registration.event() == parent.onStop)
-                    onStop();
-                else if (registration.event() == parent.onLowMemory)
-                    onLowMemory();
-                else if (registration.event() == parent.onSaveInstance)
-                    onSaveInstanceState((Bundle) argument);
-                else if (registration.event() == parent.onDestroy)
-                    onDestroy();
-                else if (registration.event() == parent.onBack)
-                    onBackPressed((CSValue<Boolean>) argument);
-                else if (registration.event() == parent.onActivityResult)
-                    onActivityResult((CSActivityResult) argument);
-                else if (registration.event() == parent.onCreateOptionsMenu)
-                    onCreateOptionsMenu((CSOnMenu) argument);
-                else if (registration.event() == parent.onOptionsItemSelected)
-                    onOptionsItemSelectedImpl((CSOnMenuItem) argument);
-                else if (registration.event() == parent.onPrepareOptionsMenu)
-                    onPrepareOptionsMenuImpl((CSOnMenu) argument);
-                else if (registration.event() == parent.onKeyDown)
-                    onKeyDown((CSOnKeyDownResult) argument);
-                else if (registration.event() == parent.onNewIntent)
-                    onNewIntent((Intent) argument);
-                else if (registration.event() == parent.onUserLeaveHint)
-                    onUserLeaveHint();
-                else if (registration.event() == parent.onInViewControllerShow)
-                    onInViewControllerShow((CSViewController) argument);
-                else if (registration.event() == parent.onInViewControllerHide)
-                    onInViewControllerHide((CSViewController) argument);
-                else if (registration.event() == parent.onConfigurationChanged)
-                    onConfigurationChanged((Configuration) argument);
-                else if (registration.event() == parent.onRequestPermissionsResult)
-                    onRequestPermissionsResult((CSRequestPermissionResult) argument);
-                else throw unexpected();
-            }
-        });
+    protected CSEventRegistrations initializeListeners() {
+        if (is(_parentEventsTask))
+            throw exception("Already initialized with parent");
+        CSViewController parent = set(_parentInView) ? _parentInView : _parent;
+        return _parentEventsTask = new CSEventRegistrations(
+                parent.onCreate.add((registration, argument) -> onCreate(argument)),
+                parent.onStart.add((registration, argument) -> onStart()),
+                parent.onResumeNative.add((registration, argument) -> onResumeNative()),
+                parent.onPauseNative.add((registration, argument) -> onPauseNative()),
+                parent.onStop.add((registration, argument) -> onStop()),
+                parent.onSaveInstance.add((registration, argument) -> onSaveInstanceState(argument)),
+                parent.onDestroy.add((registration, argument) -> onDestroy()),
+                parent.onBack.add((registration, argument) -> onBack(argument)),
+                parent.onActivityResult.add((registration, argument) -> onActivityResult(argument)),
+                parent.onCreateOptionsMenu.add((registration, argument) -> onCreateOptionsMenu(argument)),
+                parent.onOptionsItemSelected.add((registration, argument) -> onOptionsItemSelectedImpl(argument)),
+                parent.onPrepareOptionsMenu.add((registration, argument) -> onPrepareOptionsMenuImpl(argument)),
+                parent.onKeyDown.add((registration, argument) -> onKeyDown(argument)),
+                parent.onNewIntent.add((registration, argument) -> onNewIntent(argument)),
+                parent.onUserLeaveHint.add((registration, argument) -> onUserLeaveHint()),
+                parent.onLowMemory.add((registration, argument) -> onLowMemory()),
+                parent.onInViewControllerShow.add((registration, argument) -> onInViewControllerShow(argument)),
+                parent.onInViewControllerHide.add((registration, argument) -> onInViewControllerHide(argument)),
+                parent.onConfigurationChanged.add((registration, argument) -> onConfigurationChanged(argument)),
+                parent.onRequestPermissionsResult.add((registration, argument) -> onRequestPermissionsResult(argument)));
     }
 
     protected void onLowMemory() {
@@ -258,7 +227,7 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         return _root == this;
     }
 
-    protected void onBackPressed(CSValue<Boolean> goBack) {
+    protected void onBack(CSValue<Boolean> goBack) {
         fire(onBack, goBack);
         if (goBack.get()) goBack.set(onGoBack());
     }
@@ -331,9 +300,12 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         if (is(getView())) return getView();
         else if (set(_viewId)) {
             setView(parent().asView().findViewById(_viewId));
-            if (no(getView())) throw unexpected("Expected", this, "in parent", parent());
+            if (no(getView()))
+                throw unexpected("Expected", this, "in parent", parent());
         } else if (set(_layoutId)) setView(inflateLayout(_layoutId.id));
         else setView(parent().asView());
+        if (no(getView()))
+            throw unexpected("View not created for some reason");
         return getView();
     }
 
@@ -367,7 +339,7 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     }
 
     public Bundle getState() {
-        return state;
+        return _state;
     }
 
     public ActionBar getActionBar() {
@@ -389,15 +361,8 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         return is(_layoutId);
     }
 
-    /**
-     * Have to call from onResume
-     */
-    protected CSTask<Object> listenAll(CSEvent... events) {
-        return new CSTask(this, events);
-    }
-
     protected <Argument> CSTask<Argument> listen(CSEvent<Argument> event) {
-        return new CSTask<Argument>(this, event);
+        return new CSTask<>(this, event);
     }
 
     public Intent intent() {
@@ -463,12 +428,8 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
             if (googleAPI.isUserResolvableError(result)) {
                 googleAPI.getErrorDialog(activity(), result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else
-                new CSAlertDialog(this).show("Google Play Services missing application cannot continue", null, "OK",
-                        new CSRunWithWith<String, CSAlertDialog>() {
-                            public void run(String value, CSAlertDialog dialog) {
-                                activity().finish();
-                            }
-                        });
+                new CSAlertDialog(this).show("Google Play Services missing application cannot continue",
+                        null, "OK", (value, dialog) -> activity().finish());
         }
     }
 
@@ -478,14 +439,6 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
 
     protected void goHome() {
         startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
-    }
-
-    protected void hideOnViewClick() {
-        new CSClick(this) {
-            public void onClick(View v) {
-                hide();
-            }
-        };
     }
 
     public void onDeinitialize(Bundle state) {
@@ -502,22 +455,25 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     }
 
     public void onInitialize() {
-        initializeFromParent(set(_parentInView) ? _parentInView : _parent);
-        onBeforeCreate(state);
-        onCreate(state);
+        onBeforeCreate(_state);
+        onCreate(_state);
         onStart();
-        onResumeNative();
     }
 
     protected void onBeforeCreate(Bundle state) {
+        if (_isBeforeCreate) throw exception("Already before created");
+        updateRoot();
         if (is(parent())) {
-            if (no(parent().activity())) throw unexpected();
             setActivity(parent().activity());
-        } else info(this);
+            initializeListeners();
+        } else if (!isRoot())
+            throw unexpected("No parent, No root");
         fire(onBeforeCreate, state);
+        _isBeforeCreate = YES;
     }
 
     protected void setActivity(Activity activity) {
+        if (no(activity)) throw new NullPointerException();
         _activity = activity;
         setContext(activity);
     }
@@ -527,7 +483,11 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     }
 
     protected void onCreate(Bundle state) {
-        this.state = state;
+        if (!_isBeforeCreate)
+            throw exception("Before create not called");
+        if (_isCreated)
+            throw exception("Already created");
+        _state = state;
         updateRoot();
         fire(onCreate, state);
         if (no(state)) onCreateFirstTime();
@@ -560,13 +520,28 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     }
 
     public void onResume() {
+        if (!_isCreated)
+            throw exception("Not created");
         if (_isResumed)
-            warn("Called onResume when resumed , this should not happen !");
+            throw exception("Already resumed");
         updateRoot();
         _isResumed = true;
         _isPaused = false;
         invalidateOptionsMenu();
         fire(onResume);
+        if (_isResumeFirstTime) onResumeFirstTime();
+        else onResumeRestore();
+        _isResumeFirstTime = NO;
+        if (isActive()) onViewShowing();
+    }
+
+    protected void onResumeFirstTime() {
+    }
+
+    protected void onResumeRestore() {
+    }
+
+    protected void onViewShowing() {
     }
 
     public void onPauseNative() {
@@ -575,8 +550,10 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     }
 
     public void onPause() {
+        if (!_isResumed)
+            throw exception("Not resumed");
         if (_isPaused)
-            warn("Called onPause when paused , this should not happen !");
+            throw exception("Already paused");
         _isResumed = false;
         _isPaused = true;
         fire(onPause);
@@ -584,8 +561,14 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
 
     protected void onStop() {
         _isStarted = false;
-        state = null;
+        _state = null;
         fire(onStop);
+    }
+
+    protected void onInViewControllerShow(CSViewController controller) {
+        invalidateOptionsMenu();
+        fire(onInViewControllerShow, controller);
+        onPause();
     }
 
     protected void onInViewControllerHide(CSViewController controller) {
@@ -595,24 +578,19 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         onResume();
     }
 
-    protected void onInViewControllerShow(CSViewController controller) {
-        invalidateOptionsMenu();
-        fire(onInViewControllerShow, controller);
-        onPause();
+    public boolean isActive() {
+        return _isActive && (inView() == null || inView().isHidden());
     }
 
-    public boolean isActive() {
-        return inView() == null || inView().isHidden();
+    public void setActive(boolean active) {
+        _isActive = active;
     }
 
     public void onDestroy() {
         super.onDestroy();
-        if (isDestroyed())
-            throw exception();
-        if (is(_parentEventsTask)) {
-            _parentEventsTask.cancel();
-            _parentEventsTask = null;
-        }
+        if (_isDestroyed)
+            throw exception("Already destroyed");
+        if (is(_parentEventsTask)) _parentEventsTask.cancel();
         setView(null);
         _parentInView = null;
         _parent = null;
@@ -624,24 +602,23 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
     }
 
     public void invalidateOptionsMenu() {
-        if (activity() == null) {
-            error(new Throwable(), "activity is null");
-            return;
-        }
-        ((CSActivity) activity()).supportInvalidateOptionsMenu();
+        if (is(activity())) ((CSActivity) activity()).supportInvalidateOptionsMenu();
+        else error("invalidateOptionsMenu, activity is null");
     }
 
     protected CSMenuItem menu(int id) {
         return _menuItems.put(new CSMenuItem(this, id));
     }
 
+    protected CSMenuItem menu(String title) {
+        return _menuItems.put(new CSMenuItem(this, title));
+    }
+
     protected void restartActivity() {
-        doLater(new CSRun() {
-            public void run() {
-                Intent intent = activity().getIntent();
-                activity().finish();
-                startActivity(intent);
-            }
+        doLater((CSRun) () -> {
+            Intent intent = activity().getIntent();
+            activity().finish();
+            startActivity(intent);
         });
     }
 
@@ -673,10 +650,8 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         try {
             Intent intent = new Intent("android.intent.action.MAIN");
             intent.addCategory("android.intent.category.LAUNCHER");
-
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             List<ResolveInfo> resolveInfoList = activity().getPackageManager().queryIntentActivities(intent, 0);
-
             for (ResolveInfo info : resolveInfoList)
                 if (info.activityInfo.packageName.equalsIgnoreCase(packageName)) {
                     launchComponent(info.activityInfo.packageName, info.activityInfo.name);
@@ -700,5 +675,10 @@ public abstract class CSViewController extends CSView<View> implements CSActivit
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public CSViewController showController() {
+        show();
+        return this;
     }
 }
