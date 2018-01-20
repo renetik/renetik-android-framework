@@ -1,7 +1,5 @@
 package cs.android.rpc;
 
-import cs.java.callback.CSRun;
-
 import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.is;
 
@@ -25,11 +23,7 @@ public class CSMultiResponse<T> extends CSResponse<T> {
         _addedResponse = addedResponse;
         if (empty(addedResponse.title())) addedResponse.title(title());
         if (addedResponse.isSending()) sending(addedResponse);
-        addedResponse.onSend(new CSRun() {
-            public void run() {
-                sending(addedResponse);
-            }
-        });
+        addedResponse.onSend(() -> sending(addedResponse));
         failIfFail(addedResponse);
         return addedResponse;
     }

@@ -9,8 +9,10 @@ import cs.java.callback.CSReturn;
 import cs.java.collections.CSList;
 import cs.java.collections.CSMap;
 
+import static cs.android.json.CSJSON.createJSONObject;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.asDouble;
+import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.iterate;
 import static cs.java.lang.CSLang.json;
@@ -26,7 +28,7 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     private String _childDataKey;
 
     public CSJSONData() {
-        _data = CSJSON.createObject();
+        _data = createJSONObject();
     }
 
     public CSJSONData(CSJSONObject object) {
@@ -56,7 +58,12 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     }
 
     private CSJSONObject data() {
-        return is(_childDataKey) ? _data.getObject(_childDataKey) : _data;
+        if (is(_childDataKey)) {
+            CSJSONObject object = _data.getObject(_childDataKey);
+            if (no(object)) _data.put(_childDataKey, object = createJSONObject());
+            return object;
+        }
+        return _data;
     }
 
     public Boolean getBoolean(String key) {
@@ -224,12 +231,12 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
         return data;
     }
 
-    public CSJSONData setIndex(int index) {
+    public CSJSONData index(int index) {
         _index = index;
         return this;
     }
 
-    public CSJSONData setKey(String key) {
+    public CSJSONData key(String key) {
         _key = key;
         return this;
     }
@@ -280,9 +287,11 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     protected <T extends CSJSONData> CSList<T> createList(CSReturn<T> factory, CSJSONArray array) {
         CSList<T> list = list();
         int index = 0;
-        for (CSJSONType type : iterate(array)) {
-            T item = load(factory.invoke(), type.asObject());
-            item.setIndex(index++);
+        for (CSJSONType dataType : iterate(array)) {
+            CSJSONObject data = dataType.asObject();
+            if (empty(data)) continue;
+            T item = load(factory.invoke(), data);
+            item.index(index++);
             list.add(item);
         }
         return list;
@@ -298,8 +307,11 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
         for (CSJSONType arrayInArray : arrayOfArray) {
             int index = 0;
             CSList<T> listInList = list.put((CSList) list());
-            for (CSJSONType value : iterate(arrayInArray.asArray()))
-                listInList.put(load(newInstance(type), value.asObject())).setIndex(index++);
+            for (CSJSONType value : iterate(arrayInArray.asArray())) {
+                CSJSONObject data = value.asObject();
+                if (empty(data)) continue;
+                listInList.put(load(newInstance(type), value.asObject())).index(index++);
+            }
         }
         return list;
     }
@@ -311,11 +323,11 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     protected <T extends CSJSONData> CSList<T> createListByObject(Class<T> type, CSJSONObject objectOfObjects) {
         if (no(objectOfObjects)) return null;
         CSList<T> list = list();
-        int count = 0;
+        int index = 0;
         for (String key : objectOfObjects) {
-            CSJSONData data = list.put(load(newInstance(type), objectOfObjects.getObject(key)));
-            data.setIndex(count++);
-            data.setKey(key);
+            CSJSONObject data = objectOfObjects.getObject(key);
+            if (empty(data)) continue;
+            list.put(load(newInstance(type), data)).index(index++).key(key);
         }
         return list;
     }
@@ -329,7 +341,7 @@ public class CSJSONData implements Iterable<String>, CSJSONDataInterface {
     protected <T extends CSJSONData> CSList<T> reIndex(CSList<T> array) {
         if (no(array)) return null;
         int index = 0;
-        for (CSJSONData data : array) data.setIndex(index++);
+        for (CSJSONData data : array) data.index(index++);
         return array;
     }
 

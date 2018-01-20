@@ -18,7 +18,7 @@ public class CSActivityManager {
 
     public void onCreate(Bundle state) {
         controller().setActivity(_activity.activity());
-        controller().setView(controller().asView());
+        controller().asView();
         controller().onBeforeCreate(state);
         _activity.activity().setContentView(controller().asView());
         controller().onCreate(state);

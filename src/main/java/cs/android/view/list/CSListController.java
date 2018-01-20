@@ -1,20 +1,16 @@
 package cs.android.view.list;
 
 import android.content.res.Configuration;
-import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import java.util.List;
-
-import cs.android.R;
 import cs.android.lang.CSWork;
 import cs.android.viewbase.CSView;
 import cs.android.viewbase.CSViewController;
 import cs.java.callback.CSReturnWith;
-import cs.java.callback.CSReturnWithWith;
 import cs.java.callback.CSRunWithWith;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
@@ -22,6 +18,7 @@ import cs.java.event.CSEvent;
 import static android.os.SystemClock.uptimeMillis;
 import static android.view.MotionEvent.ACTION_CANCEL;
 import static android.view.MotionEvent.obtain;
+import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.event;
 import static cs.java.lang.CSLang.fire;
@@ -30,11 +27,10 @@ import static cs.java.lang.CSLang.iterate;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 
-public class CSListController<RowType> extends CSViewController {
+public class CSListController<RowType> extends CSViewController<AbsListView> {
+    public final CSEvent<CSList<RowType>> onLoad = event();
     private final CSList<RowType> _dataList = list();
-    private final CSEvent<List<RowType>> onLoad = event();
     private CSReturnWith<CSIRowView<RowType>, Integer> _createView;
-    private CSReturnWithWith<CSIRowView<RowType>, Integer, CSListController<RowType>> _createView2;
     private BaseAdapter _listAdapter = new CSListAdapter(this);
     private int _savedSelectionIndex;
     private int _firstVisiblePosition;
@@ -53,28 +49,13 @@ public class CSListController<RowType> extends CSViewController {
         _createView = createView;
     }
 
-    public CSListController(CSViewController parent, int listViewId, CSReturnWithWith<CSIRowView<RowType>, Integer, CSListController<RowType>> createView) {
+    public CSListController<RowType> onCreateView(CSReturnWith<CSIRowView<RowType>, Integer> createView) {
+        _createView = createView;
+        return this;
+    }
+
+    public CSListController(CSViewController parent, int listViewId) {
         super(parent, listViewId);
-        _createView2 = createView;
-    }
-
-    protected void onBeforeCreate(Bundle state) {
-        super.onBeforeCreate(state);
-    }
-
-    protected void onCreate(Bundle state) {
-        super.onCreate(state);
-    }
-
-    public void onResume() {
-        super.onResume();
-        asAdapterView().setAdapter(_listAdapter);
-        restoreState();
-    }
-
-    public void onPause() {
-        super.onPause();
-        saveState();
     }
 
     public BaseAdapter adapter() {
@@ -96,18 +77,17 @@ public class CSListController<RowType> extends CSViewController {
 
     public CSList<RowType> getCheckedRows() {
         final CSList<RowType> checkedRows = list();
-        SparseBooleanArray positions = asAbsListView().getCheckedItemPositions();
+        SparseBooleanArray positions = asView().getCheckedItemPositions();
         if (positions != null) for (int i = 0; i < positions.size(); i++)
-            if (positions.valueAt(i)) checkedRows.add(data().get(positions.keyAt(i)));
+            if (positions.valueAt(i)) {
+                RowType checkedRow = data().at(positions.keyAt(i));
+                if (is(checkedRow)) checkedRows.add(checkedRow);
+            }
         return checkedRows;
     }
 
     int getItemTypesCount() {
         return _itemsTypesCount;
-    }
-
-    public CSEvent<List<RowType>> getOnLoad() {
-        return onLoad;
     }
 
     @SuppressWarnings({"unchecked"})
@@ -118,7 +98,7 @@ public class CSListController<RowType> extends CSViewController {
             view = rowView.asView();
             view.setTag(rowView);
         } else rowView = asRowView(view);
-        rowView.rowData(_dataList.get(position));
+        rowView.row(_dataList.get(position));
         return view;
     }
 
@@ -127,7 +107,7 @@ public class CSListController<RowType> extends CSViewController {
         return (CSIRowView<RowType>) view.getTag();
     }
 
-    public CSListController<RowType> loadAdd(List<RowType> list) {
+    public CSListController<RowType> loadAdd(CSList<RowType> list) {
         _firstLoad = YES;
         _dataList.addAll(list);
         reloadData();
@@ -140,11 +120,11 @@ public class CSListController<RowType> extends CSViewController {
         reloadData();
     }
 
-    public CSListController<RowType> reload(List<RowType> list) {
-        saveState();
+    public CSListController<RowType> reload(CSList<RowType> list) {
+//        saveState();
         _dataList.clear();
         loadAdd(list);
-        restoreState();
+//        restoreState();
         return this;
     }
 
@@ -153,7 +133,7 @@ public class CSListController<RowType> extends CSViewController {
         updateEmptyView();
     }
 
-    public void restoreState() {
+    public void restoreSelectionAndScrollState() {
         if (asView() instanceof ListView)
             asListView().setSelectionFromTop(_firstVisiblePosition, 0);
         if (_savedSelectionIndex > -1) asAbsListView().setSelection(_savedSelectionIndex);
@@ -162,7 +142,7 @@ public class CSListController<RowType> extends CSViewController {
                     .setItemChecked(i, _savedCheckedItems.valueAt(i));
     }
 
-    public void saveState() {
+    public void saveSelectionAndScrollState() {
         if (asView() instanceof ListView)
             _firstVisiblePosition = asListView().getFirstVisiblePosition();
         _savedSelectionIndex = asAbsListView().getSelectedItemPosition();
@@ -175,7 +155,7 @@ public class CSListController<RowType> extends CSViewController {
     }
 
     public CSView emptyView(int id) {
-        return emptyView(new CSView<>(parent(), id));
+        return emptyView(new CSView<>(parentController(), id));
     }
 
     public CSView emptyView(CSView view) {
@@ -197,11 +177,8 @@ public class CSListController<RowType> extends CSViewController {
         else _emptyView.hide();
     }
 
-    protected final CSIRowView<RowType> createView(int viewType) {
-        if (is(_createView)) return _createView.invoke(viewType);
-        CSIRowView<RowType> rowView = _createView2.invoke(viewType, this);
-        if (no(rowView)) return new CSRowView(this, layout(R.layout.empty));
-        return rowView;
+    protected CSIRowView<RowType> createView(int viewType) {
+        return _createView.invoke(viewType);
     }
 
     protected final int getItemViewType(int position) {
@@ -210,6 +187,7 @@ public class CSListController<RowType> extends CSViewController {
 
     protected void onCreate() {
         super.onCreate();
+        asAdapterView().setAdapter(_listAdapter);
         asAbsListView().setFastScrollEnabled(YES);
         asAbsListView().setOnItemClickListener((parent, view, position, id) -> {
             if (is(_onItemClick)) _onItemClick.run(position, asRowView(view));
@@ -258,6 +236,17 @@ public class CSListController<RowType> extends CSViewController {
             asAbsListView().setItemChecked(index, YES);
     }
 
+    public void unCheckAll() {
+        SparseBooleanArray positions = asView().getCheckedItemPositions();
+        if (positions != null) for (int i = 0; i < positions.size(); i++) {
+            boolean checked = positions.valueAt(i);
+            if (checked) {
+                int index = positions.keyAt(i);
+                asAbsListView().setItemChecked(index, NO);
+            }
+        }
+    }
+
     public boolean isEnabled(int position) {
         if (is(_isEnabled)) return _isEnabled.invoke(position);
         return true;
@@ -270,11 +259,9 @@ public class CSListController<RowType> extends CSViewController {
 
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        saveState();
-        reloadData();
-//        asAdapterView().setAdapter(_listAdapter);
-        restoreState();
-//        reloadData();
+        saveSelectionAndScrollState();
+        asAdapterView().setAdapter(_listAdapter);
+        restoreSelectionAndScrollState();
     }
 
 }

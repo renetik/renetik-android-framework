@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import cs.java.collections.CSMap;
+import cs.java.lang.CSSizeInterface;
 
 import static cs.java.lang.CSLang.asBool;
 import static cs.java.lang.CSLang.error;
@@ -14,7 +15,7 @@ import static cs.java.lang.CSLang.map;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.warn;
 
-public class CSJSONObject extends CSJSONType implements Iterable<String> {
+public class CSJSONObject extends CSJSONType implements Iterable<String>, CSSizeInterface {
 
     private final org.json.JSONObject _value;
 

@@ -37,7 +37,7 @@ public class CSOnMenu {
     }
 
     public boolean showMenu() {
-        return _showMenu.get();
+        return _showMenu.getValue();
     }
 
     public void showMenu(boolean showMenu) {

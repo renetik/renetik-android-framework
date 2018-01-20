@@ -159,7 +159,7 @@ public class CSText implements CSTextInterface {
 
     public Iterator<Character> iterator() {
         return new CSIterator<Character>(length()) {
-            public Character getValue() {
+            public Character getCurrent() {
                 return charAt(index());
             }
         };

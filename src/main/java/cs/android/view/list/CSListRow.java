@@ -1,7 +1,5 @@
 package cs.android.view.list;
 
-import java.util.List;
-
 import cs.android.json.CSJSONData;
 import cs.java.collections.CSList;
 import cs.java.lang.CSValues;
@@ -47,7 +45,7 @@ public class CSListRow<DataType extends CSJSONData> {
         return new CSListRow(data, viewType, index);
     }
 
-    public static <T extends CSJSONData> List<CSListRow<T>> rowsFromList(CSList<T> data) {
+    public static <T extends CSJSONData> CSList<CSListRow<T>> rowsFromList(CSList<T> data) {
         CSList<CSListRow<T>> listData = list(createTableHeader());
         int rowIndex = 0;
         for (T row : data) listData.add(createRow(row, Row, rowIndex++));
@@ -55,30 +53,30 @@ public class CSListRow<DataType extends CSJSONData> {
         return listData;
     }
 
-    public static <T extends CSJSONData, Data extends CSJSONData & CSValues<T>> List<CSListRow<Data>> rowsFromListDatas(CSList<Data> dataList) {
+    public static <T extends CSJSONData, Data extends CSJSONData & CSValues<T>> CSList<CSListRow<Data>> rowsFromListDatas(CSList<Data> dataList) {
         CSList<CSListRow<Data>> listData = list(createTableHeader());
-        int rowsIndex = 0;
+        int sectionIndex = 0;
         for (Data data : dataList) {
-            listData.add(createRow(SectionHeader, rowsIndex));
+            listData.add(createRow(data, SectionHeader, sectionIndex));
             int rowIndex = 0;
-            while (rowIndex <= data.values().count())
+            while (rowIndex < data.values().count())
                 listData.add(createRow(data, Row, rowIndex++));
-            listData.add(createRow(SectionSpace, rowsIndex));
-            rowsIndex += 1;
+            listData.add(createRow(data, SectionSpace, sectionIndex));
+            sectionIndex++;
         }
         listData.add(createTableFooter());
         return listData;
     }
 
-    public static <T extends CSJSONData> CSList<CSListRow<T>> rowsFromLists(CSList<CSList<T>> results) {
+    public static <T extends CSJSONData> CSList<CSListRow<T>> rowsFromLists(CSList<CSList<T>> data) {
         CSList<CSListRow<T>> listData = list(createTableHeader());
-        int rowsIndex = 0;
-        for (CSList<T> rows : results) {
-            listData.add(createRow(SectionHeader, rowsIndex));
+        int sectionIndex = 0;
+        for (CSList<T> sectionData : data) {
+            listData.add(createRow(SectionHeader, sectionIndex));
             int rowIndex = 0;
-            for (T row : rows) listData.add(createRow(row, Row, rowIndex++));
-            listData.add(createRow(SectionSpace, rowsIndex));
-            rowsIndex += 1;
+            for (T row : sectionData) listData.add(createRow(row, Row, rowIndex++));
+            listData.add(createRow(SectionSpace, sectionIndex));
+            sectionIndex++;
         }
         listData.removeLast();
         listData.add(createTableFooter());

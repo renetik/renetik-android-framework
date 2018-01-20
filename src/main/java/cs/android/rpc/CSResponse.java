@@ -6,6 +6,7 @@ import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
+import cs.java.lang.CSValueInterface;
 import cs.java.net.CSURL;
 
 import static cs.java.lang.CSLang.NO;
@@ -22,8 +23,10 @@ import static cs.java.lang.CSLang.notImplemented;
 import static cs.java.lang.CSLang.set;
 import static cs.java.lang.CSLang.stringify;
 
-public class CSResponse<Data> extends CSContextController {
-
+public class CSResponse<Data> extends CSContextController implements CSValueInterface<Data> {
+    public static <D> D data(CSResponse<D> response) {
+        return is(response) ? response.data() : null;
+    }
     protected static final String NO_INTERNET = "No Internet";
 
     private final CSEvent<CSResponse<Data>> _onDone = event();
@@ -80,13 +83,6 @@ public class CSResponse<Data> extends CSContextController {
         return this;
     }
 
-    public CSResponse<Data> onSuccess(final CSViewController parent, final CSRunWith<Data> run) {
-        _onSuccess.add((registration, arg) -> {
-            if (parent.isResumed()) if (is(run)) run.run(_data);
-        });
-        return this;
-    }
-
     public CSResponse<Data> onSuccess(final CSRun run) {
         _onSuccess.add((registration, arg) -> {
             if (is(run)) run.run();
@@ -94,23 +90,9 @@ public class CSResponse<Data> extends CSContextController {
         return this;
     }
 
-    public CSResponse<Data> onSuccess(final CSViewController parent, final CSRun run) {
-        _onSuccess.add((registration, arg) -> {
-            if (parent.isResumed()) if (is(run)) run.run();
-        });
-        return this;
-    }
-
     public CSResponse<Data> onFailed(final CSRunWith<CSResponse> run) {
         _onFailed.add((registration, arg) -> {
             if (is(run)) run.run(arg);
-        });
-        return this;
-    }
-
-    public CSResponse<Data> onFailed(final CSViewController parent, final CSRun run) {
-        _onFailed.add((registration, arg) -> {
-            if (!parent.isDestroyed()) if (is(run)) run.run();
         });
         return this;
     }
@@ -264,7 +246,7 @@ public class CSResponse<Data> extends CSContextController {
 
     public CSResponse<Data> onDone(final CSViewController parent, final CSRun run) {
         _onDone.add((registration, arg) -> {
-            if (parent.isResumed()) if (is(run)) run.run();
+            if (!parent.isDestroyed()) if (is(run)) run.run();
         });
         return this;
     }
@@ -366,6 +348,10 @@ public class CSResponse<Data> extends CSContextController {
 
     protected CSViewController controller() {
         return _controller;
+    }
+
+    public Data getValue() {
+        return data();
     }
 
 }

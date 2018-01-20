@@ -56,7 +56,7 @@ public abstract class CSActivityBase extends AppCompatActivity implements CSActi
     }
 
     protected void onPause() {
-        _controller.onPauseNative();
+        _controller.onPause();
         super.onPause();
     }
 
@@ -66,12 +66,8 @@ public abstract class CSActivityBase extends AppCompatActivity implements CSActi
     }
 
     protected void onResume() {
-        _controller.onResumeNative();
+        _controller.onResume();
         super.onResume();
-    }
-
-    public void onSaveInstanceState(Bundle state) {
-        _controller.onSaveInstanceState(state);
     }
 
     protected void onStart() {
@@ -109,7 +105,7 @@ public abstract class CSActivityBase extends AppCompatActivity implements CSActi
     public void onBackPressed() {
         CSValue<Boolean> goBack = new CSValue<>(true);
         _controller.onBack(goBack);
-        if (goBack.get()) super.onBackPressed();
+        if (goBack.getValue()) super.onBackPressed();
     }
 
     protected void onUserLeaveHint() {

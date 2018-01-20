@@ -2,7 +2,7 @@ package cs.java.collections;
 
 import java.util.Iterator;
 
-import static cs.java.lang.CSLang.unexpected;
+import static cs.java.lang.CSLang.exception;
 
 public abstract class CSIterator<T> implements CSIteration<T> {
     private int index = -1;
@@ -13,7 +13,7 @@ public abstract class CSIterator<T> implements CSIteration<T> {
         this.iterationLength = length;
     }
 
-    public abstract T getValue();
+    public abstract T getCurrent();
 
     public boolean hasNext() {
         if (iteratingForward) return index < iterationLength - 1;
@@ -32,11 +32,11 @@ public abstract class CSIterator<T> implements CSIteration<T> {
         if (iteratingForward)
             ++index;
         else --index;
-        return getValue();
+        return getCurrent();
     }
 
     protected void onRemove() {
-        throw unexpected();
+        throw exception("Not implemented");
     }
 
     public final void remove() {

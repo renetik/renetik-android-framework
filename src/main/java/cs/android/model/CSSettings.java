@@ -32,7 +32,7 @@ public class CSSettings extends CSContextController {
         setId(name);
     }
 
-    public static CSSettings get() {
+    public static CSSettings settings() {
         return instance;
     }
 
@@ -85,11 +85,11 @@ public class CSSettings extends CSContextController {
         return preferences.getBoolean(key, defaultValue);
     }
 
-    public int loadInteger(String key) {
+    public int integer(String key) {
         return preferences.getInt(key, 0);
     }
 
-    public int loadInteger(String key, int defaultValue) {
+    public int integer(String key, int defaultValue) {
         return preferences.getInt(key, defaultValue);
     }
 

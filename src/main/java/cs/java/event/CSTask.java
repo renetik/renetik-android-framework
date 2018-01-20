@@ -1,7 +1,7 @@
 package cs.java.event;
 
 import cs.android.viewbase.CSViewController;
-import cs.java.event.CSEvent.EventRegistration;
+import cs.java.event.CSEvent.CSEventRegistration;
 
 import static cs.java.lang.CSLang.is;
 
@@ -10,16 +10,13 @@ public class CSTask<Argument> extends CSEventRegistrations implements CSListener
     private CSListener<Argument> _listener;
     private CSViewController _parent;
 
-    public CSTask(CSEvent<Argument>... events) {
-        register(events);
-    }
-
-    public CSTask(CSViewController parent, CSEvent<Argument>... events) {
-        (_parent = parent).onPause.add((r, arg) -> {
+    public CSTask(CSViewController parent, CSEvent<Argument> event) {
+        _parent = parent;
+        _parent.onPause.add((r, arg) -> {
             r.cancel();
             cancel();
         });
-        register(events);
+        add(event.add(this));
     }
 
     public CSTask onEvent(CSListener<Argument> listener) {
@@ -27,12 +24,7 @@ public class CSTask<Argument> extends CSEventRegistrations implements CSListener
         return this;
     }
 
-    public CSTask register(CSEvent<Argument>... events) {
-        for (CSEvent<Argument> event : events) register(event.add(this));
-        return this;
-    }
-
-    public void onEvent(EventRegistration registration, Argument argument) {
+    public void onEvent(CSEventRegistration registration, Argument argument) {
         if (is(_parent) && _parent.isPaused()) return;
         _listener.onEvent(registration, argument);
     }

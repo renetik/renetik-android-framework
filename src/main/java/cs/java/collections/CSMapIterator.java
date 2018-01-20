@@ -17,7 +17,7 @@ public class CSMapIterator<K, V> extends CSIterator<CSMapped<K, V>> implements C
         this.keys = list(map.keySet());
     }
 
-    public CSMapItem<K, V> get() {
+    public CSMapItem<K, V> getValue() {
         if (last_index != index()) last_index = index();
         return this;
     }
@@ -34,7 +34,7 @@ public class CSMapIterator<K, V> extends CSIterator<CSMapped<K, V>> implements C
         return getItem(index() - 1);
     }
 
-    public CSMapped<K, V> getValue() {
+    public CSMapped<K, V> getCurrent() {
         return this;
     }
 

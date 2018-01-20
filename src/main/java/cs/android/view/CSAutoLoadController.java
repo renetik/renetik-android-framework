@@ -21,13 +21,13 @@ public class CSAutoLoadController<RowType> extends CSViewController {
         _autoReload = schedule(MINUTE, runWith::invoke);
     }
 
-    public void onResume() {
-        super.onResume();
-        _autoReload.start().run();
+    protected void onViewShowing() {
+        super.onViewShowing();
+        _autoReload.start();
     }
 
-    public void onPause() {
-        super.onPause();
+    protected void onViewHiding() {
+        super.onViewHiding();
         _autoReload.stop();
     }
 

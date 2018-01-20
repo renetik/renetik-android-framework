@@ -32,7 +32,6 @@ import cs.android.json.CSJSONType;
 import cs.android.lang.CSApplication;
 import cs.android.lang.CSDoLater;
 import cs.android.lang.CSWork;
-import cs.android.model.CSSettings;
 import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
 import cs.java.collections.CSIteration;
@@ -49,6 +48,7 @@ import cs.java.event.CSEvent;
 import cs.java.event.CSEventImpl;
 
 import static cs.android.json.CSJSON.toJSONString;
+import static cs.android.model.CSSettings.settings;
 
 public class CSLang {
 
@@ -75,7 +75,7 @@ public class CSLang {
     }
 
     public static void setDebug(boolean value) {
-        CSSettings.get().save(DEBUG_MODE, value);
+        settings().save(DEBUG_MODE, value);
     }
 
     public static <T extends CSID> String toIDs(List<T> hasIds) {
@@ -101,7 +101,8 @@ public class CSLang {
     public static <T extends CSID> int findIndexById(CSValues<T> listData, String id) {
         if (is(listData))
             for (int index = 0; index < listData.values().size(); index++)
-                if (equal(listData.values().get(index).id(), id)) return index;
+                if (equal(listData.values().get(index).id(), id))
+                    return index;
         return -1;
     }
 
@@ -229,6 +230,14 @@ public class CSLang {
         return null;
     }
 
+    public static void catchException(CSRun run) {
+        try {
+            run(run);
+        } catch (Exception e) {
+            error(e);
+        }
+    }
+
     public static double asDouble(Object value) {
         try {
             return Double.parseDouble(stringify(value));
@@ -324,7 +333,8 @@ public class CSLang {
         if (object instanceof CharSequence) return ((CharSequence) object).length();
         if (object instanceof Collection) return ((Collection<?>) object).size();
         if (object instanceof CSValueInterface<?>)
-            return size(((CSValueInterface<?>) object).get());
+            return size(((CSValueInterface<?>) object).getValue());
+        if (object instanceof CSSizeInterface) return ((CSSizeInterface) object).getSize();
         if (object instanceof CSMap) return ((CSMap<?, ?>) object).size();
         if (object instanceof Object[]) return ((Object[]) object).length;
         if (object instanceof int[]) return ((int[]) object).length;
@@ -362,6 +372,10 @@ public class CSLang {
 
     public static RuntimeException exception(Object... values) {
         return new RuntimeException(stringify(" ", strings(values)));
+    }
+
+    public static RuntimeException exceptionf(String format, Object... arguments) {
+        return new RuntimeException(stringf(format, arguments));
     }
 
     public static <T> T fire(CSEvent<T> event, T argument) {
@@ -460,7 +474,7 @@ public class CSLang {
 
     public static CSIteration<Integer> iterate(int count) {
         return new CSIterator<Integer>(count) {
-            public Integer getValue() {
+            public Integer getCurrent() {
                 return index();
             }
         };
@@ -496,7 +510,7 @@ public class CSLang {
 
     public static CSIteration<View> iterate(final ViewGroup layout) {
         return new CSIterator<View>(layout.getChildCount()) {
-            public View getValue() {
+            public View getCurrent() {
                 return layout.getChildAt(index());
             }
         };
@@ -593,9 +607,17 @@ public class CSLang {
         return !empty(value);
     }
 
+    public static boolean hasItems(CSList value) {
+        return set(value);
+    }
+
     public static void setApplication(CSApplication application) {
         _application = application;
         CSDoLater.initialize();
+    }
+
+    public static void infof(String format, Object... values) {
+        info(stringf(format, values));
     }
 
     public static void info(Object... values) {
@@ -603,16 +625,23 @@ public class CSLang {
         else application().logger().info(values);
     }
 
+    public static <T> T info(T value) {
+        info(new Object[]{value});
+        return value;
+    }
+
+    public static Thread runInThread(CSRun run) {
+        Thread thread = new Thread(run);
+        thread.start();
+        return thread;
+    }
+
     public static boolean isDebugMode() {
-        return CSSettings.get().loadBoolean(DEBUG_MODE);
+        return settings().loadBoolean(DEBUG_MODE);
     }
 
     public static int to1E6(double value) {
         return (int) (value * 1E6);
-    }
-
-    public static RuntimeException unexpected(Object... msg) {
-        return new RuntimeException(string("Unexpected ").add(stringify(" ", strings(msg))).toString());
     }
 
     public static String urlEncode(String argument) {
@@ -668,7 +697,11 @@ public class CSLang {
     }
 
     public static int compare(Integer x, Integer y) {
-        return is(x) ? x.compareTo(y) : -1;
+        if (is(x) && is(y)) return x.compareTo(y);
+        if (no(x) && no(y)) return 0;
+        if (no(x) && is(y)) return -1;
+//        if (is(x) && no(y))
+        return +1;
     }
 
     public static int compare(Float x, Float y) {

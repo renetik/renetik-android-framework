@@ -9,7 +9,7 @@ import cs.java.collections.CSList;
 
 import static cs.java.lang.CSLang.list;
 
-public class CSPagerAdapter<T extends CSViewController & CSPagerPageInterface> extends PagerAdapter {
+public class CSPagerAdapter<T extends CSViewController & CSPagerPage> extends PagerAdapter {
 
     private CSList<T> _controllers = list();
 

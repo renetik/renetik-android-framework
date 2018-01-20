@@ -21,7 +21,7 @@ import static cs.java.lang.CSLang.no;
 
 public class CSListLoadNextController extends CSViewController {
 
-    private final CSEvent<Void> _onLoadNext = event();
+    public final CSEvent<Void> onLoadNext = event();
     private final CSView<?> _loadView;
     private EndlessScrollListener _scrollListener;
     private boolean _loading;
@@ -29,10 +29,10 @@ public class CSListLoadNextController extends CSViewController {
     public CSListLoadNextController(CSListController parent, int loadViewLayout) {
         super(parent);
         _loadView = new CSView(this, layout(loadViewLayout));
-        parent.getOnLoad().add((registration, arg) -> onListLoad((CSList<?>) arg));
+        parent.onLoad.add((registration, list) -> onListLoad((CSList) list));
     }
 
-    private void onListLoad(CSList<?> data) {
+    private void onListLoad(CSList data) {
         _loadView.hide();
         if (no(_scrollListener)) _scrollListener = new EndlessScrollListener();
         else if (data.isEmpty()) _scrollListener = null;
@@ -44,12 +44,8 @@ public class CSListLoadNextController extends CSViewController {
         asAbsListView().setOnScrollListener(_scrollListener);
     }
 
-    public CSEvent<Void> eventOnLoadNext() {
-        return _onLoadNext;
-    }
-
     private void onLoadNext() {
-        fire(_onLoadNext);
+        fire(onLoadNext);
         _loading = true;
         _loadView.show();
     }

@@ -65,9 +65,9 @@ public abstract class CSSettingsActivityBase extends PreferenceActivity implemen
     }
 
     public void onBackPressed() {
-        CSValue<Boolean> willPressBack = new CSValue<Boolean>(true);
+        CSValue<Boolean> willPressBack = new CSValue<>(true);
         _controller.onBack(willPressBack);
-        if (willPressBack.get()) super.onBackPressed();
+        if (willPressBack.getValue()) super.onBackPressed();
     }
 
     public void onCreate(Bundle state) {
@@ -128,10 +128,6 @@ public abstract class CSSettingsActivityBase extends PreferenceActivity implemen
 
     public Object onRetainNonConfigurationInstance() {
         return _controller;
-    }
-
-    public void onSaveInstanceState(Bundle state) {
-        _controller.onSaveInstanceState(state);
     }
 
     protected void onStart() {

@@ -42,6 +42,7 @@ import cs.android.CSContextInterface;
 import cs.java.collections.CSList;
 import cs.java.lang.Base;
 
+import static android.content.pm.PackageManager.GET_SIGNATURES;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static android.text.format.DateFormat.getDateFormat;
@@ -89,7 +90,7 @@ public abstract class CSContextController extends Base implements CSContextInter
 
     public String getAppKeyHash() {
         try {
-            PackageInfo info = context().getPackageManager().getPackageInfo(context().getPackageName(), PackageManager.GET_SIGNATURES);
+            PackageInfo info = context().getPackageManager().getPackageInfo(context().getPackageName(), GET_SIGNATURES);
             if (set(info.signatures)) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(info.signatures[0].toByteArray());

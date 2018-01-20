@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import cs.android.viewbase.CSContextController;
 import cs.java.callback.CSRunWith;
 import cs.java.event.CSEvent;
-import cs.java.event.CSEvent.EventRegistration;
+import cs.java.event.CSEvent.CSEventRegistration;
 import cs.java.event.CSListener;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
@@ -63,7 +63,7 @@ public class CSReachability extends CSContextController {
 
     public CSReachability onConnected(final CSRunWith<CSReachability> runWith) {
         _eventOnConnected.add(new CSListener() {
-            public void onEvent(EventRegistration registration, Object arg) {
+            public void onEvent(CSEventRegistration registration, Object arg) {
                 runWith.run(CSReachability.this);
             }
         });
@@ -72,7 +72,7 @@ public class CSReachability extends CSContextController {
 
     public CSReachability onDisconnected(final CSRunWith<CSReachability> runWith) {
         _eventOnDisConnected.add(new CSListener() {
-            public void onEvent(EventRegistration registration, Object arg) {
+            public void onEvent(CSEventRegistration registration, Object arg) {
                 runWith.run(CSReachability.this);
             }
         });
@@ -81,7 +81,7 @@ public class CSReachability extends CSContextController {
 
     public CSReachability onStateChanged(final CSRunWith<CSReachability> runWith) {
         _eventOnStateChanged.add(new CSListener() {
-            public void onEvent(EventRegistration registration, Object arg) {
+            public void onEvent(CSEventRegistration registration, Object arg) {
                 runWith.run(CSReachability.this);
             }
         });

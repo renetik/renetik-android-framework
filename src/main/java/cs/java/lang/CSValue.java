@@ -1,5 +1,7 @@
 package cs.java.lang;
 
+import static cs.java.lang.CSLang.is;
+
 public class CSValue<T> implements CSValueInterface<T> {
 
     private T value;
@@ -8,7 +10,11 @@ public class CSValue<T> implements CSValueInterface<T> {
         this.value = value;
     }
 
-    public T get() {
+    public static <T> T value(CSValueInterface<T> hasValue) {
+        return is(hasValue) ? hasValue.getValue() : null;
+    }
+
+    public T getValue() {
         return value;
     }
 

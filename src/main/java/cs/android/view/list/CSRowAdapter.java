@@ -18,11 +18,11 @@ public abstract class CSRowAdapter<Data extends CSJSONData> implements CSIRowVie
         _parent = parent;
     }
 
-    public CSListRow<Data> rowData() {
+    public CSListRow<Data> row() {
         return _data;
     }
 
-    public void rowData(CSListRow<Data> row) {
+    public void row(CSListRow<Data> row) {
         _data = row;
         onLoadRowData(row.data(), row.index());
     }

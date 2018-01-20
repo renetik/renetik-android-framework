@@ -10,7 +10,7 @@ public class CSListIterator<T> extends CSIterator<T> {
 		this._list = list;
 	}
 
-	 public T getValue() {
+	 public T getCurrent() {
 		return _list.get(index());
 	}
 

@@ -16,15 +16,15 @@ public class CSRowView<T> extends CSView<View> implements CSIRowView<T> {
         super(parent.asAdapterView(), layout);
     }
 
-    public T rowData() {
+    public T row() {
         return _row;
     }
 
-    public void rowData(T row) {
+    public void row(T row) {
         _row = row;
-        onLoadRowData(_row);
+        onLoad(_row);
     }
 
-    protected void onLoadRowData(T row) {
+    protected void onLoad(T row) {
     }
 }

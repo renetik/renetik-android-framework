@@ -2,15 +2,19 @@ package cs.java.event;
 
 public interface CSEvent<T> {
 
-    EventRegistration add(CSListener<T> listener);
+    CSEventRegistration add(CSListener<T> listener);
 
     void fire(T arg);
 
     void clear();
 
-    interface EventRegistration {
+    interface CSEventRegistration {
         void cancel();
 
         CSEvent<?> event();
+
+        CSEventRegistration setActive(boolean active);
+
+        boolean isActive();
     }
 }

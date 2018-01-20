@@ -3,7 +3,6 @@ package cs.android.viewbase;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -14,20 +13,24 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.List;
+import java.util.Map.Entry;
 
-import cs.android.view.CSAlertDialog;
+import cs.android.view.CSAlertController;
 import cs.android.viewbase.menu.CSMenuItem;
 import cs.android.viewbase.menu.CSOnMenu;
 import cs.android.viewbase.menu.CSOnMenuItem;
 import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
 import cs.java.collections.CSList;
+import cs.java.collections.CSMap;
 import cs.java.event.CSEvent;
+import cs.java.event.CSEvent.CSEventRegistration;
 import cs.java.event.CSEventRegistrations;
 import cs.java.event.CSTask;
 import cs.java.lang.CSValue;
@@ -37,38 +40,38 @@ import static android.os.Build.VERSION.SDK_INT;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.doLater;
+import static cs.java.lang.CSLang.equal;
 import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.event;
 import static cs.java.lang.CSLang.exception;
 import static cs.java.lang.CSLang.fire;
+import static cs.java.lang.CSLang.info;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.run;
 import static cs.java.lang.CSLang.set;
 import static cs.java.lang.CSLang.stringf;
-import static cs.java.lang.CSLang.unexpected;
 import static cs.java.lang.CSLang.warn;
 import static cs.java.lang.CSMath.randomInt;
 
-public abstract class CSViewController extends CSView<View> implements CSIViewController {
+public abstract class CSViewController<ViewType extends View> extends CSView<ViewType> implements CSIViewController {
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static boolean _startingActivity;
     private static CSViewController _root;
-    public final CSEvent<Void> onPause = event();
-    public final CSEvent<Bundle> onCreate = event();
     public final CSEvent<Bundle> onBeforeCreate = event();
-    public final CSEvent<CSValue<Boolean>> onBack = event();
+    public final CSEvent<Bundle> onCreate = event();
     public final CSEvent<Void> onStart = event();
-    public final CSEvent<Void> onStop = event();
-    public final CSEvent<Void> onLowMemory = event();
-    public final CSEvent<Bundle> onSaveInstance = event();
-    public final CSEvent<Void> onDestroy = event();
     public final CSEvent<Void> onResume = event();
+    public final CSEvent<Void> onPause = event();
+    public final CSEvent<Void> onStop = event();
+    public final CSEvent<Void> onDestroy = event();
+    public final CSEvent<CSValue<Boolean>> onBack = event();
+    public final CSEvent<Configuration> onConfigurationChanged = event();
+    public final CSEvent<Void> onLowMemory = event();
     public final CSEvent<Void> onUserLeaveHint = event();
     public final CSEvent<CSOnMenu> onPrepareOptionsMenu = event();
-    public final CSEvent<Configuration> onConfigurationChanged = event();
     public final CSEvent<CSOnMenuItem> onOptionsItemSelected = event();
     public final CSEvent<CSOnMenu> onCreateOptionsMenu = event();
     public final CSEvent<CSActivityResult> onActivityResult = event();
@@ -77,9 +80,10 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
     public final CSEvent<CSViewController> onInViewControllerShow = event();
     public final CSEvent<CSViewController> onInViewControllerHide = event();
     public final CSEvent<CSRequestPermissionResult> onRequestPermissionsResult = event();
-    public final CSEvent<Void> onPauseNative = event();
-    public final CSEvent<Void> onResumeNative = event();
+    public final CSEvent<Boolean> onViewVisibilityChanged = event();
     private final CSInViewController _inView;
+    private CSEventRegistrations _isVisibleEventRegistrations = new CSEventRegistrations();
+    private CSEventRegistrations _eventRegistrations = new CSEventRegistrations();
     private boolean _isCreated;
     private boolean _isResumed;
     private boolean _isPaused;
@@ -90,37 +94,36 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
     private Bundle _state;
     private CSEventRegistrations _parentEventsTask;
     private int _viewId;
-    private CSLayoutId _layoutId;
     private CSInViewController _parentInView;
     private CSList<CSMenuItem> _menuItems = list();
     private boolean _isResumeFirstTime = YES;
-    private boolean _isActive = YES;
+    private Boolean _showingInPager;
     private boolean _isBeforeCreate;
+    private boolean _isShowing = NO;
+    private boolean _onViewShowingCalled;
 
     public CSViewController(CSInViewController parentInView, CSLayoutId layoutId) {
-        super(parentInView);
+        super(parentInView, layoutId);
         _inView = createInView();
-        _parent = parentInView.parent();
+        _parent = parentInView.parentController();
         _parentInView = parentInView;
-        _layoutId = layoutId;
     }
 
     public CSViewController(Activity activity, CSLayoutId layoutId) {
-        super(activity);
+        super(() -> activity, layoutId);
         _inView = createInView();
         _startingActivity = NO;
-        _layoutId = layoutId;
         _parent = null;
     }
 
-    public CSViewController(CSViewController parent) {
+    public CSViewController(CSViewController<?> parent) {
         super(parent);
         _inView = null;
         _parent = parent;
         parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
 
-    public CSViewController(CSViewController parent, int viewId) {
+    public CSViewController(CSViewController<?> parent, int viewId) {
         super(parent);
         _inView = null;
         _parent = parent;
@@ -128,11 +131,17 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
         parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
 
-    public CSViewController(CSViewController parent, CSLayoutId id) {
-        super(parent);
+    public CSViewController(CSViewController<?> parent, CSLayoutId layoutId) {
+        super(parent, layoutId);
         _inView = null;
         _parent = parent;
-        _layoutId = id;
+        parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
+    }
+
+    public CSViewController(CSViewController<?> parent, ViewGroup viewGroup, CSLayoutId layout) {
+        super(viewGroup, layout);
+        _inView = null;
+        _parent = parent;
         parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
 
@@ -148,12 +157,115 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
         return is(_root) ? _root.activity() : null;
     }
 
+    protected void onBeforeCreate(Bundle state) {
+        if (_isBeforeCreate)
+            throw exception("Already before created");
+        updateRoot();
+        if (is(parentController())) {
+            setActivity(parentController().activity());
+            initializeListeners();
+        } else if (!isRoot())
+            throw exception("No parent, No root");
+        fire(onBeforeCreate, state);
+        _isBeforeCreate = YES;
+    }
+
+    protected void onCreate(Bundle state) {
+        if (!_isBeforeCreate)
+            throw exception("Before create not called");
+        if (_isCreated)
+            throw exception("Already created");
+        _state = state;
+        updateRoot();
+        fire(onCreate, state);
+        if (no(state)) onCreateFirstTime();
+        else onCreateRestore();
+        onCreate();
+        _isCreated = YES;
+        _isResumed = NO;
+        _isStarted = NO;
+        _isPaused = NO;
+    }
+
+    protected void onCreateFirstTime() {
+    }
+
+    protected void onCreateRestore() {
+    }
+
+    protected void onCreate() {
+    }
+
+    protected void onStart() {
+        _isStarted = true;
+        updateRoot();
+        fire(onStart);
+    }
+
+    protected void onResume() {
+        updateRoot();
+        _isResumed = true;
+        _isPaused = false;
+        fire(onResume);
+        if (_isResumeFirstTime) onResumeFirstTime();
+        else onResumeRestore();
+        updateVisibilityChanged();
+        _isResumeFirstTime = NO;
+    }
+
+    protected void onResumeFirstTime() {
+    }
+
+    protected void onResumeRestore() {
+    }
+
+    public void onPause() {
+        _isResumed = NO;
+        _isPaused = YES;
+        updateVisibilityChanged();
+        fire(onPause);
+    }
+
+    protected void onStop() {
+        _isStarted = NO;
+        _state = null;
+        fire(onStop);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (_isDestroyed)
+            throw exception("Already destroyed");
+        if (is(_parentEventsTask)) _parentEventsTask.cancel();
+        _parentInView = null;
+        _parent = null;
+        if (isRoot()) _root = null;
+        _activity = null;
+        _isDestroyed = true;
+        _isVisibleEventRegistrations.cancel();
+        _eventRegistrations.cancel();
+        fire(onDestroy);
+        System.gc();
+    }
+
+    public void initialize() {
+        onBeforeCreate(_state);
+        onCreate(_state);
+        onStart();
+        if (_parent.isResumed()) onResume();
+    }
+
+    public void onDeinitialize(Bundle state) {
+        if (isResumed() && !isPaused()) onPause();
+        onStop();
+    }
+
     public CSViewController asController() {
         return this;
     }
 
     public CSInViewController inView() {
-        return no(_inView) && is(parent()) ? parent().inView() : _inView;
+        return no(_inView) && is(parentController()) ? parentController().inView() : _inView;
     }
 
     public void requestPermissions(List<String> permissions, final CSRun onGranted) {
@@ -195,14 +307,13 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
     protected CSEventRegistrations initializeListeners() {
         if (is(_parentEventsTask))
             throw exception("Already initialized with parent");
-        CSViewController parent = set(_parentInView) ? _parentInView : _parent;
+        CSViewController<?> parent = set(_parentInView) ? _parentInView : _parent;
         return _parentEventsTask = new CSEventRegistrations(
                 parent.onCreate.add((registration, argument) -> onCreate(argument)),
                 parent.onStart.add((registration, argument) -> onStart()),
-                parent.onResumeNative.add((registration, argument) -> onResumeNative()),
-                parent.onPauseNative.add((registration, argument) -> onPauseNative()),
+                parent.onResume.add((registration, argument) -> onResume()),
+                parent.onPause.add((registration, argument) -> onPause()),
                 parent.onStop.add((registration, argument) -> onStop()),
-                parent.onSaveInstance.add((registration, argument) -> onSaveInstanceState(argument)),
                 parent.onDestroy.add((registration, argument) -> onDestroy()),
                 parent.onBack.add((registration, argument) -> onBack(argument)),
                 parent.onActivityResult.add((registration, argument) -> onActivityResult(argument)),
@@ -213,10 +324,12 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
                 parent.onNewIntent.add((registration, argument) -> onNewIntent(argument)),
                 parent.onUserLeaveHint.add((registration, argument) -> onUserLeaveHint()),
                 parent.onLowMemory.add((registration, argument) -> onLowMemory()),
+                parent.onConfigurationChanged.add((registration, argument) -> onConfigurationChanged(argument)),
+                parent.onRequestPermissionsResult.add((registration, argument) -> onRequestPermissionsResult(argument)),
                 parent.onInViewControllerShow.add((registration, argument) -> onInViewControllerShow(argument)),
                 parent.onInViewControllerHide.add((registration, argument) -> onInViewControllerHide(argument)),
-                parent.onConfigurationChanged.add((registration, argument) -> onConfigurationChanged(argument)),
-                parent.onRequestPermissionsResult.add((registration, argument) -> onRequestPermissionsResult(argument)));
+                parent.onViewVisibilityChanged.add((registration, argument) -> updateVisibilityChanged())
+        );
     }
 
     protected void onLowMemory() {
@@ -229,7 +342,7 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
 
     protected void onBack(CSValue<Boolean> goBack) {
         fire(onBack, goBack);
-        if (goBack.get()) goBack.set(onGoBack());
+        if (goBack.getValue()) goBack.set(onGoBack());
     }
 
     protected void onActivityResult(CSActivityResult result) {
@@ -251,10 +364,8 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
         if (isMenuVisible()) {
             for (CSMenuItem item : _menuItems)
                 if (onItem.consume(item.id()))
-                    if (onItem.isCheckable())
-                        item.onChecked(onItem);
-                    else
-                        item.run();
+                    if (onItem.isCheckable()) item.onChecked(onItem);
+                    else item.run();
             invalidateOptionsMenu();
         }
     }
@@ -269,14 +380,12 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
             for (CSMenuItem item : _menuItems)
                 if (item.isVisible()) {
                     MenuItem androidItem = menu.show(item.id());
-                    if (androidItem.isCheckable())
-                        androidItem.setChecked(item.isChecked());
+                    if (androidItem.isCheckable()) androidItem.setChecked(item.isChecked());
                 }
-
     }
 
     protected boolean isMenuVisible() {
-        return isActive();
+        return isShowing();
     }
 
     protected void onKeyDown(CSOnKeyDownResult onKey) {
@@ -295,39 +404,32 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
         return YES;
     }
 
-    public View asView() {
+    public ViewType asView() {
         if (isDestroyed()) return null;
-        if (is(getView())) return getView();
-        else if (set(_viewId)) {
-            setView(parent().asView().findViewById(_viewId));
-            if (no(getView()))
-                throw unexpected("Expected", this, "in parent", parent());
-        } else if (set(_layoutId)) setView(inflateLayout(_layoutId.id));
-        else setView(parent().asView());
-        if (no(getView()))
-            throw unexpected("View not created for some reason");
-        return getView();
+        if (is(super.asView())) return super.asView();
+        else if (set(_viewId))
+            return setView((ViewType) parentController().findViewRecursive(_viewId));
+        else if (is(parentController())) return setView((ViewType) parentController().asView());
+        throw exception("This should not happen man ;)");
     }
 
-    public CSViewController parent() {
+    public CSViewController parentController() {
         return _parent;
     }
 
-    public CSView<View> hide() {
-        if (is(_parentInView)) _parentInView.hide();
+    public CSView<ViewType> hide() {
+        if (is(_parentInView)) _parentInView.closeController();
         else super.hide();
         return this;
     }
 
-    public CSView<View> show() {
-        if (is(_parentInView)) _parentInView.showController(this);
-        else super.show();
+    public CSView<ViewType> show() {
+        if (is(_parentInView)) _parentInView.openController(this);
+        else {
+            if (!_isBeforeCreate) initialize();
+            super.show();
+        }
         return this;
-    }
-
-    public Context context() {
-        if (is(parent())) return parent().context();
-        return super.context();
     }
 
     public MenuInflater getMenuInflater() {
@@ -352,13 +454,9 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
     }
 
     public void goBack() {
-        if (is(parent()))
-            parent().goBack();
+        if (is(parentController()))
+            parentController().goBack();
         else activity().onBackPressed();
-    }
-
-    public boolean hasLayout() {
-        return is(_layoutId);
     }
 
     protected <Argument> CSTask<Argument> listen(CSEvent<Argument> event) {
@@ -391,6 +489,13 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
 
     public void startActivity(Class<? extends Activity> activityClass) {
         startActivity(new Intent(activity(), activityClass));
+    }
+
+    public void startActivity(Class<? extends Activity> activityClass, CSMap<String, String> extras) {
+        Intent intent = new Intent(activity(), activityClass);
+        for (Entry<String, String> entry : extras.entrySet())
+            intent.putExtra(entry.getKey(), entry.getValue());
+        startActivity(intent);
     }
 
     public void startActivity(Intent intent) {
@@ -428,7 +533,7 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
             if (googleAPI.isUserResolvableError(result)) {
                 googleAPI.getErrorDialog(activity(), result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else
-                new CSAlertDialog(this).show("Google Play Services missing application cannot continue",
+                new CSAlertController(this).show("Google Play Services missing application cannot continue",
                         null, "OK", (value, dialog) -> activity().finish());
         }
     }
@@ -441,35 +546,7 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
         startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
     }
 
-    public void onDeinitialize(Bundle state) {
-        onPauseNative();
-        onSaveInstanceState(state);
-        onStop();
-    }
-
-    protected void onSaveInstanceState(Bundle state) {
-        fire(onSaveInstance, state);
-    }
-
     protected void onHideByInViewController() {
-    }
-
-    public void onInitialize() {
-        onBeforeCreate(_state);
-        onCreate(_state);
-        onStart();
-    }
-
-    protected void onBeforeCreate(Bundle state) {
-        if (_isBeforeCreate) throw exception("Already before created");
-        updateRoot();
-        if (is(parent())) {
-            setActivity(parent().activity());
-            initializeListeners();
-        } else if (!isRoot())
-            throw unexpected("No parent, No root");
-        fire(onBeforeCreate, state);
-        _isBeforeCreate = YES;
     }
 
     protected void setActivity(Activity activity) {
@@ -482,123 +559,95 @@ public abstract class CSViewController extends CSView<View> implements CSIViewCo
         if (no(_parent)) _root = this;
     }
 
-    protected void onCreate(Bundle state) {
-        if (!_isBeforeCreate)
-            throw exception("Before create not called");
-        if (_isCreated)
-            throw exception("Already created");
-        _state = state;
-        updateRoot();
-        fire(onCreate, state);
-        if (no(state)) onCreateFirstTime();
-        else onCreateRestore();
-        onCreate();
-        _isCreated = YES;
-        _isResumed = NO;
-        _isStarted = NO;
-        _isPaused = NO;
-    }
-
-    protected void onCreateFirstTime() {
-    }
-
-    protected void onCreateRestore() {
-    }
-
-    protected void onCreate() {
-    }
-
-    protected void onStart() {
-        _isStarted = true;
-        updateRoot();
-        fire(onStart);
-    }
-
-    public void onResumeNative() {
-        fire(onResumeNative);
-        if (isActive()) onResume();
-    }
-
-    public void onResume() {
-        if (!_isCreated)
-            throw exception("Not created");
-        if (_isResumed)
-            throw exception("Already resumed");
-        updateRoot();
-        _isResumed = true;
-        _isPaused = false;
-        invalidateOptionsMenu();
-        fire(onResume);
-        if (_isResumeFirstTime) onResumeFirstTime();
-        else onResumeRestore();
-        _isResumeFirstTime = NO;
-        if (isActive()) onViewShowing();
-    }
-
-    protected void onResumeFirstTime() {
-    }
-
-    protected void onResumeRestore() {
-    }
-
-    protected void onViewShowing() {
-    }
-
-    public void onPauseNative() {
-        fire(onPauseNative);
-        if (isActive()) onPause();
-    }
-
-    public void onPause() {
-        if (!_isResumed)
-            throw exception("Not resumed");
-        if (_isPaused)
-            throw exception("Already paused");
-        _isResumed = false;
-        _isPaused = true;
-        fire(onPause);
-    }
-
-    protected void onStop() {
-        _isStarted = false;
-        _state = null;
-        fire(onStop);
-    }
-
     protected void onInViewControllerShow(CSViewController controller) {
-        invalidateOptionsMenu();
+        updateVisibilityChanged();
         fire(onInViewControllerShow, controller);
-        onPause();
     }
 
     protected void onInViewControllerHide(CSViewController controller) {
-        hideKeyboard();
-        invalidateOptionsMenu();
+        updateVisibilityChanged();
         fire(onInViewControllerHide, controller);
-        onResume();
     }
 
-    public boolean isActive() {
-        return _isActive && (inView() == null || inView().isHidden());
+    public boolean isShowing() {
+        return _isShowing;
     }
 
-    public void setActive(boolean active) {
-        _isActive = active;
+    public void setShowingInPager(boolean showingInPager) {
+        if (equal(_showingInPager, showingInPager)) return;
+        _showingInPager = showingInPager;
+        updateVisibilityChanged();
     }
 
-    public void onDestroy() {
-        super.onDestroy();
-        if (_isDestroyed)
-            throw exception("Already destroyed");
-        if (is(_parentEventsTask)) _parentEventsTask.cancel();
-        setView(null);
-        _parentInView = null;
-        _parent = null;
-        if (isRoot()) _root = null;
-        _activity = null;
-        _isDestroyed = true;
-        fire(onDestroy);
-        System.gc();
+    protected void updateVisibilityChanged() {
+        if (checkIfIsShowing()) {
+            if (!_isShowing) onViewVisibilityChanged(YES);
+        } else if (_isShowing) onViewVisibilityChanged(NO);
+    }
+
+    protected boolean checkIfIsShowing() {
+        if (!isResumed()) return NO;
+        if (is(_showingInPager) && !_showingInPager) return NO;
+        if (is(_parentInView)) {
+            if (inViewVisible()) return parentController().isShowing();
+            return YES;
+        }
+        if (inViewVisible()) return NO;
+        if (is(parentController()) && !parentController().isShowing()) return NO;
+        return YES;
+    }
+
+    protected boolean inViewVisible() {
+        return is(_inView) && _inView.isControllerOpened();
+    }
+
+    protected void onViewVisibilityChanged(boolean showing) {
+        if (_isShowing = showing) {
+            info("onViewShowing", this);
+            _isVisibleEventRegistrations.setActive(YES);
+            invalidateOptionsMenu();
+            onViewShowing();
+        } else {
+            info("onViewHiding", this);
+            _isVisibleEventRegistrations.setActive(NO);
+            invalidateOptionsMenu();
+            onViewHiding();
+        }
+        fire(onViewVisibilityChanged, _isShowing);
+    }
+
+    protected void onViewShowing() {
+        if (!_onViewShowingCalled) {
+            onViewShowingFirstTime();
+            _onViewShowingCalled = YES;
+        } else onViewShowingAgain();
+    }
+
+    protected void onViewShowingFirstTime() {
+    }
+
+    private void onViewShowingAgain() {
+    }
+
+    protected void onViewHiding() {
+        if (!_onViewShowingCalled) {
+            onViewHidingFirstTime();
+            _onViewShowingCalled = YES;
+        } else onViewHidingAgain();
+    }
+
+    protected void onViewHidingFirstTime() {
+    }
+
+    private void onViewHidingAgain() {
+    }
+
+    protected CSEventRegistration ifVisible(CSEventRegistration eventRegistration) {
+        return _isVisibleEventRegistrations.add(eventRegistration);
+    }
+
+    protected CSEventRegistration register(CSEventRegistration eventRegistration) {
+        return _eventRegistrations.add(eventRegistration);
     }
 
     public void invalidateOptionsMenu() {

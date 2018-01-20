@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -52,12 +53,12 @@ import java.util.Date;
 
 import cs.android.CSContextInterface;
 import cs.android.view.adapter.CSTextWatcherAdapter;
+import cs.android.view.list.CSListController;
 import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
 import cs.java.collections.CSList;
 import cs.java.common.CSPoint;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -67,21 +68,19 @@ import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.as;
 import static cs.java.lang.CSLang.doLater;
 import static cs.java.lang.CSLang.empty;
+import static cs.java.lang.CSLang.exceptionf;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.set;
 import static cs.java.lang.CSLang.stringf;
 
-public class CSView<T extends View> extends CSContextController implements CSViewInterface {
+public class CSView<V extends View> extends CSContextController implements CSViewInterface {
 
     private CSView _viewField;
-    private View _view;
-
-    public CSView(CSContextInterface context, CSLayoutId layoutId) {
-        this(context);
-        setInflateView(layoutId.id);
-    }
+    private V _view;
+    private CSLayoutId _layoutId;
+    private ViewGroup _parentContainer;
 
     public CSView(CSContextInterface context) {
         super(context);
@@ -91,22 +90,32 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         super(context);
     }
 
-    public CSView(final ViewGroup parent, CSLayoutId layoutId) {
-        super(parent::getContext);
-        setView(inflateLayout(parent, layoutId.id));
+    public CSView(final ViewGroup parentContainer, CSLayoutId layoutId) {
+        this(parentContainer.getContext());
+        _parentContainer = parentContainer;
+        _layoutId = layoutId;
+    }
+
+    public CSView(CSContextInterface parent, CSLayoutId layoutId) {
+        this(parent);
+        _layoutId = layoutId;
+    }
+
+    public CSView(CSListController parent, CSLayoutId layoutId) {
+        this(parent.asGroup(), layoutId);
     }
 
     public CSView(CSView<?> parent, int viewId) {
-        this(parent.findView(viewId));
+        this((V) parent.findView(viewId));
     }
 
-    public CSView(final View view) {
+    public CSView(final V view) {
         super(view.getContext());
         setView(view);
     }
 
     public CSView(CSLayoutId layoutId) {
-        setInflateView(layoutId.id);
+        _layoutId = layoutId;
     }
 
     public static int getTopRelativeTo(View view, View relativeTo) {
@@ -120,27 +129,41 @@ public class CSView<T extends View> extends CSContextController implements CSVie
 
     public static <T extends View> CSView<T> wrap(View view) {
         if (view.getTag() instanceof CSView) return (CSView) view.getTag();
-        return new CSView<>(view);
+        return new CSView(view);
     }
 
-    protected void setInflateView(int layoutId) {
-        setView(inflateLayout(layoutId));
+    public static CSView<View> viewAsChildOf(ViewGroup parent, CSLayoutId layout) {
+        CSView view = new CSView(parent, layout);
+        parent.addView(view.asView());
+        return view;
     }
 
-    public View inflateLayout(int layout_id) {
+    public boolean hasLayout() {
+        return is(_layoutId);
+    }
+
+    public View inflate(int layout_id) {
         return LayoutInflater.from(context()).inflate(layout_id, null);
     }
 
-    public View inflateLayout(ViewGroup parent, int layout_id) {
-        return LayoutInflater.from(context()).inflate(layout_id, parent, NO);
+    public View inflate(ViewGroup parent, int layoutId) {
+        return LayoutInflater.from(context()).inflate(layoutId, parent, NO);
     }
 
     public View findView(int id) {
         return asView().findViewById(id);
     }
 
-    public T asView() {
-        return (T) _view;
+    public View findViewRecursive(int id) {
+        View view = findView(id);
+        return no(view) && hasParent() ? parent().findViewRecursive(id) : view;
+    }
+
+    public V asView() {
+        return no(_view) && hasLayout() ?
+                setView((V) (is(_parentContainer) ?
+                        inflate(_parentContainer, _layoutId.id) : inflate(_layoutId.id)))
+                : _view;
     }
 
     public int getLayoutWidth() {
@@ -172,7 +195,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     }
 
     public CSPoint center() {
-        return new CSPoint(getLeft() + width() / 2, getTop() + getHeight() / 2);
+        return new CSPoint(getLeft() + width() / 2, getTop() + height() / 2);
     }
 
     public int getLeft() {
@@ -187,21 +210,21 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return asView().getTop();
     }
 
-    public int getHeight() {
+    public int height() {
         return asView().getHeight();
     }
 
-    public CSView<T> width(int width) {
+    public CSView<V> width(int width) {
         setSize(YES, width, YES);
         return this;
     }
 
     private void setSize(boolean width, int value, boolean dip) {
-        LayoutParams lp = asView().getLayoutParams();
+        LayoutParams params = asView().getLayoutParams();
         if (value > 0 && dip) value = (int) toPixel(value);
-        if (width) lp.width = value;
-        else lp.height = value;
-        asView().setLayoutParams(lp);
+        if (width) params.width = value;
+        else params.height = value;
+        asView().setLayoutParams(params);
     }
 
     public void fade(boolean fadeIn) {
@@ -299,7 +322,6 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         view.setVisibility(GONE);
     }
 
-
     public void invisible(View view) {
         view.setVisibility(INVISIBLE);
     }
@@ -310,31 +332,28 @@ public class CSView<T extends View> extends CSContextController implements CSVie
 
     public CSView parent() {
         ViewParent parent = asView().getParent();
-        return view((View) parent);
+        return is(parent) ? view((View) parent) : null;
     }
 
-    public <V extends View> CSView<V> view(View view) {
-        return _viewField = new CSView<V>(this).setView(view);
+    public <ViewType extends View> CSView<ViewType> view(ViewType view) {
+        return _viewField = new CSView<>(view);
     }
 
     public CSView<View> view(CSLayoutId layout) {
-        return view(inflateLayout(layout.id));
+        return new CSView(this, layout);
     }
 
-    public CSView<View> view(CSLayoutId layout, ViewGroup parentToAddTo) {
-        CSView<View> view = view(service(LAYOUT_INFLATER_SERVICE, LayoutInflater.class)
-                .inflate(layout.id, parentToAddTo, false));
-        parentToAddTo.addView(view.asView());
-        return view;
-    }
-
-    public CSView<View> view(CSLayoutId layout, int parentToAddTo) {
-        return view(layout, viewGroup(parentToAddTo));
+    public CSView<View> viewAsChildOf(int parentViewGroup, CSLayoutId layout) {
+        return viewAsChildOf(viewGroup(parentViewGroup), layout);
     }
 
     public CSView<View> view() {
         if (no(_viewField)) view(asView());
         return _viewField;
+    }
+
+    public void playClick() {
+        asView().playSoundEffect(SoundEffectConstants.CLICK);
     }
 
     public <V extends View> CSView<V> view(Class<V> clazz) {
@@ -413,15 +432,17 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return getTopRelativeTo(asView(), view);
     }
 
-    public View getView() {
+    public V getView() {
         return _view;
     }
 
-    public CSView<T> setView(View view) {
+    protected V setView(V view) {
+        if (view == null)
+            throw exceptionf("View is null for %s, so not found in parent or ? context is %s", this, context());
         if (is(view)) view.setTag(this);
         if (is(_view)) _view.setTag(null);
         _view = view;
-        return this;
+        return view;
     }
 
     @SuppressWarnings("unchecked")
@@ -441,14 +462,13 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (WebView) findView(id);
     }
 
-    public CSView<T> hide() {
+    public CSView<V> hide() {
         hide(asView());
         return this;
     }
 
     public void hide(boolean hide, int viewId, int... viewIds) {
-        if (hide)
-            hide(viewId, viewIds);
+        if (hide) hide(viewId, viewIds);
         else show(viewId, viewIds);
     }
 
@@ -488,7 +508,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (Button) findView(id);
     }
 
-    public CSView<T> onClick(OnClickListener onClickListener) {
+    public CSView<V> onClick(OnClickListener onClickListener) {
         asView().setOnClickListener(onClickListener);
         return this;
     }
@@ -552,7 +572,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         textView(viewId).setText(text);
     }
 
-    public CSView<T> show() {
+    public CSView<V> show() {
         show(asView());
         return this;
     }
@@ -581,14 +601,18 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (TextView) asView();
     }
 
-    public CSView<T> text(int resourceId) {
+    public CSView<V> text(int resourceId) {
         asTextView().setText(resourceId);
         return this;
     }
 
-    public CSView<T> text(CharSequence string) {
+    public CSView<V> text(CharSequence string) {
         asTextView().setText(string);
         return this;
+    }
+
+    public CSView<V> textf(String format, Object... arguments) {
+        return text(stringf(format, arguments));
     }
 
     public float toDp(float pixel) {
@@ -611,11 +635,11 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (CSView<V>) view(findView(id));
     }
 
-    public <V extends View> CSView<V> view(int id, Class<V> clazz) {
-        return (CSView<V>) view(findView(id));
+    public <ViewType extends View> CSView<ViewType> view(int id, Class<ViewType> clazz) {
+        return (CSView<ViewType>) view(findView(id));
     }
 
-    public CSView<T> image(String url) {
+    public CSView<V> image(String url) {
         if (empty(url)) return this;
         picassoImage(url).into(asImageView());
         return this;
@@ -627,17 +651,17 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return creator;
     }
 
-    public CSView<T> image(Drawable drawable) {
+    public CSView<V> image(Drawable drawable) {
         asImageView().setImageDrawable(drawable);
         return this;
     }
 
-    public CSView<T> image(int resId) {
+    public CSView<V> image(int resId) {
         if (set(resId)) Picasso.with(context()).load(resId).into(asImageView());
         return this;
     }
 
-    public CSView<T> image(String url, int width) {
+    public CSView<V> image(String url, int width) {
         if (empty(url)) return this;
         RequestCreator creator = Picasso.with(context()).load(url);
         if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
@@ -649,7 +673,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         Picasso.with(context()).load(file).resize(width, 0).centerInside().into(asImageView());
     }
 
-    public CSView<T> image(File file) {
+    public CSView<V> image(File file) {
         Picasso.with(context()).load(file).into(asImageView());
         return this;
     }
@@ -658,7 +682,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         asView().setFocusable(focusable);
     }
 
-    public CSView<T> image(File file, boolean memCache, int targetWidth) {
+    public CSView<V> image(File file, boolean memCache, int targetWidth) {
         RequestCreator creator = Picasso.with(context()).load(file).resize(targetWidth, 0).centerInside();
         if (!memCache)
             creator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
@@ -666,7 +690,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return this;
     }
 
-    public CSView<T> text(int resId, Object... formatArgs) {
+    public CSView<V> text(int resId, Object... formatArgs) {
         asTextView().setText(stringf(getString(resId), formatArgs));
         return this;
     }
@@ -675,7 +699,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         visible(!gone);
     }
 
-    public CSView<T> visible(boolean visible) {
+    public CSView<V> visible(boolean visible) {
         if (visible) asView().setVisibility(VISIBLE);
         else asView().setVisibility(GONE);
         return this;
@@ -685,12 +709,12 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return as(asView(), CompoundButton.class).isChecked();
     }
 
-    public CSView<T> setChecked(boolean checked) {
+    public CSView<V> setChecked(boolean checked) {
         as(asView(), CompoundButton.class).setChecked(checked);
         return this;
     }
 
-    public CSView<T> onChecked(OnCheckedChangeListener listener) {
+    public CSView<V> onChecked(OnCheckedChangeListener listener) {
         as(asView(), CompoundButton.class).setOnCheckedChangeListener(listener);
         return this;
     }
@@ -703,7 +727,7 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return asView().isEnabled();
     }
 
-    public CSView<T> onTextChange(final CSRunWith<String> runWith) {
+    public CSView<V> onTextChange(final CSRunWith<String> runWith) {
         asTextView().addTextChangedListener(new CSTextWatcherAdapter() {
             public void afterTextChanged(Editable editable) {
                 runWith.run(editable.toString());
@@ -717,17 +741,17 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         else show();
     }
 
-    public CSView<T> backgroundColor(int backgroundColorResource) {
+    public CSView<V> backgroundColor(int backgroundColorResource) {
         asView().setBackgroundResource(backgroundColorResource);
         return this;
     }
 
-    public CSView<T> textColor(int color) {
-        asTextView().setTextColor(color);
+    public CSView<V> textColor(int color) {
+        asTextView().setTextColor(getColor(color));
         return this;
     }
 
-    public CSView<T> height(int height) {
+    public CSView<V> height(int height) {
         setSize(false, height, YES);
         return this;
     }
@@ -735,11 +759,13 @@ public class CSView<T extends View> extends CSContextController implements CSVie
     protected void onDestroy() {
         super.onDestroy();
         _viewField = null;
-        if (is(_view)) _view.setTag(null);
-        _view = null;
+        if (is(_view)) {
+            _view.setTag(null);
+            _view = null;
+        }
     }
 
-    public CSView<T> hideIfTextEmpty() {
+    public CSView<V> hideIfTextEmpty() {
         visible(set(text()));
         return this;
     }
@@ -768,30 +794,42 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return (ScrollView) asView();
     }
 
-    public CSView<T> add(CSView view, LayoutParams layoutParams) {
+    public CSView<V> add(CSView view, LayoutParams layoutParams) {
         asGroup().addView(view.asView(), layoutParams);
         return this;
     }
 
-    public CSView<T> add(View view, LayoutParams layoutParams) {
+    public CSView<V> add(View view, LayoutParams layoutParams) {
         asGroup().addView(view, layoutParams);
         return this;
     }
 
-    public CSView<T> add(CSView view) {
+    public CSView<V> add(CSView view) {
+        if (no(view)) return this;
+        if (view.hasParent()) view.parent().removeView(view);
         asGroup().addView(view.asView());
         return this;
     }
 
+    public CSView<V> removeView(CSView view) {
+        asGroup().removeView(view.asView());
+        return this;
+    }
+
+    public CSView<V> add(View view) {
+        asGroup().addView(view);
+        return this;
+    }
+
     public <V extends View> CSView<V> lastSubview() {
-        return view(asGroup().getChildAt(subviewsCount() - 1));
+        return view((V) asGroup().getChildAt(subviewsCount() - 1));
     }
 
     public int subviewsCount() {
         return asGroup().getChildCount();
     }
 
-    public CSView<T> clearSubviews() {
+    public CSView<V> clearSubviews() {
         asGroup().removeAllViews();
         return this;
     }
@@ -800,8 +838,12 @@ public class CSView<T extends View> extends CSContextController implements CSVie
         return subviewsCount() > 0;
     }
 
-    public CSView<T> removeLastView() {
+    public CSView<V> removeLastView() {
         asGroup().removeViewAt(subviewsCount() - 1);
         return this;
+    }
+
+    public void layoutParams(LinearLayout.LayoutParams params) {
+        asView().setLayoutParams(params);
     }
 }

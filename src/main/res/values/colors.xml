@@ -3,15 +3,15 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="red">#ffff0000</color>
-    <color name="blue">#ff0000ff</color>
+    <color name="red">#d50000</color>
+    <color name="blue">#6200ea</color>
     <color name="transparent">#00000000</color>
-    <color name="lightGrey">#ffcccccc</color>
-    <color name="grey">#ff888888</color>
-    <color name="darkGrey">#ff444444</color>
-    <color name="green">#ff00ff00</color>
-    <color name="yellow">#ffffff00</color>
-    <color name="button_selection">#00000099</color>
+    <color name="lightGrey">#d7ccc8</color>
+    <color name="grey">#a1887f</color>
+    <color name="darkGrey">#424242</color>
+    <color name="green">#64dd17</color>
+    <color name="yellow">#ffea00</color>
+    <color name="button_selection">#b4311b92</color>
     <color name="dialog_background">#88000000</color>
     <color name="progress_background">#55000000</color>
 

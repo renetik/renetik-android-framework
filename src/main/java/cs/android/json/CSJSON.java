@@ -5,10 +5,7 @@ import org.json.JSONTokener;
 import java.util.List;
 import java.util.Map;
 
-import cs.java.collections.CSMap;
-
-import static cs.java.lang.CSLang.map;
-import static cs.java.lang.CSLang.unexpected;
+import static cs.java.lang.CSLang.exception;
 
 public class CSJSON {
 
@@ -25,10 +22,10 @@ public class CSJSON {
     }
 
     public static CSJSONObject create(Map data) {
-        return createObject().put(data);
+        return createJSONObject().put(data);
     }
 
-    public static CSJSONObject createObject() {
+    public static CSJSONObject createJSONObject() {
         return new CSJSONObject();
     }
 
@@ -70,10 +67,12 @@ public class CSJSON {
 //    }
 
     public static CSJSONType create(Object value) {
-        if (value instanceof CSJSONDataInterface) return ((CSJSONDataInterface) value).asJSONObject();
+        if (value instanceof CSJSONDataInterface)
+            return ((CSJSONDataInterface) value).asJSONObject();
         if (value instanceof List) return new CSJSONArray().add((List) value);
         if (value instanceof Map) return new CSJSONObject().put((Map) value);
-        if (value instanceof org.json.JSONObject) return new CSJSONObject((org.json.JSONObject) value);
+        if (value instanceof org.json.JSONObject)
+            return new CSJSONObject((org.json.JSONObject) value);
         if (value instanceof org.json.JSONArray) return new CSJSONArray((org.json.JSONArray) value);
         if (value instanceof Boolean) return CSJSONBoolean.getInstance((Boolean) value);
         if (value instanceof String) return new CSJSONString((String) value);
@@ -82,7 +81,7 @@ public class CSJSON {
         if (value instanceof Double) return new CSJSONNumber((Double) value);
         if (value == org.json.JSONObject.NULL) return null;
         if (value == null) return new CSJSONNullType();
-        throw unexpected("some unexpected type ", value);
+        throw exception("some unexpected type ", value);
     }
 
     public static String toJSONString(List list) {
@@ -90,6 +89,6 @@ public class CSJSON {
     }
 
     public static String toJSONString(Map map) {
-        return createObject().put(map).toJSONString();
+        return createJSONObject().put(map).toJSONString();
     }
 }

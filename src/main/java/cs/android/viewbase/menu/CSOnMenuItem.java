@@ -17,9 +17,9 @@ public class CSOnMenuItem {
     }
 
     public boolean consume(int id) {
-        if (_consumed.get()) return NO;
+        if (_consumed.getValue()) return NO;
         _consumed.set(_item.getItemId() == id);
-        return _consumed.get();
+        return _consumed.getValue();
     }
 
     public boolean consume(MenuItem item) {
@@ -28,7 +28,7 @@ public class CSOnMenuItem {
     }
 
     public boolean consumed() {
-        return _consumed.get();
+        return _consumed.getValue();
     }
 
     public boolean isCheckable() {

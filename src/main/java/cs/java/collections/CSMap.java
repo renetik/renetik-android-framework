@@ -9,10 +9,10 @@ public interface CSMap<K, V> extends java.util.Map<K, V> {
     }
 
     @Deprecated
-    public boolean containsKey(Object key);
+    boolean containsKey(Object key);
 
     @Deprecated
-    public boolean containsValue(Object value);
+    boolean containsValue(Object value);
 
     @Deprecated
     V get(Object key);

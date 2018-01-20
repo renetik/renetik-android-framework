@@ -1,7 +1,9 @@
 package cs.android.view.menu;
 
+import cs.android.viewbase.CSView;
 import cs.java.callback.CSRunWith;
 
+import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.run;
 
 /**
@@ -14,6 +16,8 @@ public class CSCustomMenuItem {
     private int _iconResource;
     private CSRunWith<CSCustomMenuItem> _onClick;
     private String _note;
+    private boolean _closeMenu = YES;
+    private CSView _customView;
 
     public CSCustomMenuItem(int index, CharSequence title) {
         _index = index;
@@ -33,6 +37,11 @@ public class CSCustomMenuItem {
         return _title;
     }
 
+    public CSCustomMenuItem title(CharSequence title) {
+        _title = title;
+        return this;
+    }
+
     public int index() {
         return _index;
     }
@@ -46,12 +55,31 @@ public class CSCustomMenuItem {
         return _note;
     }
 
-    public void onClick() {
+    public CSCustomMenuItem onClick() {
         run(_onClick, this);
+        return this;
     }
 
     public CSCustomMenuItem note(String note) {
         _note = note;
         return this;
+    }
+
+    public CSCustomMenuItem closeMenu(boolean closeMenu) {
+        _closeMenu = closeMenu;
+        return this;
+    }
+
+    public boolean isCloseMenu() {
+        return _closeMenu;
+    }
+
+    public CSCustomMenuItem customView(CSView view) {
+        _customView = view;
+        return this;
+    }
+
+    public CSView customView() {
+        return _customView;
     }
 }

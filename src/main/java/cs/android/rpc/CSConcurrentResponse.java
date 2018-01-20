@@ -6,6 +6,7 @@ import static cs.java.lang.CSLang.doLater;
 import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
+import static cs.java.lang.CSLang.no;
 
 public class CSConcurrentResponse<T> extends CSResponse<T> {
 
@@ -21,22 +22,20 @@ public class CSConcurrentResponse<T> extends CSResponse<T> {
     }
 
     public CSConcurrentResponse(CSResponse<T> response, CSResponse<?>... responses) {
-        addMain(response);
-        addAll(responses);
-    }
-
-    private CSResponse<T> addMain(CSResponse<T> response) {
         _mainResponse = response;
-        return add(response);
+        add(response);
+        add(responses);
     }
 
-    public <Data> CSResponse<Data> add(final CSResponse<Data> response) {
-        if (response.isSending()) onResponseSend();
-        _responses.add(response);
-        return response.
-                onSend(() -> onResponseSend()).
-                onSuccess(() -> onResponseSuccess(response)).
-                onFailed(failedResponse -> onResponseFailed(failedResponse));
+    public CSConcurrentResponse add(CSResponse<?>... responses) {
+        for (CSResponse<?> response : responses) {
+            if (no(response)) continue;
+            if (response.isSending()) onResponseSend();
+            _responses.put(response.onSend(() -> onResponseSend()).
+                    onSuccess(() -> onResponseSuccess(response)).
+                    onFailed(failedResponse -> onResponseFailed(failedResponse)));
+        }
+        return this;
     }
 
     private void onResponseSend() {
@@ -54,11 +53,6 @@ public class CSConcurrentResponse<T> extends CSResponse<T> {
         if (empty(_responses)) onResponsesDone();
     }
 
-    public CSConcurrentResponse<T> addAll(CSResponse<?>... responses) {
-        for (CSResponse<?> response : responses) add(response);
-        return this;
-    }
-
     public void cancel() {
         super.cancel();
         for (CSResponse response : _responses) response.cancel();
@@ -68,6 +62,11 @@ public class CSConcurrentResponse<T> extends CSResponse<T> {
         reset();
         for (CSResponse response : _responses) response.resend();
         return this;
+    }
+
+    public String title() {
+        if (no(super.title())) if (is(_mainResponse)) return _mainResponse.title();
+        return super.title();
     }
 
     public void onResponsesDone() {
@@ -83,7 +82,7 @@ public class CSConcurrentResponse<T> extends CSResponse<T> {
     }
 
     public void onAddDone() {
-        if (empty(_responses)) doLater(this::onResponsesDone);
+        if (empty(_responses)) doLater(() -> onResponsesDone());
     }
 
 }

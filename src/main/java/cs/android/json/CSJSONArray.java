@@ -120,7 +120,7 @@ public class CSJSONArray extends CSJSONType implements Iterable<CSJSONType> {
 
     public Iterator<CSJSONType> iterator() {
         return new CSIterator<CSJSONType>(getSize()) {
-            public CSJSONType getValue() {
+            public CSJSONType getCurrent() {
                 return get(index());
             }
         };
