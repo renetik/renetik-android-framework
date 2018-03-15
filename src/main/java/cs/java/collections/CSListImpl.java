@@ -2,6 +2,7 @@ package cs.java.collections;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static cs.java.lang.CSLang.empty;
@@ -85,6 +86,11 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
 
     public int length() {
         return size();
+    }
+
+    public CSList<T> reverse() {
+        Collections.reverse(this);
+        return this;
     }
 
     public CSList<T> removeAll() {

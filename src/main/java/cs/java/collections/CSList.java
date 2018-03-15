@@ -51,4 +51,6 @@ public interface CSList<T> extends java.util.List<T> , CSValues<T> {
 	boolean has(T bow);
 
     int length();
+
+	CSList<T>  reverse();
 }
