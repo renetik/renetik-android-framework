@@ -1,5 +1,6 @@
 package cs.android.view;
 
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 
 import cs.android.viewbase.CSLayoutId;
@@ -7,7 +8,7 @@ import cs.android.viewbase.CSViewController;
 import cs.android.viewbase.menu.CSOnMenu;
 import cs.java.callback.CSRunWith;
 
-import static android.widget.SearchView.OnQueryTextListener;
+import static android.support.v7.widget.SearchView.OnQueryTextListener;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.is;
@@ -20,7 +21,7 @@ public class CSSearchController extends CSViewController {
     private CSRunWith<String> _queryListener;
     private String _query;
     private SearchView _menuSearchView;
-    private android.widget.SearchView _searchView;
+    private SearchView _searchView;
     private boolean _searchOpened;
     private boolean _expanded;
 
@@ -32,7 +33,7 @@ public class CSSearchController extends CSViewController {
 
     public CSSearchController(CSViewController parent, CSLayoutId searchViewLayout) {
         super(parent, searchViewLayout);
-        _searchView = (android.widget.SearchView) asView();
+        _searchView = (SearchView) asView();
         _searchView.setQuery(_query, NO);
         _searchView.setOnQueryTextListener(new OnQueryTextListener() {
             public boolean onQueryTextSubmit(String query) {
@@ -64,7 +65,7 @@ public class CSSearchController extends CSViewController {
     public void onPrepareOptionsMenu(CSOnMenu menu) {
         super.onPrepareOptionsMenu(menu);
         if (!isShowing() || is(_searchView)) return;
-        _menuSearchView = (SearchView) menu.find(_searchMenuId).getActionView();
+        _menuSearchView = (SearchView) MenuItemCompat.getActionView(menu.find(_searchMenuId));
         _menuSearchView.setQuery(_query, NO);
         _menuSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 

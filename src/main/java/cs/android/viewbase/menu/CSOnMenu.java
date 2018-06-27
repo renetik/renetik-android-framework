@@ -1,6 +1,6 @@
 package cs.android.viewbase.menu;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,9 +13,9 @@ public class CSOnMenu {
 
     private final Menu _menu;
     private final CSValue<Boolean> _showMenu;
-    private final Activity _activity;
+    private final AppCompatActivity _activity;
 
-    public CSOnMenu(Activity activity, Menu menu) {
+    public CSOnMenu(AppCompatActivity activity, Menu menu) {
         _activity = activity;
         _menu = menu;
         _showMenu = new CSValue<>(false);

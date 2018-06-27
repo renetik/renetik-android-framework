@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,7 +91,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     private boolean _isDestroyed;
     private boolean _isStarted;
     private CSViewController _parent;
-    private Activity _activity;
+    private AppCompatActivity _activity;
     private Bundle _state;
     private CSEventRegistrations _parentEventsTask;
     private int _viewId;
@@ -109,7 +110,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         _parentInView = parentInView;
     }
 
-    public CSViewController(Activity activity, CSLayoutId layoutId) {
+    public CSViewController(AppCompatActivity activity, CSLayoutId layoutId) {
         super(() -> activity, layoutId);
         _inView = createInView();
         _startingActivity = NO;
@@ -153,7 +154,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return _root;
     }
 
-    public static Activity rootActivity() {
+    public static AppCompatActivity rootActivity() {
         return is(_root) ? _root.activity() : null;
     }
 
@@ -436,7 +437,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return ((CSActivity) activity()).getSupportMenuInflater();
     }
 
-    public Activity activity() {
+    public AppCompatActivity activity() {
         return _activity;
     }
 
@@ -487,11 +488,11 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return _isStarted;
     }
 
-    public void startActivity(Class<? extends Activity> activityClass) {
+    public void startActivity(Class<? extends AppCompatActivity> activityClass) {
         startActivity(new Intent(activity(), activityClass));
     }
 
-    public void startActivity(Class<? extends Activity> activityClass, CSMap<String, String> extras) {
+    public void startActivity(Class<? extends AppCompatActivity> activityClass, CSMap<String, String> extras) {
         Intent intent = new Intent(activity(), activityClass);
         for (Entry<String, String> entry : extras.entrySet())
             intent.putExtra(entry.getKey(), entry.getValue());
@@ -503,7 +504,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         activity().startActivity(intent);
     }
 
-    public void startActivityForResult(Class<? extends Activity> activityClass, int requestCode) {
+    public void startActivityForResult(Class<? extends AppCompatActivity> activityClass, int requestCode) {
         startActivityForResult(new Intent(activity(), activityClass), requestCode);
     }
 
@@ -512,7 +513,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         activity().startActivityForResult(intent, requestCode);
     }
 
-    public void switchActivity(Class<? extends Activity> activityClass) {
+    public void switchActivity(Class<? extends AppCompatActivity> activityClass) {
         switchActivity(new Intent(activity(), activityClass));
     }
 
@@ -521,7 +522,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         startActivity(intent);
     }
 
-    public void switchActivity(Class<? extends Activity> activityClass, int resultCode) {
+    public void switchActivity(Class<? extends AppCompatActivity> activityClass, int resultCode) {
         activity().setResult(resultCode);
         switchActivity(new Intent(activity(), activityClass));
     }
@@ -549,7 +550,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     protected void onHideByInViewController() {
     }
 
-    protected void setActivity(Activity activity) {
+    protected void setActivity(AppCompatActivity activity) {
         if (no(activity)) throw new NullPointerException();
         _activity = activity;
         setContext(activity);

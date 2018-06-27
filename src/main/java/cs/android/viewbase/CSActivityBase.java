@@ -1,6 +1,5 @@
 package cs.android.viewbase;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -16,14 +15,15 @@ import cs.android.viewbase.menu.CSOnMenu;
 import cs.android.viewbase.menu.CSOnMenuItem;
 import cs.java.lang.CSValue;
 
-import static cs.java.lang.CSLang.*;
+import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.no;
 
 public abstract class CSActivityBase extends AppCompatActivity implements CSActivity {
 
     private CSActivityManager _manager;
     private CSViewController _controller;
 
-    public Activity activity() {
+    public AppCompatActivity activity() {
         return this;
     }
 
