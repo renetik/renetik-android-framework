@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -11,8 +11,8 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:support-v4:27.1.1'
-    api 'com.android.support:appcompat-v7:27.1.1'
+    api 'com.android.support:support-v4:28.0.0-alpha3'
+    api 'com.android.support:appcompat-v7:28.0.0-alpha3'
     api 'com.google.android.gms:play-services-base:15.0.1'
     api 'com.squareup.picasso:picasso:2.5.2'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
