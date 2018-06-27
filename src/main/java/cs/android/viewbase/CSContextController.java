@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -37,7 +36,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import cs.android.CSAndroidApplication;
+import cs.android.CSApplication;
 import cs.android.CSContextInterface;
 import cs.java.collections.CSList;
 import cs.java.lang.Base;
@@ -61,7 +60,7 @@ public abstract class CSContextController extends Base implements CSContextInter
     private Context _context;
 
     public CSContextController() {
-        _context = CSAndroidApplication.applicationInstance();
+        _context = CSApplication.instance();
     }
 
     public CSContextController(Context context) {
@@ -86,6 +85,10 @@ public abstract class CSContextController extends Base implements CSContextInter
         } catch (IllegalArgumentException e) {
             warn(e);
         }
+    }
+
+    public String getVersionString() {
+        return getPackageInfo().versionCode + "-" + getPackageInfo().versionName;
     }
 
     public String getAppKeyHash() {

@@ -25,11 +25,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
-import cs.android.CSAndroidApplication;
+import cs.android.CSApplication;
 import cs.android.json.CSJSON;
 import cs.android.json.CSJSONObject;
 import cs.android.json.CSJSONType;
-import cs.android.lang.CSApplication;
+import cs.android.lang.CSModel;
 import cs.android.lang.CSDoLater;
 import cs.android.lang.CSWork;
 import cs.java.callback.CSRun;
@@ -68,7 +68,7 @@ public class CSLang {
     public static final String NEWLINE = "\n";
     private static final String DEBUG_MODE = "DEBUG_MODE";
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
-    private static CSApplication _application;
+    private static CSModel _application;
 
     public static boolean isDebugBuild() {
         return _application.isDebugBuild();
@@ -121,12 +121,12 @@ public class CSLang {
     }
 
     public static void alert(Object... messages) {
-        Toast.makeText(CSAndroidApplication.applicationInstance(), stringify(" ", strings(messages)), Toast.LENGTH_LONG).show();
+        Toast.makeText(CSApplication.instance(), stringify(" ", strings(messages)), Toast.LENGTH_LONG).show();
         application().logger().info(messages);
     }
 
     public static void alertWarn(Object... messages) {
-        Toast.makeText(CSAndroidApplication.applicationInstance(), "Warn: " + stringify(" ", strings(messages)),
+        Toast.makeText(CSApplication.instance(), "Warn: " + stringify(" ", strings(messages)),
                 Toast.LENGTH_LONG).show();
         application().logger().warn(messages);
     }
@@ -182,7 +182,7 @@ public class CSLang {
         copy(in, output);
     }
 
-    public static CSApplication application() {
+    public static CSModel application() {
         return _application;
     }
 
@@ -611,7 +611,7 @@ public class CSLang {
         return set(value);
     }
 
-    public static void setApplication(CSApplication application) {
+    public static void setApplication(CSModel application) {
         _application = application;
         CSDoLater.initialize();
     }

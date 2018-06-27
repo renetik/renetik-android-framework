@@ -1,20 +1,20 @@
 package cs.android;
 
-import android.support.multidex.MultiDexApplication;
+import android.app.Application;
 
 import cs.java.lang.CSLang;
 
 import static cs.java.lang.CSLang.info;
 
-public class CSAndroidApplication extends MultiDexApplication {
+public class CSApplication extends Application {
 
-    private static CSAndroidApplication _instance;
+    private static CSApplication _instance;
 
-    public CSAndroidApplication() {
+    public CSApplication() {
         _instance = this;
     }
 
-    public static CSAndroidApplication applicationInstance() {
+    public static CSApplication instance() {
         return _instance;
     }
 

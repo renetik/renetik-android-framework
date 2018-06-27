@@ -3,7 +3,7 @@ package cs.android.lang;
 
 import java.io.File;
 
-public interface CSApplication {
+public interface CSModel {
 
     String name();
 
@@ -15,7 +15,4 @@ public interface CSApplication {
 
     boolean isDebugBuild();
 
-    String version();
-
-    String getString(int resourceId);
 }
