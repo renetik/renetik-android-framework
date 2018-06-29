@@ -26,7 +26,7 @@ public class CSInViewController extends CSViewController<ViewGroup> {
     protected void onBack(CSValue<Boolean> goBack) {
         super.onBack(goBack);
         if (isControllerOpened() && goBack.getValue()) {
-            goBack.set(NO);
+            goBack.setValue(NO);
             closeController();
         }
     }

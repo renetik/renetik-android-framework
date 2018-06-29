@@ -15,7 +15,12 @@ import cs.android.viewbase.CSContextController;
 import cs.java.collections.CSList;
 import cs.java.collections.CSMapItem;
 
-import static cs.java.lang.CSLang.*;
+import static cs.java.lang.CSLang.empty;
+import static cs.java.lang.CSLang.is;
+import static cs.java.lang.CSLang.iterate;
+import static cs.java.lang.CSLang.json;
+import static cs.java.lang.CSLang.map;
+import static cs.java.lang.CSLang.no;
 
 public class CSSettings extends CSContextController {
 
@@ -156,6 +161,10 @@ public class CSSettings extends CSContextController {
         else save(key, CSJSON.create(data).toJSONString());
     }
 
+    public <T extends CSJSONData> CSList<T> load(Class<T> type, String key) {
+        return CSJSON.createList(type, loadArray(key));
+    }
+
     public void save(String key, Long value) {
         if (no(value)) clear(key);
         else {
@@ -175,6 +184,7 @@ public class CSSettings extends CSContextController {
         Editor editor = preferences.edit();
         editor.putString(key, value);
         editor.apply();
+        editor.commit();
     }
 
     private CSJSONType loadJSONType(String key) {

@@ -70,7 +70,7 @@ public class CSConcurrentResponse<T> extends CSResponse<T> {
     }
 
     public void onResponsesDone() {
-        if (_failedResponses.hasItems()) failed(this);
+        if (_failedResponses.getHasItems()) failed(this);
         else if (is(_mainResponse)) success(_mainResponse.data());
         else super.success();
     }

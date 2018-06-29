@@ -75,10 +75,10 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
     protected void onCreate() {
         super.onCreate();
         new CSOnPageDragged(this)
-                .onDragged(draggedIndex -> _controllers.get(draggedIndex).asController().setShowingInPager(YES))
+                .onDragged(draggedIndex -> _controllers.get(draggedIndex).asController().setShowingInContainer(YES))
                 .onReleased(draggedIndex -> {
                     if (!equal(currentIndex(), draggedIndex))
-                        _controllers.get(draggedIndex).asController().setShowingInPager(NO);
+                        _controllers.get(draggedIndex).asController().setShowingInContainer(NO);
                 });
         asPager().addOnPageChangeListener(new CSOnPageChanged(currentIndex -> {
             info("OnPageChanged", currentIndex);
@@ -97,7 +97,7 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
         _currentIndex = currentIndex;
         if (empty(_controllers)) return;
         for (int index = 0; index < size(_controllers); index++)
-            _controllers.get(index).asController().setShowingInPager(index == currentIndex ? YES : NO);
+            _controllers.get(index).asController().setShowingInContainer(index == currentIndex ? YES : NO);
     }
 
     public void onConfigurationChanged(Configuration newConfig) {

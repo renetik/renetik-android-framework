@@ -18,7 +18,7 @@ public class CSValue<T> implements CSValueInterface<T> {
         return value;
     }
 
-    public void set(T value) {
+    public void setValue(T value) {
         this.value = value;
     }
 }

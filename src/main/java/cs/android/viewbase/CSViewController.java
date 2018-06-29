@@ -1,6 +1,5 @@
 package cs.android.viewbase;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -8,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +22,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.List;
 import java.util.Map.Entry;
 
-import cs.android.view.CSAlertController;
+import cs.android.view.CSDialog;
 import cs.android.viewbase.menu.CSMenuItem;
 import cs.android.viewbase.menu.CSOnMenu;
 import cs.android.viewbase.menu.CSOnMenuItem;
@@ -98,7 +98,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     private CSInViewController _parentInView;
     private CSList<CSMenuItem> _menuItems = list();
     private boolean _isResumeFirstTime = YES;
-    private Boolean _showingInPager;
+    private Boolean _showingInContainer;
     private boolean _isBeforeCreate;
     private boolean _isShowing = NO;
     private boolean _onViewShowingCalled;
@@ -343,7 +343,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
 
     protected void onBack(CSValue<Boolean> goBack) {
         fire(onBack, goBack);
-        if (goBack.getValue()) goBack.set(onGoBack());
+        if (goBack.getValue() && isShowing()) goBack.setValue(onGoBack());
     }
 
     protected void onActivityResult(CSActivityResult result) {
@@ -424,15 +424,6 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return this;
     }
 
-    public CSView<ViewType> show() {
-        if (is(_parentInView)) _parentInView.openController(this);
-        else {
-            if (!_isBeforeCreate) initialize();
-            super.show();
-        }
-        return this;
-    }
-
     public MenuInflater getMenuInflater() {
         return ((CSActivity) activity()).getSupportMenuInflater();
     }
@@ -455,8 +446,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     public void goBack() {
-        if (is(parentController()))
-            parentController().goBack();
+        if (is(parentController())) parentController().goBack();
         else activity().onBackPressed();
     }
 
@@ -534,7 +524,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
             if (googleAPI.isUserResolvableError(result)) {
                 googleAPI.getErrorDialog(activity(), result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else
-                new CSAlertController(this).show("Google Play Services missing application cannot continue",
+                new CSDialog(this).show("Google Play Services missing application cannot continue",
                         null, "OK", (value, dialog) -> activity().finish());
         }
     }
@@ -574,9 +564,9 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return _isShowing;
     }
 
-    public void setShowingInPager(boolean showingInPager) {
-        if (equal(_showingInPager, showingInPager)) return;
-        _showingInPager = showingInPager;
+    public void setShowingInContainer(boolean showingInContainer) {
+        if (equal(_showingInContainer, showingInContainer)) return;
+        _showingInContainer = showingInContainer;
         updateVisibilityChanged();
     }
 
@@ -588,7 +578,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
 
     protected boolean checkIfIsShowing() {
         if (!isResumed()) return NO;
-        if (is(_showingInPager) && !_showingInPager) return NO;
+        if (is(_showingInContainer) && !_showingInContainer) return NO;
         if (is(_parentInView)) {
             if (inViewVisible()) return parentController().isShowing();
             return YES;
@@ -721,14 +711,13 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         startActivity(intent);
     }
 
+    public void showSnackBar(String text, int time) {
+        Snackbar.make(asView(), text, time).show();
+    }
+
     private void showInMarket(String packageName) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }
-
-    public CSViewController showController() {
-        show();
-        return this;
     }
 }

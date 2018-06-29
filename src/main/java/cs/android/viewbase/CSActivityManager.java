@@ -13,7 +13,7 @@ public class CSActivityManager {
     }
 
     public CSViewController create() {
-        return _activity.invoke();
+        return _activity.createController();
     }
 
     public void onCreate(Bundle state) {

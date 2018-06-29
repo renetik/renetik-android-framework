@@ -18,7 +18,7 @@ public class CSOnMenuItem {
 
     public boolean consume(int id) {
         if (_consumed.getValue()) return NO;
-        _consumed.set(_item.getItemId() == id);
+        _consumed.setValue(_item.getItemId() == id);
         return _consumed.getValue();
     }
 

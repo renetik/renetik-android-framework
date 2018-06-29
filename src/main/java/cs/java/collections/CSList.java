@@ -16,7 +16,7 @@ public interface CSList<T> extends java.util.List<T> , CSValues<T> {
 
 	int index(T item);
 
-	boolean hasItems();
+	boolean getHasItems();
 
 	@Override @Deprecated int indexOf(Object arg0);
 

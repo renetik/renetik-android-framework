@@ -5,7 +5,15 @@ import org.json.JSONTokener;
 import java.util.List;
 import java.util.Map;
 
+import cs.java.callback.CSReturn;
+import cs.java.collections.CSList;
+
+import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.exception;
+import static cs.java.lang.CSLang.iterate;
+import static cs.java.lang.CSLang.list;
+import static cs.java.lang.CSLang.newInstance;
+import static cs.java.lang.CSLang.no;
 
 public class CSJSON {
 
@@ -91,4 +99,55 @@ public class CSJSON {
     public static String toJSONString(Map map) {
         return createJSONObject().put(map).toJSONString();
     }
+
+    public static <T extends CSJSONData> CSList<T> createList(final Class<T> type, CSJSONArray array) {
+        return createList(() -> newInstance(type), array);
+    }
+
+    public static <T extends CSJSONData> CSList<T> createList(CSReturn<T> factory, CSJSONArray array) {
+        CSList<T> list = list();
+        int index = 0;
+        for (CSJSONType dataType : iterate(array)) {
+            CSJSONObject data = dataType.asObject();
+            if (empty(data)) continue;
+            T item = load(factory.invoke(), data);
+            item.index(index++);
+            list.add(item);
+        }
+        return list;
+    }
+
+    public static <T extends CSJSONData> CSList<CSList<T>> createListOfList(Class<T> type, CSJSONArray arrayOfArray) {
+        if (no(arrayOfArray)) return null;
+        CSList<CSList<T>> list = list();
+        for (CSJSONType arrayInArray : arrayOfArray) {
+            int index = 0;
+            CSList<T> listInList = list.put((CSList) list());
+            for (CSJSONType value : iterate(arrayInArray.asArray())) {
+                CSJSONObject data = value.asObject();
+                if (empty(data)) continue;
+                listInList.put(load(newInstance(type), value.asObject())).index(index++);
+            }
+        }
+        return list;
+    }
+
+    public static <T extends CSJSONData> CSList<T> createListByObject(Class<T> type, CSJSONObject objectOfObjects) {
+        if (no(objectOfObjects)) return null;
+        CSList<T> list = list();
+        int index = 0;
+        for (String key : objectOfObjects) {
+            CSJSONObject data = objectOfObjects.getObject(key);
+            if (empty(data)) continue;
+            list.put(load(newInstance(type), data)).index(index++).key(key);
+        }
+        return list;
+    }
+
+    public static <T extends CSJSONData> T load(T data, CSJSONObject object) {
+        if (no(object)) return null;
+        data.load(object);
+        return data;
+    }
+
 }

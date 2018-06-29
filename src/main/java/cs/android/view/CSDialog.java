@@ -20,7 +20,7 @@ import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.set;
 
-public class CSAlertController extends CSContextController {
+public class CSDialog extends CSContextController {
 
     private Builder _builder;
     private EditText _inputField;
@@ -28,36 +28,36 @@ public class CSAlertController extends CSContextController {
     private boolean _cancelable = YES;
     private CSRunWith<Dialog> _onDismiss;
 
-    public CSAlertController(Context context) {
+    public CSDialog(Context context) {
         super(context);
         _builder = new Builder(context);
     }
 
-    public CSAlertController(CSContextInterface hasContext) {
+    public CSDialog(CSContextInterface hasContext) {
         this(hasContext.context());
     }
 
-    public CSAlertController(Context context, int theme) {
+    public CSDialog(Context context, int theme) {
         super(context);
         _builder = new Builder(context, theme);
     }
 
-    public CSAlertController create(int message, final CSRun run) {
+    public CSDialog create(int message, final CSRun run) {
         return create(0, message, R.string.dialog_ok, R.string.dialog_cancel, value -> {
             if (value == R.string.dialog_ok) run.run();
             hideKeyboard();
         });
     }
 
-    public CSAlertController show(int message, final CSRun run) {
+    public CSDialog show(int message, final CSRun run) {
         return create(message, run).show();
     }
 
-    public CSAlertController create(int title, int message, int ok, int cancel, CSRunWith<Integer> call) {
+    public CSDialog create(int title, int message, int ok, int cancel, CSRunWith<Integer> call) {
         return create(getString(title), getString(message), ok, cancel, call);
     }
 
-    public CSAlertController create(String title, String message, int dialogOk, int dialogCancel, CSRunWith<Integer> call) {
+    public CSDialog create(String title, String message, int dialogOk, int dialogCancel, CSRunWith<Integer> call) {
         text(title, message);
         buttons(dialogOk, dialogCancel, call);
         return this;
@@ -69,20 +69,20 @@ public class CSAlertController extends CSContextController {
         _builder.setItems(arrayId, (dialog, which) -> runWith.run(which));
     }
 
-    public CSAlertController create(String title, List<String> items, String dialogCancel, final CSRunWith<Integer> runWith) {
+    public CSDialog create(String title, List<String> items, String dialogCancel, final CSRunWith<Integer> runWith) {
         text(title, "");
         _builder.setNegativeButton(dialogCancel, null);
         _builder.setItems(items.toArray(new CharSequence[items.size()]), (dialog, which) -> runWith.run(which));
         return this;
     }
 
-    public CSAlertController text(String title, String message) {
+    public CSDialog text(String title, String message) {
         if (set(title)) _builder.setTitle(title);
         if (set(message)) _builder.setMessage(message);
         return this;
     }
 
-    public CSAlertController buttons(final int dialogOk, final CSRunWith<Integer> call) {
+    public CSDialog buttons(final int dialogOk, final CSRunWith<Integer> call) {
         _builder.setPositiveButton(dialogOk, (dialog, which) -> {
             if (is(call)) call.run(dialogOk);
             hideKeyboard();
@@ -101,13 +101,13 @@ public class CSAlertController extends CSContextController {
         });
     }
 
-    public CSAlertController create(String title, String message, String dialogOk, String dialogCancel, CSRunWithWith<String, CSAlertController> call) {
+    public CSDialog create(String title, String message, String dialogOk, String dialogCancel, CSRunWithWith<String, CSDialog> call) {
         text(title, message);
         buttons(dialogOk, dialogCancel, call);
         return this;
     }
 
-    public CSAlertController buttons(final String dialogOk, final CSRunWith<String> call) {
+    public CSDialog buttons(final String dialogOk, final CSRunWith<String> call) {
         _builder.setPositiveButton(dialogOk, (dialog, which) -> {
             if (is(call)) call.run(dialogOk);
             hideKeyboard();
@@ -115,13 +115,13 @@ public class CSAlertController extends CSContextController {
         return this;
     }
 
-    public CSAlertController buttons(final String dialogOk, final String dialogCancel, final CSRunWithWith<String, CSAlertController> call) {
+    public CSDialog buttons(final String dialogOk, final String dialogCancel, final CSRunWithWith<String, CSDialog> call) {
         _builder.setPositiveButton(dialogOk, (dialog, which) -> {
-            if (is(call)) call.run(dialogOk, CSAlertController.this);
+            if (is(call)) call.run(dialogOk, CSDialog.this);
             hideKeyboard();
         });
         if (set(dialogCancel)) _builder.setNegativeButton(dialogCancel, (dialog, which) -> {
-            if (is(call)) call.run(dialogCancel, CSAlertController.this);
+            if (is(call)) call.run(dialogCancel, CSDialog.this);
             hideKeyboard();
         });
         return this;
@@ -132,22 +132,22 @@ public class CSAlertController extends CSContextController {
             hideKeyboard(_dialog.getCurrentFocus().getWindowToken());
     }
 
-    public CSAlertController create(String title, String message, String dialogOk, String dialogCancel, String neutral, CSRunWithWith<String, CSAlertController> call) {
+    public CSDialog create(String title, String message, String dialogOk, String dialogCancel, String neutral, CSRunWithWith<String, CSDialog> call) {
         text(title, message);
         buttons(dialogOk, dialogCancel, neutral, call);
         return this;
     }
 
-    public CSAlertController buttons(final String dialogOk, final String dialogCancel, final String neutral, final CSRunWithWith<String, CSAlertController> call) {
+    public CSDialog buttons(final String dialogOk, final String dialogCancel, final String neutral, final CSRunWithWith<String, CSDialog> call) {
         buttons(dialogOk, dialogCancel, call);
         _builder.setNeutralButton(neutral, (dialog, which) -> {
-            if (is(call)) call.run(neutral, CSAlertController.this);
+            if (is(call)) call.run(neutral, CSDialog.this);
             hideKeyboard();
         });
         return this;
     }
 
-    public CSAlertController icon(int icon) {
+    public CSDialog icon(int icon) {
         _builder.setIcon(icon);
         return this;
     }
@@ -167,22 +167,29 @@ public class CSAlertController extends CSContextController {
         if (set(message)) _builder.setMessage(message);
     }
 
-    public CSAlertController text(String string) {
+    public CSDialog text(String string) {
         return text(string, "");
     }
 
-    public CSAlertController show(int title, int message, int ok, int cancel, CSRunWith<Integer> call) {
+    public CSDialog show(int title, int message, int ok, int cancel, CSRunWith<Integer> call) {
         return show(getString(title), getString(message), ok, cancel, call);
     }
 
-    public CSAlertController show(String title, String message, int dialogOk, int dialogCancel, CSRunWith<Integer> call) {
+    public CSDialog show(String title, String message, int dialogOk, int dialogCancel, CSRunWith<Integer> call) {
         text(title, message);
         buttons(dialogOk, dialogCancel, call);
         show();
         return this;
     }
 
-    public CSAlertController show() {
+    public CSDialog show(String title, String message, int dialogOk, int dialogCancel, CSRun onOkClick) {
+        text(title, message);
+        buttons(dialogOk, dialogCancel, value -> {if (dialogOk == value) onOkClick.run();});
+        show();
+        return this;
+    }
+
+    public CSDialog show() {
         _dialog = _builder.show();
         _dialog.setOnDismissListener(dialog -> {
             if (is(_onDismiss)) _onDismiss.run(_dialog);
@@ -192,43 +199,43 @@ public class CSAlertController extends CSContextController {
         return this;
     }
 
-    public CSAlertController hide() {
+    public CSDialog hide() {
         if (is(_dialog)) _dialog.dismiss();
         return this;
     }
 
 
-    public CSAlertController show(String title, String message, String dialogOK, CSRunWithWith<String, CSAlertController> call) {
+    public CSDialog show(String title, String message, String dialogOK, CSRunWithWith<String, CSDialog> call) {
         text(title, message);
         buttons(dialogOK, null, call);
         show();
         return this;
     }
 
-    public CSAlertController show(String title, String message, String dialogOk, String dialogCancel, CSRunWithWith<String, CSAlertController> call) {
+    public CSDialog show(String title, String message, String dialogOk, String dialogCancel, CSRunWithWith<String, CSDialog> call) {
         text(title, message);
         buttons(dialogOk, dialogCancel, call);
         show();
         return this;
     }
 
-    public CSAlertController inputType(int type) {
+    public CSDialog inputType(int type) {
         inputField().setInputType(type);
         return this;
     }
 
-    public CSAlertController cancelable(boolean cancelable) {
+    public CSDialog cancelable(boolean cancelable) {
         _cancelable = cancelable;
         return this;
     }
 
-    public CSAlertController onDismiss(CSRunWith<Dialog> onDismiss) {
+    public CSDialog onDismiss(CSRunWith<Dialog> onDismiss) {
         _onDismiss = onDismiss;
         return this;
     }
 
 
-    public CSAlertController inputFieldText(String textValue) {
+    public CSDialog inputFieldText(String textValue) {
         inputField().setText(textValue);
         return this;
     }

@@ -47,7 +47,7 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return indexOf(item);
     }
 
-    public boolean hasItems() {
+    public boolean getHasItems() {
         return size() > 0;
     }
 

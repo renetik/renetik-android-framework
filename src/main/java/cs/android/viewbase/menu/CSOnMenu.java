@@ -41,7 +41,7 @@ public class CSOnMenu {
     }
 
     public void showMenu(boolean showMenu) {
-        _showMenu.set(showMenu);
+        _showMenu.setValue(showMenu);
     }
 
     public void inflate(int menuId) {

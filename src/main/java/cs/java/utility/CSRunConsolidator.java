@@ -27,7 +27,7 @@ public class CSRunConsolidator implements CSRun {
 
 	@Override
 	public void run() {
-		if (runnables.hasItems()) {
+		if (runnables.getHasItems()) {
 			runnables.removeLast().run();
 			doLater(miliseconds, this);
 		} else isRunning = false;

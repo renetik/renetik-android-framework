@@ -6,7 +6,7 @@ import android.view.MenuInflater;
 import cs.android.CSActivityInterface;
 import cs.java.callback.CSReturn;
 
-public interface CSActivity extends CSActivityInterface, CSReturn<CSViewController> {
+public interface CSActivity extends CSActivityInterface {
 
 	CSViewController controller();
 
@@ -17,5 +17,7 @@ public interface CSActivity extends CSActivityInterface, CSReturn<CSViewControll
 	MenuInflater getSupportMenuInflater();
 
 	void supportInvalidateOptionsMenu();
+
+	CSViewController createController();
 
 }
