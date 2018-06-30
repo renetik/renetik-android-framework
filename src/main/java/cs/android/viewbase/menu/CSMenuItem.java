@@ -76,6 +76,7 @@ public class CSMenuItem {
     }
 
     public CSMenuItem visible(boolean visible) {
+        if (_visible == visible) return this;
         _visible = visible;
         if (_controller.isCreated()) _controller.invalidateOptionsMenu();
         return this;
