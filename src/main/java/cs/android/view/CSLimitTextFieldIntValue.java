@@ -1,8 +1,5 @@
 package cs.android.view;
 
-import android.view.View;
-import android.view.View.OnFocusChangeListener;
-
 import cs.android.viewbase.CSViewController;
 
 import static cs.java.lang.CSLang.*;
@@ -32,7 +29,7 @@ public class CSLimitTextFieldIntValue extends CSViewController {
 
     private void onWrongNumberEntered() {
         view().text(stringify(_beforeChangeValue));
-        alert(getString(_alertString));
+        toast(getString(_alertString));
     }
 
     public void setMaxValue(int maxValue) {

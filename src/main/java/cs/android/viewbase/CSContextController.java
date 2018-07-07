@@ -257,7 +257,7 @@ public abstract class CSContextController extends Base implements CSContextInter
         try {
             inputStream = context().getContentResolver().openInputStream(uri);
         } catch (FileNotFoundException e) {
-            warn(e);
+            error(e);
         }
         return inputStream;
     }

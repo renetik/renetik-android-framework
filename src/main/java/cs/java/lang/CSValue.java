@@ -10,6 +10,9 @@ public class CSValue<T> implements CSValueInterface<T> {
         this.value = value;
     }
 
+    public CSValue() {
+    }
+
     public static <T> T value(CSValueInterface<T> hasValue) {
         return is(hasValue) ? hasValue.getValue() : null;
     }

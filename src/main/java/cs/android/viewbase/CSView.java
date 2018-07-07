@@ -2,6 +2,7 @@ package cs.android.viewbase;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
@@ -64,6 +65,7 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.squareup.picasso.NetworkPolicy.OFFLINE;
 import static cs.java.lang.CSLang.NO;
+import static cs.java.lang.CSLang.SECOND;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.as;
 import static cs.java.lang.CSLang.doLater;
@@ -156,7 +158,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
 
     public View findViewRecursive(int id) {
         View view = findView(id);
-        return no(view) && hasParent() ? parent().findViewRecursive(id) : view;
+        return no(view) && hasParent() ? parentView().findViewRecursive(id) : view;
     }
 
     public V asView() {
@@ -330,7 +332,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         invisible(asView());
     }
 
-    public CSView parent() {
+    public CSView parentView() {
         ViewParent parent = asView().getParent();
         return is(parent) ? view((View) parent) : null;
     }
@@ -741,7 +743,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         else show();
     }
 
-    public CSView<V> backgroundColor(int backgroundColorResource) {
+    public CSView<V> setBackgroundColor(int backgroundColorResource) {
         asView().setBackgroundResource(backgroundColorResource);
         return this;
     }
@@ -806,7 +808,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
 
     public CSView<V> add(CSView view) {
         if (no(view)) return this;
-        if (view.hasParent()) view.parent().removeView(view);
+        if (view.hasParent()) view.parentView().removeView(view);
         asGroup().addView(view.asView());
         return this;
     }
@@ -846,4 +848,13 @@ public class CSView<V extends View> extends CSContextController implements CSVie
     public void layoutParams(LinearLayout.LayoutParams params) {
         asView().setLayoutParams(params);
     }
+
+    public void showSnackBar(String text, int time) {
+        Snackbar.make(asView(), text, time).show();
+    }
+
+    public void showSnackBar(String text) {
+        Snackbar.make(asView(), text, 5 * SECOND).show();
+    }
+
 }

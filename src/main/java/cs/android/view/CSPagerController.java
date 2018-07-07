@@ -43,7 +43,7 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
     }
 
     public CSView setEmptyView(int id) {
-        return setEmptyView(new CSView<>(parentController(), id));
+        return setEmptyView(new CSView<>(parent(), id));
     }
 
     public CSView setEmptyView(CSView view) {
@@ -60,7 +60,7 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
         }
         _controllers = controllers;
         updateControllersState(_controllers.length() > currentItem ? currentItem : 0);
-        for (Page page : _controllers) page.asController().initialize();
+        for (Page page : _controllers) page.asController().initialize(getState());
         if (_controllers.length() > currentItem) asPager().setCurrentItem(currentItem, YES);
         updateView();
         return this;

@@ -7,6 +7,8 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import java.util.List;
+
 import cs.android.lang.CSWork;
 import cs.android.viewbase.CSView;
 import cs.android.viewbase.CSViewController;
@@ -27,8 +29,8 @@ import static cs.java.lang.CSLang.iterate;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 
-public class CSListController<RowType> extends CSViewController<AbsListView> {
-    public final CSEvent<CSList<RowType>> onLoad = event();
+public class CSListController<RowType, T extends AbsListView> extends CSViewController<T> {
+    public final CSEvent<List<RowType>> onLoad = event();
     private final CSList<RowType> _dataList = list();
     private CSReturnWith<CSIRowView<RowType>, Integer> _createView;
     private BaseAdapter _listAdapter = new CSListAdapter(this);
@@ -49,13 +51,13 @@ public class CSListController<RowType> extends CSViewController<AbsListView> {
         _createView = createView;
     }
 
-    public CSListController<RowType> onCreateView(CSReturnWith<CSIRowView<RowType>, Integer> createView) {
-        _createView = createView;
-        return this;
-    }
-
     public CSListController(CSViewController parent, int listViewId) {
         super(parent, listViewId);
+    }
+
+    public CSListController<RowType, T> onCreateView(CSReturnWith<CSIRowView<RowType>, Integer> createView) {
+        _createView = createView;
+        return this;
     }
 
     public BaseAdapter adapter() {
@@ -107,7 +109,7 @@ public class CSListController<RowType> extends CSViewController<AbsListView> {
         return (CSIRowView<RowType>) view.getTag();
     }
 
-    public CSListController<RowType> loadAdd(CSList<RowType> list) {
+    public CSListController<RowType, T> loadAdd(List<RowType> list) {
         _firstLoad = YES;
         _dataList.addAll(list);
         reloadData();
@@ -120,7 +122,7 @@ public class CSListController<RowType> extends CSViewController<AbsListView> {
         reloadData();
     }
 
-    public CSListController<RowType> reload(CSList<RowType> list) {
+    public CSListController<RowType, T> reload(List<RowType> list) {
 //        saveState();
         _dataList.clear();
         loadAdd(list);
@@ -155,7 +157,7 @@ public class CSListController<RowType> extends CSViewController<AbsListView> {
     }
 
     public CSView emptyView(int id) {
-        return emptyView(new CSView<>(parentController(), id));
+        return emptyView(new CSView<>(parent(), id));
     }
 
     public CSView emptyView(CSView view) {
@@ -164,7 +166,7 @@ public class CSListController<RowType> extends CSViewController<AbsListView> {
         return _emptyView;
     }
 
-    public CSListController<RowType> setListAdapter(BaseAdapter listAdapter) {
+    public CSListController<RowType, T> setListAdapter(BaseAdapter listAdapter) {
         _listAdapter = listAdapter;
         return this;
     }
@@ -202,22 +204,22 @@ public class CSListController<RowType> extends CSViewController<AbsListView> {
         return _dataList.size();
     }
 
-    public CSListController<RowType> viewTypes(int itemsTypesCount) {
+    public CSListController<RowType, T> viewTypes(int itemsTypesCount) {
         _itemsTypesCount = itemsTypesCount;
         return this;
     }
 
-    public CSListController<RowType> onItemClick(CSRunWithWith<Integer, CSIRowView<RowType>> onItemClick) {
+    public CSListController<RowType, T> onItemClick(CSRunWithWith<Integer, CSIRowView<RowType>> onItemClick) {
         _onItemClick = onItemClick;
         return this;
     }
 
-    public CSListController<RowType> onItemLongClick(CSRunWithWith<Integer, CSIRowView<RowType>> onItemLongClick) {
+    public CSListController<RowType, T> onItemLongClick(CSRunWithWith<Integer, CSIRowView<RowType>> onItemLongClick) {
         _onItemLongClick = onItemLongClick;
         return this;
     }
 
-    public CSListController<RowType> positionViewType(CSReturnWith<Integer, Integer> getTtemViewType) {
+    public CSListController<RowType, T> positionViewType(CSReturnWith<Integer, Integer> getTtemViewType) {
         _positionViewType = getTtemViewType;
         return this;
     }
@@ -226,7 +228,7 @@ public class CSListController<RowType> extends CSViewController<AbsListView> {
         return this.data().at(position);
     }
 
-    public CSListController<RowType> isEnabled(CSReturnWith<Boolean, Integer> isEnabled) {
+    public CSListController<RowType, T> isEnabled(CSReturnWith<Boolean, Integer> isEnabled) {
         _isEnabled = isEnabled;
         return this;
     }
@@ -263,5 +265,6 @@ public class CSListController<RowType> extends CSViewController<AbsListView> {
         asAdapterView().setAdapter(_listAdapter);
         restoreSelectionAndScrollState();
     }
+
 
 }

@@ -8,6 +8,7 @@ import cs.java.lang.CSValue;
 
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.set;
 
 public class CSOnMenu {
 
@@ -30,10 +31,17 @@ public class CSOnMenu {
         return this;
     }
 
-    public MenuItem show(int id) {
-        MenuItem menuItem = find(id);
-        menuItem.setVisible(YES);
-        return menuItem;
+    public void show(CSMenuItem item) {
+        if (set(item.id())) {
+            MenuItem menuItem = find(item.id());
+            menuItem.setVisible(YES);
+            if (menuItem.isCheckable()) menuItem.setChecked(item.isChecked());
+        } else {
+            MenuItem menuItem = _menu.add(item.title());
+            menuItem.setShowAsAction(item.showAsAction());
+            if (menuItem.isCheckable()) menuItem.setChecked(item.isChecked());
+            if (set(item.icon())) menuItem.setIcon(item.icon());
+        }
     }
 
     public boolean showMenu() {
@@ -49,5 +57,7 @@ public class CSOnMenu {
         showMenu(YES);
     }
 
-
+    public Menu getMenu() {
+        return _menu;
+    }
 }

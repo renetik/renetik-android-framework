@@ -1,6 +1,6 @@
 package cs.android.view.list;
 
-import cs.android.json.CSJSONData;
+import cs.android.json.CSJsonData;
 import cs.java.collections.CSList;
 import cs.java.lang.CSValues;
 
@@ -13,7 +13,7 @@ import static cs.java.lang.CSLang.list;
  * Created by renetik on 08/12/17.
  */
 
-public class CSListRow<DataType extends CSJSONData> {
+public class CSListRow<DataType extends CSJsonData> {
 
     private DataType _data;
     private RowTypes _type;
@@ -41,11 +41,11 @@ public class CSListRow<DataType extends CSJSONData> {
         return new CSListRow(RowTypes.TableFooter, 0);
     }
 
-    public static CSListRow createRow(CSJSONData data, RowTypes viewType, int index) {
+    public static CSListRow createRow(CSJsonData data, RowTypes viewType, int index) {
         return new CSListRow(data, viewType, index);
     }
 
-    public static <T extends CSJSONData> CSList<CSListRow<T>> rowsFromList(CSList<T> data) {
+    public static <T extends CSJsonData> CSList<CSListRow<T>> rowsFromList(CSList<T> data) {
         CSList<CSListRow<T>> listData = list(createTableHeader());
         int rowIndex = 0;
         for (T row : data) listData.add(createRow(row, Row, rowIndex++));
@@ -53,7 +53,7 @@ public class CSListRow<DataType extends CSJSONData> {
         return listData;
     }
 
-    public static <T extends CSJSONData, Data extends CSJSONData & CSValues<T>> CSList<CSListRow<Data>> rowsFromListDatas(CSList<Data> dataList) {
+    public static <T extends CSJsonData, Data extends CSJsonData & CSValues<T>> CSList<CSListRow<Data>> rowsFromListDatas(CSList<Data> dataList) {
         CSList<CSListRow<Data>> listData = list(createTableHeader());
         int sectionIndex = 0;
         for (Data data : dataList) {
@@ -68,7 +68,7 @@ public class CSListRow<DataType extends CSJSONData> {
         return listData;
     }
 
-    public static <T extends CSJSONData> CSList<CSListRow<T>> rowsFromLists(CSList<CSList<T>> data) {
+    public static <T extends CSJsonData> CSList<CSListRow<T>> rowsFromLists(CSList<CSList<T>> data) {
         CSList<CSListRow<T>> listData = list(createTableHeader());
         int sectionIndex = 0;
         for (CSList<T> sectionData : data) {

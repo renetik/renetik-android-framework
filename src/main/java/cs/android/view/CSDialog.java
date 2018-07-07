@@ -6,6 +6,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.widget.EditText;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 import cs.android.CSContextInterface;
@@ -14,10 +16,13 @@ import cs.android.viewbase.CSContextController;
 import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
 import cs.java.callback.CSRunWithWith;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.no;
+import static cs.java.lang.CSLang.run;
 import static cs.java.lang.CSLang.set;
 
 public class CSDialog extends CSContextController {
@@ -43,8 +48,8 @@ public class CSDialog extends CSContextController {
     }
 
     public CSDialog create(int message, final CSRun run) {
-        return create(0, message, R.string.dialog_ok, R.string.dialog_cancel, value -> {
-            if (value == R.string.dialog_ok) run.run();
+        return create(0, message, R.string.cs_dialog_ok, R.string.cs_dialog_cancel, value -> {
+            if (value == R.string.cs_dialog_ok) run.run();
             hideKeyboard();
         });
     }
@@ -92,11 +97,11 @@ public class CSDialog extends CSContextController {
 
     public void buttons(final int dialogOk, final int dialogCancel, final CSRunWith<Integer> call) {
         _builder.setPositiveButton(dialogOk, (dialog, which) -> {
-            if (is(call)) call.run(dialogOk);
+            run(call, dialogOk);
             hideKeyboard();
         });
         if (set(dialogCancel)) _builder.setNegativeButton(dialogCancel, (dialog, which) -> {
-            if (is(call)) call.run(dialogCancel);
+            run(call, dialogCancel);
             hideKeyboard();
         });
     }
@@ -238,5 +243,25 @@ public class CSDialog extends CSContextController {
     public CSDialog inputFieldText(String textValue) {
         inputField().setText(textValue);
         return this;
+    }
+
+    public void show(@Nullable String title, @Nullable String message, @Nullable Function0<Unit> function) {
+        show(title, message, R.string.cs_dialog_ok, R.string.cs_dialog_cancel, value -> {
+            if (is(function)) function.invoke();
+        });
+    }
+
+    public void show(@Nullable String title, @Nullable Function0<Unit> function) {
+        show(title, null, R.string.cs_dialog_ok, R.string.cs_dialog_cancel,value -> {
+            if (is(function)) function.invoke();
+        });
+    }
+
+    public void show(@Nullable String title) {
+        show(title, null);
+    }
+
+    public void showMessage(@Nullable String message) {
+        show(null, message, R.string.cs_dialog_ok, 0, (CSRun) null);
     }
 }

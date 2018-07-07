@@ -1,14 +1,24 @@
 package cs.java.collections;
 
+import java.util.Map;
+
 import static cs.java.lang.CSLang.list;
 
 public class CSLinkedMapImpl<K, V> extends java.util.LinkedHashMap<K, V> implements CSLinkedMap<K, V> {
+
+    public CSLinkedMapImpl(Map<? extends K, ? extends V> m){
+        super(m);
+    }
+
+    public CSLinkedMapImpl(){
+    }
+
 
     public V getValue(int index) {
         return list(values()).get(index);
     }
 
-    public int indexOf(K key) {
+    public int index(K key) {
         return list(keySet()).index(key);
     }
 

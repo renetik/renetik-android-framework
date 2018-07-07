@@ -1,6 +1,17 @@
 package cs.java.collections;
 
+import org.json.JSONObject;
+
+import java.util.Map;
+
 public class CSMapImpl<K, V> extends java.util.HashMap<K, V> implements CSMap<K, V> {
+
+    public CSMapImpl(Map<? extends K, ? extends V> m){
+        super(m);
+    }
+
+    public CSMapImpl(){
+    }
 
     public boolean hasKey(K key) {
         return super.containsKey(key);

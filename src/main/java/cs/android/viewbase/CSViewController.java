@@ -7,12 +7,11 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -63,6 +62,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     private static CSViewController _root;
     public final CSEvent<Bundle> onBeforeCreate = event();
     public final CSEvent<Bundle> onCreate = event();
+    public final CSEvent<Bundle> onSaveInstanceState = event();
     public final CSEvent<Void> onStart = event();
     public final CSEvent<Void> onResume = event();
     public final CSEvent<Void> onPause = event();
@@ -106,7 +106,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     public CSViewController(CSInViewController parentInView, CSLayoutId layoutId) {
         super(parentInView, layoutId);
         _inView = createInView();
-        _parent = parentInView.parentController();
+        _parent = parentInView.parent();
         _parentInView = parentInView;
     }
 
@@ -162,13 +162,13 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         if (_isBeforeCreate)
             throw exception("Already before created");
         updateRoot();
-        if (is(parentController())) {
-            setActivity(parentController().activity());
+        if (is(parent())) {
+            setActivity(parent().activity());
             initializeListeners();
         } else if (!isRoot())
             throw exception("No parent, No root");
-        fire(onBeforeCreate, state);
         _isBeforeCreate = YES;
+        fire(onBeforeCreate, state);
     }
 
     protected void onCreate(Bundle state) {
@@ -178,7 +178,6 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
             throw exception("Already created");
         _state = state;
         updateRoot();
-        fire(onCreate, state);
         if (no(state)) onCreateFirstTime();
         else onCreateRestore();
         onCreate();
@@ -186,6 +185,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         _isResumed = NO;
         _isStarted = NO;
         _isPaused = NO;
+        fire(onCreate, state);
     }
 
     protected void onCreateFirstTime() {
@@ -207,11 +207,11 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         updateRoot();
         _isResumed = true;
         _isPaused = false;
-        fire(onResume);
         if (_isResumeFirstTime) onResumeFirstTime();
         else onResumeRestore();
         updateVisibilityChanged();
         _isResumeFirstTime = NO;
+        fire(onResume);
     }
 
     protected void onResumeFirstTime() {
@@ -249,9 +249,9 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         System.gc();
     }
 
-    public void initialize() {
-        onBeforeCreate(_state);
-        onCreate(_state);
+    public void initialize(Bundle state) {
+        onBeforeCreate(state);
+        onCreate(state);
         onStart();
         if (_parent.isResumed()) onResume();
     }
@@ -266,10 +266,22 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     public CSInViewController inView() {
-        return no(_inView) && is(parentController()) ? parentController().inView() : _inView;
+        return no(_inView) && is(parent()) ? parent().inView() : _inView;
     }
 
     public void requestPermissions(List<String> permissions, final CSRun onGranted) {
+        requestPermissions(permissions, onGranted, null);
+    }
+
+    public ContextThemeWrapper context(int theme) {
+       return new ContextThemeWrapper(context(), theme);
+    }
+
+    public void requestPermissionsWithForce(List<String> permissions, final CSRun onGranted) {
+        requestPermissions(permissions, onGranted, () -> requestPermissionsWithForce(permissions, onGranted));
+    }
+
+    public void requestPermissions(List<String> permissions, CSRun onGranted, CSRun onNotGranted) {
         if (SDK_INT < 23) {
             run(onGranted);
             return;
@@ -282,7 +294,10 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
                 if (arg.requestCode == MY_PERMISSIONS_REQUEST) {
                     registration.cancel();
                     for (int result : arg.grantResults)
-                        if (PERMISSION_GRANTED != result) return;
+                        if (PERMISSION_GRANTED != result) {
+                            run(onNotGranted);
+                            return;
+                        }
                     run(onGranted);
                 }
             });
@@ -329,6 +344,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
                 parent.onRequestPermissionsResult.add((registration, argument) -> onRequestPermissionsResult(argument)),
                 parent.onInViewControllerShow.add((registration, argument) -> onInViewControllerShow(argument)),
                 parent.onInViewControllerHide.add((registration, argument) -> onInViewControllerHide(argument)),
+                parent.onSaveInstanceState.add((registration, argument) -> onSaveInstanceState(argument)),
                 parent.onViewVisibilityChanged.add((registration, argument) -> updateVisibilityChanged())
         );
     }
@@ -364,7 +380,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     protected void onOptionsItemSelected(CSOnMenuItem onItem) {
         if (isMenuVisible()) {
             for (CSMenuItem item : _menuItems)
-                if (onItem.consume(item.id()))
+                if (onItem.consume(item))
                     if (onItem.isCheckable()) item.onChecked(onItem);
                     else item.run();
             invalidateOptionsMenu();
@@ -378,11 +394,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
 
     protected void onPrepareOptionsMenu(CSOnMenu menu) {
         if (isMenuVisible())
-            for (CSMenuItem item : _menuItems)
-                if (item.isVisible()) {
-                    MenuItem androidItem = menu.show(item.id());
-                    if (androidItem.isCheckable()) androidItem.setChecked(item.isChecked());
-                }
+            for (CSMenuItem item : _menuItems) if (item.isVisible()) menu.show(item);
     }
 
     protected boolean isMenuVisible() {
@@ -409,12 +421,12 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         if (isDestroyed()) return null;
         if (is(super.asView())) return super.asView();
         else if (set(_viewId))
-            return setView((ViewType) parentController().findViewRecursive(_viewId));
-        else if (is(parentController())) return setView((ViewType) parentController().asView());
+            return setView((ViewType) parent().findViewRecursive(_viewId));
+        else if (is(parent())) return setView((ViewType) parent().asView());
         throw exception("This should not happen man ;)");
     }
 
-    public CSViewController parentController() {
+    public CSViewController parent() {
         return _parent;
     }
 
@@ -440,13 +452,8 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return ((CSActivity) activity()).getSupportActionBar();
     }
 
-    public int getActionBarHeight() {
-        if (is(getActionBar())) return getActionBar().getHeight();
-        return 0;
-    }
-
     public void goBack() {
-        if (is(parentController())) parentController().goBack();
+        if (is(parent())) parent().goBack();
         else activity().onBackPressed();
     }
 
@@ -580,11 +587,11 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         if (!isResumed()) return NO;
         if (is(_showingInContainer) && !_showingInContainer) return NO;
         if (is(_parentInView)) {
-            if (inViewVisible()) return parentController().isShowing();
+            if (inViewVisible()) return parent().isShowing();
             return YES;
         }
         if (inViewVisible()) return NO;
-        if (is(parentController()) && !parentController().isShowing()) return NO;
+        if (is(parent()) && !parent().isShowing()) return NO;
         return YES;
     }
 
@@ -654,6 +661,10 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return _menuItems.put(new CSMenuItem(this, title));
     }
 
+    protected CSMenuItem menu(String title, int iconResource) {
+        return _menuItems.put(new CSMenuItem(this, title)).setIconResourceId(iconResource);
+    }
+
     protected void restartActivity() {
         doLater((CSRun) () -> {
             Intent intent = activity().getIntent();
@@ -711,13 +722,13 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         startActivity(intent);
     }
 
-    public void showSnackBar(String text, int time) {
-        Snackbar.make(asView(), text, time).show();
-    }
-
     private void showInMarket(String packageName) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        onSaveInstanceState.fire(outState);
     }
 }

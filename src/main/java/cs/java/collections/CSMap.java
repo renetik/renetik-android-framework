@@ -14,7 +14,6 @@ public interface CSMap<K, V> extends java.util.Map<K, V> {
     @Deprecated
     boolean containsValue(Object value);
 
-    @Deprecated
     V get(Object key);
 
     boolean hasKey(K key);

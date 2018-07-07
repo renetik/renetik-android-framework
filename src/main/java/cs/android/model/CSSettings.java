@@ -4,49 +4,28 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import java.util.Map;
-
-import cs.android.json.CSJSON;
-import cs.android.json.CSJSONArray;
-import cs.android.json.CSJSONData;
-import cs.android.json.CSJSONObject;
-import cs.android.json.CSJSONType;
+import cs.android.json.CSJsonData;
+import cs.android.json.CSJsonKt;
 import cs.android.viewbase.CSContextController;
 import cs.java.collections.CSList;
+import cs.java.collections.CSMap;
 import cs.java.collections.CSMapItem;
 
 import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.iterate;
-import static cs.java.lang.CSLang.json;
 import static cs.java.lang.CSLang.map;
 import static cs.java.lang.CSLang.no;
+
 
 public class CSSettings extends CSContextController {
 
     public static final String SETTING_USERNAME = "username";
     public static final String SETTING_PASSWORD = "password";
-    public static CSSettings instance = new CSSettings();
     private SharedPreferences preferences;
 
-    public CSSettings() {
-        setDefault();
-    }
-
     public CSSettings(String name) {
-        setId(name);
-    }
-
-    public static CSSettings settings() {
-        return instance;
-    }
-
-    public void setId(String name) {
         preferences = getPreferences(name);
-    }
-
-    public void setDefault() {
-        preferences = getPreferences("settings");
     }
 
     public void clear() {
@@ -68,18 +47,12 @@ public class CSSettings extends CSContextController {
         return preferences.contains(key);
     }
 
-    public <T extends CSJSONData> T load(T data, String key) {
+    public <T extends CSJsonData> T load(T data, String key) {
         String loadString = loadString(key);
         if (no(loadString)) return null;
-        CSJSONObject json = json(loadString).asObject();
-        if (no(json)) return null;
-        data.load(json);
+        Object dataMap = cs.android.json.CSJsonKt.fromJson(loadString);
+        if (is(dataMap)) data.load((CSMap<String, Object>) dataMap);
         return data;
-    }
-
-    public CSJSONArray loadArray(String key) {
-        CSJSONType container = loadJSONType(key);
-        return is(container) ? container.asArray() : null;
     }
 
     public boolean loadBoolean(String key) {
@@ -108,11 +81,6 @@ public class CSSettings extends CSContextController {
 
     public Long loadLong(String key, long defaultValue) {
         return preferences.getLong(key, defaultValue);
-    }
-
-    public CSJSONObject loadObject(String key) {
-        CSJSONType container = loadJSONType(key);
-        return is(container) ? container.asObject() : null;
     }
 
     public String loadString(String key) {
@@ -151,18 +119,13 @@ public class CSSettings extends CSContextController {
         }
     }
 
-    public void save(String key, CSJSONData data) {
+    public void save(String key, Object data) {
         if (no(data)) clear(key);
-        else save(key, data.asJSONObject().toJSONString());
+        else save(key, CSJsonKt.toJson(data));
     }
 
-    public <T extends CSJSONData> void save(String key, CSList<T> data) {
-        if (no(data)) clear(key);
-        else save(key, CSJSON.create(data).toJSONString());
-    }
-
-    public <T extends CSJSONData> CSList<T> load(Class<T> type, String key) {
-        return CSJSON.createList(type, loadArray(key));
+    public <T extends CSJsonData> CSList<T> loadList(Class<T> type, String key) {
+        return CSJsonKt.createList(type, (CSList<CSMap<String, Object>>) loadJson(key));
     }
 
     public void save(String key, Long value) {
@@ -174,23 +137,17 @@ public class CSSettings extends CSContextController {
         }
     }
 
-    public <T extends CSJSONData> void save(String key, Map<String, T> data) {
-        if (no(data)) clear(key);
-        else save(key, CSJSON.create(data).toJSONString());
-    }
-
     public void save(String key, String value) {
         if (no(value)) clear(key);
         Editor editor = preferences.edit();
         editor.putString(key, value);
         editor.apply();
-        editor.commit();
     }
 
-    private CSJSONType loadJSONType(String key) {
+    private Object loadJson(String key) {
         String loadString = loadString(key);
         if (empty(loadString)) return null;
-        return json(loadString);
+        return cs.android.json.CSJsonKt.fromJson(loadString);
     }
 
     protected SharedPreferences getPreferences(String key) {

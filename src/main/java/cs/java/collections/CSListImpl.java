@@ -31,8 +31,10 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return null;
     }
 
-    public boolean delete(T item) {
-        return remove(item);
+    public int delete(T item) {
+        int index = indexOf(item);
+        remove(index);
+        return index;
     }
 
     public T first() {
@@ -100,6 +102,16 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
 
     public T put(T item) {
         add(item);
+        return item;
+    }
+
+    public T add(T item, int index) {
+        add(index, item);
+        return item;
+    }
+
+    public T set(T item, int index) {
+        set(index, item);
         return item;
     }
 

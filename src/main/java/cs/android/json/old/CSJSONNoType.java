@@ -1,4 +1,4 @@
-package cs.android.json;
+package cs.android.json.old;
 
 public class CSJSONNoType extends CSJSONType {
 

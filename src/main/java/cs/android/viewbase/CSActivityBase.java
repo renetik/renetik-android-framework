@@ -60,6 +60,11 @@ public abstract class CSActivityBase extends AppCompatActivity implements CSActi
         super.onPause();
     }
 
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        _controller.onSaveInstanceState(outState);
+    }
+
     protected void onNewIntent(Intent intent) {
         _controller.onNewIntent(intent);
         super.onNewIntent(intent);

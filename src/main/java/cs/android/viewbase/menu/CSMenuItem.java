@@ -5,6 +5,7 @@ import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
 import cs.java.callback.CSRunWithWith;
 
+import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.is;
@@ -21,6 +22,8 @@ public class CSMenuItem {
     private CSRunWith<Boolean> _runCheckable;
     private boolean _isChecked;
     private CSRunWithWith<CSMenuItem, Boolean> _runWith;
+    private int _iconResourceId;
+    private int _showAsAction = SHOW_AS_ACTION_IF_ROOM;
 
     public CSMenuItem(CSViewController controller, int id) {
         _controller = controller;
@@ -95,4 +98,32 @@ public class CSMenuItem {
         onItem.checked(isChecked());
         run(isChecked());
     }
+
+    public String title() {
+        return _title;
+    }
+
+    public CSMenuItem setTitle(String title) {
+        _title = title;
+        return this;
+    }
+
+    public CSMenuItem setIconResourceId(int iconResourceId) {
+        _iconResourceId = iconResourceId;
+        return this;
+    }
+
+    public int icon() {
+        return _iconResourceId;
+    }
+
+    public int showAsAction() {
+        return _showAsAction;
+    }
+
+    public CSMenuItem showAsAction(int value) {
+        _showAsAction = value;
+        return this;
+    }
 }
+

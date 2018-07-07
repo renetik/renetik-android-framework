@@ -26,11 +26,11 @@ import java.util.Map;
 import java.util.Random;
 
 import cs.android.CSApplication;
-import cs.android.json.CSJSON;
-import cs.android.json.CSJSONObject;
-import cs.android.json.CSJSONType;
-import cs.android.lang.CSModel;
+import cs.android.json.old.CSJSON;
+import cs.android.json.old.CSJSONObject;
+import cs.android.json.old.CSJSONType;
 import cs.android.lang.CSDoLater;
+import cs.android.lang.CSModel;
 import cs.android.lang.CSWork;
 import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
@@ -47,8 +47,7 @@ import cs.java.collections.CSMapped;
 import cs.java.event.CSEvent;
 import cs.java.event.CSEventImpl;
 
-import static cs.android.json.CSJSON.toJSONString;
-import static cs.android.model.CSSettings.settings;
+import static cs.android.json.old.CSJSON.toJSONString;
 
 public class CSLang {
 
@@ -68,14 +67,14 @@ public class CSLang {
     public static final String NEWLINE = "\n";
     private static final String DEBUG_MODE = "DEBUG_MODE";
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
-    private static CSModel _application;
+    private static CSModel _model;
 
     public static boolean isDebugBuild() {
-        return _application.isDebugBuild();
+        return _model.isDebugBuild();
     }
 
     public static void setDebug(boolean value) {
-        settings().save(DEBUG_MODE, value);
+        _model.settings().save(DEBUG_MODE, value);
     }
 
     public static <T extends CSID> String toIDs(List<T> hasIds) {
@@ -120,16 +119,11 @@ public class CSLang {
         return is(hasId) ? hasId.id() : "";
     }
 
-    public static void alert(Object... messages) {
+    public static void toast(Object... messages) {
         Toast.makeText(CSApplication.instance(), stringify(" ", strings(messages)), Toast.LENGTH_LONG).show();
-        application().logger().info(messages);
+        model().logger().info(messages);
     }
 
-    public static void alertWarn(Object... messages) {
-        Toast.makeText(CSApplication.instance(), "Warn: " + stringify(" ", strings(messages)),
-                Toast.LENGTH_LONG).show();
-        application().logger().warn(messages);
-    }
 
     public static int copy(InputStream input, OutputStream output) throws IOException {
         long count = copyLarge(input, output);
@@ -182,8 +176,8 @@ public class CSLang {
         copy(in, output);
     }
 
-    public static CSModel application() {
-        return _application;
+    public static CSModel model() {
+        return _model;
     }
 
     public static String stringify(String separator, String... values) {
@@ -270,7 +264,7 @@ public class CSLang {
     }
 
     public static void error(Throwable e, Object... values) {
-        application().logger().error(e, values);
+        model().logger().error(e, values);
     }
 
     public static boolean is(Object item) {
@@ -363,7 +357,7 @@ public class CSLang {
     }
 
     public static void error(Object... values) {
-        application().logger().error(values);
+        model().logger().error(values);
     }
 
     public static <T> CSEvent<T> event() {
@@ -612,7 +606,7 @@ public class CSLang {
     }
 
     public static void setApplication(CSModel application) {
-        _application = application;
+        _model = application;
         CSDoLater.initialize();
     }
 
@@ -621,8 +615,7 @@ public class CSLang {
     }
 
     public static void info(Object... values) {
-        if (isDebugMode()) alert(values);
-        else application().logger().info(values);
+        model().logger().info(values);
     }
 
     public static <T> T info(T value) {
@@ -637,7 +630,7 @@ public class CSLang {
     }
 
     public static boolean isDebugMode() {
-        return settings().loadBoolean(DEBUG_MODE);
+        return _model.settings().loadBoolean(DEBUG_MODE);
     }
 
     public static int to1E6(double value) {
@@ -657,11 +650,11 @@ public class CSLang {
     }
 
     public static void warn(Object... values) {
-        application().logger().warn(values);
+        model().logger().warn(values);
     }
 
     public static void warn(Throwable e, Object... values) {
-        application().logger().warn(e, values);
+        model().logger().warn(e, values);
     }
 
     public static Object newInstance(String className) {

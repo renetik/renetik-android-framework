@@ -1,4 +1,4 @@
-package cs.android.json;
+package cs.android.json.old;
 
 import org.json.JSONTokener;
 
@@ -37,7 +37,7 @@ public class CSJSON {
         return new CSJSONObject();
     }
 
-    public static <T extends CSJSONData> CSJSONArray create(List<T> objects) {
+    public static <T extends CSJSONDataOld> CSJSONArray create(List<T> objects) {
         CSJSONArray array = createArray();
         for (T jsonData : objects) array.add(jsonData.asJSONObject());
         return array;
@@ -46,6 +46,12 @@ public class CSJSON {
     public static CSJSONArray createArray(CSJSONType... types) {
         CSJSONArray jsonArray = new CSJSONArray();
         for (CSJSONType type : types) jsonArray.add(type);
+        return jsonArray;
+    }
+
+    public static CSJSONArray createArray(Object... types) {
+        CSJSONArray jsonArray = new CSJSONArray();
+        for (Object type : types) jsonArray.add(create(type));
         return jsonArray;
     }
 
@@ -100,11 +106,11 @@ public class CSJSON {
         return createJSONObject().put(map).toJSONString();
     }
 
-    public static <T extends CSJSONData> CSList<T> createList(final Class<T> type, CSJSONArray array) {
+    public static <T extends CSJSONDataOld> CSList<T> createList(final Class<T> type, CSJSONArray array) {
         return createList(() -> newInstance(type), array);
     }
 
-    public static <T extends CSJSONData> CSList<T> createList(CSReturn<T> factory, CSJSONArray array) {
+    public static <T extends CSJSONDataOld> CSList<T> createList(CSReturn<T> factory, CSJSONArray array) {
         CSList<T> list = list();
         int index = 0;
         for (CSJSONType dataType : iterate(array)) {
@@ -117,7 +123,7 @@ public class CSJSON {
         return list;
     }
 
-    public static <T extends CSJSONData> CSList<CSList<T>> createListOfList(Class<T> type, CSJSONArray arrayOfArray) {
+    public static <T extends CSJSONDataOld> CSList<CSList<T>> createListOfList(Class<T> type, CSJSONArray arrayOfArray) {
         if (no(arrayOfArray)) return null;
         CSList<CSList<T>> list = list();
         for (CSJSONType arrayInArray : arrayOfArray) {
@@ -132,7 +138,7 @@ public class CSJSON {
         return list;
     }
 
-    public static <T extends CSJSONData> CSList<T> createListByObject(Class<T> type, CSJSONObject objectOfObjects) {
+    public static <T extends CSJSONDataOld> CSList<T> createListByObject(Class<T> type, CSJSONObject objectOfObjects) {
         if (no(objectOfObjects)) return null;
         CSList<T> list = list();
         int index = 0;
@@ -144,7 +150,7 @@ public class CSJSON {
         return list;
     }
 
-    public static <T extends CSJSONData> T load(T data, CSJSONObject object) {
+    private static <T extends CSJSONDataOld> T load(T data, CSJSONObject object) {
         if (no(object)) return null;
         data.load(object);
         return data;

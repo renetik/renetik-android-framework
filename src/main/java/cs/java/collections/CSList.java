@@ -4,53 +4,59 @@ import java.util.List;
 
 import cs.java.lang.CSValues;
 
-public interface CSList<T> extends java.util.List<T> , CSValues<T> {
+public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
-	T at(int index);
+    T at(int index);
 
-	boolean delete(T item);
+    int delete(T item);
 
-	T first();
+    T first();
 
-	T second();
+    T second();
 
-	int index(T item);
+    int index(T item);
 
-	boolean getHasItems();
+    boolean getHasItems();
 
-	@Override @Deprecated int indexOf(Object arg0);
+    @Override
+    @Deprecated
+    int indexOf(Object arg0);
 
-	boolean isLast(T item);
+    boolean isLast(T item);
 
-	T last();
+    T last();
 
-	int count();
-	
-	int lastIndex();
+    int count();
 
-	CSList<T> range(int fromIndex);
+    int lastIndex();
 
-	CSList<T> range(int fromIndex, int toIndex);
+    CSList<T> range(int fromIndex);
 
-	@Override @Deprecated boolean remove(Object arg0);
+    CSList<T> range(int fromIndex, int toIndex);
 
-	T removeLast();
+    boolean remove(Object arg0);
 
-	CSList<T> removeAll();
+    T removeLast();
 
-	T put(T item);
+    CSList<T> removeAll();
 
-	CSList<T> append(T... item);
+    T put(T item);
 
-	CSList<T> append(List<T> items);
+    T add(T item, int index);
 
-	CSList<T> insert(int index, T item);
+    T set(T item, int index);
 
-	CSList<T> reload(List<T> values);
+    CSList<T> append(T... item);
 
-	boolean has(T bow);
+    CSList<T> append(List<T> items);
+
+    CSList<T> insert(int index, T item);
+
+    CSList<T> reload(List<T> values);
+
+    boolean has(T bow);
 
     int length();
 
-	CSList<T>  reverse();
+    CSList<T> reverse();
 }

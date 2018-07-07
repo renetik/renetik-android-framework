@@ -1,22 +1,17 @@
 package cs.android.lang
 
-
 import android.util.Log
-
-import java.text.DateFormat
-import java.util.Date
-
-import cs.android.viewbase.CSContextController
-import cs.java.lang.CSTextInterface
-
-import android.util.Log.e
-import android.util.Log.i
-import android.util.Log.w
+import android.util.Log.*
+import android.widget.Toast
 import com.crashlytics.android.Crashlytics.log
 import com.crashlytics.android.Crashlytics.logException
+import cs.android.viewbase.CSContextController
 import cs.java.lang.CSLang.*
+import cs.java.lang.CSTextInterface
+import java.text.DateFormat
+import java.util.*
 
-class FabricLogger(private val model: CSModel) : CSContextController(), CSLogger {
+class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSLogger {
 
     private val maxLogSize = 2.5 * MB
     private val dateFormat = DateFormat.getDateTimeInstance()
@@ -30,23 +25,25 @@ class FabricLogger(private val model: CSModel) : CSContextController(), CSLogger
     override fun error(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Error: $message")
-        e(model.name(), message)
-        log(Log.ERROR, model.name(), message)
+        e(model.applicationName(), message)
+        log(Log.ERROR, model.applicationName(), message)
+        showMessageIfDebug(message)
     }
 
     override fun error(e: Throwable, vararg values: Any) {
         val message = createMessage(*values)
         addMemoryMessage("Error: " + message.addSpace().add(createTraceString(e)))
         val messageString = message.toString()
-        e(model.name(), messageString)
-        log(Log.ERROR, model.name(), messageString)
+        e(model.applicationName(), messageString)
+        log(Log.ERROR, model.applicationName(), messageString)
         logException(e)
+        showMessageIfDebug(messageString)
     }
 
     override fun info(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage(message)
-        i(model.name(), message)
+        i(model.applicationName(), message)
         log(message)
     }
 
@@ -57,15 +54,17 @@ class FabricLogger(private val model: CSModel) : CSContextController(), CSLogger
     override fun warn(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Warn: $message")
-        w(model.name(), message)
-        log(Log.WARN, model.name(), message)
+        w(model.applicationName(), message)
+        log(Log.WARN, model.applicationName(), message)
+        showMessageIfDebug(message)
     }
 
     override fun warn(e: Throwable, vararg values: Any) {
         val message = createMessage(*values)
         addMemoryMessage(message.addSpace().add(createTraceString(e)))
-        w(model.name(), message.toString(), e)
-        log(Log.WARN, model.name(), message.toString())
+        w(model.applicationName(), message.toString(), e)
+        log(Log.WARN, model.applicationName(), message.toString())
+        showMessageIfDebug(message.toString())
     }
 
     private fun addMemoryMessage(message: CharSequence) {
@@ -77,5 +76,10 @@ class FabricLogger(private val model: CSModel) : CSContextController(), CSLogger
         val message = string()
         for (string in values) message.add(string).addSpace()
         return message
+    }
+
+    private fun showMessageIfDebug(message: String) {
+        if (!isDebugMode()) return
+        Toast.makeText(context(), message, Toast.LENGTH_LONG).show()
     }
 }

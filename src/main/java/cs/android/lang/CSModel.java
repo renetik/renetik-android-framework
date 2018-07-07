@@ -3,9 +3,11 @@ package cs.android.lang;
 
 import java.io.File;
 
+import cs.android.model.CSSettings;
+
 public interface CSModel {
 
-    String name();
+    String applicationName();
 
     CSLogger logger();
 
@@ -14,5 +16,7 @@ public interface CSModel {
     File dataDir();
 
     boolean isDebugBuild();
+
+    CSSettings settings();
 
 }

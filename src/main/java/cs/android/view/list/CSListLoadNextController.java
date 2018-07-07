@@ -6,6 +6,8 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ListView;
 
+import java.util.List;
+
 import cs.android.viewbase.CSView;
 import cs.android.viewbase.CSViewController;
 import cs.java.collections.CSList;
@@ -29,10 +31,10 @@ public class CSListLoadNextController extends CSViewController {
     public CSListLoadNextController(CSListController parent, int loadViewLayout) {
         super(parent);
         _loadView = new CSView(this, layout(loadViewLayout));
-        parent.onLoad.add((registration, list) -> onListLoad((CSList) list));
+        parent.onLoad.add((registration, list) -> onListLoad((List) list));
     }
 
-    private void onListLoad(CSList data) {
+    private void onListLoad(List data) {
         _loadView.hide();
         if (no(_scrollListener)) _scrollListener = new EndlessScrollListener();
         else if (data.isEmpty()) _scrollListener = null;

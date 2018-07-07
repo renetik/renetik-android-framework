@@ -1,4 +1,4 @@
-package cs.android.json;
+package cs.android.json.old;
 
 /**
  * Created by Rene Dohan on 23/03/15.

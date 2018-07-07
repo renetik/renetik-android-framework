@@ -20,12 +20,12 @@ public class CSApplication extends Application {
 
     public void onLowMemory() {
         info("onLowMemory");
-        CSLang.application().logger().onLowMemory();
+        CSLang.model().logger().onLowMemory();
         super.onLowMemory();
     }
 
     public void onTerminate() {
-        info("onTerminate");
+//        info("onTerminate");
         super.onTerminate();
     }
 

@@ -50,7 +50,7 @@ public class CSInViewController extends CSViewController<ViewGroup> {
             controller.asView().startAnimation(loadAnimation(context(), anim.abc_shrink_fade_out_from_bottom));
         controller.onDeinitialize(getState());
         asView().removeView(controller.asView());
-        parentController().onInViewControllerHide(controller);
+        parent().onInViewControllerHide(controller);
         controller.onDestroy();
     }
 
@@ -66,8 +66,8 @@ public class CSInViewController extends CSViewController<ViewGroup> {
     private void openControllerImpl(CSViewController controller) {
         _controller = controller;
         asView().addView(controller.asView());
-        parentController().onInViewControllerShow(controller);
-        controller.initialize();
+        parent().onInViewControllerShow(controller);
+        controller.initialize(getState());
         controller.asView().startAnimation(loadAnimation(context(), anim.abc_grow_fade_in_from_bottom));
     }
 
