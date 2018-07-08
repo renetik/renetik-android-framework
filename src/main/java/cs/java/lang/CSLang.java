@@ -617,6 +617,9 @@ public class CSLang {
     public static void info(Object... values) {
         model().logger().info(values);
     }
+    public static void debug(Object... values) {
+        model().logger().debug(values);
+    }
 
     public static <T> T info(T value) {
         info(new Object[]{value});

@@ -11,6 +11,7 @@ import cs.java.collections.CSList;
 
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.debug;
 import static cs.java.lang.CSLang.doLater;
 import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.equal;
@@ -81,7 +82,7 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
                         _controllers.get(draggedIndex).asController().setShowingInContainer(NO);
                 });
         asPager().addOnPageChangeListener(new CSOnPageChanged(currentIndex -> {
-            info("OnPageChanged", currentIndex);
+            debug("OnPageChanged", currentIndex);
             doLater(100, () -> updateControllersState(currentIndex));
         }));
         updateView();

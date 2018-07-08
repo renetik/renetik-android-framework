@@ -39,13 +39,13 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.os.Build.VERSION.SDK_INT;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.debug;
 import static cs.java.lang.CSLang.doLater;
 import static cs.java.lang.CSLang.equal;
 import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.event;
 import static cs.java.lang.CSLang.exception;
 import static cs.java.lang.CSLang.fire;
-import static cs.java.lang.CSLang.info;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
@@ -274,7 +274,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     public ContextThemeWrapper context(int theme) {
-       return new ContextThemeWrapper(context(), theme);
+        return new ContextThemeWrapper(context(), theme);
     }
 
     public void requestPermissionsWithForce(List<String> permissions, final CSRun onGranted) {
@@ -601,12 +601,12 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
 
     protected void onViewVisibilityChanged(boolean showing) {
         if (_isShowing = showing) {
-            info("onViewShowing", this);
+            debug("onViewShowing", this);
             _isVisibleEventRegistrations.setActive(YES);
             invalidateOptionsMenu();
             onViewShowing();
         } else {
-            info("onViewHiding", this);
+            debug("onViewHiding", this);
             _isVisibleEventRegistrations.setActive(NO);
             invalidateOptionsMenu();
             onViewHiding();

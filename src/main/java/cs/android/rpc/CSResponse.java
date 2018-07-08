@@ -11,6 +11,7 @@ import cs.java.net.CSURL;
 
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
+import static cs.java.lang.CSLang.debug;
 import static cs.java.lang.CSLang.error;
 import static cs.java.lang.CSLang.event;
 import static cs.java.lang.CSLang.exception;
@@ -118,7 +119,7 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
     }
 
     protected final void onDoneImpl() {
-        info("Response onDone", this);
+        debug("Response onDone", this);
         if (_done) {
             error(exception("already done"));
             return;

@@ -3,6 +3,7 @@ package cs.android.view.list;
 import android.content.res.Configuration;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.view.View.OnLayoutChangeListener;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -16,6 +17,8 @@ import cs.java.callback.CSReturnWith;
 import cs.java.callback.CSRunWithWith;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import static android.os.SystemClock.uptimeMillis;
 import static android.view.MotionEvent.ACTION_CANCEL;
@@ -267,4 +270,15 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
     }
 
 
+    public CSListController<RowType, T> onLoadDone(Function1<CSListController<RowType, T>, Unit> function) {
+        final OnLayoutChangeListener listener = new OnLayoutChangeListener() {
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                function.invoke(CSListController.this);
+                asView().removeOnLayoutChangeListener(this);
+            }
+        };
+        if (is(function)) asView().addOnLayoutChangeListener(listener);
+        else asView().removeOnLayoutChangeListener(listener);
+        return this;
+    }
 }

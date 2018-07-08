@@ -1,11 +1,11 @@
 package cs.android.lang
 
 import android.util.Log
-import android.util.Log.*
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics.log
-import com.crashlytics.android.Crashlytics.logException
+import com.crashlytics.android.Crashlytics
+import cs.android.CSApplication
 import cs.android.viewbase.CSContextController
+import cs.java.lang.CSLang
 import cs.java.lang.CSLang.*
 import cs.java.lang.CSTextInterface
 import java.text.DateFormat
@@ -25,26 +25,38 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     override fun error(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Error: $message")
-        e(model.applicationName(), message)
-        log(Log.ERROR, model.applicationName(), message)
-        showMessageIfDebug(message)
+        Log.e(model.applicationName(), message)
+        Crashlytics.log(Log.ERROR, model.applicationName(), message)
+        if (isDebugMode()) toast(message)
     }
 
     override fun error(e: Throwable, vararg values: Any) {
         val message = createMessage(*values)
         addMemoryMessage("Error: " + message.addSpace().add(createTraceString(e)))
         val messageString = message.toString()
-        e(model.applicationName(), messageString)
-        log(Log.ERROR, model.applicationName(), messageString)
-        logException(e)
-        showMessageIfDebug(messageString)
+        Log.e(model.applicationName(), messageString)
+        Crashlytics.log(Log.ERROR, model.applicationName(), messageString)
+        Crashlytics.logException(e)
+        if (isDebugMode()) toast(messageString)
     }
 
     override fun info(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage(message)
-        i(model.applicationName(), message)
-        log(message)
+        Log.i(model.applicationName(), message)
+        Crashlytics.log(Log.INFO, model.applicationName(), message)
+        if (isDebugMode()) toast(message)
+    }
+
+    private fun toast(message: String) {
+        Toast.makeText(CSApplication.instance(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun debug(vararg values: Any) {
+        val message = createMessage(*values).toString()
+        if (isDebugMode()) addMemoryMessage(message)
+        Log.d(model.applicationName(), message)
+        Crashlytics.log(Log.DEBUG, model.applicationName(), message)
     }
 
     override fun logString(): String {
@@ -54,17 +66,17 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     override fun warn(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Warn: $message")
-        w(model.applicationName(), message)
-        log(Log.WARN, model.applicationName(), message)
-        showMessageIfDebug(message)
+        Log.w(model.applicationName(), message)
+        Crashlytics.log(Log.WARN, model.applicationName(), message)
+        if (isDebugMode()) toast(message)
     }
 
     override fun warn(e: Throwable, vararg values: Any) {
         val message = createMessage(*values)
         addMemoryMessage(message.addSpace().add(createTraceString(e)))
-        w(model.applicationName(), message.toString(), e)
-        log(Log.WARN, model.applicationName(), message.toString())
-        showMessageIfDebug(message.toString())
+        Log.w(model.applicationName(), message.toString(), e)
+        Crashlytics.log(Log.WARN, model.applicationName(), message.toString())
+        if (isDebugMode()) toast(message.toString())
     }
 
     private fun addMemoryMessage(message: CharSequence) {
@@ -78,8 +90,4 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
         return message
     }
 
-    private fun showMessageIfDebug(message: String) {
-        if (!isDebugMode()) return
-        Toast.makeText(context(), message, Toast.LENGTH_LONG).show()
-    }
 }

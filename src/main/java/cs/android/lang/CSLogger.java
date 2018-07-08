@@ -10,6 +10,8 @@ public interface CSLogger {
 
 	void info(Object... values);
 
+	void debug(Object... values);
+
 	String logString();
 
 	void warn(Object... values);
