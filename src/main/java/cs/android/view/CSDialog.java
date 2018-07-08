@@ -19,6 +19,7 @@ import cs.java.callback.CSRunWithWith;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 
+import static cs.android.R.string.cs_dialog_ok;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.no;
@@ -48,8 +49,8 @@ public class CSDialog extends CSContextController {
     }
 
     public CSDialog create(int message, final CSRun run) {
-        return create(0, message, R.string.cs_dialog_ok, R.string.cs_dialog_cancel, value -> {
-            if (value == R.string.cs_dialog_ok) run.run();
+        return create(0, message, cs_dialog_ok, R.string.cs_dialog_cancel, value -> {
+            if (value == cs_dialog_ok) run.run();
             hideKeyboard();
         });
     }
@@ -246,14 +247,14 @@ public class CSDialog extends CSContextController {
     }
 
     public void show(@Nullable String title, @Nullable String message, @Nullable Function0<Unit> function) {
-        show(title, message, R.string.cs_dialog_ok, R.string.cs_dialog_cancel, value -> {
-            if (is(function)) function.invoke();
+        show(title, message, cs_dialog_ok, R.string.cs_dialog_cancel, value -> {
+            if (cs_dialog_ok == value) if (is(function)) function.invoke();
         });
     }
 
     public void show(@Nullable String title, @Nullable Function0<Unit> function) {
-        show(title, null, R.string.cs_dialog_ok, R.string.cs_dialog_cancel,value -> {
-            if (is(function)) function.invoke();
+        show(title, null, cs_dialog_ok, R.string.cs_dialog_cancel, value -> {
+            if (cs_dialog_ok == value) if (is(function)) function.invoke();
         });
     }
 
@@ -262,6 +263,6 @@ public class CSDialog extends CSContextController {
     }
 
     public void showMessage(@Nullable String message) {
-        show(null, message, R.string.cs_dialog_ok, 0, (CSRun) null);
+        show(null, message, cs_dialog_ok, 0, (CSRun) null);
     }
 }

@@ -120,7 +120,7 @@ public class CSLang {
     }
 
     public static void toast(Object... messages) {
-        Toast.makeText(CSApplication.instance(), stringify(" ", strings(messages)), Toast.LENGTH_LONG).show();
+        Toast.makeText(CSApplication.application(), stringify(" ", strings(messages)), Toast.LENGTH_LONG).show();
         model().logger().info(messages);
     }
 

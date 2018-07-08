@@ -14,7 +14,7 @@ public class CSApplication extends Application {
         _instance = this;
     }
 
-    public static CSApplication instance() {
+    public static CSApplication application() {
         return _instance;
     }
 

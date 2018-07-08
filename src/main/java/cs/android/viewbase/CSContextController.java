@@ -60,7 +60,7 @@ public abstract class CSContextController extends Base implements CSContextInter
     private Context _context;
 
     public CSContextController() {
-        _context = CSApplication.instance();
+        _context = CSApplication.application();
     }
 
     public CSContextController(Context context) {

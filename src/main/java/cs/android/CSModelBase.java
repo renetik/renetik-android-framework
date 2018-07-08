@@ -14,11 +14,11 @@ public abstract class CSModelBase implements cs.android.lang.CSModel {
     }
 
     public File cacheDir() {
-        return CSApplication.instance().getCacheDir();
+        return CSApplication.application().getCacheDir();
     }
 
     public File dataDir() {
-        return CSApplication.instance().getFilesDir();
+        return CSApplication.application().getFilesDir();
     }
 
     public CSSettings settings() { return settings;}

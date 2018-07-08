@@ -637,8 +637,8 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         return (CSView<V>) view(findView(id));
     }
 
-    public <ViewType extends View> CSView<ViewType> view(int id, Class<ViewType> clazz) {
-        return (CSView<ViewType>) view(findView(id));
+    public CSView<View> item(int id) {
+        return view(id);
     }
 
     public CSView<V> image(String url) {

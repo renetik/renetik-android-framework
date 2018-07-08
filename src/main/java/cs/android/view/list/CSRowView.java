@@ -13,7 +13,7 @@ public class CSRowView<T> extends CSView<View> implements CSIRowView<T> {
     private T _row;
 
     public CSRowView(CSListController parent, CSLayoutId layout) {
-        super(parent.asAdapterView(), layout);
+        super(parent.asGroup(), layout);
     }
 
     public T row() {

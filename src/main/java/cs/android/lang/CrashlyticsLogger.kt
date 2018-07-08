@@ -5,7 +5,6 @@ import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import cs.android.CSApplication
 import cs.android.viewbase.CSContextController
-import cs.java.lang.CSLang
 import cs.java.lang.CSLang.*
 import cs.java.lang.CSTextInterface
 import java.text.DateFormat
@@ -49,7 +48,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     }
 
     private fun toast(message: String) {
-        Toast.makeText(CSApplication.instance(), message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(CSApplication.application(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun debug(vararg values: Any) {
