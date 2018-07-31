@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import cs.android.viewbase.menu.CSOnMenuItem;
 import cs.java.lang.CSValue;
 
-import static android.support.v7.appcompat.R.anim;
+import static androidx.appcompat.R.anim;
 import static android.view.animation.AnimationUtils.loadAnimation;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;

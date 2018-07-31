@@ -49,7 +49,7 @@ public class CSProgressInViewController extends CSViewController {
         if (no(response)) return null;
         if (response.isDone()) return null;
         if (is(_response)) return null;
-        response.onSend(() -> showProgress(response)).onDone(() -> hideProgress());
+        response.onSend(() -> showProgress(response)).onDone(this::hideProgress);
         update(response);
         return this;
     }
@@ -66,7 +66,7 @@ public class CSProgressInViewController extends CSViewController {
         updateBars();
         updateCancelButton(response);
         view(parent().findView(_inViewGroupId)).add(this, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
-        asView().startAnimation(loadAnimation(context(), android.support.v7.appcompat.R.anim.abc_grow_fade_in_from_bottom));
+        asView().startAnimation(loadAnimation(context(), androidx.appcompat.R.anim.abc_grow_fade_in_from_bottom));
         _isControllerOpened = YES;
         return this;
     }

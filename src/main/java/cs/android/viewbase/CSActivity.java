@@ -1,7 +1,7 @@
 package cs.android.viewbase;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.ActionBar;
 import android.view.MenuInflater;
 import cs.android.CSActivityInterface;
 import cs.java.callback.CSReturn;

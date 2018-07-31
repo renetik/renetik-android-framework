@@ -1,10 +1,10 @@
 package cs.android.view.adapter;
 
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 import cs.java.callback.CSRunWith;
 
-import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
 import static cs.java.lang.CSLang.no;
 
 public class CSOnPageChanged implements OnPageChangeListener {

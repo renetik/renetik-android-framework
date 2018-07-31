@@ -1,7 +1,7 @@
 package cs.android.view;
 
 import android.content.res.Configuration;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 
 import cs.android.view.adapter.CSOnPageChanged;
 import cs.android.view.adapter.CSOnPageDragged;

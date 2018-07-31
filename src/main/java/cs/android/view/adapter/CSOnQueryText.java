@@ -1,6 +1,6 @@
 package cs.android.view.adapter;
 
-import android.support.v7.widget.SearchView.OnQueryTextListener;
+import androidx.appcompat.widget.SearchView.OnQueryTextListener;
 
 public class CSOnQueryText implements OnQueryTextListener {
 

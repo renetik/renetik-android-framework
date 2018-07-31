@@ -1,14 +1,14 @@
 package cs.android.view;
 
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.appcompat.widget.SearchView;
 
 import cs.android.viewbase.CSLayoutId;
 import cs.android.viewbase.CSViewController;
 import cs.android.viewbase.menu.CSOnMenu;
 import cs.java.callback.CSRunWith;
 
-import static android.support.v7.widget.SearchView.OnQueryTextListener;
+import static androidx.appcompat.widget.SearchView.OnQueryTextListener;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.is;

@@ -1,12 +1,12 @@
 package cs.android.view.adapter;
 
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 import cs.android.view.CSPagerController;
 import cs.java.callback.CSRunWith;
 
-import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE;
 import static cs.java.lang.CSLang.between;
 import static cs.java.lang.CSLang.infof;
 import static cs.java.lang.CSLang.is;

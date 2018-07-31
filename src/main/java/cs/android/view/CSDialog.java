@@ -2,8 +2,8 @@ package cs.android.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AlertDialog.Builder;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import android.widget.EditText;
 
 import org.jetbrains.annotations.Nullable;
