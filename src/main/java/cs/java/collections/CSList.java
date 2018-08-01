@@ -2,11 +2,12 @@ package cs.java.collections;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import cs.java.lang.CSValues;
 
 public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
-    T at(int index);
+    @Nullable T at(int index);
 
     int delete(T item);
 
@@ -24,6 +25,7 @@ public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
     boolean isLast(T item);
 
+    @Nullable
     T last();
 
     int count();

@@ -62,3 +62,33 @@ class CSJsonFileListProperty(val data: CSJsonData, private val key: String) {
         data.getList(key)?.add(file.toString()) ?: data.put(key, list(file.toString()))
     }
 }
+
+class CSJsonLocationListProperty(val data: CSJsonData, private val key: String) {
+    var value: List<LatLng>
+        get() {
+            val list = list<LatLng>()
+            data.getList(key)?.forEach { type: Any? ->
+                run {
+                    val latLngString = type.toString().split(":")
+                    list.add(LatLng(latLngString[0].toDouble(), latLngString[1].toDouble()))
+                }
+            }
+            return list
+        }
+        set(locationList) {
+            val stringList = list<String>()
+            locationList.forEach { location: LatLng -> stringList.add(asString(location)) }
+            data.put(key, stringList)
+        }
+
+    fun add(location: LatLng) {
+        data.getList(key)?.add(asString(location)) ?: data.put(key, list(asString(location)))
+    }
+
+    fun add(location: Location) {
+        data.getList(key)?.add(asString(location)) ?: data.put(key, list(asString(location)))
+    }
+
+    private fun asString(latLng: Location) = "${latLng.latitude}:${latLng.longitude}"
+    private fun asString(latLng: LatLng) = "${latLng.latitude}:${latLng.longitude}"
+}
