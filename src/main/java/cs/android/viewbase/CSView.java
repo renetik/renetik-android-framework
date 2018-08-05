@@ -1,10 +1,9 @@
 package cs.android.viewbase;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.viewpager.widget.ViewPager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -14,18 +13,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewParent;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.DecelerateInterpolator;
+import android.view.ViewPropertyAnimator;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
@@ -43,6 +38,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -52,10 +48,10 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import androidx.viewpager.widget.ViewPager;
 import cs.android.CSContextInterface;
 import cs.android.view.adapter.CSTextWatcherAdapter;
 import cs.android.view.list.CSListController;
-import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
 import cs.java.collections.CSList;
 import cs.java.common.CSPoint;
@@ -68,7 +64,6 @@ import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.SECOND;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.as;
-import static cs.java.lang.CSLang.doLater;
 import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.exceptionf;
 import static cs.java.lang.CSLang.is;
@@ -235,44 +230,45 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         else fadeOut();
     }
 
-    protected SwipeRefreshLayout getPull(int id) {
-        return getView(id, SwipeRefreshLayout.class);
-    }
-
-    public AlphaAnimation fadeIn() {
+    public ViewPropertyAnimator fadeIn() {
         return fadeIn(asView());
     }
 
-    public AlphaAnimation fadeOut() {
+    public ViewPropertyAnimator fadeOut() {
         return fadeOut(asView());
     }
 
-    public AlphaAnimation fadeIn(final View view) {
-        AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
+    public ViewPropertyAnimator fadeIn(final View view) {
+        if (isVisible(view)) return null;
+        show(view);
+        view.setAlpha(0);
+        return view.animate().alpha(1.0F).setDuration(150)
+                .setInterpolator(new AccelerateDecelerateInterpolator()).setListener(null);
+    }
 
-        if (isShown(view) && hasParent()) return animation;
+    public ViewPropertyAnimator fadeOut(final View view) {
+        if (!isVisible(view) || view.getAlpha() == 0) return null;
+        return view.animate().alpha(0F).setDuration(300)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setListener(new AnimatorListener() {
+                    public void onAnimationStart(Animator animation) {
+                    }
 
-        if (is(view.getAnimation())) {
-            view.getAnimation().cancel();
-            view.clearAnimation();
-        }
-        animation.setDuration(150);
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.setAnimationListener(new AnimationListener() {
-            public void onAnimationStart(Animation animation) {
-            }
+                    public void onAnimationEnd(Animator animation) {
+                        hide(view);
+                    }
 
-            public void onAnimationEnd(Animation animation) {
-                show(view);
-            }
+                    public void onAnimationCancel(Animator animation) {
+                    }
 
-            public void onAnimationRepeat(Animation animation) {
-            }
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                });
+    }
 
-
-        });
-        view.startAnimation(animation);
-        return animation;
+    public boolean isVisible(View view) {
+        if (no(view)) return NO;
+        return view.getVisibility() == VISIBLE;
     }
 
     public boolean isShown(View view) {
@@ -286,38 +282,6 @@ public class CSView<V extends View> extends CSContextController implements CSVie
 
     public void show(View view) {
         view.setVisibility(VISIBLE);
-    }
-
-    public AlphaAnimation fadeOut(final View view) {
-        AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
-
-        if (is(view.getAnimation())) view.getAnimation().cancel();
-
-        if (isHidden(view) && no(view.getAnimation())) {
-            if (is(null)) ((CSRunWith<View>) null).run(view);
-            return animation;
-        }
-
-        animation.setDuration(300);
-        animation.setInterpolator(new AccelerateInterpolator());
-        animation.setAnimationListener(new AnimationListener() {
-            public void onAnimationEnd(Animation animation) {
-                hide(view);
-                if (is(null)) doLater((CSRun) () -> ((CSRunWith<View>) null).run(view));
-            }
-
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            public void onAnimationStart(Animation animation) {
-            }
-        });
-        view.startAnimation(animation);
-        return animation;
-    }
-
-    private boolean isHidden(View view) {
-        return !isShown(view);
     }
 
     public void hide(View view) {
@@ -362,11 +326,11 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         return (CSView<V>) _viewField;
     }
 
-    public AlphaAnimation fadeIn(int view) {
+    public ViewPropertyAnimator fadeIn(int view) {
         return fadeIn(findView(view));
     }
 
-    public AlphaAnimation fadeOut(int view) {
+    public ViewPropertyAnimator fadeOut(int view) {
         return fadeOut(findView(view));
     }
 
@@ -494,20 +458,8 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         return (CompoundButton) findView(id);
     }
 
-    public boolean isHidden() {
-        return !isVisible();
-    }
-
-    public boolean isVisible() {
+    public boolean isShown() {
         return isShown(asView());
-    }
-
-    public boolean isVisible(int id) {
-        return isShown(findView(id));
-    }
-
-    public Button getButton(int id) {
-        return (Button) findView(id);
     }
 
     public CSView<V> onClick(OnClickListener onClickListener) {
@@ -570,10 +522,6 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         spinner.setAdapter(adapter);
     }
 
-    public void setText(int viewId, String text) {
-        textView(viewId).setText(text);
-    }
-
     public CSView<V> show() {
         show(asView());
         return this;
@@ -591,7 +539,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
             show(findView(id));
     }
 
-    public void showSoftInput(View view, int flag) {
+    public void showKeyboard(View view, int flag) {
         service(Context.INPUT_METHOD_SERVICE, InputMethodManager.class).showSoftInput(view, flag);
     }
 
@@ -633,8 +581,8 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         return dp * (getDisplayMetrics().densityDpi / 160f);
     }
 
-    public <V extends View> CSView<V> view(int id) {
-        return (CSView<V>) view(findView(id));
+    public <T extends View> CSView<T> view(int id) {
+        return (CSView<T>) view(findView(id));
     }
 
     public CSView<View> item(int id) {
@@ -739,7 +687,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
     }
 
     public void toggleVisibility() {
-        if (isVisible()) hide();
+        if (isShown()) hide();
         else show();
     }
 

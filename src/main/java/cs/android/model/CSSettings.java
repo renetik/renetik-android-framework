@@ -12,6 +12,8 @@ import cs.java.collections.CSMap;
 import cs.java.collections.CSMapItem;
 import kotlin.reflect.KClass;
 
+import static cs.android.json.CSJsonKt.createList;
+import static cs.android.json.CSJsonKt.toJson;
 import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.is;
 import static cs.java.lang.CSLang.iterate;
@@ -122,11 +124,11 @@ public class CSSettings extends CSContextController {
 
     public void save(String key, Object data) {
         if (no(data)) clear(key);
-        else save(key, CSJsonKt.toJson(data));
+        else save(key, toJson(data));
     }
 
     public <T extends CSJsonData> CSList<T> loadList(Class<T> type, String key) {
-        return CSJsonKt.createList(type, (CSList<CSMap<String, Object>>) loadJson(key));
+        return createList(type, (CSList<CSMap<String, Object>>) loadJson(key));
     }
 
     public void save(String key, Long value) {

@@ -117,7 +117,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         _parent = null;
     }
 
-    public CSViewController(CSViewController<?> parent) {
+    public CSViewController(CSViewController<ViewType> parent) {
         super(parent);
         _inView = null;
         _parent = parent;
@@ -645,24 +645,31 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     protected CSEventRegistration register(CSEventRegistration eventRegistration) {
+        if(no(eventRegistration)) return null;
         return _eventRegistrations.add(eventRegistration);
     }
 
     public void invalidateOptionsMenu() {
-        if (is(activity())) ((CSActivity) activity()).supportInvalidateOptionsMenu();
+        if (is(activity())) activity().supportInvalidateOptionsMenu();
         else error("invalidateOptionsMenu, activity is null");
     }
 
+    private CSMenuItem addMenuItem(CSMenuItem item) {
+        _menuItems.put(item);
+        invalidateOptionsMenu();
+        return item;
+    }
+
     protected CSMenuItem menu(int id) {
-        return _menuItems.put(new CSMenuItem(this, id));
+        return addMenuItem(new CSMenuItem(this, id));
     }
 
     protected CSMenuItem menu(String title) {
-        return _menuItems.put(new CSMenuItem(this, title));
+        return addMenuItem(new CSMenuItem(this, title));
     }
 
     protected CSMenuItem menu(String title, int iconResource) {
-        return _menuItems.put(new CSMenuItem(this, title)).setIconResourceId(iconResource);
+        return addMenuItem(new CSMenuItem(this, title)).setIconResourceId(iconResource);
     }
 
     protected void restartActivity() {

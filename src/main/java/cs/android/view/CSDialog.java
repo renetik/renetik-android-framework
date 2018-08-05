@@ -188,7 +188,7 @@ public class CSDialog extends CSContextController {
         return this;
     }
 
-    public CSDialog show(String title, String message, int dialogOk, int dialogCancel, CSRun onOkClick) {
+    public CSDialog show(String title, String message, int dialogOk, CSRun onOkClick, int dialogCancel) {
         text(title, message);
         buttons(dialogOk, dialogCancel, value -> {if (dialogOk == value) onOkClick.run();});
         show();
@@ -263,6 +263,6 @@ public class CSDialog extends CSContextController {
     }
 
     public void showMessage(@Nullable String message) {
-        show(null, message, cs_dialog_ok, 0, (CSRun) null);
+        show(null, message, cs_dialog_ok, (CSRun) null, 0);
     }
 }

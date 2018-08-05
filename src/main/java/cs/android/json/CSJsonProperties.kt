@@ -2,6 +2,7 @@ package cs.android.json
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
+import cs.java.collections.CSList
 import cs.java.collections.CSMap
 import cs.java.lang.CSLang.list
 import java.io.File
@@ -19,15 +20,14 @@ class CSJsonFileProperty(val data: CSJsonData, private val key: String) {
         set(file) = data.put(key, file?.toString())
 }
 
+@Suppress("unchecked_cast")
 class CSJsonLocationProperty(val data: CSJsonData, private val key: String) {
-    var value: LatLng?
-        get() {
-            return (data.getList(key) as? List<Double>)?.let { LatLng(it[0], it[1]) }
-        }
+    var latLng: LatLng?
+        get() = (data.getList(key) as? List<Double>)?.let { LatLng(it[0], it[1]) }
         set(latLng) = data.put(key, list(latLng?.latitude, latLng?.longitude))
 
     fun set(location: Location) {
-        value = LatLng(location.latitude, location.longitude)
+        latLng = LatLng(location.latitude, location.longitude)
     }
 }
 
@@ -35,10 +35,13 @@ class CSJsonGetStringProperty(var data: CSJsonData, private var key: String) {
     val value: String? get() = data.getString(key)
 }
 
+@Suppress("unchecked_cast")
 class CSJsonListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<T>,
                                          val key: String) {
-    val value: List<T>
+    val list: CSList<T>
         get() = createList(type.java, data.getList(key) as List<CSMap<String, Any?>>?)
+
+    val last: T? get() = list.last()
 
     fun add(item: T) {
         data.getList(key)?.add(item.getJsonDataMap()) ?: data.put(key, list(item.getJsonDataMap()))
@@ -46,7 +49,7 @@ class CSJsonListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<
 }
 
 class CSJsonFileListProperty(val data: CSJsonData, private val key: String) {
-    var value: List<File>
+    var list: CSList<File>
         get() {
             val list = list<File>()
             data.getList(key)?.forEach { type: Any? -> list.add(File(type.toString())) }
@@ -58,13 +61,15 @@ class CSJsonFileListProperty(val data: CSJsonData, private val key: String) {
             data.put(key, stringList)
         }
 
+    val last: File? get() = list.last()
+
     fun add(file: File) {
         data.getList(key)?.add(file.toString()) ?: data.put(key, list(file.toString()))
     }
 }
 
 class CSJsonLocationListProperty(val data: CSJsonData, private val key: String) {
-    var value: List<LatLng>
+    var list: CSList<LatLng>
         get() {
             val list = list<LatLng>()
             data.getList(key)?.forEach { type: Any? ->
@@ -80,6 +85,8 @@ class CSJsonLocationListProperty(val data: CSJsonData, private val key: String) 
             locationList.forEach { location: LatLng -> stringList.add(asString(location)) }
             data.put(key, stringList)
         }
+
+    val last: LatLng? get() = list.last()
 
     fun add(location: LatLng) {
         data.getList(key)?.add(asString(location)) ?: data.put(key, list(asString(location)))

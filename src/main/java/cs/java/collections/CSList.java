@@ -25,8 +25,9 @@ public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
     boolean isLast(T item);
 
-    @Nullable
-    T last();
+    @Nullable T last();
+
+    @Nullable T previous();
 
     int count();
 

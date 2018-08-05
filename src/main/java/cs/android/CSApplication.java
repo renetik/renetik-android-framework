@@ -2,35 +2,29 @@ package cs.android;
 
 import android.app.Application;
 
-import cs.java.lang.CSLang;
-
 import static cs.java.lang.CSLang.info;
+import static cs.java.lang.CSLang.model;
 
 public class CSApplication extends Application {
 
-    private static CSApplication _instance;
+    private static CSApplication application;
 
     public CSApplication() {
-        _instance = this;
+        application = this;
     }
 
     public static CSApplication application() {
-        return _instance;
+        return application;
     }
 
     public void onLowMemory() {
-        info("onLowMemory");
-        CSLang.model().logger().onLowMemory();
         super.onLowMemory();
+        info("onLowMemory");
+        model().logger().onLowMemory();
     }
 
     public void onTerminate() {
-//        info("onTerminate");
         super.onTerminate();
+        info("onTerminate");
     }
-
-    public void onCreate() {
-        super.onCreate();
-    }
-
 }

@@ -605,8 +605,8 @@ public class CSLang {
         return set(value);
     }
 
-    public static void setApplication(CSModel application) {
-        _model = application;
+    public static void setModel(CSModel model) {
+        _model = model;
         CSDoLater.initialize();
     }
 

@@ -2,8 +2,10 @@ package cs.android.json
 
 import cs.java.collections.CSList
 import cs.java.collections.CSMap
-import cs.java.lang.CSLang.linkedMap
-import cs.java.lang.CSLang.no
+import cs.java.event.CSEvent
+import cs.java.lang.CSLang.*
+
+data class OnJsonDataValueChanged(val data:CSJsonData, val key: String, val value: Any?)
 
 open class CSJsonData() : Iterable<String>, CSJsonDataMap {
 
@@ -15,10 +17,13 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
         return data.keys.iterator()
     }
 
-    protected var data: CSMap<String, Any?> = linkedMap<String, Any?>()
     open var index: Int? = null
     open var key: String? = null
+    open val onValueChangedEvent: CSEvent<OnJsonDataValueChanged> = event()
+    open val onChangedEvent: CSEvent<CSJsonData> = event()
+    protected var data: CSMap<String, Any?> = linkedMap<String, Any?>()
     private var childDataKey: String? = null
+    private var dataChanged = NO
 
     constructor(data: CSMap<String, Any?>) : this() {
         load(data)
@@ -27,16 +32,13 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
     fun load(data: CSMap<String, Any?>): CSJsonData {
         if (no(data)) return this
         this.data = data;
-        onLoad(data)
         return this
     }
 
-    protected fun onLoad(data: CSMap<String, Any?>) {}
-
     private fun data(): CSMap<String, Any?> {
         childDataKey?.let {
-            var childValue = data[it] as? CSMap<String, Any?>
-            if(childValue==null){
+            var childValue = data[it] as CSMap<String, Any?>
+            if (childValue == null) {
                 childValue = linkedMap()
                 data[it] = childValue
             }
@@ -49,32 +51,44 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
         return toFormattedJson(this)
     }
 
-    fun put(key: String, value: String?) {
+    fun setValue(key: String, value: Any?) {
         data()[key] = value
+        onValueChangedEvent.fire(OnJsonDataValueChanged(this,key,value))
+        if (!dataChanged) {
+            doLater {
+                onChangedEvent.fire(this)
+                dataChanged = NO
+            }
+            dataChanged = YES
+        }
+    }
+
+    fun put(key: String, value: String?) {
+        setValue(key, value)
     }
 
     fun put(key: String, value: Number?) {
-        data()[key] = value
+        setValue(key, value)
     }
 
     fun put(key: String, value: Boolean?) {
-        data()[key] = value
+        setValue(key, value)
     }
 
     fun put(key: String, value: CSJsonDataMap) {
-        data()[key] = value.getJsonDataMap()
+        setValue(key, value.getJsonDataMap())
     }
 
     fun put(key: String, value: CSJsonDataList) {
-        data()[key] = value.getJsonDataList()
+        setValue(key, value.getJsonDataList())
     }
 
     fun put(key: String, value: List<*>) {
-        data()[key] = value
+        setValue(key, value)
     }
 
     fun put(key: String, value: Map<String, *>) {
-        data()[key] = value
+        setValue(key, value)
     }
 
     fun getString(key: String): String? {

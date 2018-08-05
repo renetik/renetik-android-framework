@@ -3,22 +3,24 @@ package cs.android;
 import java.io.File;
 
 import cs.android.model.CSSettings;
-import cs.java.lang.CSLang;
+
+import static cs.android.CSApplication.application;
+import static cs.java.lang.CSLang.setModel;
 
 public abstract class CSModelBase implements cs.android.lang.CSModel {
 
     private CSSettings settings = new CSSettings("ApplicationSettings");
 
     public CSModelBase() {
-        CSLang.setApplication(this);
+        setModel(this);
     }
 
     public File cacheDir() {
-        return CSApplication.application().getCacheDir();
+        return application().getCacheDir();
     }
 
     public File dataDir() {
-        return CSApplication.application().getFilesDir();
+        return application().getFilesDir();
     }
 
     public CSSettings settings() { return settings;}

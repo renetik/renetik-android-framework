@@ -17,11 +17,9 @@ public class CSMenuItem {
     private String _title;
     private CSViewController _controller;
     private int _id;
-    private CSRun _run;
     private boolean _visible = YES;
-    private CSRunWith<Boolean> _runCheckable;
     private boolean _isChecked;
-    private CSRunWithWith<CSMenuItem, Boolean> _runWith;
+    private CSRunWith<CSMenuItem> _runWith;
     private int _iconResourceId;
     private int _showAsAction = SHOW_AS_ACTION_IF_ROOM;
 
@@ -35,17 +33,7 @@ public class CSMenuItem {
         _title = title;
     }
 
-    public CSMenuItem onClick(CSRun run) {
-        _run = run;
-        return this;
-    }
-
-    public CSMenuItem onClick(CSRunWith<Boolean> run) {
-        _runCheckable = run;
-        return this;
-    }
-
-    public CSMenuItem onClick(CSRunWithWith<CSMenuItem, Boolean> run) {
+    public CSMenuItem onClick(CSRunWith<CSMenuItem> run) {
         _runWith = run;
         return this;
     }
@@ -55,13 +43,7 @@ public class CSMenuItem {
     }
 
     public void run() {
-        if (is(_run)) _run.run();
-        if (is(_runWith)) _runWith.run(this, null);
-    }
-
-    public void run(boolean isChecked) {
-        if (is(_runCheckable)) _runCheckable.run(isChecked);
-        if (is(_runWith)) _runWith.run(this, isChecked);
+        if (is(_runWith)) _runWith.run(this);
     }
 
     public CSMenuItem hide() {
@@ -96,7 +78,7 @@ public class CSMenuItem {
     public void onChecked(CSOnMenuItem onItem) {
         checked(!isChecked());
         onItem.checked(isChecked());
-        run(isChecked());
+        run();
     }
 
     public String title() {
