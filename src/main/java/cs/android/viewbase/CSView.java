@@ -29,7 +29,6 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -45,7 +44,6 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.squareup.picasso.NetworkPolicy.OFFLINE;
 import static cs.java.lang.CSLang.NO;
-import static cs.java.lang.CSLang.SECOND;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.as;
 import static cs.java.lang.CSLang.empty;
@@ -561,7 +559,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
     }
 
     public CSView<V> textColor(int color) {
-        asTextView().setTextColor(getColor(color));
+        asTextView().setTextColor(color(color));
         return this;
     }
 
@@ -654,14 +652,6 @@ public class CSView<V extends View> extends CSContextController implements CSVie
 
     public void layoutParams(LinearLayout.LayoutParams params) {
         getView().setLayoutParams(params);
-    }
-
-    public void showSnackBar(String text, int time) {
-        Snackbar.make(getView(), text, time).show();
-    }
-
-    public void showSnackBar(String text) {
-        Snackbar.make(getView(), text, 5 * SECOND).show();
     }
 
 }

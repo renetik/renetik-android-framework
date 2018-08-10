@@ -19,7 +19,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.IBinder;
-import androidx.core.content.ContextCompat;
 import android.util.Base64;
 import android.view.Display;
 import android.view.WindowManager;
@@ -36,6 +35,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import cs.android.CSApplication;
 import cs.android.CSContextInterface;
 import cs.java.collections.CSList;
@@ -43,9 +43,9 @@ import cs.java.lang.Base;
 
 import static android.content.pm.PackageManager.GET_SIGNATURES;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static android.text.format.DateFormat.getDateFormat;
 import static android.text.format.DateFormat.getTimeFormat;
+import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static cs.java.lang.CSLang.close;
 import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.error;
@@ -180,8 +180,8 @@ public abstract class CSContextController extends Base implements CSContextInter
         return level / (float) scale;
     }
 
-    protected int getColor(int color) {
-        return context().getResources().getColor(color);
+    public int color(int color) {
+        return ContextCompat.getColor(context(), color);
     }
 
     public <T> T service(String serviceName, Class<T> serviceClass) {

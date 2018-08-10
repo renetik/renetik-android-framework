@@ -38,7 +38,7 @@ public class CSOnMenu {
             if (menuItem.isCheckable()) menuItem.setChecked(item.isChecked());
         } else {
             MenuItem menuItem = _menu.add(item.title());
-            menuItem.setShowAsAction(item.showAsAction());
+            menuItem.setShowAsAction(item.howToShow());
             if (menuItem.isCheckable()) menuItem.setChecked(item.isChecked());
             if (set(item.icon())) menuItem.setIcon(item.icon());
         }

@@ -51,7 +51,6 @@ import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.run;
 import static cs.java.lang.CSLang.set;
-import static cs.java.lang.CSLang.stringf;
 import static cs.java.lang.CSLang.warn;
 import static cs.java.lang.CSMath.randomInt;
 
@@ -678,22 +677,6 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
             activity().finish();
             startActivity(intent);
         });
-    }
-
-    public void startMapsNavigation(double latitude, double longitude, String title) {
-        String uri = stringf("http://maps.google.com/maps?&daddr=%f,%f (%s)", latitude, longitude, title);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException ex) {
-            try {
-                Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                startActivity(unrestrictedIntent);
-            } catch (ActivityNotFoundException e) {
-                error(e);
-            }
-        }
     }
 
     public void onConfigurationChanged(Configuration newConfig) {

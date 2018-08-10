@@ -1,11 +1,12 @@
 package cs.android.viewbase.menu;
 
 import cs.android.viewbase.CSViewController;
-import cs.java.callback.CSRun;
 import cs.java.callback.CSRunWith;
-import cs.java.callback.CSRunWithWith;
 
+import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
+import static android.view.MenuItem.SHOW_AS_ACTION_NEVER;
+import static android.view.MenuItem.SHOW_AS_ACTION_WITH_TEXT;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.is;
@@ -99,12 +100,22 @@ public class CSMenuItem {
         return _iconResourceId;
     }
 
-    public int showAsAction() {
+    public int howToShow() {
         return _showAsAction;
     }
 
-    public CSMenuItem showAsAction(int value) {
-        _showAsAction = value;
+    public CSMenuItem neverAsAction() {
+        _showAsAction = SHOW_AS_ACTION_NEVER;
+        return this;
+    }
+
+    public CSMenuItem alwaysAsAction() {
+        _showAsAction = SHOW_AS_ACTION_ALWAYS;
+        return this;
+    }
+
+    public CSMenuItem withText() {
+        _showAsAction |= SHOW_AS_ACTION_WITH_TEXT;
         return this;
     }
 }

@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import cs.android.view.adapter.CSTextWatcherAdapter
 import cs.android.viewbase.CSLayoutId
 import cs.android.viewbase.CSView
@@ -17,6 +19,8 @@ import java.util.Calendar.*
 fun CSView<*>.view(id: Int): View = item<View>(id).view
 fun CSView<*>.editText(id: Int): EditText = item<EditText>(id).view
 fun CSView<*>.textView(id: Int): TextView = item<TextView>(id).view
+fun CSView<*>.chip(id: Int): Chip = item<Chip>(id).view
+fun CSView<*>.chipGroup(id: Int): ChipGroup = item<ChipGroup>(id).view
 fun CSView<*>.datePicker(id: Int): DatePicker = item<DatePicker>(id).view
 fun CSView<*>.frame(id: Int): FrameLayout = item<FrameLayout>(id).view
 fun CSView<*>.linearLayout(id: Int): LinearLayout = item<LinearLayout>(id).view
@@ -31,7 +35,7 @@ fun CSView<*>.visible(): Boolean = isVisible(view)
 
 fun CSView<*>.shown(): Boolean = isShown(view)
 
-fun <V : View> CSView<V>.onTextChange(onChange: (text: String) -> Unit): CSView<V> {
+fun <T : CSView<*>> T.onTextChange(onChange: (text: String) -> Unit): T {
     asTextView()?.addTextChangedListener(object : CSTextWatcherAdapter() {
         override fun afterTextChanged(editable: Editable) {
             onChange(editable.toString())
@@ -40,7 +44,7 @@ fun <V : View> CSView<V>.onTextChange(onChange: (text: String) -> Unit): CSView<
     return this
 }
 
-fun <V : View> CSView<V>.onChange(onChange: (view: CSView<V>) -> Unit): CSView<V> {
+fun <T : CSView<*>> T.onChange(onChange: (view: T) -> Unit): T {
     val self = this
     asTextView()?.addTextChangedListener(object : CSTextWatcherAdapter() {
         override fun afterTextChanged(editable: Editable) {
@@ -62,6 +66,7 @@ fun CSView<*>.getTime(picker: Int): Date {
     return getTime(timePicker(picker))
 }
 
+@Suppress("DEPRECATION")
 fun CSView<*>.getTime(picker: TimePicker): Date {
     return Calendar.getInstance().apply {
         set(HOUR_OF_DAY, picker.currentHour)

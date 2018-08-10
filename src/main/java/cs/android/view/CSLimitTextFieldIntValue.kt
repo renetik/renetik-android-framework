@@ -6,11 +6,13 @@ import cs.android.viewbase.CSViewController
 import cs.java.lang.CSLang.*
 
 class CSLimitTextFieldIntValue(parent: CSViewController<*>, id: Int, val minValue: Int,
-                               var maxValue: Int, val alertString: Int) : CSViewController<EditText>(parent, id) {
+                               private var maxValue: Int, private val alertString: Int)
+    : CSViewController<EditText>(parent, id) {
+
     private var beforeChangeValue: Int = 0
 
     init {
-        view?.setOnFocusChangeListener { v, hasFocus ->
+        view?.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) beforeChangeValue = intValue()
             else if (intValue() > maxValue || intValue() < minValue) onWrongNumberEntered()
         }
