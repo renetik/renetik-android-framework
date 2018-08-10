@@ -42,7 +42,7 @@ public class CSProgressInViewController extends CSViewController {
     public ProgressBar showBar() {
         _barVisible = YES;
         updateBars();
-        return view(_determinateBarId).asProgressBar();
+        return item(_determinateBarId).asProgressBar();
     }
 
     public CSProgressInViewController setResponse(final CSResponse<?> response) {
@@ -62,11 +62,11 @@ public class CSProgressInViewController extends CSViewController {
     private CSProgressInViewController showProgress(final CSResponse response) {
         _response = response;
         if (_isControllerOpened) return this;
-        if (is(response)) view(_labelId).text(response.title());
+        if (is(response)) item(_labelId).text(response.title());
         updateBars();
         updateCancelButton(response);
-        view(parent().findView(_inViewGroupId)).add(this, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
-        asView().startAnimation(loadAnimation(context(), androidx.appcompat.R.anim.abc_grow_fade_in_from_bottom));
+        item(parent().findView(_inViewGroupId)).add(this, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        getView().startAnimation(loadAnimation(context(), androidx.appcompat.R.anim.abc_grow_fade_in_from_bottom));
         _isControllerOpened = YES;
         return this;
     }
@@ -74,7 +74,7 @@ public class CSProgressInViewController extends CSViewController {
     private void updateCancelButton(final CSResponse response) {
         if (set(_cancelId)) {
             if (is(response))
-                view(_cancelId).onClick(v -> {
+                item(_cancelId).onClick(v -> {
                     try {
                         response.cancel();
                     } catch (Exception e) {
@@ -82,7 +82,7 @@ public class CSProgressInViewController extends CSViewController {
                     }
                     hideProgress();
                 }).show();
-            else view(_cancelId).hide();
+            else item(_cancelId).hide();
         }
     }
 
@@ -92,8 +92,8 @@ public class CSProgressInViewController extends CSViewController {
     }
 
     private void updateBars() {
-        view(_indeterminateProgressBarId).visible(!_barVisible);
-        view(_determinateBarId).visible(_barVisible);
+        item(_indeterminateProgressBarId).visible(!_barVisible);
+        item(_determinateBarId).visible(_barVisible);
     }
 
     private void update(CSResponse response) {
@@ -103,7 +103,7 @@ public class CSProgressInViewController extends CSViewController {
 
     public void hideProgress() {
         if (!_isControllerOpened) return;
-        view(parent().findView(_inViewGroupId)).removeView(this);
+        item(parent().findView(_inViewGroupId)).removeView(this);
         onDismiss();
     }
 

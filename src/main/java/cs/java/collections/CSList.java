@@ -33,7 +33,7 @@ public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
     int lastIndex();
 
-    CSList<T> range(int fromIndex);
+    CSList<T> rangeFrom(int fromIndex);
 
     CSList<T> range(int fromIndex, int toIndex);
 

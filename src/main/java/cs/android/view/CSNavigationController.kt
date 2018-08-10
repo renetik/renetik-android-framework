@@ -18,13 +18,13 @@ open class CSNavigationController(activity: AppCompatActivity) :
     open var controllers: CSList<CSViewController<*>> = list()
 
     init {
-        view = FrameLayout(ContextThemeWrapper(context(), R.style.Container))
+        view = FrameLayout(ContextThemeWrapper(this.context(), R.style.Container))
     }
 
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
         if (controllers.hasItems) controllers.last()?.setShowingInContainer(NO)
         controllers.put(controller)
-        controller.asView().startAnimation(loadAnimation(context(), R.anim.abc_slide_in_top))
+        controller.getView().startAnimation(loadAnimation(context(), R.anim.abc_slide_in_top))
         add(controller)
         controller.setShowingInContainer(YES)
         controller.initialize(state)
@@ -37,7 +37,7 @@ open class CSNavigationController(activity: AppCompatActivity) :
 
     fun pop() {
         val controller = controllers.removeLast()
-        controller.asView().startAnimation(loadAnimation(context(), R.anim.abc_slide_out_top))
+        controller.getView().startAnimation(loadAnimation(context(), R.anim.abc_slide_out_top))
         controller.setShowingInContainer(NO)
         controller.onDeinitialize(state)
         removeView(controller)

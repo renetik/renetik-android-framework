@@ -33,7 +33,7 @@ public class CSSearchController extends CSViewController {
 
     public CSSearchController(CSViewController parent, CSLayoutId searchViewLayout) {
         super(parent, searchViewLayout);
-        _searchView = (SearchView) asView();
+        _searchView = (SearchView) getView();
         _searchView.setQuery(_query, NO);
         _searchView.setOnQueryTextListener(new OnQueryTextListener() {
             public boolean onQueryTextSubmit(String query) {

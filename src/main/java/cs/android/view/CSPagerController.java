@@ -54,7 +54,7 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
     }
 
     public CSPagerController reload(CSList<Page> controllers) {
-        int currentItem = asPager().getCurrentItem();
+        int currentItem = getView().getCurrentItem();
         for (Page iController : iterate(_controllers)) {
             iController.asController().onDeinitialize(null);
             iController.asController().onDestroy();
@@ -62,13 +62,13 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
         _controllers = controllers;
         updateControllersState(_controllers.length() > currentItem ? currentItem : 0);
         for (Page page : _controllers) page.asController().initialize(getState());
-        if (_controllers.length() > currentItem) asPager().setCurrentItem(currentItem, YES);
+        if (_controllers.length() > currentItem) getView().setCurrentItem(currentItem, YES);
         updateView();
         return this;
     }
 
     private void updateView() {
-        if (is(_controllers)) asPager().setAdapter(new CSPagerAdapter(_controllers));
+        if (is(_controllers)) getView().setAdapter(new CSPagerAdapter(_controllers));
         visible(set(_controllers));
         if (is(_emptyView)) _emptyView.visible(empty(_controllers));
     }
@@ -81,7 +81,7 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
                     if (!equal(currentIndex(), draggedIndex))
                         _controllers.get(draggedIndex).asController().setShowingInContainer(NO);
                 });
-        asPager().addOnPageChangeListener(new CSOnPageChanged(currentIndex -> {
+        getView().addOnPageChangeListener(new CSOnPageChanged(currentIndex -> {
             debug("OnPageChanged", currentIndex);
             doLater(100, () -> updateControllersState(currentIndex));
         }));
@@ -90,7 +90,7 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
     }
 
     private void updateTabsVisibility() {
-        if (set(_tabLayout)) view(_tabLayout).fade(isPortrait());
+        if (set(_tabLayout)) item(_tabLayout).fade(isPortrait());
     }
 
     private void updateControllersState(int currentIndex) {
@@ -112,7 +112,7 @@ public class CSPagerController<Page extends CSPagerPage> extends CSViewControlle
     }
 
     public void currentIndex(int index) {
-        asPager().setCurrentItem(index);
+        getView().setCurrentItem(index);
     }
 
     public Integer currentIndex() {

@@ -417,12 +417,12 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return YES;
     }
 
-    public ViewType asView() {
+    public ViewType getView() {
         if (isDestroyed()) return null;
-        if (is(super.asView())) return super.asView();
+        if (is(super.getView())) return super.getView();
         else if (set(_viewId))
             return setView((ViewType) parent().findViewRecursive(_viewId));
-        else if (is(parent())) return setView((ViewType) parent().asView());
+        else if (is(parent())) return setView((ViewType) parent().getView());
         throw exception("This should not happen man ;)");
     }
 

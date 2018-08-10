@@ -20,43 +20,43 @@ class CSMapController(parent: CSViewController<*>, viewId: Int) :
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        asView().onCreate(state)
-        asView().getMapAsync { onInitializeMap(it) }
+        getView().onCreate(state)
+        getView().getMapAsync { onInitializeMap(it) }
     }
 
     override fun onResume() {
         super.onResume()
-        asView().onResume()
+        getView().onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        asView().onPause()
+        getView().onPause()
     }
 
     override fun onStart() {
         super.onStart()
-        asView().onStart()
+        getView().onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        asView().onStop()
+        getView().onStop()
     }
 
     override fun onDestroy() {
-        asView().onDestroy()
+        getView().onDestroy()
         super.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        asView().onLowMemory()
+        getView().onLowMemory()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        asView().onSaveInstanceState(outState)
+        getView().onSaveInstanceState(outState)
     }
 
     private fun onInitializeMap(map: GoogleMap) {

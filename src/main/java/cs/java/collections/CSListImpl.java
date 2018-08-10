@@ -69,7 +69,7 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return size() - 1;
     }
 
-    public CSList<T> range(int fromIndex) {
+    public CSList<T> rangeFrom(int fromIndex) {
         return range(fromIndex, size());
     }
 

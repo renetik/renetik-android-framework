@@ -10,7 +10,6 @@ import java.util.List;
 
 import cs.android.viewbase.CSView;
 import cs.android.viewbase.CSViewController;
-import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
 
 import static android.view.Gravity.BOTTOM;
@@ -55,11 +54,11 @@ public class CSListLoadNextController extends CSViewController {
     public void onResume() {
         super.onResume();
         updateScrollListener();
-        if (asView() instanceof ListView) {
-            asListView().addFooterView(_loadView.asView());
+        if (getView() instanceof ListView) {
+            asListView().addFooterView(_loadView.getView());
             asListView().setFooterDividersEnabled(NO);
         } else if (!_loadView.hasParent())
-            ((FrameLayout) asView().getParent().getParent()).addView(_loadView.asView(),
+            ((FrameLayout) getView().getParent().getParent()).addView(_loadView.getView(),
                     new LayoutParams(WRAP_CONTENT, WRAP_CONTENT, BOTTOM | CENTER));
         _loadView.hide();
     }

@@ -82,7 +82,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
 
     public CSList<RowType> getCheckedRows() {
         final CSList<RowType> checkedRows = list();
-        SparseBooleanArray positions = asView().getCheckedItemPositions();
+        SparseBooleanArray positions = getView().getCheckedItemPositions();
         if (positions != null) for (int i = 0; i < positions.size(); i++)
             if (positions.valueAt(i)) {
                 RowType checkedRow = data().at(positions.keyAt(i));
@@ -100,7 +100,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
         CSIRowView<RowType> rowView;
         if (no(view)) {
             rowView = createView(getItemViewType(position));
-            view = rowView.asView();
+            view = rowView.getView();
             view.setTag(rowView);
         } else rowView = asRowView(view);
         rowView.row(_dataList.get(position));
@@ -139,7 +139,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
     }
 
     public void restoreSelectionAndScrollState() {
-        if (asView() instanceof ListView)
+        if (getView() instanceof ListView)
             asListView().setSelectionFromTop(_firstVisiblePosition, 0);
         if (_savedSelectionIndex > -1) asAbsListView().setSelection(_savedSelectionIndex);
         if (is(_savedCheckedItems)) for (int i : iterate(_savedCheckedItems.size()))
@@ -148,7 +148,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
     }
 
     public void saveSelectionAndScrollState() {
-        if (asView() instanceof ListView)
+        if (getView() instanceof ListView)
             _firstVisiblePosition = asListView().getFirstVisiblePosition();
         _savedSelectionIndex = asAbsListView().getSelectedItemPosition();
         _savedCheckedItems = asAbsListView().getCheckedItemPositions();
@@ -242,7 +242,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
     }
 
     public void unCheckAll() {
-        SparseBooleanArray positions = asView().getCheckedItemPositions();
+        SparseBooleanArray positions = getView().getCheckedItemPositions();
         if (positions != null) for (int i = 0; i < positions.size(); i++) {
             boolean checked = positions.valueAt(i);
             if (checked) {
@@ -274,11 +274,11 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
         final OnLayoutChangeListener listener = new OnLayoutChangeListener() {
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 function.invoke(CSListController.this);
-                asView().removeOnLayoutChangeListener(this);
+                getView().removeOnLayoutChangeListener(this);
             }
         };
-        if (is(function)) asView().addOnLayoutChangeListener(listener);
-        else asView().removeOnLayoutChangeListener(listener);
+        if (is(function)) getView().addOnLayoutChangeListener(listener);
+        else getView().removeOnLayoutChangeListener(listener);
         return this;
     }
 }

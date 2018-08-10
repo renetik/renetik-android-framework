@@ -30,7 +30,7 @@ public class CSPagerAdapter<T extends CSViewController & CSPagerPage> extends Pa
     }
 
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = _controllers.at(position).asView();
+        View view = _controllers.at(position).getView();
         container.addView(view, 0);
         return view;
     }

@@ -1,11 +1,12 @@
 package cs.android.json
 
+import cs.android.extensions.set
 import cs.java.collections.CSList
 import cs.java.collections.CSMap
 import cs.java.event.CSEvent
 import cs.java.lang.CSLang.*
 
-data class OnJsonDataValueChanged(val data:CSJsonData, val key: String, val value: Any?)
+data class OnJsonDataValueChanged(val data: CSJsonData, val key: String, val value: Any?)
 
 open class CSJsonData() : Iterable<String>, CSJsonDataMap {
 
@@ -36,13 +37,13 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
     }
 
     private fun data(): CSMap<String, Any?> {
-        childDataKey?.let {
-            var childValue = data[it] as CSMap<String, Any?>
-            if (childValue == null) {
+        childDataKey?.let { key ->
+            var childValue = data[key] as? CSMap<String, Any?>
+            return childValue ?: let {
                 childValue = linkedMap()
-                data[it] = childValue
+                data[key] = childValue
+                return childValue as CSMap<String, Any?>
             }
-            return childValue!!
         }
         return data
     }
@@ -53,7 +54,7 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
 
     fun setValue(key: String, value: Any?) {
         data()[key] = value
-        onValueChangedEvent.fire(OnJsonDataValueChanged(this,key,value))
+        onValueChangedEvent.fire(OnJsonDataValueChanged(this, key, value))
         if (!dataChanged) {
             doLater {
                 onChangedEvent.fire(this)

@@ -12,7 +12,7 @@ import cs.java.event.CSEvent;
 public class CSSwipeDetector implements View.OnTouchListener {
 
 	public CSSwipeDetector(CSView<?> widget) {
-		widget.asView().setOnTouchListener(this);
+		widget.getView().setOnTouchListener(this);
 	}
 
 	public enum CSSwipeType {

@@ -29,8 +29,8 @@ public abstract class CSRowAdapter<Data extends CSJsonData> implements CSIRowVie
 
     protected abstract void onLoadRowData(Data row, int index);
 
-    public View asView() {
-        return _parent.asView();
+    public View getView() {
+        return _parent.getView();
     }
 
     public Context context() {

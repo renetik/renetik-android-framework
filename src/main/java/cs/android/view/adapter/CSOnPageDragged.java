@@ -25,7 +25,7 @@ public class CSOnPageDragged implements OnPageChangeListener {
 
     public CSOnPageDragged(CSPagerController<?> pager) {
         _pager = pager;
-        pager.asView().addOnPageChangeListener(this);
+        pager.getView().addOnPageChangeListener(this);
     }
 
     public CSOnPageDragged onDragged(CSRunWith<Integer> onPageDragged) {

@@ -6,7 +6,7 @@ import cs.android.CSContextInterface;
 
 public interface CSViewInterface extends CSContextInterface {
 
-	View asView();
+	View getView();
 
 	Context context();
 
