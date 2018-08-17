@@ -9,9 +9,13 @@ import java.io.File
 import kotlin.reflect.KClass
 
 class CSJsonStringProperty(val data: CSJsonData, private val key: String) {
-    var value: String?
+    var string: String?
         get() = data.getString(key)
         set(value) = data.put(key, value)
+
+    override fun toString(): String {
+        return string ?: super.toString()
+    }
 }
 
 class CSJsonFileProperty(val data: CSJsonData, private val key: String) {
@@ -43,9 +47,12 @@ class CSJsonListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<
 
     val last: T? get() = list.last()
 
-    fun add(item: T) {
-        data.getList(key)?.add(item.getJsonDataMap()) ?: data.put(key, list(item.getJsonDataMap()))
-    }
+    fun add(item: T) =
+            data.getList(key)?.add(item.getJsonDataMap())
+                    ?: data.put(key, list(item.getJsonDataMap()))
+
+    fun remove(item: T) =
+            data.getList(key)?.remove(item.getJsonDataMap())
 }
 
 class CSJsonFileListProperty(val data: CSJsonData, private val key: String) {
@@ -63,38 +70,27 @@ class CSJsonFileListProperty(val data: CSJsonData, private val key: String) {
 
     val last: File? get() = list.last()
 
-    fun add(file: File) {
-        data.getList(key)?.add(file.toString()) ?: data.put(key, list(file.toString()))
-    }
+    fun add(file: File) =
+            data.getList(key)?.add(file.toString()) ?: data.put(key, list(file.toString()))
 }
 
 class CSJsonLocationListProperty(val data: CSJsonData, private val key: String) {
     var list: CSList<LatLng>
-        get() {
-            val list = list<LatLng>()
-            data.getList(key)?.forEach { type: Any? ->
-                run {
-                    val latLngString = type.toString().split(":")
-                    list.add(LatLng(latLngString[0].toDouble(), latLngString[1].toDouble()))
-                }
+        get() = list<LatLng>().apply {
+            data.getList(key)?.forEach { type ->
+                type.toString().split(":").also { add(LatLng(it[0].toDouble(), it[1].toDouble())) }
             }
-            return list
         }
-        set(locationList) {
-            val stringList = list<String>()
-            locationList.forEach { location: LatLng -> stringList.add(asString(location)) }
-            data.put(key, stringList)
-        }
+        set(locationList) = data.put(key, list<String>()
+                .apply { locationList.forEach { location -> add(asString(location)) } })
 
     val last: LatLng? get() = list.last()
 
-    fun add(location: LatLng) {
-        data.getList(key)?.add(asString(location)) ?: data.put(key, list(asString(location)))
-    }
+    fun add(location: LatLng) =
+            data.getList(key)?.add(asString(location)) ?: data.put(key, list(asString(location)))
 
-    fun add(location: Location) {
-        data.getList(key)?.add(asString(location)) ?: data.put(key, list(asString(location)))
-    }
+    fun add(location: Location) =
+            data.getList(key)?.add(asString(location)) ?: data.put(key, list(asString(location)))
 
     private fun asString(latLng: Location) = "${latLng.latitude}:${latLng.longitude}"
     private fun asString(latLng: LatLng) = "${latLng.latitude}:${latLng.longitude}"

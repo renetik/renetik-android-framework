@@ -29,3 +29,12 @@ fun <T, R> T.notNull(block: (T) -> R): R? {
 @Suppress("upper_bound_violated")
 public val <T> KClass<T>.j: Class<T>
     get() = this.java
+
+fun string(value: Any?) = value?.toString() ?: ""
+
+fun string(separator: String, values: Iterable<*>) = StringBuilder().apply {
+    values.forEachIndexed { index, value ->
+        if (index > 0) append(separator)
+        append(string(value))
+    }
+}.toString()

@@ -512,7 +512,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
     }
 
     public CSView<V> text(int resId, Object... formatArgs) {
-        asTextView().setText(stringf(getString(resId), formatArgs));
+        asTextView().setText(stringf(stringRes(resId), formatArgs));
         return this;
     }
 

@@ -6,6 +6,7 @@
     <color name="red">#d50000</color>
     <color name="blue">#6200ea</color>
     <color name="transparent">#00000000</color>
+    <color name="clear">#00000000</color>
     <color name="lightGrey">#d7ccc8</color>
     <color name="grey">#a1887f</color>
     <color name="darkGrey">#424242</color>

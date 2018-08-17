@@ -14,26 +14,22 @@ import cs.android.extensions.view.snackBarWarn
 import cs.android.image.CSBitmap.resizeImage
 import cs.android.viewbase.CSView
 import cs.android.viewbase.CSViewController
-import cs.java.callback.CSRunWithWith
 import cs.java.lang.CSLang.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class CSGetPictureController<T : View>(parent: CSViewController<T>, private var imagesDirName: String,
-                                       private val onImageReady: (File) -> Unit) :
-        CSViewController<T>(parent) {
+class CSGetImageController<T : View>(parent: CSViewController<T>, val title: String, private val folder: File,
+                                     private val onImageReady: (File) -> Unit) : CSViewController<T>(parent) {
 
-    var title: String? = null
-    var onProgress: (Boolean) -> Unit = {}
+    constructor(parent: CSViewController<T>, title: String, imagesDirName: String, onImageReady: (File) -> Unit) :
+            this(parent, title, File(File(model().dataDir(), "Pictures"), imagesDirName), onImageReady)
+
     private val requestCode = 386
-    private val imagesDir: File = File(File(model().dataDir(), "Pictures"), imagesDirName)
-    private val photoURI: Uri by lazy {
-        context().contentResolver.insert(EXTERNAL_CONTENT_URI, ContentValues())
-    }
+    private val photoURI: Uri by lazy { context().contentResolver.insert(EXTERNAL_CONTENT_URI, ContentValues()) }
 
     init {
-        imagesDir.mkdirs()
+        folder.mkdirs()
     }
 
     override fun show(): CSView<T> {
@@ -44,18 +40,12 @@ class CSGetPictureController<T : View>(parent: CSViewController<T>, private var 
     }
 
     private fun onPermissionsGranted() {
-        val upload = "Album"
-        val take = "Camera"
-        dialog().buttons(upload, "Cancel", take, CSRunWithWith { action, _ ->
-            if (upload == action) onSelectPhoto()
-            else if (take == action) onTakePhoto()
-        }).text(title, null).show()
+        dialog(title).choice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
     }
 
     private fun onImageSelected(input: InputStream) {
-        onProgress(YES)
         try {
-            val image = File(imagesDir, generateRandomStringOfLength(4) + ".jpg")
+            val image = File(folder, generateRandomStringOfLength(4) + ".jpg")
             image.createNewFile()
             copy(input, FileOutputStream(image))
             resizeImage(image.absolutePath, 1024, 768)
@@ -63,7 +53,6 @@ class CSGetPictureController<T : View>(parent: CSViewController<T>, private var 
         } catch (e: Exception) {
             error(e)
         }
-        onProgress(NO)
     }
 
     private fun onSelectPhoto() {

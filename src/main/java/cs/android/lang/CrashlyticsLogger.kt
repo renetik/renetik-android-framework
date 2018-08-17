@@ -14,7 +14,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
 
     private val maxLogSize = 2.5 * MB
     private val dateFormat = DateFormat.getDateTimeInstance()
-    private val logText = string()
+    private val logText = textBuilder()
 
     override fun onLowMemory() {
         val sizeAboveLowMemoryMax = logText.length - MB
@@ -84,7 +84,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     }
 
     private fun createMessage(vararg values: Any): CSTextInterface {
-        val message = string()
+        val message = textBuilder()
         for (string in values) message.add(string).addSpace()
         return message
     }

@@ -1,6 +1,6 @@
 package cs.android.json
 
-import cs.android.extensions.set
+import cs.android.viewbase.CSContextController
 import cs.java.collections.CSList
 import cs.java.collections.CSMap
 import cs.java.event.CSEvent
@@ -8,15 +8,12 @@ import cs.java.lang.CSLang.*
 
 data class OnJsonDataValueChanged(val data: CSJsonData, val key: String, val value: Any?)
 
-open class CSJsonData() : Iterable<String>, CSJsonDataMap {
+@Suppress("unchecked_cast")
+open class CSJsonData() : CSContextController(), Iterable<String>, CSJsonDataMap {
 
-    override fun getJsonDataMap(): Map<String, *> {
-        return data
-    }
+    override fun getJsonDataMap(): Map<String, *> = data
 
-    override fun iterator(): Iterator<String> {
-        return data.keys.iterator()
-    }
+    override fun iterator(): Iterator<String> = data.keys.iterator()
 
     open var index: Int? = null
     open var key: String? = null
@@ -31,8 +28,7 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
     }
 
     fun load(data: CSMap<String, Any?>): CSJsonData {
-        if (no(data)) return this
-        this.data = data;
+        this.data = data
         return this
     }
 
@@ -64,81 +60,49 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
         }
     }
 
-    fun put(key: String, value: String?) {
-        setValue(key, value)
+    fun put(key: String, value: String?) = setValue(key, value)
+
+    fun put(key: String, value: Number?) = setValue(key, value)
+
+    fun put(key: String, value: Boolean?) = setValue(key, value)
+
+    fun put(key: String, value: CSJsonDataMap) = setValue(key, value.getJsonDataMap())
+
+    fun put(key: String, value: CSJsonDataList) = setValue(key, value.getJsonDataList())
+
+    fun put(key: String, value: List<*>) = setValue(key, value)
+
+    fun put(key: String, value: Map<String, *>) = setValue(key, value)
+
+    fun getString(key: String): String? = data()[key]?.let { return it.toString() }
+
+    fun getDouble(key: String) = try {
+        getString(key)?.toDouble()
+    } catch (e: NumberFormatException) {
+        null
     }
 
-    fun put(key: String, value: Number?) {
-        setValue(key, value)
+    fun getInt(key: String) = try {
+        getString(key)?.toInt()
+    } catch (e: NumberFormatException) {
+        null
     }
 
-    fun put(key: String, value: Boolean?) {
-        setValue(key, value)
+    fun getBoolean(key: String) = try {
+        getString(key)?.toBoolean()
+    } catch (e: NumberFormatException) {
+        null
     }
 
-    fun put(key: String, value: CSJsonDataMap) {
-        setValue(key, value.getJsonDataMap())
-    }
+    fun getMap(key: String) = data()[key] as? CSMap<String, Any?>
 
-    fun put(key: String, value: CSJsonDataList) {
-        setValue(key, value.getJsonDataList())
-    }
-
-    fun put(key: String, value: List<*>) {
-        setValue(key, value)
-    }
-
-    fun put(key: String, value: Map<String, *>) {
-        setValue(key, value)
-    }
-
-    fun getString(key: String): String? {
-        val type = data()[key]
-        type?.let { return type.toString() } ?: return null
-    }
-
-    fun getDouble(key: String): Double? {
-        return try {
-            java.lang.Double.parseDouble(getString(key))
-        } catch (e: NumberFormatException) {
-            null
-        }
-    }
-
-    fun getInt(key: String): Int? {
-        return try {
-            java.lang.Integer.parseInt(getString(key))
-        } catch (e: NumberFormatException) {
-            null
-        }
-    }
-
-    fun getBoolean(key: String): Boolean? {
-        return try {
-            java.lang.Boolean.parseBoolean(getString(key))
-        } catch (e: NumberFormatException) {
-            null
-        }
-    }
-
-    fun getMap(key: String): CSMap<String, Any?>? {
-        val type = data()[key]
-        return type as? CSMap<String, Any?>
-    }
-
-    fun getList(key: String): CSList<Any?>? {
-        val type = data()[key]
-        return type as? CSList<Any?>
-    }
+    fun getList(key: String) = data()[key] as? CSList<Any?>
 
     fun <T : CSJsonData> load(dataValue: T, data: CSMap<String, *>, key: String): T? {
-        val value = data[key] as? CSMap<String, Any?>
-        value?.let { dataValue.load(value) } ?: return null
+        (data[key] as? CSMap<String, Any?>)?.let { dataValue.load(it) } ?: return null
         return dataValue
     }
 
-    fun <T : CSJsonData> load(dataValue: T, key: String): T? {
-        return load(dataValue, data(), key)
-    }
+    fun <T : CSJsonData> load(dataValue: T, key: String) = load(dataValue, data(), key)
 
 }

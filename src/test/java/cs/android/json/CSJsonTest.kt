@@ -49,7 +49,7 @@ class CSJsonTest {
         val house = HouseJsonDataTest()
         house.floors.add(FlorJsonDataTest("first"))
         house.floors.add(FlorJsonDataTest("second"))
-        house.title.value = "Nice House"
+        house.title.string = "Nice House"
         house.images.add(File("path1"))
         house.images.add(File("path2"))
         house.location.latLng = LatLng(222.0, 222.0)
@@ -60,7 +60,7 @@ class CSJsonTest {
     fun testJsonDataLoad() {
         val house = HouseJsonDataTest()
         house.load(fromJson(json) as CSMap<String, Any?>)
-        assertEquals("second", house.floors.list.second().title.value)
+        assertEquals("second", house.floors.list.second().title.string)
         assertEquals(File("path1"), house.images.list.first())
         assertEquals(LatLng(222.0, 222.0), house.location.latLng)
     }
@@ -79,7 +79,7 @@ class FlorJsonDataTest() : CSJsonData() {
     val title = CSJsonStringProperty(this, "title")
 
     constructor(title: String) : this() {
-        this.title.value = title
+        this.title.string = title
     }
 
 }

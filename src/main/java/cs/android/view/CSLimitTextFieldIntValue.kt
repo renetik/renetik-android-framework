@@ -24,7 +24,7 @@ class CSLimitTextFieldIntValue(parent: CSViewController<*>, id: Int, val minValu
 
     private fun onWrongNumberEntered() {
         view.title(stringify(beforeChangeValue))
-        toast(getString(alertString))
+        toast(stringRes(alertString))
     }
 
     fun maxValue(maxValue: Int) {

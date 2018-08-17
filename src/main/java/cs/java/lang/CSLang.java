@@ -181,7 +181,7 @@ public class CSLang {
     }
 
     public static String stringify(String separator, String... values) {
-        CSTextInterface text = string();
+        CSTextInterface text = textBuilder();
         for (String string : values) if (set(string)) text.add(string).add(separator);
         if (!text.isEmpty()) text.deleteLast(separator.length());
         return text.toString();
@@ -195,7 +195,7 @@ public class CSLang {
         return strings;
     }
 
-    public static CSTextInterface string(String... values) {
+    public static CSTextInterface textBuilder(String... values) {
         return new CSText(values);
     }
 
@@ -212,7 +212,7 @@ public class CSLang {
     }
 
     public static String[] toStringArray(Collection<String> list) {
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     public static <T> T as(Object object, Class<T> expectedClass) {
@@ -572,7 +572,7 @@ public class CSLang {
     }
 
     public static RuntimeException notImplemented(Object... msg) {
-        return new RuntimeException(string("Unimplemented ").add(stringify(" ", strings(msg))).toString());
+        return new RuntimeException(textBuilder("Unimplemented ").add(stringify(" ", strings(msg))).toString());
     }
 
     public static boolean respondsTo(Object object, String methodName) {

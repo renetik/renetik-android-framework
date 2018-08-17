@@ -1,72 +1,79 @@
-package cs.android.view
+package cs.android.view.map
 
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
+import cs.android.view.CSNavigationController
 import cs.android.viewbase.CSViewController
 import cs.java.event.CSEvent
 import cs.java.event.CSEvent.CSEventRegistration
 import cs.java.lang.CSLang.*
 
-class CSMapController(parent: CSViewController<*>, viewId: Int) :
-        CSViewController<MapView>(parent, viewId) {
+class CSMapController(parent: CSNavigationController) : CSViewController<MapView>(parent, null) {
 
     var map: GoogleMap? = null
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
     private var animatingCamera = NO
-    var onCameraMoveStartedByUser: (() -> Unit)? = null
+    var onCameraMoveStartedByUser = event<GoogleMap>()
+    var onCameraMoveStopped = event<GoogleMap>()
+
+    init {
+        view = MapView(this.context())
+    }
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        getView().onCreate(state)
-        getView().getMapAsync { onInitializeMap(it) }
+        view.onCreate(state)
+        view.getMapAsync { onInitializeMap(it) }
     }
 
     override fun onResume() {
         super.onResume()
-        getView().onResume()
+        view.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        getView().onPause()
+        view.onPause()
     }
 
     override fun onStart() {
         super.onStart()
-        getView().onStart()
+        view.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        getView().onStop()
+        view.onStop()
     }
 
     override fun onDestroy() {
-        getView().onDestroy()
+        view.onDestroy()
         super.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        getView().onLowMemory()
+        view.onLowMemory()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        getView().onSaveInstanceState(outState)
+        view.onSaveInstanceState(outState)
     }
 
     private fun onInitializeMap(map: GoogleMap) {
         this.map = map
         onMapReadyEvent.fire(map)
         map.setOnCameraMoveStartedListener { onCameraMoveStarted() }
+        map.setOnCameraIdleListener { onCameraMoveStopped() }
     }
 
+
     fun animateCamera(latLng: LatLng, zoom: Float) {
-        animatingCamera = YES;
+        animatingCamera = YES
         map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
             override fun onCancel() {
                 onAnimateCameraDone()
@@ -79,7 +86,7 @@ class CSMapController(parent: CSViewController<*>, viewId: Int) :
     }
 
     fun animateCamera(latLng: LatLng, zoom: Float, onFinished: () -> Unit) {
-        animatingCamera = YES;
+        animatingCamera = YES
         map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
             override fun onCancel() {
                 onAnimateCameraDone()
@@ -111,7 +118,11 @@ class CSMapController(parent: CSViewController<*>, viewId: Int) :
 
     private fun onCameraMoveStarted() {
         if (animatingCamera) return
-        onCameraMoveStartedByUser?.invoke()
+        onCameraMoveStartedByUser.fire(map)
+    }
+
+    private fun onCameraMoveStopped() {
+        onCameraMoveStopped.fire(map)
     }
 
 }

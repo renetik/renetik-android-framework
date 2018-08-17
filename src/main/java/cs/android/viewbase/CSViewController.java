@@ -7,21 +7,17 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-
 import java.util.List;
 import java.util.Map.Entry;
 
-import cs.android.view.CSDialog;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.app.ActivityCompat;
 import cs.android.viewbase.menu.CSMenuItem;
 import cs.android.viewbase.menu.CSOnMenu;
 import cs.android.viewbase.menu.CSOnMenuItem;
@@ -56,7 +52,7 @@ import static cs.java.lang.CSMath.randomInt;
 
 public abstract class CSViewController<ViewType extends View> extends CSView<ViewType> implements CSIViewController {
 
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     private static boolean _startingActivity;
     private static CSViewController _root;
     public final CSEvent<Bundle> onBeforeCreate = event();
@@ -83,6 +79,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     public final CSEvent<Boolean> onViewVisibilityChanged = event();
     private final CSInViewController _inView;
     private CSEventRegistrations _isVisibleEventRegistrations = new CSEventRegistrations();
+    private CSEventRegistrations _whileShowingEventRegistrations = new CSEventRegistrations();
     private CSEventRegistrations _eventRegistrations = new CSEventRegistrations();
     private boolean _isCreated;
     private boolean _isResumed;
@@ -242,6 +239,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         if (isRoot()) _root = null;
         _activity = null;
         _isDestroyed = true;
+        _whileShowingEventRegistrations.cancel();
         _isVisibleEventRegistrations.cancel();
         _eventRegistrations.cancel();
         fire(onDestroy);
@@ -523,18 +521,6 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         switchActivity(new Intent(activity(), activityClass));
     }
 
-    protected void checkPlayServices() {
-        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        int result = googleAPI.isGooglePlayServicesAvailable(context());
-        if (result != ConnectionResult.SUCCESS) {
-            if (googleAPI.isUserResolvableError(result)) {
-                googleAPI.getErrorDialog(activity(), result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else
-                new CSDialog(this).show("Google Play Services missing application cannot continue",
-                        null, "OK", (value, dialog) -> activity().finish());
-        }
-    }
-
     protected CSInViewController createInView() {
         return null;
     }
@@ -594,11 +580,11 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return YES;
     }
 
-    protected boolean inViewVisible() {
+    private boolean inViewVisible() {
         return is(_inView) && _inView.isControllerOpened();
     }
 
-    protected void onViewVisibilityChanged(boolean showing) {
+    private void onViewVisibilityChanged(boolean showing) {
         if (_isShowing = showing) {
             debug("onViewShowing", this);
             _isVisibleEventRegistrations.setActive(YES);
@@ -609,6 +595,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
             _isVisibleEventRegistrations.setActive(NO);
             invalidateOptionsMenu();
             onViewHiding();
+            _whileShowingEventRegistrations.cancel();
         }
         fire(onViewVisibilityChanged, _isShowing);
     }
@@ -636,7 +623,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     protected void onViewHidingFirstTime() {
     }
 
-    private void onViewHidingAgain() {
+    protected void onViewHidingAgain() {
     }
 
     protected CSEventRegistration ifVisible(CSEventRegistration eventRegistration) {
@@ -644,8 +631,13 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     protected CSEventRegistration register(CSEventRegistration eventRegistration) {
-        if(no(eventRegistration)) return null;
+        if (no(eventRegistration)) return null;
         return _eventRegistrations.add(eventRegistration);
+    }
+
+    protected CSEventRegistration whileShowing(CSEventRegistration eventRegistration) {
+        if (no(eventRegistration)) return null;
+        return _whileShowingEventRegistrations.add(eventRegistration);
     }
 
     public void invalidateOptionsMenu() {

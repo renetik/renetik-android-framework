@@ -12,7 +12,7 @@ import cs.java.lang.CSLang;
 import static cs.java.lang.CSLang.iterate;
 import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.map;
-import static cs.java.lang.CSLang.string;
+import static cs.java.lang.CSLang.textBuilder;
 import static cs.java.lang.CSLang.urlEncode;
 
 public class CSURL {
@@ -53,7 +53,7 @@ public class CSURL {
     }
 
     public String toString() {
-        CSTextInterface url = string(_baseUrl);
+        CSTextInterface url = textBuilder(_baseUrl);
         url.add("?");
         for (CSKeyValue<String, String> argument : _arguments)
             url.add(argument.key, "=", argument.value, "&");

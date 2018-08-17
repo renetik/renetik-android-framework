@@ -125,6 +125,7 @@ public abstract class CSActivityBase extends AppCompatActivity implements CSActi
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
         CSOnMenu onMenu = new CSOnMenu(activity(), menu);
         onMenu.showMenu(YES);
         _controller.onPrepareOptionsMenuImpl(onMenu);

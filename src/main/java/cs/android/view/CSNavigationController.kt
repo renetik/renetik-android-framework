@@ -24,7 +24,7 @@ open class CSNavigationController(activity: AppCompatActivity) :
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
         if (controllers.hasItems) controllers.last()?.setShowingInContainer(NO)
         controllers.put(controller)
-        controller.getView().startAnimation(loadAnimation(context(), R.anim.abc_slide_in_top))
+        controller.view.startAnimation(loadAnimation(context(), R.anim.abc_slide_in_top))
         add(controller)
         controller.setShowingInContainer(YES)
         controller.initialize(state)
@@ -32,12 +32,12 @@ open class CSNavigationController(activity: AppCompatActivity) :
         updateTitleButton()
         invalidateOptionsMenu()
         hideKeyboard()
-        return controller;
+        return controller
     }
 
     fun pop() {
         val controller = controllers.removeLast()
-        controller.getView().startAnimation(loadAnimation(context(), R.anim.abc_slide_out_top))
+        controller.view.startAnimation(loadAnimation(context(), R.anim.abc_slide_out_top))
         controller.setShowingInContainer(NO)
         controller.onDeinitialize(state)
         removeView(controller)
@@ -49,9 +49,9 @@ open class CSNavigationController(activity: AppCompatActivity) :
     }
 
     private fun updateTitleButton() {
-        val title = (controllers.last() as? CSNavigationItem)?.getNavigationTitle()
+        val title = (controllers.last() as? CSNavigationItem)?.navigationTitle()
         if (set(title)) actionBar.title = title
-        else actionBar.title = CSLang.model().applicationName()
+        else actionBar.title = model().applicationName()
     }
 
     private fun updateBackButton() {
@@ -61,13 +61,9 @@ open class CSNavigationController(activity: AppCompatActivity) :
         else hideBackButton()
     }
 
-    private fun showBackButton() {
-        actionBar.setDisplayHomeAsUpEnabled(YES);
-    }
+    private fun showBackButton() = actionBar.setDisplayHomeAsUpEnabled(YES)
 
-    private fun hideBackButton() {
-        actionBar.setDisplayHomeAsUpEnabled(NO);
-    }
+    private fun hideBackButton() = actionBar.setDisplayHomeAsUpEnabled(NO)
 
     override fun onGoBack(): Boolean {
         if (controllers.count() > 1) {
@@ -85,10 +81,10 @@ open class CSNavigationController(activity: AppCompatActivity) :
 
 interface CSNavigationItem {
     fun isNavigationBackButtonVisible(): Boolean {
-        return YES;
+        return YES
     }
 
-    fun getNavigationTitle(): String? {
-        return null;
+    fun navigationTitle(): String? {
+        return null
     }
 }

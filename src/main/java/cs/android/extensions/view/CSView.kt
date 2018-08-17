@@ -7,6 +7,7 @@ import android.webkit.WebView
 import android.widget.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import cs.android.view.adapter.CSTextWatcherAdapter
 import cs.android.viewbase.CSLayoutId
 import cs.android.viewbase.CSView
@@ -26,8 +27,9 @@ fun CSView<*>.frame(id: Int): FrameLayout = item<FrameLayout>(id).view
 fun CSView<*>.linearLayout(id: Int): LinearLayout = item<LinearLayout>(id).view
 fun CSView<*>.viewGroup(id: Int): ViewGroup = item<ViewGroup>(id).view
 fun CSView<*>.spinner(id: Int): Spinner = item<Spinner>(id).view
-fun CSView<*>.compoundButton(id: Int): CompoundButton = item<CompoundButton>(id).view
 fun CSView<*>.button(id: Int): Button = item<Button>(id).view
+fun CSView<*>.compoundButton(id: Int): CompoundButton = item<CompoundButton>(id).view
+fun CSView<*>.floatingButton(id: Int): FloatingActionButton = item<FloatingActionButton>(id).view
 fun CSView<*>.timePicker(id: Int): TimePicker = item<TimePicker>(id).view
 fun CSView<*>.webView(id: Int): WebView = item<WebView>(id).view
 

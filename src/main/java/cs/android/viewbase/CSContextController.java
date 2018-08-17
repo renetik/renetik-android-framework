@@ -35,6 +35,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import cs.android.CSApplication;
 import cs.android.CSContextInterface;
@@ -113,7 +114,8 @@ public abstract class CSContextController extends Base implements CSContextInter
         }
     }
 
-    public String getString(int id) {
+    @NonNull
+    public String stringRes(int id) {
         if (empty(id)) return "";
         return context().getResources().getString(id);
     }

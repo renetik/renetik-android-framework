@@ -21,4 +21,5 @@ public interface CSMap<K, V> extends java.util.Map<K, V> {
     boolean hasValue(V value);
 
     V value(K key);
+
 }

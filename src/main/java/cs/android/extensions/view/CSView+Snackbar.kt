@@ -7,19 +7,19 @@ import cs.android.R
 import cs.android.viewbase.CSView
 import cs.java.lang.CSLang.SECOND
 
-fun CSView<*>.snackBar(text: String) {
+private fun CSView<*>.snackBar(text: String) {
     snackBar(text, 5 * SECOND)
 }
 
-fun CSView<*>.snackBar(text: String, time: Int) {
+private fun CSView<*>.snackBar(text: String, time: Int) {
     make(view, text, time).show()
 }
 
-fun CSView<*>.snackBar(text: String, backColor: Int, textColor: Int) {
+private fun CSView<*>.snackBar(text: String, backColor: Int, textColor: Int) {
     snackBar(text, backColor, textColor, 5 * SECOND)
 }
 
-fun CSView<*>.snackBar(text: String, backColor: Int, textColor: Int, time: Int) {
+private fun CSView<*>.snackBar(text: String, backColor: Int, textColor: Int, time: Int) {
     make(view, text, time).apply {
         view.setBackgroundColor(backColor)
         (view.findViewById(id.snackbar_text) as? TextView)?.setTextColor(textColor)
