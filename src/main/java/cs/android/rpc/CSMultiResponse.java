@@ -1,9 +1,11 @@
 package cs.android.rpc;
 
+import cs.java.callback.CSRunWith;
+
 import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.is;
 
-public class CSMultiResponse<T> extends CSResponse<T> {
+public class CSMultiResponse extends CSResponse {
 
     private CSResponse<?> _addedResponse;
 
@@ -19,6 +21,11 @@ public class CSMultiResponse<T> extends CSResponse<T> {
         return _addedResponse.resend();
     }
 
+    public <V> CSResponse<V> add(final CSResponse<V> addedResponse, boolean isLast) {
+        return isLast ? addLast(addedResponse) : add(addedResponse);
+    }
+
+
     public <V> CSResponse<V> add(final CSResponse<V> addedResponse) {
         _addedResponse = addedResponse;
         if (empty(addedResponse.title())) addedResponse.title(title());
@@ -28,8 +35,8 @@ public class CSMultiResponse<T> extends CSResponse<T> {
         return addedResponse;
     }
 
-    public CSResponse<T> addLast(final CSResponse<T> response) {
-        return successIfSuccess(add(response));
+    public <V> CSResponse<V> addLast(final CSResponse<V> addedResponse)  {
+        return add(addedResponse).onSuccess(value -> success());
     }
 
     public void cancel() {

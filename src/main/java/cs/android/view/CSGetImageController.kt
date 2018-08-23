@@ -9,7 +9,7 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.view.View
-import cs.android.extensions.dialog
+import cs.android.extensions.view.dialog
 import cs.android.extensions.view.snackBarWarn
 import cs.android.image.CSBitmap.resizeImage
 import cs.android.viewbase.CSView

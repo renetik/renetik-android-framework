@@ -1,5 +1,6 @@
 package cs.android.rpc;
 
+import androidx.annotation.NonNull;
 import cs.android.viewbase.CSContextController;
 import cs.android.viewbase.CSViewController;
 import cs.java.callback.CSRun;
@@ -7,7 +8,6 @@ import cs.java.callback.CSRunWith;
 import cs.java.collections.CSList;
 import cs.java.event.CSEvent;
 import cs.java.lang.CSValueInterface;
-import cs.java.net.CSURL;
 
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
@@ -25,14 +25,13 @@ import static cs.java.lang.CSLang.set;
 import static cs.java.lang.CSLang.stringify;
 
 public class CSResponse<Data> extends CSContextController implements CSValueInterface<Data> {
-    public static <D> D data(CSResponse<D> response) {
-        return is(response) ? response.data() : null;
-    }
-    protected static final String NO_INTERNET = "No Internet";
 
+
+    protected static final String NO_INTERNET = "No Internet";
     private final CSEvent<CSResponse<Data>> _onDone = event();
     private final CSEvent<CSResponse<?>> _onFailed = event();
     private final CSEvent<CSResponse<Data>> _onSuccess = event();
+    private final CSEvent<CSResponse<Data>> _onProgress = event();
     private final CSEvent<CSResponse<?>> _onSend = event();
     protected Data _data;
     protected boolean _cached;
@@ -43,7 +42,7 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
     private boolean _success;
     private boolean _failed;
     private boolean _canceled;
-    private CSURL _url;
+    private String _url;
     private CSViewController _controller;
     private String _title;
     private boolean _sending;
@@ -52,20 +51,27 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
     private CSResponse<?> _failedResponse;
     private Throwable _exception;
     private int _failedCount = 0;
+    private long progress;
 
     public CSResponse() {
     }
 
-    public CSResponse(CSURL url) {
+    public CSResponse(String url, Data data) {
         _url = url;
+        _data = data;
+    }
+
+    public static <D> D data(CSResponse<D> response) {
+        return is(response) ? response.data() : null;
     }
 
     public int failedCount() {
         return _failedCount;
     }
 
-    public void setController(CSViewController controller) {
+    public @NonNull CSResponse<Data> controller(CSViewController controller) {
         _controller = controller;
+        return this;
     }
 
     protected void addNoReportMessage(String string) {
@@ -77,6 +83,15 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
             if (is(run)) run.run(_data);
         });
         return this;
+    }
+
+    public long getProgress() {
+        return progress;
+    }
+
+    public void setProgress(long progress) {
+        this.progress = progress;
+        _onProgress.fire(this);
     }
 
     protected CSResponse<Data> cached(boolean cached) {
@@ -171,7 +186,7 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
         _failedCount++;
     }
 
-    public CSURL url() {
+    public String url() {
         return _url;
     }
 

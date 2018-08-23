@@ -3,7 +3,6 @@ package cs.android.viewbase;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.SoundEffectConstants;
@@ -29,12 +28,6 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-
-import java.io.File;
-
 import cs.android.CSContextInterface;
 import cs.android.view.list.CSListController;
 import cs.java.common.CSPoint;
@@ -42,14 +35,11 @@ import cs.java.common.CSPoint;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-import static com.squareup.picasso.NetworkPolicy.OFFLINE;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
 import static cs.java.lang.CSLang.as;
-import static cs.java.lang.CSLang.empty;
 import static cs.java.lang.CSLang.exceptionf;
 import static cs.java.lang.CSLang.is;
-import static cs.java.lang.CSLang.list;
 import static cs.java.lang.CSLang.no;
 import static cs.java.lang.CSLang.set;
 import static cs.java.lang.CSLang.stringf;
@@ -91,10 +81,6 @@ public class CSView<V extends View> extends CSContextController implements CSVie
     public CSView(final V view) {
         super(view.getContext());
         setView(view);
-    }
-
-    public CSView(CSLayoutId layoutId) {
-        _layoutId = layoutId;
     }
 
     public static int getTopRelativeTo(View view, View relativeTo) {
@@ -460,56 +446,56 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         return item(id);
     }
 
-    public CSView<V> image(String url) {
-        if (empty(url)) return this;
-        picassoImage(url).into(asImageView());
-        return this;
-    }
+//    public CSView<V> image(String url) {
+//        if (empty(url)) return this;
+//        picassoImage(url).into(asImageView());
+//        return this;
+//    }
 
-    private RequestCreator picassoImage(String url) {
-        RequestCreator creator = Picasso.with(context()).load(url).fit().centerCrop();
-        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
-        return creator;
-    }
+//    private RequestCreator picassoImage(String url) {
+//        RequestCreator creator = Picasso.with(context()).load(url).fit().centerCrop();
+//        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
+//        return creator;
+//    }
 
-    public CSView<V> image(Drawable drawable) {
-        asImageView().setImageDrawable(drawable);
-        return this;
-    }
+//    public CSView<V> image(Drawable drawable) {
+//        asImageView().setImageDrawable(drawable);
+//        return this;
+//    }
 
-    public CSView<V> image(int resId) {
-        if (set(resId)) Picasso.with(context()).load(resId).into(asImageView());
-        return this;
-    }
+//    public CSView<V> image(int resId) {
+//        if (set(resId)) Picasso.with(context()).load(resId).into(asImageView());
+//        return this;
+//    }
 
-    public CSView<V> image(String url, int width) {
-        if (empty(url)) return this;
-        RequestCreator creator = Picasso.with(context()).load(url);
-        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
-        creator.resize(width, 0).centerInside().into(asImageView());
-        return this;
-    }
+//    public CSView<V> image(String url, int width) {
+//        if (empty(url)) return this;
+//        RequestCreator creator = Picasso.with(context()).load(url);
+//        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
+//        creator.resize(width, 0).centerInside().into(asImageView());
+//        return this;
+//    }
 
-    public void image(File file, int width) {
-        Picasso.with(context()).load(file).resize(width, 0).centerInside().into(asImageView());
-    }
+//    public void image(File file, int width) {
+//        Picasso.with(context()).load(file).resize(width, 0).centerInside().into(asImageView());
+//    }
 
-    public CSView<V> image(File file) {
-        Picasso.with(context()).load(file).into(asImageView());
-        return this;
-    }
+//    public CSView<V> image(File file) {
+//        Picasso.with(context()).load(file).into(asImageView());
+//        return this;
+//    }
 
     public void focusable(boolean focusable) {
         getView().setFocusable(focusable);
     }
 
-    public CSView<V> image(File file, boolean memCache, int targetWidth) {
-        RequestCreator creator = Picasso.with(context()).load(file).resize(targetWidth, 0).centerInside();
-        if (!memCache)
-            creator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
-        creator.into(asImageView());
-        return this;
-    }
+//    public CSView<V> image(File file, boolean memCache, int targetWidth) {
+//        RequestCreator creator = Picasso.with(context()).load(file).resize(targetWidth, 0).centerInside();
+//        if (!memCache)
+//            creator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
+//        creator.into(asImageView());
+//        return this;
+//    }
 
     public CSView<V> text(int resId, Object... formatArgs) {
         asTextView().setText(stringf(stringRes(resId), formatArgs));

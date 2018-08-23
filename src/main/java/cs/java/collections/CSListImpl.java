@@ -57,6 +57,10 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return last() == item;
     }
 
+    public boolean isLastIndex(int index) {
+        return index == size() - 1;
+    }
+
     public T last() {
         return at(lastIndex());
     }

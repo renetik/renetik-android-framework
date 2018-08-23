@@ -22,13 +22,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 import cs.android.CSApplication;
-import cs.android.json.old.CSJSON;
-import cs.android.json.old.CSJSONObject;
-import cs.android.json.old.CSJSONType;
 import cs.android.lang.CSDoLater;
 import cs.android.lang.CSModel;
 import cs.android.lang.CSWork;
@@ -47,7 +43,7 @@ import cs.java.collections.CSMapped;
 import cs.java.event.CSEvent;
 import cs.java.event.CSEventImpl;
 
-import static cs.android.json.old.CSJSON.toJSONString;
+import static cs.android.json.CSJsonKt.toJson;
 
 public class CSLang {
 
@@ -78,9 +74,9 @@ public class CSLang {
     }
 
     public static <T extends CSID> String toIDs(List<T> hasIds) {
-        CSList<String> IDs = list();
-        for (CSID hasId : hasIds) IDs.add(hasId.id());
-        return toJSONString(IDs);
+        CSList<String> ids = list();
+        for (CSID hasId : hasIds) ids.add(hasId.id());
+        return toJson(ids);
     }
 
     public static <T extends CSID> T findById(CSValues<T> listData, String id) {
@@ -510,27 +506,6 @@ public class CSLang {
         };
     }
 
-    public static String nullAsString(Object value) {
-        if (no(value)) return "";
-        return value + "";
-    }
-
-    public static CSJSONType json(String json_string) {
-        return CSJSON.parse(json_string);
-    }
-
-    public static CSJSONObject json(Map data) {
-        return CSJSON.create(data);
-    }
-
-    public static CSJSONObject json(Object... values) {
-        return CSJSON.create(map(values));
-    }
-
-    public static CSJSONObject jsonObject(String json_string) {
-        return json(json_string).asObject();
-    }
-
     public static <T> T last(T[] items) {
         return list(items).last();
     }
@@ -617,6 +592,7 @@ public class CSLang {
     public static void info(Object... values) {
         model().logger().info(values);
     }
+
     public static void debug(Object... values) {
         model().logger().debug(values);
     }

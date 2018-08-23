@@ -8,6 +8,7 @@ import android.widget.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import cs.android.view.CSDialog
 import cs.android.view.adapter.CSTextWatcherAdapter
 import cs.android.viewbase.CSLayoutId
 import cs.android.viewbase.CSView
@@ -97,6 +98,14 @@ fun <V : View> CSView<V>.viewAsChildOf(parentViewGroup: Int, layout: CSLayoutId)
 fun <V : View> CSView<V>.viewAsChildOf(parent: ViewGroup, layout: CSLayoutId): CSView<V> {
     return CSView<V>(parent, layout).apply { parent.addView(view) }
 }
+
+fun CSView<*>.dialog(title: String, onPositive: () -> Unit) = dialog(title).action { onPositive() }
+
+fun CSView<*>.dialog() = CSDialog(context())
+
+fun CSView<*>.dialog(title: String) = dialog().message(title)
+
+fun CSView<*>.dialog(title: String, message: String) = dialog().title(title).message(message)
 
 
 

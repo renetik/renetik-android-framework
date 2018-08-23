@@ -9,6 +9,8 @@ import android.os.Environment.getExternalStorageDirectory
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.model.LatLng
+import cs.android.extensions.view.dialog
+import cs.android.rpc.CSResponse
 import cs.android.viewbase.CSViewController
 import cs.java.collections.CSList
 import cs.java.lang.CSLang.*
@@ -64,5 +66,11 @@ fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String
         }
         startActivity(createChooser(this, "Pick an Email provider"))
     }
+}
+
+fun CSViewController<*>.showResponse(title: String, response: CSResponse<*>): CSResponse<out Any> {
+    val dialog = dialog(title).indeterminateProgress()
+    return response.controller(this).onFailed { -> dialog(title, "Operation failed").show() }
+            .onDone { -> dialog.hide() }
 }
 

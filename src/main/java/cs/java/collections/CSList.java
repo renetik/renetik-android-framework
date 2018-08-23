@@ -25,6 +25,8 @@ public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
     boolean isLast(T item);
 
+    boolean isLastIndex(int index);
+
     @Nullable T last();
 
     @Nullable T previous();
