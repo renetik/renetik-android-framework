@@ -18,6 +18,13 @@ class CSJsonStringProperty(val data: CSJsonData, private val key: String) {
     }
 }
 
+class CSJsonBoolProperty(val data: CSJsonData, private val key: String) {
+    var bool: Boolean?
+        get() = data.getBoolean(key)
+        set(value) = data.put(key, value)
+    val isTrue: Boolean get() = bool ?: false
+}
+
 class CSJsonFileProperty(val data: CSJsonData, private val key: String) {
     var value: File?
         get() = File(data.getString(key))
