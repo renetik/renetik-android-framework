@@ -1,6 +1,9 @@
 package cs.android.extensions.view
 
 import android.animation.Animator
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -90,4 +93,13 @@ fun View.topMargin(top: Int) {
     val params = layoutParams as? ViewGroup.MarginLayoutParams
     params?.setMargins(params.leftMargin, top, params.rightMargin, params.bottomMargin)
     layoutParams = params
+}
+
+fun View.createBitmap(): Bitmap {
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    Canvas(bitmap).apply {
+        background?.draw(this) ?: this.drawColor(Color.WHITE)
+        draw(this)
+    }
+    return bitmap
 }
