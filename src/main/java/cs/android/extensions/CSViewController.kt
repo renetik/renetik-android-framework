@@ -15,7 +15,6 @@ import cs.android.viewbase.CSViewController
 import cs.java.collections.CSList
 import cs.java.lang.CSLang.*
 import java.io.File
-import java.nio.file.Files.exists
 
 fun <T : CSViewController<*>> T.navigateToLatLng(latLng: LatLng, title: String) {
     val uri = stringf("http://maps.google.com/maps?&daddr=%f,%f (%s)",
@@ -62,12 +61,12 @@ fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String
 //        }
 //        startActivity(createChooser(this, "Pick an Email provider"))
 //    }
-    sendMail(emails,subject,body,list(attachment))
+    sendMail(emails, subject, body, list(attachment))
 }
 
 fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String, body: String,
                                          attachments: List<File>) {
-    Intent(ACTION_SEND).apply {
+    Intent(if (attachments.isEmpty()) ACTION_SEND else ACTION_SEND_MULTIPLE).apply {
         putExtra(EXTRA_EMAIL, emails.toTypedArray()).putExtra(EXTRA_SUBJECT, subject)
         putExtra(EXTRA_TEXT, body).type = "text/plain"
         val attachmentUris = ArrayList<Uri>()
@@ -77,7 +76,7 @@ fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String
             else if (!(file.exists() && file.canRead())) throw Exception("Attachment can not be read")
             attachmentUris.add(Uri.fromFile(file))
         }
-        if(attachments.isNotEmpty()) putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachmentUris);
+        if (attachments.isNotEmpty()) putParcelableArrayListExtra(EXTRA_STREAM, attachmentUris);
         startActivity(createChooser(this, "Pick an Email provider"))
     }
 }

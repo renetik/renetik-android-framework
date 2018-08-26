@@ -3,15 +3,17 @@ package cs.android.view.map
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
-import cs.android.view.CSNavigationController
 import cs.android.viewbase.CSViewController
 import cs.java.event.CSEvent
 import cs.java.event.CSEvent.CSEventRegistration
 import cs.java.lang.CSLang.*
 
-class CSMapController(parent: CSNavigationController) : CSViewController<MapView>(parent, null) {
+class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent, null) {
+
+    constructor(parent: CSViewController<*>) : this(parent, GoogleMapOptions())
 
     var map: GoogleMap? = null
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
@@ -20,7 +22,7 @@ class CSMapController(parent: CSNavigationController) : CSViewController<MapView
     var onCameraMoveStopped = event<GoogleMap>()
 
     init {
-        view = MapView(this.context())
+        view = MapView(this.context(), options)
     }
 
     override fun onCreate(state: Bundle?) {
