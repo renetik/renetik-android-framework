@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent.ACTION_UP
-import android.view.View.OnTouchListener
 import android.widget.EditText
 import cs.android.R.drawable.abc_ic_clear_material
 
@@ -20,14 +19,12 @@ fun <T : EditText> T.withClear(): T {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
     })
 
-    setOnTouchListener(OnTouchListener { _, event ->
-        if (event.action == ACTION_UP) {
-            if (event.rawX >= (this.right - this.compoundPaddingRight)) {
-                this.setText("")
-                return@OnTouchListener true
-            }
+    setOnTouchListener { _, event ->
+        if (event.action == ACTION_UP && event.x >= (right - this.compoundPaddingRight)) {
+            setText("")
+            return@setOnTouchListener true
         }
-        return@OnTouchListener false
-    })
+        false
+    }
     return this
 }

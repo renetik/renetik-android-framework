@@ -33,6 +33,7 @@ fun CSView<*>.compoundButton(id: Int): CompoundButton = item<CompoundButton>(id)
 fun CSView<*>.floatingButton(id: Int): FloatingActionButton = item<FloatingActionButton>(id).view
 fun CSView<*>.timePicker(id: Int): TimePicker = item<TimePicker>(id).view
 fun CSView<*>.webView(id: Int): WebView = item<WebView>(id).view
+fun CSView<*>.imageView(id: Int): ImageView = item<ImageView>(id).view
 
 fun CSView<*>.visible(): Boolean = isVisible(view)
 
