@@ -3,6 +3,7 @@ package cs.android.view
 import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
 import cs.android.R
+import cs.android.extensions.string
 import cs.android.viewbase.CSContextController
 
 
@@ -13,6 +14,7 @@ class CSDialog(context: Context) : CSContextController(context) {
 
     fun title(title: String): CSDialog {
         builder.title(title)
+
         return this
     }
 
@@ -53,14 +55,19 @@ class CSDialog(context: Context) : CSContextController(context) {
                 .negativeText(negativeText).onNeutral { _, _ -> negativeAction(this) }.show()
     }
 
-
     fun indeterminateProgress() = apply {
-        dialog = builder.progress(true, 0)
-//                .progressIndeterminateStyle(true)
-                .show()
+        dialog = builder.progress(true, 0).show()
     }
 
     fun hide() = apply {
         dialog?.hide()
     }
+
+    fun inputAction(hint: String, value: String, positiveAction: (CSDialog) -> Unit) {
+        val allowEmpty = false
+        dialog = builder.positiveText(R.string.cs_dialog_ok)
+                .input(hint, value, allowEmpty) { _, _ -> positiveAction(this) }.show()
+    }
+
+    fun inputValue(): String = string(dialog?.inputEditText?.text)
 }
