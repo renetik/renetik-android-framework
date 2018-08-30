@@ -4,14 +4,15 @@ import cs.java.collections.CSList
 import cs.java.lang.CSLang.doLater
 import cs.java.lang.CSLang.list
 
-class CSConcurrentResponse(val responses: CSList<CSResponse<*>>) : CSResponse<CSList<Any>>(list()) {
+class CSConcurrentResponse(private val responses: CSList<CSResponse<*>>) : CSResponse<CSList<Any>>(list()) {
 
     private val failedResponses = list<CSResponse<*>>()
     private val successResponses = list<CSResponse<*>>()
 
     init {
         responses.forEach { response ->
-            response.onSuccess { onResponseSuccess(it) }.onFailed { onResponseFailed(it) }
+            response.onSuccess { onResponseSuccess(it) }
+            response.onFailed { onResponseFailed(it) }
         }
     }
 
@@ -26,7 +27,7 @@ class CSConcurrentResponse(val responses: CSList<CSResponse<*>>) : CSResponse<CS
     private fun onResponsesDone() {
         if (failedResponses.hasItems) failed(failedResponses.first())
         else success(list<Any>().apply {
-            successResponses.forEach { add(it.data()) }
+            successResponses.forEach { add(it.data) }
         })
     }
 
@@ -39,9 +40,4 @@ class CSConcurrentResponse(val responses: CSList<CSResponse<*>>) : CSResponse<CS
         doLater { if (responses.isEmpty()) onResponsesDone() }
     }
 
-    override fun reset() {
-        super.reset()
-        responses.removeAll()
-        failedResponses.removeAll()
-    }
 }

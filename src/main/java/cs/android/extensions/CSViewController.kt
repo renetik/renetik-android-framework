@@ -51,16 +51,6 @@ fun <T : CSViewController<*>> T.sendMail(email: String, subject: String, text: S
 
 fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String, body: String,
                                          attachment: File) {
-//    Intent(ACTION_SEND).apply {
-//        putExtra(EXTRA_EMAIL, emails.toTypedArray()).putExtra(EXTRA_SUBJECT, subject)
-//        putExtra(EXTRA_TEXT, body).type = "text/plain"
-//        attachment?.apply {
-//            if (!startsWith(getExternalStorageDirectory())) return error("Attachment not in ExternalStorageDirectory")
-//            else if (!(exists() && canRead())) return error("Attachment can not be read")
-//            putExtra(EXTRA_STREAM, Uri.fromFile(this))
-//        }
-//        startActivity(createChooser(this, "Pick an Email provider"))
-//    }
     sendMail(emails, subject, body, list(attachment))
 }
 
@@ -83,7 +73,6 @@ fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String
 
 fun CSViewController<*>.showResponse(title: String, response: CSResponse<*>): CSResponse<out Any> {
     val dialog = dialog(title).actionIndeterminateProgress { response.cancel() }
-    return response.controller(this).onFailed { dialog(title, "Operation failed").show() }
-            .onDone { -> dialog.hide() }
+    return response.onFailed { dialog(title, "Operation failed").show() }.onDone { dialog.hide() }
 }
 

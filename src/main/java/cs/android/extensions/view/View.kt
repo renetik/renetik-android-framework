@@ -103,3 +103,7 @@ fun View.createBitmap(): Bitmap {
     }
     return bitmap
 }
+
+fun View.removeFromSuperview() = apply {
+    (parent as? ViewGroup)?.removeView(this)
+}
