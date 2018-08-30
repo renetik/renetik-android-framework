@@ -52,11 +52,13 @@ class CSDialog(context: Context) : CSContextController(context) {
     fun action(positiveText: String, positiveAction: (CSDialog) -> Unit
                , negativeText: String, negativeAction: (CSDialog) -> Unit) = apply {
         dialog = builder.positiveText(positiveText).onPositive { _, _ -> positiveAction(this) }
-                .negativeText(negativeText).onNeutral { _, _ -> negativeAction(this) }.show()
+                .negativeText(negativeText).onNegative { _, _ -> negativeAction(this) }.show()
     }
 
-    fun indeterminateProgress() = apply {
-        dialog = builder.progress(true, 0).show()
+    fun actionIndeterminateProgress(onCancel: (CSDialog) -> Unit) = apply {
+        dialog = builder.progress(true, 0).
+                negativeText(R.string.cs_dialog_cancel).cancelable(false)
+                .onNegative { _, _ -> onCancel(this)}.show()
     }
 
     fun hide() = apply {
@@ -70,4 +72,6 @@ class CSDialog(context: Context) : CSContextController(context) {
     }
 
     fun inputValue(): String = string(dialog?.inputEditText?.text)
+
+    fun cancelable(cancelable: Boolean) = apply { builder.cancelable(cancelable) }
 }

@@ -2,14 +2,14 @@ package cs.android;
 
 import java.io.File;
 
-import cs.android.model.CSSettings;
+import cs.android.model.CSValueStore;
 
 import static cs.android.CSApplication.application;
 import static cs.java.lang.CSLang.setModel;
 
 public abstract class CSModelBase implements cs.android.lang.CSModel {
 
-    private CSSettings settings = new CSSettings("ApplicationSettings");
+    private CSValueStore store = new CSValueStore("ApplicationSettings");
 
     public CSModelBase() {
         setModel(this);
@@ -23,6 +23,6 @@ public abstract class CSModelBase implements cs.android.lang.CSModel {
         return application().getFilesDir();
     }
 
-    public CSSettings settings() { return settings;}
+    public CSValueStore store() { return store;}
 
 }

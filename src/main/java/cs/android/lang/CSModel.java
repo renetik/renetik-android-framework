@@ -3,7 +3,7 @@ package cs.android.lang;
 
 import java.io.File;
 
-import cs.android.model.CSSettings;
+import cs.android.model.CSValueStore;
 
 public interface CSModel {
 
@@ -17,6 +17,6 @@ public interface CSModel {
 
     boolean isDebugBuild();
 
-    CSSettings settings();
+    CSValueStore store();
 
 }

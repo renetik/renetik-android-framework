@@ -82,8 +82,8 @@ fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String
 }
 
 fun CSViewController<*>.showResponse(title: String, response: CSResponse<*>): CSResponse<out Any> {
-    val dialog = dialog(title).indeterminateProgress()
-    return response.controller(this).onFailed { -> dialog(title, "Operation failed").show() }
+    val dialog = dialog(title).actionIndeterminateProgress { response.cancel() }
+    return response.controller(this).onFailed { dialog(title, "Operation failed").show() }
             .onDone { -> dialog.hide() }
 }
 

@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import androidx.annotation.Nullable;
 import cs.android.json.CSJsonData;
-import cs.android.json.CSJsonKt;
 import cs.android.viewbase.CSContextController;
 import cs.java.collections.CSList;
 import cs.java.collections.CSMap;
 import cs.java.collections.CSMapItem;
-import kotlin.reflect.KClass;
 
 import static cs.android.json.CSJsonKt.createList;
 import static cs.android.json.CSJsonKt.toJson;
@@ -21,13 +20,11 @@ import static cs.java.lang.CSLang.map;
 import static cs.java.lang.CSLang.no;
 
 
-public class CSSettings extends CSContextController {
+public class CSValueStore extends CSContextController {
 
-    public static final String SETTING_USERNAME = "username";
-    public static final String SETTING_PASSWORD = "password";
     private SharedPreferences preferences;
 
-    public CSSettings(String name) {
+    public CSValueStore(String name) {
         preferences = getPreferences(name);
     }
 
@@ -39,11 +36,6 @@ public class CSSettings extends CSContextController {
         Editor editor = preferences.edit();
         editor.remove(key);
         editor.apply();
-    }
-
-    public void clearCredentials() {
-        clear(SETTING_USERNAME);
-        clear(SETTING_PASSWORD);
     }
 
     public boolean has(String key) {
@@ -86,7 +78,7 @@ public class CSSettings extends CSContextController {
         return preferences.getLong(key, defaultValue);
     }
 
-    public String loadString(String key) {
+    public @Nullable String loadString(String key) {
         return preferences.getString(key, null);
     }
 
@@ -94,7 +86,7 @@ public class CSSettings extends CSContextController {
         return preferences.getString(key, defaultValue);
     }
 
-    public void save(String key, Boolean value) {
+    public void put(String key, Boolean value) {
         if (no(value)) clear(key);
         else {
             Editor editor = preferences.edit();
@@ -103,7 +95,7 @@ public class CSSettings extends CSContextController {
         }
     }
 
-    public void save(String key, Integer value) {
+    public void put(String key, Integer value) {
         if (no(value)) clear(key);
         else {
             Editor editor = preferences.edit();
@@ -113,7 +105,7 @@ public class CSSettings extends CSContextController {
     }
 
 
-    public void save(String key, Double value) {
+    public void put(String key, Double value) {
         if (no(value)) clear(key);
         else {
             Editor editor = preferences.edit();
@@ -122,16 +114,16 @@ public class CSSettings extends CSContextController {
         }
     }
 
-    public void save(String key, Object data) {
+    public void put(String key, Object data) {
         if (no(data)) clear(key);
-        else save(key, toJson(data));
+        else put(key, toJson(data));
     }
 
     public <T extends CSJsonData> CSList<T> loadList(Class<T> type, String key) {
         return createList(type, (CSList<CSMap<String, Object>>) loadJson(key));
     }
 
-    public void save(String key, Long value) {
+    public void put(String key, Long value) {
         if (no(value)) clear(key);
         else {
             Editor editor = preferences.edit();
@@ -140,11 +132,12 @@ public class CSSettings extends CSContextController {
         }
     }
 
-    public void save(String key, String value) {
+    public String put(String key, String value) {
         if (no(value)) clear(key);
         Editor editor = preferences.edit();
         editor.putString(key, value);
         editor.apply();
+        return value;
     }
 
     private Object loadJson(String key) {
@@ -157,7 +150,7 @@ public class CSSettings extends CSContextController {
         return context().getSharedPreferences(key, Context.MODE_PRIVATE);
     }
 
-    protected void save(String... keysValues) {
+    protected void put(String... keysValues) {
         Editor editor = preferences.edit();
         for (CSMapItem<String, String> keyValue : iterate(map(keysValues)))
             editor.putString(keyValue.key(), keyValue.value());

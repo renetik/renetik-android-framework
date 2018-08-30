@@ -109,10 +109,8 @@ class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions
     fun onMapAvailable(onMapReady: (GoogleMap) -> Unit): CSEventRegistration? {
         map?.let { onMapReady(it) } ?: let {
             return onMapReadyEvent.add { registration, map ->
-                run {
-                    onMapReady(map)
-                    registration.cancel()
-                }
+                onMapReady(map)
+                registration.cancel()
             }
         }
         return null

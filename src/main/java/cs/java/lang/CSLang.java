@@ -70,7 +70,7 @@ public class CSLang {
     }
 
     public static void setDebug(boolean value) {
-        _model.settings().save(DEBUG_MODE, value);
+        _model.store().put(DEBUG_MODE, value);
     }
 
     public static <T extends CSID> String toIDs(List<T> hasIds) {
@@ -609,7 +609,7 @@ public class CSLang {
     }
 
     public static boolean isDebugMode() {
-        return _model.settings().loadBoolean(DEBUG_MODE);
+        return _model.store().loadBoolean(DEBUG_MODE);
     }
 
     public static int to1E6(double value) {

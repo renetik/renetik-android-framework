@@ -61,6 +61,10 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
         _data = data;
     }
 
+    public CSResponse(Data data) {
+        _data = data;
+    }
+
     public static <D> D data(CSResponse<D> response) {
         return is(response) ? response.data() : null;
     }
@@ -69,20 +73,14 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
         return _failedCount;
     }
 
-    public @NonNull CSResponse<Data> controller(CSViewController controller) {
+    @NonNull
+    public CSResponse<Data> controller(CSViewController controller) {
         _controller = controller;
         return this;
     }
 
     protected void addNoReportMessage(String string) {
         _noReportMessage.add(string);
-    }
-
-    public CSResponse<Data> onSuccess(final CSRunWith<Data> run) {
-        _onSuccess.add((registration, arg) -> {
-            if (is(run)) run.run(_data);
-        });
-        return this;
     }
 
     public long getProgress() {
@@ -99,9 +97,9 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
         return this;
     }
 
-    public CSResponse<Data> onSuccess(final CSRun run) {
+    public CSResponse<Data> onSuccess(final CSRunWith<CSResponse<Data>> run) {
         _onSuccess.add((registration, arg) -> {
-            if (is(run)) run.run();
+            if (is(run)) run.run(this);
         });
         return this;
     }
@@ -109,13 +107,6 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
     public CSResponse<Data> onFailed(final CSRunWith<CSResponse> run) {
         _onFailed.add((registration, arg) -> {
             if (is(run)) run.run(arg);
-        });
-        return this;
-    }
-
-    public CSResponse<Data> onFailed(final CSRun run) {
-        _onFailed.add((registration, arg) -> {
-            if (is(run)) run.run();
         });
         return this;
     }
@@ -146,10 +137,6 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
     }
 
     protected void onDone() {
-    }
-
-    public CSResponse<Data> connect(CSResponse<Data> response) {
-        return failIfFail(successIfSuccess(response));
     }
 
     public String content() {
@@ -354,12 +341,8 @@ public class CSResponse<Data> extends CSContextController implements CSValueInte
         onDoneImpl();
     }
 
-    public CSResponse<Data> successIfSuccess(final CSResponse<Data> response) {
-        return response.onSuccess((CSRunWith<Data>) this::success);
-    }
-
     public String toString() {
-        return stringify(" ", _title, stringify(_url));
+        return stringify(" ", _title, _url);
     }
 
     protected CSViewController controller() {
