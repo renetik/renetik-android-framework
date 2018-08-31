@@ -24,7 +24,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     override fun error(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Error: $message")
-        Log.e(model.applicationName(), message)
+//        Log.e(model.applicationName(), message)
         Crashlytics.log(Log.ERROR, model.applicationName(), message)
         if (isDebugMode()) toast(message)
     }
@@ -33,7 +33,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
         val message = createMessage(*values)
         addMemoryMessage("Error: " + message.addSpace().add(createTraceString(e)))
         val messageString = message.toString()
-        Log.e(model.applicationName(), messageString)
+//        Log.e(model.applicationName(), messageString)
         Crashlytics.log(Log.ERROR, model.applicationName(), messageString)
         Crashlytics.logException(e)
         if (isDebugMode()) toast(messageString)
@@ -42,7 +42,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     override fun info(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage(message)
-        Log.i(model.applicationName(), message)
+//        Log.i(model.applicationName(), message)
         Crashlytics.log(Log.INFO, model.applicationName(), message)
         if (isDebugMode()) toast(message)
     }
@@ -54,7 +54,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     override fun debug(vararg values: Any) {
         val message = createMessage(*values).toString()
         if (isDebugMode()) addMemoryMessage(message)
-        Log.d(model.applicationName(), message)
+//        Log.d(model.applicationName(), message)
         Crashlytics.log(Log.DEBUG, model.applicationName(), message)
     }
 
@@ -65,7 +65,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     override fun warn(vararg values: Any) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Warn: $message")
-        Log.w(model.applicationName(), message)
+//        Log.w(model.applicationName(), message)
         Crashlytics.log(Log.WARN, model.applicationName(), message)
         if (isDebugMode()) toast(message)
     }
@@ -73,7 +73,7 @@ class CrashlyticsLogger(private val model: CSModel) : CSContextController(), CSL
     override fun warn(e: Throwable, vararg values: Any) {
         val message = createMessage(*values)
         addMemoryMessage(message.addSpace().add(createTraceString(e)))
-        Log.w(model.applicationName(), message.toString(), e)
+//        Log.w(model.applicationName(), message.toString(), e)
         Crashlytics.log(Log.WARN, model.applicationName(), message.toString())
         if (isDebugMode()) toast(message.toString())
     }

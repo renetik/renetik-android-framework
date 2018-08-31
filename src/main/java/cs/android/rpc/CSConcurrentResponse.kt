@@ -1,43 +1,32 @@
 package cs.android.rpc
 
 import cs.java.collections.CSList
-import cs.java.lang.CSLang.doLater
 import cs.java.lang.CSLang.list
 
 class CSConcurrentResponse(private val responses: CSList<CSResponse<*>>) : CSResponse<CSList<Any>>(list()) {
 
-    private val failedResponses = list<CSResponse<*>>()
-    private val successResponses = list<CSResponse<*>>()
+    private val runningResponses = list<CSResponse<*>>(responses)
 
     init {
-        responses.forEach { response ->
+        runningResponses.forEach { response ->
             response.onSuccess { onResponseSuccess(it) }
             response.onFailed { onResponseFailed(it) }
         }
     }
 
     private fun onResponseSuccess(response: CSResponse<*>) {
-        if (responses.apply { remove(successResponses.put(response)) }.isEmpty()) onResponsesDone()
+        if (runningResponses.apply { remove(response) }.isEmpty())
+            success(list<Any>().apply { responses.forEach { add(it.data) } })
     }
 
     private fun onResponseFailed(response: CSResponse<*>) {
-        if (responses.apply { remove(failedResponses.put(response)) }.isEmpty()) onResponsesDone()
-    }
-
-    private fun onResponsesDone() {
-        if (failedResponses.hasItems) failed(failedResponses.first())
-        else success(list<Any>().apply {
-            successResponses.forEach { add(it.data) }
-        })
+        responses.remove(response)
+        responses.forEach { it.cancel() }
+        failed(response)
     }
 
     override fun cancel() {
         responses.forEach { it.cancel() }
         super.cancel()
     }
-
-    fun onAddDone() {
-        doLater { if (responses.isEmpty()) onResponsesDone() }
-    }
-
 }
