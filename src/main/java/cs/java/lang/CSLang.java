@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import androidx.annotation.NonNull;
 import cs.android.CSApplication;
 import cs.android.lang.CSDoLater;
 import cs.android.lang.CSModel;
@@ -385,7 +386,8 @@ public class CSLang {
         return list(items).first();
     }
 
-    public static <T> CSList<T> list(T... items) {
+   @NonNull
+   public static <T> CSList<T> list(T... items) {
         CSList<T> list = list();
         add(list, items);
         return list;

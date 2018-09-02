@@ -78,7 +78,12 @@ public class CSValueStore extends CSContextController {
         return preferences.getLong(key, defaultValue);
     }
 
-    public @Nullable String loadString(String key) {
+    public int loadInt(String key) {
+        return preferences.getInt(key, 0);
+    }
+
+    public @Nullable
+    String loadString(String key) {
         return preferences.getString(key, null);
     }
 
