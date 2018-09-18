@@ -433,10 +433,6 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return this;
     }
 
-    public MenuInflater getMenuInflater() {
-        return ((CSActivity) activity()).getSupportMenuInflater();
-    }
-
     public AppCompatActivity activity() {
         return _activity;
     }

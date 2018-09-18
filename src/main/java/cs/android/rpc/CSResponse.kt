@@ -1,6 +1,7 @@
 package cs.android.rpc
 
 import cs.android.extensions.execute
+import cs.android.extensions.string
 import cs.android.viewbase.CSContextController
 import cs.java.lang.CSLang.*
 
@@ -87,7 +88,7 @@ open class CSResponse<Data : Any> : CSContextController {
         failedResponse = response
         isFailed = YES
         exception = if (set(response.exception)) response.exception else Throwable()
-        failedMessage = stringify(" ", response.failedMessage, getRootCauseMessage(response.exception))
+        failedMessage = string(" ", list(response.failedMessage, getRootCauseMessage(response.exception)))
         error(exception, failedMessage)
         eventFailed.fire(response)
     }

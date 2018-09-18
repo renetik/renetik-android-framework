@@ -1,9 +1,11 @@
 package cs.android.view
 
 import android.widget.EditText
+import cs.android.extensions.string
 import cs.android.extensions.view.title
 import cs.android.viewbase.CSViewController
-import cs.java.lang.CSLang.*
+import cs.java.lang.CSLang.asInt
+import cs.java.lang.CSLang.toast
 
 class CSLimitTextFieldIntValue(parent: CSViewController<*>, id: Int, val minValue: Int,
                                private var maxValue: Int, private val alertString: Int)
@@ -23,7 +25,7 @@ class CSLimitTextFieldIntValue(parent: CSViewController<*>, id: Int, val minValu
     }
 
     private fun onWrongNumberEntered() {
-        view.title(stringify(beforeChangeValue))
+        view.title(string(beforeChangeValue))
         toast(stringRes(alertString))
     }
 
@@ -33,7 +35,7 @@ class CSLimitTextFieldIntValue(parent: CSViewController<*>, id: Int, val minValu
     }
 
     private fun validate() {
-        if (intValue() > maxValue) view.title(stringify(maxValue))
-        if (intValue() < minValue) view.title(stringify(minValue))
+        if (intValue() > maxValue) view.title(string(maxValue))
+        if (intValue() < minValue) view.title(string(minValue))
     }
 }

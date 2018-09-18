@@ -25,6 +25,8 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
     constructor(parent: CSViewController<T>, title: String, imagesDirName: String, onImageReady: (File) -> Unit) :
             this(parent, title, File(File(model().dataDir(), "Pictures"), imagesDirName), onImageReady)
 
+    var selectPhoto = true
+    var takePhoto = true
     private val requestCode = 386
     private val photoURI: Uri by lazy { context().contentResolver.insert(EXTERNAL_CONTENT_URI, ContentValues()) }
 
@@ -40,7 +42,9 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
     }
 
     private fun onPermissionsGranted() {
-        dialog(title).choice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
+        if (!selectPhoto) onTakePhoto()
+        else if (!takePhoto) onSelectPhoto()
+        else dialog(title).choice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
     }
 
     private fun onImageSelected(input: InputStream) {

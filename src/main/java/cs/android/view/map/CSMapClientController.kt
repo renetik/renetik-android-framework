@@ -1,7 +1,6 @@
 package cs.android.view.map
 
 import android.view.View
-import android.view.ViewGroup
 import com.google.android.gms.maps.model.LatLng
 import cs.android.extensions.execute
 import cs.android.extensions.view.frame
@@ -10,11 +9,11 @@ import cs.android.extensions.view.removeFromSuperview
 import cs.android.viewbase.CSViewController
 
 open class CSMapClientController<V : View>(parent: CSViewController<V>, private val mapFrameId: Int,
-                                           private val mapController: CSMapController) :
+                                           open val mapController: CSMapController) :
         CSViewController<V>(parent) {
 
-    var lastLocation: LatLng? = null
-    var lastZoom: Float? = null
+    private var lastLocation: LatLng? = null
+    private var lastZoom: Float? = null
 
     override fun onViewShowing() {
         super.onViewShowing()

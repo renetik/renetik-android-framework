@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.core.graphics.drawable.DrawableCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import cs.android.view.adapter.AnimatorAdapter
 
 fun <T : View> T.visible(): Boolean = visibility == VISIBLE

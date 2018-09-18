@@ -1,8 +1,7 @@
 package cs.android.extensions
 
 import cs.java.collections.CSMap
-import cs.java.lang.CSLang.NO
-import cs.java.lang.CSLang.YES
+import cs.java.lang.CSLang.*
 import kotlin.reflect.KClass
 
 fun Any.whenNull(value: CSMap<String, Any>?, function: () -> Unit): Boolean {
@@ -32,9 +31,9 @@ public val <T> KClass<T>.j: Class<T>
 
 fun string(value: Any?) = value?.toString() ?: ""
 
-fun string(separator: String, values: Iterable<*>) = StringBuilder().apply {
-    values.forEachIndexed { index, value ->
-        if (index > 0) append(separator)
-        append(string(value))
-    }
-}.toString()
+fun string(separator: String, values: Iterable<*>): String {
+    val text = textBuilder()
+    for (value in values) if (set(value)) text.add(value).add(separator)
+    if (!text.isEmpty) text.deleteLast(separator.length)
+    return text.toString()
+}

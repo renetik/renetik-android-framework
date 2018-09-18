@@ -2,6 +2,7 @@ package cs.android.extensions.view
 
 import android.text.Editable
 import android.widget.TextView
+import cs.android.extensions.string
 import cs.android.view.adapter.CSTextWatcherAdapter
 import cs.java.lang.CSLang.*
 
@@ -18,7 +19,7 @@ fun <T : TextView> T.title(string: CharSequence?): T {
 
 fun <T : TextView> T.titlef(format: String, vararg arguments: Any): T = title(stringf(format, *arguments))
 
-fun <T : TextView> T.title(): String = stringify(text)
+fun <T : TextView> T.title(): String = string(text)
 
 fun <T : TextView> T.onChange(onChange: (view: T) -> Unit): T {
     val self = this
