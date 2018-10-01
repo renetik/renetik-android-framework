@@ -25,6 +25,6 @@ public class CSListRowController<RowType extends CSJsonData, T extends AbsListVi
     protected final CSIRowView<CSListRow<RowType>> createView(int viewType) {
         CSIRowView<CSListRow<RowType>> rowView = _createView.invoke(viewType, this);
         if (is(rowView)) return rowView;
-        return new CSRowView(this, layout(R.layout.empty));
+        return new CSRowView(this, layout(R.layout.cs_empty));
     }
 }

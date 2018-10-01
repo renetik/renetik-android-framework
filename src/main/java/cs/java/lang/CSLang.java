@@ -386,8 +386,8 @@ public class CSLang {
         return list(items).first();
     }
 
-   @NonNull
-   public static <T> CSList<T> list(T... items) {
+    @NonNull
+    public static <T> CSList<T> list(T... items) {
         CSList<T> list = list();
         add(list, items);
         return list;
@@ -611,7 +611,7 @@ public class CSLang {
     }
 
     public static boolean isDebugMode() {
-        return _model.store().loadBoolean(DEBUG_MODE);
+        return _model.store().loadBoolean(DEBUG_MODE, false);
     }
 
     public static int to1E6(double value) {

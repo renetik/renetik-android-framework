@@ -11,6 +11,8 @@ import cs.android.extensions.view.*
 import cs.android.viewbase.CSViewController
 import cs.java.lang.CSLang.model
 
+const val sendLogMailKey = "send_log_mail"
+
 class CSLogController(val navigation: CSNavigationController) :
         CSViewController<View>(navigation, layout(layout.cs_log)), CSNavigationItem {
 
@@ -29,9 +31,11 @@ class CSLogController(val navigation: CSNavigationController) :
     private fun loadText() = logText.title(model().logger().logString())
 
     private fun onSendLogClick() {
+
         navigation.dialog("Send application log", "Enter target email")
-                .inputAction("Target email", model().store().loadString("send_log_mail", "")) { dialog ->
-                    sendMail(model().store().put("send_log_mail", dialog.inputValue()), model().applicationName() +
+                .inputAction("Target email", model().store().loadString(sendLogMailKey, "")) { dialog ->
+                    model().store().put(sendLogMailKey, dialog.inputValue())
+                    sendMail(dialog.inputValue(), model().applicationName() +
                             " This is log from application sent as email attachment for application developer"
                             , logText.title())
                 }

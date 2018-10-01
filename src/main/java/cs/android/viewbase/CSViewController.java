@@ -442,7 +442,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     public ActionBar getActionBar() {
-        return ((CSActivity) activity()).getSupportActionBar();
+        return activity().getSupportActionBar();
     }
 
     public void goBack() {

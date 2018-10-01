@@ -1,7 +1,14 @@
 package cs.android.json
 
-import cs.android.json.*
+import java.io.File
 
 class CSFileJsonData() : CSJsonData() {
-    val file = CSJsonFileProperty(this, "file")
+
+    val file get() = fileProperty.value
+
+    constructor(file: File) : this() {
+        fileProperty.value = file
+    }
+
+    private val fileProperty = CSJsonFileProperty(this, "file")
 }

@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="CSBody2.Gray">
+        <item name="android:textColor">@color/cs_dark_grey_text</item>
+    </style>
+
+    <style name="CSOverline.Gray">
+        <item name="android:textColor">@color/cs_dark_grey_text</item>
+    </style>
+
+</resources>
