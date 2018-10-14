@@ -447,7 +447,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
     }
 
 //    public CSView<V> image(String url) {
-//        if (cs_empty(url)) return this;
+//        if (empty(url)) return this;
 //        picassoImage(url).into(asImageView());
 //        return this;
 //    }
@@ -469,7 +469,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
 //    }
 
 //    public CSView<V> image(String url, int width) {
-//        if (cs_empty(url)) return this;
+//        if (empty(url)) return this;
 //        RequestCreator creator = Picasso.with(context()).load(url);
 //        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
 //        creator.resize(width, 0).centerInside().into(asImageView());

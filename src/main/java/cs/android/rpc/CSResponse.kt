@@ -3,13 +3,19 @@ package cs.android.rpc
 import cs.android.extensions.execute
 import cs.android.extensions.string
 import cs.android.viewbase.CSContextController
+import cs.java.lang.CSLang
 import cs.java.lang.CSLang.*
 
 open class CSResponse<Data : Any> : CSContextController {
-    private val eventSuccess = event<CSResponse<Data>>()
-    private val eventFailed = event<CSResponse<*>>()
-    private val eventDone = event<CSResponse<Data>>()
-    val onProgress = event<CSResponse<Data>>()
+    private val eventSuccess = CSLang.event<CSResponse<Data>>()
+    private val eventFailed = CSLang.event<CSResponse<*>>()
+    private val eventDone = CSLang.event<CSResponse<Data>>()
+    val onProgress = CSLang.event<CSResponse<Data>>()
+    var progress: Long = 0
+        set(progress) {
+            field = progress
+            onProgress.fire(this)
+        }
     var isSuccess: Boolean = false
     var isFailed: Boolean = false
     var isDone: Boolean = false
@@ -17,11 +23,6 @@ open class CSResponse<Data : Any> : CSContextController {
     var url: String? = null
     var title: String? = null
     lateinit var data: Data
-    var progress: Long = 0
-        set(progress) {
-            field = progress
-            onProgress.fire(this)
-        }
     var failedMessage: String? = null
     var failedResponse: CSResponse<*>? = null
     var exception: Throwable? = null
@@ -124,6 +125,5 @@ open class CSResponse<Data : Any> : CSContextController {
         eventDone.execute(function)
         return this
     }
-
 }
 

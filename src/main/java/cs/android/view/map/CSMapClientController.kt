@@ -17,17 +17,12 @@ open class CSMapClientController<V : View>(parent: CSViewController<V>, private 
 
     override fun onViewShowing() {
         super.onViewShowing()
-        whileShowing(mapController.onMapAvailable { map ->
-            map.clear()
-            map.setOnMapLongClickListener(null)
-            map.setOnInfoWindowClickListener(null)
-        })
+        whileShowing(mapController.onMapAvailable { mapController.clearMap() })
         whileShowing(mapController.onCameraMoveStopped.execute { map ->
             lastLocation = map.cameraPosition.target
             lastZoom = map.cameraPosition.zoom
         })
         lastLocation?.let { latLng -> mapController.animateCamera(latLng, lastZoom!!) }
-
         frame(mapFrameId).addView(mapController.view.removeFromSuperview(), layoutMatchParent())
     }
 

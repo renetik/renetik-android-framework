@@ -11,8 +11,6 @@ import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.core.graphics.drawable.DrawableCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import cs.android.view.adapter.AnimatorAdapter
 
 fun <T : View> T.visible(): Boolean = visibility == VISIBLE
@@ -57,27 +55,21 @@ fun <T : View> T.onClick(onClick: (view: T) -> Unit): T {
     return this
 }
 
-fun <T : View> T.width(function: (Int) -> Unit) {
-    if (width == 0)
+fun <T : View> T.hasSize(onHasSize: (View) -> Unit) {
+    val self = this
+    if (width == 0 && height == 0)
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
-                function(width)
+                onHasSize(self)
             }
         })
-    else function(width)
+    else onHasSize(this)
 }
 
-fun <T : View> T.height(function: (Int) -> Unit) {
-    if (height == 0)
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
-                function(height)
-            }
-        })
-    else function(height)
-}
+fun <T : View> T.width(function: (Int) -> Unit) = hasSize { function(width) }
+
+fun <T : View> T.height(function: (Int) -> Unit) = hasSize { function(height) }
 
 fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
     val params = layoutParams as? ViewGroup.MarginLayoutParams

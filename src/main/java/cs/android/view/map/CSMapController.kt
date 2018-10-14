@@ -1,7 +1,7 @@
 package cs.android.view.map
 
 import android.os.Bundle
-import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.MapView
@@ -28,12 +28,12 @@ class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         view.onCreate(state)
-        view.getMapAsync { onInitializeMap(it) }
     }
 
     override fun onResume() {
         super.onResume()
         view.onResume()
+        view.getMapAsync { onInitializeMap(it) }
     }
 
     override fun onPause() {
@@ -71,12 +71,12 @@ class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions
         onMapReadyEvent.fire(map)
         map.setOnCameraMoveStartedListener { onCameraMoveStarted() }
         map.setOnCameraIdleListener { onCameraMoveStopped() }
+        map.setOnCameraMoveCanceledListener { onCameraMoveStopped() }
     }
-
 
     fun animateCamera(latLng: LatLng, zoom: Float) {
         animatingCamera = YES
-        map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
+        map?.animateCamera(newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
             override fun onCancel() {
                 onAnimateCameraDone()
             }
@@ -89,7 +89,7 @@ class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions
 
     fun animateCamera(latLng: LatLng, zoom: Float, onFinished: () -> Unit) {
         animatingCamera = YES
-        map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
+        map?.animateCamera(newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
             override fun onCancel() {
                 onAnimateCameraDone()
                 onFinished()
@@ -117,12 +117,21 @@ class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions
     }
 
     private fun onCameraMoveStarted() {
+        info("onCameraMoveStarted")
         if (animatingCamera) return
+        info("onCameraMoveStartedByUser")
         onCameraMoveStartedByUser.fire(map)
     }
 
     private fun onCameraMoveStopped() {
+        info("onCameraMoveStopped")
         onCameraMoveStopped.fire(map)
+    }
+
+    fun clearMap() {
+        map?.clear()
+        map?.setOnMapLongClickListener(null)
+        map?.setOnInfoWindowClickListener(null)
     }
 
 }

@@ -31,9 +31,8 @@ class CSLogController(val navigation: CSNavigationController) :
     private fun loadText() = logText.title(model().logger().logString())
 
     private fun onSendLogClick() {
-
         navigation.dialog("Send application log", "Enter target email")
-                .inputAction("Target email", model().store().loadString(sendLogMailKey, "")) { dialog ->
+                .showInput("Target email", model().store().loadString(sendLogMailKey, "")) { dialog ->
                     model().store().put(sendLogMailKey, dialog.inputValue())
                     sendMail(dialog.inputValue(), model().applicationName() +
                             " This is log from application sent as email attachment for application developer"

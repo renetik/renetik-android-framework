@@ -44,7 +44,7 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
     private fun onPermissionsGranted() {
         if (!selectPhoto) onTakePhoto()
         else if (!takePhoto) onSelectPhoto()
-        else dialog(title).choice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
+        else dialog(title).showChoice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
     }
 
     private fun onImageSelected(input: InputStream) {

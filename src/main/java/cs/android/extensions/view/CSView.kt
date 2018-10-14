@@ -102,7 +102,7 @@ fun <V : View> CSView<V>.viewAsChildOf(parent: ViewGroup, layout: CSLayoutId): C
     return CSView<V>(parent, layout).apply { parent.addView(view) }
 }
 
-fun CSView<*>.dialog(title: String, onPositive: () -> Unit) = dialog(title).action { onPositive() }
+fun CSView<*>.dialog(title: String, onPositive: () -> Unit) = dialog(title).show { onPositive() }
 
 fun CSView<*>.dialog() = CSDialog(context())
 
