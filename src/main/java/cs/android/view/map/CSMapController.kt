@@ -11,7 +11,7 @@ import cs.java.event.CSEvent
 import cs.java.event.CSEvent.CSEventRegistration
 import cs.java.lang.CSLang.*
 
-class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent, null) {
+open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent, null) {
 
     constructor(parent: CSViewController<*>) : this(parent, GoogleMapOptions())
 

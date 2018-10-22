@@ -37,7 +37,7 @@
     </style>
 
     <style name="Container">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/cs_white</item>
         <item name="android:orientation">vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

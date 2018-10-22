@@ -547,12 +547,10 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
 
     private void onViewVisibilityChanged(boolean showing) {
         if (_isShowing = showing) {
-            debug("onViewShowing", this);
             _isVisibleEventRegistrations.setActive(YES);
             invalidateOptionsMenu();
             onViewShowing();
         } else {
-            debug("onViewHiding", this);
             _isVisibleEventRegistrations.setActive(NO);
             invalidateOptionsMenu();
             onViewHiding();

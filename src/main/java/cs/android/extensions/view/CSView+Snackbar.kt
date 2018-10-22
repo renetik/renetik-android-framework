@@ -27,13 +27,13 @@ private fun CSView<*>.snackBar(text: String, backColor: Int, textColor: Int, tim
 }
 
 fun CSView<*>.snackBarWarn(text: String) {
-    snackBar(text, color(R.color.yellow), color(R.color.black))
+    snackBar(text, color(R.color.cs_yellow), color(R.color.cs_black))
 }
 
 fun CSView<*>.snackBarError(text: String) {
-    snackBar(text, color(R.color.red), color(R.color.white))
+    snackBar(text, color(R.color.cs_red), color(R.color.cs_white))
 }
 
 fun CSView<*>.snackBarInfo(text: String) {
-    snackBar(text, color(R.color.blue), color(R.color.white))
+    snackBar(text, color(R.color.cs_blue), color(R.color.cs_white))
 }
