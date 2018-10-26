@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import java.util.List;
 import java.util.Map.Entry;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
@@ -34,7 +35,6 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.os.Build.VERSION.SDK_INT;
 import static cs.java.lang.CSLang.NO;
 import static cs.java.lang.CSLang.YES;
-import static cs.java.lang.CSLang.debug;
 import static cs.java.lang.CSLang.doLater;
 import static cs.java.lang.CSLang.equal;
 import static cs.java.lang.CSLang.event;
@@ -95,12 +95,17 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     private boolean _isShowing = NO;
     private boolean _onViewShowingCalled;
 
+    public CSViewController(AppCompatActivity activity) {
+        this(activity, null);
+    }
+
     public CSViewController(AppCompatActivity activity, CSLayoutId layoutId) {
         super(() -> activity, layoutId);
         _startingActivity = NO;
         _parent = null;
     }
 
+    //taking view type from parent because it takes view from parent
     public CSViewController(CSViewController<ViewType> parent) {
         super(parent);
         _parent = parent;
@@ -134,6 +139,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return _root;
     }
 
+    @Nullable
     public static AppCompatActivity rootActivity() {
         return is(_root) ? _root.activity() : null;
     }
@@ -351,9 +357,9 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     void onOptionsItemSelectedImpl(CSOnMenuItem onItem) {
-        if (!onItem.consumed()) {
+        if (!onItem.getConsumed().getValue()) {
             fire(onOptionsItemSelected, onItem);
-            if (!onItem.consumed()) onOptionsItemSelected(onItem);
+            if (!onItem.getConsumed().getValue()) onOptionsItemSelected(onItem);
         }
     }
 
@@ -372,9 +378,8 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         onPrepareOptionsMenu(menu);
     }
 
-    protected void onPrepareOptionsMenu(CSOnMenu menu) {
-        if (isMenuVisible())
-            for (CSMenuItem item : _menuItems) if (item.isVisible()) menu.show(item);
+    protected void onPrepareOptionsMenu(CSOnMenu onMenu) {
+        if (isMenuVisible()) onMenu.onPrepareItems(_menuItems);
     }
 
     protected boolean isMenuVisible() {

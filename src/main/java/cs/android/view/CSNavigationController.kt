@@ -9,11 +9,10 @@ import cs.android.R
 import cs.android.viewbase.CSViewController
 import cs.android.viewbase.menu.CSOnMenuItem
 import cs.java.collections.CSList
-import cs.java.lang.CSLang
 import cs.java.lang.CSLang.*
 
-open class CSNavigationController(activity: AppCompatActivity) :
-        CSViewController<FrameLayout>(activity, null) {
+open class CSNavigationController(activity: AppCompatActivity)
+    : CSViewController<FrameLayout>(activity) {
 
     open var controllers: CSList<CSViewController<*>> = list()
 
@@ -46,6 +45,26 @@ open class CSNavigationController(activity: AppCompatActivity) :
         updateBackButton()
         updateTitleButton()
         hideKeyboard()
+    }
+
+    fun <T : View> pushAsLast(controller: CSViewController<T>): CSViewController<T> {
+        val lastController = controllers.removeLast()
+        lastController.view.startAnimation(loadAnimation(context(), R.anim.abc_fade_out))
+        lastController.setShowingInContainer(NO)
+        lastController.onDeinitialize(state)
+        removeView(lastController)
+        lastController.onDestroy()
+
+        controllers.put(controller)
+        controller.view.startAnimation(loadAnimation(context(), R.anim.abc_fade_in))
+        add(controller)
+        controller.setShowingInContainer(YES)
+        controller.initialize(state)
+        updateBackButton()
+        updateTitleButton()
+        invalidateOptionsMenu()
+        hideKeyboard()
+        return controller
     }
 
     private fun updateTitleButton() {

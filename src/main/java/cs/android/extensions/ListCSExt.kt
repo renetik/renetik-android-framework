@@ -7,15 +7,15 @@ fun <T> List<T>.at(index: Int): T? {
     return if (index in 0..(size - 1)) get(index) else null
 }
 
-fun <T> List<T>.one(): T? {
+fun <T> List<T>.firstItem(): T? {
     return at(0)
 }
 
-fun <T> List<T>.twoo(): T? {
+fun <T> List<T>.secondItem(): T? {
     return at(1)
 }
 
-fun <T> List<T>.three(): T? {
+fun <T> List<T>.thirdItem(): T? {
     return at(1)
 }
 
@@ -28,10 +28,14 @@ fun <T> List<T>.getHasItems(): Boolean {
 }
 
 fun <T> List<T>.isLast(item: T): Boolean {
-    return end() === item
+    return lastItem() === item
 }
 
-fun <T> List<T>.end(): T? {
+fun <T> List<T>.previousLastItem(): T? {
+    return at(lastIndex() - 1)
+}
+
+fun <T> List<T>.lastItem(): T? {
     return at(lastIndex())
 }
 

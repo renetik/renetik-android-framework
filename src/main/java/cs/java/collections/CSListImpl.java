@@ -65,7 +65,7 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return at(lastIndex());
     }
 
-    public T previous() {
+    public T previousLast() {
         return at(lastIndex() - 1);
     }
 

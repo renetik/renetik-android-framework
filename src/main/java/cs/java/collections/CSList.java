@@ -2,12 +2,14 @@ package cs.java.collections;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import cs.java.lang.CSValues;
 
 public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
-    @Nullable T at(int index);
+    @Nullable
+    T at(int index);
 
     int delete(T item);
 
@@ -27,9 +29,11 @@ public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
     boolean isLastIndex(int index);
 
-    @Nullable T last();
+    @Nullable
+    T last();
 
-    @Nullable T previous();
+    @Nullable
+    T previousLast();
 
     int count();
 
@@ -45,10 +49,13 @@ public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
     CSList<T> removeAll();
 
+    @NonNull
     T put(T item);
 
+    @NonNull
     T add(T item, int index);
 
+    @NonNull
     T set(T item, int index);
 
     CSList<T> append(T... item);

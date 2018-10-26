@@ -393,6 +393,7 @@ public class CSLang {
         return list;
     }
 
+    @NonNull
     public static <T> CSList<T> list() {
         return new CSListImpl<>();
     }

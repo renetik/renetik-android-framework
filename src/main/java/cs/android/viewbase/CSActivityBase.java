@@ -15,7 +15,7 @@ import cs.android.viewbase.menu.CSOnMenu;
 import cs.android.viewbase.menu.CSOnMenuItem;
 import cs.java.lang.CSValue;
 
-import static cs.java.lang.CSLang.YES;
+import static cs.android.viewbase.menu.CSOnMenuKt.GeneratedMenuItems;
 import static cs.java.lang.CSLang.no;
 
 public abstract class CSActivityBase extends AppCompatActivity implements CSActivity {
@@ -121,15 +121,14 @@ public abstract class CSActivityBase extends AppCompatActivity implements CSActi
     public boolean onCreateOptionsMenu(Menu menu) {
         CSOnMenu onMenu = new CSOnMenu(activity(), menu);
         _controller.onCreateOptionsMenu(onMenu);
-        return onMenu.showMenu();
+        return onMenu.getShowMenu().getValue();
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
+        menu.removeGroup(GeneratedMenuItems);
         CSOnMenu onMenu = new CSOnMenu(activity(), menu);
-        onMenu.showMenu(YES);
         _controller.onPrepareOptionsMenuImpl(onMenu);
-        return onMenu.showMenu();
+        return onMenu.getShowMenu().getValue();
     }
 
     public void onConfigurationChanged(Configuration newConfig) {
@@ -140,7 +139,7 @@ public abstract class CSActivityBase extends AppCompatActivity implements CSActi
     public boolean onOptionsItemSelected(MenuItem item) {
         CSOnMenuItem onMenuItem = new CSOnMenuItem(item);
         _controller.onOptionsItemSelectedImpl(onMenuItem);
-        return onMenuItem.consumed();
+        return onMenuItem.getConsumed().getValue();
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
