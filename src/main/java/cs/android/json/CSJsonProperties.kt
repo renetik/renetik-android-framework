@@ -2,6 +2,7 @@ package cs.android.json
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
+import cs.android.location.asLatLng
 import cs.java.collections.CSList
 import cs.java.collections.CSMap
 import cs.java.lang.CSLang.list
@@ -38,7 +39,7 @@ class CSJsonLocationProperty(val data: CSJsonData, private val key: String) {
         set(latLng) = data.put(key, list(latLng?.latitude, latLng?.longitude))
 
     fun set(location: Location) {
-        latLng = LatLng(location.latitude, location.longitude)
+        latLng = location.asLatLng()
     }
 }
 
@@ -55,4 +56,6 @@ class CSJsonListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<
             ?: data.put(key, list(item.getJsonDataMap()))
 
     fun remove(item: T) = data.getList(key)?.remove(item.getJsonDataMap())
+    fun removeLast() = data.getList(key)?.removeLast()
+    fun size() = data.getList(key)?.size
 }

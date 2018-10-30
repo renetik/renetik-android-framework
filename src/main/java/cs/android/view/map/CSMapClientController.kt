@@ -2,7 +2,6 @@ package cs.android.view.map
 
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
-import cs.android.extensions.execute
 import cs.android.extensions.view.frame
 import cs.android.extensions.view.layoutMatchParent
 import cs.android.extensions.view.removeFromSuperview
@@ -18,11 +17,11 @@ open class CSMapClientController<V : View>(parent: CSViewController<V>, private 
     override fun onViewShowing() {
         super.onViewShowing()
         whileShowing(mapController.onMapAvailable { mapController.clearMap() })
-        whileShowing(mapController.onCameraMoveStopped.execute { map ->
+        whileShowing(mapController.onCameraStopped { map ->
             lastLocation = map.cameraPosition.target
             lastZoom = map.cameraPosition.zoom
         })
-        lastLocation?.let { latLng -> mapController.animateCamera(latLng, lastZoom!!) }
+        lastLocation?.let { latLng -> mapController.camera(latLng, lastZoom!!) }
         frame(mapFrameId).addView(mapController.view.removeFromSuperview(), layoutMatchParent())
     }
 

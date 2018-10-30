@@ -103,7 +103,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
             view = rowView.getView();
             view.setTag(rowView);
         } else rowView = asRowView(view);
-        rowView.row(_dataList.get(position));
+        rowView.data(_dataList.get(position));
         return view;
     }
 

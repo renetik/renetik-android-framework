@@ -357,14 +357,17 @@ public class CSLang {
         model().logger().error(values);
     }
 
+    @NonNull
     public static <T> CSEvent<T> event() {
         return new CSEventImpl<>();
     }
 
+    @NonNull
     public static RuntimeException exception(Object... values) {
         return new RuntimeException(stringify(" ", strings(values)));
     }
 
+    @NonNull
     public static RuntimeException exceptionf(String format, Object... arguments) {
         return new RuntimeException(stringf(format, arguments));
     }

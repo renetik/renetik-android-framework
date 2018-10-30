@@ -1,11 +1,15 @@
 package cs.android.view.map
 
+import android.location.Location
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import cs.android.extensions.execute
+import cs.android.location.asLatLng
 import cs.android.viewbase.CSViewController
 import cs.java.event.CSEvent
 import cs.java.event.CSEvent.CSEventRegistration
@@ -19,7 +23,10 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
     private var animatingCamera = NO
     var onCameraMoveStartedByUser = event<GoogleMap>()
-    var onCameraMoveStopped = event<GoogleMap>()
+    private var onCameraStopped = event<GoogleMap>()
+    fun onCameraStopped(function: (GoogleMap) -> Unit) = onCameraStopped.execute(function)
+    private var onInfoWindowClick = event<Marker>()
+    fun onMarkerInfoWindowClick(function: (Marker) -> Unit) = onInfoWindowClick.execute(function)
 
     init {
         view = MapView(this.context(), options)
@@ -72,9 +79,12 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
         map.setOnCameraMoveStartedListener { onCameraMoveStarted() }
         map.setOnCameraIdleListener { onCameraMoveStopped() }
         map.setOnCameraMoveCanceledListener { onCameraMoveStopped() }
+        map.setOnInfoWindowClickListener { onInfoWindowClick.fire(it) }
     }
 
-    fun animateCamera(latLng: LatLng, zoom: Float) {
+    fun camera(location: Location, zoom: Float) = camera(location.asLatLng(), zoom)
+
+    fun camera(latLng: LatLng, zoom: Float) {
         animatingCamera = YES
         map?.animateCamera(newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
             override fun onCancel() {
@@ -87,7 +97,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
         })
     }
 
-    fun animateCamera(latLng: LatLng, zoom: Float, onFinished: () -> Unit) {
+    fun camera(latLng: LatLng, zoom: Float, onFinished: () -> Unit) {
         animatingCamera = YES
         map?.animateCamera(newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
             override fun onCancel() {
@@ -125,13 +135,13 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
 
     private fun onCameraMoveStopped() {
         info("onCameraMoveStopped")
-        onCameraMoveStopped.fire(map)
+        onCameraStopped.fire(map)
     }
 
     fun clearMap() {
         map?.clear()
         map?.setOnMapLongClickListener(null)
-        map?.setOnInfoWindowClickListener(null)
     }
+
 
 }

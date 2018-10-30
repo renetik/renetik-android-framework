@@ -190,14 +190,15 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     protected void onResume() {
+        if (_isResumed) warn("already resumed");
         updateRoot();
         _isResumed = true;
         _isPaused = false;
         if (_isResumeFirstTime) onResumeFirstTime();
         else onResumeRestore();
-        updateVisibilityChanged();
         _isResumeFirstTime = NO;
         fire(onResume);
+        updateVisibilityChanged();
     }
 
     protected void onResumeFirstTime() {

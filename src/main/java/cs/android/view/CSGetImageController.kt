@@ -1,6 +1,7 @@
 package cs.android.view
 
-import android.Manifest.permission.*
+import android.Manifest.permission.CAMERA
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.ContentValues
 import android.content.Intent
 import android.content.Intent.createChooser
@@ -35,7 +36,7 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
     }
 
     override fun show(): CSView<T> {
-        requestPermissions(list(CAMERA, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
+        requestPermissions(list(CAMERA, WRITE_EXTERNAL_STORAGE),
                 { onPermissionsGranted() },
                 { snackBarWarn("Some permissions not granted for taking photos") })
         return this

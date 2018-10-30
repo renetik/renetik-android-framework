@@ -2,6 +2,8 @@ package cs.android;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+
 import static cs.java.lang.CSLang.info;
 import static cs.java.lang.CSLang.model;
 
@@ -13,6 +15,7 @@ public class CSApplication extends Application {
         application = this;
     }
 
+    @NonNull
     public static CSApplication application() {
         return application;
     }

@@ -16,6 +16,7 @@ import cs.java.lang.CSLang.*
 import kotlin.reflect.KClass
 
 
+@Suppress("unchecked_cast")
 class CSValueStore(name: String) : CSContextController() {
 
     private val preferences = context().getSharedPreferences(name, Context.MODE_PRIVATE)
@@ -60,13 +61,13 @@ class CSValueStore(name: String) : CSContextController() {
 
     fun loadString(key: String, defaultValue: String) = loadString(key) ?: defaultValue
 
-    private fun loadString(key: String): String? = try {
+    fun loadString(key: String): String? = try {
         preferences.getString(key, null)
     } catch (ex: Exception) {
         null
     }
 
-    fun <T : Any> loadList(type: KClass<T>, key: String): CSList<T> {
+    fun <T : Any> loadList(key: String): CSList<T> {
         val list = list<T>()
         val dataList = loadJson(key) as CSList<T?>?
         dataList?.forEach { data -> list.put(data) }
