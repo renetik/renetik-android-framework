@@ -12,21 +12,19 @@ class CSDialog(context: Context) : CSContextController(context) {
     private val builder = MaterialDialog.Builder(context());
     private var dialog: MaterialDialog? = null
 
-    fun title(title: String): CSDialog {
+    fun title(title: String) = apply {
         builder.title(title)
-        return this
     }
 
     fun message(message: String) = apply {
         builder.content(message)
     }
 
-    fun text(title: String, message: String) = apply {
-        builder.title(title)
-        builder.content(message)
-    }
+    fun text(title: String, message: String) = title(title).message(message)
 
-    fun show() = apply { dialog = builder.show() }
+    fun show() = apply {
+        dialog = builder.show()
+    }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
         builder.positiveText(positiveText).onPositive { _, _ -> onPositive(this) }
@@ -68,5 +66,7 @@ class CSDialog(context: Context) : CSContextController(context) {
         builder.cancelListener { cancelAction(this) }
     }
 
-    fun hide() = apply { dialog?.hide() }
+    fun hide() = apply {
+        dialog?.dismiss()
+    }
 }

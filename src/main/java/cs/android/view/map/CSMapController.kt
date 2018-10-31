@@ -22,11 +22,12 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     var map: GoogleMap? = null
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
     private var animatingCamera = NO
-    var onCameraMoveStartedByUser = event<GoogleMap>()
+    private var onCameraMoveStartedByUser = event<GoogleMap>()
+    fun onCameraMoveStartedByUser(function: (GoogleMap) -> Unit) = onCameraMoveStartedByUser.execute(function)
     private var onCameraStopped = event<GoogleMap>()
     fun onCameraStopped(function: (GoogleMap) -> Unit) = onCameraStopped.execute(function)
     private var onInfoWindowClick = event<Marker>()
-    fun onMarkerInfoWindowClick(function: (Marker) -> Unit) = onInfoWindowClick.execute(function)
+    fun onMarkerInfoClick(function: (Marker) -> Unit) = onInfoWindowClick.execute(function)
 
     init {
         view = MapView(this.context(), options)
