@@ -190,7 +190,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     protected void onResume() {
-        if (_isResumed) warn("already resumed");
+        if (_isResumed) warn("already resumed", this);
         updateRoot();
         _isResumed = true;
         _isPaused = false;
@@ -208,7 +208,8 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     public void onPause() {
-        if (!_isResumed) warn(new Throwable(), "Not Resumed while paused, should be resumed first");
+        if (!_isResumed)
+            warn(new Throwable(), "Not Resumed while paused, should be resumed first", this);
         _isResumed = NO;
         _isPaused = YES;
         updateVisibilityChanged();
@@ -216,7 +217,8 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     protected void onStop() {
-        if (!_isPaused) warn(new Throwable(), "Not paused while stopped, should be paused first");
+        if (!_isPaused)
+            warn(new Throwable(), "Not paused while stopped, should be paused first", this);
         _isStarted = NO;
         _state = null;
         updateVisibilityChanged();

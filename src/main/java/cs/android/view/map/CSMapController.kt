@@ -24,7 +24,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     private var animatingCamera = NO
     private var onCameraMoveStartedByUser = event<GoogleMap>()
     fun onCameraMoveStartedByUser(function: (GoogleMap) -> Unit) = onCameraMoveStartedByUser.execute(function)
-    private var onCameraStopped = event<GoogleMap>()
+    var onCameraStopped = event<GoogleMap>()
     fun onCameraStopped(function: (GoogleMap) -> Unit) = onCameraStopped.execute(function)
     private var onInfoWindowClick = event<Marker>()
     fun onMarkerInfoClick(function: (Marker) -> Unit) = onInfoWindowClick.execute(function)
@@ -128,14 +128,14 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     }
 
     private fun onCameraMoveStarted() {
-        info("onCameraMoveStarted")
+//        info("onCameraMoveStarted")
         if (animatingCamera) return
-        info("onCameraMoveStartedByUser")
+//        info("onCameraMoveStartedByUser")
         onCameraMoveStartedByUser.fire(map)
     }
 
     private fun onCameraMoveStopped() {
-        info("onCameraMoveStopped")
+//        info("onCameraMoveStopped")
         onCameraStopped.fire(map)
     }
 

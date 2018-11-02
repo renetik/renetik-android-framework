@@ -10,4 +10,4 @@ fun locationClient(controller: CSViewController<*>) = LocationServices.getFusedL
 
 @SuppressLint("MissingPermission")
 fun FusedLocationProviderClient.location(onSuccess: (Location) -> Unit) =
-    lastLocation.addOnSuccessListener { onSuccess(it) }
+    lastLocation.addOnSuccessListener { location -> location?.let { onSuccess(it) } }

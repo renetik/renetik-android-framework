@@ -51,11 +51,12 @@ class CSJsonListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<
         set(list) = list.forEach { item -> add(item) }
 
     val last: T? get() = list.last()
+    val empty get() = size() == 0
 
     fun add(item: T) = data.getList(key)?.add(item.getJsonDataMap())
             ?: data.put(key, list(item.getJsonDataMap()))
 
     fun remove(item: T) = data.getList(key)?.remove(item.getJsonDataMap())
     fun removeLast() = data.getList(key)?.removeLast()
-    fun size() = data.getList(key)?.size
+    fun size() = data.getList(key)?.size ?: let { 0 }
 }
