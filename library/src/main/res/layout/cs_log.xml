@@ -7,10 +7,10 @@
         style="@style/Match"
         android:orientation="vertical">
 
-        <com.google.android.material.card.MaterialCardView style="@style/DriverPageTitleCard">
+        <com.google.android.material.card.MaterialCardView style="@style/CSListTitle">
 
             <TextView
-                style="@style/DriverPageTitleText"
+                style="@style/CSListSubtitle"
                 android:text="Application Log" />
         </com.google.android.material.card.MaterialCardView>
 

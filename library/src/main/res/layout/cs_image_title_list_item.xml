@@ -17,7 +17,7 @@
             style="@style/Match"
             android:layout_width="80dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/no_image_2" />
+            android:src="@android:drawable/ic_menu_report_image" />
 
         <LinearLayout
             style="@style/MatchWrap"
@@ -30,7 +30,7 @@
                 android:lines="1"
                 android:padding="3dp"
                 android:text="Overline"
-                android:textAppearance="@style/DriverTextOverline" />
+                android:textAppearance="@style/CSOverline" />
 
             <TextView
                 android:id="@+id/ImageTitleListItem_Body1"
@@ -38,7 +38,7 @@
                 android:lines="1"
                 android:padding="3dp"
                 android:text="Headline 6"
-                android:textAppearance="@style/DriverTextBody1" />
+                android:textAppearance="@style/CSBody1" />
 
             <TextView
                 android:id="@+id/ImageTitleListItem_Body2"
@@ -46,7 +46,6 @@
                 android:lines="1"
                 android:padding="3dp"
                 android:text="Body 2"
-                android:textAppearance="@style/DriverTextBody2" />
+                android:textAppearance="@style/CSBody2" />
         </LinearLayout>
     </LinearLayout>
-<!--</android.support.design.card.MaterialCardView>-->
