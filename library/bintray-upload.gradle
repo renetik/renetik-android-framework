@@ -2,10 +2,10 @@ apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: "com.jfrog.bintray"
 
-def siteUrl = 'https://github.com/amitshekhariitbhu/Fast-Android-Networking'
-def gitUrl = 'https://github.com/amitshekhariitbhu/Fast-Android-Networking.git'
+def siteUrl = 'https://github.com/rene-dohan/renetik-android'
+def gitUrl = 'https://github.com/rene-dohan/renetik-android.git'
 
-group = "cs.android"
+group = "renetik.android"
 version = '1.0.0'
 
 install {
@@ -75,7 +75,7 @@ bintray {
 
     pkg {
         repo = "maven"
-        name = "renetik-android-library"
+        name = "renetik-android"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
