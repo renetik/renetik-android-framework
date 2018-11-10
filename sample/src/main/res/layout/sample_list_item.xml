@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchWrap"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:orientation="horizontal"
+    android:paddingStart="5dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="3dp"
+    android:paddingBottom="5dp">
+
+
+    <ImageView
+        android:id="@+id/SampleListItem_Image"
+        style="@style/Match"
+        android:layout_width="80dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/no_image" />
+
+    <LinearLayout
+        style="@style/MatchWrap"
+        android:layout_marginStart="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/header"
+            style="@style/MatchWrap"
+            android:lines="1"
+            android:padding="3dp"
+            android:text="Overline"
+            android:textAppearance="@style/CSOverline" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/MatchWrap"
+            android:lines="1"
+            android:padding="3dp"
+            android:text="Headline 6"
+            android:textAppearance="@style/CSHeadline6" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="@style/MatchWrap"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:lines="1"
+            android:padding="3dp"
+            android:text="Body 2"
+            android:textAppearance="@style/CSBody2" />
+    </LinearLayout>
+</LinearLayout>

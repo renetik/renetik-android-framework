@@ -9,11 +9,11 @@ import renetik.android.viewbase.CSView;
  * Created by renetik on 08/12/17.
  */
 
-public class CSRowView<T> extends CSView<View> implements CSIRowView<T> {
+public class CSRowView<T> extends CSView<View> {
     private T _row;
 
     public CSRowView(CSListController parent, CSLayoutId layout) {
-        super(parent.asGroup(), layout);
+        super(parent, layout);
     }
 
     public T data() {

@@ -1,7 +1,7 @@
 package renetik.android.xml.w3c.impl;
 
-import renetik.java.xml.w3c.CSNamedNodeMap;
-import renetik.java.xml.w3c.CSNode;
+import renetik.android.java.xml.w3c.CSNamedNodeMap;
+import renetik.android.java.xml.w3c.CSNode;
 
 public class CSW3CNamedNodeMap implements CSNamedNodeMap {
 

@@ -3,9 +3,9 @@ package renetik.android.viewbase.menu
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import renetik.java.collections.CSList
+import renetik.android.java.collections.CSList
 import renetik.android.lang.CSLang.*
-import renetik.java.lang.CSValue
+import renetik.android.java.lang.CSValue
 
 const val GeneratedMenuItems = 7687678
 

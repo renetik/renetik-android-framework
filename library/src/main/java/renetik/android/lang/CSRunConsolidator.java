@@ -2,8 +2,8 @@ package renetik.android.lang;
 
 import static renetik.android.lang.CSLang.doLater;
 import static renetik.android.lang.CSLang.list;
-import renetik.java.collections.CSList;
-import renetik.java.callback.CSRun;
+import renetik.android.java.collections.CSList;
+import renetik.android.java.callback.CSRun;
 
 public class CSRunConsolidator implements CSRun {
 

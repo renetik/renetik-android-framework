@@ -21,7 +21,7 @@ public class CSDoLater {
         if (!handler.post(_runnable)) error(exception("Runnable not run"));
     }
 
-    public static void initialize() {
+    public static void initializeHandler() {
         handler = new Handler();
     }
 

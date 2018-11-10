@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import renetik.android.viewbase.CSViewController;
-import renetik.java.collections.CSList;
+import renetik.android.java.collections.CSList;
 
 import static renetik.android.lang.CSLang.list;
 

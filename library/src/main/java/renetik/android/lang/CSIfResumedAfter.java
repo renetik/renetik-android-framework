@@ -1,7 +1,7 @@
 package renetik.android.lang;
 
 import renetik.android.viewbase.CSViewController;
-import renetik.java.callback.CSRun;
+import renetik.android.java.callback.CSRun;
 
 import static renetik.android.lang.CSLang.doLater;
 

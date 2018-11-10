@@ -9,9 +9,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import renetik.android.xml.w3c.impl.CSW3CDocument;
-import renetik.java.xml.CSDocument;
-import renetik.java.xml.CSXML;
-import renetik.java.xml.impl.CSDocumentImpl;
+import renetik.android.java.xml.CSDocument;
+import renetik.android.java.xml.CSXML;
+import renetik.android.java.xml.impl.CSDocumentImpl;
 
 import static renetik.android.lang.CSLang.exception;
 

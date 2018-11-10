@@ -12,7 +12,7 @@ import renetik.android.view.CSDialog
 import renetik.android.view.adapter.CSTextWatcherAdapter
 import renetik.android.viewbase.CSLayoutId
 import renetik.android.viewbase.CSView
-import renetik.java.collections.CSList
+import renetik.android.java.collections.CSList
 import renetik.android.lang.CSLang.NO
 import renetik.android.lang.CSLang.list
 import java.util.*
@@ -21,6 +21,7 @@ import java.util.Calendar.*
 fun CSView<*>.view(id: Int): View = item<View>(id).view
 fun CSView<*>.editText(id: Int): EditText = item<EditText>(id).view
 fun CSView<*>.textView(id: Int): TextView = item<TextView>(id).view
+fun CSView<*>.listView(id: Int) = item<ListView>(id).view
 fun CSView<*>.chip(id: Int): Chip = item<Chip>(id).view
 fun CSView<*>.chipGroup(id: Int): ChipGroup = item<ChipGroup>(id).view
 fun CSView<*>.radio(id: Int): RadioButton = item<RadioButton>(id).view
@@ -102,11 +103,9 @@ fun <V : View> CSView<V>.viewAsChildOf(parent: ViewGroup, layout: CSLayoutId): C
     return CSView<V>(parent, layout).apply { parent.addView(view) }
 }
 
-fun CSView<*>.dialog(title: String, onPositive: () -> Unit) = dialog(title).show { onPositive() }
-
 fun CSView<*>.dialog() = CSDialog(context())
 
-fun CSView<*>.dialog(title: String) = dialog().message(title)
+fun CSView<*>.dialog(message: String) = dialog().message(message)
 
 fun CSView<*>.dialog(title: String, message: String) = dialog().title(title).message(message)
 

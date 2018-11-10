@@ -1,7 +1,7 @@
 package renetik.android.view.menu;
 
 import renetik.android.viewbase.CSView;
-import renetik.java.callback.CSRunWith;
+import renetik.android.java.callback.CSRunWith;
 
 import static renetik.android.lang.CSLang.YES;
 import static renetik.android.lang.CSLang.run;

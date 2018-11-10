@@ -2,7 +2,7 @@ package renetik.android.view.list;
 
 import renetik.android.json.CSJsonData;
 import renetik.android.viewbase.CSLayoutId;
-import renetik.java.callback.CSRunWith;
+import renetik.android.java.callback.CSRunWith;
 
 /**
  * Created by renetik on 05/01/18.

@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import renetik.android.viewbase.CSView;
-import renetik.java.event.CSEvent;
+import renetik.android.java.event.CSEvent;
 
 public class CSSwipeDetector implements View.OnTouchListener {
 

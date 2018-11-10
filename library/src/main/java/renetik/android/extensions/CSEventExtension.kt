@@ -1,7 +1,7 @@
 package renetik.android.extensions
 
-import renetik.java.event.CSEvent
-import renetik.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.event.CSEvent
+import renetik.android.java.event.CSEvent.CSEventRegistration
 
 fun <T> CSEvent<T>.execute(function: (argument: T) -> Unit): CSEventRegistration {
     return this.add { _, arg -> function(arg) }

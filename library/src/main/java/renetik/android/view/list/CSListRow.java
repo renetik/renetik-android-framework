@@ -1,8 +1,8 @@
 package renetik.android.view.list;
 
 import renetik.android.json.CSJsonData;
-import renetik.java.collections.CSList;
-import renetik.java.lang.CSValues;
+import renetik.android.java.collections.CSList;
+import renetik.android.java.lang.CSValues;
 
 import static renetik.android.view.list.CSListRow.RowTypes.Row;
 import static renetik.android.view.list.CSListRow.RowTypes.SectionHeader;

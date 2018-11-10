@@ -3,8 +3,8 @@ package renetik.android.json
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.location.asLatLng
-import renetik.java.collections.CSList
-import renetik.java.collections.CSMap
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
 import renetik.android.lang.CSLang.list
 import java.io.File
 import kotlin.reflect.KClass

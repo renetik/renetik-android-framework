@@ -10,7 +10,7 @@ import java.util.List;
 
 import renetik.android.viewbase.CSView;
 import renetik.android.viewbase.CSViewController;
-import renetik.java.event.CSEvent;
+import renetik.android.java.event.CSEvent;
 
 import static android.view.Gravity.BOTTOM;
 import static android.view.Gravity.CENTER;

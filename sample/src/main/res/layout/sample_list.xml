@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSContainer">
+
+    <FrameLayout style="@style/MatchWrap">
+
+        <TextView
+            style="@style/MatchWrap"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Example sample list"
+            android:textAppearance="@style/CSListTitle"
+            android:textColor="@color/cs_white" />
+    </FrameLayout>
+
+    <FrameLayout style="@style/MatchFill">
+
+        <ListView
+            android:id="@+id/SampleList_List"
+            style="@style/Match"
+            android:theme="@android:style/Widget.Material.Light.ListView" />
+
+        <TextView
+            android:id="@+id/SampleList_ListEmpty"
+            style="@style/Wrap"
+            android:layout_gravity="center"
+            android:text="No items in list"
+            android:textAppearance="@style/CSHeadline6"
+            android:textColor="@color/cs_dark_grey_text" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/SampleList_BottomButton"
+        style="@style/MatchWrap"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Do something"
+        android:textAppearance="@style/CSOverline"
+        android:textColor="@color/cs_white" />
+
+</LinearLayout>

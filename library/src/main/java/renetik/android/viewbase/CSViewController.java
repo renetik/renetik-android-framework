@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -18,21 +17,22 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ActivityCompat;
+import renetik.android.java.callback.CSRun;
+import renetik.android.java.callback.CSRunWith;
+import renetik.android.java.collections.CSList;
+import renetik.android.java.collections.CSMap;
+import renetik.android.java.event.CSEvent;
+import renetik.android.java.event.CSEvent.CSEventRegistration;
+import renetik.android.java.event.CSEventRegistrations;
+import renetik.android.java.lang.CSValue;
+import renetik.android.view.CSNavigationController;
 import renetik.android.viewbase.menu.CSMenuItem;
 import renetik.android.viewbase.menu.CSOnMenu;
 import renetik.android.viewbase.menu.CSOnMenuItem;
-import renetik.java.callback.CSRun;
-import renetik.java.callback.CSRunWith;
-import renetik.java.collections.CSList;
-import renetik.java.collections.CSMap;
-import renetik.java.event.CSEvent;
-import renetik.java.event.CSEvent.CSEventRegistration;
-import renetik.java.event.CSEventRegistrations;
-import renetik.java.event.CSTask;
-import renetik.java.lang.CSValue;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.os.Build.VERSION.SDK_INT;
+import static renetik.android.java.lang.CSMath.randomInt;
 import static renetik.android.lang.CSLang.NO;
 import static renetik.android.lang.CSLang.YES;
 import static renetik.android.lang.CSLang.doLater;
@@ -46,10 +46,8 @@ import static renetik.android.lang.CSLang.no;
 import static renetik.android.lang.CSLang.run;
 import static renetik.android.lang.CSLang.set;
 import static renetik.android.lang.CSLang.warn;
-import static renetik.java.lang.CSMath.randomInt;
 
-public abstract class CSViewController<ViewType extends View> extends CSView<ViewType> implements CSIViewController {
-
+public abstract class CSViewController<ViewType extends View> extends CSView<ViewType> {
 
     private static boolean _startingActivity;
     private static CSViewController _root;
@@ -89,7 +87,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     private CSEventRegistrations _parentEventsTask;
     private int _viewId;
     private CSList<CSMenuItem> _menuItems = list();
-    private boolean _isResumeFirstTime = YES;
+    private boolean _isResumeFirstTime = NO;
     private Boolean _showingInContainer;
     private boolean _isBeforeCreate;
     private boolean _isShowing = NO;
@@ -100,21 +98,23 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     public CSViewController(AppCompatActivity activity, CSLayoutId layoutId) {
-        super(() -> activity, layoutId);
+        super(activity, layoutId);
+        _activity = activity;
         _startingActivity = NO;
         _parent = null;
     }
 
-    //taking view type from parent because it takes view from parent
-    public CSViewController(CSViewController<ViewType> parent) {
+    public CSViewController(CSViewController<?> parent) {
         super(parent);
         _parent = parent;
+        _activity = _parent.activity();
         parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
 
     public CSViewController(CSViewController<?> parent, int viewId) {
         super(parent);
         _parent = parent;
+        _activity = _parent.activity();
         _viewId = viewId;
         parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
@@ -122,14 +122,17 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     public CSViewController(CSViewController<?> parent, CSLayoutId layoutId) {
         super(parent, layoutId);
         _parent = parent;
+        _activity = _parent.activity();
         parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
 
-    public CSViewController(CSViewController<?> parent, ViewGroup viewGroup, CSLayoutId layout) {
-        super(viewGroup, layout);
+    public CSViewController(CSNavigationController parent, CSLayoutId layoutId) {
+        super(parent.getView(), layoutId);
         _parent = parent;
+        _activity = _parent.activity();
         parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
     }
+
 
     public static boolean isStartingActivity() {
         return _startingActivity;
@@ -145,14 +148,10 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     protected void onBeforeCreate(Bundle state) {
-        if (_isBeforeCreate)
-            throw exception("Already before created");
+        if (_isBeforeCreate) throw exception("Already before created");
         updateRoot();
-        if (is(parent())) {
-            setActivity(parent().activity());
-            initializeListeners();
-        } else if (!isRoot())
-            throw exception("No parent, No root");
+        if (is(parent())) initializeListeners();
+        else if (!isRoot()) throw exception("No parent, No root");
         _isBeforeCreate = YES;
         fire(onBeforeCreate, state);
     }
@@ -194,9 +193,9 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         updateRoot();
         _isResumed = true;
         _isPaused = false;
-        if (_isResumeFirstTime) onResumeFirstTime();
+        if (!_isResumeFirstTime) onResumeFirstTime();
         else onResumeRestore();
-        _isResumeFirstTime = NO;
+        _isResumeFirstTime = YES;
         fire(onResume);
         updateVisibilityChanged();
     }
@@ -252,10 +251,6 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     public void onDeinitialize(Bundle state) {
         if (isResumed() && !isPaused()) onPause();
         onStop();
-    }
-
-    public CSViewController asController() {
-        return this;
     }
 
     public void requestPermissions(List<String> permissions, final CSRun onGranted) {
@@ -435,10 +430,6 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         else activity().onBackPressed();
     }
 
-    protected <Argument> CSTask<Argument> listen(CSEvent<Argument> event) {
-        return new CSTask<>(this, event);
-    }
-
     public Intent intent() {
         return activity().getIntent();
     }
@@ -508,12 +499,6 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     protected void onHideByInViewController() {
-    }
-
-    protected void setActivity(AppCompatActivity activity) {
-        if (no(activity)) throw new NullPointerException();
-        _activity = activity;
-        setContext(activity);
     }
 
     private void updateRoot() {

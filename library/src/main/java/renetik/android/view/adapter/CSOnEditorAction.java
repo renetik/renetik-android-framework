@@ -5,7 +5,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import renetik.java.callback.CSRunWith;
+import renetik.android.java.callback.CSRunWith;
 
 import static renetik.android.lang.CSLang.empty;
 import static renetik.android.lang.CSLang.equalOne;

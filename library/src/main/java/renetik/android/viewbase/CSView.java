@@ -28,9 +28,8 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import renetik.android.CSContextInterface;
 import renetik.android.view.list.CSListController;
-import renetik.java.common.CSPoint;
+import renetik.android.java.common.CSPoint;
 
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
@@ -44,16 +43,12 @@ import static renetik.android.lang.CSLang.no;
 import static renetik.android.lang.CSLang.set;
 import static renetik.android.lang.CSLang.stringf;
 
-public class CSView<V extends View> extends CSContextController implements CSViewInterface {
+public class CSView<V extends View> extends CSContextController  {
 
     private CSView _viewField;
     private V _view;
     private CSLayoutId _layoutId;
     private ViewGroup _parentContainer;
-
-    public CSView(CSContextInterface context) {
-        super(context);
-    }
 
     public CSView(Context context) {
         super(context);
@@ -65,7 +60,7 @@ public class CSView<V extends View> extends CSContextController implements CSVie
         _layoutId = layoutId;
     }
 
-    public CSView(CSContextInterface parent, CSLayoutId layoutId) {
+    public CSView(Context parent, CSLayoutId layoutId) {
         this(parent);
         _layoutId = layoutId;
     }

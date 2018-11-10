@@ -3,7 +3,7 @@ package renetik.android.view.adapter;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 import renetik.android.view.CSPagerController;
-import renetik.java.callback.CSRunWith;
+import renetik.android.java.callback.CSRunWith;
 
 import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
 import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE;

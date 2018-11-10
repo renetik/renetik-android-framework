@@ -36,12 +36,19 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="Container">
+    <style name="CSContainer">
         <item name="android:background">@color/cs_white</item>
         <item name="android:orientation">vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <style name="CSNavigationContainer">
+        <item name="android:background">@color/cs_white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">false</item>
     </style>
 
 </resources>

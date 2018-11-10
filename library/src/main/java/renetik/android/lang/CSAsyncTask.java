@@ -1,7 +1,7 @@
 package renetik.android.lang;
 
 import android.os.AsyncTask;
-import renetik.java.callback.CSRun;
+import renetik.android.java.callback.CSRun;
 
 public abstract class CSAsyncTask<Argument, Progress, Result> extends
 		AsyncTask<Argument, Progress, Result> implements CSRun {

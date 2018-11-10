@@ -6,10 +6,10 @@ import android.view.View
 import renetik.android.R
 import renetik.android.R.id
 import renetik.android.R.layout
+import renetik.android.application
 import renetik.android.extensions.sendMail
 import renetik.android.extensions.view.*
 import renetik.android.viewbase.CSViewController
-import renetik.android.lang.CSLang.model
 
 const val sendLogMailKey = "send_log_mail"
 
@@ -28,13 +28,13 @@ class CSLogController(val navigation: CSNavigationController) :
         loadText()
     }
 
-    private fun loadText() = logText.title(model().logger().logString())
+    private fun loadText() = logText.title(application.logger.logString())
 
     private fun onSendLogClick() {
         navigation.dialog("Send application log", "Enter target email")
-                .showInput("Target email", model().store().loadString(sendLogMailKey, "")) { dialog ->
-                    model().store().put(sendLogMailKey, dialog.inputValue())
-                    sendMail(dialog.inputValue(), model().applicationName() +
+                .showInput("Target email", application.store.loadString(sendLogMailKey, "")) { dialog ->
+                    application.store.put(sendLogMailKey, dialog.inputValue())
+                    sendMail(dialog.inputValue(), application.name +
                             " This is log from application sent as email attachment for application developer"
                             , logText.title())
                 }

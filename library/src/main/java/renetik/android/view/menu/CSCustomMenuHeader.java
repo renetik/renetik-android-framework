@@ -1,6 +1,6 @@
 package renetik.android.view.menu;
 
-import renetik.java.collections.CSList;
+import renetik.android.java.collections.CSList;
 
 import static renetik.android.lang.CSLang.list;
 

@@ -1,7 +1,7 @@
 package renetik.android.extensions
 
-import renetik.java.collections.CSList
-import renetik.java.collections.CSListImpl
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSListImpl
 
 fun <T> List<T>.at(index: Int): T? {
     return if (index in 0..(size - 1)) get(index) else null

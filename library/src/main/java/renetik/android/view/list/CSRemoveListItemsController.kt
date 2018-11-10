@@ -16,7 +16,7 @@ class CSRemoveListItemsController<RowType, AbsListViewType : AbsListView>(
             .onClick { _ -> listController.checkAll() }
 
     init {
-        listMenu("Delete").onClick { _, items -> dialog(question) { onRemove.invoke(items) } }
+        listMenu("Delete").onClick { _, items -> dialog(question).show { onRemove.invoke(items) } }
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {

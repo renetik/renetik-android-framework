@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng
 import renetik.android.extensions.view.dialog
 import renetik.android.rpc.CSResponse
 import renetik.android.viewbase.CSViewController
-import renetik.java.collections.CSList
+import renetik.android.java.collections.CSList
 import renetik.android.lang.CSLang.*
 import java.io.File
 
@@ -41,7 +41,7 @@ fun <T : CSViewController<*>> T.checkPlayServices() {
         if (apiAvailability.isUserResolvableError(result))
             apiAvailability.getErrorDialog(activity(), result, PLAY_SERVICES_RESOLUTION_REQUEST).show()
         else
-            dialog("Google Play Services missing application cannot continue") { activity().finish() }
+            dialog("Google Play Services missing application cannot continue").show { activity().finish() }
     }
 }
 

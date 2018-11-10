@@ -1,7 +1,7 @@
 package renetik.android.viewbase;
 
 import android.view.KeyEvent;
-import renetik.java.lang.CSValue;
+import renetik.android.java.lang.CSValue;
 
 public class CSOnKeyDownResult {
 

@@ -17,19 +17,16 @@ fun <T : View> T.visible(): Boolean = visibility == VISIBLE
 
 fun <T : View> T.shown(): Boolean = isShown
 
-fun <T : View> T.visible(visible: Boolean): T {
+fun <T : View> T.visible(visible: Boolean) = apply {
     visibility = if (visible) VISIBLE else GONE
-    return this
 }
 
-fun <T : View> T.hide(): T {
+fun <T : View> T.hide() = apply {
     visibility = GONE
-    return this;
 }
 
-fun <T : View> T.show(): T {
+fun <T : View> T.show()= apply {
     visibility = VISIBLE
-    return this;
 }
 
 fun <T : View> T.fadeIn(): ViewPropertyAnimator? {
@@ -50,9 +47,8 @@ fun <T : View> T.fadeOut(): ViewPropertyAnimator? {
             })
 }
 
-fun <T : View> T.onClick(onClick: (view: T) -> Unit): T {
+fun <T : View> T.onClick(onClick: (view: T) -> Unit)= apply {
     setOnClickListener { onClick(this) }
-    return this
 }
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit) {

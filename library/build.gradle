@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions' // https://kotlinlang.org/docs/tutorials/android-plugin.html
 
 android {
     compileSdkVersion 28
@@ -10,18 +10,19 @@ android {
     }
     defaultConfig {
         minSdkVersion 21
+        targetSdkVersion 28
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.google.android.gms:play-services-base:15.0.1'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    implementation 'com.google.android.material:material:1.1.0-alpha01'
+    implementation 'com.google.android.gms:play-services-base:16.0.1'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation ("com.github.bumptech.glide:glide:4.8.0") {
         exclude group: "com.android.support"
@@ -30,5 +31,5 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.0-beta-3-SNAPSHOT'
 }
 
-apply from: 'bintray-upload.gradle'
+//apply from: 'bintray-upload.gradle'
 

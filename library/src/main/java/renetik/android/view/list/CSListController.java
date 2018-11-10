@@ -10,15 +10,15 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import renetik.android.java.callback.CSReturnWith;
+import renetik.android.java.callback.CSRunWithWith;
+import renetik.android.java.collections.CSList;
+import renetik.android.java.event.CSEvent;
 import renetik.android.lang.CSWork;
 import renetik.android.viewbase.CSView;
 import renetik.android.viewbase.CSViewController;
-import renetik.java.callback.CSReturnWith;
-import renetik.java.callback.CSRunWithWith;
-import renetik.java.collections.CSList;
-import renetik.java.event.CSEvent;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 import static android.os.SystemClock.uptimeMillis;
 import static android.view.MotionEvent.ACTION_CANCEL;
@@ -35,7 +35,7 @@ import static renetik.android.lang.CSLang.no;
 public class CSListController<RowType, T extends AbsListView> extends CSViewController<T> {
     public final CSEvent<List<RowType>> onLoad = event();
     private final CSList<RowType> _dataList = list();
-    private CSReturnWith<CSIRowView<RowType>, Integer> _createView;
+    private CSReturnWith<CSRowView<RowType>, Integer> _createView;
     private BaseAdapter _listAdapter = new CSListAdapter(this);
     private int _savedSelectionIndex;
     private int _firstVisiblePosition;
@@ -43,13 +43,13 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
     private CSView _emptyView;
     private boolean _firstLoad;
     private SparseBooleanArray _savedCheckedItems;
-    private CSRunWithWith<Integer, CSIRowView<RowType>> _onItemClick;
+    private CSRunWithWith<Integer, CSRowView<RowType>> _onItemClick;
     private CSReturnWith<Integer, Integer> _positionViewType;
-    private CSRunWithWith<Integer, CSIRowView<RowType>> _onItemLongClick;
+    private CSRunWithWith<Integer, CSRowView<RowType>> _onItemLongClick;
     private CSReturnWith<Boolean, Integer> _isEnabled;
     private CSWork _autoReload;
 
-    public CSListController(CSViewController parent, int listViewId, CSReturnWith<CSIRowView<RowType>, Integer> createView) {
+    public CSListController(CSViewController parent, int listViewId, CSReturnWith<CSRowView<RowType>, Integer> createView) {
         super(parent, listViewId);
         _createView = createView;
     }
@@ -58,7 +58,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
         super(parent, listViewId);
     }
 
-    public CSListController<RowType, T> onCreateView(CSReturnWith<CSIRowView<RowType>, Integer> createView) {
+    public CSListController<RowType, T> onCreateView(CSReturnWith<CSRowView<RowType>, Integer> createView) {
         _createView = createView;
         return this;
     }
@@ -97,7 +97,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
 
     @SuppressWarnings({"unchecked"})
     public View getRowView(int position, View view) {
-        CSIRowView<RowType> rowView;
+        CSRowView<RowType> rowView;
         if (no(view)) {
             rowView = createView(getItemViewType(position));
             view = rowView.getView();
@@ -108,8 +108,8 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
     }
 
     @SuppressWarnings({"unchecked"})
-    private CSIRowView<RowType> asRowView(View view) {
-        return (CSIRowView<RowType>) view.getTag();
+    private CSRowView<RowType> asRowView(View view) {
+        return (CSRowView<RowType>) view.getTag();
     }
 
     public CSListController<RowType, T> loadAdd(List<RowType> list) {
@@ -182,7 +182,7 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
         else _emptyView.hide();
     }
 
-    protected CSIRowView<RowType> createView(int viewType) {
+    protected CSRowView<RowType> createView(int viewType) {
         return _createView.invoke(viewType);
     }
 
@@ -212,12 +212,12 @@ public class CSListController<RowType, T extends AbsListView> extends CSViewCont
         return this;
     }
 
-    public CSListController<RowType, T> onItemClick(CSRunWithWith<Integer, CSIRowView<RowType>> onItemClick) {
+    public CSListController<RowType, T> onItemClick(CSRunWithWith<Integer, CSRowView<RowType>> onItemClick) {
         _onItemClick = onItemClick;
         return this;
     }
 
-    public CSListController<RowType, T> onItemLongClick(CSRunWithWith<Integer, CSIRowView<RowType>> onItemLongClick) {
+    public CSListController<RowType, T> onItemLongClick(CSRunWithWith<Integer, CSRowView<RowType>> onItemLongClick) {
         _onItemLongClick = onItemLongClick;
         return this;
     }

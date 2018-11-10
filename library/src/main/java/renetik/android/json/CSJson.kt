@@ -1,7 +1,7 @@
 package renetik.android.json
 
-import renetik.java.collections.CSList
-import renetik.java.collections.CSMap
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
 import renetik.android.lang.CSLang.*
 import org.json.JSONArray
 import org.json.JSONObject

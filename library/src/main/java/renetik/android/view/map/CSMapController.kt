@@ -11,8 +11,8 @@ import com.google.android.gms.maps.model.Marker
 import renetik.android.extensions.execute
 import renetik.android.location.asLatLng
 import renetik.android.viewbase.CSViewController
-import renetik.java.event.CSEvent
-import renetik.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.event.CSEvent
+import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.lang.CSLang.*
 
 open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent, null) {

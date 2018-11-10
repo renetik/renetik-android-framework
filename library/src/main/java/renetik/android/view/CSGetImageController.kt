@@ -10,12 +10,13 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.view.View
+import renetik.android.application
 import renetik.android.extensions.view.dialog
 import renetik.android.extensions.view.snackBarWarn
 import renetik.android.image.CSBitmap.resizeImage
+import renetik.android.lang.CSLang.*
 import renetik.android.viewbase.CSView
 import renetik.android.viewbase.CSViewController
-import renetik.android.lang.CSLang.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -24,7 +25,7 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
                                      private val onImageReady: (File) -> Unit) : CSViewController<T>(parent) {
 
     constructor(parent: CSViewController<T>, title: String, imagesDirName: String, onImageReady: (File) -> Unit) :
-            this(parent, title, File(File(model().dataDir(), "Pictures"), imagesDirName), onImageReady)
+            this(parent, title, File(File(application.filesDir, "Pictures"), imagesDirName), onImageReady)
 
     var selectPhoto = true
     var takePhoto = true

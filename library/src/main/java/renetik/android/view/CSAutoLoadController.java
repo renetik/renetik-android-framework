@@ -3,7 +3,7 @@ package renetik.android.view;
 import renetik.android.lang.CSWork;
 import renetik.android.rpc.CSResponse;
 import renetik.android.viewbase.CSViewController;
-import renetik.java.callback.CSReturn;
+import renetik.android.java.callback.CSReturn;
 
 import static renetik.android.lang.CSLang.MINUTE;
 import static renetik.android.lang.CSLang.schedule;

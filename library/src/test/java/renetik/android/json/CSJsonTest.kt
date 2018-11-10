@@ -3,7 +3,7 @@ package renetik.android.json
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.BuildConfig
 import renetik.android.extensions.trimNewLines
-import renetik.java.collections.CSMap
+import renetik.android.java.collections.CSMap
 import renetik.android.lang.CSLang.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

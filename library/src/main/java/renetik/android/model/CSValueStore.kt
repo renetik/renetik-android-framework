@@ -10,8 +10,8 @@ import renetik.android.json.createList
 import renetik.android.json.fromJson
 import renetik.android.json.toJson
 import renetik.android.viewbase.CSContextController
-import renetik.java.collections.CSList
-import renetik.java.collections.CSMap
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
 import renetik.android.lang.CSLang.*
 
 

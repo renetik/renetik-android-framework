@@ -1,9 +1,9 @@
 package renetik.android.json
 
 import renetik.android.viewbase.CSContextController
-import renetik.java.collections.CSList
-import renetik.java.collections.CSMap
-import renetik.java.event.CSEvent
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
+import renetik.android.java.event.CSEvent
 import renetik.android.lang.CSLang.*
 
 data class OnJsonDataValueChanged(val data: CSJsonData, val key: String, val value: Any?)

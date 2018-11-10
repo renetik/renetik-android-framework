@@ -1,8 +1,8 @@
 package renetik.android.xml.w3c.impl;
 
-import renetik.java.xml.w3c.CSElement;
-import renetik.java.xml.w3c.CSNamedNodeMap;
-import renetik.java.xml.w3c.CSNodeList;
+import renetik.android.java.xml.w3c.CSElement;
+import renetik.android.java.xml.w3c.CSNamedNodeMap;
+import renetik.android.java.xml.w3c.CSNodeList;
 
 public class CSW3CElement implements CSElement {
 

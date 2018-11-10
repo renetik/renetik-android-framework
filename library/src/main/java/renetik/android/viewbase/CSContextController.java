@@ -5,6 +5,7 @@ import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
@@ -37,16 +38,13 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import renetik.android.CSApplication;
-import renetik.android.CSContextInterface;
-import renetik.java.collections.CSList;
-import renetik.java.lang.Base;
+import renetik.android.CSApplicationKt;
+import renetik.android.java.collections.CSList;
 
 import static android.content.pm.PackageManager.GET_SIGNATURES;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.text.format.DateFormat.getDateFormat;
 import static android.text.format.DateFormat.getTimeFormat;
-import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static renetik.android.lang.CSLang.close;
 import static renetik.android.lang.CSLang.empty;
 import static renetik.android.lang.CSLang.error;
@@ -56,33 +54,23 @@ import static renetik.android.lang.CSLang.set;
 import static renetik.android.lang.CSLang.toStringArray;
 import static renetik.android.lang.CSLang.warn;
 
-public abstract class CSContextController extends Base implements CSContextInterface {
-
-    private Context _context;
+public abstract class CSContextController extends ContextWrapper {
 
     public CSContextController() {
-        _context = CSApplication.application();
+        super(CSApplicationKt.application);
     }
 
     public CSContextController(Context context) {
-        setContext(context);
-    }
-
-    public CSContextController(CSContextInterface context) {
-        setContext(context.context());
-    }
-
-    void setContext(Context context) {
-        this._context = context;
+        super(context);
     }
 
     public Context context() {
-        return _context;
+        return this;
     }
 
-    protected void unregisterReceiver(BroadcastReceiver receiver) {
+    public void unregisterReceiver(BroadcastReceiver receiver) {
         try {
-            context().unregisterReceiver(receiver);
+            super.unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
             warn(e);
         }
@@ -108,7 +96,7 @@ public abstract class CSContextController extends Base implements CSContextInter
 
     public PackageInfo getPackageInfo() {
         try {
-            return _context.getPackageManager().getPackageInfo(_context.getPackageName(), 0);
+            return getPackageManager().getPackageInfo(getPackageName(), 0);
         } catch (NameNotFoundException e) {
             return null;
         }
@@ -171,9 +159,9 @@ public abstract class CSContextController extends Base implements CSContextInter
         return ((BitmapDrawable) drawable).getBitmap();
     }
 
-    public Drawable getDrawable(int id) {
-        return ContextCompat.getDrawable(context(), id);
-    }
+//    public Drawable getDrawable(int id) {
+//        return ContextCompat.getDrawable(context(), id);
+//    }
 
     protected float getBatteryPercent() {
         Intent batteryStatus = context().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
@@ -235,10 +223,10 @@ public abstract class CSContextController extends Base implements CSContextInter
         return null;
     }
 
-    protected String getString(int id, Object... args) {
-        if (empty(id)) return "";
-        return String.format(context().getResources().getString(id), args);
-    }
+//    protected String getString(int id, Object... args) {
+//        if (empty(id)) return "";
+//        return String.format(context().getResources().getString(id), args);
+//    }
 
     protected CSList<String> getStringList(int id) {
         if (empty(id)) return list();
@@ -274,21 +262,19 @@ public abstract class CSContextController extends Base implements CSContextInter
         startService(new Intent(context(), serviceClass));
     }
 
-    protected void startService(Intent intent) {
-        context().startService(intent);
-    }
+//    protected void startService(Intent intent) {
+//        context().startService(intent);
+//    }
 
     protected void stopService(Class<? extends Service> serviceClass) {
         stopService(new Intent(context(), serviceClass));
     }
 
-    protected void stopService(Intent intent) {
-        context().stopService(intent);
-    }
+//    protected void stopService(Intent intent) {
+//        context().stopService(intent);
+//    }
 
-    protected void onDestroy() {
-        _context = null;
-    }
+    protected void onDestroy() {}
 
     protected String[] getDeniedPermissions(List<String> permissions) {
         List<String> deniedPermissions = list();
@@ -299,7 +285,7 @@ public abstract class CSContextController extends Base implements CSContextInter
     }
 
     protected boolean isPermissionGranted(String permission) {
-        return checkSelfPermission(context(), permission) != PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(context(), permission) != PERMISSION_GRANTED;
     }
 
     public boolean isPortrait() {

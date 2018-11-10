@@ -3,7 +3,7 @@ package renetik.android.viewbase.menu
 import android.view.MenuItem
 import renetik.android.lang.CSLang.NO
 import renetik.android.lang.CSLang.set
-import renetik.java.lang.CSValue
+import renetik.android.java.lang.CSValue
 
 class CSOnMenuItem(private val item: MenuItem) {
     val consumed = CSValue(false)

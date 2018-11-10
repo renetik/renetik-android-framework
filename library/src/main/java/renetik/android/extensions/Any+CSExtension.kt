@@ -1,6 +1,6 @@
 package renetik.android.extensions
 
-import renetik.java.collections.CSMap
+import renetik.android.java.collections.CSMap
 import renetik.android.lang.CSLang.*
 import kotlin.reflect.KClass
 

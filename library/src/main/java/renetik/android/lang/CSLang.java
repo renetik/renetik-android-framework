@@ -25,30 +25,30 @@ import java.util.Locale;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
-import renetik.android.CSApplication;
-import renetik.java.callback.CSRun;
-import renetik.java.callback.CSRunWith;
-import renetik.java.collections.CSIteration;
-import renetik.java.collections.CSIterator;
-import renetik.java.collections.CSLinkedMapImpl;
-import renetik.java.collections.CSList;
-import renetik.java.collections.CSListImpl;
-import renetik.java.collections.CSListIterator;
-import renetik.java.collections.CSMap;
-import renetik.java.collections.CSMapImpl;
-import renetik.java.collections.CSMapIterator;
-import renetik.java.collections.CSMapped;
-import renetik.java.event.CSEvent;
-import renetik.java.event.CSEventImpl;
-import renetik.java.lang.CSID;
-import renetik.java.lang.CSName;
-import renetik.java.lang.CSSizeInterface;
-import renetik.java.lang.CSStringBuilderWriter;
-import renetik.java.lang.CSText;
-import renetik.java.lang.CSTextInterface;
-import renetik.java.lang.CSValueInterface;
-import renetik.java.lang.CSValues;
+import renetik.android.java.callback.CSRun;
+import renetik.android.java.callback.CSRunWith;
+import renetik.android.java.collections.CSIteration;
+import renetik.android.java.collections.CSIterator;
+import renetik.android.java.collections.CSLinkedMapImpl;
+import renetik.android.java.collections.CSList;
+import renetik.android.java.collections.CSListImpl;
+import renetik.android.java.collections.CSListIterator;
+import renetik.android.java.collections.CSMap;
+import renetik.android.java.collections.CSMapImpl;
+import renetik.android.java.collections.CSMapIterator;
+import renetik.android.java.collections.CSMapped;
+import renetik.android.java.event.CSEvent;
+import renetik.android.java.event.CSEventImpl;
+import renetik.android.java.lang.CSID;
+import renetik.android.java.lang.CSName;
+import renetik.android.java.lang.CSSizeInterface;
+import renetik.android.java.lang.CSStringBuilderWriter;
+import renetik.android.java.lang.CSText;
+import renetik.android.java.lang.CSTextInterface;
+import renetik.android.java.lang.CSValueInterface;
+import renetik.android.java.lang.CSValues;
 
+import static renetik.android.CSApplicationKt.application;
 import static renetik.android.json.CSJsonKt.toJson;
 
 public class CSLang {
@@ -69,14 +69,9 @@ public class CSLang {
     public static final String NEWLINE = "\n";
     private static final String DEBUG_MODE = "DEBUG_MODE";
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
-    private static CSModel _model;
-
-    public static boolean isDebugBuild() {
-        return _model.isDebugBuild();
-    }
 
     public static void setDebug(boolean value) {
-        _model.store().put(DEBUG_MODE, value);
+        application.getStore().put(DEBUG_MODE, value);
     }
 
     public static <T extends CSID> String toIDs(List<T> hasIds) {
@@ -122,8 +117,8 @@ public class CSLang {
     }
 
     public static void toast(Object... messages) {
-        Toast.makeText(CSApplication.application(), stringify(" ", strings(messages)), Toast.LENGTH_LONG).show();
-        model().logger().info(messages);
+        Toast.makeText(application, stringify(" ", strings(messages)), Toast.LENGTH_LONG).show();
+        application.getLogger().info(messages);
     }
 
 
@@ -176,10 +171,6 @@ public class CSLang {
             throws IOException {
         InputStreamReader in = new InputStreamReader(input);
         copy(in, output);
-    }
-
-    public static CSModel model() {
-        return _model;
     }
 
     public static String stringify(String separator, String... values) {
@@ -266,7 +257,7 @@ public class CSLang {
     }
 
     public static void error(Throwable e, Object... values) {
-        model().logger().error(e, values);
+        application.getLogger().error(e, values);
     }
 
     public static boolean is(Object item) {
@@ -359,7 +350,7 @@ public class CSLang {
     }
 
     public static void error(Object... values) {
-        model().logger().error(values);
+        application.getLogger().error(values);
     }
 
     @NonNull
@@ -591,21 +582,16 @@ public class CSLang {
         return set(value);
     }
 
-    public static void setModel(CSModel model) {
-        _model = model;
-        CSDoLater.initialize();
-    }
-
     public static void infof(String format, Object... values) {
         info(stringf(format, values));
     }
 
     public static void info(Object... values) {
-        model().logger().info(values);
+        application.getLogger().info(values);
     }
 
     public static void debug(Object... values) {
-        model().logger().debug(values);
+        application.getLogger().debug(values);
     }
 
     public static <T> T info(T value) {
@@ -620,7 +606,7 @@ public class CSLang {
     }
 
     public static boolean isDebugMode() {
-        return _model.store().loadBoolean(DEBUG_MODE, false);
+        return application.getStore().loadBoolean(DEBUG_MODE, false);
     }
 
     public static int to1E6(double value) {
@@ -640,11 +626,11 @@ public class CSLang {
     }
 
     public static void warn(Object... values) {
-        model().logger().warn(values);
+        application.getLogger().warn(values);
     }
 
     public static void warn(Throwable e, Object... values) {
-        model().logger().warn(e, values);
+        application.getLogger().warn(e, values);
     }
 
     public static Object newInstance(String className) {

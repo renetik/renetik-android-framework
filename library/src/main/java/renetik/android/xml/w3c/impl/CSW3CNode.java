@@ -1,7 +1,7 @@
 package renetik.android.xml.w3c.impl;
 
-import renetik.java.xml.w3c.CSElement;
-import renetik.java.xml.w3c.CSNode;
+import renetik.android.java.xml.w3c.CSElement;
+import renetik.android.java.xml.w3c.CSNode;
 
 public class CSW3CNode implements CSNode {
 

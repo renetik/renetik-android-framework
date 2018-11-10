@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import renetik.android.viewbase.CSContextController;
-import renetik.java.callback.CSRunWith;
-import renetik.java.event.CSEvent;
-import renetik.java.event.CSEvent.CSEventRegistration;
-import renetik.java.event.CSListener;
+import renetik.android.java.callback.CSRunWith;
+import renetik.android.java.event.CSEvent;
+import renetik.android.java.event.CSEvent.CSEventRegistration;
+import renetik.android.java.event.CSListener;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 import static renetik.android.lang.CSLang.*;
