@@ -223,11 +223,6 @@ public abstract class CSContextController extends ContextWrapper {
         return null;
     }
 
-//    protected String getString(int id, Object... args) {
-//        if (empty(id)) return "";
-//        return String.format(context().getResources().getString(id), args);
-//    }
-
     protected CSList<String> getStringList(int id) {
         if (empty(id)) return list();
         return list(context().getResources().getStringArray(id));
@@ -240,7 +235,6 @@ public abstract class CSContextController extends ContextWrapper {
         for (Integer integer : intArray) list.add(integer);
         return list;
     }
-
 
     public InputStream openInputStream(Uri uri) {
         InputStream inputStream = null;
@@ -262,31 +256,11 @@ public abstract class CSContextController extends ContextWrapper {
         startService(new Intent(context(), serviceClass));
     }
 
-//    protected void startService(Intent intent) {
-//        context().startService(intent);
-//    }
-
     protected void stopService(Class<? extends Service> serviceClass) {
         stopService(new Intent(context(), serviceClass));
     }
 
-//    protected void stopService(Intent intent) {
-//        context().stopService(intent);
-//    }
-
     protected void onDestroy() {}
-
-    protected String[] getDeniedPermissions(List<String> permissions) {
-        List<String> deniedPermissions = list();
-        for (String permission : permissions)
-            if (isPermissionGranted(permission))
-                deniedPermissions.add(permission);
-        return toStringArray(deniedPermissions);
-    }
-
-    protected boolean isPermissionGranted(String permission) {
-        return ContextCompat.checkSelfPermission(context(), permission) != PERMISSION_GRANTED;
-    }
 
     public boolean isPortrait() {
         return context().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;

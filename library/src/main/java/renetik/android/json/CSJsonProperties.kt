@@ -2,10 +2,10 @@ package renetik.android.json
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.location.asLatLng
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.CSMap
 import renetik.android.lang.CSLang.list
+import renetik.android.location.asLatLng
 import java.io.File
 import kotlin.reflect.KClass
 
@@ -44,8 +44,8 @@ class CSJsonLocationProperty(val data: CSJsonData, private val key: String) {
 }
 
 @Suppress("unchecked_cast")
-class CSJsonListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<T>,
-                                         val key: String) {
+class CSJsonDataListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<T>,
+                                             val key: String) {
     var list: CSList<T>
         get() = createList(type.java, data.getList(key) as List<CSMap<String, Any?>>?)
         set(list) = list.forEach { item -> add(item) }
@@ -56,7 +56,24 @@ class CSJsonListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<
     fun add(item: T) = data.getList(key)?.add(item.getJsonDataMap())
             ?: data.put(key, list(item.getJsonDataMap()))
 
-    fun remove(item: T) = data.getList(key)?.remove(item.getJsonDataMap())
+    fun remove(item: T) = data.getList(key)?.delete(item.getJsonDataMap())
+    fun removeLast() = data.getList(key)?.removeLast()
+    fun size() = data.getList(key)?.size ?: let { 0 }
+}
+
+@Suppress("unchecked_cast")
+class CSJsonStringListProperty(val data: CSJsonData, val key: String) {
+    var list: CSList<String>
+        get() = data.getList(key) as CSList<String>
+        set(list) = data.put(key, list)
+
+    val last: String? get() = list.last()
+    val empty get() = size() == 0
+
+    fun add(item: String) = data.getList(key)?.add(item)
+            ?: data.put(key, list(item))
+
+    fun remove(item: String) = data.getList(key)?.delete(item)
     fun removeLast() = data.getList(key)?.removeLast()
     fun size() = data.getList(key)?.size ?: let { 0 }
 }

@@ -1,23 +1,39 @@
 <resources>
 
-    <style name="MatchWrap">
+    <style name="Layout">
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="MatchWrap" parent="Layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="WrapMatch">
+    <style name="WrapMatch" parent="Layout">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="Match">
+    <style name="Match" parent="Layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="Wrap">
+    <style name="Wrap" parent="Layout">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MatchFill" parent="Layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="FillMatch" parent="Layout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="FloatingActionButtonTop" parent="Wrap">
@@ -30,14 +46,9 @@
         <item name="android:layout_gravity">right|bottom</item>
     </style>
 
-    <style name="MatchFill">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">1</item>
-    </style>
 
     <style name="CSContainer">
-        <item name="android:background">@color/cs_white</item>
+        <!--<item name="android:background">@color/cs_white</item>-->
         <item name="android:orientation">vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

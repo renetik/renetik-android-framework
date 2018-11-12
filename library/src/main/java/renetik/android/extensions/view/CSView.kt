@@ -18,25 +18,25 @@ import renetik.android.lang.CSLang.list
 import java.util.*
 import java.util.Calendar.*
 
-fun CSView<*>.view(id: Int): View = item<View>(id).view
-fun CSView<*>.editText(id: Int): EditText = item<EditText>(id).view
-fun CSView<*>.textView(id: Int): TextView = item<TextView>(id).view
-fun CSView<*>.listView(id: Int) = item<ListView>(id).view
-fun CSView<*>.chip(id: Int): Chip = item<Chip>(id).view
-fun CSView<*>.chipGroup(id: Int): ChipGroup = item<ChipGroup>(id).view
-fun CSView<*>.radio(id: Int): RadioButton = item<RadioButton>(id).view
-fun CSView<*>.radioGroup(id: Int): RadioGroup = item<RadioGroup>(id).view
-fun CSView<*>.datePicker(id: Int): DatePicker = item<DatePicker>(id).view
-fun CSView<*>.frame(id: Int): FrameLayout = item<FrameLayout>(id).view
-fun CSView<*>.linearLayout(id: Int): LinearLayout = item<LinearLayout>(id).view
-fun CSView<*>.viewGroup(id: Int): ViewGroup = item<ViewGroup>(id).view
-fun CSView<*>.spinner(id: Int): Spinner = item<Spinner>(id).view
-fun CSView<*>.button(id: Int): Button = item<Button>(id).view
-fun CSView<*>.compoundButton(id: Int): CompoundButton = item<CompoundButton>(id).view
-fun CSView<*>.floatingButton(id: Int): FloatingActionButton = item<FloatingActionButton>(id).view
-fun CSView<*>.timePicker(id: Int): TimePicker = item<TimePicker>(id).view
-fun CSView<*>.webView(id: Int): WebView = item<WebView>(id).view
-fun CSView<*>.imageView(id: Int): ImageView = item<ImageView>(id).view
+fun CSView<*>.view(id: Int): View = findView<View>(id)
+fun CSView<*>.editText(id: Int): EditText = findView(id)
+fun CSView<*>.textView(id: Int): TextView = findView(id)
+fun CSView<*>.listView(id: Int): ListView = findView(id)
+fun CSView<*>.chip(id: Int): Chip = findView(id)
+fun CSView<*>.chipGroup(id: Int): ChipGroup = findView(id)
+fun CSView<*>.radio(id: Int): RadioButton = findView(id)
+fun CSView<*>.radioGroup(id: Int): RadioGroup = findView(id)
+fun CSView<*>.datePicker(id: Int): DatePicker = findView(id)
+fun CSView<*>.frame(id: Int): FrameLayout = findView(id)
+fun CSView<*>.linearLayout(id: Int): LinearLayout = findView(id)
+fun CSView<*>.viewGroup(id: Int): ViewGroup = findView(id)
+fun CSView<*>.spinner(id: Int): Spinner = findView(id)
+fun CSView<*>.button(id: Int): Button = findView(id)
+fun CSView<*>.compoundButton(id: Int): CompoundButton = findView(id)
+fun CSView<*>.floatingButton(id: Int): FloatingActionButton = findView(id)
+fun CSView<*>.timePicker(id: Int): TimePicker = findView(id)
+fun CSView<*>.webView(id: Int): WebView = findView(id)
+fun CSView<*>.imageView(id: Int): ImageView = findView(id)
 
 fun CSView<*>.visible(): Boolean = isVisible(view)
 

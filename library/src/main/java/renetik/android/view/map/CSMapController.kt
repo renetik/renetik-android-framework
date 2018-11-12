@@ -8,11 +8,11 @@ import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import renetik.android.extensions.execute
 import renetik.android.location.asLatLng
 import renetik.android.viewbase.CSViewController
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.event.execute
 import renetik.android.lang.CSLang.*
 
 open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent, null) {
@@ -119,7 +119,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
 
     fun onMapAvailable(onMapReady: (GoogleMap) -> Unit): CSEventRegistration? {
         map?.let { onMapReady(it) } ?: let {
-            return onMapReadyEvent.add { registration, map ->
+            return onMapReadyEvent.run { registration, map ->
                 onMapReady(map)
                 registration.cancel()
             }

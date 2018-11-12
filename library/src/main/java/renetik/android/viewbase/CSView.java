@@ -104,7 +104,7 @@ public class CSView<V extends View> extends CSContextController  {
         return LayoutInflater.from(context()).inflate(layoutId, parent, NO);
     }
 
-    public View findView(int id) {
+    public <T extends View> T findView(int id) {
         return getView().findViewById(id);
     }
 
@@ -436,61 +436,6 @@ public class CSView<V extends View> extends CSContextController  {
     public <T extends View> CSView<T> item(int id) {
         return (CSView<T>) item(findView(id));
     }
-
-    public CSView<View> itemOld(int id) {
-        return item(id);
-    }
-
-//    public CSView<V> image(String url) {
-//        if (empty(url)) return this;
-//        picassoImage(url).into(asImageView());
-//        return this;
-//    }
-
-//    private RequestCreator picassoImage(String url) {
-//        RequestCreator creator = Picasso.with(context()).load(url).fit().centerCrop();
-//        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
-//        return creator;
-//    }
-
-//    public CSView<V> image(Drawable drawable) {
-//        asImageView().setImageDrawable(drawable);
-//        return this;
-//    }
-
-//    public CSView<V> image(int resId) {
-//        if (set(resId)) Picasso.with(context()).load(resId).into(asImageView());
-//        return this;
-//    }
-
-//    public CSView<V> image(String url, int width) {
-//        if (empty(url)) return this;
-//        RequestCreator creator = Picasso.with(context()).load(url);
-//        if (!isNetworkConnected()) creator.networkPolicy(OFFLINE);
-//        creator.resize(width, 0).centerInside().into(asImageView());
-//        return this;
-//    }
-
-//    public void image(File file, int width) {
-//        Picasso.with(context()).load(file).resize(width, 0).centerInside().into(asImageView());
-//    }
-
-//    public CSView<V> image(File file) {
-//        Picasso.with(context()).load(file).into(asImageView());
-//        return this;
-//    }
-
-    public void focusable(boolean focusable) {
-        getView().setFocusable(focusable);
-    }
-
-//    public CSView<V> image(File file, boolean memCache, int targetWidth) {
-//        RequestCreator creator = Picasso.with(context()).load(file).resize(targetWidth, 0).centerInside();
-//        if (!memCache)
-//            creator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
-//        creator.into(asImageView());
-//        return this;
-//    }
 
     public CSView<V> text(int resId, Object... formatArgs) {
         asTextView().setText(stringf(stringRes(resId), formatArgs));

@@ -5,15 +5,20 @@ import android.content.Intent
 import android.content.Intent.*
 import android.net.Uri
 import android.net.Uri.parse
+import android.os.Build.VERSION.SDK_INT
 import android.os.Environment.getExternalStorageDirectory
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.extensions.view.dialog
+import renetik.android.java.collections.CSList
+import renetik.android.java.lang.CSMath.randomInt
+import renetik.android.lang.CSLang.*
 import renetik.android.rpc.CSResponse
 import renetik.android.viewbase.CSViewController
-import renetik.android.java.collections.CSList
-import renetik.android.lang.CSLang.*
 import java.io.File
 
 fun <T : CSViewController<*>> T.navigateToLatLng(latLng: LatLng, title: String) {
@@ -71,8 +76,52 @@ fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String
     }
 }
 
-fun CSViewController<*>.showResponse(title: String, response: CSResponse<*>): CSResponse<out Any> {
+fun CSViewController<*>.response(title: String, response: CSResponse<*>): CSResponse<out Any> {
     val dialog = dialog(title).showIndeterminateProgress { response.cancel() }
     return response.onFailed { dialog(title, "Operation failed").show() }.onDone { dialog.hide() }
+}
+
+
+fun CSViewController<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {
+    requestPermissions(permissions, onGranted, null)
+}
+
+fun CSViewController<*>.requestPermissionsWithForce(permissions: List<String>, onGranted: () -> Unit) {
+    requestPermissions(permissions, onGranted, { requestPermissionsWithForce(permissions, onGranted) })
+}
+
+fun CSViewController<*>.requestPermissions(permissions: List<String>,
+                                           onGranted: () -> Unit, onNotGranted: (() -> Unit)?) {
+    if (SDK_INT < 23) {
+        onGranted()
+        return
+    }
+    val deniedPermissions = getDeniedPermissions(permissions)
+    if (set(deniedPermissions)) {
+        val MY_PERMISSIONS_REQUEST = randomInt(0, 999)
+        ActivityCompat.requestPermissions(activity(), deniedPermissions, MY_PERMISSIONS_REQUEST)
+        onRequestPermissionsResult.run { registration, results ->
+            if (results.requestCode == MY_PERMISSIONS_REQUEST) {
+                registration.cancel()
+                for (status in results.statuses) if (PERMISSION_GRANTED != status) {
+                    onNotGranted?.invoke()
+                    return@run
+                }
+                onGranted()
+            }
+        }
+    } else onGranted()
+}
+
+fun CSViewController<*>.getDeniedPermissions(permissions: List<String>): Array<String> {
+    val deniedPermissions = list<String>()
+    for (permission in permissions)
+        if (isPermissionGranted(permission))
+            deniedPermissions.add(permission)
+    return toStringArray(deniedPermissions)
+}
+
+fun CSViewController<*>.isPermissionGranted(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(context(), permission) != PERMISSION_GRANTED
 }
 

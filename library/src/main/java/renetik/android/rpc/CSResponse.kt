@@ -1,7 +1,7 @@
 package renetik.android.rpc
 
-import renetik.android.extensions.execute
 import renetik.android.extensions.string
+import renetik.android.java.event.execute
 import renetik.android.viewbase.CSContextController
 import renetik.android.lang.CSLang
 import renetik.android.lang.CSLang.*

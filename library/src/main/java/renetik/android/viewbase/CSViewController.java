@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.app.ActivityCompat;
 import renetik.android.java.callback.CSRun;
 import renetik.android.java.callback.CSRunWith;
 import renetik.android.java.collections.CSList;
@@ -30,9 +29,7 @@ import renetik.android.viewbase.menu.CSMenuItem;
 import renetik.android.viewbase.menu.CSOnMenu;
 import renetik.android.viewbase.menu.CSOnMenuItem;
 
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static android.os.Build.VERSION.SDK_INT;
-import static renetik.android.java.lang.CSMath.randomInt;
+import static kotlin.Unit.INSTANCE;
 import static renetik.android.lang.CSLang.NO;
 import static renetik.android.lang.CSLang.YES;
 import static renetik.android.lang.CSLang.doLater;
@@ -43,7 +40,6 @@ import static renetik.android.lang.CSLang.fire;
 import static renetik.android.lang.CSLang.is;
 import static renetik.android.lang.CSLang.list;
 import static renetik.android.lang.CSLang.no;
-import static renetik.android.lang.CSLang.run;
 import static renetik.android.lang.CSLang.set;
 import static renetik.android.lang.CSLang.warn;
 
@@ -108,7 +104,10 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         super(parent);
         _parent = parent;
         _activity = _parent.activity();
-        parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
+        parent.onBeforeCreate.run((registration, argument) -> {
+            onBeforeCreate(argument);
+            return INSTANCE;
+        });
     }
 
     public CSViewController(CSViewController<?> parent, int viewId) {
@@ -116,21 +115,30 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         _parent = parent;
         _activity = _parent.activity();
         _viewId = viewId;
-        parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
+        parent.onBeforeCreate.run((registration, argument) -> {
+            onBeforeCreate(argument);
+            return INSTANCE;
+        });
     }
 
     public CSViewController(CSViewController<?> parent, CSLayoutId layoutId) {
         super(parent, layoutId);
         _parent = parent;
         _activity = _parent.activity();
-        parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
+        parent.onBeforeCreate.run((registration, argument) -> {
+            onBeforeCreate(argument);
+            return INSTANCE;
+        });
     }
 
     public CSViewController(CSNavigationController parent, CSLayoutId layoutId) {
         super(parent.getView(), layoutId);
         _parent = parent;
         _activity = _parent.activity();
-        parent.onBeforeCreate.add((registration, argument) -> onBeforeCreate(argument));
+        parent.onBeforeCreate.run((registration, argument) -> {
+            onBeforeCreate(argument);
+            return INSTANCE;
+        });
     }
 
 
@@ -253,39 +261,8 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         onStop();
     }
 
-    public void requestPermissions(List<String> permissions, final CSRun onGranted) {
-        requestPermissions(permissions, onGranted, null);
-    }
-
     public ContextThemeWrapper context(int theme) {
         return new ContextThemeWrapper(context(), theme);
-    }
-
-    public void requestPermissionsWithForce(List<String> permissions, final CSRun onGranted) {
-        requestPermissions(permissions, onGranted, () -> requestPermissionsWithForce(permissions, onGranted));
-    }
-
-    public void requestPermissions(List<String> permissions, CSRun onGranted, CSRun onNotGranted) {
-        if (SDK_INT < 23) {
-            run(onGranted);
-            return;
-        }
-        String[] deniedPermissions = getDeniedPermissions(permissions);
-        if (set(deniedPermissions)) {
-            final int MY_PERMISSIONS_REQUEST = randomInt(0, 999);
-            ActivityCompat.requestPermissions(activity(), deniedPermissions, MY_PERMISSIONS_REQUEST);
-            onRequestPermissionsResult.add((registration, arg) -> {
-                if (arg.requestCode == MY_PERMISSIONS_REQUEST) {
-                    registration.cancel();
-                    for (int result : arg.grantResults)
-                        if (PERMISSION_GRANTED != result) {
-                            run(onNotGranted);
-                            return;
-                        }
-                    run(onGranted);
-                }
-            });
-        } else run(onGranted);
     }
 
     public void startActivityForUri(Uri uri, CSRunWith<ActivityNotFoundException> onActivityNotFound) {
@@ -309,27 +286,90 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
             throw exception("Already initialized with parent");
         CSViewController<?> parent = _parent;
         return _parentEventsTask = new CSEventRegistrations(
-                parent.onCreate.add((registration, argument) -> onCreate(argument)),
-                parent.onStart.add((registration, argument) -> onStart()),
-                parent.onResume.add((registration, argument) -> onResume()),
-                parent.onPause.add((registration, argument) -> onPause()),
-                parent.onStop.add((registration, argument) -> onStop()),
-                parent.onDestroy.add((registration, argument) -> onDestroy()),
-                parent.onBack.add((registration, argument) -> onBack(argument)),
-                parent.onActivityResult.add((registration, argument) -> onActivityResult(argument)),
-                parent.onCreateOptionsMenu.add((registration, argument) -> onCreateOptionsMenu(argument)),
-                parent.onOptionsItemSelected.add((registration, argument) -> onOptionsItemSelectedImpl(argument)),
-                parent.onPrepareOptionsMenu.add((registration, argument) -> onPrepareOptionsMenuImpl(argument)),
-                parent.onKeyDown.add((registration, argument) -> onKeyDown(argument)),
-                parent.onNewIntent.add((registration, argument) -> onNewIntent(argument)),
-                parent.onUserLeaveHint.add((registration, argument) -> onUserLeaveHint()),
-                parent.onLowMemory.add((registration, argument) -> onLowMemory()),
-                parent.onConfigurationChanged.add((registration, argument) -> onConfigurationChanged(argument)),
-                parent.onRequestPermissionsResult.add((registration, argument) -> onRequestPermissionsResult(argument)),
-                parent.onInViewControllerShow.add((registration, argument) -> onInViewControllerShow(argument)),
-                parent.onInViewControllerHide.add((registration, argument) -> onInViewControllerHide(argument)),
-                parent.onSaveInstanceState.add((registration, argument) -> onSaveInstanceState(argument)),
-                parent.onViewVisibilityChanged.add((registration, argument) -> updateVisibilityChanged())
+                parent.onCreate.run((registration, argument) -> {
+                    onCreate(argument);
+                    return INSTANCE;
+                }),
+                parent.onStart.run((registration, argument) -> {
+                    onStart();
+                    return INSTANCE;
+                }),
+                parent.onResume.run((registration, argument) -> {
+                    onResume();
+                    return INSTANCE;
+                }),
+                parent.onPause.run((registration, argument) -> {
+                    onPause();
+                    return INSTANCE;
+                }),
+                parent.onStop.run((registration, argument) -> {
+                    onStop();
+                    return INSTANCE;
+                }),
+                parent.onDestroy.run((registration, argument) -> {
+                    onDestroy();
+                    return INSTANCE;
+                }),
+                parent.onBack.run((registration, argument) -> {
+                    onBack(argument);
+                    return INSTANCE;
+                }),
+                parent.onActivityResult.run((registration, argument) -> {
+                    onActivityResult(argument);
+                    return INSTANCE;
+                }),
+                parent.onCreateOptionsMenu.run((registration, argument) -> {
+                    onCreateOptionsMenu(argument);
+                    return INSTANCE;
+                }),
+                parent.onOptionsItemSelected.run((registration, argument) -> {
+                    onOptionsItemSelectedImpl(argument);
+                    return INSTANCE;
+                }),
+                parent.onPrepareOptionsMenu.run((registration, argument) -> {
+                    onPrepareOptionsMenuImpl(argument);
+                    return INSTANCE;
+                }),
+                parent.onKeyDown.run((registration, argument) -> {
+                    onKeyDown(argument);
+                    return INSTANCE;
+                }),
+                parent.onNewIntent.run((registration, argument) -> {
+                    onNewIntent(argument);
+                    return INSTANCE;
+                }),
+                parent.onUserLeaveHint.run((registration, argument) -> {
+                    onUserLeaveHint();
+                    return INSTANCE;
+                }),
+                parent.onLowMemory.run((registration, argument) -> {
+                    onLowMemory();
+                    return INSTANCE;
+                }),
+                parent.onConfigurationChanged.run((registration, argument) -> {
+                    onConfigurationChanged(argument);
+                    return INSTANCE;
+                }),
+                parent.onRequestPermissionsResult.run((registration, argument) -> {
+                    onRequestPermissionsResult(argument);
+                    return INSTANCE;
+                }),
+                parent.onInViewControllerShow.run((registration, argument) -> {
+                    onInViewControllerShow(argument);
+                    return INSTANCE;
+                }),
+                parent.onInViewControllerHide.run((registration, argument) -> {
+                    onInViewControllerHide(argument);
+                    return INSTANCE;
+                }),
+                parent.onSaveInstanceState.run((registration, argument) -> {
+                    onSaveInstanceState(argument);
+                    return INSTANCE;
+                }),
+                parent.onViewVisibilityChanged.run((registration, argument) -> {
+                    updateVisibilityChanged();
+                    return INSTANCE;
+                })
         );
     }
 

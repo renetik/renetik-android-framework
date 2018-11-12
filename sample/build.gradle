@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions' // https://kotlinlang.org/docs/tutorials/android-plugin.html
 
 android {
     compileSdkVersion 28
@@ -18,12 +17,9 @@ android {
 }
 
 dependencies {
-    implementation project(':renetik-android/library')
+    implementation project(':renetik-android:library')
 //    implementation project(':library')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-}
-repositories {
-    mavenCentral()
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
 }

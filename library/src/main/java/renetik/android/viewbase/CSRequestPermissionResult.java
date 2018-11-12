@@ -4,11 +4,11 @@ public class CSRequestPermissionResult {
 
     public final int requestCode;
     public final String[] _permissions;
-    public final int[] grantResults;
+    public final int[] statuses;
 
-    public CSRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+    public CSRequestPermissionResult(int requestCode, String[] permissions, int[] permisionResults) {
         this.requestCode = requestCode;
         _permissions = permissions;
-        this.grantResults = grantResults;
+        this.statuses = permisionResults;
     }
 }

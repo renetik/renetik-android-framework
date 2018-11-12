@@ -4,9 +4,9 @@ import android.util.Log
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import renetik.android.application
+import renetik.android.java.lang.CSTextInterface
 import renetik.android.lang.CSLang.*
 import renetik.android.viewbase.CSContextController
-import renetik.android.java.lang.CSTextInterface
 import java.text.DateFormat
 import java.util.*
 
@@ -62,7 +62,7 @@ class CrashlyticsLogger() : CSContextController(), CSLogger {
         return logText.toString()
     }
 
-    override fun warn(vararg values: Any) {
+    override fun warn(vararg values: Any?) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Warn: $message")
 //        Log.w(model.applicationName(), message)
@@ -70,7 +70,7 @@ class CrashlyticsLogger() : CSContextController(), CSLogger {
         if (isDebugMode()) toast(message)
     }
 
-    override fun warn(e: Throwable, vararg values: Any) {
+    override fun warn(e: Throwable, vararg values: Any?) {
         val message = createMessage(*values)
         addMemoryMessage(message.addSpace().add(createTraceString(e)))
 //        Log.w(model.applicationName(), message.toString(), e)
@@ -83,7 +83,7 @@ class CrashlyticsLogger() : CSContextController(), CSLogger {
         if (logText.length > maxLogSize) logText.cut(0, MB)
     }
 
-    private fun createMessage(vararg values: Any): CSTextInterface {
+    private fun createMessage(vararg values: Any?): CSTextInterface {
         val message = textBuilder()
         for (string in values) message.add(string).addSpace()
         return message

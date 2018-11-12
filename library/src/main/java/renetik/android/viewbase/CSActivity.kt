@@ -125,9 +125,9 @@ abstract class CSActivity : AppCompatActivity() {
         return onMenuItem.consumed.value
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        controller?.onRequestPermissionsResult(CSRequestPermissionResult(requestCode, permissions, grantResults))
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, results: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, results)
+        controller?.onRequestPermissionsResult(CSRequestPermissionResult(requestCode, permissions, results))
     }
 
     abstract fun createController(): CSViewController<*>

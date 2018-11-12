@@ -23,8 +23,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import androidx.annotation.NonNull;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import renetik.android.java.callback.CSRun;
 import renetik.android.java.callback.CSRunWith;
 import renetik.android.java.collections.CSIteration;
@@ -303,6 +306,13 @@ public class CSLang {
 
     public static CSDoLater doLater(int delayMilliseconds, final Runnable runnable) {
         return new CSDoLater(runnable, delayMilliseconds);
+    }
+
+    public static <T> Function1<T, Unit> fromConsumer(Consumer<T> callable) {
+        return t -> {
+            callable.accept(t);
+            return Unit.INSTANCE;
+        };
     }
 
     public static CSDoLater doLater(final Runnable runnable) {

@@ -56,14 +56,14 @@ class Logger() : CSContextController(), CSLogger {
         return logText.toString()
     }
 
-    override fun warn(vararg values: Any) {
+    override fun warn(vararg values: Any?) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Warn: $message")
         Log.w(application.name, message)
         if (isDebugMode()) toast(message)
     }
 
-    override fun warn(e: Throwable, vararg values: Any) {
+    override fun warn(e: Throwable, vararg values: Any?) {
         val message = createMessage(*values)
         addMemoryMessage(message.addSpace().add(createTraceString(e)))
         Log.w(application.name, message.toString(), e)
@@ -75,9 +75,9 @@ class Logger() : CSContextController(), CSLogger {
         if (logText.length > maxLogSize) logText.cut(0, MB)
     }
 
-    private fun createMessage(vararg values: Any): CSTextInterface {
+    private fun createMessage(vararg values: Any?): CSTextInterface {
         val message = textBuilder()
-        for (string in values) message.add(string).addSpace()
+        for (string in values)  message.add(string).addSpace()
         return message
     }
 

@@ -64,7 +64,7 @@ class CSJsonTest {
 }
 
 class HouseJsonDataTest : CSJsonData() {
-    val floors = CSJsonListProperty(this, FlorJsonDataTest::class, "floors")
+    val floors = CSJsonDataListProperty(this, FlorJsonDataTest::class, "floors")
     val title = CSJsonStringProperty(this, "title")
     val location = CSJsonLocationProperty(this, "location")
 }

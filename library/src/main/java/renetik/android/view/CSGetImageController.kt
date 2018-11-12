@@ -11,6 +11,7 @@ import android.provider.MediaStore.EXTRA_OUTPUT
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.view.View
 import renetik.android.application
+import renetik.android.extensions.requestPermissions
 import renetik.android.extensions.view.dialog
 import renetik.android.extensions.view.snackBarWarn
 import renetik.android.image.CSBitmap.resizeImage
@@ -37,9 +38,8 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
     }
 
     override fun show(): CSView<T> {
-        requestPermissions(list(CAMERA, WRITE_EXTERNAL_STORAGE),
-                { onPermissionsGranted() },
-                { snackBarWarn("Some permissions not granted for taking photos") })
+        requestPermissions(list(CAMERA, WRITE_EXTERNAL_STORAGE), { onPermissionsGranted() },
+                onNotGranted = { snackBarWarn("Some permissions not granted for taking photos") })
         return this
     }
 
@@ -64,7 +64,7 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
     private fun onSelectPhoto() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        onActivityResult.add { registration, result ->
+        onActivityResult.run { registration, result ->
             if (result.isOK(requestCode)) onImageSelected(openInputStream(result.data.data))
             registration.cancel()
         }
@@ -74,7 +74,7 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
     private fun onTakePhoto() {
         val intent = Intent(ACTION_IMAGE_CAPTURE)
         intent.putExtra(EXTRA_OUTPUT, photoURI)
-        onActivityResult.add { registration, result ->
+        onActivityResult.run { registration, result ->
             if (result.isOK(requestCode)) onImageSelected(openInputStream(photoURI))
             registration.cancel()
         }

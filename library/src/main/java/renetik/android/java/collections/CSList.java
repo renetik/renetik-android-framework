@@ -22,12 +22,6 @@ public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
     boolean getHasItems();
 
-    /**
-     * @deprecated Use {@link #index}
-     */
-    @Deprecated
-    int indexOf(Object arg0);
-
     boolean isLast(T item);
 
     boolean isLastIndex(int index);
@@ -47,12 +41,6 @@ public interface CSList<T> extends java.util.List<T>, CSValues<T> {
 
     @NotNull
     CSList<T> range(int fromIndex, int toIndex);
-
-    /**
-     * @deprecated Use {@link #delete}
-     */
-    @Deprecated
-    boolean remove(Object arg0);
 
     T removeLast();
 

@@ -15,7 +15,7 @@ class CSConcurrentResponse(private val responses: CSList<CSResponse<*>>) : CSRes
     }
 
     private fun onResponseSuccess(response: CSResponse<*>) {
-        if (runningResponses.apply { remove(response) }.isEmpty())
+        if (runningResponses.apply { delete(response) }.isEmpty())
             success(list<Any>().apply { responses.forEach { add(it.data) } })
     }
 
