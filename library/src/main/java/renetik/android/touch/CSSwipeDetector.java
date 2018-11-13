@@ -1,7 +1,7 @@
 package renetik.android.touch;
 
+import static renetik.android.java.event.CSEventKt.fire;
 import static renetik.android.lang.CSLang.event;
-import static renetik.android.lang.CSLang.fire;
 import static renetik.android.lang.CSLang.info;
 import android.view.MotionEvent;
 import android.view.View;

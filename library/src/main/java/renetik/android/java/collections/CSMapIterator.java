@@ -3,7 +3,8 @@ package renetik.android.java.collections;
 import java.util.List;
 import java.util.Map;
 
-import static renetik.android.lang.CSLang.list;
+import static renetik.android.java.collections.CSListKt.list;
+
 
 public class CSMapIterator<K, V> extends CSIterator<CSMapped<K, V>> implements CSMapped<K, V> {
 

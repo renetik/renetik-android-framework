@@ -2,11 +2,7 @@ package renetik.android.view.menu;
 
 import renetik.android.java.collections.CSList;
 
-import static renetik.android.lang.CSLang.list;
-
-/**
- * Created by renetik on 25/12/17.
- */
+import static renetik.android.java.collections.CSListKt.list;
 
 public class CSCustomMenuHeader {
     private CSList<CSCustomMenuItem> _items = list();

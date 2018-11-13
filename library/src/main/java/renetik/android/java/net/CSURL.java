@@ -9,8 +9,8 @@ import renetik.android.java.lang.CSKeyValue;
 import renetik.android.java.lang.CSTextInterface;
 import renetik.android.lang.CSLang;
 
+import static renetik.android.java.collections.CSListKt.list;
 import static renetik.android.lang.CSLang.iterate;
-import static renetik.android.lang.CSLang.list;
 import static renetik.android.lang.CSLang.map;
 import static renetik.android.lang.CSLang.textBuilder;
 import static renetik.android.lang.CSLang.urlEncode;

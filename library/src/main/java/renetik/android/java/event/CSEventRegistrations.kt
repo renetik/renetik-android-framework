@@ -1,9 +1,8 @@
 package renetik.android.java.event
 
+import renetik.android.java.collections.list
 import renetik.android.java.event.CSEvent.CSEventRegistration
-
 import renetik.android.lang.CSLang.YES
-import renetik.android.lang.CSLang.list
 
 class CSEventRegistrations() {
 

@@ -34,7 +34,6 @@ import renetik.android.java.collections.CSIteration;
 import renetik.android.java.collections.CSIterator;
 import renetik.android.java.collections.CSLinkedMapImpl;
 import renetik.android.java.collections.CSList;
-import renetik.android.java.collections.CSListImpl;
 import renetik.android.java.collections.CSListIterator;
 import renetik.android.java.collections.CSMap;
 import renetik.android.java.collections.CSMapImpl;
@@ -52,6 +51,7 @@ import renetik.android.java.lang.CSValueInterface;
 import renetik.android.java.lang.CSValues;
 
 import static renetik.android.CSApplicationKt.application;
+import static renetik.android.java.collections.CSListKt.list;
 import static renetik.android.json.CSJsonKt.toJson;
 
 public class CSLang {
@@ -106,7 +106,7 @@ public class CSLang {
     }
 
     public static <T extends CSName> CSList<String> toNames(CSValues<T> listData) {
-        return toNames((List<T>) (is(listData) ? listData.values() : CSLang.<T>list()));
+        return toNames((List<T>) (is(listData) ? listData.values() : list()));
     }
 
     private static <T extends CSName> CSList<String> toNames(List<T> listData) {
@@ -378,34 +378,6 @@ public class CSLang {
         return new RuntimeException(stringf(format, arguments));
     }
 
-    public static <T> T fire(CSEvent<T> event, T argument) {
-        event.fire(argument);
-        return argument;
-    }
-
-    public static void fire(CSEvent<Void> eventVoid) {
-        eventVoid.fire(null);
-    }
-
-    public static void fire(CSRun eventVoid) {
-        if (is(eventVoid)) eventVoid.run();
-    }
-
-    public static <T> T first(T[] items) {
-        return list(items).first();
-    }
-
-    @NonNull
-    public static <T> CSList<T> list(T... items) {
-        CSList<T> list = list();
-        add(list, items);
-        return list;
-    }
-
-    @NonNull
-    public static <T> CSList<T> list() {
-        return new CSListImpl<>();
-    }
 
     public static <T> void add(CSList<T> list, T... items) {
         Collections.addAll(list, items);
@@ -491,12 +463,6 @@ public class CSLang {
         return new CSListIterator<>(list(items));
     }
 
-    public static <T> CSList<T> list(Iterable<T> items) {
-        CSList<T> list = list();
-        if (is(items)) for (T item : items)
-            list.add(item);
-        return list;
-    }
 
     public static <K, V> CSIteration<CSMapped<K, V>> iterate(java.util.Map<K, V> map) {
         return new CSMapIterator<>(map);
@@ -506,20 +472,12 @@ public class CSLang {
         return iterate(list(items));
     }
 
-    public static <T> CSIterator<T> iterate(CSList<T> items) {
-        return new CSListIterator<>(list(items));
-    }
-
     public static CSIteration<View> iterate(final ViewGroup layout) {
         return new CSIterator<View>(layout.getChildCount()) {
             public View getCurrent() {
                 return layout.getChildAt(index());
             }
         };
-    }
-
-    public static <T> T last(T[] items) {
-        return list(items).last();
     }
 
     public static <K, V> CSLinkedMapImpl<K, V> linkedMap() {

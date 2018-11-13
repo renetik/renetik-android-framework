@@ -3,10 +3,9 @@ package renetik.android.java.collections;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
-import static renetik.android.lang.CSLang.empty;
 import static java.util.Arrays.asList;
+import static renetik.android.lang.CSLang.empty;
 
 public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
 
@@ -129,9 +128,9 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return this;
     }
 
-    public CSList<T> append(List<T> items) {
+    public CSList<T> append(Iterable<? extends T> items) {
         if (empty(items)) return this;
-        addAll(items);
+        for (T item : items) add(item);
         return this;
     }
 
@@ -140,13 +139,21 @@ public class CSListImpl<T> extends ArrayList<T> implements CSList<T> {
         return this;
     }
 
-    public CSList<T> reload(List<T> values) {
+    public CSList<T> reload(Iterable<? extends T> values) {
         clear();
-        addAll(values);
+        append(values);
         return this;
     }
 
     public CSList<T> values() {
         return this;
+    }
+
+    public T removeAt(int index) {
+        return remove(index);
+    }
+
+    public int getSize() {
+        return size();
     }
 }

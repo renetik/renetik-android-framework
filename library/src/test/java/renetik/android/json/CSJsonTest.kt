@@ -11,12 +11,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import renetik.android.java.collections.CSList
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, manifest = "src/main/AndroidManifest.xml")
 class CSJsonTest {
 
-    private val mapTest1 = map("id", 1, "isTrue", YES, "list", list("litItem1", "litItem2", "litItem3"))
+    private val mapTest1 = map("id", 1, "isTrue", YES, "list", CSList.list("litItem1", "litItem2", "litItem3"))
     private val jsonTest1 = """{"isTrue":true,"id":1,"list":["litItem1","litItem2","litItem3"]}"""
 
     @Test
@@ -30,7 +31,7 @@ class CSJsonTest {
         assertEquals("litItem2", (map["list"] as? List<*>)?.get(1))
     }
 
-    private val mapTest2 = map("id", 1, "isTrue", YES, 1, list("litItem1", Object(), "litItem3"))
+    private val mapTest2 = map("id", 1, "isTrue", YES, 1, CSList.list("litItem1", Object(), "litItem3"))
     private val jsonTest2 = """{"isTrue":true,"1":["litItem1","java.lang.Object@"""
 
     @Test

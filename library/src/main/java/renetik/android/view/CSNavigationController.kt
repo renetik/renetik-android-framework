@@ -1,18 +1,18 @@
 package renetik.android.view
 
 import android.view.View
-import android.view.ViewGroup.LayoutParams
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
+import com.airbnb.paris.extensions.style
 import renetik.android.R
 import renetik.android.application
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
 import renetik.android.lang.CSLang.*
 import renetik.android.viewbase.CSViewController
 import renetik.android.viewbase.menu.CSOnMenuItem
-import renetik.android.java.collections.CSList
 
 open class CSNavigationController(activity: AppCompatActivity)
     : CSViewController<FrameLayout>(activity) {
@@ -20,7 +20,8 @@ open class CSNavigationController(activity: AppCompatActivity)
     open var controllers: CSList<CSViewController<*>> = list()
 
     init {
-        view = FrameLayout(ContextThemeWrapper(this.context(), R.style.CSNavigationContainer))
+//        view = FrameLayout(ContextThemeWrapper(this.context(), R.style.CSNavigationContainer))
+        view = FrameLayout(context()).apply { style(R.style.CSNavigationContainer) }
     }
 
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {

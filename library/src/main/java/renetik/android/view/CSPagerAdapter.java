@@ -1,13 +1,13 @@
 package renetik.android.view;
 
-import androidx.viewpager.widget.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import renetik.android.viewbase.CSViewController;
+import androidx.viewpager.widget.PagerAdapter;
 import renetik.android.java.collections.CSList;
+import renetik.android.viewbase.CSViewController;
 
-import static renetik.android.lang.CSLang.list;
+import static renetik.android.java.collections.CSListKt.list;
 
 public class CSPagerAdapter<T extends CSViewController & CSPagerPage> extends PagerAdapter {
 

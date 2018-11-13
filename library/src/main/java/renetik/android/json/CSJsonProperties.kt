@@ -4,7 +4,7 @@ import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.CSMap
-import renetik.android.lang.CSLang.list
+import renetik.android.java.collections.list
 import renetik.android.location.asLatLng
 import java.io.File
 import kotlin.reflect.KClass

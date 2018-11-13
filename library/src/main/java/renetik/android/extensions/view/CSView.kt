@@ -13,8 +13,8 @@ import renetik.android.view.adapter.CSTextWatcherAdapter
 import renetik.android.viewbase.CSLayoutId
 import renetik.android.viewbase.CSView
 import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
 import renetik.android.lang.CSLang.NO
-import renetik.android.lang.CSLang.list
 import java.util.*
 import java.util.Calendar.*
 

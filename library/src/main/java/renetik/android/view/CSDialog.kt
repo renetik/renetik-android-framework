@@ -31,6 +31,12 @@ class CSDialog(context: Context) : CSContextController(context) {
                 .negativeText(R.string.cs_dialog_cancel)
     }.show()
 
+    fun show(positiveText: String, onPositive: (CSDialog) -> Unit,
+             onNegative: (CSDialog) -> Unit) = apply {
+        builder.positiveText(positiveText).onPositive { _, _ -> onPositive(this) }
+                .negativeText(R.string.cs_dialog_cancel).onNegative { _, _ -> onNegative(this) }
+    }.show()
+
     fun show(onPositive: (CSDialog) -> Unit) = apply {
         builder.positiveText(R.string.cs_dialog_ok).onPositive { _, _ -> onPositive(this) }
                 .negativeText(R.string.cs_dialog_cancel)

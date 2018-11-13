@@ -6,8 +6,8 @@ import java.util.Iterator;
 import renetik.android.java.collections.CSIterator;
 import renetik.android.java.collections.CSList;
 
+import static renetik.android.java.collections.CSListKt.list;
 import static renetik.android.lang.CSLang.NEWLINE;
-import static renetik.android.lang.CSLang.list;
 import static renetik.android.lang.CSLang.stringify;
 
 public class CSText implements CSTextInterface {

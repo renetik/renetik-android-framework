@@ -9,6 +9,7 @@ import android.widget.AbsListView.OnScrollListener
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import android.widget.ListView
+import renetik.android.java.event.fire
 import renetik.android.lang.CSLang.*
 import renetik.android.viewbase.CSView
 import renetik.android.viewbase.CSViewController
@@ -16,7 +17,7 @@ import renetik.android.viewbase.CSViewController
 class CSListLoadNextController(parent: CSListController<*, *>, loadViewLayout: Int)
     : CSViewController<View>(parent) {
 
-    val onLoadNext = event<Void>()
+    val onLoadNext = event<Unit>()
     private val loadView = CSView<View>(this, CSView.layout(loadViewLayout))
     private var scrollListener: EndlessScrollListener? = null
     private var loading = false

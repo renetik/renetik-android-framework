@@ -1,7 +1,7 @@
 package renetik.android.lang;
 
+import static renetik.android.java.collections.CSListKt.list;
 import static renetik.android.lang.CSLang.doLater;
-import static renetik.android.lang.CSLang.list;
 import renetik.android.java.collections.CSList;
 import renetik.android.java.callback.CSRun;
 

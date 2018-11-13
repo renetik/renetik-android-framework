@@ -15,9 +15,10 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.extensions.view.dialog
 import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
 import renetik.android.java.lang.CSMath.randomInt
 import renetik.android.lang.CSLang.*
-import renetik.android.rpc.CSResponse
+import renetik.android.rpc.CSRequest
 import renetik.android.viewbase.CSViewController
 import java.io.File
 
@@ -76,11 +77,15 @@ fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String
     }
 }
 
-fun CSViewController<*>.response(title: String, response: CSResponse<*>): CSResponse<out Any> {
-    val dialog = dialog(title).showIndeterminateProgress { response.cancel() }
-    return response.onFailed { dialog(title, "Operation failed").show() }.onDone { dialog.hide() }
+fun <Data : Any> CSViewController<*>.sendRequest(title: String, request: CSRequest<Data>): CSRequest<Data> {
+    val progress = dialog(title).showIndeterminateProgress { request.cancel() }
+    val response = request.send()
+    response.onDone { progress.hide() }.onFailed {
+        dialog(title, "Operation failed").show("Retry",{ sendRequest(title, request) },
+                { request.cancel() })
+    }
+    return request
 }
-
 
 fun CSViewController<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {
     requestPermissions(permissions, onGranted, null)

@@ -20,14 +20,14 @@ class Logger() : CSContextController(), CSLogger {
         if (sizeAboveLowMemoryMax > 0) logText.cut(0, sizeAboveLowMemoryMax)
     }
 
-    override fun error(vararg values: Any) {
+    override fun error(vararg values: Any?) {
         val message = createMessage(*values).toString()
         addMemoryMessage("Error: $message")
         Log.e(application.name, message)
         if (isDebugMode()) toast(message)
     }
 
-    override fun error(e: Throwable, vararg values: Any) {
+    override fun error(e: Throwable, vararg values: Any?) {
         val message = createMessage(*values)
         addMemoryMessage("Error: " + message.addSpace().add(createTraceString(e)))
         val messageString = message.toString()
@@ -35,7 +35,7 @@ class Logger() : CSContextController(), CSLogger {
         if (isDebugMode()) toast(messageString)
     }
 
-    override fun info(vararg values: Any) {
+    override fun info(vararg values: Any?) {
         val message = createMessage(*values).toString()
         addMemoryMessage(message)
         Log.i(application.name, message)
@@ -46,7 +46,7 @@ class Logger() : CSContextController(), CSLogger {
         Toast.makeText(application, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun debug(vararg values: Any) {
+    override fun debug(vararg values: Any?) {
         val message = createMessage(*values).toString()
         if (isDebugMode()) addMemoryMessage(message)
         Log.d(application.name, message)

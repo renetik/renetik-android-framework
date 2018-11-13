@@ -1,9 +1,5 @@
 package renetik.android.sample.view
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.CAMERA
-import renetik.android.extensions.view.dialog
-import renetik.android.lang.CSLang.list
 import renetik.android.view.CSNavigationController
 import renetik.android.viewbase.CSActivity
 import renetik.android.viewbase.CSViewController

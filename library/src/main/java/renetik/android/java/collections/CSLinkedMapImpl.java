@@ -2,15 +2,15 @@ package renetik.android.java.collections;
 
 import java.util.Map;
 
-import static renetik.android.lang.CSLang.list;
+import static renetik.android.java.collections.CSListKt.list;
 
 public class CSLinkedMapImpl<K, V> extends java.util.LinkedHashMap<K, V> implements CSLinkedMap<K, V> {
 
-    public CSLinkedMapImpl(Map<? extends K, ? extends V> m){
+    public CSLinkedMapImpl(Map<? extends K, ? extends V> m) {
         super(m);
     }
 
-    public CSLinkedMapImpl(){
+    public CSLinkedMapImpl() {
     }
 
 

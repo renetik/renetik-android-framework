@@ -6,6 +6,7 @@ import renetik.android.lang.CSLang.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
+import renetik.android.java.collections.list
 import kotlin.collections.set
 
 fun <T : CSJsonData> createList(type: Class<T>, dataList: List<CSMap<String, Any?>>?): CSList<T> {

@@ -1,5 +1,6 @@
 package renetik.android.java.event
 
+import renetik.android.java.collections.list
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.lang.Base
 import renetik.android.lang.CSLang.*

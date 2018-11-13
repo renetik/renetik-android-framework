@@ -34,7 +34,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -42,16 +41,14 @@ import renetik.android.CSApplicationKt;
 import renetik.android.java.collections.CSList;
 
 import static android.content.pm.PackageManager.GET_SIGNATURES;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.text.format.DateFormat.getDateFormat;
 import static android.text.format.DateFormat.getTimeFormat;
+import static renetik.android.java.collections.CSListKt.list;
 import static renetik.android.lang.CSLang.close;
 import static renetik.android.lang.CSLang.empty;
 import static renetik.android.lang.CSLang.error;
 import static renetik.android.lang.CSLang.is;
-import static renetik.android.lang.CSLang.list;
 import static renetik.android.lang.CSLang.set;
-import static renetik.android.lang.CSLang.toStringArray;
 import static renetik.android.lang.CSLang.warn;
 
 public abstract class CSContextController extends ContextWrapper {
@@ -260,7 +257,8 @@ public abstract class CSContextController extends ContextWrapper {
         stopService(new Intent(context(), serviceClass));
     }
 
-    protected void onDestroy() {}
+    protected void onDestroy() {
+    }
 
     public boolean isPortrait() {
         return context().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;

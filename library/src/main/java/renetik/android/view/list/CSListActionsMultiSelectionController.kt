@@ -7,11 +7,11 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.ListView.CHOICE_MODE_MULTIPLE_MODAL
+import renetik.android.java.collections.list
 import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.menu.CSOnMenuItem
 import renetik.android.viewbase.menu.CSOnMenu
+import renetik.android.viewbase.menu.CSOnMenuItem
 import renetik.android.viewbase.menu.GeneratedMenuItems
-import renetik.android.lang.CSLang.list
 
 open class CSListActionsMultiSelectionController<RowType, AbsListViewType : AbsListView>(
         parent: CSViewController<*>,
@@ -20,7 +20,7 @@ open class CSListActionsMultiSelectionController<RowType, AbsListViewType : AbsL
 
     private var menuItems = list<CSListMenuItem<RowType>>()
 
-    protected fun listMenu(title: String) =  menuItems.put(CSListMenuItem<RowType>(this, title))
+    protected fun listMenu(title: String) = menuItems.put(CSListMenuItem<RowType>(this, title))
 
     override fun onCreate() {
         super.onCreate()

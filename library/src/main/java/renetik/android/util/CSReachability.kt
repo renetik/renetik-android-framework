@@ -8,7 +8,6 @@ import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import renetik.android.extensions.NO
 import renetik.android.extensions.YES
 import renetik.android.java.event.event
-import renetik.android.java.event.fire
 import renetik.android.lang.CSLang.asString
 import renetik.android.viewbase.CSContextController
 
@@ -28,6 +27,7 @@ class CSReachability : CSContextController() {
 
     fun start(): CSReachability {
         if (!started) {
+            @Suppress("DEPRECATION")
             context().registerReceiver(receiver, IntentFilter(CONNECTIVITY_ACTION))
             started = YES
         }
@@ -45,14 +45,14 @@ class CSReachability : CSContextController() {
     private fun onNetworkStateChange() {
         if (isNetworkConnected) onNetworkConnected()
         else onNetworkDisconnected()
-        fire(eventOnStateChanged, this)
+        eventOnStateChanged.fire(this)
     }
 
     protected fun onNetworkConnected() {
-        fire(eventOnConnected, this)
+        eventOnConnected.fire(this)
     }
 
     protected fun onNetworkDisconnected() {
-        fire(eventOnDisConnected, this)
+        eventOnDisConnected.fire(this)
     }
 }

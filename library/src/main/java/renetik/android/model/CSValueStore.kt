@@ -5,14 +5,16 @@ import renetik.android.extensions.primitives.asDouble
 import renetik.android.extensions.primitives.asFloat
 import renetik.android.extensions.primitives.asInt
 import renetik.android.extensions.primitives.asLong
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
+import renetik.android.java.collections.list
 import renetik.android.json.CSJsonData
 import renetik.android.json.createList
 import renetik.android.json.fromJson
 import renetik.android.json.toJson
+import renetik.android.lang.CSLang.empty
+import renetik.android.lang.CSLang.no
 import renetik.android.viewbase.CSContextController
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.CSMap
-import renetik.android.lang.CSLang.*
 
 
 @Suppress("unchecked_cast")
@@ -66,12 +68,8 @@ class CSValueStore(name: String) : CSContextController() {
         null
     }
 
-    fun <T : Any> loadList(key: String): CSList<T> {
-        val list = list<T>()
-        val dataList = loadJson(key) as CSList<T?>?
-        dataList?.forEach { data -> list.put(data) }
-        return list
-    }
+    fun <T : Any> loadList(key: String) = list<T>()
+            .apply { (loadJson(key) as? CSList<T>)?.forEach { data -> put(data) } }
 
     fun <T : CSJsonData> loadDataList(type: Class<T>, key: String) =
             createList(type, loadJson(key) as CSList<CSMap<String, Any?>>?)

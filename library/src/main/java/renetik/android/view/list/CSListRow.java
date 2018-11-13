@@ -1,13 +1,13 @@
 package renetik.android.view.list;
 
-import renetik.android.json.CSJsonData;
 import renetik.android.java.collections.CSList;
 import renetik.android.java.lang.CSValues;
+import renetik.android.json.CSJsonData;
 
+import static renetik.android.java.collections.CSListKt.list;
 import static renetik.android.view.list.CSListRow.RowTypes.Row;
 import static renetik.android.view.list.CSListRow.RowTypes.SectionHeader;
 import static renetik.android.view.list.CSListRow.RowTypes.SectionSpace;
-import static renetik.android.lang.CSLang.list;
 
 /**
  * Created by renetik on 08/12/17.

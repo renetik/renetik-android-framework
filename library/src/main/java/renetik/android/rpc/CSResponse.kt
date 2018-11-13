@@ -1,25 +1,34 @@
 package renetik.android.rpc
 
+import renetik.android.extensions.YES
 import renetik.android.extensions.string
+import renetik.android.java.collections.list
+import renetik.android.java.event.event
 import renetik.android.java.event.execute
-import renetik.android.viewbase.CSContextController
-import renetik.android.lang.CSLang
 import renetik.android.lang.CSLang.*
+import renetik.android.lang.info
+import renetik.android.viewbase.CSContextController
 
 open class CSResponse<Data : Any> : CSContextController {
-    private val eventSuccess = CSLang.event<CSResponse<Data>>()
-    private val eventFailed = CSLang.event<CSResponse<*>>()
-    private val eventDone = CSLang.event<CSResponse<Data>>()
-    val onProgress = CSLang.event<CSResponse<Data>>()
+    private val eventSuccess = event<CSResponse<Data>>()
+    fun onSuccess(function: (CSResponse<Data>) -> Unit) = apply { eventSuccess.execute(function) }
+
+    private val eventFailed = event<CSResponse<*>>()
+    fun onFailed(function: (CSResponse<*>) -> Unit) = apply { eventFailed.execute(function) }
+
+    private val eventDone = event<CSResponse<Data>>()
+    fun onDone(function: (CSResponse<Data>) -> Unit) = apply { eventDone.execute(function) }
+
+    val onProgress = event<CSResponse<Data>>()
     var progress: Long = 0
         set(progress) {
             field = progress
             onProgress.fire(this)
         }
-    var isSuccess: Boolean = false
-    var isFailed: Boolean = false
-    var isDone: Boolean = false
-    var isCanceled: Boolean = false
+    var isSuccess = false
+    var isFailed = false
+    var isDone = false
+    var isCanceled = false
     var url: String? = null
     var title: String? = null
     lateinit var data: Data
@@ -58,7 +67,7 @@ open class CSResponse<Data : Any> : CSContextController {
         if (isSuccess) error(exception("already success"))
         if (isDone) error(exception("already done"))
         isSuccess = YES
-        fire(eventSuccess, this)
+        eventSuccess.fire(this)
     }
 
     fun failed(response: CSResponse<*>) {
@@ -74,7 +83,7 @@ open class CSResponse<Data : Any> : CSContextController {
         return this
     }
 
-    fun failed(exception: Exception?, message: String) {
+    fun failed(exception: Throwable?, message: String?) {
         if (isCanceled) return
         this.exception = exception
         this.failedMessage = message
@@ -108,22 +117,7 @@ open class CSResponse<Data : Any> : CSContextController {
             return
         }
         isDone = YES
-        fire(eventDone, this)
-    }
-
-    fun onSuccess(function: (argument: CSResponse<Data>) -> Unit): CSResponse<Data> {
-        eventSuccess.execute(function)
-        return this
-    }
-
-    fun onFailed(function: (argument: CSResponse<*>) -> Unit): CSResponse<Data> {
-        eventFailed.execute(function)
-        return this
-    }
-
-    fun onDone(function: (argument: CSResponse<Data>) -> Unit): CSResponse<Data> {
-        eventDone.execute(function)
-        return this
+        eventDone.fire(this)
     }
 }
 

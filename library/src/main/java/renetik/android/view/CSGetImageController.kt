@@ -15,6 +15,7 @@ import renetik.android.extensions.requestPermissions
 import renetik.android.extensions.view.dialog
 import renetik.android.extensions.view.snackBarWarn
 import renetik.android.image.CSBitmap.resizeImage
+import renetik.android.java.collections.list
 import renetik.android.lang.CSLang.*
 import renetik.android.viewbase.CSView
 import renetik.android.viewbase.CSViewController
