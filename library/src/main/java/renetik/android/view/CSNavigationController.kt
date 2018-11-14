@@ -4,7 +4,6 @@ import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.ContextThemeWrapper
 import com.airbnb.paris.extensions.style
 import renetik.android.R
 import renetik.android.application
@@ -20,14 +19,13 @@ open class CSNavigationController(activity: AppCompatActivity)
     open var controllers: CSList<CSViewController<*>> = list()
 
     init {
-//        view = FrameLayout(ContextThemeWrapper(this.context(), R.style.CSNavigationContainer))
-        view = FrameLayout(context()).apply { style(R.style.CSNavigationContainer) }
+        view = FrameLayout(this).apply { style(R.style.CSNavigationContainer) }
     }
 
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
         if (controllers.hasItems) controllers.last()?.setShowingInContainer(NO)
         controllers.put(controller)
-        controller.view.startAnimation(loadAnimation(context(), R.anim.abc_slide_in_top))
+        controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_in_top))
         add(controller)
         controller.setShowingInContainer(YES)
         controller.initialize(state)
@@ -40,7 +38,7 @@ open class CSNavigationController(activity: AppCompatActivity)
 
     fun pop() {
         val controller = controllers.removeLast()
-        controller.view.startAnimation(loadAnimation(context(), R.anim.abc_slide_out_top))
+        controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_out_top))
         controller.setShowingInContainer(NO)
         controller.onDeinitialize(state)
         removeView(controller)
@@ -53,14 +51,14 @@ open class CSNavigationController(activity: AppCompatActivity)
 
     fun <T : View> pushAsLast(controller: CSViewController<T>): CSViewController<T> {
         val lastController = controllers.removeLast()
-        lastController.view.startAnimation(loadAnimation(context(), R.anim.abc_fade_out))
+        lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
         lastController.setShowingInContainer(NO)
         lastController.onDeinitialize(state)
         removeView(lastController)
         lastController.onDestroy()
 
         controllers.put(controller)
-        controller.view.startAnimation(loadAnimation(context(), R.anim.abc_fade_in))
+        controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
         add(controller)
         controller.setShowingInContainer(YES)
         controller.initialize(state)

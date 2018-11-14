@@ -30,7 +30,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     fun onMarkerInfoClick(function: (Marker) -> Unit) = onInfoWindowClick.execute(function)
 
     init {
-        view = MapView(this.context(), options)
+        view = MapView(this, options)
     }
 
     override fun onCreate(state: Bundle?) {

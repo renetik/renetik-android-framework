@@ -59,7 +59,7 @@ abstract class CSActivity : AppCompatActivity() {
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         controller = createController()
-        controller?.view//TODO
+//        controller?.view//TODO its ok removed ?
         controller?.onBeforeCreate(state)
         setContentView(controller?.view)
         controller?.onCreate(state)

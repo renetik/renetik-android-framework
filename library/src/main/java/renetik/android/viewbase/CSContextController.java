@@ -61,10 +61,6 @@ public abstract class CSContextController extends ContextWrapper {
         super(context);
     }
 
-    public Context context() {
-        return this;
-    }
-
     public void unregisterReceiver(BroadcastReceiver receiver) {
         try {
             super.unregisterReceiver(receiver);
@@ -79,7 +75,7 @@ public abstract class CSContextController extends ContextWrapper {
 
     public String getAppKeyHash() {
         try {
-            PackageInfo info = context().getPackageManager().getPackageInfo(context().getPackageName(), GET_SIGNATURES);
+            PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), GET_SIGNATURES);
             if (set(info.signatures)) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(info.signatures[0].toByteArray());
@@ -102,7 +98,7 @@ public abstract class CSContextController extends ContextWrapper {
     @NonNull
     public String stringRes(int id) {
         if (empty(id)) return "";
-        return context().getResources().getString(id);
+        return this.getResources().getString(id);
     }
 
     public String getStringResource(int id) {
@@ -111,7 +107,7 @@ public abstract class CSContextController extends ContextWrapper {
 
     public String getStringResource(int id, String encoding) {
         try {
-            return new String(getResource(id, context()), encoding);
+            return new String(getResource(id, this), encoding);
         } catch (UnsupportedEncodingException e) {
             error(e);
             return null;
@@ -142,7 +138,7 @@ public abstract class CSContextController extends ContextWrapper {
     }
 
     public int dimension(int id) {
-        return (int) context().getResources().getDimension(id);
+        return (int) this.getResources().getDimension(id);
     }
 
     public boolean isNetworkConnected() {
@@ -161,23 +157,18 @@ public abstract class CSContextController extends ContextWrapper {
 //    }
 
     protected float getBatteryPercent() {
-        Intent batteryStatus = context().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        Intent batteryStatus = this.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         return level / (float) scale;
     }
 
     public int color(int color) {
-        return ContextCompat.getColor(context(), color);
+        return ContextCompat.getColor(this, color);
     }
 
     public <T> T service(String serviceName, Class<T> serviceClass) {
-        return (T) context().getSystemService(serviceName);
-    }
-
-    public void hideKeyboard(IBinder windowToken) {
-        InputMethodManager service = service(Context.INPUT_METHOD_SERVICE, InputMethodManager.class);
-        service.hideSoftInputFromWindow(windowToken, 0);
+        return (T) this.getSystemService(serviceName);
     }
 
     public Display getDefaultDisplay() {
@@ -185,16 +176,16 @@ public abstract class CSContextController extends ContextWrapper {
     }
 
     public int getStatusBarHeight() {
-        int resource = context().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resource = this.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resource > 0) {
-            return context().getResources().getDimensionPixelSize(resource);
+            return this.getResources().getDimensionPixelSize(resource);
         }
         return 0;
     }
 
     protected Date timeFormatParse(String text) {
         try {
-            return getTimeFormat(context()).parse(text);
+            return getTimeFormat(this).parse(text);
         } catch (ParseException e) {
             warn(e);
         }
@@ -203,7 +194,7 @@ public abstract class CSContextController extends ContextWrapper {
 
     protected Date dateFormatParse(String text) {
         try {
-            return getDateFormat(context()).parse(text);
+            return getDateFormat(this).parse(text);
         } catch (ParseException e) {
             warn(e);
         }
@@ -211,23 +202,23 @@ public abstract class CSContextController extends ContextWrapper {
     }
 
     protected String dateFormat(Date date) {
-        if (is(date)) return getDateFormat(context()).format(date);
+        if (is(date)) return getDateFormat(this).format(date);
         return null;
     }
 
     protected String timeFormat(Date date) {
-        if (is(date)) return getTimeFormat(context()).format(date);
+        if (is(date)) return getTimeFormat(this).format(date);
         return null;
     }
 
     protected CSList<String> getStringList(int id) {
         if (empty(id)) return list();
-        return list(context().getResources().getStringArray(id));
+        return list(this.getResources().getStringArray(id));
     }
 
     protected CSList<Integer> getIntList(int id) {
         if (empty(id)) return list();
-        int[] intArray = context().getResources().getIntArray(id);
+        int[] intArray = this.getResources().getIntArray(id);
         CSList<Integer> list = list(intArray.length);
         for (Integer integer : intArray) list.add(integer);
         return list;
@@ -236,7 +227,7 @@ public abstract class CSContextController extends ContextWrapper {
     public InputStream openInputStream(Uri uri) {
         InputStream inputStream = null;
         try {
-            inputStream = context().getContentResolver().openInputStream(uri);
+            inputStream = this.getContentResolver().openInputStream(uri);
         } catch (FileNotFoundException e) {
             error(e);
         }
@@ -250,18 +241,18 @@ public abstract class CSContextController extends ContextWrapper {
     }
 
     protected void startService(Class<? extends Service> serviceClass) {
-        startService(new Intent(context(), serviceClass));
+        startService(new Intent(this, serviceClass));
     }
 
     protected void stopService(Class<? extends Service> serviceClass) {
-        stopService(new Intent(context(), serviceClass));
+        stopService(new Intent(this, serviceClass));
     }
 
     protected void onDestroy() {
     }
 
     public boolean isPortrait() {
-        return context().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        return this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     public boolean isLandscape() {

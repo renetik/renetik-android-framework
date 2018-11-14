@@ -9,7 +9,7 @@ import renetik.android.viewbase.CSContextController
 
 class CSDialog(context: Context) : CSContextController(context) {
 
-    private val builder = MaterialDialog.Builder(context());
+    private val builder = MaterialDialog.Builder(this);
     private var dialog: MaterialDialog? = null
 
     fun title(title: String) = apply {

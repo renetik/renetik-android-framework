@@ -20,7 +20,7 @@ import renetik.android.viewbase.CSContextController
 @Suppress("unchecked_cast")
 class CSValueStore(name: String) : CSContextController() {
 
-    private val preferences = context().getSharedPreferences(name, Context.MODE_PRIVATE)
+    private val preferences = getSharedPreferences(name, Context.MODE_PRIVATE)
 
     fun clear() = preferences.edit().clear().apply()
 

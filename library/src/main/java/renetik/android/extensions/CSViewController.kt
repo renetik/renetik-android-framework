@@ -42,7 +42,7 @@ private const val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
 
 fun <T : CSViewController<*>> T.checkPlayServices() {
     val apiAvailability = GoogleApiAvailability.getInstance()
-    val result = apiAvailability.isGooglePlayServicesAvailable(context())
+    val result = apiAvailability.isGooglePlayServicesAvailable(this)
     if (result != ConnectionResult.SUCCESS) {
         if (apiAvailability.isUserResolvableError(result))
             apiAvailability.getErrorDialog(activity(), result, PLAY_SERVICES_RESOLUTION_REQUEST).show()
@@ -78,11 +78,17 @@ fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String
 }
 
 fun <Data : Any> CSViewController<*>.sendRequest(title: String, request: CSRequest<Data>): CSRequest<Data> {
-    val progress = dialog(title).showIndeterminateProgress { request.cancel() }
-    val response = request.send()
-    response.onDone { progress.hide() }.onFailed {
-        dialog(title, "Operation failed").show("Retry",{ sendRequest(title, request) },
-                { request.cancel() })
+    val progress = dialog(title).showIndeterminateProgress {
+        request.cancel()
+    }
+    request.send().onDone {
+        progress.hide()
+    }.onFailed {
+        dialog(title, "Operation failed").show("Retry", {
+            sendRequest(title, request)
+        }, "Ok", {
+            request.cancel()
+        })
     }
     return request
 }
@@ -127,6 +133,6 @@ fun CSViewController<*>.getDeniedPermissions(permissions: List<String>): Array<S
 }
 
 fun CSViewController<*>.isPermissionGranted(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(context(), permission) != PERMISSION_GRANTED
+    return ContextCompat.checkSelfPermission(this, permission) != PERMISSION_GRANTED
 }
 

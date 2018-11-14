@@ -14,6 +14,7 @@ abstract class CSApplication : Application() {
     abstract val logger: CSLogger
     open val store: CSValueStore by lazy { CSValueStore("ApplicationSettings") }
     abstract val isDebugBuild: Boolean
+    val externalFilesDir get() = getExternalFilesDir(null)
 
     override fun onCreate() {
         super.onCreate()

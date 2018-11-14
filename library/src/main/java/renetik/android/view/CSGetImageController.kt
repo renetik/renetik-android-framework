@@ -27,12 +27,12 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
                                      private val onImageReady: (File) -> Unit) : CSViewController<T>(parent) {
 
     constructor(parent: CSViewController<T>, title: String, imagesDirName: String, onImageReady: (File) -> Unit) :
-            this(parent, title, File(File(application.filesDir, "Pictures"), imagesDirName), onImageReady)
+            this(parent, title, File(File(application.externalFilesDir, "Pictures"), imagesDirName), onImageReady)
 
     var selectPhoto = true
     var takePhoto = true
     private val requestCode = 386
-    private val photoURI: Uri by lazy { context().contentResolver.insert(EXTERNAL_CONTENT_URI, ContentValues()) }
+    private val photoURI: Uri by lazy { contentResolver.insert(EXTERNAL_CONTENT_URI, ContentValues()) }
 
     init {
         folder.mkdirs()

@@ -1,8 +1,10 @@
 package renetik.android.extensions.view
 
+import android.content.Context
 import android.text.Editable
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.webkit.WebView
 import android.widget.*
 import com.google.android.material.chip.Chip
@@ -15,6 +17,7 @@ import renetik.android.viewbase.CSView
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.lang.CSLang.NO
+import renetik.android.viewbase.CSViewController.rootActivity
 import java.util.*
 import java.util.Calendar.*
 
@@ -91,7 +94,7 @@ fun CSView<*>.setSpinnerData(spinner: Spinner, strings: Collection<String>) {
 }
 
 fun CSView<*>.setSpinnerData(spinner: Spinner, itemLayout: Int, dropDownItemLayout: Int, strings: Collection<String>) {
-    val adapter = ArrayAdapter<String>(context(), itemLayout, list<String>(strings))
+    val adapter = ArrayAdapter<String>(this, itemLayout, list<String>(strings))
     adapter.setDropDownViewResource(dropDownItemLayout)
     spinner.adapter = adapter
 }
@@ -103,12 +106,11 @@ fun <V : View> CSView<V>.viewAsChildOf(parent: ViewGroup, layout: CSLayoutId): C
     return CSView<V>(parent, layout).apply { parent.addView(view) }
 }
 
-fun CSView<*>.dialog() = CSDialog(context())
+fun CSView<*>.dialog() = CSDialog(this)
 
 fun CSView<*>.dialog(message: String) = dialog().message(message)
 
 fun CSView<*>.dialog(title: String, message: String) = dialog().title(title).message(message)
-
 
 
 

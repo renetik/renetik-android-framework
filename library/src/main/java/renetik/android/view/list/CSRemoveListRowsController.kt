@@ -6,7 +6,7 @@ import android.widget.AbsListView
 import renetik.android.extensions.view.dialog
 import renetik.android.viewbase.CSViewController
 
-class CSRemoveListItemsController<RowType, AbsListViewType : AbsListView>(
+class CSRemoveListRowsController<RowType : Any, AbsListViewType : AbsListView>(
         parent: CSViewController<*>,
         private val listController: CSListController<RowType, AbsListViewType>,
         question: String, onRemove: (List<RowType>) -> Unit)
@@ -20,7 +20,7 @@ class CSRemoveListItemsController<RowType, AbsListViewType : AbsListView>(
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        selectAll.visible(listController.data().size > 1)
+        selectAll.visible(listController.data.size > 1)
         return super.onPrepareActionMode(mode, menu)
     }
 

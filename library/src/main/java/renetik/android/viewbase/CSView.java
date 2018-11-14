@@ -28,8 +28,8 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import renetik.android.view.list.CSListController;
 import renetik.android.java.common.CSPoint;
+import renetik.android.view.list.CSListController;
 
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
@@ -42,8 +42,9 @@ import static renetik.android.lang.CSLang.is;
 import static renetik.android.lang.CSLang.no;
 import static renetik.android.lang.CSLang.set;
 import static renetik.android.lang.CSLang.stringf;
+import static renetik.android.viewbase.CSViewController.rootActivity;
 
-public class CSView<V extends View> extends CSContextController  {
+public class CSView<V extends View> extends CSContextController {
 
     private CSView _viewField;
     private V _view;
@@ -97,11 +98,11 @@ public class CSView<V extends View> extends CSContextController  {
     }
 
     public View inflate(int layout_id) {
-        return LayoutInflater.from(context()).inflate(layout_id, null);
+        return LayoutInflater.from(this).inflate(layout_id, null);
     }
 
     public View inflate(ViewGroup parent, int layoutId) {
-        return LayoutInflater.from(context()).inflate(layoutId, parent, NO);
+        return LayoutInflater.from(this).inflate(layoutId, parent, NO);
     }
 
     public <T extends View> T findView(int id) {
@@ -291,7 +292,7 @@ public class CSView<V extends View> extends CSContextController  {
 
     protected V setView(V view) {
         if (view == null)
-            throw exceptionf("View is null for %s, so not found in parent or ? context is %s", this, context());
+            throw exceptionf("View is null for %s, so not found in parent or ? context is %s", this, this);
         if (is(view)) view.setTag(this);
         if (is(_view)) _view.setTag(null);
         _view = view;
@@ -326,7 +327,11 @@ public class CSView<V extends View> extends CSContextController  {
     }
 
     public void hideKeyboard() {
-        hideKeyboard(getView().getWindowToken());
+        View view = rootActivity().getCurrentFocus();
+        if (view == null) view = _view;
+        if (view == null) view = new View(rootActivity());
+        service(Context.INPUT_METHOD_SERVICE, InputMethodManager.class).
+                hideSoftInputFromWindow(view.getRootView().getWindowToken(), 0);
     }
 
     public boolean isShown() {

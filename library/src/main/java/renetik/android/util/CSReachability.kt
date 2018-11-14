@@ -28,7 +28,7 @@ class CSReachability : CSContextController() {
     fun start(): CSReachability {
         if (!started) {
             @Suppress("DEPRECATION")
-            context().registerReceiver(receiver, IntentFilter(CONNECTIVITY_ACTION))
+            registerReceiver(receiver, IntentFilter(CONNECTIVITY_ACTION))
             started = YES
         }
         return this

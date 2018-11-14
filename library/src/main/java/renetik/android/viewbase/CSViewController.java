@@ -263,7 +263,7 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
     }
 
     public ContextThemeWrapper context(int theme) {
-        return new ContextThemeWrapper(context(), theme);
+        return new ContextThemeWrapper(this, theme);
     }
 
     public void startActivityForUri(Uri uri, CSRunWith<ActivityNotFoundException> onActivityNotFound) {

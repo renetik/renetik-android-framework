@@ -20,7 +20,8 @@ import static renetik.android.lang.CSLang.iterate;
 import static renetik.android.lang.CSLang.set;
 import static renetik.android.lang.CSLang.size;
 
-public class CSPagerController<PageController extends CSViewController & CSPagerPage> extends CSViewController<ViewPager> {
+public class CSPagerController<PageController extends CSViewController & CSPagerPage>
+        extends CSViewController<ViewPager> {
 
     private CSList<PageController> _controllers;
     private CSView _emptyView;

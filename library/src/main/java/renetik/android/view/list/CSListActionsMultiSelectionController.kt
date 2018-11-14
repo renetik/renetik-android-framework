@@ -13,7 +13,7 @@ import renetik.android.viewbase.menu.CSOnMenu
 import renetik.android.viewbase.menu.CSOnMenuItem
 import renetik.android.viewbase.menu.GeneratedMenuItems
 
-open class CSListActionsMultiSelectionController<RowType, AbsListViewType : AbsListView>(
+open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType : AbsListView>(
         parent: CSViewController<*>,
         private val listController: CSListController<RowType, AbsListViewType>)
     : CSViewController<View>(parent, null), MultiChoiceModeListener {

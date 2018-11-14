@@ -5,23 +5,23 @@ import android.widget.ListView
 import renetik.android.extensions.view.*
 import renetik.android.lang.CSLang.toast
 import renetik.android.sample.R
-import renetik.android.sample.model.SampleListItem
+import renetik.android.sample.model.SampleListRow
 import renetik.android.sample.model.model
 import renetik.android.view.list.CSListController
-import renetik.android.view.list.CSRemoveListItemsController
+import renetik.android.view.list.CSRemoveListRowsController
 import renetik.android.view.list.CSRowView
 import renetik.android.viewbase.CSViewController
 
 class SampleListController() : CSViewController<View>(navigation, layout(R.layout.sample_list)) {
 
-    private var sampleList = CSListController<SampleListItem, ListView>(this, R.id.SampleList_List).apply {
-        onCreateView { SampleListItemView(this) }
-        onItemClick { _, rowView -> snackBarInfo("SampleListItemView clicked ${rowView.data().title}") }
+    private var sampleList = CSListController<SampleListRow, ListView>(this, R.id.SampleList_List).apply {
+        onCreateView { SampleListRowView(this) }
+        onItemClick { _, rowView -> snackBarInfo("SampleListItemView clicked ${rowView.data.title}") }
         emptyView(R.id.SampleList_ListEmpty)
     }.reload(model.sampleList)
 
     init {
-        CSRemoveListItemsController(this, sampleList, "Remove selected items ?") { toRemove ->
+        CSRemoveListRowsController(this, sampleList, "Remove selected items ?") { toRemove ->
             toRemove.forEach { item -> model.sampleList.delete(item) }
             sampleList.reload(model.sampleList)
         }
@@ -34,11 +34,11 @@ class SampleListController() : CSViewController<View>(navigation, layout(R.layou
     }
 }
 
-class SampleListItemView(list: CSListController<SampleListItem, ListView>) :
-        CSRowView<SampleListItem>(list, layout(R.layout.sample_list_item)) {
-    override fun onLoad(item: SampleListItem) {
-        textView(R.id.header).title(item.time)
-        textView(R.id.title).title(item.title)
-        textView(R.id.subtitle).title(item.subtitle)
+class SampleListRowView(list: CSListController<SampleListRow, *>) :
+        CSRowView<SampleListRow>(list, layout(R.layout.sample_list_item)) {
+    override fun onLoad(row: SampleListRow) {
+        textView(R.id.header).title(row.time)
+        textView(R.id.title).title(row.title)
+        textView(R.id.subtitle).title(row.subtitle)
     }
 }
