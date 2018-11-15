@@ -1,9 +1,10 @@
 package renetik.android.viewbase.menu
 
 import android.view.MenuItem.*
-import renetik.android.viewbase.CSViewController
+import android.view.View
 import renetik.android.lang.CSLang.NO
 import renetik.android.lang.CSLang.YES
+import renetik.android.viewbase.CSViewController
 
 /**
  * Created by Rene Dohan on 18/1/17.
@@ -23,6 +24,7 @@ open class CSMenuItem {
     var iconResource = 0
     var showAsAction = SHOW_AS_ACTION_IF_ROOM
     private var runWith: ((CSMenuItem) -> Unit)? = null
+    val actionView: View? = null
 
     constructor(controller: CSViewController<*>, id: Int) {
         this.controller = controller

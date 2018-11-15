@@ -1,4 +1,4 @@
-package renetik.android.view
+package renetik.android.view.pager
 
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ class CSPagerAdapter<PagerPageType>(val controllers: CSList<PagerPageType> = lis
 
     override fun getCount() = controllers.count()
 
-    override fun getPageTitle(position: Int) = controllers[position].csPagerControllerTitle()
+    override fun getPageTitle(position: Int) = controllers[position].pagerPageTitle
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = controllers[position].view

@@ -4,8 +4,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.java.collections.CSList
-import renetik.android.lang.CSLang.*
 import renetik.android.java.lang.CSValue
+import renetik.android.lang.CSLang.YES
+import renetik.android.lang.CSLang.set
 
 const val GeneratedMenuItems = 7687678
 
@@ -22,6 +23,7 @@ class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) {
             item.title?.let { title = it }
             if (isCheckable) item.isChecked?.let { isChecked = it }
                     ?: let { item.isChecked = isChecked }
+            actionView?.let { item.actionView }
         }
     }
 
@@ -33,6 +35,7 @@ class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) {
                 isCheckable = true
                 isChecked = it
             }
+            item.actionView?.let { actionView = it }
         }
     }
 

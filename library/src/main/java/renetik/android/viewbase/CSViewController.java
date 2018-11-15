@@ -560,9 +560,9 @@ public abstract class CSViewController<ViewType extends View> extends CSView<Vie
         return _isShowing;
     }
 
-    public void setShowingInContainer(boolean showingInContainer) {
-        if (equal(_showingInContainer, showingInContainer)) return;
-        _showingInContainer = showingInContainer;
+    public void showingInContainer(boolean isShowing) {
+        if (equal(_showingInContainer, isShowing)) return;
+        _showingInContainer = isShowing;
         updateVisibilityChanged();
     }
 

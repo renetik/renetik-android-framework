@@ -117,7 +117,7 @@ public class CSView<V extends View> extends CSContextController {
     public V getView() {
         return no(_view) && hasLayout() ?
                 setView((V) (is(_parentContainer) ?
-                        inflate(_parentContainer, _layoutId.id) : inflate(_layoutId.id)))
+                        inflate(_parentContainer, _layoutId.getId()) : inflate(_layoutId.getId())))
                 : _view;
     }
 
@@ -407,10 +407,6 @@ public class CSView<V extends View> extends CSContextController {
 
     public void showKeyboard(View view, int flag) {
         service(Context.INPUT_METHOD_SERVICE, InputMethodManager.class).showSoftInput(view, flag);
-    }
-
-    public String text() {
-        return asTextView().getText() + "";
     }
 
     public TextView asTextView() {
