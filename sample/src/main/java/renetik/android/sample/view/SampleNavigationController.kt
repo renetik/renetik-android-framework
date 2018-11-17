@@ -7,7 +7,7 @@ import renetik.android.viewbase.CSViewController
 
 lateinit var navigation: SampleNavigationController
 
-class SampleNavigationController(activity: AppCompatActivity) : CSNavigationController(activity) {
+class SampleNavigationController(activity: CSActivity) : CSNavigationController(activity) {
     override fun onViewShowingFirstTime() {
         navigation.push(SampleListController())
     }

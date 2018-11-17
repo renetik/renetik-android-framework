@@ -8,16 +8,16 @@ import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import renetik.android.location.asLatLng
-import renetik.android.viewbase.CSViewController
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.event.event
 import renetik.android.java.event.execute
-import renetik.android.lang.CSLang.*
+import renetik.android.lang.CSLang.NO
+import renetik.android.lang.CSLang.YES
+import renetik.android.location.asLatLng
+import renetik.android.viewbase.CSViewController
 
-open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent, null) {
-
-    constructor(parent: CSViewController<*>) : this(parent, GoogleMapOptions())
+open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent) {
 
     var map: GoogleMap? = null
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
@@ -29,9 +29,9 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     private var onInfoWindowClick = event<Marker>()
     fun onMarkerInfoClick(function: (Marker) -> Unit) = onInfoWindowClick.execute(function)
 
-    init {
-        view = MapView(this, options)
-    }
+    override fun createView() = MapView(this, options)
+
+    constructor(parent: CSViewController<*>) : this(parent, GoogleMapOptions())
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -69,7 +69,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
         view.onLowMemory()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         view.onSaveInstanceState(outState)
     }
@@ -128,15 +128,12 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     }
 
     private fun onCameraMoveStarted() {
-//        info("onCameraMoveStarted")
         if (animatingCamera) return
-//        info("onCameraMoveStartedByUser")
-        onCameraMoveStartedByUser.fire(map)
+        onCameraMoveStartedByUser.fire(map!!)
     }
 
     private fun onCameraMoveStopped() {
-//        info("onCameraMoveStopped")
-        onCameraStopped.fire(map)
+        onCameraStopped.fire(map!!)
     }
 
     fun clearMap() {

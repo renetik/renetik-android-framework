@@ -15,6 +15,16 @@ fun warn(e: Throwable, vararg values: Any?) {
     application.logger.warn(e, *createLogMessage(element, values))
 }
 
+fun error(vararg values: Any?) {
+    val element = Thread.currentThread().stackTrace[level]
+    application.logger.error(*createLogMessage(element, values))
+}
+
+fun error(e: Throwable, vararg values: Any?) {
+    val element = Thread.currentThread().stackTrace[level]
+    application.logger.error(e, *createLogMessage(element, values))
+}
+
 fun info(vararg values: Any?) {
     val element = Thread.currentThread().stackTrace[level]
     application.logger.info(*createLogMessage(element, values))

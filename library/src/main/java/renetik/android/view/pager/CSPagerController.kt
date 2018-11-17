@@ -26,10 +26,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
 
     fun reload(pages: CSList<PageType>) = apply {
         val currentIndex = view.currentItem
-        for (page in controllers) {
-            page.onDeinitialize(null)
-            page.onDestroy()
-        }
+        for (page in controllers) page.onDeinitialize()
         controllers.reload(pages)
         updatePageVisibility(if (pages.length() > currentIndex) currentIndex else 0)
         for (page in pages) page.initialize(state)
@@ -49,7 +46,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
 
     private fun updateView() {
         view.adapter = CSPagerAdapter(controllers)
-        visible(controllers.hasItems)
+        view.visible(controllers.hasItems)
         emptyView?.visible(controllers.isEmpty())
     }
 

@@ -2,8 +2,8 @@ package renetik.android.view.map
 
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.extensions.view.frame
-import renetik.android.extensions.view.layoutMatchParent
+import renetik.android.extensions.frame
+import renetik.android.extensions.view.layoutMatch
 import renetik.android.extensions.view.removeFromSuperview
 import renetik.android.viewbase.CSViewController
 
@@ -22,7 +22,7 @@ open class CSMapClientController<V : View>(parent: CSViewController<V>, private 
             lastZoom = map.cameraPosition.zoom
         })
         lastLocation?.let { latLng -> mapController.camera(latLng, lastZoom!!) }
-        frame(mapFrameId).addView(mapController.view.removeFromSuperview(), layoutMatchParent())
+        frame(mapFrameId).addView(mapController.view.removeFromSuperview(), layoutMatch)
     }
 
 }

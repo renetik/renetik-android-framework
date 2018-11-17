@@ -4,7 +4,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import renetik.android.extensions.NO
 import renetik.android.extensions.YES
-import renetik.android.viewbase.CSLayoutId
+import renetik.android.extensions.notNull
 import renetik.android.viewbase.CSViewController
 import renetik.android.viewbase.menu.CSMenuItem
 
@@ -18,20 +18,16 @@ class CSSearchController : CSViewController<SearchView> {
     fun expanded(value: Boolean) = apply { expanded = value }
     private var searchMenuItem: CSMenuItem? = null
 
-    constructor(parent: CSViewController<*>, searchMenuId: Int) : super(parent) {
-        searchMenuItem = menu(searchMenuId)
+    constructor(parent: CSViewController<*>, menuItem: CSMenuItem) : super(parent) {
+        searchMenuItem = menuItem
     }
 
-    constructor(parent: CSViewController<*>, layoutId: CSLayoutId) : super(parent, layoutId) {
-        initializeSearch()
-    }
+    constructor(parent: CSViewController<*>, viewId: Int) : super(parent, viewId)
 
     override fun onViewShowingFirstTime() {
         super.onViewShowingFirstTime()
-        searchMenuItem?.actionView?.let {
-            view = it as SearchView
-            initializeSearch()
-        }
+        searchMenuItem?.actionView.notNull { view = it as SearchView }
+        initializeSearch()
     }
 
     private fun initializeSearch() {

@@ -3,17 +3,19 @@ package renetik.android.view
 import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.paris.extensions.style
 import renetik.android.R
 import renetik.android.application
+import renetik.android.extensions.view.add
+import renetik.android.extensions.view.remove
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.lang.CSLang.*
+import renetik.android.viewbase.CSActivity
 import renetik.android.viewbase.CSViewController
 import renetik.android.viewbase.menu.CSOnMenuItem
 
-open class CSNavigationController(activity: AppCompatActivity)
+open class CSNavigationController(activity: CSActivity)
     : CSViewController<FrameLayout>(activity) {
 
     open var controllers: CSList<CSViewController<*>> = list()
@@ -26,7 +28,7 @@ open class CSNavigationController(activity: AppCompatActivity)
         if (controllers.hasItems) controllers.last()?.showingInContainer(NO)
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_in_top))
-        add(controller)
+        view.add(controller)
         controller.showingInContainer(YES)
         controller.initialize(state)
         updateBackButton()
@@ -40,9 +42,8 @@ open class CSNavigationController(activity: AppCompatActivity)
         val controller = controllers.removeLast()
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_out_top))
         controller.showingInContainer(NO)
-        controller.onDeinitialize(state)
-        removeView(controller)
-        controller.onDestroy()
+        view.remove(controller)
+        controller.onDeinitialize()
         controllers.last()?.showingInContainer(YES)
         updateBackButton()
         updateTitleButton()
@@ -53,13 +54,12 @@ open class CSNavigationController(activity: AppCompatActivity)
         val lastController = controllers.removeLast()
         lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
         lastController.showingInContainer(NO)
-        lastController.onDeinitialize(state)
-        removeView(lastController)
-        lastController.onDestroy()
+        view.remove(lastController)
+        lastController.onDeinitialize()
 
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
-        add(controller)
+        view.add(controller)
         controller.showingInContainer(YES)
         controller.initialize(state)
         updateBackButton()
@@ -71,8 +71,8 @@ open class CSNavigationController(activity: AppCompatActivity)
 
     private fun updateTitleButton() {
         val title = (controllers.last() as? CSNavigationItem)?.navigationTitle()
-        if (set(title)) actionBar.title = title
-        else actionBar.title = application.name
+        if (set(title)) actionBar?.title = title
+        else actionBar?.title = application.name
     }
 
     private fun updateBackButton() {
@@ -82,9 +82,9 @@ open class CSNavigationController(activity: AppCompatActivity)
         else hideBackButton()
     }
 
-    private fun showBackButton() = actionBar.setDisplayHomeAsUpEnabled(YES)
+    private fun showBackButton() = actionBar?.setDisplayHomeAsUpEnabled(YES)
 
-    private fun hideBackButton() = actionBar.setDisplayHomeAsUpEnabled(NO)
+    private fun hideBackButton() = actionBar?.setDisplayHomeAsUpEnabled(NO)
 
     override fun onGoBack(): Boolean {
         if (controllers.count() > 1) {
@@ -94,9 +94,9 @@ open class CSNavigationController(activity: AppCompatActivity)
         return YES
     }
 
-    override fun onOptionsItemSelected(event: CSOnMenuItem) {
-        super.onOptionsItemSelected(event)
-        if (event.consume(android.R.id.home)) goBack()
+    override fun onOptionsItemSelected(onItem: CSOnMenuItem) {
+        super.onOptionsItemSelected(onItem)
+        if (onItem.consume(android.R.id.home)) goBack()
     }
 }
 

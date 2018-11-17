@@ -9,16 +9,20 @@ import android.widget.AbsListView.OnScrollListener
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import android.widget.ListView
+import renetik.android.java.event.event
 import renetik.android.java.event.fire
-import renetik.android.lang.CSLang.*
+import renetik.android.lang.CSLang.NO
+import renetik.android.lang.CSLang.no
 import renetik.android.viewbase.CSView
 import renetik.android.viewbase.CSViewController
+import renetik.android.viewbase.layout
 
-class CSListLoadNextController(parent: CSListController<*, *>, loadViewLayout: Int)
-    : CSViewController<View>(parent) {
+class CSListLoadNextController<ListType : AbsListView>(
+        val parent: CSListController<*, ListType>, list: CSListController<*, ListType>, loadViewLayout: Int)
+    : CSViewController<ListType>(list) {
 
     val onLoadNext = event<Unit>()
-    private val loadView = CSView<View>(this, CSView.layout(loadViewLayout))
+    private val loadView = CSView<View>(this, layout(loadViewLayout))
     private var scrollListener: EndlessScrollListener? = null
     private var loading = false
 
@@ -34,10 +38,10 @@ class CSListLoadNextController(parent: CSListController<*, *>, loadViewLayout: I
         loading = false
     }
 
-    private fun updateScrollListener() = asAbsListView().setOnScrollListener(scrollListener)
+    private fun updateScrollListener() = view.setOnScrollListener(scrollListener)
 
     private fun onLoadNext() {
-        fire(onLoadNext)
+        onLoadNext.fire()
         loading = true
         loadView.show()
     }
@@ -45,12 +49,13 @@ class CSListLoadNextController(parent: CSListController<*, *>, loadViewLayout: I
     public override fun onResume() {
         super.onResume()
         updateScrollListener()
-        if (view is ListView) {
-            asListView().addFooterView(loadView.view)
-            asListView().setFooterDividersEnabled(NO)
-        } else if (!loadView.hasParent())
-            (view!!.parent.parent as FrameLayout).addView(loadView.view,
+        (view as? ListView)?.apply {
+            addFooterView(loadView.view)
+            setFooterDividersEnabled(NO)
+        } ?: let {
+            if (!loadView.hasParent) (parent.view as FrameLayout).addView(loadView.view,
                     LayoutParams(WRAP_CONTENT, WRAP_CONTENT, BOTTOM or CENTER))
+        }
         loadView.hide()
     }
 

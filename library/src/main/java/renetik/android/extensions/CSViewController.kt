@@ -13,7 +13,6 @@ import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.extensions.view.dialog
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.java.lang.CSMath.randomInt

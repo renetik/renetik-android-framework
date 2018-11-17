@@ -14,9 +14,8 @@ import renetik.android.viewbase.menu.CSOnMenuItem
 import renetik.android.viewbase.menu.GeneratedMenuItems
 
 open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType : AbsListView>(
-        parent: CSViewController<*>,
-        private val listController: CSListController<RowType, AbsListViewType>)
-    : CSViewController<View>(parent, null), MultiChoiceModeListener {
+        private val parent: CSListController<RowType, AbsListViewType>)
+    : CSViewController<View>(parent), MultiChoiceModeListener {
 
     private var menuItems = list<CSListMenuItem<RowType>>()
 
@@ -24,7 +23,7 @@ open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType 
 
     override fun onCreate() {
         super.onCreate()
-        listController.asAbsListView().apply { choiceMode = CHOICE_MODE_MULTIPLE_MODAL }
+        parent.view.apply { choiceMode = CHOICE_MODE_MULTIPLE_MODAL }
                 .setMultiChoiceModeListener(this)
     }
 
@@ -44,11 +43,11 @@ open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType 
         for (menuItem in menuItems)
             if (onMenuItem.consume(menuItem)) {
                 if (onMenuItem.isCheckable) menuItem.onChecked(onMenuItem)
-                else menuItem.run(listController.checkedRows)
+                else menuItem.run(parent.checkedRows)
                 if (menuItem.finish()) mode.finish()
             }
         invalidateOptionsMenu()
-        return onMenuItem.consumed.value
+        return onMenuItem.isConsumed
     }
 
     override fun onDestroyActionMode(mode: ActionMode) {}

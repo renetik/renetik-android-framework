@@ -23,10 +23,14 @@ fun Any.whenNotNull(value: CSMap<String, Any>?, function: () -> Unit): Boolean {
     return NO
 }
 
-fun <T, R> T.notNull(block: (T) -> R): R? {
-    if (this != null) return block(this)
-    return null
-}
+//TODO: Test this shit
+fun <T : Any, R> T?.notNull(block: (T) -> R): R? = if (this != null) block(this) else null
+
+val <T : Any> T?.notNull get() = this != null
+
+fun <T : Any, R> T?.isNull(block: () -> R): R? = if (this == null) block() else null
+
+val <T : Any> T?.isNull get() = this == null
 
 @Suppress("upper_bound_violated")
 public val <T> KClass<T>.j: Class<T>
@@ -68,8 +72,8 @@ fun <T> Any.invoke(methodName: String, parameterType: Class<T>, argument: T): An
 }
 
 fun invokePrivate(methodName: String, targetClass: Class<*>,
-                      paramTypes: Array<Class<*>>,
-                      arguments: Array<Any>): Any {
+                  paramTypes: Array<Class<*>>,
+                  arguments: Array<Any>): Any {
     try {
         val method = targetClass.getDeclaredMethod(methodName, *paramTypes)
         method.isAccessible = true

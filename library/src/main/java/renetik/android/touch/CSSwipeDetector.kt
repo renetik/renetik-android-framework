@@ -3,8 +3,8 @@ package renetik.android.touch
 import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View
-import renetik.android.lang.CSLang.event
-import renetik.android.lang.CSLang.info
+import renetik.android.java.event.event
+import renetik.android.lang.info
 import renetik.android.viewbase.CSView
 import java.lang.Math.*
 
@@ -26,22 +26,22 @@ class CSSwipeDetector() : View.OnTouchListener {
         BottomToTop, LeftToRight, RightToLeft, TopToBottom
     }
 
-    fun onBottomToTopSwipe(v: View) {
+    fun onBottomToTopSwipe() {
         eventSwipe.fire(CSSwipeType.BottomToTop)
         info("SwipeDetector onBottomToTopSwipe!")
     }
 
-    fun onLeftToRightSwipe(v: View) {
+    fun onLeftToRightSwipe() {
         eventSwipe.fire(CSSwipeType.LeftToRight)
         info("SwipeDetector LeftToRightSwipe!")
     }
 
-    fun onRightToLeftSwipe(v: View) {
+    fun onRightToLeftSwipe() {
         eventSwipe.fire(CSSwipeType.RightToLeft)
         info("SwipeDetector RightToLeftSwipe!")
     }
 
-    fun onTopToBottomSwipe(v: View) {
+    fun onTopToBottomSwipe() {
         eventSwipe.fire(CSSwipeType.TopToBottom)
         info("SwipeDetector onTopToBottomSwipe!")
     }
@@ -64,11 +64,11 @@ class CSSwipeDetector() : View.OnTouchListener {
                 if (abs(deltaX) > MIN_DISTANCE) {
                     // left or right
                     if (deltaX < 0) {
-                        onLeftToRightSwipe(view)
+                        onLeftToRightSwipe()
                         return true
                     }
                     if (deltaX > 0) {
-                        onRightToLeftSwipe(view)
+                        onRightToLeftSwipe()
                         return true
                     }
                 } else
@@ -79,11 +79,11 @@ class CSSwipeDetector() : View.OnTouchListener {
                 if (abs(deltaY) > MIN_DISTANCE) {
                     // top or down
                     if (deltaY < 0) {
-                        onTopToBottomSwipe(view)
+                        onTopToBottomSwipe()
                         return true
                     }
                     if (deltaY > 0) {
-                        onBottomToTopSwipe(view)
+                        onBottomToTopSwipe()
                         return true
                     }
                 } else {

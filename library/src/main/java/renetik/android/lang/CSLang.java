@@ -364,11 +364,6 @@ public class CSLang {
     }
 
     @NonNull
-    public static <T> CSEvent<T> event() {
-        return new CSEventImpl<>();
-    }
-
-    @NonNull
     public static RuntimeException exception(Object... values) {
         return new RuntimeException(stringify(" ", strings(values)));
     }
@@ -550,21 +545,8 @@ public class CSLang {
         return set(value);
     }
 
-    public static void infof(String format, Object... values) {
-        info(stringf(format, values));
-    }
-
-    public static void info(Object... values) {
-        application.getLogger().info(values);
-    }
-
     public static void debug(Object... values) {
         application.getLogger().debug(values);
-    }
-
-    public static <T> T info(T value) {
-        info(new Object[]{value});
-        return value;
     }
 
     public static Thread runInThread(CSRun run) {

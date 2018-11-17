@@ -1,4 +1,4 @@
-package renetik.android.extensions.view
+package renetik.android.extensions
 
 import android.widget.TextView
 import com.google.android.material.R.id

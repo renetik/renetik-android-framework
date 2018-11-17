@@ -2,6 +2,10 @@ package renetik.android.sample.view
 
 import android.view.View
 import android.widget.ListView
+import renetik.android.extensions.button
+import renetik.android.extensions.dialog
+import renetik.android.extensions.snackBarInfo
+import renetik.android.extensions.textView
 import renetik.android.extensions.view.*
 import renetik.android.lang.CSLang.toast
 import renetik.android.sample.R

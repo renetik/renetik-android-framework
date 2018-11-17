@@ -5,16 +5,19 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import renetik.android.R
 import renetik.android.R.id
-import renetik.android.R.layout
 import renetik.android.application
+import renetik.android.extensions.dialog
+import renetik.android.extensions.floatingButton
 import renetik.android.extensions.sendMail
+import renetik.android.extensions.textView
 import renetik.android.extensions.view.*
 import renetik.android.viewbase.CSViewController
+import renetik.android.viewbase.layout
 
 const val sendLogMailKey = "send_log_mail"
 
 class CSLogController(val navigation: CSNavigationController) :
-        CSViewController<View>(navigation, layout(layout.cs_log)), CSNavigationItem {
+        CSViewController<View>(navigation, layout(R.layout.cs_log)), CSNavigationItem {
 
     private val logText = textView(id.CSLog_LogText).apply { movementMethod = ScrollingMovementMethod() }
 

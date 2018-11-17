@@ -3,9 +3,9 @@ package renetik.android.view
 import android.widget.EditText
 import renetik.android.extensions.string
 import renetik.android.extensions.view.title
-import renetik.android.viewbase.CSViewController
 import renetik.android.lang.CSLang.asInt
 import renetik.android.lang.CSLang.toast
+import renetik.android.viewbase.CSViewController
 
 class CSLimitTextFieldIntValue(parent: CSViewController<*>, id: Int, val minValue: Int,
                                private var maxValue: Int, private val alertString: Int)
@@ -14,7 +14,7 @@ class CSLimitTextFieldIntValue(parent: CSViewController<*>, id: Int, val minValu
     private var beforeChangeValue: Int = 0
 
     init {
-        view?.setOnFocusChangeListener { _, hasFocus ->
+        view.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) beforeChangeValue = intValue()
             else if (intValue() > maxValue || intValue() < minValue) onWrongNumberEntered()
         }

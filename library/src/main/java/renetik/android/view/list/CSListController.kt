@@ -9,11 +9,13 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.ListView
+import renetik.android.extensions.findView
+import renetik.android.extensions.view.hide
+import renetik.android.extensions.view.show
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
-import renetik.android.java.event.fire
+import renetik.android.java.event.event
 import renetik.android.lang.CSLang.*
-import renetik.android.viewbase.CSView
 import renetik.android.viewbase.CSViewController
 
 open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T> {
@@ -23,9 +25,9 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
     var viewTypesCount = 1
     var listAdapter: BaseAdapter = CSListAdapter(this)
     private var firstLoad = NO
-    private var createView: ((Int) -> CSRowView<RowType>)? = null
+    private lateinit var createView: (Int) -> CSRowView<RowType>
     private var firstVisiblePosition: Int = 0
-    private var emptyView: CSView<*>? = null
+    private var emptyView: View? = null
         set(value) {
             field = value?.hide()
         }
@@ -63,10 +65,9 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
 
     fun getRowView(position: Int, view: View?): View {
         var rowView: CSRowView<RowType>
-        if (view == null) {
-            rowView = createView!!.invoke(getItemViewType(position))
-            rowView.view.tag = rowView
-        } else rowView = asRowView(view)
+        if (view == null) rowView = createView!!.invoke(getItemViewType(position))
+//            rowView.view.tag = rowView
+        else rowView = asRowView(view)
         rowView.data(data.get(position))
         return rowView.view
     }
@@ -77,7 +78,7 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
         firstLoad = YES
         data.addAll(list)
         reloadData()
-        fire<List<RowType>>(onLoad, list)
+        onLoad.fire(list)
         return this
     }
 
@@ -143,7 +144,7 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
 
     fun isEnabled(position: Int) = onIsEnabled?.invoke(position) ?: YES
 
-    fun emptyView(id: Int) = apply { emptyView = CSView<View>(parent(), id) }
+    fun emptyView(id: Int) = apply { emptyView = parentController?.findView(id) }
 
     fun checkAll() = apply { for (index in iterate(view.count)) view.setItemChecked(index, YES) }
 

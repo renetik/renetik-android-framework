@@ -2,8 +2,8 @@ package renetik.android
 
 import android.app.Application
 import renetik.android.lang.CSDoLater
-import renetik.android.lang.CSLang.info
 import renetik.android.lang.CSLogger
+import renetik.android.lang.info
 import renetik.android.model.CSValueStore
 
 lateinit var application: CSApplication
