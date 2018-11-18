@@ -65,8 +65,7 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
 
     fun getRowView(position: Int, view: View?): View {
         var rowView: CSRowView<RowType>
-        if (view == null) rowView = createView!!.invoke(getItemViewType(position))
-//            rowView.view.tag = rowView
+        if (view == null) rowView = createView.invoke(getItemViewType(position))
         else rowView = asRowView(view)
         rowView.data(data.get(position))
         return rowView.view

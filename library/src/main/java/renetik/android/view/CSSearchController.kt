@@ -18,6 +18,8 @@ class CSSearchController : CSViewController<SearchView> {
     fun expanded(value: Boolean) = apply { expanded = value }
     private var searchMenuItem: CSMenuItem? = null
 
+    override fun createView() = searchMenuItem?.actionView as? SearchView
+
     constructor(parent: CSViewController<*>, menuItem: CSMenuItem) : super(parent) {
         searchMenuItem = menuItem
     }
@@ -26,7 +28,6 @@ class CSSearchController : CSViewController<SearchView> {
 
     override fun onViewShowingFirstTime() {
         super.onViewShowingFirstTime()
-        searchMenuItem?.actionView.notNull { view = it as SearchView }
         initializeSearch()
     }
 

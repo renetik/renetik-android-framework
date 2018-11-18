@@ -6,7 +6,8 @@ import renetik.android.extensions.button
 import renetik.android.extensions.dialog
 import renetik.android.extensions.snackBarInfo
 import renetik.android.extensions.textView
-import renetik.android.extensions.view.*
+import renetik.android.extensions.view.onClick
+import renetik.android.extensions.view.title
 import renetik.android.lang.CSLang.toast
 import renetik.android.sample.R
 import renetik.android.sample.model.SampleListRow
@@ -15,6 +16,7 @@ import renetik.android.view.list.CSListController
 import renetik.android.view.list.CSRemoveListRowsController
 import renetik.android.view.list.CSRowView
 import renetik.android.viewbase.CSViewController
+import renetik.android.viewbase.layout
 
 class SampleListController() : CSViewController<View>(navigation, layout(R.layout.sample_list)) {
 

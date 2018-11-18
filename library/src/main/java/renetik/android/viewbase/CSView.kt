@@ -16,7 +16,7 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
 
     private var parentGroup: ViewGroup? = null
     private var layoutId: CSLayoutId? = null
-    private var viewId: Int? = null
+
     val view: ViewType by lazy {
         val view = layoutId?.let { inflate(it.id) } ?: let { createView()!! }
         view.tag = this
@@ -24,7 +24,9 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
     }
 
     fun inflate(layoutId: Int): ViewType {
-        return (if (parentGroup.notNull) from(this).inflate(layoutId, parentGroup, NO)
+        @Suppress("UNCHECKED_CAST")
+        return (if (parentGroup.notNull)
+            from(this).inflate(layoutId, parentGroup, NO)
         else from(this).inflate(layoutId, null)) as ViewType
     }
 
@@ -40,10 +42,6 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
 
     constructor(parent: CSListController<*, *>, layoutId: CSLayoutId)
             : this(parent.view as ViewGroup, layoutId)
-
-    constructor(parent: CSView<*>, viewId: Int) : this(parent) {
-        this.viewId = viewId
-    }
 
     fun fade(fadeIn: Boolean) = view.fade(fadeIn)
     open fun show(): CSView<ViewType> = apply { view.show() }

@@ -22,6 +22,7 @@ import java.util.*
 import java.util.Calendar.*
 
 fun <T : View> CSView<*>.findView(id: Int): T = view.findView<T>(id)!!
+fun CSView<*>.view(id: Int) = findView<View>(id)
 fun CSView<*>.editText(id: Int) = findView<EditText>(id)
 fun CSView<*>.textView(id: Int) = findView<TextView>(id)
 fun CSView<*>.listView(id: Int): ListView = findView(id)

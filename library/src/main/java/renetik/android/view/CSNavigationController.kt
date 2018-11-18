@@ -20,9 +20,7 @@ open class CSNavigationController(activity: CSActivity)
 
     open var controllers: CSList<CSViewController<*>> = list()
 
-    init {
-        view = FrameLayout(this).apply { style(R.style.CSNavigationContainer) }
-    }
+    override fun createView() = FrameLayout(this).apply { style(R.style.CSNavigationContainer) }
 
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
         if (controllers.hasItems) controllers.last()?.showingInContainer(NO)

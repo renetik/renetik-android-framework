@@ -76,18 +76,18 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     }
 
     constructor(parent: CSViewController<*>) : super(parent) {
-        this.parentController = parent
+        parentController = parent
         parentRegistrations = initialize(parent)
     }
 
     constructor(parent: CSViewController<*>, viewId: Int) : super(parent) {
-        this.parentController = parent
+        parentController = parent
         this.viewId = viewId
         parentRegistrations = initialize(parent)
     }
 
     constructor(parent: CSNavigationController, layoutId: CSLayoutId) : super(parent.view, layoutId) {
-        this.parentController = parent
+        parentController = parent
         parentRegistrations = initialize(parent)
     }
 
