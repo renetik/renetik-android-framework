@@ -1,11 +1,13 @@
 package renetik.android.json
 
-import renetik.android.viewbase.CSContextController
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.CSMap
-import renetik.android.java.event.CSEvent
-import renetik.android.java.event.event
-import renetik.android.lang.CSLang.*
+import renetik.java.collections.CSList
+import renetik.java.collections.CSMap
+import renetik.java.collections.linkedMap
+import renetik.java.event.CSEvent
+import renetik.java.event.event
+import renetik.android.lang.doLater
+import renetik.android.view.base.CSContextController
+import renetik.java.lang.CSLang
 
 data class OnJsonDataValueChanged(val data: CSJsonData, val key: String, val value: Any?)
 
@@ -22,7 +24,7 @@ open class CSJsonData() : CSContextController(), Iterable<String>, CSJsonDataMap
     open val onChangedEvent: CSEvent<CSJsonData> = event()
     protected var data: CSMap<String, Any?> = linkedMap<String, Any?>()
     private var childDataKey: String? = null
-    private var dataChanged = NO
+    private var dataChanged = CSLang.NO
 
     constructor(data: CSMap<String, Any?>) : this() {
         load(data)
@@ -55,9 +57,9 @@ open class CSJsonData() : CSContextController(), Iterable<String>, CSJsonDataMap
         if (!dataChanged) {
             doLater {
                 onChangedEvent.fire(this)
-                dataChanged = NO
+                dataChanged = CSLang.NO
             }
-            dataChanged = YES
+            dataChanged = CSLang.YES
         }
     }
 

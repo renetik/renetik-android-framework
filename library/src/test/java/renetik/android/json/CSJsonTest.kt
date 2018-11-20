@@ -3,15 +3,14 @@ package renetik.android.json
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.BuildConfig
 import renetik.android.extensions.trimNewLines
-import renetik.android.java.collections.CSMap
-import renetik.android.lang.CSLang.*
+import renetik.java.collections.CSMap
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import renetik.android.java.collections.CSList
+import renetik.java.collections.CSList
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, manifest = "src/main/AndroidManifest.xml")

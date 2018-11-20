@@ -2,11 +2,9 @@ package renetik.android.view
 
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import renetik.android.extensions.NO
-import renetik.android.extensions.YES
-import renetik.android.extensions.notNull
-import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.menu.CSMenuItem
+import renetik.android.view.base.CSViewController
+import renetik.android.view.menu.CSMenuItem
+import renetik.java.lang.CSLang
 
 class CSSearchController : CSViewController<SearchView> {
 
@@ -32,9 +30,9 @@ class CSSearchController : CSViewController<SearchView> {
     }
 
     private fun initializeSearch() {
-        view.setQuery(query, NO)
+        view.setQuery(query, CSLang.NO)
         view.setOnQueryTextListener(object : OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String) = NO
+            override fun onQueryTextSubmit(query: String) = CSLang.NO
 
             override fun onQueryTextChange(value: String): Boolean {
                 query = value
@@ -42,9 +40,9 @@ class CSSearchController : CSViewController<SearchView> {
                 return false
             }
         })
-        view.setOnSearchClickListener { searchOpened = YES }
+        view.setOnSearchClickListener { searchOpened = CSLang.YES }
         view.setOnCloseListener {
-            searchOpened = NO
+            searchOpened = CSLang.NO
             false
         }
         view.setIconifiedByDefault(!expanded)
@@ -55,7 +53,7 @@ class CSSearchController : CSViewController<SearchView> {
     fun clear() {
         val tmpListener = queryListener
         queryListener = null
-        view.setQuery("", NO)
+        view.setQuery("", CSLang.NO)
         view.clearFocus()
         view.isIconified = true
         queryListener = tmpListener

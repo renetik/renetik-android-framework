@@ -12,11 +12,11 @@ import android.widget.ListView
 import renetik.android.extensions.findView
 import renetik.android.extensions.view.hide
 import renetik.android.extensions.view.show
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.list
-import renetik.android.java.event.event
-import renetik.android.lang.CSLang.*
-import renetik.android.viewbase.CSViewController
+import renetik.java.collections.CSList
+import renetik.java.collections.list
+import renetik.java.event.event
+import renetik.android.view.base.CSViewController
+import renetik.java.lang.CSLang
 
 open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T> {
 
@@ -24,7 +24,7 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
     val data = list<RowType>()
     var viewTypesCount = 1
     var listAdapter: BaseAdapter = CSListAdapter(this)
-    private var firstLoad = NO
+    private var firstLoad = CSLang.NO
     private lateinit var createView: (Int) -> CSRowView<RowType>
     private var firstVisiblePosition: Int = 0
     private var emptyView: View? = null
@@ -74,7 +74,7 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
     private fun asRowView(view: View) = view.tag as CSRowView<RowType>
 
     fun loadAdd(list: List<RowType>) = apply {
-        firstLoad = YES
+        firstLoad = CSLang.YES
         data.addAll(list)
         reloadData()
         onLoad.fire(list)
@@ -100,8 +100,8 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
         (view as? ListView)?.setSelectionFromTop(firstVisiblePosition, 0)
         if (savedSelectionIndex > -1) view.setSelection(savedSelectionIndex)
         savedCheckedItems?.let { item ->
-            for (i in iterate(item.size())) if (item.valueAt(i))
-                view.setItemChecked(i, item.valueAt(i))
+            for (i in 0 until item.size())
+                if (item.valueAt(i)) view.setItemChecked(i, item.valueAt(i))
         }
     }
 
@@ -121,7 +121,7 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
     override fun onCreate() {
         super.onCreate()
         view.setAdapter(listAdapter)
-        view.isFastScrollEnabled = YES
+        view.isFastScrollEnabled = CSLang.YES
         view.setOnItemClickListener { _, view, position, _ ->
             onItemClick?.invoke(position, asRowView(view))
         }
@@ -141,11 +141,11 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
 
     fun onIsEnabled(function: (Int) -> Boolean) = apply { onIsEnabled = function }
 
-    fun isEnabled(position: Int) = onIsEnabled?.invoke(position) ?: YES
+    fun isEnabled(position: Int) = onIsEnabled?.invoke(position) ?: CSLang.YES
 
     fun emptyView(id: Int) = apply { emptyView = parentController?.findView(id) }
 
-    fun checkAll() = apply { for (index in iterate(view.count)) view.setItemChecked(index, YES) }
+    fun checkAll() = apply { for (index in 0 until view.count) view.setItemChecked(index, CSLang.YES) }
 
     fun unCheckAll() = apply {
         val positions = view.checkedItemPositions
@@ -154,7 +154,7 @@ open class CSListController<RowType : Any, T : AbsListView> : CSViewController<T
                 val checked = positions.valueAt(i)
                 if (checked) {
                     val index = positions.keyAt(i)
-                    view.setItemChecked(index, NO)
+                    view.setItemChecked(index, CSLang.NO)
                 }
             }
     }

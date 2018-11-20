@@ -2,7 +2,7 @@ package renetik.android.extensions.view
 
 import android.view.View
 import android.view.ViewGroup
-import renetik.android.viewbase.CSView
+import renetik.android.view.base.CSView
 
 fun <T : ViewGroup> T.add(view: CSView<*>) = add(view.view)
 

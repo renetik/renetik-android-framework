@@ -5,8 +5,8 @@ import renetik.android.R
 import renetik.android.json.CSJsonData
 import renetik.android.view.list.CSListRow.RowTypes
 import renetik.android.view.list.CSListRow.RowTypes.Row
-import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.layout
+import renetik.android.view.base.CSViewController
+import renetik.android.view.base.layout
 
 class CSListRowController<RowType : CSJsonData, T : AbsListView>(
         parent: CSViewController<*>, listViewId: Int,

@@ -5,11 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
-import renetik.android.extensions.NO
-import renetik.android.extensions.YES
-import renetik.android.java.event.event
-import renetik.android.lang.CSLang.asString
-import renetik.android.viewbase.CSContextController
+import renetik.android.extensions.asString
+import renetik.java.event.event
+import renetik.android.view.base.CSContextController
+import renetik.java.lang.CSLang
 
 class CSReachability : CSContextController() {
 
@@ -19,7 +18,7 @@ class CSReachability : CSContextController() {
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            asString(intent)
+            intent.asString()
             onNetworkStateChange()
         }
     }
@@ -29,14 +28,14 @@ class CSReachability : CSContextController() {
         if (!started) {
             @Suppress("DEPRECATION")
             registerReceiver(receiver, IntentFilter(CONNECTIVITY_ACTION))
-            started = YES
+            started = CSLang.YES
         }
         return this
     }
 
     fun stop(): CSReachability {
         if (started) {
-            started = NO
+            started = CSLang.NO
             unregisterReceiver(receiver)
         }
         return this

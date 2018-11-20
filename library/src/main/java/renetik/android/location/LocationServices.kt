@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import renetik.android.viewbase.CSViewController
+import renetik.android.view.base.CSViewController
 
 fun locationClient(controller: CSViewController<*>) = LocationServices.getFusedLocationProviderClient(controller.activity())
 

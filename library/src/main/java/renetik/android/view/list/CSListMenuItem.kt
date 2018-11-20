@@ -1,8 +1,8 @@
 package renetik.android.view.list
 
-import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.menu.CSMenuItem
-import renetik.android.java.collections.CSList
+import renetik.android.view.base.CSViewController
+import renetik.android.view.menu.CSMenuItem
+import renetik.java.collections.CSList
 
 
 class CSListMenuItem<RowType>(controller: CSViewController<*>, title: String) : CSMenuItem(controller, title) {

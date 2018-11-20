@@ -5,14 +5,14 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import renetik.android.R
 import renetik.android.R.id
-import renetik.android.application
+import renetik.android.model.application
 import renetik.android.extensions.dialog
 import renetik.android.extensions.floatingButton
 import renetik.android.extensions.sendMail
 import renetik.android.extensions.textView
 import renetik.android.extensions.view.*
-import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.layout
+import renetik.android.view.base.CSViewController
+import renetik.android.view.base.layout
 
 const val sendLogMailKey = "send_log_mail"
 

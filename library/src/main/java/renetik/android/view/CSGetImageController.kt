@@ -11,19 +11,19 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.view.View
-import renetik.android.application
+import renetik.android.model.application
 import renetik.android.extensions.dialog
+import renetik.java.extensions.copy
+import renetik.java.extensions.primitives.generateRandomStringOfLength
 import renetik.android.extensions.requestPermissions
+import renetik.android.extensions.java.resizeImage
 import renetik.android.extensions.snackBarWarn
-import renetik.android.image.CSBitmap.resizeImage
-import renetik.android.java.collections.list
-import renetik.android.lang.CSLang.copy
-import renetik.android.lang.CSLang.generateRandomStringOfLength
-import renetik.android.lang.tryAndError
-import renetik.android.lang.tryAndWarn
-import renetik.android.viewbase.CSView
-import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.startActivityForResult
+import renetik.java.collections.list
+import renetik.java.lang.tryAndError
+import renetik.java.lang.tryAndWarn
+import renetik.android.view.base.CSView
+import renetik.android.view.base.CSViewController
+import renetik.android.view.base.startActivityForResult
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -58,8 +58,8 @@ class CSGetImageController<T : View>(parent: CSViewController<T>, val title: Str
     private fun onImageSelected(input: InputStream) = tryAndError {
         val image = File(folder, generateRandomStringOfLength(4) + ".jpg")
         image.createNewFile()
-        copy(input, FileOutputStream(image))
-        resizeImage(image.absolutePath, 1024, 768)
+        input.copy(FileOutputStream(image))
+        image.resizeImage(1024, 768)
         onImageReady(image)
     }
 

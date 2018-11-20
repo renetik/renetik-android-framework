@@ -13,27 +13,23 @@ import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.list
-import renetik.android.java.lang.CSMath.randomInt
-import renetik.android.lang.CSLang.*
+import renetik.java.collections.CSList
+import renetik.java.collections.list
+import renetik.java.math.CSMath.randomInt
+import renetik.java.lang.tryAndError
 import renetik.android.rpc.CSRequest
-import renetik.android.viewbase.CSViewController
+import renetik.android.view.base.CSViewController
+import renetik.java.extensions.set
 import java.io.File
 
 fun <T : CSViewController<*>> T.navigateToLatLng(latLng: LatLng, title: String) {
-    val uri = stringf("http://maps.google.com/maps?&daddr=%f,%f (%s)",
-            latLng.latitude, latLng.longitude, title)
+    val uri = "http://maps.google.com/maps?&daddr=${latLng.latitude},${latLng.longitude} (${title})"
     try {
         startActivity(Intent(ACTION_VIEW, parse(uri)).apply {
             setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
         })
     } catch (ex: ActivityNotFoundException) {
-        try {
-            startActivity(Intent(ACTION_VIEW, parse(uri)))
-        } catch (e: ActivityNotFoundException) {
-            error(e)
-        }
+        tryAndError(ActivityNotFoundException::class) { startActivity(Intent(ACTION_VIEW, parse(uri))) }
     }
 }
 
@@ -55,12 +51,12 @@ fun <T : CSViewController<*>> T.sendMail(email: String, subject: String, text: S
 }
 
 fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String, body: String,
-                                         attachment: File) {
+                                                                   attachment: File) {
     sendMail(emails, subject, body, list(attachment))
 }
 
 fun <T : CSViewController<*>> T.sendMail(emails: CSList<String>, subject: String, body: String,
-                                         attachments: List<File>) {
+                                                                   attachments: List<File>) {
     Intent(if (attachments.isEmpty()) ACTION_SEND else ACTION_SEND_MULTIPLE).apply {
         putExtra(EXTRA_EMAIL, emails.toTypedArray()).putExtra(EXTRA_SUBJECT, subject)
         putExtra(EXTRA_TEXT, body).type = "text/plain"
@@ -101,7 +97,7 @@ fun CSViewController<*>.requestPermissionsWithForce(permissions: List<String>, o
 }
 
 fun CSViewController<*>.requestPermissions(permissions: List<String>,
-                                           onGranted: () -> Unit, onNotGranted: (() -> Unit)?) {
+                                                                     onGranted: () -> Unit, onNotGranted: (() -> Unit)?) {
     if (SDK_INT < 23) {
         onGranted()
         return
@@ -126,9 +122,8 @@ fun CSViewController<*>.requestPermissions(permissions: List<String>,
 fun CSViewController<*>.getDeniedPermissions(permissions: List<String>): Array<String> {
     val deniedPermissions = list<String>()
     for (permission in permissions)
-        if (isPermissionGranted(permission))
-            deniedPermissions.add(permission)
-    return toStringArray(deniedPermissions)
+        if (isPermissionGranted(permission)) deniedPermissions.add(permission)
+    return deniedPermissions.toTypedArray()
 }
 
 fun CSViewController<*>.isPermissionGranted(permission: String): Boolean {

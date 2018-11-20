@@ -1,8 +1,8 @@
 package renetik.android.view.list
 
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.list
-import renetik.android.java.lang.CSValues
+import renetik.java.collections.CSList
+import renetik.java.collections.list
+import renetik.java.lang.CSValues
 import renetik.android.json.CSJsonData
 import renetik.android.view.list.CSListRow.RowTypes
 import renetik.android.view.list.CSListRow.RowTypes.*
@@ -39,7 +39,7 @@ fun <T : CSJsonData, Data> rowsFromListDatas(dataList: CSList<Data>)
     for (data in dataList) {
         listData.add(createRow(data, SectionHeader, sectionIndex))
         var rowIndex = 0
-        while (rowIndex < data.values().count())
+        while (rowIndex < data.values.size)
             listData.add(createRow(data, Row, rowIndex++))
         listData.add(createRow(data, SectionSpace, sectionIndex))
         sectionIndex++
@@ -58,7 +58,7 @@ fun <T : CSJsonData> rowsFromLists(data: CSList<CSList<T>>): CSList<CSListRow<T>
         listData.add(createRow(SectionSpace, sectionIndex))
         sectionIndex++
     }
-    listData.removeLast()
+    listData.deleteLast()
     listData.add(createTableFooter())
     return listData
 }

@@ -4,10 +4,8 @@ import android.view.ActionMode
 import android.view.Menu
 import android.widget.AbsListView
 import renetik.android.extensions.dialog
-import renetik.android.viewbase.CSViewController
 
 class CSRemoveListRowsController<RowType : Any, AbsListViewType : AbsListView>(
-        parent: CSViewController<*>,
         private val listController: CSListController<RowType, AbsListViewType>,
         question: String, onRemove: (List<RowType>) -> Unit)
     : CSListActionsMultiSelectionController<RowType, AbsListViewType>( listController) {

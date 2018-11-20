@@ -2,9 +2,9 @@ package renetik.android.json
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.CSMap
-import renetik.android.java.collections.list
+import renetik.java.collections.CSList
+import renetik.java.collections.CSMap
+import renetik.java.collections.list
 import renetik.android.location.asLatLng
 import java.io.File
 import kotlin.reflect.KClass
@@ -47,7 +47,7 @@ class CSJsonLocationProperty(val data: CSJsonData, private val key: String) {
 class CSJsonDataListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<T>,
                                              val key: String) {
     var list: CSList<T>
-        get() = createList(type.java, data.getList(key) as List<CSMap<String, Any?>>?)
+        get() = createList(type, data.getList(key) as List<CSMap<String, Any?>>?)
         set(list) = list.forEach { item -> add(item) }
 
     val last: T? get() = list.last()
@@ -57,7 +57,7 @@ class CSJsonDataListProperty<T : CSJsonData>(val data: CSJsonData, val type: KCl
             ?: data.put(key, list(item.getJsonDataMap()))
 
     fun remove(item: T) = data.getList(key)?.delete(item.getJsonDataMap())
-    fun removeLast() = data.getList(key)?.removeLast()
+    fun removeLast() = data.getList(key)?.deleteLast()
     fun size() = data.getList(key)?.size ?: let { 0 }
 }
 
@@ -74,6 +74,6 @@ class CSJsonStringListProperty(val data: CSJsonData, val key: String) {
             ?: data.put(key, list(item))
 
     fun remove(item: String) = data.getList(key)?.delete(item)
-    fun removeLast() = data.getList(key)?.removeLast()
+    fun removeLast() = data.getList(key)?.deleteLast()
     fun size() = data.getList(key)?.size ?: let { 0 }
 }

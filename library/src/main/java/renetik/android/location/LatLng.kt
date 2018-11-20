@@ -11,11 +11,11 @@ fun LatLng.asLocation() = Location("").also {
     it.longitude = longitude
 }
 
-fun computeCenter(points: List<LatLng>): LatLng {
+fun List<LatLng>.computeCenter(): LatLng {
     var latitude = 0.0
     var longitude = 0.0
-    val n = points.size
-    for (point in points) {
+    val n = size
+    for (point in this) {
         latitude += point.latitude
         longitude += point.longitude
     }

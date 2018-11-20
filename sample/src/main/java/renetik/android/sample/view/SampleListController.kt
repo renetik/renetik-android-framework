@@ -8,15 +8,15 @@ import renetik.android.extensions.snackBarInfo
 import renetik.android.extensions.textView
 import renetik.android.extensions.view.onClick
 import renetik.android.extensions.view.title
-import renetik.android.lang.CSLang.toast
+import renetik.android.lang.CSLog.logInfoToast
 import renetik.android.sample.R
 import renetik.android.sample.model.SampleListRow
 import renetik.android.sample.model.model
 import renetik.android.view.list.CSListController
 import renetik.android.view.list.CSRemoveListRowsController
 import renetik.android.view.list.CSRowView
-import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.layout
+import renetik.android.view.base.CSViewController
+import renetik.android.view.base.layout
 
 class SampleListController() : CSViewController<View>(navigation, layout(R.layout.sample_list)) {
 
@@ -27,12 +27,12 @@ class SampleListController() : CSViewController<View>(navigation, layout(R.layou
     }.reload(model.sampleList)
 
     init {
-        CSRemoveListRowsController(this, sampleList, "Remove selected items ?") { toRemove ->
+        CSRemoveListRowsController(sampleList, "Remove selected items ?") { toRemove ->
             toRemove.forEach { item -> model.sampleList.delete(item) }
             sampleList.reload(model.sampleList)
         }
         menu("Action").onClick { snackBarInfo("This is some action") }.alwaysAsAction()
-        menu("Menu item 1").onClick { toast("This is item 1 click") }.neverAsAction()
+        menu("Menu item 1").onClick { logInfoToast("This is item 1 click") }.neverAsAction()
         menu("Menu item 2").neverAsAction().onClick {
             dialog("This is item 2 click").show { dialog("and dialog button click").show() }
         }

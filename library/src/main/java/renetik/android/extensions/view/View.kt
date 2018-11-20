@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
-import renetik.android.view.adapter.AnimatorAdapter
+import renetik.android.view.adapter.CSAnimatorAdapter
 
 val <T : View> T.isVisible get() = visibility == VISIBLE
 
@@ -43,7 +43,7 @@ fun <T : View> T.fadeIn(): ViewPropertyAnimator? {
 fun <T : View> T.fadeOut(): ViewPropertyAnimator? {
     return if (!isVisible || alpha == 0f) null else animate().alpha(0f).setDuration(300)
             .setInterpolator(AccelerateDecelerateInterpolator())
-            .setListener(object : AnimatorAdapter() {
+            .setListener(object : CSAnimatorAdapter() {
                 override fun onAnimationEnd(animator: Animator?) {
                     hide()
                 }

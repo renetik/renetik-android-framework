@@ -1,7 +1,7 @@
 package renetik.android.rpc
 
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.list
+import renetik.java.collections.CSList
+import renetik.java.collections.list
 
 class CSConcurrentResponse(private val responses: CSList<CSResponse<*>>) : CSResponse<CSList<Any>>(list()) {
 

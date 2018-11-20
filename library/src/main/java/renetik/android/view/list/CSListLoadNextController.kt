@@ -9,13 +9,13 @@ import android.widget.AbsListView.OnScrollListener
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import android.widget.ListView
-import renetik.android.java.event.event
-import renetik.android.java.event.fire
-import renetik.android.lang.CSLang.NO
-import renetik.android.lang.CSLang.no
-import renetik.android.viewbase.CSView
-import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.layout
+import renetik.android.view.base.CSView
+import renetik.android.view.base.CSViewController
+import renetik.android.view.base.layout
+import renetik.java.event.event
+import renetik.java.event.fire
+import renetik.java.extensions.isNull
+import renetik.java.lang.CSLang
 
 class CSListLoadNextController<ListType : AbsListView>(
         val parent: CSListController<*, ListType>, list: CSListController<*, ListType>, loadViewLayout: Int)
@@ -32,7 +32,7 @@ class CSListLoadNextController<ListType : AbsListView>(
 
     private fun onListLoad(data: List<*>) {
         loadView.hide()
-        if (no(scrollListener)) scrollListener = EndlessScrollListener()
+        if (scrollListener.isNull) scrollListener = EndlessScrollListener()
         else if (data.isEmpty()) scrollListener = null
         updateScrollListener()
         loading = false
@@ -51,7 +51,7 @@ class CSListLoadNextController<ListType : AbsListView>(
         updateScrollListener()
         (view as? ListView)?.apply {
             addFooterView(loadView.view)
-            setFooterDividersEnabled(NO)
+            setFooterDividersEnabled(CSLang.NO)
         } ?: let {
             if (!loadView.hasParent) (parent.view as FrameLayout).addView(loadView.view,
                     LayoutParams(WRAP_CONTENT, WRAP_CONTENT, BOTTOM or CENTER))

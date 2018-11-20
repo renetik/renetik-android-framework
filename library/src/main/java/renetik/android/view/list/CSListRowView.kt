@@ -1,7 +1,7 @@
 package renetik.android.view.list
 
 import renetik.android.json.CSJsonData
-import renetik.android.viewbase.CSLayoutId
+import renetik.android.view.base.CSLayoutId
 
 class CSListRowView<DataType : CSJsonData>(
         parent: CSListController<CSListRow<DataType>, *>, layout: CSLayoutId,

@@ -1,9 +1,8 @@
 package renetik.android.sample.view
 
-import androidx.appcompat.app.AppCompatActivity
 import renetik.android.view.CSNavigationController
-import renetik.android.viewbase.CSActivity
-import renetik.android.viewbase.CSViewController
+import renetik.android.view.base.CSActivity
+import renetik.android.view.base.CSViewController
 
 lateinit var navigation: SampleNavigationController
 

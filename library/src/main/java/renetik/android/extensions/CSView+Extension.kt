@@ -13,13 +13,14 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import renetik.android.extensions.view.findView
 import renetik.android.extensions.view.isVisible
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.list
-import renetik.android.lang.CSLang.NO
+import renetik.java.collections.CSList
+import renetik.java.collections.list
 import renetik.android.view.CSDialog
-import renetik.android.viewbase.CSView
+import renetik.android.view.base.CSView
+import renetik.java.lang.CSLang
 import java.util.*
-import java.util.Calendar.*
+import java.util.Calendar.HOUR_OF_DAY
+import java.util.Calendar.getInstance
 
 fun <T : View> CSView<*>.findView(id: Int): T = view.findView<T>(id)!!
 fun CSView<*>.view(id: Int) = findView<View>(id)
@@ -57,20 +58,20 @@ fun CSView<*>.getTime(picker: Int) = getTime(timePicker(picker))
 fun CSView<*>.getTime(picker: TimePicker): Date {
     return Calendar.getInstance().apply {
         @Suppress("DEPRECATION") set(HOUR_OF_DAY, picker.currentHour)
-        @Suppress("DEPRECATION") set(MINUTE, picker.currentMinute)
+        @Suppress("DEPRECATION") set(CSLang.MINUTE, picker.currentMinute)
     }.time
 }
 
 fun CSView<*>.initSpinner(id: Int, values: CSList<String>, value: String) {
     setSpinnerData(spinner(id), values)
-    spinner(id).setSelection(values.index(value), NO)
+    spinner(id).setSelection(values.indexOf(value), CSLang.NO)
 }
 
 fun CSView<*>.setSpinnerData(spinner: Spinner, strings: Collection<String>) =
         setSpinnerData(spinner, simple_spinner_item, simple_spinner_dropdown_item, strings)
 
 fun CSView<*>.setSpinnerData(spinner: Spinner, itemLayout: Int,
-                             dropDownItemLayout: Int, strings: Collection<String>) {
+                                                       dropDownItemLayout: Int, strings: Collection<String>) {
     val adapter = ArrayAdapter<String>(this, itemLayout, list<String>(strings))
     adapter.setDropDownViewResource(dropDownItemLayout)
     spinner.adapter = adapter

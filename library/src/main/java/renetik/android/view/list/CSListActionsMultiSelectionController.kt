@@ -7,11 +7,11 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.ListView.CHOICE_MODE_MULTIPLE_MODAL
-import renetik.android.java.collections.list
-import renetik.android.viewbase.CSViewController
-import renetik.android.viewbase.menu.CSOnMenu
-import renetik.android.viewbase.menu.CSOnMenuItem
-import renetik.android.viewbase.menu.GeneratedMenuItems
+import renetik.java.collections.list
+import renetik.android.view.base.CSViewController
+import renetik.android.view.menu.CSOnMenu
+import renetik.android.view.menu.CSOnMenuItem
+import renetik.android.view.menu.GeneratedMenuItems
 
 open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType : AbsListView>(
         private val parent: CSListController<RowType, AbsListViewType>)

@@ -5,12 +5,12 @@ import android.util.AttributeSet
 import android.view.View.MeasureSpec.AT_MOST
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.GridView
-import renetik.android.lang.CSLang.NO
+import renetik.java.lang.CSLang
 import java.lang.Integer.MAX_VALUE
 
 class CSGridView : GridView {
 
-    var autoResizeHeight = NO;
+    var autoResizeHeight = CSLang.NO;
 
     private val attrs: AttributeSet?
 

@@ -1,10 +1,10 @@
 package renetik.android.view.pager
 
 import androidx.viewpager.widget.ViewPager.*
-import renetik.android.extensions.notNull
-import renetik.android.lang.CSLang.between
-import renetik.android.lang.CSLang.size
-import renetik.android.viewbase.CSViewController
+import renetik.java.extensions.notNull
+import renetik.java.extensions.size
+import renetik.java.math.CSMath.between
+import renetik.android.view.base.CSViewController
 
 class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageType>) : OnPageChangeListener
         where PageType : CSViewController<*>, PageType : CSPagerPage {
@@ -30,7 +30,7 @@ class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageTyp
 
     override fun onPageScrolled(firstVisible: Int, offset: Float, offsetPixels: Int) {
         if (SCROLL_STATE_DRAGGING == state && draggingPageIndex != firstVisible) {
-            draggingPageIndex.notNull { onPageReleased()  }
+            draggingPageIndex.notNull { onPageReleased() }
             draggingPageIndex = firstVisible
             val draggerIndex = if (firstVisible < pager.currentIndex)
                 firstVisible else pager.currentIndex + 1

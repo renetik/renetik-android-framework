@@ -6,7 +6,7 @@ import android.widget.BaseAdapter
 
 class CSListAdapter(private val controller: CSListController<*, *>) : BaseAdapter() {
 
-    override fun getCount() = controller.data.count()
+    override fun getCount() = controller.data.size
 
     override fun getViewTypeCount() = controller.viewTypesCount
 

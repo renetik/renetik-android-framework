@@ -8,20 +8,19 @@ import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import renetik.android.java.event.CSEvent
-import renetik.android.java.event.CSEvent.CSEventRegistration
-import renetik.android.java.event.event
-import renetik.android.java.event.execute
-import renetik.android.lang.CSLang.NO
-import renetik.android.lang.CSLang.YES
+import renetik.java.event.CSEvent
+import renetik.java.event.CSEvent.CSEventRegistration
+import renetik.java.event.event
+import renetik.java.event.execute
 import renetik.android.location.asLatLng
-import renetik.android.viewbase.CSViewController
+import renetik.android.view.base.CSViewController
+import renetik.java.lang.CSLang
 
 open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent) {
 
     var map: GoogleMap? = null
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
-    private var animatingCamera = NO
+    private var animatingCamera = CSLang.NO
     private var onCameraMoveStartedByUser = event<GoogleMap>()
     fun onCameraMoveStartedByUser(function: (GoogleMap) -> Unit) = onCameraMoveStartedByUser.execute(function)
     var onCameraStopped = event<GoogleMap>()
@@ -86,7 +85,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     fun camera(location: Location, zoom: Float) = camera(location.asLatLng(), zoom)
 
     fun camera(latLng: LatLng, zoom: Float) {
-        animatingCamera = YES
+        animatingCamera = CSLang.YES
         map?.animateCamera(newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
             override fun onCancel() {
                 onAnimateCameraDone()
@@ -99,7 +98,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     }
 
     fun camera(latLng: LatLng, zoom: Float, onFinished: () -> Unit) {
-        animatingCamera = YES
+        animatingCamera = CSLang.YES
         map?.animateCamera(newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
             override fun onCancel() {
                 onAnimateCameraDone()
@@ -114,7 +113,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     }
 
     private fun onAnimateCameraDone() {
-        animatingCamera = NO
+        animatingCamera = CSLang.NO
     }
 
     fun onMapAvailable(onMapReady: (GoogleMap) -> Unit): CSEventRegistration? {

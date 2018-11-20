@@ -3,9 +3,9 @@ package renetik.android.touch
 import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View
-import renetik.android.java.event.event
-import renetik.android.lang.info
-import renetik.android.viewbase.CSView
+import renetik.java.event.event
+import renetik.android.lang.CSLog.logInfo
+import renetik.android.view.base.CSView
 import java.lang.Math.*
 
 class CSSwipeDetector() : View.OnTouchListener {
@@ -28,22 +28,22 @@ class CSSwipeDetector() : View.OnTouchListener {
 
     fun onBottomToTopSwipe() {
         eventSwipe.fire(CSSwipeType.BottomToTop)
-        info("SwipeDetector onBottomToTopSwipe!")
+        logInfo("SwipeDetector onBottomToTopSwipe!")
     }
 
     fun onLeftToRightSwipe() {
         eventSwipe.fire(CSSwipeType.LeftToRight)
-        info("SwipeDetector LeftToRightSwipe!")
+        logInfo("SwipeDetector LeftToRightSwipe!")
     }
 
     fun onRightToLeftSwipe() {
         eventSwipe.fire(CSSwipeType.RightToLeft)
-        info("SwipeDetector RightToLeftSwipe!")
+        logInfo("SwipeDetector RightToLeftSwipe!")
     }
 
     fun onTopToBottomSwipe() {
         eventSwipe.fire(CSSwipeType.TopToBottom)
-        info("SwipeDetector onTopToBottomSwipe!")
+        logInfo("SwipeDetector onTopToBottomSwipe!")
     }
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
@@ -72,7 +72,7 @@ class CSSwipeDetector() : View.OnTouchListener {
                         return true
                     }
                 } else
-                    info("SwipeDetector Swipe was only " + abs(deltaX) + " long, need at least "
+                    logInfo("SwipeDetector Swipe was only " + abs(deltaX) + " long, need at least "
                             + MIN_DISTANCE)
 
                 // swipe vertical?
@@ -87,7 +87,7 @@ class CSSwipeDetector() : View.OnTouchListener {
                         return true
                     }
                 } else {
-                    info("Swipe was only " + abs(deltaX) + " long, need at least " + MIN_DISTANCE)
+                    logInfo("Swipe was only " + abs(deltaX) + " long, need at least " + MIN_DISTANCE)
                     view.performClick()
                 }
             }

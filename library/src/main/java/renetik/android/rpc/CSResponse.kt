@@ -1,13 +1,14 @@
 package renetik.android.rpc
 
-import renetik.android.extensions.YES
-import renetik.android.extensions.string
-import renetik.android.java.collections.list
-import renetik.android.java.event.event
-import renetik.android.java.event.execute
-import renetik.android.lang.CSLang.*
-import renetik.android.lang.info
-import renetik.android.viewbase.CSContextController
+import renetik.java.extensions.exception
+import renetik.java.extensions.getRootCauseMessage
+import renetik.java.event.event
+import renetik.java.event.execute
+import renetik.android.lang.CSLog.logDebug
+import renetik.android.lang.CSLog.logError
+import renetik.android.lang.CSLog.logInfo
+import renetik.android.view.base.CSContextController
+import renetik.java.lang.CSLang
 
 open class CSResponse<Data : Any> : CSContextController {
     private val eventSuccess = event<CSResponse<Data>>()
@@ -34,7 +35,7 @@ open class CSResponse<Data : Any> : CSContextController {
     lateinit var data: Data
     var failedMessage: String? = null
     var failedResponse: CSResponse<*>? = null
-    var exception: Throwable? = null
+    var throwable: Throwable? = null
 
     constructor(url: String, data: Data) {
         this.url = url
@@ -62,11 +63,11 @@ open class CSResponse<Data : Any> : CSContextController {
     }
 
     private fun onSuccessImpl() {
-        info("Response onSuccessImpl", this, url)
-        if (isFailed) error(exception("already failed"))
-        if (isSuccess) error(exception("already success"))
-        if (isDone) error(exception("already done"))
-        isSuccess = YES
+        logInfo("Response onSuccessImpl", this, url)
+        if (isFailed) logError(exception("already failed"))
+        if (isSuccess) logError(exception("already success"))
+        if (isDone) logError(exception("already done"))
+        isSuccess = CSLang.YES
         eventSuccess.fire(this)
     }
 
@@ -85,38 +86,37 @@ open class CSResponse<Data : Any> : CSContextController {
 
     fun failed(exception: Throwable?, message: String?) {
         if (isCanceled) return
-        this.exception = exception
+        this.throwable = exception
         this.failedMessage = message
         onFailedImpl(this)
         onDoneImpl()
     }
 
     private fun onFailedImpl(response: CSResponse<*>) {
-        info("Response onFailedImpl", this, url)
-        if (isDone) error(exception("already done"))
-        if (isFailed) error(exception("already failed"))
+        if (isDone) logError(exception("already done"))
+        if (isFailed) logError(exception("already failed"))
         failedResponse = response
-        isFailed = YES
-        exception = if (set(response.exception)) response.exception else Throwable()
-        failedMessage = string(" ", list(response.failedMessage, getRootCauseMessage(response.exception)))
-        error(exception, failedMessage)
+        isFailed = CSLang.YES
+        failedMessage = "${response.failedMessage}, ${response.throwable?.getRootCauseMessage()}"
+        throwable = response.throwable ?: Throwable()
+        logError(throwable!!, failedMessage)
         eventFailed.fire(response)
     }
 
     open fun cancel() {
-        info("Response cancel", this, "isCanceled", isCanceled, "isDone", isDone, "isSuccess", isSuccess, "isFailed", isFailed)
+        logDebug("Response cancel", this, "isCanceled", isCanceled, "isDone", isDone, "isSuccess", isSuccess, "isFailed", isFailed)
         if (isCanceled || isDone || isSuccess || isFailed) return
-        isCanceled = YES
+        isCanceled = CSLang.YES
         onDoneImpl()
     }
 
     private fun onDoneImpl() {
-        debug("Response onDone", this)
+        logDebug("Response onDone", this)
         if (isDone) {
-            error(exception("already done"))
+            logError(exception("already done"))
             return
         }
-        isDone = YES
+        isDone = CSLang.YES
         eventDone.fire(this)
     }
 }

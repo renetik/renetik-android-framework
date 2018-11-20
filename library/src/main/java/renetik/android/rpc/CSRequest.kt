@@ -1,7 +1,7 @@
 package renetik.android.rpc
 
-import renetik.android.java.event.event
-import renetik.android.java.event.execute
+import renetik.java.event.event
+import renetik.java.event.execute
 
 class CSRequest<Data : Any>(val onSend: () -> CSResponse<Data>) {
     private val eventSuccess = event<Data>()
