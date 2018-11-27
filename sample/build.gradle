@@ -17,8 +17,8 @@ android {
 }
 
 dependencies {
-    implementation project(':renetik-android:library')
-//    implementation project(':library')
+//    implementation project(':renetik-android:library')
+    implementation project(':library')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
