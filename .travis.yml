@@ -13,11 +13,14 @@ android:
     #- android-26
 
     # Additional components
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
+    #- extra-google-google_play_services
+    #- extra-google-m2repository
+    #- extra-android-m2repository
+
+    - extra
+    - addons
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    - sys-img-x86-android-26
+    #- sys-img-x86-android-26
     #- sys-img-armeabi-v7a-android-17
