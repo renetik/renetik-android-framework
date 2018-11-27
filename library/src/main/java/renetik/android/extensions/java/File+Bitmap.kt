@@ -20,7 +20,10 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import renetik.java.extensions.close
 import renetik.java.lang.tryAndError
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.lang.Integer.max
 
 fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, context: Context) {
@@ -29,9 +32,7 @@ fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, context: Context
             .diskCacheStrategy(NONE)).into(object : SimpleTarget<Bitmap>() {
         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
             tryAndError(FileNotFoundException::class) {
-                val out = FileOutputStream(this@resizeImage)
-                resource.compress(JPEG, 80, out)
-                close(out)
+                FileOutputStream(this@resizeImage).use { resource.compress(JPEG, 80, it) }
             }
         }
     })
@@ -39,7 +40,7 @@ fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, context: Context
 
 fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int) {
     tryAndError {
-        var input: InputStream = FileInputStream(this)
+        var input = FileInputStream(this)
         var options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         decodeStream(input, null, options)
@@ -65,9 +66,7 @@ fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int) {
                 (roughBitmap.getHeight() * values[4]).toInt(), true)
 
         resizedBitmap = this.rotateBitmap(resizedBitmap)
-        val out = FileOutputStream(this)
-        resizedBitmap.compress(JPEG, 80, out)
-        close(out)
+        FileOutputStream(this).use { resizedBitmap.compress(JPEG, 80, it) }
     }
 }
 

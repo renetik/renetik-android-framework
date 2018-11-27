@@ -6,10 +6,10 @@ import java.io.FileOutputStream
 
 fun File.write(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int) = apply {
     createNewFile()
-    val out = FileOutputStream(this)
-    bitmap.compress(format, quality, out)
-    out.flush()
-    out.close()
+    outputStream().use { out ->
+        bitmap.compress(format, quality, out)
+        out.flush()
+    }
 }
 
 fun File.write(text: String) = apply {
