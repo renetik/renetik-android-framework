@@ -1,1 +1,4 @@
-include ':library', ':sample'
+//include ':library', ':sample'
+include ':renetik-android:library', ':renetik-android:sample'
+project(':renetik-android:library').projectDir = new File("library")
+project(':renetik-android:sample').projectDir = new File("sample")
