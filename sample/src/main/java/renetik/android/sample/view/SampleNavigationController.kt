@@ -8,13 +8,13 @@ lateinit var navigation: SampleNavigationController
 
 class SampleNavigationController(activity: CSActivity) : CSNavigationController(activity) {
     override fun onViewShowingFirstTime() {
-        navigation.push(SampleListController())
+        navigation = this
+        MainMenuController().push()
     }
 }
 
 class NavigationActivity : CSActivity() {
-    override fun createController(): CSViewController<*> {
-        navigation = SampleNavigationController(this)
-        return navigation
-    }
+    override fun createController(): CSViewController<*> = SampleNavigationController(this)
 }
+
+fun CSViewController<*>.push() = apply { navigation.push(this) }

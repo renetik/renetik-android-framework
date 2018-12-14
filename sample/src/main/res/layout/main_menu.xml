@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSContainer">
+
+    <Button
+        android:textAppearance="@style/CSTextBody1"
+        style="@style/MatchFill"
+        android:background="@color/cs_blue" />
+
+    <!--<View-->
+        <!--style="@style/MatchFill"-->
+        <!--android:background="@color/cs_white" />-->
+</LinearLayout>

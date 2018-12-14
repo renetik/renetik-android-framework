@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--style="@style/MatchWrap">-->
+
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/MatchWrap"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingEnd="3dp"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp">
+
+        <ImageView
+            android:id="@+id/ImageTitleListItem_Image"
+            style="@style/Match"
+            android:layout_width="80dp"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_report_image" />
+
+        <LinearLayout
+            style="@style/MatchWrap"
+            android:layout_marginStart="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ImageTitleListItem_Overline"
+                style="@style/MatchWrap"
+                android:lines="1"
+                android:padding="3dp"
+                android:text="Overline"
+                android:textAppearance="@style/CSTextOverline" />
+
+            <TextView
+                android:id="@+id/ImageTitleListItem_Body1"
+                style="@style/MatchWrap"
+                android:lines="1"
+                android:padding="3dp"
+                android:text="Headline 6"
+                android:textAppearance="@style/CSTextBody1" />
+
+            <TextView
+                android:id="@+id/ImageTitleListItem_Body2"
+                style="@style/MatchWrap"
+                android:lines="1"
+                android:padding="3dp"
+                android:text="Body 2"
+                android:textAppearance="@style/CSTextBody2" />
+        </LinearLayout>
+    </LinearLayout>

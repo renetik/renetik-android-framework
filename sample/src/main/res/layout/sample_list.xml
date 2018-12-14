@@ -9,7 +9,7 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="Example sample list"
-            android:textAppearance="@style/CSListTitle"
+            android:textAppearance="@style/CSTextListTitle"
             android:textColor="@color/cs_white" />
     </FrameLayout>
 
@@ -25,7 +25,7 @@
             style="@style/Wrap"
             android:layout_gravity="center"
             android:text="No items in list"
-            android:textAppearance="@style/CSHeadline6"
+            android:textAppearance="@style/CSTextHeadline6"
             android:textColor="@color/cs_dark_grey_text" />
     </FrameLayout>
 
@@ -34,7 +34,7 @@
         style="@style/MatchWrap"
         android:backgroundTint="@color/colorAccent"
         android:text="Do something"
-        android:textAppearance="@style/CSOverline"
+        android:textAppearance="@style/CSTextOverline"
         android:textColor="@color/cs_white" />
 
 </LinearLayout>

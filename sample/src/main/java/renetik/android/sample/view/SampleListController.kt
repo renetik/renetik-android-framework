@@ -34,9 +34,9 @@ class SampleListController() : CSViewController<View>(navigation, layout(R.layou
         menu("Action").onClick { snackBarInfo("This is some action") }.alwaysAsAction()
         menu("Menu item 1").onClick { logInfoToast("This is item 1 click") }.neverAsAction()
         menu("Menu item 2").neverAsAction().onClick {
-            dialog("This is item 2 click").show { dialog("and dialog button click").show() }
+            dialog("This is item 2 click").show { dialog("and dialog Button click").show() }
         }
-        button(R.id.SampleList_BottomButton).onClick { dialog("Bottom button click").show() }
+        button(R.id.SampleList_BottomButton).onClick { dialog("Bottom Button click").show() }
     }
 }
 

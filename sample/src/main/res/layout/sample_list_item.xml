@@ -28,7 +28,7 @@
             android:lines="1"
             android:padding="3dp"
             android:text="Overline"
-            android:textAppearance="@style/CSOverline" />
+            android:textAppearance="@style/CSTextOverline" />
 
         <TextView
             android:id="@+id/title"
@@ -36,7 +36,7 @@
             android:lines="1"
             android:padding="3dp"
             android:text="Headline 6"
-            android:textAppearance="@style/CSHeadline6" />
+            android:textAppearance="@style/CSTextHeadline6" />
 
         <TextView
             android:id="@+id/subtitle"
@@ -46,6 +46,6 @@
             android:lines="1"
             android:padding="3dp"
             android:text="Body 2"
-            android:textAppearance="@style/CSBody2" />
+            android:textAppearance="@style/CSTextBody2" />
     </LinearLayout>
 </LinearLayout>
