@@ -6,7 +6,7 @@ import renetik.android.extensions.view.*
 import renetik.android.sample.R
 import renetik.android.view.base.CSViewController
 
-class MainMenuController : CSViewController<View>(navigation) {
+class SampleMainMenuController : CSViewController<View>(navigation) {
 
     override fun createView() = VerticalLayout(R.style.CSContainer) {
         Button(layoutMatchFill, "Example List", R.style.CSTextHeadline6) {
