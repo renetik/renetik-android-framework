@@ -2,37 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/CSContainer">
 
-    <FrameLayout style="@style/MatchWrap">
+    <FrameLayout style="@style/CSMatchWrap">
 
+            <!--android:background="@color/colorPrimary"-->
         <TextView
-            style="@style/MatchWrap"
-            android:background="@color/colorPrimary"
+            style="@style/CSMatchWrap"
             android:gravity="center"
             android:text="Example sample list"
             android:textAppearance="@style/CSTextListTitle"
             android:textColor="@color/cs_white" />
     </FrameLayout>
 
-    <FrameLayout style="@style/MatchFill">
+    <FrameLayout style="@style/CSMatchFill">
 
         <ListView
             android:id="@+id/SampleList_List"
-            style="@style/Match"
+            style="@style/CSMatch"
             android:theme="@android:style/Widget.Material.Light.ListView" />
 
         <TextView
             android:id="@+id/SampleList_ListEmpty"
-            style="@style/Wrap"
+            style="@style/CSWrap"
             android:layout_gravity="center"
             android:text="No items in list"
             android:textAppearance="@style/CSTextHeadline6"
             android:textColor="@color/cs_dark_grey_text" />
     </FrameLayout>
 
+        <!--android:backgroundTint="@color/colorAccent"-->
     <Button
         android:id="@+id/SampleList_BottomButton"
-        style="@style/MatchWrap"
-        android:backgroundTint="@color/colorAccent"
+        style="@style/CSMatchWrap"
         android:text="Do something"
         android:textAppearance="@style/CSTextOverline"
         android:textColor="@color/cs_white" />

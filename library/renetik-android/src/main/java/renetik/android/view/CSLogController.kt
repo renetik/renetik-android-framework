@@ -1,16 +1,16 @@
 package renetik.android.view
 
-import android.graphics.Color
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import renetik.android.R
 import renetik.android.R.id
-import renetik.android.model.application
 import renetik.android.extensions.dialog
 import renetik.android.extensions.floatingButton
 import renetik.android.extensions.sendMail
 import renetik.android.extensions.textView
-import renetik.android.extensions.view.*
+import renetik.android.extensions.view.onClick
+import renetik.android.extensions.view.title
+import renetik.android.model.application
 import renetik.android.view.base.CSViewController
 import renetik.android.view.base.layout
 
@@ -27,7 +27,7 @@ class CSLogController(val navigation: CSNavigationController) :
 
     override fun onCreate() {
         super.onCreate()
-        floatingButton(R.id.CSLog_Reload).onClick { loadText() }.iconTint(Color.WHITE)
+        floatingButton(R.id.CSLog_Reload).onClick { loadText() }
         loadText()
     }
 

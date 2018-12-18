@@ -4,7 +4,7 @@
 
     <Button
         android:textAppearance="@style/CSTextBody1"
-        style="@style/MatchFill"
+        style="@style/CSMatchFill"
         android:background="@color/cs_blue" />
 
     <!--<View-->

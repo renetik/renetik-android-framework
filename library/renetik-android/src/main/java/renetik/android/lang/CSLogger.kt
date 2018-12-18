@@ -32,7 +32,7 @@ object CSLog {
     }
 
     private fun createLogMessage(values: Array<out Any?>): Array<Any?> {
-        val element = Thread.currentThread().stackTrace[5]
+        val element = Thread.currentThread().stackTrace[4]
         return list<Any?>("${element.className}(${element.fileName}:${element.lineNumber})")
                 .putAll(*values).toTypedArray()
     }

@@ -9,10 +9,10 @@ import renetik.android.R.drawable.abc_ic_clear_material
 
 @SuppressLint("PrivateResource")
 fun <T : EditText> T.withClear(): T {
+    updateClearIcon()
     addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(editable: Editable) {
-            setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                    if (editable.isNotEmpty()) abc_ic_clear_material else 0, 0)
+            updateClearIcon()
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -27,4 +27,9 @@ fun <T : EditText> T.withClear(): T {
         false
     }
     return this
+}
+
+fun EditText.updateClearIcon() {
+    setCompoundDrawablesWithIntrinsicBounds(0, 0,
+            if (editableText.isNotEmpty()) abc_ic_clear_material else 0, 0)
 }

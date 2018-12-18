@@ -9,7 +9,7 @@ lateinit var navigation: SampleNavigationController
 class SampleNavigationController(activity: CSActivity) : CSNavigationController(activity) {
     override fun onViewShowingFirstTime() {
         navigation = this
-        MainMenuController().push()
+        SampleMainMenuController().push()
     }
 }
 

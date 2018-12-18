@@ -16,7 +16,7 @@ class AndroidLogger() : CSContextController(), CSLogger {
 
     private val maxLogSize = 2.5 * CSLang.MB
     private val dateFormat = DateFormat.getDateTimeInstance()
-    private val logText = stringBuilder()
+    private val logText = StringBuilder()
 
     override fun onLowMemory() {
         val sizeAboveLowMemoryMax = logText.length - CSLang.MB
@@ -74,7 +74,7 @@ class AndroidLogger() : CSContextController(), CSLogger {
     }
 
     private fun createMessage(vararg values: Any?):StringBuilder {
-        val message = stringBuilder()
+        val message = StringBuilder()
         for (string in values) string.notNull { message.add(it).addSpace() }
         return message
     }

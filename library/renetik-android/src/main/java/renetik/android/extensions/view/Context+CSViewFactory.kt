@@ -34,7 +34,7 @@ fun Context.MaterialCardView(init: ((MaterialCardView).() -> Unit)? = null) = Ma
 }
 
 fun Context.MaterialCardView(styleResource: Int, init: ((MaterialCardView).() -> Unit)? = null) = MaterialCardView(this).apply {
-//    style(styleResource)
+    style(styleResource)
     init?.invoke(this)
 }
 

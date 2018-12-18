@@ -3,15 +3,18 @@ package renetik.android.extensions
 import android.content.Context
 import android.content.res.Resources.NotFoundException
 import android.util.DisplayMetrics
+import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import renetik.java.collections.CSList
 import renetik.java.collections.list
+import renetik.java.extensions.isEmpty
 import renetik.java.lang.tryAndCatch
 import renetik.java.lang.tryAndFinally
 import renetik.java.lang.tryAndWarn
 import java.io.ByteArrayOutputStream
 
-fun Context.color(color: Int): Int? =
+
+fun Context.color(color: Int): Int =
         tryAndCatch(NotFoundException::class, { resourceColor(color) }, { color })
 
 fun Context.resourceColor(color: Int) = ContextCompat.getColor(this, color)
@@ -46,10 +49,13 @@ fun Context.toDp(pixel: Int) = pixel / (displayMetrics.densityDpi / 160f)
 fun Context.toPixel(dp: Float) = (dp * (displayMetrics.densityDpi / 160f)).toInt()
 fun Context.toPixel(dp: Int) = toPixel(dp.toFloat())
 
+
+private fun Context.resolveAttribute(attribute: Int) =
+        TypedValue().apply { theme.resolveAttribute(attribute, this, true) }
+
 fun Context.colorFromAttribute(attribute: Int): Int {
-    val attributes = obtainStyledAttributes(intArrayOf(attribute))
-    val color = attributes.getColor(0, 0)
-    attributes.recycle()
+    val color = resolveAttribute(attribute).data
+    if (color.isEmpty) throw NotFoundException()
     return color
 }
 
@@ -61,8 +67,7 @@ fun Context.dimensionFromAttribute(attribute: Int): Int {
 }
 
 fun Context.resourceFromAttribute(attribute: Int): Int {
-    val attributes = obtainStyledAttributes(intArrayOf(attribute))
-    val resource = attributes.getResourceId(0, 0)
-    attributes.recycle()
-    return resource
+    val resourceId = resolveAttribute(attribute).resourceId
+    if (resourceId.isEmpty) throw NotFoundException()
+    return resourceId
 }

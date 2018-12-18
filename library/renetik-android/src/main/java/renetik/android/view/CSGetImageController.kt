@@ -78,7 +78,7 @@ class CSGetImageController<T : View>(val parent: CSViewController<T>, val title:
 
     private fun onTakePhoto() {
         val intent = Intent(ACTION_IMAGE_CAPTURE)
-        intent.putExtra(EXTRA_OUTPUT, getUriForFile(context, "renetik.android.fileprovider",
+        intent.putExtra(EXTRA_OUTPUT, getUriForFile(this, "renetik.android.fileprovider",
                 application.getExternalFilesDir(DIRECTORY_PICTURES)!!.createDatedFile("jpg")))
         startActivityForResult(intent) {
             logInfo(it)

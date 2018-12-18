@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/MatchWrap"
-    android:background="?android:attr/activatedBackgroundIndicator"
+    style="@style/CSMatchWrap"
     android:orientation="horizontal"
     android:paddingStart="5dp"
     android:paddingTop="5dp"
     android:paddingEnd="3dp"
     android:paddingBottom="5dp">
+    <!--android:background="?android:attr/activatedBackgroundIndicator"-->
 
 
     <ImageView
         android:id="@+id/SampleListItem_Image"
-        style="@style/Match"
+        style="@style/CSMatch"
         android:layout_width="80dp"
         android:scaleType="fitCenter"
         android:src="@drawable/no_image" />
 
     <LinearLayout
-        style="@style/MatchWrap"
+        style="@style/CSMatchWrap"
         android:layout_marginStart="5dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/header"
-            style="@style/MatchWrap"
+            style="@style/CSMatchWrap"
             android:lines="1"
             android:padding="3dp"
             android:text="Overline"
@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/MatchWrap"
+            style="@style/CSMatchWrap"
             android:lines="1"
             android:padding="3dp"
             android:text="Headline 6"
@@ -40,7 +40,7 @@
 
         <TextView
             android:id="@+id/subtitle"
-            style="@style/MatchWrap"
+            style="@style/CSMatchWrap"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:lines="1"

@@ -4,7 +4,7 @@ import renetik.java.collections.CSList
 import renetik.java.collections.list
 import renetik.java.lang.CSLang
 
-fun stringBuilder(vararg values: String) = StringBuilder().add(*values)
+fun StringBuilder(vararg values: String) = kotlin.text.StringBuilder().add(*values)
 val StringBuilder.isEmpty get() = length == 0
 fun StringBuilder.add(vararg strings: CharSequence) = apply { for (string in strings) append(string) }
 fun StringBuilder.add(vararg objects: Any) = apply { for (any in objects) add(any.toString()) }
@@ -24,8 +24,8 @@ fun StringBuilder.cut(startIndex: Int, endIndex: Int) = apply {
 }
 
 fun StringBuilder.remove(start: Int, length: Int) = apply { cut(start, start + length) }
-fun StringBuilder.deleteLast(length: Int) = apply { cut(length - length, length) }
-fun StringBuilder.leaveStart(length: Int) = apply { cut(length, length) }
+fun StringBuilder.deleteLast(length: Int) = apply { cut(this.length - length, this.length) }
+fun StringBuilder.leaveStart(length: Int) = apply { cut(length, this.length) }
 fun StringBuilder.cutStart(length: Int) = apply { cut(0, length) }
 
 fun StringBuilder.remove(vararg strings: String) = apply {

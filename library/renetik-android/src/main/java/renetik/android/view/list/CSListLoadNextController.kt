@@ -17,16 +17,17 @@ import renetik.java.event.fire
 import renetik.java.extensions.isNull
 
 class CSListLoadNextController<ListType : AbsListView>(
-        val parent: CSListController<*, ListType>, list: CSListController<*, ListType>, loadViewLayout: Int)
-    : CSViewController<ListType>(list) {
+        val parent: CSListController<*, ListType>,
+        listController: CSListController<*, ListType>, loadViewLayout: Int)
+    : CSViewController<ListType>(listController) {
 
-    val onLoadNext = event<Unit>()
+    private val onLoadNext = event<Unit>()
     private val loadView = CSView<View>(this, layout(loadViewLayout))
     private var scrollListener: EndlessScrollListener? = null
     private var loading = false
 
     init {
-        parent.onLoad.run { _, list -> onListLoad(list) }
+        parent.onLoad.run { _, data -> onListLoad(data) }
     }
 
     private fun onListLoad(data: List<*>) {

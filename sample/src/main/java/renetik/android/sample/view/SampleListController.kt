@@ -12,19 +12,22 @@ import renetik.android.lang.CSLog.logInfoToast
 import renetik.android.sample.R
 import renetik.android.sample.model.SampleListRow
 import renetik.android.sample.model.model
+import renetik.android.view.base.CSViewController
+import renetik.android.view.base.layout
 import renetik.android.view.list.CSListController
 import renetik.android.view.list.CSRemoveListRowsController
 import renetik.android.view.list.CSRowView
-import renetik.android.view.base.CSViewController
-import renetik.android.view.base.layout
 
 class SampleListController() : CSViewController<View>(navigation, layout(R.layout.sample_list)) {
 
-    private var sampleList = CSListController<SampleListRow, ListView>(this, R.id.SampleList_List).apply {
-        onCreateView { SampleListRowView(this) }
-        onItemClick { _, rowView -> snackBarInfo("SampleListItemView clicked ${rowView.data.title}") }
-        emptyView(R.id.SampleList_ListEmpty)
-    }.reload(model.sampleList)
+    private var sampleList = CSListController<SampleListRow, ListView>(this, R.id.SampleList_List) {
+        CSRowView(this, layout(R.layout.sample_list_item)) { row ->
+            textView(R.id.header).title(row.time)
+            textView(R.id.title).title(row.title)
+            textView(R.id.subtitle).title(row.subtitle)
+        }
+    }.onItemClick { rowView -> snackBarInfo("SampleListItemView clicked ${rowView.data.title}") }
+            .emptyView(R.id.SampleList_ListEmpty).reload(model.sampleList)
 
     init {
         CSRemoveListRowsController(sampleList, "Remove selected items ?") { toRemove ->
@@ -37,14 +40,5 @@ class SampleListController() : CSViewController<View>(navigation, layout(R.layou
             dialog("This is item 2 click").show { dialog("and dialog Button click").show() }
         }
         button(R.id.SampleList_BottomButton).onClick { dialog("Bottom Button click").show() }
-    }
-}
-
-class SampleListRowView(list: CSListController<SampleListRow, *>) :
-        CSRowView<SampleListRow>(list, layout(R.layout.sample_list_item)) {
-    override fun onLoad(row: SampleListRow) {
-        textView(R.id.header).title(row.time)
-        textView(R.id.title).title(row.title)
-        textView(R.id.subtitle).title(row.subtitle)
     }
 }

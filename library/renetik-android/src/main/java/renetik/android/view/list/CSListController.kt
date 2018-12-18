@@ -22,17 +22,17 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     val onLoad = event<List<RowType>>()
     val data = list<RowType>()
     var viewTypesCount = 1
-    var listAdapter: BaseAdapter = CSListAdapter(this)
+    private var listAdapter: BaseAdapter = CSListAdapter(this)
     private var firstLoad = false
-    private lateinit var createView: (Int) -> CSRowView<RowType>
+    private val createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
     private var firstVisiblePosition: Int = 0
     private var emptyView: View? = null
         set(value) {
             field = value?.hide()
         }
-    private var onItemClick: ((Int, CSRowView<RowType>) -> Unit)? = null
+    private var onItemClick: ((CSRowView<RowType>) -> Unit)? = null
     private var onPositionViewType: ((Int) -> Int)? = null
-    private var onItemLongClick: ((Int, CSRowView<RowType>) -> Unit)? = null
+    private var onItemLongClick: ((CSRowView<RowType>) -> Unit)? = null
     private var onIsEnabled: ((Int) -> Boolean)? = null
     private var savedSelectionIndex: Int = 0
     private var savedCheckedItems: SparseBooleanArray? = null
@@ -48,14 +48,17 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
             return checkedRows
         }
 
-    constructor(parent: CSViewController<*>, view: ViewType, createView: (Int) -> CSRowView<RowType>)
+    constructor(parent: CSViewController<*>, view: ViewType,
+                createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
             : super(parent, view) {
         this.createView = createView
     }
 
-    constructor(parent: CSViewController<*>, listViewId: Int) : super(parent, listViewId) {}
-
-    fun onCreateView(function: (Int) -> CSRowView<RowType>) = apply { createView = function }
+    constructor(parent: CSViewController<*>, listViewId: Int,
+                createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
+            : super(parent, listViewId) {
+        this.createView = createView
+    }
 
     fun clear() = apply {
         data.clear()
@@ -63,10 +66,8 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     }
 
     fun getRowView(position: Int, view: View?): View {
-        var rowView: CSRowView<RowType>
-        if (view == null) rowView = createView.invoke(getItemViewType(position))
-        else rowView = asRowView(view)
-        rowView.data(data.get(position))
+        val rowView = if (view == null) createView.invoke(this, getItemViewType(position)) else asRowView(view)
+        rowView.load(position, data[position])
         return rowView.view
     }
 
@@ -119,20 +120,18 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
     override fun onCreate() {
         super.onCreate()
-        view.setAdapter(listAdapter)
+        view.adapter = listAdapter
         view.isFastScrollEnabled = true
-        view.setOnItemClickListener { _, view, position, _ ->
-            onItemClick?.invoke(position, asRowView(view))
-        }
-        view.setOnItemLongClickListener { _, view, position, _ ->
-            onItemLongClick?.invoke(position, asRowView(view))
+        view.setOnItemClickListener { _, view, _, _ -> onItemClick?.invoke(asRowView(view)) }
+        view.setOnItemLongClickListener { _, view, _, _ ->
+            onItemLongClick?.invoke(asRowView(view))
             true
         }
     }
 
-    fun onItemClick(function: (Int, CSRowView<RowType>) -> Unit) = apply { onItemClick = function }
+    fun onItemClick(function: (CSRowView<RowType>) -> Unit) = apply { onItemClick = function }
 
-    fun onItemLongClick(function: (Int, CSRowView<RowType>) -> Unit) = apply { onItemLongClick = function }
+    fun onItemLongClick(function: (CSRowView<RowType>) -> Unit) = apply { onItemLongClick = function }
 
     fun onPositionViewType(function: (Int) -> Int) = apply { onPositionViewType = function }
 
@@ -169,7 +168,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         saveSelectionAndScrollState()
-        view.setAdapter(listAdapter)
+        view.adapter = listAdapter
         restoreSelectionAndScrollState()
     }
 

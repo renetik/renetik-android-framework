@@ -31,7 +31,7 @@ fun <T : View> T.init(params: LayoutParams, style: Int, init: ((T).() -> Unit)? 
 }
 
 fun <T : View> T.backgroundTint(value: Int) = apply {
-    application.color(value)?.let { backgroundTintList = ColorStateList.valueOf(it) }
+    backgroundTintList = ColorStateList.valueOf(application.color(value))
 }
 
 fun <T : View> T.background(value: Int) = apply {

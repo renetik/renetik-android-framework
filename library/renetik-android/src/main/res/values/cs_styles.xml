@@ -1,53 +1,43 @@
 <resources>
 
-    <style name="Layout">
+    <style name="CSLayout">
         <item name="android:baselineAligned">false</item>
     </style>
 
-    <style name="MatchWrap" parent="Layout">
+    <style name="CSMatchWrap" parent="CSLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="WrapMatch" parent="Layout">
+    <style name="CSWrapMatch" parent="CSLayout">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="Match" parent="Layout">
+    <style name="CSMatch" parent="CSLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="Wrap" parent="Layout">
+    <style name="CSWrap" parent="CSLayout">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="MatchFill" parent="Layout">
+    <style name="CSMatchFill" parent="CSLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="FillMatch" parent="Layout">
+    <style name="CSFillMatch" parent="CSLayout">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="FloatingActionButtonTop" parent="Wrap">
-        <item name="android:layout_margin">30dp</item>
-        <item name="android:layout_gravity">right|top</item>
-    </style>
-
-    <style name="FloatingActionButtonBottom" parent="Wrap">
-        <item name="android:layout_margin">30dp</item>
-        <item name="android:layout_gravity">right|bottom</item>
-    </style>
-
     <style name="CSContainer">
-        <item name="android:background">@color/cs_white</item>
+        <item name="android:background">?attr/colorSurface</item>
         <item name="android:orientation">vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -55,7 +45,7 @@
     </style>
 
     <style name="CSNavigationContainer">
-        <item name="android:background">@color/cs_white</item>
+        <item name="android:background">?attr/colorSurface</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">false</item>

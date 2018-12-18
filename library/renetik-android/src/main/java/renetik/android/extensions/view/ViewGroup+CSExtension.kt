@@ -1,5 +1,6 @@
 package renetik.android.extensions.view
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.airbnb.paris.extensions.style
@@ -27,6 +28,9 @@ fun <ViewType : View> ViewGroup.add(view: ViewType, layout: ViewGroup.LayoutPara
     init?.invoke(view)
     return view
 }
+
+fun <ViewType : View> ViewGroup.add(layoutId: Int): ViewType =
+        add(LayoutInflater.from(context).inflate(layoutId, this, false)) as ViewType
 
 fun <T : ViewGroup> T.remove(view: CSView<*>) = remove(view.view)
 

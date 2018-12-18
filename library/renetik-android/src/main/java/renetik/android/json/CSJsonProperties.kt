@@ -14,22 +14,27 @@ class CSJsonStringProperty(val data: CSJsonData, private val key: String) {
         get() = data.getString(key)
         set(value) = data.put(key, value)
 
-    override fun toString(): String {
-        return string ?: super.toString()
-    }
+    val value get() = string ?: ""
+
+    override fun toString() = value
 }
 
 class CSJsonBoolProperty(val data: CSJsonData, private val key: String) {
     var bool: Boolean?
         get() = data.getBoolean(key)
         set(value) = data.put(key, value)
-    val isTrue: Boolean get() = bool ?: false
+
+    val value: Boolean get() = bool ?: false
+
+    override fun toString() = "$value"
 }
 
 class CSJsonFileProperty(val data: CSJsonData, private val key: String) {
     var value: File?
         get() = File(data.getString(key))
         set(file) = data.put(key, file?.toString())
+
+    override fun toString() = "$value"
 }
 
 @Suppress("unchecked_cast")
@@ -41,6 +46,8 @@ class CSJsonLocationProperty(val data: CSJsonData, private val key: String) {
     fun set(location: Location) {
         latLng = location.asLatLng()
     }
+
+    override fun toString() = "$latLng"
 }
 
 @Suppress("unchecked_cast")

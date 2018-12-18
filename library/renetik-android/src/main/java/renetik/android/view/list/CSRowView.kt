@@ -8,17 +8,29 @@ import renetik.android.view.base.CSViewController
 
 open class CSRowView<RowType : Any> : CSView<View> {
 
-    constructor(parent: CSListController<RowType, *>, layout: CSLayoutId)
-            : super(parent, layout)
+    var onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null
 
-    constructor(parent: CSViewController<*>) : super(parent)
+    constructor(parent: CSListController<RowType, *>, layout: CSLayoutId,
+                onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null)
+            : super(parent, layout) {
+        this.onLoad = onLoad
+    }
+
+    constructor(parent: CSViewController<*>, onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null)
+            : super(parent) {
+        this.onLoad = onLoad
+    }
 
     lateinit var data: RowType
+    var index = -1
 
-    fun data(row: RowType) {
-        data = row
+    fun load(index: Int, data: RowType) {
+        this.index = index
+        this.data = data
         onLoad(data)
     }
 
-    protected open fun onLoad(row: RowType) = Unit
+    protected open fun onLoad(row: RowType) {
+        onLoad?.invoke(this, row)
+    }
 }

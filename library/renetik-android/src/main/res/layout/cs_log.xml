@@ -4,7 +4,7 @@
     style="@style/CSContainer">
 
     <LinearLayout
-        style="@style/Match"
+        style="@style/CSMatch"
         android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView style="@style/CSTextListTitle">
@@ -16,14 +16,14 @@
 
         <TextView
             android:id="@+id/CSLog_LogText"
-            style="@style/MatchFill"
+            style="@style/CSMatchFill"
             android:scrollbars="vertical" />
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/CSLog_Reload"
-        style="@style/Wrap"
+        style="@style/CSWrap"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/baseline_refresh_24"

@@ -3,6 +3,7 @@ package renetik.android.view
 import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
 import renetik.android.R
+import renetik.android.extensions.view.withClear
 import renetik.android.view.base.CSContextController
 import renetik.java.extensions.string
 
@@ -15,7 +16,21 @@ class CSDialog(context: Context) : CSContextController(context) {
     fun title(title: String) = apply { builder.title(title) }
     fun message(message: String) = apply { builder.content(message) }
     fun text(title: String, message: String) = title(title).message(message)
-    fun show() = apply { dialog = builder.show() }
+    fun show() = apply {
+        dialog = builder.iconAttr(android.R.attr.icon)
+                .titleColorAttr(R.attr.colorOnSurface)
+                .contentColorAttr(R.attr.colorPrimaryVariant)  //title,textfield color
+                .linkColorAttr(R.attr.colorSecondaryVariant)  // notice attr is used instead of none or res for attribute resolving
+                .dividerColorAttr(R.attr.colorSecondaryVariant)
+                .backgroundColorAttr(R.attr.colorSurface)
+                .positiveColorAttr(R.attr.colorOnSurface)
+                .neutralColorAttr(R.attr.colorOnSurface)
+                .negativeColorAttr(R.attr.colorPrimary)
+                .widgetColorAttr(R.attr.colorPrimaryVariant) //textField line
+                .buttonRippleColorAttr(R.attr.colorSecondaryVariant)
+                .show()
+        dialog?.inputEditText?.withClear()
+    }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
         builder.positiveText(positiveText).onPositive { _, _ -> onPositive(this) }
@@ -53,7 +68,8 @@ class CSDialog(context: Context) : CSContextController(context) {
     fun showInput(hint: String, value: String, positiveAction: (CSDialog) -> Unit) = apply {
         builder.positiveText(R.string.cs_dialog_ok)
                 .input(hint, value, false) { _, _ -> positiveAction(this) }
-    }.show()
+                .negativeText(R.string.cs_dialog_cancel)
+    }.show().inputValue()
 
     fun inputValue(): String = string(dialog?.inputEditText?.text)
 

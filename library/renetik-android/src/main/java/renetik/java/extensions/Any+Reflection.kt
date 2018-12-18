@@ -2,7 +2,7 @@ package renetik.java.extensions
 
 import renetik.java.lang.tryAndWarn
 
-val INVOKE_FAILED = "invoke_failed"
+const val INVOKE_FAILED = "invoke_failed"
 
 fun <T> createInstance(className: String) = Class.forName(className).createInstance()
 

@@ -82,14 +82,14 @@ fun String.remove(toRemove: String): String {
 }
 
 fun String.separateToString(items: Iterable<Any?>?) = items?.let {
-    val text = stringBuilder()
+    val text = StringBuilder()
     for (value in items) value.notNull { text.add(it).add(this) }
     if (!text.isEmpty) text.deleteLast(this.length)
     text.toString()
 } ?: ""
 
 fun String.separateToString(vararg items: Any?): String {
-    val text = stringBuilder()
+    val text = StringBuilder()
     for (value in items) value.notNull { text.add(it).add(this) }
     if (!text.isEmpty) text.deleteLast(this.length)
     return text.toString()

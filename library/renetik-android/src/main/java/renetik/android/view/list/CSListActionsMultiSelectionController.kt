@@ -7,11 +7,11 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.ListView.CHOICE_MODE_MULTIPLE_MODAL
-import renetik.java.collections.list
 import renetik.android.view.base.CSViewController
 import renetik.android.view.menu.CSOnMenu
 import renetik.android.view.menu.CSOnMenuItem
 import renetik.android.view.menu.GeneratedMenuItems
+import renetik.java.collections.list
 
 open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType : AbsListView>(
         private val parent: CSListController<RowType, AbsListViewType>)
@@ -19,17 +19,15 @@ open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType 
 
     private var menuItems = list<CSListMenuItem<RowType>>()
 
-    protected fun listMenu(title: String) = menuItems.put(CSListMenuItem<RowType>(this, title))
+    protected fun listMenu(title: String) = menuItems.put(CSListMenuItem(this, title))
 
     override fun onCreate() {
         super.onCreate()
-        parent.view.apply { choiceMode = CHOICE_MODE_MULTIPLE_MODAL }
-                .setMultiChoiceModeListener(this)
+        parent.view.apply { choiceMode = CHOICE_MODE_MULTIPLE_MODAL }.setMultiChoiceModeListener(this)
     }
 
-    override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-        return true
-    }
+    override fun onCreateActionMode(mode: ActionMode, menu: Menu) =
+            true.also { mode.title = "Edit list" }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
         menu.removeGroup(GeneratedMenuItems)
@@ -50,8 +48,8 @@ open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType 
         return onMenuItem.isConsumed
     }
 
-    override fun onDestroyActionMode(mode: ActionMode) {}
+    override fun onDestroyActionMode(mode: ActionMode) = Unit
 
-    override fun onItemCheckedStateChanged(mode: ActionMode, position: Int, id: Long, checked: Boolean) {}
+    override fun onItemCheckedStateChanged(mode: ActionMode, position: Int, id: Long, checked: Boolean) = Unit
 
 }

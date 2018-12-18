@@ -40,12 +40,12 @@ fun <ReturnType> tryAndFinally(function: () -> ReturnType, finally: () -> Unit):
     }
 }
 
-fun <ReturnType, ExceptionType : Throwable> tryAndCatch(type: KClass<ExceptionType>, function: () -> ReturnType, onException: (() -> ReturnType)? = null): ReturnType? {
+fun <ReturnType, ExceptionType : Throwable> tryAndCatch(type: KClass<ExceptionType>, function: () -> ReturnType, onException: () -> ReturnType): ReturnType {
     return try {
         function()
     } catch (e: Throwable) {
         if (type.java.isInstance(e))
-            onException?.invoke()
+            onException.invoke()
         else throw e
     }
 }
