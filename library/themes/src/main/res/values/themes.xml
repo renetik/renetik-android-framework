@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CSThemePurple" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#4a148c</item>
+        <item name="colorPrimaryVariant">#7c43bd</item>
+        <item name="colorSecondary">#aa00ff</item>
+        <item name="colorSecondaryVariant">#e254ff</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#ffffff</item>
+    </style>
+
+    <style name="CSThemeCyan" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#006064</item>
+        <item name="colorPrimaryVariant">#428e92</item>
+        <item name="colorSecondary">#00b8d4</item>
+        <item name="colorSecondaryVariant">#62ebff</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#ffffff</item>
+    </style>
+
+    <style name="CSThemePink" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#880e4f</item>
+        <item name="colorPrimaryVariant">#bc477b</item>
+        <item name="colorSecondary">#c51162</item>
+        <item name="colorSecondaryVariant">#fd558f</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#ffffff</item>
+    </style>
+
+    <style name="CSThemeTealRed" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#004d40</item>
+        <item name="colorPrimaryVariant">#39796b</item>
+        <item name="colorSecondary">#dd2c00</item>
+        <item name="colorSecondaryVariant">#ff6434</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#ffffff</item>
+    </style>
+
+    <style name="CSThemeCyanTeal" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#006064</item>
+        <item name="colorPrimaryVariant">#428e92</item>
+        <item name="colorSecondary">#00bfa5</item>
+        <item name="colorSecondaryVariant">#5df2d6</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#ffffff</item>
+    </style>
+
+    <style name="CSThemeTealYellow" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#004d40</item>
+        <item name="colorPrimaryVariant">#39796b</item>
+        <item name="colorSecondary">#f4ff81</item>
+        <item name="colorSecondaryVariant">#bfcc50</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#000000</item>
+    </style>
+
+    <style name="CSThemeBlueGrayGreen" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#37474f</item>
+        <item name="colorPrimaryVariant">#62727b</item>
+        <item name="colorSecondary">#b9f6ca</item>
+        <item name="colorSecondaryVariant">#88c399</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#000000</item>
+    </style>
+</resources>

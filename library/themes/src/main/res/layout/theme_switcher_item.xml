@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSGridItem">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/ThemeSwitcherItem_Button"
+        style="@style/CSGridItemCard"
+        android:layout_height="220dp"
+        android:clickable="true">
+
+        <LinearLayout style="@style/CSHorizontalLayout">
+
+            <LinearLayout
+                style="@style/CSFillMatch"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/CSMatchFill"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/ThemeSwitcherItem_ColorPrimary"
+                        style="@style/CSFillMatch"
+                        android:background="@color/cs_grey" />
+
+                    <View
+                        android:id="@+id/ThemeSwitcherItem_ColorPrimaryVariant"
+                        style="@style/CSFillMatch"
+                        android:background="@color/cs_green" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/ThemeSwitcherItem_ColorOnPrimary"
+                    style="@style/CSMatchFill"
+                    android:layout_weight="0.5"
+                    android:background="@color/cs_black" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/CSFillMatch"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/CSMatchFill"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/ThemeSwitcherItem_ColorSecondary"
+                        style="@style/CSFillMatch"
+                        android:background="@color/cs_red" />
+
+                    <View
+                        android:id="@+id/ThemeSwitcherItem_ColorSecondaryVariant"
+                        style="@style/CSFillMatch"
+                        android:background="@color/cs_blue" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/ThemeSwitcherItem_ColorOnSecondary"
+                    style="@style/CSMatchFill"
+                    android:layout_weight="0.5"
+                    android:background="@color/cs_yellow" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/CSContentCard"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/ThemeSwitcherItem_Title"
+                style="@style/CSWrap"
+                android:padding="5dp"
+                android:text="Theme Name"
+                android:textAppearance="@style/CSTextHeadline6"
+                android:textColor="?attr/colorOnBackground"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

@@ -1,0 +1,16 @@
+apply from: '../library.gradle'
+
+dependencies {
+    api project(':renetik-android:base')
+    api project(':renetik-android:material')
+    api project(':renetik-android:json')
+    api project(':renetik-android:layout')
+    api project(':renetik-android:dialog')
+    api project(':renetik-android:controller')
+    api project(':renetik-android:crashlitics')
+    api project(':renetik-android:imaging')
+    api project(':renetik-android:getpicture')
+    api project(':renetik-android:listview')
+    api project(':renetik-android:maps')
+    api project(':renetik-android:themes')
+}

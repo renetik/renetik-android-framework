@@ -1,0 +1,7 @@
+apply from: '../library.gradle'
+
+dependencies {
+    implementation project(':renetik-android:base')
+    implementation project(':renetik-android:material')
+    implementation project(':renetik-android:imaging')
+}

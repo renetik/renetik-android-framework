@@ -2,9 +2,10 @@ package renetik.android.sample.view
 
 import android.graphics.Color
 import android.view.View
+import renetik.android.controller.base.CSViewController
+import renetik.android.extensions.VerticalLayout
 import renetik.android.extensions.view.*
 import renetik.android.sample.R
-import renetik.android.view.base.CSViewController
 
 class SampleMainMenuController : CSViewController<View>(navigation) {
 
