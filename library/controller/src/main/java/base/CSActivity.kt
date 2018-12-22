@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.java.event.event
-import renetik.java.event.fire
-import renetik.java.lang.CSValue
-import renetik.java.lang.tryAndWarn
+import renetik.android.java.event.event
+import renetik.android.java.event.fire
+import renetik.android.java.common.CSValue
+import renetik.android.java.common.tryAndWarn
 
 abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
 

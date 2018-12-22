@@ -4,11 +4,11 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
 import renetik.android.json.data.CSJsonData
-import renetik.java.collections.CSList
-import renetik.java.collections.CSMap
-import renetik.java.collections.linkedMap
-import renetik.java.collections.list
-import renetik.java.extensions.createInstance
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
+import renetik.android.java.collections.linkedMap
+import renetik.android.java.collections.list
+import renetik.android.java.extensions.createInstance
 import kotlin.collections.set
 import kotlin.reflect.KClass
 

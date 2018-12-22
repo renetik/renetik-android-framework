@@ -11,9 +11,9 @@ import renetik.android.json.data.CSJsonData
 import renetik.android.json.data.properties.CSJsonDataListProperty
 import renetik.android.json.data.properties.CSJsonStringProperty
 import renetik.android.base.CSApplication
-import renetik.java.collections.list
-import renetik.java.collections.map
-import renetik.java.extensions.primitives.trimNewLines
+import renetik.android.java.collections.list
+import renetik.android.java.collections.map
+import renetik.android.java.extensions.primitives.trimNewLines
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = ApplicationMock::class)

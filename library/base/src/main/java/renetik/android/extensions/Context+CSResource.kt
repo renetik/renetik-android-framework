@@ -5,18 +5,21 @@ import android.content.res.Resources.NotFoundException
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
-import renetik.java.collections.CSList
-import renetik.java.collections.list
-import renetik.java.extensions.isEmpty
-import renetik.java.extensions.stringify
-import renetik.java.lang.tryAndCatch
-import renetik.java.lang.tryAndFinally
-import renetik.java.lang.tryAndWarn
+import renetik.android.base.application
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
+import renetik.android.java.extensions.isEmpty
+import renetik.android.java.extensions.stringify
+import renetik.android.java.common.tryAndCatch
+import renetik.android.java.common.tryAndFinally
+import renetik.android.java.common.tryAndWarn
 import java.io.ByteArrayOutputStream
 
-
-fun Context.color(color: Int): Int =
-        tryAndCatch(NotFoundException::class, { resourceColor(color) }, { color })
+fun Context.color(value: Int): Int {
+    return tryAndCatch(NotFoundException::class, { application.resourceColor(value) }, {
+        tryAndCatch(NotFoundException::class, { colorFromAttribute(value) }, { value })
+    })
+}
 
 fun Context.resourceColor(color: Int) = ContextCompat.getColor(this, color)
 

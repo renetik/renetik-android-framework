@@ -2,7 +2,7 @@ package renetik.android.listview
 
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.menu.CSMenuItem
-import renetik.java.collections.CSList
+import renetik.android.java.collections.CSList
 
 class CSListMenuItem<RowType>(controller: CSViewController<*>, title: String) : CSMenuItem(controller, title) {
 

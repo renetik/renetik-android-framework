@@ -3,8 +3,8 @@ package renetik.android.controller.menu
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import renetik.java.extensions.set
-import renetik.java.lang.CSValue
+import renetik.android.java.extensions.set
+import renetik.android.java.common.CSValue
 
 const val GeneratedMenuItems = 7687678
 

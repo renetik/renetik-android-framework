@@ -1,6 +1,5 @@
 package renetik.android.themes
 
-import android.app.Activity
 import android.view.View
 import android.widget.GridView
 import renetik.android.base.application
@@ -11,34 +10,15 @@ import renetik.android.controller.common.CSNavigationItem
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.simpleView
 import renetik.android.extensions.textView
-import renetik.android.extensions.view.background
-import renetik.android.extensions.view.title
+import renetik.android.view.extensions.background
+import renetik.android.view.extensions.title
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
-import renetik.java.collections.CSList
-import renetik.java.collections.list
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
 
 var currentThemeIndex: Int? = null
 var availableThemes: CSList<Theme> = list()
-
-class Theme(val title: String, val style: Int)
-
-val defaultThemes
-    get() = list(
-            Theme("Theme BlueGray Green", R.style.CSThemeBlueGrayGreen),
-            Theme("Theme Cyan", R.style.CSThemeCyan),
-            Theme("Theme Teal Yellow", R.style.CSThemeTealYellow),
-            Theme("Theme Cyan Teal", R.style.CSThemeCyanTeal),
-            Theme("Theme Purple", R.style.CSThemePurple),
-            Theme("Theme Pink", R.style.CSThemePink),
-            Theme("Theme Teal Red", R.style.CSThemeTealRed)
-    )
-
-fun Activity.initializeThemes(themes: List<Theme>) {
-    availableThemes.reload(themes)
-    currentThemeIndex = renetik.android.base.application.store.loadInt("theme_index", 0)
-            .also { setTheme(availableThemes[it].style) }
-}
 
 class CSThemeSwitcherController(val navigation: CSNavigationController)
     : CSViewController<View>(navigation, layout(R.layout.theme_switcher)), CSNavigationItem {

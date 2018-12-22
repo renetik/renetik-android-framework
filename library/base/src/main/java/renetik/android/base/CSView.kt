@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import renetik.android.extensions.inflate
-import renetik.android.extensions.view.fade
-import renetik.android.extensions.view.hide
-import renetik.android.extensions.view.inflate
-import renetik.android.extensions.view.show
-import renetik.java.extensions.notNull
+import renetik.android.view.extensions.fade
+import renetik.android.view.extensions.hide
+import renetik.android.view.extensions.inflate
+import renetik.android.view.extensions.show
+import renetik.android.java.extensions.notNull
 
 open class CSView<ViewType : View>(context: Context) : CSContextController(context) {
 

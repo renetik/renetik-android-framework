@@ -1,7 +1,7 @@
 package renetik.android.sample.model
 
-import renetik.java.collections.list
-import renetik.java.extensions.format
+import renetik.android.java.collections.list
+import renetik.android.java.extensions.format
 import java.text.DateFormat
 import java.util.*
 

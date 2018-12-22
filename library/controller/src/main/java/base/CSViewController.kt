@@ -15,17 +15,17 @@ import renetik.android.controller.common.CSNavigationController
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.extensions.view.findViewRecursive
+import renetik.android.view.extensions.findViewRecursive
 import renetik.android.logging.CSLog.logWarn
-import renetik.java.collections.list
-import renetik.java.event.CSEvent.CSEventRegistration
-import renetik.java.event.CSEventRegistrations
-import renetik.java.event.event
-import renetik.java.event.execute
-import renetik.java.event.fire
-import renetik.java.extensions.exception
-import renetik.java.extensions.isNull
-import renetik.java.lang.CSValue
+import renetik.android.java.collections.list
+import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.event.CSEventRegistrations
+import renetik.android.java.event.event
+import renetik.android.java.event.execute
+import renetik.android.java.event.fire
+import renetik.android.java.extensions.exception
+import renetik.android.java.extensions.isNull
+import renetik.android.java.common.CSValue
 
 var root: CSViewController<*>? = null
 val rootActivity get() = root?.activity()

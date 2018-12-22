@@ -5,10 +5,10 @@ import renetik.android.json.createList
 import renetik.android.json.fromJson
 import renetik.android.json.toJson
 import renetik.android.base.CSValueStore
-import renetik.java.collections.CSList
-import renetik.java.collections.CSMap
-import renetik.java.collections.list
-import renetik.java.extensions.isEmpty
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
+import renetik.android.java.collections.list
+import renetik.android.java.extensions.isEmpty
 import kotlin.reflect.KClass
 
 

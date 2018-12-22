@@ -6,10 +6,10 @@ import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.button
-import renetik.android.extensions.snackBarInfo
+import renetik.android.material.extensions.snackBarInfo
 import renetik.android.extensions.textView
-import renetik.android.extensions.view.onClick
-import renetik.android.extensions.view.title
+import renetik.android.view.extensions.onClick
+import renetik.android.view.extensions.title
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRemoveListRowsController
 import renetik.android.listview.CSRowView

@@ -2,9 +2,9 @@ package renetik.android.listview
 
 import renetik.android.json.data.CSJsonData
 import renetik.android.listview.CSListRow.RowTypes.*
-import renetik.java.collections.CSList
-import renetik.java.collections.list
-import renetik.java.lang.CSValues
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
+import renetik.android.java.common.CSValues
 
 fun <DataType : CSJsonData> createRow(type: CSListRow.RowTypes, index: Int): CSListRow<DataType> {
     return CSListRow(type, index)

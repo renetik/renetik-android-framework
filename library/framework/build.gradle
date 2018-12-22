@@ -4,7 +4,7 @@ dependencies {
     api project(':renetik-android:base')
     api project(':renetik-android:material')
     api project(':renetik-android:json')
-    api project(':renetik-android:layout')
+    api project(':renetik-android:client-request')
     api project(':renetik-android:dialog')
     api project(':renetik-android:controller')
     api project(':renetik-android:crashlitics')

@@ -4,11 +4,11 @@ import renetik.android.json.CSJsonDataList
 import renetik.android.json.CSJsonDataMap
 import renetik.android.json.toFormattedJson
 import renetik.android.task.doLater
-import renetik.java.collections.CSList
-import renetik.java.collections.CSMap
-import renetik.java.collections.linkedMap
-import renetik.java.event.CSEvent
-import renetik.java.event.event
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
+import renetik.android.java.collections.linkedMap
+import renetik.android.java.event.CSEvent
+import renetik.android.java.event.event
 
 data class OnJsonDataValueChanged(val data: CSJsonData, val key: String, val value: Any?)
 

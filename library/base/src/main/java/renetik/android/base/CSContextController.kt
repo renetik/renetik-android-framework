@@ -14,10 +14,10 @@ import android.text.format.DateFormat.getTimeFormat
 import android.util.Base64
 import android.view.Display
 import android.view.WindowManager
-import renetik.java.extensions.notNull
-import renetik.java.extensions.set
-import renetik.java.lang.tryAndError
-import renetik.java.lang.tryAndWarn
+import renetik.android.java.extensions.notNull
+import renetik.android.java.extensions.set
+import renetik.android.java.common.tryAndError
+import renetik.android.java.common.tryAndWarn
 import java.io.FileNotFoundException
 import java.security.MessageDigest
 import java.util.*

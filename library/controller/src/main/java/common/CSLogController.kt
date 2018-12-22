@@ -7,12 +7,12 @@ import renetik.android.R.id
 import renetik.android.base.application
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
-import renetik.android.controller.extension.sendMail
+import renetik.android.controller.extensions.sendMail
 import renetik.android.dialog.extensions.dialog
-import renetik.android.extensions.floatingButton
+import renetik.android.material.extensions.floatingButton
 import renetik.android.extensions.textView
-import renetik.android.extensions.view.onClick
-import renetik.android.extensions.view.title
+import renetik.android.view.extensions.onClick
+import renetik.android.view.extensions.title
 
 const val sendLogMailKey = "send_log_mail"
 

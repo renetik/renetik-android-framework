@@ -1,7 +1,7 @@
 package renetik.android.task
 
 import android.os.Handler
-import renetik.java.extensions.exception
+import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logError
 
 private lateinit var handler: Handler

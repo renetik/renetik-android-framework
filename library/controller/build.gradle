@@ -3,5 +3,8 @@ apply from: '../library.gradle'
 dependencies {
     implementation project(':renetik-android:base')
     implementation project(':renetik-android:dialog')
-    implementation project(':renetik-android:material')
+    implementation project(':renetik-android:material') //TODO:??
+    implementation project(':renetik-android:client-request')
+    implementation 'com.airbnb.android:paris:1.2.0'
+    compile project(path: ':renetik-android:client-request')
 }

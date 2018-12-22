@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.java.event.CSEvent
-import renetik.java.lang.CSValue
+import renetik.android.java.event.CSEvent
+import renetik.android.java.common.CSValue
 
 interface CSViewControllerParent {
     val onCreate: CSEvent<Bundle?>

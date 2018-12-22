@@ -1,9 +1,9 @@
 package renetik.android.extensions
 
 import android.view.View
-import renetik.java.math.CSPoint
+import renetik.android.java.math.CSPoint
 import renetik.android.base.CSView
-import renetik.java.extensions.set
+import renetik.android.java.extensions.set
 
 val CSView<*>.layoutWidth get() = this.view.layoutParams.width
 val CSView<*>.layoutHeight get() = this.view.layoutParams.height

@@ -2,9 +2,9 @@ package renetik.android.controller.pager
 
 import androidx.viewpager.widget.ViewPager.*
 import renetik.android.controller.base.CSViewController
-import renetik.java.extensions.notNull
-import renetik.java.extensions.size
-import renetik.java.math.CSMath.between
+import renetik.android.java.extensions.notNull
+import renetik.android.java.extensions.size
+import renetik.android.java.math.CSMath.between
 
 class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageType>) : OnPageChangeListener
         where PageType : CSViewController<*>, PageType : CSPagerPage {

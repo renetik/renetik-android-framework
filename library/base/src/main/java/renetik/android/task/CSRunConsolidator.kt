@@ -1,6 +1,6 @@
 package renetik.android.task
 
-import renetik.java.collections.list
+import renetik.android.java.collections.list
 
 class CSRunConsolidator(private val miliseconds: Int) {
 

@@ -3,12 +3,12 @@ package renetik.android.controller.pager
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import renetik.android.controller.base.CSViewController
-import renetik.android.extensions.view.visible
+import renetik.android.view.extensions.visible
 import renetik.android.task.doLater
 import renetik.android.view.adapter.CSOnPageSelected
-import renetik.java.collections.CSList
-import renetik.java.collections.list
-import renetik.java.extensions.isEmpty
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
+import renetik.android.java.extensions.isEmpty
 
 class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
     : CSViewController<ViewPager>(parent, pagerId)

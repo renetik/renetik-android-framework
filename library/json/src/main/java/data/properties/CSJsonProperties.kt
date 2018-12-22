@@ -2,10 +2,10 @@ package renetik.android.json.data.properties
 
 import renetik.android.json.createList
 import renetik.android.json.data.CSJsonData
-import renetik.java.collections.CSList
-import renetik.java.collections.CSMap
-import renetik.java.collections.list
-import renetik.java.lang.CSSizeInterface
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.CSMap
+import renetik.android.java.collections.list
+import renetik.android.java.common.CSSizeInterface
 import java.io.File
 import kotlin.reflect.KClass
 

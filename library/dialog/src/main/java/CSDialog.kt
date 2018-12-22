@@ -2,10 +2,9 @@ package renetik.android.dialog
 
 import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
-import renetik.android.R
-import renetik.android.extensions.view.withClear
 import renetik.android.base.CSContextController
-import renetik.java.extensions.string
+import renetik.android.view.extensions.withClear
+import renetik.android.java.extensions.string
 
 class CSDialog(context: Context) : CSContextController(context) {
 

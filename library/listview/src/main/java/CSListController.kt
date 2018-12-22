@@ -12,12 +12,12 @@ import android.widget.ListView
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.findView
 import renetik.android.extensions.simpleView
-import renetik.android.extensions.view.hide
-import renetik.android.extensions.view.onClick
-import renetik.android.extensions.view.show
-import renetik.java.collections.CSList
-import renetik.java.collections.list
-import renetik.java.event.event
+import renetik.android.view.extensions.hide
+import renetik.android.view.extensions.onClick
+import renetik.android.view.extensions.show
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
+import renetik.android.java.event.event
 
 open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewController<ViewType> {
 

@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.task.doLater
-import renetik.java.collections.CSMap
-import renetik.java.extensions.primitives.randomIntInRange
+import renetik.android.java.collections.CSMap
+import renetik.android.java.extensions.primitives.randomIntInRange
 
 fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
     startActivity(Intent(activity(), activityClass))

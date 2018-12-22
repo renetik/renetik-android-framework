@@ -2,11 +2,11 @@ package renetik.android.base
 
 import android.content.Context
 import android.content.SharedPreferences
-import renetik.java.extensions.primitives.asDouble
-import renetik.java.extensions.primitives.asFloat
-import renetik.java.extensions.primitives.asInt
-import renetik.java.extensions.primitives.asLong
-import renetik.java.lang.tryAndWarn
+import renetik.android.java.extensions.primitives.asDouble
+import renetik.android.java.extensions.primitives.asFloat
+import renetik.android.java.extensions.primitives.asInt
+import renetik.android.java.extensions.primitives.asLong
+import renetik.android.java.common.tryAndWarn
 
 class CSValueStore(name: String) : CSContextController() {
 

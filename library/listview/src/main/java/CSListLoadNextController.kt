@@ -12,9 +12,9 @@ import android.widget.ListView
 import renetik.android.base.CSView
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
-import renetik.java.event.event
-import renetik.java.event.fire
-import renetik.java.extensions.isNull
+import renetik.android.java.event.event
+import renetik.android.java.event.fire
+import renetik.android.java.extensions.isNull
 
 class CSListLoadNextController<ListType : AbsListView>(
         val parent: CSListController<*, ListType>,

@@ -8,7 +8,7 @@ import renetik.android.logging.CSLog.logInfo
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.logging.CSLogger
 import renetik.android.task.initializeHandler
-import renetik.java.extensions.exception
+import renetik.android.java.extensions.exception
 import java.io.File
 
 lateinit var application: CSApplication

@@ -11,7 +11,7 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.java.collections.list
+import renetik.android.java.collections.list
 
 open class CSListActionsMultiSelectionController<RowType : Any, AbsListViewType : AbsListView>(
         private val parent: CSListController<RowType, AbsListViewType>)

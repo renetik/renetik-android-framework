@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import renetik.android.extensions.asString
-import renetik.java.event.event
+import renetik.android.java.event.event
 import renetik.android.base.CSContextController
 
 class CSReachability : CSContextController() {

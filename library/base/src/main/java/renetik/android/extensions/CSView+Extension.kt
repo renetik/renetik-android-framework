@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import renetik.android.extensions.view.findView
 import renetik.android.base.CSView
-import renetik.java.collections.CSList
-import renetik.java.collections.list
-import renetik.java.lang.CSLang.MINUTE
+import renetik.android.view.extensions.findView
+import renetik.android.java.collections.CSList
+import renetik.android.java.collections.list
+import renetik.android.java.common.CSConstants.MINUTE
 import java.util.*
 import java.util.Calendar.HOUR_OF_DAY
 import java.util.Calendar.getInstance
@@ -35,9 +32,6 @@ fun CSView<*>.compoundButton(id: Int): CompoundButton = findView(id)
 fun CSView<*>.timePicker(id: Int): TimePicker = findView(id)
 fun CSView<*>.webView(id: Int): WebView = findView(id)
 fun CSView<*>.imageView(id: Int): ImageView = findView(id)
-fun CSView<*>.chip(id: Int) = findView<Chip>(id)
-fun CSView<*>.chipGroup(id: Int): ChipGroup = findView(id)
-fun CSView<*>.floatingButton(id: Int): FloatingActionButton = findView(id)
 
 //move to DatePicker extension
 fun CSView<*>.getDate(picker: DatePicker) = getInstance().apply {
@@ -63,7 +57,7 @@ fun CSView<*>.setSpinnerData(spinner: Spinner, strings: Collection<String>) =
         setSpinnerData(spinner, simple_spinner_item, simple_spinner_dropdown_item, strings)
 
 fun CSView<*>.setSpinnerData(spinner: Spinner, itemLayout: Int,
-                                                 dropDownItemLayout: Int, strings: Collection<String>) {
+                             dropDownItemLayout: Int, strings: Collection<String>) {
     val adapter = ArrayAdapter<String>(this, itemLayout, list<String>(strings))
     adapter.setDropDownViewResource(dropDownItemLayout)
     spinner.adapter = adapter

@@ -4,7 +4,7 @@ import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.json.data.CSJsonData
 import renetik.android.location.asLatLng
-import renetik.java.collections.list
+import renetik.android.java.collections.list
 
 @Suppress("unchecked_cast")
 class CSJsonLocationProperty(val data: CSJsonData, private val key: String) {

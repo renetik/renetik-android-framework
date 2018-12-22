@@ -4,22 +4,21 @@ import android.util.Log
 import android.util.Log.getStackTraceString
 import android.widget.Toast
 import renetik.android.base.application
-import renetik.java.extensions.notNull
 import renetik.android.base.CSContextController
-import renetik.java.extensions.*
-import renetik.java.lang.CSLang
+import renetik.android.java.common.CSConstants.MB
+import renetik.android.java.extensions.*
 import java.lang.StringBuilder
 import java.text.DateFormat
 import java.util.*
 
 class AndroidLogger() : CSContextController(), CSLogger {
 
-    private val maxLogSize = 2.5 * CSLang.MB
+    private val maxLogSize = 2.5 * MB
     private val dateFormat = DateFormat.getDateTimeInstance()
     private val logText = StringBuilder()
 
     override fun onLowMemory() {
-        val sizeAboveLowMemoryMax = logText.length - CSLang.MB
+        val sizeAboveLowMemoryMax = logText.length - MB
         if (sizeAboveLowMemoryMax > 0) logText.cut(0, sizeAboveLowMemoryMax)
     }
 
@@ -70,7 +69,7 @@ class AndroidLogger() : CSContextController(), CSLogger {
 
     private fun addMemoryMessage(message: CharSequence) {
         logText.add("- ").add(dateFormat.format(Date())).add(" - ").add(message).addLine()
-        if (logText.length > maxLogSize) logText.cut(0, CSLang.MB)
+        if (logText.length > maxLogSize) logText.cut(0, MB)
     }
 
     private fun createMessage(vararg values: Any?):StringBuilder {

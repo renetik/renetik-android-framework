@@ -4,8 +4,8 @@ import android.view.View
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.frame
-import renetik.android.extensions.view.layoutMatch
-import renetik.android.extensions.view.removeFromSuperview
+import renetik.android.view.extensions.layoutMatch
+import renetik.android.view.extensions.removeFromSuperview
 
 open class CSMapClientController<V : View>(parent: CSViewController<V>, private val mapFrameId: Int,
                                            open val mapController: CSMapController) :
