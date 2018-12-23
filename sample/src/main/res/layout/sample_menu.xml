@@ -21,7 +21,7 @@
 
     <Button
         android:id="@+id/SampleMenu_ButtonList"
-        style="@style/CSButton"
+        style="@style/CSButtonText"
         android:text="List Example" />
 
 </LinearLayout>

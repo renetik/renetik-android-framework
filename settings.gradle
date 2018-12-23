@@ -1,4 +1,28 @@
-include ':renetik-android:library', ':renetik-android:material', ':renetik-android:sample'
-project(':renetik-android:library').projectDir = new File("library/renetik-android")
-project(':renetik-android:material').projectDir = new File("library/material")
-project(':renetik-android:sample').projectDir = new File("sample")
+include ':renetik-android:renetik-framework', ':renetik-android:renetik-base',
+        ':renetik-android:renetik-material',
+        ':renetik-android:renetik-json', ':renetik-android:renetik-client-request',
+        ':renetik-android:renetik-client-okhttp3',
+        ':renetik-android:renetik-dialog',
+        ':renetik-android:renetik-controller', ':renetik-android:renetik-crashlitics',
+        ':renetik-android:renetik-imaging', ':renetik-android:renetik-getpicture',
+        ':renetik-android:renetik-listview',
+        ':renetik-android:renetik-maps',':renetik-android:renetik-themes',
+        ':renetik-android:sample-renetik-android',
+
+project(':renetik-android:renetik-framework').projectDir = new File("renetik-android/library/framework")
+project(':renetik-android:renetik-base').projectDir = new File("renetik-android/library/base")
+project(':renetik-android:renetik-material').projectDir = new File("renetik-android/library/material")
+project(':renetik-android:renetik-imaging').projectDir = new File("renetik-android/library/imaging")
+project(':renetik-android:renetik-json').projectDir = new File("renetik-android/library/json")
+project(':renetik-android:renetik-client-request').projectDir = new File("renetik-android/library/client-request")
+project(':renetik-android:renetik-client-okhttp3').projectDir = new File("renetik-android/library/client-okhttp3")
+project(':renetik-android:renetik-dialog').projectDir = new File("renetik-android/library/dialog")
+project(':renetik-android:renetik-crashlitics').projectDir = new File("renetik-android/library/crashlitics")
+project(':renetik-android:renetik-getpicture').projectDir = new File("renetik-android/library/getpicture")
+project(':renetik-android:renetik-listview').projectDir = new File("renetik-android/library/listview")
+project(':renetik-android:renetik-maps').projectDir = new File("renetik-android/library/maps")
+project(':renetik-android:renetik-themes').projectDir = new File("renetik-android/library/themes")
+project(':renetik-android:renetik-controller').projectDir = new File("renetik-android/library/controller")
+project(':renetik-android:sample-renetik-android').projectDir = new File("renetik-android/sample")
+
+rootProject.name = "Renetik Android Library"
