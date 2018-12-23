@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSContainer">
+
+    <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
+
+        <TextView
+            style="@style/CSPageTitle"
+            android:text="Renetik Android Library" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <Button
+        android:id="@+id/SampleMenu_ButtonThemes"
+        style="@style/CSButton"
+        android:text="Theme Chooser" />
+
+    <Button
+        android:id="@+id/SampleMenu_ButtonLog"
+        style="@style/CSButtonSecondary"
+        android:text="Log Panel" />
+
+    <Button
+        android:id="@+id/SampleMenu_ButtonList"
+        style="@style/CSButton"
+        android:text="List Example" />
+
+</LinearLayout>

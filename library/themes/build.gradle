@@ -1,10 +1,10 @@
 apply from: '../library.gradle'
 
 dependencies {
-    implementation project(':renetik-android:base')
-    implementation project(':renetik-android:dialog')
-    implementation project(':renetik-android:material')
-    implementation project(':renetik-android:imaging')
-    implementation project(':renetik-android:controller')
-    implementation project(':renetik-android:listview')
+    implementation project(':renetik-android:renetik-base')
+    implementation project(':renetik-android:renetik-dialog')
+    implementation project(':renetik-android:renetik-material')
+//    implementation project(':renetik-android:renetik-imaging')
+    implementation project(':renetik-android:renetik-controller')
+    implementation project(':renetik-android:renetik-listview')
 }

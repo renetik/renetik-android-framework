@@ -2,16 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/CSContainer">
 
-    <FrameLayout style="@style/CSMatchWrap">
+    <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
 
-            <!--android:background="@color/colorPrimary"-->
         <TextView
-            style="@style/CSMatchWrap"
-            android:gravity="center"
-            android:text="Example sample list"
-            android:textAppearance="@style/CSTextListTitle"
-            android:textColor="@color/cs_white" />
-    </FrameLayout>
+            style="@style/CSPageTitle"
+            android:text="Example sample list" />
+    </com.google.android.material.card.MaterialCardView>
 
     <FrameLayout style="@style/CSMatchFill">
 
@@ -29,7 +25,7 @@
             android:textColor="@color/cs_dark_grey_text" />
     </FrameLayout>
 
-        <!--android:backgroundTint="@color/colorAccent"-->
+    <!--android:backgroundTint="@color/colorAccent"-->
     <Button
         android:id="@+id/SampleList_BottomButton"
         style="@style/CSMatchWrap"

@@ -6,7 +6,7 @@ import java.text.DateFormat
 import java.util.*
 
 class SampleModel {
-    val sampleList = list<SampleListRow>().putAll(
+    val sampleList = list(
             SampleListRow("title 1", "sub title 1"), SampleListRow("title 2", "sub title 2"),
             SampleListRow("title 3", "sub title 3"), SampleListRow("title 4", "sub title 4"))
 }

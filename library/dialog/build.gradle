@@ -1,8 +1,8 @@
 apply from: '../library.gradle'
 
 dependencies {
-    implementation project(':renetik-android:base')
-    implementation project(':renetik-android:material')
+    implementation project(':renetik-android:renetik-base')
+    implementation project(':renetik-android:renetik-material')
     "com.google.android.material:material:$material_version"
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 }

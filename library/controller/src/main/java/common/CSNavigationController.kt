@@ -3,25 +3,23 @@ package renetik.android.controller.common
 import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
-import com.airbnb.paris.extensions.style
-import renetik.android.R
+import renetik.android.base.application
+import renetik.android.base.layout
+import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
-import renetik.android.base.application
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.view.extensions.add
-import renetik.android.view.extensions.remove
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.primitives.set
+import renetik.android.view.extensions.add
+import renetik.android.view.extensions.remove
 
 open class CSNavigationController(activity: CSActivity)
-    : CSViewController<FrameLayout>(activity) {
+    : CSViewController<FrameLayout>(activity, layout(R.layout.cs_navigation)) {
 
     open var controllers: CSList<CSViewController<*>> = list()
-
-    override fun createView() = FrameLayout(this).apply { style(R.style.CSNavigationContainer) }
 
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
         if (controllers.hasItems) controllers.last()?.showingInContainer(false)

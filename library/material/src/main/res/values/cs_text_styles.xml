@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="CSTextTitle" parent="TextAppearance.AppCompat.Title">
+    <style name="CSTextTitle" parent="Base.TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">@color/cs_text_color_selector</item>
     </style>
 

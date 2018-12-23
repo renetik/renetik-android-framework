@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.NavigationActivity"
+            android:name=".view.SampleNavigationActivity"
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:launchMode="singleTask">
             <intent-filter>
@@ -29,6 +29,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>

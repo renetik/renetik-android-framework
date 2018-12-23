@@ -1,7 +1,6 @@
 apply from: '../library.gradle'
 
 dependencies {
+    implementation project(':renetik-android:renetik-base')
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.7'
-    implementation project(':renetik-android:base')
-    implementation project(':renetik-android:controller')
 }

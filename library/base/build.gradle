@@ -1,5 +1,4 @@
 apply from: '../library.gradle'
 
 dependencies {
-//    implementation "com.google.android.material:material:$material_version"
 }
