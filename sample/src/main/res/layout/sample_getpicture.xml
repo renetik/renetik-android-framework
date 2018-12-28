@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/CSContainer">
 
     <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
@@ -16,6 +17,8 @@
         <GridView
             android:id="@+id/SampleGetPicture_Grid"
             style="@style/CSGrid"
+            tools:listitem="@layout/sample_getpicture_item"
+            android:paddingBottom="3dp"
             android:layout_width="match_parent" />
 
         <TextView

@@ -10,13 +10,16 @@
             android:text="Example sample list" />
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCard">
 
-    <CheckBox
-        android:id="@+id/SampleDynamicMenu_AddMenuItemVisible"
-        style="@style/Widget.MaterialComponents.CompoundButton.CheckBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add menu item visible" />
+        <CheckBox
+            android:id="@+id/SampleDynamicMenu_AddMenuItemVisible"
+            style="@style/Widget.MaterialComponents.CompoundButton.CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add menu item action visible" />
+    </com.google.android.material.card.MaterialCardView>
+
 
     <FrameLayout style="@style/CSMatchFill" />
 

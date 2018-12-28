@@ -24,45 +24,4 @@
 
     </FrameLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/CSContentCard"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp">
-
-        <LinearLayout
-            style="@style/CSMatchWrap"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/CSMatchWrap"
-                android:gravity="center"
-                android:text="Some other map examples"
-                android:textAppearance="@style/CSTextListSubtitle" />
-
-            <LinearLayout
-                style="@style/CSMatchWrap"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/SampleMap_DrawPathMapButton"
-                    style="@style/CSButtonSecondary"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="2dp"
-                    android:layout_weight="1"
-                    android:text="Draw Path Example" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/SampleMap_MarkerMapButton"
-                    style="@style/CSButton"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="2dp"
-                    android:layout_weight="1"
-                    android:text="Add Marker Example" />
-            </LinearLayout>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
 </LinearLayout>

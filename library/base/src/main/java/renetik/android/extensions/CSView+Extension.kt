@@ -30,6 +30,7 @@ fun CSView<*>.viewGroup(id: Int) = findView<ViewGroup>(id)!!
 fun CSView<*>.spinner(id: Int) = findView<Spinner>(id)!!
 fun CSView<*>.button(id: Int) = findView<Button>(id)!!
 fun CSView<*>.compoundButton(id: Int) = findView<CompoundButton>(id)!!
+fun CSView<*>.checkBox(id: Int) = findView<CheckBox>(id)!!
 fun CSView<*>.timePicker(id: Int) = findView<TimePicker>(id)!!
 fun CSView<*>.webView(id: Int) = findView<WebView>(id)!!
 fun CSView<*>.imageView(id: Int) = findView<ImageView>(id)!!

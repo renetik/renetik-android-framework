@@ -86,6 +86,11 @@
     <style name="CSGrid" parent="android:Widget.Material.GridView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:horizontalSpacing">0dp</item>
+        <item name="android:verticalSpacing">0dp</item>
+        <item name="android:numColumns">auto_fit</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:stretchMode">columnWidth</item>
     </style>
 
     <style name="CSList" parent="android:Widget.Material.ListView" >
