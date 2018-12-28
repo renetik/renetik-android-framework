@@ -10,20 +10,22 @@ import renetik.android.controller.common.CSNavigationItem
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.simpleView
 import renetik.android.extensions.textView
-import renetik.android.view.extensions.background
-import renetik.android.view.extensions.title
-import renetik.android.listview.CSListController
-import renetik.android.listview.CSRowView
+import renetik.android.extensions.title
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
+import renetik.android.listview.CSListController
+import renetik.android.listview.CSRowView
+import renetik.android.view.extensions.background
+import renetik.android.view.extensions.title
 
 var currentThemeIndex: Int? = null
 var availableThemes: CSList<Theme> = list()
 
-class CSThemeSwitcherController(val navigation: CSNavigationController)
-    : CSViewController<View>(navigation, layout(R.layout.theme_switcher)), CSNavigationItem {
+class CSThemeChooserController(val navigation: CSNavigationController, title: String = "Theme Chooser")
+    : CSViewController<View>(navigation, layout(R.layout.theme_chooser)), CSNavigationItem {
 
     init {
+        title(R.id.ThemeSwitcher_Title, title)
         CSListController<Theme, GridView>(this, R.id.ThemeSwitcher_Grid) {
             CSRowView(this, layout(R.layout.theme_switcher_item), onLoadSwitchItem)
         }.onItemClick(R.id.ThemeSwitcherItem_Button) { row ->

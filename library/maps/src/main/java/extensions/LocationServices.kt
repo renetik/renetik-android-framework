@@ -1,12 +1,13 @@
 package renetik.android.location
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import renetik.android.controller.base.CSViewController
 
-fun locationClient(controller: CSViewController<*>) = LocationServices.getFusedLocationProviderClient(controller.activity())
+fun Context.locationClient(): FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(this)
 
 @SuppressLint("MissingPermission")
 fun FusedLocationProviderClient.location(onSuccess: (Location) -> Unit) =

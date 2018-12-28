@@ -15,9 +15,8 @@ import renetik.android.controller.common.CSNavigationController
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.view.extensions.findViewRecursive
-import renetik.android.logging.CSLog.logWarn
 import renetik.android.java.collections.list
+import renetik.android.java.common.CSValue
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.CSEventRegistrations
 import renetik.android.java.event.event
@@ -25,7 +24,8 @@ import renetik.android.java.event.execute
 import renetik.android.java.event.fire
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isNull
-import renetik.android.java.common.CSValue
+import renetik.android.logging.CSLog.logWarn
+import renetik.android.view.extensions.findViewRecursive
 
 var root: CSViewController<*>? = null
 val rootActivity get() = root?.activity()
@@ -68,7 +68,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     private var activity: AppCompatActivity? = null
     private val parentRegistrations: CSEventRegistrations
     private var viewId: Int? = null
-    private val menuItems = list<CSMenuItem>()
+    val menuItems = list<CSMenuItem>()
     private var showingInContainer: Boolean? = null
     private var isShowing = false
     private var onViewShowingCalled = false
@@ -266,7 +266,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     protected fun onUserLeaveHint() = onUserLeaveHint.fire()
 
-    override fun createView(): ViewType? {
+    override fun obtainView(): ViewType? {
         return parentController?.let { parent ->
             @Suppress("UNCHECKED_CAST")
             viewId?.let { id -> parent.view.findViewRecursive<ViewType>(id) }
@@ -321,7 +321,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     protected open fun onViewShowingAgain() {}
 
-    protected fun onViewHiding() {
+    protected open fun onViewHiding() {
         if (!onViewShowingCalled) {
             onViewHidingFirstTime()
             onViewShowingCalled = true
@@ -355,7 +355,17 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         invalidateOptionsMenu()
     }
 
+    fun removeMenuItem(item: CSMenuItem) {
+        menuItems.remove(item)
+        invalidateOptionsMenu()
+    }
+
     protected fun menu(id: Int) = addMenuItem(CSMenuItem(this, id))
+
+    protected fun menu(actionView: View) = menu("").apply {
+        this.actionView = actionView
+        alwaysAsAction()
+    }
 
     protected fun menu(title: String) = addMenuItem(CSMenuItem(this, title))
 
@@ -367,4 +377,6 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
                 .hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
+
+
 }

@@ -1,19 +1,31 @@
 package renetik.android.sample.view
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.view.View
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
-import renetik.android.controller.common.CSLogController
+import renetik.android.controller.common.CSLogDisplayController
+import renetik.android.controller.common.CSNavigationItem
+import renetik.android.controller.extensions.requestPermissions
+import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.button
+import renetik.android.java.collections.list
 import renetik.android.sample.R
-import renetik.android.themes.CSThemeSwitcherController
+import renetik.android.themes.CSThemeChooserController
 import renetik.android.view.extensions.onClick
+import renetik.android.view.extensions.title
 
-class SampleMainMenuController : CSViewController<View>(navigation, layout(R.layout.sample_menu)) {
+class SampleMainMenuController : CSViewController<View>(navigation, layout(R.layout.sample_menu)),
+        CSNavigationItem {
     override fun onViewShowingFirstTime() {
-        menu("Themes").onClick { CSThemeSwitcherController(navigation).push() }
-        button(R.id.SampleMenu_ButtonThemes).onClick { CSThemeSwitcherController(navigation).push() }
-        button(R.id.SampleMenu_ButtonLog).onClick { CSLogController(navigation).push() }
-        button(R.id.SampleMenu_ButtonList).onClick { SampleListController().push() }
+        button(R.id.SampleMenu_ButtonThemes).onClick { CSThemeChooserController(navigation, it.title).push() }
+        button(R.id.SampleMenu_ButtonList).onClick { SampleListController(it.title).push() }
+        button(R.id.SampleMenu_ButtonMaps).onClick {
+            requestPermissions(list(ACCESS_FINE_LOCATION), { SampleMapController(it.title).push() },
+                    { dialog("You need to accept permission request for maps to work") })
+        }
+        button(R.id.SampleMenu_ButtonGetPicture).onClick { SampleGetPictureController(it.title).push() }
+        button(R.id.SampleMenu_ButtonDynamicMenu).onClick { SampleDynamicMenuController(it.title).push() }
+        button(R.id.SampleMenu_ButtonLog).onClick { CSLogDisplayController(navigation, it.title).push() }
     }
 }

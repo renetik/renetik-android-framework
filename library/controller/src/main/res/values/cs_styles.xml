@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CSActionBarSearchView" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/CSTextActionBarSearch</item>
+        <item name="android:textColorHint">@android:color/white</item>
+    </style>
+</resources>

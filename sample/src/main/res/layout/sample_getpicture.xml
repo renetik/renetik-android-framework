@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CSContainer">
 
     <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
 
         <TextView
-            android:id="@+id/SampleList_Title"
+            android:id="@+id/SampleGetPicture_Title"
             style="@style/CSPageTitle"
             android:text="Example sample list" />
     </com.google.android.material.card.MaterialCardView>
 
     <FrameLayout style="@style/CSMatchFill">
 
-        <ListView
-            android:id="@+id/SampleList_List"
-            style="@style/CSMatch"
-            android:theme="@android:style/Widget.Material.Light.ListView" />
+        <GridView
+            android:id="@+id/SampleGetPicture_Grid"
+            style="@style/CSGrid"
+            android:layout_width="match_parent" />
 
         <TextView
-            android:id="@+id/SampleList_ListEmpty"
+            android:id="@+id/SampleGetPicture_ListEmpty"
             style="@style/CSWrap"
             android:layout_gravity="center"
-            android:text="No items in list"
+            android:text="No images in grid"
             android:textAppearance="@style/CSTextHeadline6"
             android:textColor="@color/cs_dark_grey_text" />
-    </FrameLayout>
 
-    <!--android:backgroundTint="@color/colorAccent"-->
-    <Button
-        android:id="@+id/SampleList_BottomButton"
-        style="@style/CSMatchWrap"
-        android:text="Do something"
-        android:textAppearance="@style/CSTextOverline"
-        android:textColor="@color/cs_white" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/SampleGetPicture_AddImageButton"
+            style="@style/CSButtonFloating"
+            android:src="@drawable/baseline_photo_camera_24"
+            app:layout_anchorGravity="end" />
+    </FrameLayout>
 
 </LinearLayout>

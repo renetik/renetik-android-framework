@@ -1,23 +1,25 @@
 package renetik.android.controller.common
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
-import renetik.android.base.application
 import renetik.android.base.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.menu.CSOnMenuItem
+import renetik.android.extensions.applicationLogo
+import renetik.android.extensions.applicationLabel
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
+import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.primitives.set
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.remove
 
 open class CSNavigationController(activity: CSActivity)
-    : CSViewController<FrameLayout>(activity, layout(R.layout.cs_navigation)) {
+    : CSViewController<FrameLayout>(activity, layout(R.layout.cs_navigation)), CSNavigationItem {
 
     open var controllers: CSList<CSViewController<*>> = list()
 
@@ -29,7 +31,8 @@ open class CSNavigationController(activity: CSActivity)
         controller.showingInContainer(true)
         controller.initialize(state)
         updateBackButton()
-        updateTitleButton()
+        updateBarTitle()
+        updateBarIcon()
         invalidateOptionsMenu()
         hideKeyboard()
         return controller
@@ -44,7 +47,8 @@ open class CSNavigationController(activity: CSActivity)
 
             controllers.last()?.showingInContainer(true)
             updateBackButton()
-            updateTitleButton()
+            updateBarTitle()
+            updateBarIcon()
             hideKeyboard()
         }
     }
@@ -63,21 +67,52 @@ open class CSNavigationController(activity: CSActivity)
         controller.showingInContainer(true)
         controller.initialize(state)
         updateBackButton()
-        updateTitleButton()
+        updateBarTitle()
+        updateBarIcon()
         invalidateOptionsMenu()
         hideKeyboard()
         return controller
     }
 
-    private fun updateTitleButton() {
-        val title = (controllers.last() as? CSNavigationItem)?.navigationItemTitle
-        if (title.set) actionBar?.title = title
-        else actionBar?.title = application.name
+    private fun updateBarTitle() {
+        (controllers.last() as? CSNavigationItem)?.navigationItemTitle?.let { lastControllerItemTitle ->
+            setActionBarTitle(lastControllerItemTitle)
+        } ?: let {
+            navigationItemTitle?.let { navigationControllerItemTitle ->
+                setActionBarTitle(navigationControllerItemTitle)
+            } ?: setActionBarTitle(applicationLabel())
+        }
+    }
+
+    private fun updateBarIcon() {
+        (controllers.last() as? CSNavigationItem)?.navigationItemIcon?.let { lastControllerItemIcon ->
+            setActionBarIcon(lastControllerItemIcon)
+        } ?: let {
+            navigationItemIcon?.let { navigationControllerItemIcon ->
+                setActionBarIcon(navigationControllerItemIcon)
+            } ?: setActionBarIcon(applicationLogo())
+        }
+    }
+
+    private fun setActionBarTitle(title: String) {
+        actionBar?.setDisplayShowTitleEnabled(title.isSet)
+        actionBar?.title = title
+    }
+
+    private fun setActionBarIcon(icon: Drawable?) {
+        actionBar?.setDisplayShowHomeEnabled(icon.isSet)
+        actionBar?.setIcon(icon)
+    }
+
+    private fun setActionBarIcon(icon: Int) {
+        actionBar?.setDisplayShowHomeEnabled(icon.isSet)
+        actionBar?.setIcon(icon)
     }
 
     private fun updateBackButton() {
         val isBackButtonVisible =
-                (controllers.last() as? CSNavigationItem)?.isNavigationItemBackButton ?: true
+                (controllers.last() as? CSNavigationItem)?.isNavigationItemBackButton
+                        ?: isNavigationItemBackButton
         if (controllers.size > 1 && isBackButtonVisible) showBackButton()
         else hideBackButton()
     }
@@ -106,5 +141,6 @@ open class CSNavigationController(activity: CSActivity)
 
 interface CSNavigationItem {
     val isNavigationItemBackButton get() = true
+    val navigationItemIcon: Int? get() = null
     val navigationItemTitle: String? get() = null
 }

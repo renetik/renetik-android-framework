@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/CSMatchWrap"
-    android:orientation="horizontal"
-    android:paddingStart="5dp"
-    android:paddingTop="5dp"
-    android:paddingEnd="3dp"
-    android:paddingBottom="5dp">
-    <!--android:background="?android:attr/activatedBackgroundIndicator"-->
-
+    style="@style/CSListItem">
 
     <ImageView
         android:id="@+id/SampleListItem_Image"

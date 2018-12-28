@@ -21,4 +21,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':renetik-android:renetik-framework')
     //    implementation 'renetik.android:framework:1.1.0'
+    implementation "com.google.android.gms:play-services-maps:$play_version"
+    implementation "com.google.android.gms:play-services-location:$play_version" //for location requests
 }
