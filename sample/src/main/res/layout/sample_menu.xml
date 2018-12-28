@@ -6,22 +6,42 @@
 
         <TextView
             style="@style/CSPageTitle"
-            android:text="Renetik Android Library" />
+            android:text="Sample Application Main Menu" />
     </com.google.android.material.card.MaterialCardView>
 
     <Button
         android:id="@+id/SampleMenu_ButtonThemes"
-        style="@style/CSButton"
-        android:text="Theme Chooser" />
-
-    <Button
-        android:id="@+id/SampleMenu_ButtonLog"
-        style="@style/CSButtonSecondary"
-        android:text="Log Panel" />
+        style="@style/CSButtonText"
+        android:text="Theme chooser"/>
 
     <Button
         android:id="@+id/SampleMenu_ButtonList"
+        style="@style/CSButton"
+        android:text="List with adding, removing, search example" />
+
+    <Button
+        android:id="@+id/SampleMenu_ButtonMaps"
+        style="@style/CSButtonSecondary"
+        android:text="Multiple maps example utilizing one maps view using controllers with little code"/>
+
+    <Button
+        android:id="@+id/SampleMenu_ButtonGetPicture"
+        style="@style/CSButton"
+        android:text="Get picture or take photo example, displaying in grid"/>
+
+    <Button
+        android:id="@+id/SampleMenu_ButtonDynamicMenu"
+        style="@style/CSButtonSecondary"
+        android:text="Dynamic menus with dialog, input dialog example" />
+
+    <Button
+        android:id="@+id/SampleMenu_ButtonRequest"
+        style="@style/CSButton"
+        android:text="Request with Json response cancellation and retry example" />
+
+    <Button
+        android:id="@+id/SampleMenu_ButtonLog"
         style="@style/CSButtonText"
-        android:text="List Example" />
+        android:text="Application log" />
 
 </LinearLayout>

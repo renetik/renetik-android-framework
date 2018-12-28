@@ -21,7 +21,7 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
     }
 
     val view: ViewType by lazy {
-        val view = _view ?: layoutId?.let { inflate(it.id) } ?: let { createView()!! }
+        val view = _view ?: layoutId?.let { inflate(it.id) } ?: let { obtainView()!! }
         view.tag = this
         view
     }
@@ -29,7 +29,7 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
     fun inflate(layoutId: Int): ViewType = parentGroup?.inflate(layoutId)
             ?: context.inflate(layoutId)
 
-    protected open fun createView(): ViewType? = null
+    protected open fun obtainView(): ViewType? = null
 
     constructor(parent: Context, layoutId: CSLayoutId? = null) : this(parent) {
         this.layoutId = layoutId

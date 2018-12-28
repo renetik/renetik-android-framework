@@ -8,11 +8,11 @@ import androidx.core.content.ContextCompat
 import renetik.android.base.application
 import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
-import renetik.android.java.extensions.isEmpty
-import renetik.android.java.extensions.stringify
 import renetik.android.java.common.tryAndCatch
 import renetik.android.java.common.tryAndFinally
 import renetik.android.java.common.tryAndWarn
+import renetik.android.java.extensions.isEmpty
+import renetik.android.java.extensions.stringify
 import java.io.ByteArrayOutputStream
 
 fun Context.color(value: Int): Int {
@@ -63,13 +63,22 @@ fun Context.colorFromAttribute(attribute: Int): Int {
     return color
 }
 
-fun Context.stringFromAttribute(attribute: Int) = resolveAttribute(attribute).string.stringify()
 
 fun Context.dimensionFromAttribute(attribute: Int): Int {
     val attributes = obtainStyledAttributes(intArrayOf(attribute))
     val dimension = attributes.getDimensionPixelSize(0, 0)
     attributes.recycle()
     return dimension
+}
+
+fun Context.stringFromAttribute(attribute: Int) = resolveAttribute(attribute).string.stringify()
+fun Context.stringFromAttribute2(attribute: Int) = stringFromAttribute(intArrayOf(attribute), 0)
+
+fun Context.stringFromAttribute(styleable: IntArray, styleableAttribute: Int): String {
+    val attributes = obtainStyledAttributes(styleable)
+    val string = attributes.getString(styleableAttribute)
+    attributes.recycle()
+    return string.stringify()
 }
 
 fun Context.resourceFromAttribute(attribute: Int): Int {

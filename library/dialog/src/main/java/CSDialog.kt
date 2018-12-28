@@ -1,21 +1,32 @@
 package renetik.android.dialog
 
 import android.content.Context
+import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import renetik.android.base.CSContextController
-import renetik.android.view.extensions.withClear
+import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.string
+import renetik.android.view.extensions.withClear
 
 class CSDialog(context: Context) : CSContextController(context) {
 
     private val builder = MaterialDialog.Builder(this);
     private var dialog: MaterialDialog? = null
+    private var title: String? = null
+    private var message: String? = null
 
-    fun title(title: String) = apply { builder.title(title) }
-    fun message(message: String) = apply { builder.content(message) }
+    fun title(value: String) = apply { title = value }
+    fun message(value: String) = apply { message = value }
     fun text(title: String, message: String) = title(title).message(message)
     fun show() = apply {
-        dialog = builder.iconAttr(android.R.attr.icon)
+        title?.let { builder.title(it) }
+        message?.let { builder.content(it) }
+        styleDialogBuilder()
+        dialog = builder.show()
+    }
+
+    private fun styleDialogBuilder() {
+        builder.iconAttr(android.R.attr.icon)
                 .titleColorAttr(R.attr.colorOnSurface)
                 .contentColorAttr(R.attr.colorPrimaryVariant)  //title,textfield color
                 .linkColorAttr(R.attr.colorSecondaryVariant)  // notice attr is used instead of none or res for attribute resolving
@@ -26,8 +37,6 @@ class CSDialog(context: Context) : CSContextController(context) {
                 .negativeColorAttr(R.attr.colorOnSurface)
                 .widgetColorAttr(R.attr.colorPrimaryVariant) //textField line
                 .buttonRippleColorAttr(R.attr.colorSecondaryVariant)
-                .show()
-        dialog?.inputEditText?.withClear()
     }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
@@ -70,11 +79,13 @@ class CSDialog(context: Context) : CSContextController(context) {
                 .progress(true, 0).cancelable(false)
     }.show()
 
-    fun showInput(hint: String, value: String, positiveAction: (CSDialog) -> Unit) = apply {
+    fun showInput(hint: String = "", value: String = "", positiveAction: (CSDialog) -> Unit) = apply {
         builder.positiveText(R.string.cs_dialog_ok)
                 .input(hint, value, false) { _, _ -> positiveAction(this) }
                 .negativeText(R.string.cs_dialog_cancel)
-    }.show().inputValue()
+    }.show().apply {
+        dialog?.inputEditText?.withClear()
+    }
 
     fun inputValue(): String = string(dialog?.inputEditText?.text)
 
@@ -85,4 +96,12 @@ class CSDialog(context: Context) : CSContextController(context) {
     }
 
     fun hide() = apply { dialog?.dismiss() }
+
+    fun showView(view: View) {
+        if (notNull(title, message)) throw UnsupportedOperationException("No place for second text with custom view")
+        builder.title(title ?: message ?: "")
+        styleDialogBuilder()
+        builder.customView(view, false)
+        dialog = builder.show()
+    }
 }

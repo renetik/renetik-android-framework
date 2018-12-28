@@ -9,13 +9,15 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSViewController
-import renetik.android.location.asLatLng
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.event
 import renetik.android.java.event.execute
+import renetik.android.location.asLatLng
 
-open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOptions) : CSViewController<MapView>(parent) {
+private const val DEFAULT_ZOOM = 15f
+
+open class CSMapController(parent: CSViewController<*>, private val options: GoogleMapOptions) : CSViewController<MapView>(parent) {
 
     var map: GoogleMap? = null
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
@@ -27,7 +29,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     private var onInfoWindowClick = event<Marker>()
     fun onMarkerInfoClick(function: (Marker) -> Unit) = onInfoWindowClick.execute(function)
 
-    override fun createView() = MapView(this, options)
+    override fun obtainView() = MapView(this, options)
 
     constructor(parent: CSViewController<*>) : this(parent, GoogleMapOptions())
 
@@ -83,6 +85,8 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
 
     fun camera(location: Location, zoom: Float) = camera(location.asLatLng(), zoom)
 
+    fun camera(latLng: LatLng) = camera(latLng, DEFAULT_ZOOM)
+
     fun camera(latLng: LatLng, zoom: Float) {
         animatingCamera = true
         map?.animateCamera(newLatLngZoom(latLng, zoom), object : GoogleMap.CancelableCallback {
@@ -116,12 +120,13 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     }
 
     fun onMapAvailable(onMapReady: (GoogleMap) -> Unit): CSEventRegistration? {
-        map?.let { onMapReady(it) } ?: let {
-            return onMapReadyEvent.run { registration, map ->
-                onMapReady(map)
-                registration.cancel()
-            }
-        }
+        map?.let { onMapReady(it) }
+                ?: let {
+                    return onMapReadyEvent.run { registration, map ->
+                        onMapReady(map)
+                        registration.cancel()
+                    }
+                }
         return null
     }
 
@@ -137,6 +142,7 @@ open class CSMapController(parent: CSViewController<*>, val options: GoogleMapOp
     fun clearMap() {
         map?.clear()
         map?.setOnMapLongClickListener(null)
+        map?.setOnMapClickListener(null)
     }
 
 

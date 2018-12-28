@@ -4,6 +4,10 @@
         <item name="android:textColor">@color/cs_dark_grey_text</item>
     </style>
 
+    <style name="CSTextActionBarSearch" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textColor">@color/cs_white</item>
+    </style>
+
     <style name="CSTextOverline.Gray">
         <item name="android:textColor">@color/cs_dark_grey_text</item>
     </style>

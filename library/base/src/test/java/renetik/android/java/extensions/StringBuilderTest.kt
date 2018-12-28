@@ -1,4 +1,4 @@
-package renetik.android.java.extensions.extensions
+package renetik.android.java.extensions
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#00bcd4</color>-->
-    <!--<color name="colorPrimaryDark">#303f9f</color>-->
-    <!--<color name="colorAccent">#ff6e40</color>-->
-
-
     <color name="primaryColor">#4e342e</color>
     <color name="primaryLightColor">#7b5e57</color>
     <color name="primaryDarkColor">#260e04</color>
@@ -13,4 +8,11 @@
     <color name="secondaryDarkColor">#2bbd7e</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
+
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorOnBackground">#000000</color>
+    <color name="colorSurface">#F3F3F3</color>
+    <color name="colorOnSurface">#000000</color>
+    <color name="colorError">#E91E63</color>
+    <color name="colorOnError">#FFFFFF</color>
 </resources>

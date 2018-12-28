@@ -9,6 +9,7 @@
         <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
 
             <TextView
+                android:id="@+id/CSLog_Title"
                 style="@style/CSPageTitle"
                 android:text="Application Log" />
         </com.google.android.material.card.MaterialCardView>

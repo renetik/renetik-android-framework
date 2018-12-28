@@ -11,7 +11,28 @@ import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.webkit.WebView
+import android.widget.*
 import renetik.android.view.adapter.CSAnimatorAdapter
+
+fun <T : View> View.findView(id: Int): T? = findViewById<T>(id)
+fun View.simpleView(id: Int) = findView<View>(id)!!
+fun View.editText(id: Int) = findView<EditText>(id)!!
+fun View.textView(id: Int) = findView<TextView>(id)!!
+fun View.listView(id: Int) = findView<ListView>(id)!!
+fun View.radio(id: Int) = findView<RadioButton>(id)!!
+fun View.radioGroup(id: Int) = findView<RadioGroup>(id)!!
+fun View.datePicker(id: Int) = findView<DatePicker>(id)!!
+fun View.frame(id: Int) = findView<FrameLayout>(id)!!
+fun View.linearLayout(id: Int) = findView<LinearLayout>(id)!!
+fun View.viewGroup(id: Int) = findView<ViewGroup>(id)!!
+fun View.spinner(id: Int) = findView<Spinner>(id)!!
+fun View.button(id: Int) = findView<Button>(id)!!
+fun View.compoundButton(id: Int) = findView<CompoundButton>(id)!!
+fun View.timePicker(id: Int) = findView<TimePicker>(id)!!
+fun View.webView(id: Int) = findView<WebView>(id)!!
+fun View.imageView(id: Int) = findView<ImageView>(id)!!
+
 
 val <T : View> T.isVisible get() = visibility == VISIBLE
 
@@ -28,24 +49,28 @@ fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(
 fun <T : View> View.findViewRecursive(id: Int): T? = findView<T>(id)
         ?: parentView?.findViewRecursive<T>(id)
 
-fun <T : View> View.findView(id: Int): T? = findViewById<T>(id)
 
 fun <T : View> T.fade(fadeIn: Boolean) = if (fadeIn) fadeIn() else fadeOut()
 
-fun <T : View> T.fadeIn(): ViewPropertyAnimator? {
+fun <T : View> T.fadeIn() = fadeIn(150)
+
+fun <T : View> T.fadeIn(duration: Int): ViewPropertyAnimator? {
     if (isVisible) return null
     show()
     alpha = 0f
-    return animate().alpha(1.0f).setDuration(150)
+    return animate().alpha(1.0f).setDuration(duration.toLong())
             .setInterpolator(AccelerateDecelerateInterpolator()).setListener(null)
 }
 
-fun <T : View> T.fadeOut(): ViewPropertyAnimator? {
-    return if (!isVisible || alpha == 0f) null else animate().alpha(0f).setDuration(300)
+fun <T : View> T.fadeOut() = fadeOut(300)
+
+fun <T : View> T.fadeOut(duration: Int, onDone: (() -> Unit)? = null): ViewPropertyAnimator? {
+    return if (!isVisible || alpha == 0f) null else animate().alpha(0f).setDuration(duration.toLong())
             .setInterpolator(AccelerateDecelerateInterpolator())
             .setListener(object : CSAnimatorAdapter() {
                 override fun onAnimationEnd(animator: Animator?) {
                     hide()
+                    onDone?.invoke()
                 }
             })
 }

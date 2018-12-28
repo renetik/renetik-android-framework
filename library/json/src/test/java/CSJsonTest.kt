@@ -77,7 +77,6 @@ class CSJsonTest {
 }
 
 class ApplicationMock : CSApplication() {
-    override val name = "ApplicationMock"
     override val isDebugBuild get() = DEBUG
 }
 

@@ -6,8 +6,9 @@
     <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
 
         <TextView
+            android:id="@+id/ThemeSwitcher_Title"
             style="@style/CSPageTitle"
-            android:text="Theme Switcher" />
+            android:text="Theme Chooser" />
     </com.google.android.material.card.MaterialCardView>
 
     <!-- TODO: Move some items to style of grid as defaults if applicable-->
