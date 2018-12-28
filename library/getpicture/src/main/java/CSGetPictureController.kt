@@ -5,7 +5,7 @@ import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent
 import android.content.Intent.createChooser
 import android.graphics.Bitmap
-import android.os.Environment.DIRECTORY_PICTURES
+import android.os.Environment.getExternalStorageDirectory
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.View
@@ -21,11 +21,10 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.controller.base.startActivityForResult
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.dialog.extensions.dialog
-import renetik.android.material.extensions.snackBarWarn
-import renetik.android.logging.CSLog.logInfo
 import renetik.android.java.collections.list
-import renetik.android.java.extensions.createDatedFile
 import renetik.android.java.common.tryAndError
+import renetik.android.java.extensions.createDatedFile
+import renetik.android.material.extensions.snackBarWarn
 import java.io.File
 
 class CSGetPictureController<T : View>(val parent: CSViewController<T>, val title: String, private val folder: File,
@@ -34,6 +33,8 @@ class CSGetPictureController<T : View>(val parent: CSViewController<T>, val titl
     constructor(parent: CSViewController<T>, title: String, imagesDirName: String, onImageReady: (File) -> Unit) :
             this(parent, title, File(File(application.externalFilesDir, "Pictures"), imagesDirName), onImageReady)
 
+    private val cacheImagesDir = File(getExternalStorageDirectory(),
+            "Android/data/renetik.android.getpicture/files/ImageCache")
     var selectPhoto = true
     var takePhoto = true
 
@@ -53,7 +54,7 @@ class CSGetPictureController<T : View>(val parent: CSViewController<T>, val titl
         else dialog(title).showChoice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
     }
 
-    private fun onImageSelected(input: Any) = tryAndError {
+    private fun onImageSelected(input: Any, onDone: (() -> Unit)? = null) = tryAndError {
         doAsync {
             tryAndError {
                 val outputImage = folder.createDatedFile("jpg")
@@ -65,6 +66,7 @@ class CSGetPictureController<T : View>(val parent: CSViewController<T>, val titl
                 }
                 uiThread { onImageReady(outputImage) }
             }
+            uiThread { onDone?.invoke() }
         }
     }
 
@@ -78,11 +80,11 @@ class CSGetPictureController<T : View>(val parent: CSViewController<T>, val titl
 
     private fun onTakePhoto() {
         val intent = Intent(ACTION_IMAGE_CAPTURE)
-        intent.putExtra(EXTRA_OUTPUT, getUriForFile(this, "renetik.android.getpicture.fileprovider",
-                application.getExternalFilesDir(DIRECTORY_PICTURES)!!.createDatedFile("jpg")))
+        val cacheImage = cacheImagesDir.createDatedFile("jpg")
+        intent.putExtra(EXTRA_OUTPUT,
+                getUriForFile(this, "renetik.android.getpicture.fileprovider", cacheImage))
         startActivityForResult(intent) {
-            logInfo(it)
-            onImageSelected(intent.getParcelableExtra(EXTRA_OUTPUT))
+            onImageSelected(intent.getParcelableExtra(EXTRA_OUTPUT)) { cacheImage.delete() }
         }
     }
 }

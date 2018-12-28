@@ -22,7 +22,7 @@ class CSLogDisplayController(val navigation: CSNavigationController, val title: 
     private val logText = textView(R.id.CSLog_LogText).apply { movementMethod = ScrollingMovementMethod() }
 
     init {
-        menu("Send to developer").onClick { onSendLogClick() }
+        menuItem("Send to developer").onClick { onSendLogClick() }
     }
 
     override fun onCreate() {

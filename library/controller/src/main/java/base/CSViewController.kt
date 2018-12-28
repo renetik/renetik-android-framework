@@ -91,7 +91,6 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         parentRegistrations = initialize(parent)
     }
 
-
     constructor(parent: CSViewController<*>, viewId: Int) : super(parent) {
         parentController = parent
         this.viewId = viewId
@@ -360,16 +359,16 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         invalidateOptionsMenu()
     }
 
-    protected fun menu(id: Int) = addMenuItem(CSMenuItem(this, id))
+    protected fun menuItem(id: Int) = addMenuItem(CSMenuItem(this, id))
 
-    protected fun menu(actionView: View) = menu("").apply {
+    protected fun menuItem(actionView: View) = menuItem("").apply {
         this.actionView = actionView
         alwaysAsAction()
     }
 
-    protected fun menu(title: String) = addMenuItem(CSMenuItem(this, title))
+    protected fun menuItem(title: String) = addMenuItem(CSMenuItem(this, title))
 
-    protected fun menu(title: String, iconResource: Int) =
+    protected fun menuItem(title: String, iconResource: Int) =
             addMenuItem(CSMenuItem(this, title)).setIconResourceId(iconResource)
 
     override fun hideKeyboard() {

@@ -41,10 +41,10 @@ class SampleListController(private val title: String)
             toRemove.forEach { item -> model.sampleList.delete(item) }
             listController.reload(model.sampleList)
         }
-        menu(searchController.view)
-        menu("Action").onClick { snackBarInfo("This is some action") }.alwaysAsAction()
-        menu("Menu item 1").onClick { logInfoToast("This is item 1 click") }.neverAsAction()
-        menu("Menu item 2").neverAsAction().onClick {
+        menuItem(searchController.view)
+        menuItem("Action").onClick { snackBarInfo("This is some action") }.alwaysAsAction()
+        menuItem("Menu item 1").onClick { logInfoToast("This is item 1 click") }.neverAsAction()
+        menuItem("Menu item 2").neverAsAction().onClick {
             dialog("This is item 2 click").show { dialog("and dialog Button click").show() }
         }
         button(R.id.SampleList_BottomButton).onClick { dialog("Bottom Button click").show() }

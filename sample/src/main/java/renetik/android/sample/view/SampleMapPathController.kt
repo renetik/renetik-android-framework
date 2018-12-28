@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
-import renetik.android.controller.common.CSNavigationItem
 import renetik.android.extensions.title
 import renetik.android.location.asLatLng
 import renetik.android.maps.CSMapClientController
@@ -22,8 +21,8 @@ import renetik.android.maps.extensions.add
 import renetik.android.sample.R
 
 @SuppressLint("MissingPermission")
-class SampleMapPathController(title: String, private val mapController: CSMapController) : CSViewController<View>(navigation, layout(R.layout.sample_map)),
-        CSNavigationItem {
+class SampleMapPathController(title: String, private val mapController: CSMapController)
+    : CSViewController<View>(navigation, layout(R.layout.sample_map_path)) {
 
     private val mapClient = CSMapClientController(this, R.id.SampleMap_Map, mapController)
     private var previousPosition: Location? = null

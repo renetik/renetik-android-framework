@@ -5,11 +5,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.frame
-import renetik.android.java.common.CSConstants.SECOND
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
-import renetik.android.task.doLater
-import renetik.android.view.extensions.*
+import renetik.android.view.extensions.add
+import renetik.android.view.extensions.layoutMatch
+import renetik.android.view.extensions.removeFromSuperview
 
 open class CSMapClientController<V : View>(parent: CSViewController<V>, private val mapFrameId: Int,
                                            open val mapController: CSMapController)
@@ -28,11 +28,11 @@ open class CSMapClientController<V : View>(parent: CSViewController<V>, private 
     override fun onViewShowing() {
         super.onViewShowing()
         whileShowing(mapController.onMapAvailable { map ->
-            mapController.view.fadeOut()
-            doLater(3 * SECOND) {
-                frame(mapFrameId).add(mapController.view.removeFromSuperview(), layoutMatch)
-                mapController.view.fadeIn()
-            }
+            //            mapController.view.hide()
+//            doLater(SECOND) {
+            frame(mapFrameId).add(mapController.view.removeFromSuperview(), layoutMatch)
+//                mapController.view.fadeIn()
+//            }
             map.clear()
             map.setOnMapClickListener { latLng -> onMapClickEvent.fire(latLng) }
             map.setOnMapLongClickListener { latLng -> onMapLongClickEvent.fire(latLng) }
