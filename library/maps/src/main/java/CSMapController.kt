@@ -15,7 +15,7 @@ import renetik.android.java.event.event
 import renetik.android.java.event.execute
 import renetik.android.location.asLatLng
 
-private const val DEFAULT_ZOOM = 15f
+private const val DEFAULT_ZOOM = 13f
 
 open class CSMapController(parent: CSViewController<*>, private val options: GoogleMapOptions) : CSViewController<MapView>(parent) {
 
@@ -86,6 +86,8 @@ open class CSMapController(parent: CSViewController<*>, private val options: Goo
     fun camera(location: Location, zoom: Float) = camera(location.asLatLng(), zoom)
 
     fun camera(latLng: LatLng) = camera(latLng, DEFAULT_ZOOM)
+
+    fun camera(location: Location) = camera(location.asLatLng())
 
     fun camera(latLng: LatLng, zoom: Float) {
         animatingCamera = true

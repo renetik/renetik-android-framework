@@ -12,12 +12,12 @@ import android.widget.ListView
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.findView
 import renetik.android.extensions.simpleView
+import renetik.android.java.collections.list
+import renetik.android.java.event.event
+import renetik.android.java.extensions.collections.at
 import renetik.android.view.extensions.hide
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.show
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.list
-import renetik.android.java.event.event
 
 open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewController<ViewType> {
 
@@ -39,7 +39,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     private var onIsEnabled: ((Int) -> Boolean)? = null
     private var savedSelectionIndex: Int = 0
     private var savedCheckedItems: SparseBooleanArray? = null
-    val checkedRows: CSList<RowType>
+    val checkedRows: List<RowType>
         get() {
             val checkedRows = list<RowType>()
             val positions = view.checkedItemPositions

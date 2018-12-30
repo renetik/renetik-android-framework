@@ -11,7 +11,6 @@ import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.simpleView
 import renetik.android.extensions.textView
 import renetik.android.extensions.title
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
@@ -19,7 +18,7 @@ import renetik.android.view.extensions.background
 import renetik.android.view.extensions.title
 
 var currentThemeIndex: Int? = null
-var availableThemes: CSList<Theme> = list()
+var availableThemes = list<Theme>()
 
 class CSThemeChooserController(val navigation: CSNavigationController, title: String = "Theme Chooser")
     : CSViewController<View>(navigation, layout(R.layout.theme_chooser)), CSNavigationItem {

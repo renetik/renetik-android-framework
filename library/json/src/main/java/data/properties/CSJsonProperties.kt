@@ -1,11 +1,13 @@
 package renetik.android.json.data.properties
 
-import renetik.android.json.createList
-import renetik.android.json.data.CSJsonData
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.CSMap
 import renetik.android.java.collections.list
 import renetik.android.java.common.CSSizeInterface
+import renetik.android.java.extensions.collections.delete
+import renetik.android.java.extensions.collections.deleteLast
+import renetik.android.java.extensions.collections.lastItem
+import renetik.android.json.createList
+import renetik.android.json.data.CSJsonData
 import java.io.File
 import kotlin.reflect.KClass
 
@@ -42,14 +44,14 @@ class CSJsonDataListProperty<T : CSJsonData>(val data: CSJsonData, val type: KCl
                                              val key: String) : Iterable<T>, CSSizeInterface {
     override fun iterator() = list.iterator()
 
-    var list: CSList<T>
+    var list: List<T>
         get() = createList(type, data.getList(key) as List<CSMap<String, Any?>>?)
         set(list) {
             data.getList(key)?.clear()
             list.forEach { item -> add(item) }
         }
 
-    val last: T? get() = list.last()
+    val last: T? get() = list.lastItem
     val isEmpty get() = size == 0
     override val size get() = data.getList(key)?.size ?: let { 0 }
 
@@ -65,11 +67,11 @@ class CSJsonDataListProperty<T : CSJsonData>(val data: CSJsonData, val type: KCl
 class CSJsonStringListProperty(val data: CSJsonData, val key: String) : Iterable<String> {
     override fun iterator() = list.iterator()
 
-    var list: CSList<String>
-        get() = data.getList(key) as CSList<String>
+    var list: List<String>
+        get() = data.getList(key) as List<String>
         set(list) = data.put(key, list)
 
-    val last: String? get() = list.last()
+    val last: String? get() = list.lastItem
     val empty get() = size() == 0
 
     fun add(item: String) = data.getList(key)?.add(item)

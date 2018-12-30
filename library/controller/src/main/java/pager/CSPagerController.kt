@@ -3,12 +3,15 @@ package renetik.android.controller.pager
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import renetik.android.controller.base.CSViewController
-import renetik.android.view.extensions.visible
+import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.at
+import renetik.android.java.extensions.collections.hasItems
+import renetik.android.java.extensions.collections.putAll
+import renetik.android.java.extensions.collections.reload
+import renetik.android.java.extensions.isEmpty
 import renetik.android.task.doLater
 import renetik.android.view.adapter.CSOnPageSelected
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.list
-import renetik.android.java.extensions.isEmpty
+import renetik.android.view.extensions.visible
 
 class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
     : CSViewController<ViewPager>(parent, pagerId)
@@ -18,14 +21,14 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
     var currentIndex = 0
     private var emptyView: View? = null
 
-    constructor(parent: CSViewController<*>, pagerId: Int, pages: CSList<PageType>)
+    constructor(parent: CSViewController<*>, pagerId: Int, pages: List<PageType>)
             : this(parent, pagerId) {
         controllers.putAll(pages)
     }
 
     fun emptyView(view: View) = apply { emptyView = view.visible(controllers.isEmpty) }
 
-    fun reload(pages: CSList<PageType>) = apply {
+    fun reload(pages: List<PageType>) = apply {
         val currentIndex = view.currentItem
         for (page in controllers) page.onDeinitialize()
         controllers.reload(pages)

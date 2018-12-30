@@ -52,14 +52,14 @@ class CSJsonTest {
         house.floors.add(FlorJsonDataTest("second"))
         house.title.string = "Nice House"
         house.load(fromJson(toJson(house))!!)
-        assertEquals("second", house.floors.list.second()!!.title.value)
+        assertEquals("second", house.floors.list.second().title.value)
     }
 
     @Test
     fun testJsonDataLoad() {
         val house = HouseJsonDataTest()
         house.load(fromJson(json)!!)
-        assertEquals("second", house.floors.list.second()!!.title.string)
+        assertEquals("second", house.floors.list.second().title.string)
     }
 
     @Test

@@ -1,14 +1,13 @@
 package renetik.android.json.data
 
-import renetik.android.json.CSJsonDataList
-import renetik.android.json.CSJsonDataMap
-import renetik.android.json.toFormattedJson
-import renetik.android.task.doLater
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.CSMap
 import renetik.android.java.collections.linkedMap
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
+import renetik.android.json.CSJsonDataList
+import renetik.android.json.CSJsonDataMap
+import renetik.android.json.toFormattedJson
+import renetik.android.task.doLater
 
 data class OnJsonDataValueChanged(val data: CSJsonData, val key: String, val value: Any?)
 
@@ -100,7 +99,7 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
 
     fun getMap(key: String) = data()[key] as? CSMap<String, Any?>
 
-    fun getList(key: String) = data()[key] as? CSList<Any?>
+    fun getList(key: String) = data()[key] as? MutableList<Any?>
 
     fun <T : CSJsonData> load(dataValue: T, data: CSMap<String, *>, key: String): T? {
         (data[key] as? CSMap<String, Any?>)?.let { dataValue.load(it) } ?: return null

@@ -22,6 +22,8 @@ open class CSMapClientController<V : View>(parent: CSViewController<V>, private 
     private val onMapClickEvent: CSEvent<LatLng> = event()
     fun onMapClick(function: (LatLng) -> Unit) = onMapClickEvent.run { _, location -> function(location) }
     private val onMapLongClickEvent: CSEvent<LatLng> = event()
+    val map get() = mapController.map
+
     fun onMapLongClick(function: (LatLng) -> Unit) = onMapLongClickEvent.run { _, location -> function(location) }
 
 
@@ -36,6 +38,8 @@ open class CSMapClientController<V : View>(parent: CSViewController<V>, private 
             map.clear()
             map.setOnMapClickListener { latLng -> onMapClickEvent.fire(latLng) }
             map.setOnMapLongClickListener { latLng -> onMapLongClickEvent.fire(latLng) }
+            map.isMyLocationEnabled = false
+            map.uiSettings.isMyLocationButtonEnabled = false
             onMapShowingEvent.fire(map)
         })
         whileShowing(mapController.onCameraStopped { map ->

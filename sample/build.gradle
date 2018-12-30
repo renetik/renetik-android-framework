@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 28
@@ -21,6 +22,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':renetik-android:renetik-framework')
     //    implementation 'renetik.android:framework:1.1.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
     implementation "com.google.android.gms:play-services-maps:$play_version"
     implementation "com.google.android.gms:play-services-location:$play_version" //for location requests
 }
