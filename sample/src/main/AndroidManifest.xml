@@ -22,6 +22,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="7dee86dce9a31a096797a5cc91b1e7f76d8e9453" />
+
         <activity
             android:name=".view.SampleNavigationActivity"
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"

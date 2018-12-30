@@ -1,16 +1,15 @@
 package renetik.android.json.extensions
 
-import renetik.android.json.data.CSJsonData
-import renetik.android.json.createList
-import renetik.android.json.fromJson
-import renetik.android.json.toJson
 import renetik.android.base.CSValueStore
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.CSMap
 import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.isEmpty
+import renetik.android.json.createList
+import renetik.android.json.data.CSJsonData
+import renetik.android.json.fromJson
+import renetik.android.json.toJson
 import kotlin.reflect.KClass
-
 
 fun CSValueStore.put(key: String, value: Any?) = value?.let {
     val editor = preferences.edit()
@@ -30,7 +29,7 @@ fun <T : CSJsonData> CSValueStore.loadDataList(type: KClass<T>, key: String, def
         createList(type, loadJson(key), default)
 
 fun <T : Any> CSValueStore.loadList(key: String) =
-        list<T>().apply { loadJson<CSList<T>>(key)?.forEach { data -> put(data) } }
+        list<T>().apply { loadJson<List<T>>(key)?.forEach { data -> put(data) } }
 
 private fun <Type> CSValueStore.loadJson(key: String): Type? {
     val loadString = loadString(key)

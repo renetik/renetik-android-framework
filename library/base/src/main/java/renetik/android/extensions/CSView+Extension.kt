@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
 import renetik.android.base.CSView
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.java.common.CSConstants.MINUTE
 import renetik.android.view.extensions.findView
@@ -50,7 +49,7 @@ fun CSView<*>.getTime(picker: TimePicker): Date {
 
 
 //move to Spinner extension
-fun CSView<*>.initSpinner(id: Int, values: CSList<String>, value: String) {
+fun CSView<*>.initSpinner(id: Int, values: List<String>, value: String) {
     setSpinnerData(spinner(id), values)
     spinner(id).setSelection(values.indexOf(value), false)
 }

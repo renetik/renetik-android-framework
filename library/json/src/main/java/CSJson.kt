@@ -3,17 +3,18 @@ package renetik.android.json
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
-import renetik.android.json.data.CSJsonData
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.CSMap
 import renetik.android.java.collections.linkedMap
 import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.put
+import renetik.android.java.extensions.collections.putAll
 import renetik.android.java.extensions.createInstance
+import renetik.android.json.data.CSJsonData
 import kotlin.collections.set
 import kotlin.reflect.KClass
 
 fun <T : CSJsonData> createList(type: KClass<T>, dataList: List<CSMap<String, Any?>>?,
-                                default: (List<T>)? = null): CSList<T> = list<T>().apply {
+                                default: (List<T>)? = null) = list<T>().apply {
     dataList?.let {
         dataList.withIndex().forEach { (index, data) ->
             val item = put(type.createInstance()!!)
@@ -77,7 +78,7 @@ private fun createValueFromJsonType(value: Any?): Any? {
 }
 
 fun createListObject(jsonArray: JSONArray): List<Any?> {
-    val list: CSList<Any?> = list()
+    val list = list<Any?>()
     for (index in 0 until jsonArray.length()) list.add(createValueFromJsonType(jsonArray[index]))
     return list
 }

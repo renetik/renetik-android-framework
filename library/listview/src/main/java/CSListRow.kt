@@ -1,10 +1,10 @@
 package renetik.android.listview
 
-import renetik.android.json.data.CSJsonData
-import renetik.android.listview.CSListRow.RowTypes.*
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.java.common.CSValues
+import renetik.android.java.extensions.collections.deleteLast
+import renetik.android.json.data.CSJsonData
+import renetik.android.listview.CSListRow.RowTypes.*
 
 fun <DataType : CSJsonData> createRow(type: CSListRow.RowTypes, index: Int): CSListRow<DataType> {
     return CSListRow(type, index)
@@ -23,7 +23,7 @@ fun <DataType : CSJsonData> createRow(data: DataType, viewType: CSListRow.RowTyp
     return CSListRow(data, viewType, index)
 }
 
-fun <T : CSJsonData> rowsFromList(data: CSList<T>): CSList<CSListRow<T>> {
+fun <T : CSJsonData> rowsFromList(data: List<T>): List<CSListRow<T>> {
     val listData = list<CSListRow<T>>(createTableHeader())
     var rowIndex = 0
     for (row in data) listData.add(createRow(row, Row, rowIndex++))
@@ -31,8 +31,8 @@ fun <T : CSJsonData> rowsFromList(data: CSList<T>): CSList<CSListRow<T>> {
     return listData
 }
 
-fun <T : CSJsonData, Data> rowsFromListDatas(dataList: CSList<Data>)
-        : CSList<CSListRow<Data>> where  Data : CSJsonData, Data : CSValues<T> {
+fun <T : CSJsonData, Data> rowsFromListDatas(dataList: List<Data>)
+        : List<CSListRow<Data>> where  Data : CSJsonData, Data : CSValues<T> {
     val listData = list<CSListRow<Data>>(createTableHeader())
     var sectionIndex = 0
     for (data in dataList) {
@@ -47,7 +47,7 @@ fun <T : CSJsonData, Data> rowsFromListDatas(dataList: CSList<Data>)
     return listData
 }
 
-fun <T : CSJsonData> rowsFromLists(data: CSList<CSList<T>>): CSList<CSListRow<T>> {
+fun <T : CSJsonData> rowsFromLists(data: List<List<T>>): List<CSListRow<T>> {
     val listData = list<CSListRow<T>>(createTableHeader())
     var sectionIndex = 0
     for (sectionData in data) {

@@ -1,64 +1,32 @@
 package renetik.android.java.extensions.collections
 
-import renetik.android.java.collections.CSList
-import renetik.android.java.collections.CSListImpl
+import renetik.android.java.collections.list
 
-fun <T> List<T>.at(index: Int): T? {
-    return if (index in 0..(size - 1)) get(index) else null
-}
+val <T> List<T>.length get() = size
 
-fun <T> List<T>.firstItem(): T? {
-    return at(0)
-}
+val <T> List<T>.hasItems get() = size > 0
 
-fun <T> List<T>.secondItem(): T? {
-    return at(1)
-}
+val <T> List<T>.lastIndex get() = size - 1
 
-fun <T> List<T>.thirdItem(): T? {
-    return at(2)
-}
+val <T> List<T>.firstItem get() = at(0)
 
-fun <T> List<T>.index(item: T): Int {
-    return indexOf(item)
-}
+val <T> List<T>.secondItem get() = at(1)
 
-fun <T> List<T>.getHasItems(): Boolean {
-    return size > 0
-}
+val <T> List<T>.thirdItem get() = at(2)
 
-fun <T> List<T>.isLast(item: T): Boolean {
-    return lastItem() === item
-}
+val <T> List<T>.previousLastItem get() = at(lastIndex - 1)
 
-fun <T> List<T>.previousLastItem(): T? {
-    return at(lastIndex() - 1)
-}
+val <T> List<T>.lastItem get() = at(lastIndex)
 
-fun <T> List<T>.lastItem(): T? {
-    return at(lastIndex())
-}
+fun <T> List<T>.at(index: Int): T? = if (index in 0..(size - 1)) get(index) else null
 
-fun <T> List<T>.lastIndex(): Int {
-    return size - 1
-}
+fun <T> List<T>.isLast(item: T) = lastItem === item
 
-fun <T> List<T>.range(fromIndex: Int): CSList<T> {
-    return range(fromIndex, size)
-}
+fun <T> List<T>.isLastIndex(index: Int) = index == lastIndex
 
-fun <T> List<T>.range(fromIndex: Int, toIndex: Int): CSList<T> {
-    return CSListImpl<T>(subList(fromIndex, toIndex))
-}
+fun <T> List<T>.range(fromIndex: Int) = range(fromIndex, size)
 
-fun <T> List<T>.count(): Int {
-    return size
-}
+fun <T> List<T>.range(fromIndex: Int, toIndex: Int) = list(subList(fromIndex, toIndex))
 
-fun <T> List<T>.has(item: T): Boolean {
-    return contains(item)
-}
+fun <T> List<T>.has(item: T) = contains(item)
 
-fun <T> List<T>.length(): Int {
-    return size
-}

@@ -1,6 +1,5 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.java.common.CSConstants.NEWLINE
 
@@ -43,7 +42,7 @@ fun StringBuilder.replaceEnd(string: String) = apply {
     add(string)
 }
 
-fun StringBuilder.split(regex: String): CSList<StringBuilder> {
+fun StringBuilder.split(regex: String): List<StringBuilder> {
     val split = list<StringBuilder>()
     for (string in toString().split(regex.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
         split.add(StringBuilder(string))

@@ -1,10 +1,9 @@
 package renetik.android.java.common
 
 import com.google.android.gms.common.internal.Objects.equal
-import renetik.android.java.collections.CSList
 
 interface CSValues<T> {
-    val values: CSList<T>
+    val values: MutableList<T>
 }
 
 fun <T : CSId> CSValues<T>.findById(id: String): T? {

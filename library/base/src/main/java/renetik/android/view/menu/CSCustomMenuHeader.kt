@@ -1,6 +1,7 @@
 package renetik.android.view.menu
 
 import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.put
 
 class CSCustomMenuHeader(val index: Int, val title: String) {
 

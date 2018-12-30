@@ -3,6 +3,7 @@ package renetik.android.listview
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import renetik.android.java.extensions.collections.at
 
 class CSListAdapter(private val controller: CSListController<*, *>) : BaseAdapter() {
 

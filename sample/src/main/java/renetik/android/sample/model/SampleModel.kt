@@ -13,6 +13,7 @@ class SampleModel {
             SampleListRow("title 3", "sub title 3"), SampleListRow("title 4", "sub title 4"))
     val sampleGetPictureList = list<SampleGetPictureRow>()
     val mapMarkers = list<MapMarker>()
+    val mapRoute= list<LatLng>()
 }
 
 class SampleListRow(val title: String, val subtitle: String) {

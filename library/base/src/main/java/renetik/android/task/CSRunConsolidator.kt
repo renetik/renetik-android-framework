@@ -1,6 +1,8 @@
 package renetik.android.task
 
 import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.deleteLast
+import renetik.android.java.extensions.collections.hasItems
 
 class CSRunConsolidator(private val miliseconds: Int) {
 
