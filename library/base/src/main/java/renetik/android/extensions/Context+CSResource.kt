@@ -6,7 +6,6 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import renetik.android.base.application
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
 import renetik.android.java.common.tryAndCatch
 import renetik.android.java.common.tryAndFinally
@@ -42,7 +41,7 @@ fun Context.resourceBytes(id: Int) = tryAndWarn {
 
 fun Context.resourceDimension(id: Int) = resources.getDimension(id).toInt()
 
-fun Context.resourceStrings(id: Int): CSList<String>? =
+fun Context.resourceStrings(id: Int): List<String>? =
         tryAndWarn(NotFoundException::class) { list(*resources.getStringArray(id)) }
 
 fun Context.resourceInts(id: Int) =

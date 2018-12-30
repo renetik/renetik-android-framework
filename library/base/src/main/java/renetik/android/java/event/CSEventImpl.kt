@@ -4,6 +4,7 @@ import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logError
 import renetik.android.java.collections.list
 import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.extensions.collections.delete
 
 class CSEventImpl<T> : CSEvent<T> {
 

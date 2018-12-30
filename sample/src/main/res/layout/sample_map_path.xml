@@ -10,18 +10,15 @@
             android:text="Sample Map" />
     </com.google.android.material.card.MaterialCardView>
 
-    <FrameLayout style="@style/CSMatchFill">
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CSContentCard"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <FrameLayout
             android:id="@+id/SampleMap_Map"
             style="@style/CSMatch" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/SampleMap_MapTypeButton"
-            style="@style/CSButtonFloating"
-            android:layout_gravity="top|start"
-            android:src="@drawable/outline_map_24" />
-
-    </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

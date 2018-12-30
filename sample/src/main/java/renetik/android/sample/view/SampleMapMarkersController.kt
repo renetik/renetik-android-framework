@@ -2,13 +2,15 @@ package renetik.android.sample.view
 
 import android.annotation.SuppressLint
 import android.view.View
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.title
+import renetik.android.java.extensions.collections.put
+import renetik.android.location.location
+import renetik.android.location.locationClient
 import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
 import renetik.android.sample.R
@@ -25,18 +27,21 @@ class SampleMapMarkersController(title: String, mapController: CSMapController)
         title(R.id.SampleMap_Title, title)
         mapClient.onMapShowing { map ->
             map.isMyLocationEnabled = true
-            loadMarkers(map)
+            locationClient().location { mapController.camera(it) }
+            loadMarkers()
         }
         mapClient.onMapClick { addMapClick(it) }
     }
 
-    private fun loadMarkers(map: GoogleMap) = model.mapMarkers.forEach { addMarker(map, it) }
+    private fun loadMarkers() = model.mapMarkers.forEach { showMarker(it) }
 
-    private fun addMarker(map: GoogleMap, marker: MapMarker) =
-            map.addMarker(MarkerOptions().position(marker.latLng).title(marker.title))
+    private fun showMarker(marker: MapMarker) =
+            mapClient.map!!.addMarker(MarkerOptions().position(marker.latLng).title(marker.title))
 
-    private fun addMapClick(latLng: LatLng) = dialog("Add marker at position")
-            .showInput("Enter marker title") { model.mapMarkers.add(MapMarker(latLng, it.inputValue())) }
+    private fun addMapClick(latLng: LatLng) =
+            dialog("Add marker at position").showInput("Enter marker title") {
+                showMarker(model.mapMarkers.put(MapMarker(latLng, it.inputValue())))
+            }
 }
 
 

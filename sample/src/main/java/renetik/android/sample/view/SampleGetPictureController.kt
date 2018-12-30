@@ -10,6 +10,7 @@ import renetik.android.extensions.imageView
 import renetik.android.extensions.title
 import renetik.android.getpicture.CSGetPictureController
 import renetik.android.imaging.extensions.image
+import renetik.android.java.extensions.collections.delete
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRemoveListRowsController
 import renetik.android.listview.CSRowView

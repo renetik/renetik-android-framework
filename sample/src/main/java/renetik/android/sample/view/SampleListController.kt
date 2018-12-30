@@ -11,6 +11,7 @@ import renetik.android.extensions.button
 import renetik.android.extensions.textView
 import renetik.android.extensions.title
 import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.delete
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRemoveListRowsController
 import renetik.android.listview.CSRowView

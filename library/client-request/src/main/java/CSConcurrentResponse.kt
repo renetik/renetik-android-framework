@@ -1,9 +1,9 @@
 package renetik.android.client.request
 
-import renetik.android.java.collections.CSList
 import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.delete
 
-class CSConcurrentResponse(private val responses: CSList<CSResponse<*>>) : CSResponse<CSList<Any>>(list()) {
+class CSConcurrentResponse(private val responses: MutableList<CSResponse<*>>) : CSResponse<List<Any>>(list()) {
 
     private val runningResponses = list<CSResponse<*>>(responses)
 
