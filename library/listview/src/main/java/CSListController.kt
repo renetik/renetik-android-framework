@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.ListView
+import android.widget.ListView.CHOICE_MODE_SINGLE
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.findView
 import renetik.android.extensions.simpleView
@@ -191,4 +192,10 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         restoreSelectionAndScrollState()
     }
 
+    fun selectedIndex(index: Int) = apply {
+        view.choiceMode = CHOICE_MODE_SINGLE;
+        view.setItemChecked(index, true)
+//        view.setSelectionFromTop(index, 0)
+//        view.setSelection(index)
+    }
 }

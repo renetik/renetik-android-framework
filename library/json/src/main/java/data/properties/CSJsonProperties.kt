@@ -11,6 +11,8 @@ import renetik.android.json.data.CSJsonData
 import java.io.File
 import kotlin.reflect.KClass
 
+
+
 class CSJsonStringProperty(val data: CSJsonData, private val key: String) {
     var string: String?
         get() = data.getString(key)
@@ -41,7 +43,7 @@ class CSJsonFileProperty(val data: CSJsonData, private val key: String) {
 
 @Suppress("unchecked_cast")
 class CSJsonDataListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<T>,
-                                             val key: String) : Iterable<T>, CSSizeInterface {
+                                             private val key: String) : Iterable<T>, CSSizeInterface {
     override fun iterator() = list.iterator()
 
     var list: List<T>

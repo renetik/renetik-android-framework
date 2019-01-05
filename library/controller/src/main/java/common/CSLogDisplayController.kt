@@ -9,7 +9,6 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.sendMail
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.textView
-import renetik.android.extensions.title
 import renetik.android.material.extensions.floatingButton
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.title
@@ -27,7 +26,7 @@ class CSLogDisplayController(val navigation: CSNavigationController, val title: 
 
     override fun onCreate() {
         super.onCreate()
-        title(R.id.CSLog_Title, title)
+        textView(R.id.CSLog_Title).title(title)
         floatingButton(R.id.CSLog_Reload).onClick { loadText() }
         loadText()
     }

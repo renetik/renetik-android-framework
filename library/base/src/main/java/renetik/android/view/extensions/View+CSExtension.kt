@@ -29,6 +29,7 @@ fun View.viewGroup(id: Int) = findView<ViewGroup>(id)!!
 fun View.spinner(id: Int) = findView<Spinner>(id)!!
 fun View.button(id: Int) = findView<Button>(id)!!
 fun View.compoundButton(id: Int) = findView<CompoundButton>(id)!!
+fun View.checkBox(id: Int) = findView<CheckBox>(id)!!
 fun View.timePicker(id: Int) = findView<TimePicker>(id)!!
 fun View.webView(id: Int) = findView<WebView>(id)!!
 fun View.imageView(id: Int) = findView<ImageView>(id)!!

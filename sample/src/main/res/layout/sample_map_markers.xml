@@ -6,14 +6,12 @@
 
         <TextView
             android:id="@+id/SampleMap_Title"
-            style="@style/CSPageTitle"
+            style="@style/CSPageTitleMatchWrap"
             android:text="Sample Map" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/CSContentCard"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        style="@style/CSContentCardMatchFill">
 
         <FrameLayout
             android:id="@+id/SampleMap_Map"

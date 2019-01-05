@@ -1,4 +1,4 @@
-package renetik.android.sample.view
+package renetik.android.sample.view.list
 
 import android.view.View
 import android.widget.ListView
@@ -9,7 +9,6 @@ import renetik.android.controller.common.CSSearchController
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.button
 import renetik.android.extensions.textView
-import renetik.android.extensions.title
 import renetik.android.java.collections.list
 import renetik.android.java.extensions.collections.delete
 import renetik.android.listview.CSListController
@@ -20,6 +19,7 @@ import renetik.android.material.extensions.snackBarInfo
 import renetik.android.sample.R
 import renetik.android.sample.model.SampleListRow
 import renetik.android.sample.model.model
+import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.title
 
@@ -37,7 +37,7 @@ class SampleListController(private val title: String)
     private val searchController = CSSearchController(this) { reloadList() }
 
     init {
-        title(R.id.SampleList_Title, title)
+        textView(R.id.SampleList_Title).title(title)
         CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
             toRemove.forEach { item -> model.sampleList.delete(item) }
             listController.reload(model.sampleList)
@@ -53,15 +53,12 @@ class SampleListController(private val title: String)
     }
 
     private fun reloadList() {
-        val listData =
+        listController.reload(
                 if (searchController.text.isEmpty()) model.sampleList
                 else list<SampleListRow>().apply {
                     for (row in model.sampleList)
                         if (row.searchableText.contains(searchController.text, ignoreCase = true))
                             add(row)
-                }
-        listController.reload(listData)
+                })
     }
-
-    override val navigationItemTitle = ""
 }

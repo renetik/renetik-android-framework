@@ -6,11 +6,11 @@
 
         <TextView
             android:id="@+id/SampleDynamicMenu_Title"
-            style="@style/CSPageTitle"
+            style="@style/CSPageTitleMatchWrap"
             android:text="Example sample list" />
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView style="@style/CSContentCard">
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
 
         <CheckBox
             android:id="@+id/SampleDynamicMenu_AddMenuItemVisible"
@@ -18,9 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add menu item action visible" />
+
     </com.google.android.material.card.MaterialCardView>
-
-
-    <FrameLayout style="@style/CSMatchFill" />
 
 </LinearLayout>

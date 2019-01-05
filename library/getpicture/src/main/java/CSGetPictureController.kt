@@ -81,8 +81,8 @@ class CSGetPictureController<T : View>(val parent: CSViewController<T>, val titl
     private fun onTakePhoto() {
         val intent = Intent(ACTION_IMAGE_CAPTURE)
         val cacheImage = cacheImagesDir.createDatedFile("jpg")
-        intent.putExtra(EXTRA_OUTPUT,
-                getUriForFile(this, "renetik.android.getpicture.fileprovider", cacheImage))
+        intent.putExtra(EXTRA_OUTPUT, getUriForFile(this,
+                "${applicationContext.packageName}.renetik.android.getpicture.fileprovider", cacheImage))
         startActivityForResult(intent) {
             onImageSelected(intent.getParcelableExtra(EXTRA_OUTPUT)) { cacheImage.delete() }
         }

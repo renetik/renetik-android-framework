@@ -1,9 +1,10 @@
 package renetik.android.client.request
 
+import renetik.android.base.CSContextController
 import renetik.android.java.event.event
 import renetik.android.java.event.execute
 
-class CSRequest<Data : Any>(val onSend: () -> CSResponse<Data>) {
+open class CSRequest<Data : Any>(val onSend: () -> CSResponse<Data>) : CSContextController() {
     private val eventSuccess = event<Data>()
     private val eventFailed = event<CSResponse<*>>()
     private val eventDone = event<Data>()
@@ -38,3 +39,4 @@ class CSRequest<Data : Any>(val onSend: () -> CSResponse<Data>) {
         }
     }
 }
+

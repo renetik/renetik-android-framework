@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/CSGridItem">
+    style="@style/CSGridItemMatchWrap">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/SampleGetPictureItem_ImageButton"
-        style="@style/CSGridItemCard"
+        style="@style/CSGridItemCardMatchWrap"
         android:clickable="true">
 
         <ImageView

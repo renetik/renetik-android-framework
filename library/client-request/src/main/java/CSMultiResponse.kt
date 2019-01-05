@@ -1,6 +1,6 @@
 package renetik.android.client.request
 
-class CSMultiResponse<Data : Any>(data: Data) : CSResponse<Data>(data) {
+open class CSMultiResponse<Data : Any>(data: Data) : CSResponse<Data>(data) {
 
     private var addedResponse: CSResponse<*>? = null
 

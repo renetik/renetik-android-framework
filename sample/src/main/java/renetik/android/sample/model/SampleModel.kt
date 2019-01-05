@@ -13,14 +13,14 @@ class SampleModel {
             SampleListRow("title 3", "sub title 3"), SampleListRow("title 4", "sub title 4"))
     val sampleGetPictureList = list<SampleGetPictureRow>()
     val mapMarkers = list<MapMarker>()
-    val mapRoute= list<LatLng>()
+    val mapRoute = list<LatLng>()
+    val server by lazy { SampleServer() }
 }
 
 class SampleListRow(val title: String, val subtitle: String) {
     val time = Date().format(DateFormat.LONG, DateFormat.SHORT)
     val searchableText = "$title $subtitle"
 }
-
 
 class SampleGetPictureRow(val image: File)
 
