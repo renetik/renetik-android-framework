@@ -7,11 +7,11 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.base.CSLayoutId
 import renetik.android.base.CSView
-import renetik.android.controller.common.CSNavigationController
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
@@ -98,7 +98,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         parentRegistrations = initialize(parent)
     }
 
-    constructor(parent: CSNavigationController, layoutId: CSLayoutId) : super(parent.view, layoutId) {
+    constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId? = null)
+            : super(parent.view, layoutId) {
         parentController = parent
         parentRegistrations = initialize(parent)
     }

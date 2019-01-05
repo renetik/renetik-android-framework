@@ -4,5 +4,4 @@ dependencies {
     implementation project(':renetik-android:renetik-base')
     implementation project(':renetik-android:renetik-dialog')
     implementation project(':renetik-android:renetik-material') //using snackbar
-    implementation project(':renetik-android:renetik-client-request') // request extension
 }

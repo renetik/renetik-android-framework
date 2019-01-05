@@ -4,10 +4,13 @@ import android.content.Context
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import renetik.android.base.CSContextController
+import renetik.android.extensions.color
+import renetik.android.extensions.colorFromAttribute
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.string
 import renetik.android.view.extensions.withClear
 
+// TODO: CSDialog needs activity context for styling to work
 class CSDialog(context: Context) : CSContextController(context) {
 
     private val builder = MaterialDialog.Builder(this);
@@ -32,7 +35,7 @@ class CSDialog(context: Context) : CSContextController(context) {
                 .linkColorAttr(R.attr.colorSecondaryVariant)  // notice attr is used instead of none or res for attribute resolving
                 .dividerColorAttr(R.attr.colorSecondaryVariant)
                 .backgroundColorAttr(R.attr.colorSurface)
-                .positiveColorAttr(R.attr.colorPrimary)
+                .positiveColor(colorFromAttribute(R.attr.colorPrimary))
                 .neutralColorAttr(R.attr.colorPrimary)
                 .negativeColorAttr(R.attr.colorOnSurface)
                 .widgetColorAttr(R.attr.colorPrimaryVariant) //textField line

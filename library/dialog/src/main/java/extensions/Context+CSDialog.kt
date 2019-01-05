@@ -1,10 +1,11 @@
 package renetik.android.dialog.extensions
 
-import android.content.Context
+import android.app.Activity
+import renetik.android.base.CSView
 import renetik.android.dialog.CSDialog
-import renetik.android.base.application
 
-fun dialog() = CSDialog(application)
-fun Context.dialog() = CSDialog(this)
-fun Context.dialog(message: String) = dialog().message(message)
-fun Context.dialog(title: String, message: String) = dialog().title(title).message(message)
+fun Activity.dialog() = CSDialog(this)
+fun CSView<*>.dialog() = CSDialog(this)
+
+fun CSView<*>.dialog(message: String) = dialog().message(message)
+fun CSView<*>.dialog(title: String, message: String) = dialog().title(title).message(message)

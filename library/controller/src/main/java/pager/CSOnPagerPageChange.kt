@@ -32,9 +32,9 @@ class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageTyp
         if (SCROLL_STATE_DRAGGING == state && draggingPageIndex != firstVisible) {
             draggingPageIndex.notNull { onPageReleased() }
             draggingPageIndex = firstVisible
-            val draggerIndex = if (firstVisible < pager.currentIndex)
-                firstVisible else pager.currentIndex + 1
-            onPageDragged(draggerIndex)
+            val draggedIndex = if (firstVisible < pager.currentIndex!!)
+                firstVisible else pager.currentIndex!! + 1
+            onPageDragged(draggedIndex)
         }
     }
 

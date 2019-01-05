@@ -18,7 +18,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
         where PageType : CSViewController<*>, PageType : CSPagerPage {
 
     val controllers = list<PageType>()
-    var currentIndex = 0
+    var currentIndex: Int? = null
     private var emptyView: View? = null
 
     constructor(parent: CSViewController<*>, pagerId: Int, pages: List<PageType>)
@@ -45,6 +45,8 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
                 .onReleased { index -> if (currentIndex != index) controllers[index].showingInContainer(false) }
         view.addOnPageChangeListener(
                 CSOnPageSelected { index -> doLater(100) { updatePageVisibility(index) } })
+        updatePageVisibility(0)
+        view.setCurrentItem(0, true)
         updateView()
     }
 
@@ -58,10 +60,10 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
         if (currentIndex == newIndex) return
         currentIndex = newIndex
         for (index in 0 until controllers.size)
-            controllers[index].showingInContainer(if (index == currentIndex) true else false)
+            controllers[index].showingInContainer(index == currentIndex)
     }
 
-    fun currentController() = controllers.at(currentIndex)
+    fun currentController() = controllers.at(currentIndex!!)
 
     fun setCurrentIndex(index: Int) = apply { view.currentItem = index }
 }

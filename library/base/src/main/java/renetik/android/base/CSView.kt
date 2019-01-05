@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import renetik.android.extensions.inflate
+import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.fade
 import renetik.android.view.extensions.hide
 import renetik.android.view.extensions.inflate
 import renetik.android.view.extensions.show
-import renetik.android.java.extensions.notNull
 
 open class CSView<ViewType : View>(context: Context) : CSContextController(context) {
 
@@ -21,12 +21,12 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
     }
 
     val view: ViewType by lazy {
-        val view = _view ?: layoutId?.let { inflate(it.id) } ?: let { obtainView()!! }
+        val view = _view ?: layoutId?.let { inflate<ViewType>(it.id) } ?: let { obtainView()!! }
         view.tag = this
         view
     }
 
-    fun inflate(layoutId: Int): ViewType = parentGroup?.inflate(layoutId)
+    fun <ViewType : View> inflate(layoutId: Int): ViewType = parentGroup?.inflate(layoutId)
             ?: context.inflate(layoutId)
 
     protected open fun obtainView(): ViewType? = null
@@ -35,11 +35,11 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
         this.layoutId = layoutId
     }
 
-    constructor(parent: ViewGroup, layoutId: CSLayoutId) : this(parent.context, layoutId) {
+    constructor(parent: ViewGroup, layoutId: CSLayoutId? = null) : this(parent.context, layoutId) {
         this.parentGroup = parent
     }
 
-    constructor(parent: CSView<ViewGroup>, layoutId: CSLayoutId) : this(parent.view, layoutId)
+    constructor(parent: CSView<out ViewGroup>, layoutId: CSLayoutId? = null) : this(parent.view, layoutId)
 
     fun fade(fadeIn: Boolean) = view.fade(fadeIn)
     open fun show(): CSView<ViewType> = apply { view.show() }

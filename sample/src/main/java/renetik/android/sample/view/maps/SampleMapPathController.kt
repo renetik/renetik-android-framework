@@ -1,8 +1,7 @@
-package renetik.android.sample.view
+package renetik.android.sample.view.maps
 
 import android.annotation.SuppressLint
 import android.graphics.Color.RED
-import android.location.Location
 import android.view.View
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -14,7 +13,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
-import renetik.android.extensions.title
+import renetik.android.extensions.textView
 import renetik.android.java.common.CSConstants.SECOND
 import renetik.android.java.extensions.collections.previousLastItem
 import renetik.android.location.asLatLng
@@ -22,6 +21,8 @@ import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
 import renetik.android.sample.R
 import renetik.android.sample.model.model
+import renetik.android.sample.view.navigation
+import renetik.android.view.extensions.title
 
 @SuppressLint("MissingPermission")
 class SampleMapPathController(title: String, private val mapController: CSMapController)
@@ -49,7 +50,7 @@ class SampleMapPathController(title: String, private val mapController: CSMapCon
     }
 
     init {
-        title(R.id.SampleMap_Title, title)
+        textView(R.id.SampleMap_Title).title(title)
         mapClient.onMapShowing { map ->
             map.isMyLocationEnabled = true
             mapController.map?.addPolyline(lineOptions.addAll(model.mapRoute))

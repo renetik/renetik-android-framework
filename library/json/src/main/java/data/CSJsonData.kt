@@ -85,6 +85,12 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
         null
     }
 
+    fun getLong(key: String) = try {
+        getString(key)?.toLong()
+    } catch (e: NumberFormatException) {
+        null
+    }
+
     fun getInt(key: String) = try {
         getString(key)?.toInt()
     } catch (e: NumberFormatException) {

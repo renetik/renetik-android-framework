@@ -7,22 +7,21 @@
 
         <TextView
             android:id="@+id/ThemeSwitcher_Title"
-            style="@style/CSPageTitle"
+            style="@style/CSPageTitleMatchWrap"
             android:text="Theme Chooser" />
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- TODO: Move some items to style of grid as defaults if applicable-->
-    <GridView
-        android:id="@+id/ThemeSwitcher_Grid"
-        style="@style/CSGrid"
-        android:layout_height="match_parent"
-        android:columnWidth="220dp"
-        android:horizontalSpacing="15dp"
-        android:numColumns="auto_fit"
-        android:paddingBottom="3dp"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="15dp"
-        tools:listitem="@layout/theme_switcher_item" />
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
+
+        <GridView
+            android:id="@+id/ThemeSwitcher_Grid"
+            style="@style/CSGridMatch"
+            android:columnWidth="220dp"
+            android:horizontalSpacing="15dp"
+            android:paddingBottom="3dp"
+            android:verticalSpacing="15dp"
+            tools:listitem="@layout/theme_switcher_item" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
