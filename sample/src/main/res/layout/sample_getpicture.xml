@@ -8,18 +8,18 @@
 
         <TextView
             android:id="@+id/SampleGetPicture_Title"
-            style="@style/CSPageTitle"
+            style="@style/CSPageTitleMatchWrap"
             android:text="Example sample list" />
     </com.google.android.material.card.MaterialCardView>
 
-    <FrameLayout style="@style/CSMatchFill">
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
 
         <GridView
             android:id="@+id/SampleGetPicture_Grid"
-            style="@style/CSGrid"
-            tools:listitem="@layout/sample_getpicture_item"
+            style="@style/CSGridMatch"
+            android:layout_height="wrap_content"
             android:paddingBottom="3dp"
-            android:layout_width="match_parent" />
+            tools:listitem="@layout/sample_getpicture_item" />
 
         <TextView
             android:id="@+id/SampleGetPicture_ListEmpty"
@@ -31,9 +31,10 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/SampleGetPicture_AddImageButton"
-            style="@style/CSButtonFloating"
+            style="@style/CSButtonFloatingBottomWrap"
             android:src="@drawable/baseline_photo_camera_24"
             app:layout_anchorGravity="end" />
-    </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

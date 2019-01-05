@@ -56,12 +56,9 @@ fun Context.toPixel(dp: Int) = toPixel(dp.toFloat())
 private fun Context.resolveAttribute(attribute: Int) =
         TypedValue().apply { theme.resolveAttribute(attribute, this, true) }
 
-fun Context.colorFromAttribute(attribute: Int): Int {
-    val color = resolveAttribute(attribute).data
-    if (color.isEmpty) throw NotFoundException()
-    return color
+fun Context.colorFromAttribute(attribute: Int) = resolveAttribute(attribute).data.apply {
+    if (isEmpty) throw NotFoundException()
 }
-
 
 fun Context.dimensionFromAttribute(attribute: Int): Int {
     val attributes = obtainStyledAttributes(intArrayOf(attribute))
@@ -80,8 +77,6 @@ fun Context.stringFromAttribute(styleable: IntArray, styleableAttribute: Int): S
     return string.stringify()
 }
 
-fun Context.resourceFromAttribute(attribute: Int): Int {
-    val resourceId = resolveAttribute(attribute).resourceId
-    if (resourceId.isEmpty) throw NotFoundException()
-    return resourceId
+fun Context.resourceFromAttribute(attribute: Int) = resolveAttribute(attribute).resourceId.apply {
+    if (isEmpty) throw NotFoundException()
 }

@@ -1,4 +1,4 @@
-package renetik.android.sample.view
+package renetik.android.sample.view.maps
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -7,12 +7,14 @@ import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.extensions.button
-import renetik.android.extensions.title
+import renetik.android.extensions.textView
 import renetik.android.imaging.extensions.image
 import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
 import renetik.android.material.extensions.floatingButton
 import renetik.android.sample.R
+import renetik.android.sample.view.navigation
+import renetik.android.sample.view.push
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.title
 
@@ -23,7 +25,7 @@ class SampleMapController(title: String) : CSViewController<View>(navigation, la
     private val mapTypeButton = floatingButton(R.id.SampleMap_MapTypeButton).onClick { onMapTypeClick() }
 
     init {
-        title(R.id.SampleMap_Title, title)
+        textView(R.id.SampleMap_Title).title(title)
         CSMapClientController(this, R.id.SampleMap_Map, mapController)
         button(R.id.SampleMap_DrawPathMapButton)
                 .onClick { SampleMapPathController(it.title, mapController).push() }

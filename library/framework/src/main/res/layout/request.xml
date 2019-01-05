@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSMatch"
+    android:background="@color/cs_progress_background">
+
+    <LinearLayout style="@style/CSVerticalLayoutWrap">
+
+        <ProgressBar
+            android:id="@+id/Request_Progress"
+            style="?attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="?attr/colorOnPrimary" />
+
+        <Button
+            android:id="@+id/Request_ButtonCancel"
+            style="@style/CSButtonTextWrap"
+            android:text="@string/cs_dialog_cancel" />
+
+    </LinearLayout>
+
+</FrameLayout>

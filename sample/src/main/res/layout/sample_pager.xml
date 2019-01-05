@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSContainer">
+
+    <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
+
+        <TextView
+            android:id="@+id/SamplePager_Title"
+            style="@style/CSPageTitleMatchWrap"
+            android:text="Example sample list" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/SamplePager_Pager"
+            style="@style/CSMatch">
+
+            <androidx.viewpager.widget.PagerTabStrip
+                android:id="@+id/SamplePager_Tabs"
+                style="@style/CSTabStripTop" />
+
+        </androidx.viewpager.widget.ViewPager>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/SamplePager_ButtonAdd"
+            style="@style/CSButtonFloatingTopWrap"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/outline_add_black_48" />
+
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

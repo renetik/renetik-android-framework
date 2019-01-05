@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSListItem">
+
+    <ImageView
+        android:id="@+id/SamplePageListItem_Image"
+        style="@style/CSMatch"
+        android:layout_width="80dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/no_image" />
+
+    <LinearLayout
+        style="@style/CSVerticalLayoutMatchWrap"
+        android:layout_marginStart="5dp">
+
+        <TextView
+            android:id="@+id/SamplePageListItem_Title"
+            style="@style/CSMatchWrap"
+            android:padding="3dp"
+            android:text="Overline"
+            android:textAppearance="@style/CSTextOverline" />
+
+        <TextView
+            android:id="@+id/SamplePageListItem_Subtitle"
+            style="@style/CSMatchWrap"
+            android:padding="3dp"
+            android:text="Headline 6"
+            android:textAppearance="@style/CSTextBody1" />
+
+    </LinearLayout>
+</LinearLayout>

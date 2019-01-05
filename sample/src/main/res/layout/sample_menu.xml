@@ -5,43 +5,43 @@
     <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
 
         <TextView
-            style="@style/CSPageTitle"
+            style="@style/CSPageTitleMatchWrap"
             android:text="Sample Application Main Menu" />
     </com.google.android.material.card.MaterialCardView>
 
     <Button
         android:id="@+id/SampleMenu_ButtonThemes"
-        style="@style/CSButtonText"
+        style="@style/CSButtonSecondaryMatchWrap"
         android:text="Theme chooser"/>
 
     <Button
         android:id="@+id/SampleMenu_ButtonList"
-        style="@style/CSButton"
+        style="@style/CSButtonMatchWrap"
         android:text="List with adding, removing, search example" />
 
     <Button
         android:id="@+id/SampleMenu_ButtonMaps"
-        style="@style/CSButtonSecondary"
+        style="@style/CSButtonSecondaryMatchWrap"
         android:text="Multiple maps example utilizing one maps view using controllers with little code"/>
 
     <Button
         android:id="@+id/SampleMenu_ButtonGetPicture"
-        style="@style/CSButton"
+        style="@style/CSButtonMatchWrap"
         android:text="Get picture or take photo example, displaying in grid"/>
 
     <Button
         android:id="@+id/SampleMenu_ButtonDynamicMenu"
-        style="@style/CSButtonSecondary"
+        style="@style/CSButtonSecondaryMatchWrap"
         android:text="Dynamic menus with dialog, input dialog example" />
 
     <Button
         android:id="@+id/SampleMenu_ButtonRequest"
-        style="@style/CSButton"
+        style="@style/CSButtonMatchWrap"
         android:text="Request with Json response cancellation and retry example" />
 
     <Button
         android:id="@+id/SampleMenu_ButtonLog"
-        style="@style/CSButtonText"
+        style="@style/CSButtonSecondaryMatchWrap"
         android:text="Application log" />
 
 </LinearLayout>

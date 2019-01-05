@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/CSContainer">
 
-    <LinearLayout
-        style="@style/CSMatch"
-        android:orientation="vertical">
+    <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
 
-        <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
+        <TextView
+            android:id="@+id/CSLog_Title"
+            style="@style/CSPageTitleMatchWrap"
+            android:text="Application Log" />
+    </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/CSLog_Title"
-                style="@style/CSPageTitle"
-                android:text="Application Log" />
-        </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
 
         <TextView
             android:id="@+id/CSLog_LogText"
-            style="@style/CSMatchFill"
+            style="@style/CSMatch"
             android:scrollbars="vertical" />
 
-    </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/CSLog_Reload"
+            style="@style/CSButtonFloatingTopWrap"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/baseline_refresh_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/CSLog_Reload"
-        style="@style/CSButtonFloating"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/baseline_refresh_24" />
-</FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

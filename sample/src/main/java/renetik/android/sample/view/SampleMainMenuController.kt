@@ -11,6 +11,11 @@ import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.button
 import renetik.android.java.collections.list
 import renetik.android.sample.R
+import renetik.android.sample.view.getpicture.SampleGetPictureController
+import renetik.android.sample.view.list.SampleListController
+import renetik.android.sample.view.maps.SampleMapController
+import renetik.android.sample.view.dynamicmenu.SampleDynamicMenuController
+import renetik.android.sample.view.request.SamplePagerController
 import renetik.android.themes.CSThemeChooserController
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.title
@@ -26,6 +31,7 @@ class SampleMainMenuController : CSViewController<View>(navigation, layout(R.lay
         }
         button(R.id.SampleMenu_ButtonGetPicture).onClick { SampleGetPictureController(it.title).push() }
         button(R.id.SampleMenu_ButtonDynamicMenu).onClick { SampleDynamicMenuController(it.title).push() }
+        button(R.id.SampleMenu_ButtonRequest).onClick { SamplePagerController(it.title).push() }
         button(R.id.SampleMenu_ButtonLog).onClick { CSLogDisplayController(navigation, it.title).push() }
     }
 }

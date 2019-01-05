@@ -10,7 +10,6 @@ import renetik.android.controller.common.CSNavigationItem
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.simpleView
 import renetik.android.extensions.textView
-import renetik.android.extensions.title
 import renetik.android.java.collections.list
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
@@ -24,12 +23,12 @@ class CSThemeChooserController(val navigation: CSNavigationController, title: St
     : CSViewController<View>(navigation, layout(R.layout.theme_chooser)), CSNavigationItem {
 
     init {
-        title(R.id.ThemeSwitcher_Title, title)
+        textView(R.id.ThemeSwitcher_Title).title(title)
         CSListController<Theme, GridView>(this, R.id.ThemeSwitcher_Grid) {
             CSRowView(this, layout(R.layout.theme_switcher_item), onLoadSwitchItem)
         }.onItemClick(R.id.ThemeSwitcherItem_Button) { row ->
             dialog("You selected other theme").show("Apply theme ?") { applyTheme(row.index) }
-        }.reload(availableThemes)
+        }.reload(availableThemes).apply { currentThemeIndex?.let { selectedIndex(it) } }
     }
 
     private fun applyTheme(themeIndex: Int) {

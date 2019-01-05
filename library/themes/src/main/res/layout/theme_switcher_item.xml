@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/CSGridItem">
+    style="@style/CSGridItemMatchWrap">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/ThemeSwitcherItem_Button"
-        style="@style/CSGridItemCard"
+        style="@style/CSGridItemCardMatchWrap"
         android:layout_height="220dp"
         android:clickable="true">
 
-        <LinearLayout style="@style/CSHorizontalLayout">
+        <LinearLayout style="@style/CSHorizontalLayoutMatchWrap">
 
             <LinearLayout
                 style="@style/CSFillMatch"
@@ -65,10 +65,7 @@
 
         </LinearLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/CSContentCard"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center">
+        <com.google.android.material.card.MaterialCardView style="@style/CSContentCardWrap">
 
             <TextView
                 android:id="@+id/ThemeSwitcherItem_Title"

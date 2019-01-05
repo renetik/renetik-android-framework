@@ -1,32 +1,37 @@
 package renetik.android.client.request
 
 import renetik.android.java.collections.list
-import renetik.android.java.extensions.collections.delete
+import renetik.android.java.extensions.collections.put
+import renetik.android.java.extensions.collections.putAll
 
-class CSConcurrentResponse(private val responses: MutableList<CSResponse<*>>) : CSResponse<List<Any>>(list()) {
+open class CSConcurrentResponse() : CSResponse<List<Any>>() {
 
-    private val runningResponses = list<CSResponse<*>>(responses)
+    private val responses: MutableList<CSResponse<*>> = list()
+    private val runningResponses: MutableList<CSResponse<*>> = list()
 
-    init {
-        runningResponses.forEach { response ->
+    constructor(responses: MutableList<CSResponse<*>>) : this() {
+        runningResponses.putAll(responses.putAll(responses)).forEach { response ->
             response.onSuccess { onResponseSuccess(it) }
             response.onFailed { onResponseFailed(it) }
         }
     }
 
-    private fun onResponseSuccess(response: CSResponse<*>) {
-        if (runningResponses.apply { delete(response) }.isEmpty())
-            success(list<Any>().apply { responses.forEach { add(it.data) } })
+    fun add(response: CSResponse<*>) =
+        runningResponses.put(responses.put(response))
+                .onSuccess { onResponseSuccess(it) }.onFailed { onResponseFailed(it) }
+
+    private fun onResponseSuccess(successResponse: CSResponse<*>) {
+        if (runningResponses.apply { remove(successResponse) }.isEmpty())
+            success(list<Any>().apply { responses.forEach { response -> add(response.data) } })
     }
 
-    private fun onResponseFailed(response: CSResponse<*>) {
-        responses.remove(response)
-        responses.forEach { it.cancel() }
-        failed(response)
+    private fun onResponseFailed(failedResponse: CSResponse<*>) {
+        runningResponses.apply { remove(failedResponse) }.forEach { response -> response.cancel() }
+        failed(failedResponse)
     }
 
     override fun cancel() {
-        responses.forEach { it.cancel() }
+        runningResponses.forEach { it.cancel() }
         super.cancel()
     }
 }
