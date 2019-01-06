@@ -4,6 +4,9 @@ import renetik.android.client.request.CSRequest
 import renetik.android.controller.base.root
 import renetik.android.dialog.extensions.dialog
 
+fun <Data : Any> CSRequest<Data>.send(title: String, withProgress: Boolean) =
+        if (withProgress) sendWithProgress(title) else sendWithFailedDialog(title)
+
 fun <Data : Any> CSRequest<Data>.sendWithProgress(title: String): CSRequest<Data> = apply {
     val response = send()
     val progress = root!!.dialog(title).showIndeterminateProgress("Retry", {

@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import renetik.android.base.CSContextController
-import renetik.android.extensions.color
 import renetik.android.extensions.colorFromAttribute
+import renetik.android.extensions.inflate
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.string
 import renetik.android.view.extensions.withClear
@@ -17,6 +17,7 @@ class CSDialog(context: Context) : CSContextController(context) {
     private var dialog: MaterialDialog? = null
     private var title: String? = null
     private var message: String? = null
+    private var view: View? = null
 
     fun title(value: String) = apply { title = value }
     fun message(value: String) = apply { message = value }
@@ -100,11 +101,26 @@ class CSDialog(context: Context) : CSContextController(context) {
 
     fun hide() = apply { dialog?.dismiss() }
 
-    fun showView(view: View) {
+    class CSOnDialogViewAction<ViewType : View>(val dialog: CSDialog, val view: ViewType)
+
+    fun <ViewType : View> showView(view: ViewType,
+                                   action: ((CSOnDialogViewAction<ViewType>) -> Boolean)? = null): View {
         if (notNull(title, message)) throw UnsupportedOperationException("No place for second text with custom view")
-        builder.title(title ?: message ?: "")
         styleDialogBuilder()
-        builder.customView(view, false)
+        this.view = view
+        action?.let {
+            builder.positiveText(R.string.cs_dialog_ok).onPositive { _, _ ->
+                if (action(CSOnDialogViewAction(this, view))) dialog!!.dismiss()
+            }
+        }
+        builder.title(title ?: message ?: "").autoDismiss(action == null).customView(view, true)
         dialog = builder.show()
+        return view
     }
 }
+
+fun <ViewType : View> CSDialog.showViewOf(layoutId: Int, action: ((CSDialog.CSOnDialogViewAction<View>) -> Boolean)? = null) =
+        showView(inflate<ViewType>(layoutId), action)
+
+fun CSDialog.showView(layoutId: Int, action: ((CSDialog.CSOnDialogViewAction<View>) -> Boolean)? = null) =
+        showViewOf<View>(layoutId, action)

@@ -3,6 +3,7 @@ package renetik.android.sample.view.dynamicmenu
 import android.view.View
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
+import renetik.android.controller.extensions.menuItem
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.checkBox

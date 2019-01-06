@@ -6,6 +6,7 @@
     <color name="cs_red">#F44336</color>
     <color name="cs_blue">#3F51B5</color>
     <color name="cs_clear">#00000000</color>
+    <color name="cs_transparent">#00000000</color>
     <color name="cs_lightGrey">#d7ccc8</color>
     <color name="cs_grey">#A1887F</color>
     <color name="cs_darkGrey">#424242</color>

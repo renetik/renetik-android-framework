@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.webkit.WebView
 import android.widget.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.view.adapter.CSAnimatorAdapter
 
 fun <T : View> View.findView(id: Int): T? = findViewById<T>(id)
@@ -33,6 +34,7 @@ fun View.checkBox(id: Int) = findView<CheckBox>(id)!!
 fun View.timePicker(id: Int) = findView<TimePicker>(id)!!
 fun View.webView(id: Int) = findView<WebView>(id)!!
 fun View.imageView(id: Int) = findView<ImageView>(id)!!
+fun View.swipeRefresh(id: Int) = findView<SwipeRefreshLayout>(id)!!
 
 
 val <T : View> T.isVisible get() = visibility == VISIBLE

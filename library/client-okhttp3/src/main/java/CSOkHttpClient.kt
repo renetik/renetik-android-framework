@@ -13,6 +13,8 @@ import renetik.android.java.collections.CSMap
 import renetik.android.java.collections.map
 import renetik.android.java.common.CSConstants
 import renetik.android.json.data.CSJsonData
+import renetik.android.json.toFormattedJson
+import renetik.android.json.toJson
 import renetik.android.logging.CSLog.logInfo
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -77,8 +79,8 @@ fun <ServerDataType : CSServerData> CSOkHttpClient.get(action: String, data: Ser
 
 fun <ServerDataType : CSServerData> CSOkHttpClient.post(action: String, data: ServerDataType, params: Any) =
         CSResponse("$url/$action", data).also { response ->
-            val request = post(response.url).setPriority(HIGH).addQueryParameter(params).build()
-            logInfo("get ${request.url}")
+            val request = post(response.url).setPriority(HIGH).addBodyParameter(params).build()
+            logInfo("post ${request.url}")
             request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
         }
 
@@ -86,4 +88,8 @@ fun CSOkHttpClient.get(url: String, params: CSMap<String, String> = map()) = get
 
 fun CSOkHttpClient.post(url: String, params: CSMap<String, String> = map()) = post(url, CSServerData(), params)
 
-fun CSOkHttpClient.post(url: String, data: CSJsonData) = post(url, CSServerData(), data.getJsonDataMap())
+fun CSOkHttpClient.post(url: String, data: CSJsonData) = CSResponse("${this.url}/$url", CSServerData()).also { response ->
+    val request = post(response.url).setPriority(HIGH).addStringBody(toFormattedJson(data)).build()
+    logInfo("post ${request.url}")
+    request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
+}
