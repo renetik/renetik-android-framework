@@ -25,10 +25,10 @@ fun CSViewController<*>.requestPermissions(permissions: List<String>,
     }
     val deniedPermissions = getDeniedPermissions(permissions)
     if (set(deniedPermissions)) {
-        val MY_PERMISSIONS_REQUEST = randomInt(0, 999)
-        ActivityCompat.requestPermissions(activity(), deniedPermissions, MY_PERMISSIONS_REQUEST)
+        val requestCode = randomInt(0, 999)
+        ActivityCompat.requestPermissions(activity(), deniedPermissions, requestCode)
         onRequestPermissionsResult.run { registration, results ->
-            if (results.requestCode == MY_PERMISSIONS_REQUEST) {
+            if (results.requestCode == requestCode) {
                 registration.cancel()
                 for (status in results.statuses) if (PERMISSION_GRANTED != status) {
                     onNotGranted?.invoke()

@@ -99,7 +99,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     @Suppress("UNCHECKED_CAST")
     private fun asRowView(view: View) = view.tag as CSRowView<RowType>
 
-    fun loadAdd(list: List<RowType>) = apply {
+    fun load(list: List<RowType>) = apply {
         firstLoad = true
         data.addAll(list)
         reloadData()
@@ -114,7 +114,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
     fun reload(list: List<RowType>) = apply {
         data.clear()
-        loadAdd(list)
+        load(list)
     }
 
     fun reloadData() {

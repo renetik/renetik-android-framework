@@ -30,10 +30,10 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
 
     fun reload(pages: List<PageType>) = apply {
         val currentIndex = view.currentItem
-        for (page in controllers) page.onDeinitialize()
+        for (page in controllers) page.deInitialize()
         controllers.reload(pages)
         updatePageVisibility(if (pages.size > currentIndex) currentIndex else 0)
-        for (page in pages) page.initialize(state)
+        for (page in pages) page.initialize()
         view.setCurrentItem(currentIndex, true)
         updateView()
     }

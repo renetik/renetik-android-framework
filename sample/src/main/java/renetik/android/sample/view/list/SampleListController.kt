@@ -6,6 +6,7 @@ import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.common.CSSearchController
+import renetik.android.controller.extensions.menuItem
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.button
 import renetik.android.extensions.textView

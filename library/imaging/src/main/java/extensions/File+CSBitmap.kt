@@ -33,15 +33,6 @@ fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, context: Context
     tryAndError(FileNotFoundException::class) {
         FileOutputStream(this@resizeImage).use { futureBitmap.get().compress(JPEG, 80, it) }
     }
-//    Glide.with(context).asBitmap().load(this).apply(RequestOptions
-//            .overrideOf(maxTargetWidth, maxTargetHeight).centerInside()
-//            .diskCacheStrategy(NONE)).into(object : SimpleTarget<Bitmap>() {
-//        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-//            tryAndError(FileNotFoundException::class) {
-//                FileOutputStream(this@resizeImage).use { resource.compress(JPEG, 80, it) }
-//            }
-//        }
-//    })
 }
 
 fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, contentUri: Uri) = apply {
