@@ -3,9 +3,15 @@
     android:id="@+id/SamplePageList_Frame"
     style="@style/CSMatch">
 
-    <ListView
-        android:id="@+id/SamplePageList_List"
-        style="@style/CSListMatch" />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/SamplePageList_Pull"
+        style="@style/CSListPullMatch">
+
+        <ListView
+            android:id="@+id/SamplePageList_List"
+            style="@style/CSListMatch" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/SamplePageList_ListEmpty"

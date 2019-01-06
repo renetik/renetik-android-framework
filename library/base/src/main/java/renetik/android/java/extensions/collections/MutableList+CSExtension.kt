@@ -1,15 +1,13 @@
 package renetik.android.java.extensions.collections
 
-import java.util.*
-
 fun <T> MutableList<T>.put(item: T): T {
     add(item)
     return item
 }
 
-fun <T> MutableList<T>.putAll(items: Iterable<T>) = apply { for (item in items) add(item) }
+fun <T> MutableList<T>.putAll(items: Iterable<T>) = apply { addAll(items) }
 
-fun <T> MutableList<T>.putAll(vararg items: T) = putAll(Arrays.asList(*items))
+fun <T> MutableList<T>.putAll(items: Array<out T>) = apply { addAll(items.asList()) }
 
 fun <T> MutableList<T>.put(item: T, index: Int): T {
     add(index, item)

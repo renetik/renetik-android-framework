@@ -1,8 +1,17 @@
 package renetik.android.client.request
 
-open class CSMultiResponse<Data : Any>(data: Data) : CSResponse<Data>(data) {
+open class CSMultiResponse<Data : Any> : CSResponse<Data> {
 
-    private var addedResponse: CSResponse<*>? = null
+    constructor() : super()
+
+    constructor(data: Data) : super(data)
+
+    protected var addedResponse: CSResponse<*>? = null
+
+    fun addLast(response: CSResponse<Data>): CSResponse<Data> {
+        response.onSuccess { success(it.data) }
+        return add(response)
+    }
 
     fun <V : Any> add(response: CSResponse<V>, isLast: Boolean): CSResponse<V> {
         if (isLast) response.onSuccess { success() }

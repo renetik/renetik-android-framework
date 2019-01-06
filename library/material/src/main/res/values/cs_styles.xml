@@ -150,6 +150,13 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
+    <style name="CSListPullMatch" parent="CSMatch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/cs_transparent</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
     <style name="CSListItem" parent="CSHorizontalLayoutMatchWrap">
         <item name="android:padding">3dp</item>
         <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
@@ -170,17 +177,6 @@
         <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:padding">2dp</item>
-    </style>
-
-    <style name="CSInputLayoutMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="CSInputEditTextMatchWrap" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="CSButtonMatchWrap" parent="Widget.MaterialComponents.Button">
@@ -227,6 +223,23 @@
 
     <style name="CSButtonFloatingBottomWrap" parent="CSButtonFloatingTopWrap">
         <item name="android:layout_gravity">bottom|end</item>
+    </style>
+
+    <style name="CSInputLayoutMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSInputLayoutFillWrap" parent="CSInputLayoutMatchWrap">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSInputEdit" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>

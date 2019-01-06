@@ -1,10 +1,8 @@
 package renetik.android.controller.base
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -105,7 +103,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     }
 
     protected open fun onCreate(state: Bundle?) {
-        if (isCreated) throw exception("Already created")
+        if (isCreated) throw exception("Already created $this")
         this.state = state
         onCreate()
     }
@@ -155,7 +153,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         onStop.fire()
     }
 
-    protected override fun onDestroy() {
+    override fun onDestroy() {
         super.onDestroy()
         if (isStarted) logWarn(Throwable(), "Started while destroyed, should be stopped first")
         if (isDestroyed) throw exception("Already destroyed")
@@ -171,32 +169,18 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         System.gc()
     }
 
-    fun initialize(state: Bundle?) {
-        onCreate(state)
-        onStart()
-        if (parentController!!.isResumed) onResume()
+    fun initialize() {
+        parentController?.let {
+            if (it.isCreated) onCreate(it.state)
+            if (it.isStarted) onStart()
+            if (it.isResumed) onResume()
+        }
     }
 
-    fun onDeinitialize() {
+    fun deInitialize() {
         if (isResumed && !isPaused) onPause()
         onStop()
         onDestroy()
-    }
-
-    fun startActivityForUri(uri: Uri, onActivityNotFound: ((ActivityNotFoundException) -> Unit)?) =
-            startActivityForUriAndType(uri, null, onActivityNotFound)
-
-    fun startActivityForUriAndType(uri: Uri, type: String?,
-                                   onActivityNotFound: ((ActivityNotFoundException) -> Unit)?) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(uri, type)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        try {
-            startActivity(intent)
-        } catch (exception: ActivityNotFoundException) {
-            logWarn(exception)
-            onActivityNotFound?.invoke(exception)
-        }
     }
 
     private fun initialize(parent: CSViewControllerParent): CSEventRegistrations {
@@ -351,7 +335,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     fun invalidateOptionsMenu() = activity?.invalidateOptionsMenu()
 
-    private fun addMenuItem(item: CSMenuItem) = item.apply {
+    fun addMenuItem(item: CSMenuItem) = item.apply {
         menuItems.put(this)
         invalidateOptionsMenu()
     }
@@ -361,23 +345,9 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         invalidateOptionsMenu()
     }
 
-    protected fun menuItem(id: Int) = addMenuItem(CSMenuItem(this, id))
-
-    protected fun menuItem(actionView: View) = menuItem("").apply {
-        this.actionView = actionView
-        alwaysAsAction()
-    }
-
-    protected fun menuItem(title: String) = addMenuItem(CSMenuItem(this, title))
-
-    protected fun menuItem(title: String, iconResource: Int) =
-            addMenuItem(CSMenuItem(this, title)).setIconResourceId(iconResource)
-
     override fun hideKeyboard() {
         val view = rootActivity!!.currentFocus ?: view
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
                 .hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
-
-
 }

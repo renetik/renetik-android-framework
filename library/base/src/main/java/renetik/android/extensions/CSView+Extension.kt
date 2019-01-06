@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.base.CSView
 import renetik.android.java.collections.list
 import renetik.android.java.common.CSConstants.MINUTE
@@ -32,6 +33,7 @@ fun CSView<*>.checkBox(id: Int) = view.checkBox(id)
 fun CSView<*>.timePicker(id: Int) = view.timePicker(id)
 fun CSView<*>.webView(id: Int) = view.webView(id)
 fun CSView<*>.imageView(id: Int) = view.imageView(id)
+fun CSView<*>.swipeRefresh(id: Int) = view.swipeRefresh(id)
 
 //move to DatePicker extension
 fun CSView<*>.getDate(picker: DatePicker) = getInstance().apply {
@@ -62,5 +64,7 @@ fun CSView<*>.setSpinnerData(spinner: Spinner, itemLayout: Int,
     adapter.setDropDownViewResource(dropDownItemLayout)
     spinner.adapter = adapter
 }
+
+fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 
 

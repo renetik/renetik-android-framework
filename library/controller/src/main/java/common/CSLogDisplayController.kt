@@ -6,6 +6,7 @@ import renetik.android.base.application
 import renetik.android.base.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSViewController
+import renetik.android.controller.extensions.menuItem
 import renetik.android.controller.extensions.sendMail
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.textView

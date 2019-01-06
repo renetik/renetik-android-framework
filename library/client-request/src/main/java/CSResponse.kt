@@ -83,7 +83,7 @@ open class CSResponse<Data : Any> : CSContextController {
         return this
     }
 
-    fun failed(exception: Throwable?, message: String?) {
+    fun failed(exception: Throwable?, message: String? = null) {
         if (isCanceled) return
         this.throwable = exception
         this.failedMessage = message
