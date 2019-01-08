@@ -3,6 +3,7 @@ package renetik.android.sample.view.dynamicmenu
 import android.view.View
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
+import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.menuItem
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.dialog.extensions.dialog
@@ -14,7 +15,8 @@ import renetik.android.view.extensions.onChecked
 import renetik.android.view.extensions.title
 
 class SampleDynamicMenuController(title: String)
-    : CSViewController<View>(navigation, layout(R.layout.sample_dynamic_menu)) {
+    : CSViewController<View>(navigation, layout(R.layout.sample_dynamic_menu)),
+        CSNavigationItem {
 
     private val addMenuItem: CSMenuItem = menuItem("").alwaysAsAction()
 
@@ -40,4 +42,5 @@ class SampleDynamicMenuController(title: String)
         addMenuItem.title = "Add no action item ${menuItems.size}"
     }
 
+    override val navigationItemTitle = ""
 }

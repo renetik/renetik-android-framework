@@ -4,9 +4,7 @@ import renetik.android.java.collections.CSMap
 import renetik.android.java.collections.linkedMap
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
-import renetik.android.json.CSJsonDataList
-import renetik.android.json.CSJsonDataMap
-import renetik.android.json.toFormattedJson
+import renetik.android.json.*
 import renetik.android.task.doLater
 
 data class OnJsonDataValueChanged(val data: CSJsonData, val key: String, val value: Any?)
@@ -22,7 +20,7 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
     open var key: String? = null
     open val onValueChangedEvent: CSEvent<OnJsonDataValueChanged> = event()
     open val onChangedEvent: CSEvent<CSJsonData> = event()
-    protected var data: CSMap<String, Any?> = linkedMap<String, Any?>()
+    protected var data: CSMap<String, Any?> = linkedMap()
     private var childDataKey: String? = null
     private var dataChanged = false
 
@@ -47,9 +45,7 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
         return data
     }
 
-    override fun toString(): String {
-        return toFormattedJson(this)
-    }
+    override fun toString() = toFormattedJson()
 
     fun setValue(key: String, value: Any?) {
         data()[key] = value
@@ -113,5 +109,8 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
     }
 
     fun <T : CSJsonData> load(dataValue: T, key: String) = load(dataValue, data(), key)
-
 }
+
+fun CSJsonData.toJson() = toJson(this)
+fun CSJsonData.toFormattedJson() = toFormattedJson(this)
+fun CSJsonData.toJsonObject() = createJsonObject(getJsonDataMap())

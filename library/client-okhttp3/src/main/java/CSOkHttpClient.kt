@@ -1,20 +1,20 @@
 package renetik.android.client.okhttp3
 
 import com.androidnetworking.AndroidNetworking.*
-import com.androidnetworking.common.Priority.HIGH
 import okhttp3.Cache
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import renetik.android.base.application
+import renetik.android.client.request.CSRequest
 import renetik.android.client.request.CSResponse
 import renetik.android.client.request.CSServerData
 import renetik.android.java.collections.CSMap
 import renetik.android.java.collections.map
 import renetik.android.java.common.CSConstants
+import renetik.android.java.extensions.primitives.isTrue
 import renetik.android.json.data.CSJsonData
-import renetik.android.json.toFormattedJson
-import renetik.android.json.toJson
+import renetik.android.json.data.toJsonObject
 import renetik.android.logging.CSLog.logInfo
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -64,32 +64,41 @@ class CSOkHttpClient(val url: String) {
 
 fun <ServerDataType : CSServerData> CSOkHttpClient.upload(action: String, file: File, data: ServerDataType) =
         CSResponse("$url/$action", data).also { response ->
-            val request = upload(response.url).addMultipartFile("file", file).setPriority(HIGH).build()
+            val request = upload(response.url).addMultipartFile("file", file).build()
             logInfo("upload ${request.url} $file")
             request.setUploadProgressListener { uploaded, total -> response.progress = total / uploaded }
                     .getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
         }
 
-fun <ServerDataType : CSServerData> CSOkHttpClient.get(action: String, data: ServerDataType, params: CSMap<String, String> = map()) =
+
+fun CSOkHttpClient.get(url: String, params: CSMap<String, String> = map()) = get(null, url, params)
+
+fun CSOkHttpClient.get(request: CSRequest<CSServerData>? = null, url: String, params: CSMap<String, String> = map()) = get(request, url, CSServerData(), params)
+
+fun <ServerDataType : CSServerData> CSOkHttpClient.get(request: CSRequest<*>?, action: String, data: ServerDataType, params: CSMap<String, String> = map()) =
         CSResponse("$url/$action", data).also { response ->
-            val request = get(response.url).setPriority(HIGH).addQueryParameter(params).build()
-            logInfo("get ${request.url}")
-            request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
+            val builder = get(response.url).addQueryParameter(params)
+            if (request?.isforceNetwork.isTrue) builder.responseOnlyFromNetwork
+            builder.build().apply {
+                logInfo("get $url")
+                getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
+            }
         }
 
-fun <ServerDataType : CSServerData> CSOkHttpClient.post(action: String, data: ServerDataType, params: Any) =
-        CSResponse("$url/$action", data).also { response ->
-            val request = post(response.url).setPriority(HIGH).addBodyParameter(params).build()
+fun CSOkHttpClient.post(url: String, params: CSMap<String, String> = map()) = post(url, params, CSServerData())
+
+fun <ResponseData : CSServerData> CSOkHttpClient.post(action: String, params: Map<String, String>, responseData: ResponseData) =
+        CSResponse("$url/$action", responseData).also { response ->
+            val request = post(response.url).addBodyParameter(params).build()
             logInfo("post ${request.url}")
             request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
         }
 
-fun CSOkHttpClient.get(url: String, params: CSMap<String, String> = map()) = get(url, CSServerData(), params)
+fun CSOkHttpClient.post(url: String, data: CSJsonData) = post(url, data, CSServerData())
 
-fun CSOkHttpClient.post(url: String, params: CSMap<String, String> = map()) = post(url, CSServerData(), params)
-
-fun CSOkHttpClient.post(url: String, data: CSJsonData) = CSResponse("${this.url}/$url", CSServerData()).also { response ->
-    val request = post(response.url).setPriority(HIGH).addStringBody(toFormattedJson(data)).build()
-    logInfo("post ${request.url}")
-    request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
-}
+fun <ResponseData : CSServerData> CSOkHttpClient.post(url: String, data: CSJsonData, responseData: ResponseData) =
+        CSResponse("${this.url}/$url", responseData).also { response ->
+            val request = post(response.url).addJSONObjectBody(data.toJsonObject()).build()
+            logInfo("post ${request.url}")
+            request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
+        }

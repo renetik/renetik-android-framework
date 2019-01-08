@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Renetik Library</string>
+    <string name="SampleDynamicMenu_Text">This is example of dynamic bar menu items. You can see how titles are updated, items are added and removed and can be hidden, with just little of code</string>
 </resources>

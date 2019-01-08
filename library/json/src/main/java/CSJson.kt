@@ -13,8 +13,11 @@ import renetik.android.json.data.CSJsonData
 import kotlin.collections.set
 import kotlin.reflect.KClass
 
-fun <T : CSJsonData> createList(type: KClass<T>, dataList: List<CSMap<String, Any?>>?,
-                                default: (List<T>)? = null) = list<T>().apply {
+fun <T : CSJsonData> createJsonDataType(type: KClass<T>, data: CSMap<String, Any?>) =
+        type.createInstance()!!.apply { load(data) }
+
+fun <T : CSJsonData> createJsonDataList(type: KClass<T>, dataList: List<CSMap<String, Any?>>?,
+                                        default: (List<T>)? = null) = list<T>().apply {
     dataList?.let {
         dataList.withIndex().forEach { (index, data) ->
             val item = put(type.createInstance()!!)
@@ -49,13 +52,13 @@ fun toFormattedJson(value: List<*>): String {
     return createJsonArray(value).toString(4)
 }
 
-private fun createJsonArray(value: List<*>): JSONArray {
+fun createJsonArray(value: List<*>): JSONArray {
     val jsonArray = JSONArray()
     for (entry in value) jsonArray.put(createJsonType(entry!!))
     return jsonArray
 }
 
-private fun createJsonObject(value: Map<*, *>): JSONObject {
+fun createJsonObject(value: Map<*, *>): JSONObject {
     val jsonObject = JSONObject()
     for (entry in value.entries) jsonObject.put(entry.key.toString(), createJsonType(entry.value!!))
     return jsonObject

@@ -1,5 +1,6 @@
 package renetik.android.maps
 
+import android.annotation.SuppressLint
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -27,19 +28,14 @@ open class CSMapClientController<V : View>(parent: CSViewController<V>, private 
     fun onMapLongClick(function: (LatLng) -> Unit) = onMapLongClickEvent.run { _, location -> function(location) }
 
 
+    @SuppressLint("MissingPermission")
     override fun onViewShowing() {
         super.onViewShowing()
         whileShowing(mapController.onMapAvailable { map ->
-            //            mapController.view.hide()
-//            doLater(SECOND) {
             frame(mapFrameId).add(mapController.view.removeFromSuperview(), layoutMatch)
-//                mapController.view.fadeIn()
-//            }
             map.clear()
             map.setOnMapClickListener { latLng -> onMapClickEvent.fire(latLng) }
             map.setOnMapLongClickListener { latLng -> onMapLongClickEvent.fire(latLng) }
-            map.isMyLocationEnabled = false
-            map.uiSettings.isMyLocationButtonEnabled = false
             onMapShowingEvent.fire(map)
         })
         whileShowing(mapController.onCameraStopped { map ->

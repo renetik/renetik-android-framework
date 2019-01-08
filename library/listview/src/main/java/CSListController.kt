@@ -107,8 +107,8 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         return this
     }
 
-    fun prependData(status: RowType) = apply {
-        data.add(0, status)
+    fun prependData(item: RowType) = apply {
+        data.add(0, item)
         reloadData()
     }
 
@@ -195,7 +195,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     fun selectedIndex(index: Int) = apply {
         view.choiceMode = CHOICE_MODE_SINGLE;
         view.setItemChecked(index, true)
-//        view.setSelectionFromTop(index, 0)
-//        view.setSelection(index)
+        view.setSelectionFromTop(index, 0)
+        view.setSelection(index)
     }
 }

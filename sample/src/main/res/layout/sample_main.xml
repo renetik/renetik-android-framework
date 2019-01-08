@@ -10,24 +10,19 @@
     </com.google.android.material.card.MaterialCardView>
 
     <Button
-        android:id="@+id/SampleMenu_ButtonThemes"
-        style="@style/CSButtonSecondaryMatchWrap"
-        android:text="Theme chooser"/>
-
-    <Button
         android:id="@+id/SampleMenu_ButtonList"
-        style="@style/CSButtonMatchWrap"
+        style="@style/CSButtonSecondaryMatchWrap"
         android:text="List with adding, removing, search example" />
 
     <Button
         android:id="@+id/SampleMenu_ButtonMaps"
         style="@style/CSButtonSecondaryMatchWrap"
-        android:text="Multiple maps example utilizing one maps view using controllers with little code"/>
+        android:text="Multiple maps example utilizing one maps view using controllers with little code" />
 
     <Button
         android:id="@+id/SampleMenu_ButtonGetPicture"
-        style="@style/CSButtonMatchWrap"
-        android:text="Get picture or take photo example, displaying in grid"/>
+        style="@style/CSButtonSecondaryMatchWrap"
+        android:text="Get picture or take photo example, displaying in grid" />
 
     <Button
         android:id="@+id/SampleMenu_ButtonDynamicMenu"
@@ -36,12 +31,20 @@
 
     <Button
         android:id="@+id/SampleMenu_ButtonRequest"
-        style="@style/CSButtonMatchWrap"
+        style="@style/CSButtonSecondaryMatchWrap"
         android:text="Request with Json response cancellation and retry example" />
 
     <Button
         android:id="@+id/SampleMenu_ButtonLog"
-        style="@style/CSButtonSecondaryMatchWrap"
+        style="@style/CSButtonMatchWrap"
         android:text="Application log" />
+
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
+
+        <ImageView
+            style="@style/CSMatch"
+            android:scaleType="centerInside"
+            android:src="@drawable/ohm_black" />
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
