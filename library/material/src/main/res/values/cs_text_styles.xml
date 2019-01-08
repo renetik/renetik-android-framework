@@ -16,7 +16,7 @@
         <item name="android:textColor">@color/cs_text_color_selector</item>
     </style>
 
-    <style name="CSTextBody1" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="CSTextBody" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/cs_text_color_selector</item>
     </style>
 
@@ -28,7 +28,7 @@
         <item name="android:textColor">@color/cs_text_color_selector</item>
     </style>
 
-    <style name="CSTextHeadline1" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="CSTextHeadline" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/cs_text_color_selector</item>
     </style>
 

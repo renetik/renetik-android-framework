@@ -27,16 +27,15 @@ class CSOkHttpResponseListener<Data : CSServerData>(
     @Suppress("unchecked_cast")
     private fun onContent(content: String, response: CSResponse<Data>) {
         CSLog.logInfo("${response.url} $content")
-        fromJson<CSMap<String, Any?>>(content)?.let { response.data.load(it) }
+        fromJson<CSMap<String, Any?>>(content)?.let { response.data().load(it) }
                 ?: onError(response, INVALID_RESPONSE, null)
         tryAndCatch({
-            if (response.data.success) response.success()
-            else onError(response, response.data.message, null)
+            if (response.data().success) response.success()
+            else onError(response, response.data().message, null)
         }) { exception -> onError(response, APPLICATION_ERROR, exception) }
     }
 
-    private fun onError(response: CSResponse<*>, error: ANError) = onError(response,
-            "${error.errorCode},${error.errorDetail},${error.message}", error)
+    private fun onError(response: CSResponse<*>, error: ANError) = onError(response, error.errorBody, error)
 
     private fun onError(response: CSResponse<*>, message: String?, exception: Throwable?) {
         invalidate(response.url!!)

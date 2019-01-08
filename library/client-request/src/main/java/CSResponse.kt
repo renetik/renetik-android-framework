@@ -1,13 +1,13 @@
 package renetik.android.client.request
 
-import renetik.android.java.extensions.exception
-import renetik.android.java.extensions.getRootCauseMessage
+import renetik.android.base.CSContextController
 import renetik.android.java.event.event
 import renetik.android.java.event.execute
+import renetik.android.java.extensions.exception
+import renetik.android.java.extensions.getRootCauseMessage
 import renetik.android.logging.CSLog.logDebug
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logInfo
-import renetik.android.base.CSContextController
 
 open class CSResponse<Data : Any> : CSContextController {
     private val eventSuccess = event<CSResponse<Data>>()
@@ -31,7 +31,7 @@ open class CSResponse<Data : Any> : CSContextController {
     var isCanceled = false
     var url: String? = null
     var title: String? = null
-    lateinit var data: Data
+    var data: Data? = null
     var failedMessage: String? = null
     var failedResponse: CSResponse<*>? = null
     var throwable: Throwable? = null
@@ -41,12 +41,11 @@ open class CSResponse<Data : Any> : CSContextController {
         this.data = data
     }
 
-    constructor(data: Data) {
-        this.data = data
+    constructor(data: Data? = null) {
+        data?.let { this.data = it }
     }
 
-    constructor() {
-    }
+    fun data() = data!!
 
     fun success() {
         if (isCanceled) return

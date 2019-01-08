@@ -63,7 +63,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
             controllers[index].showingInContainer(index == currentIndex)
     }
 
-    fun currentController() = controllers.at(currentIndex!!)
+    val current get() = controllers.at(currentIndex!!)!!
 
-    fun setCurrentIndex(index: Int) = apply { view.currentItem = index }
+    fun setCurrent(index: Int) = apply { view.currentItem = index }
 }

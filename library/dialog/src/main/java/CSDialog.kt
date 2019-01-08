@@ -1,23 +1,31 @@
 package renetik.android.dialog
 
-import android.content.Context
+import android.app.Activity
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import renetik.android.base.CSContextController
+import renetik.android.base.CSView
+import renetik.android.extensions.applicationIcon
+import renetik.android.extensions.applicationLogo
 import renetik.android.extensions.colorFromAttribute
 import renetik.android.extensions.inflate
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.string
+import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.withClear
 
-// TODO: CSDialog needs activity context for styling to work
-class CSDialog(context: Context) : CSContextController(context) {
+class CSDialog : CSContextController {
+
+    constructor(activity: Activity) : super(activity)
+    constructor(view: CSView<*>) : super(view)
+    constructor(view: View) : super(view.context)
 
     private val builder = MaterialDialog.Builder(this);
     private var dialog: MaterialDialog? = null
     private var title: String? = null
     private var message: String? = null
     private var view: View? = null
+    private var isShowAppIcon = true
 
     fun title(value: String) = apply { title = value }
     fun message(value: String) = apply { message = value }
@@ -30,8 +38,7 @@ class CSDialog(context: Context) : CSContextController(context) {
     }
 
     private fun styleDialogBuilder() {
-        builder.iconAttr(android.R.attr.icon)
-                .titleColorAttr(R.attr.colorOnSurface)
+        builder.titleColorAttr(R.attr.colorOnSurface)
                 .contentColorAttr(R.attr.colorPrimaryVariant)  //title,textfield color
                 .linkColorAttr(R.attr.colorSecondaryVariant)  // notice attr is used instead of none or res for attribute resolving
                 .dividerColorAttr(R.attr.colorSecondaryVariant)
@@ -41,6 +48,12 @@ class CSDialog(context: Context) : CSContextController(context) {
                 .negativeColorAttr(R.attr.colorOnSurface)
                 .widgetColorAttr(R.attr.colorPrimaryVariant) //textField line
                 .buttonRippleColorAttr(R.attr.colorSecondaryVariant)
+
+        if (isShowAppIcon) applicationIcon()?.let { icon -> builder.icon(icon) }
+                ?: let {
+                    applicationLogo()?.let { logo -> builder.icon(logo) }
+                            ?: logWarn("Not Icon nor Logo found for dialog")
+                }
     }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
@@ -87,17 +100,16 @@ class CSDialog(context: Context) : CSContextController(context) {
         builder.positiveText(R.string.cs_dialog_ok)
                 .input(hint, value, false) { _, _ -> positiveAction(this) }
                 .negativeText(R.string.cs_dialog_cancel)
-    }.show().apply {
-        dialog?.inputEditText?.withClear()
-    }
+    }.show().apply { dialog?.inputEditText?.withClear() }
 
     fun inputValue(): String = string(dialog?.inputEditText?.text)
 
     fun cancelable(cancelable: Boolean) = apply { builder.cancelable(cancelable) }
 
-    fun onCancel(cancelAction: (CSDialog) -> Unit) = apply {
-        builder.cancelListener { cancelAction(this) }
-    }
+    fun withIcon(showAppIcon: Boolean) = apply { isShowAppIcon = showAppIcon }
+
+    fun onCancel(cancelAction: (CSDialog) -> Unit) =
+            apply { builder.cancelListener { cancelAction(this) } }
 
     fun hide() = apply { dialog?.dismiss() }
 

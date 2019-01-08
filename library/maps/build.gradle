@@ -7,5 +7,4 @@ dependencies {
     implementation project(':renetik-android:renetik-controller')
     implementation "com.google.android.gms:play-services-location:$play_version"
     implementation "com.google.android.gms:play-services-maps:$play_version"
-
 }

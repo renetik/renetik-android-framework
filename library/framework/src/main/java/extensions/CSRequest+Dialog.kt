@@ -14,14 +14,14 @@ fun <Data : Any> CSRequest<Data>.sendWithProgress(title: String): CSRequest<Data
         sendWithProgress(title)
     }, "Cancel", { cancel() })
     response.onFailed {
-        root!!.dialog(title, "Operation failed")
+        root!!.dialog("Operation failed", title)
                 .show("Retry", { sendWithProgress(title) }, "Ok", { cancel() })
     }.onDone { progress.hide() }
 }
 
 fun <Data : Any> CSRequest<Data>.sendWithFailedDialog(title: String): CSRequest<Data> = apply {
     send().onFailed {
-        root!!.dialog(title, "Operation failed")
+        root!!.dialog("Operation failed", title)
                 .show("Retry", { sendWithFailedDialog(title) }, "Ok", { cancel() })
     }
 }

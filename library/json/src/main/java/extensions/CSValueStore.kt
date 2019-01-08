@@ -5,7 +5,7 @@ import renetik.android.java.collections.CSMap
 import renetik.android.java.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.isEmpty
-import renetik.android.json.createList
+import renetik.android.json.createJsonDataList
 import renetik.android.json.data.CSJsonData
 import renetik.android.json.fromJson
 import renetik.android.json.toJson
@@ -23,10 +23,10 @@ fun <T : CSJsonData> CSValueStore.load(data: T, key: String): T? {
     return data
 }
 
-fun <T : CSJsonData> CSValueStore.loadDataList(type: KClass<T>, key: String) = createList(type, loadJson(key))
+fun <T : CSJsonData> CSValueStore.loadDataList(type: KClass<T>, key: String) = createJsonDataList(type, loadJson(key))
 
 fun <T : CSJsonData> CSValueStore.loadDataList(type: KClass<T>, key: String, default: List<T>) =
-        createList(type, loadJson(key), default)
+        createJsonDataList(type, loadJson(key), default)
 
 fun <T : Any> CSValueStore.loadList(key: String) =
         list<T>().apply { loadJson<List<T>>(key)?.forEach { data -> put(data) } }
