@@ -62,4 +62,6 @@ class SampleListController(private val title: String)
                             add(row)
                 })
     }
+
+    override val navigationItemTitle = "Renetik"
 }

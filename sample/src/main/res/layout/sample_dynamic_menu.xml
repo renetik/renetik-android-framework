@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/CSContainer">
+    style="@style/CSContainer"
+    android:background="?attr/colorSecondaryVariant">
 
     <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
 
@@ -10,15 +11,42 @@
             android:text="Example sample list" />
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchWrap">
+
+        <LinearLayout
+            android:background="?attr/colorSecondaryVariant"
+            style="@style/CSVerticalLayoutMatch"
+            android:paddingTop="5dp">
+
+            <CheckBox
+                android:id="@+id/SampleDynamicMenu_AddMenuItemVisible"
+                style="@style/CSWrap"
+                android:layout_gravity="start"
+                android:text="Add menu item action visible"
+                android:textAppearance="@style/CSTextHeadline6"
+                android:textColor="?attr/colorOnSecondary" />
+
+            <TextView
+                style="@style/CSMatchWrap"
+                android:gravity="top|start"
+                android:paddingStart="8dp"
+                android:paddingTop="0dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="@string/SampleDynamicMenu_Text"
+                android:textAppearance="@style/CSTextHeadline6"
+                android:textColor="?attr/colorOnSecondary" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
 
-        <CheckBox
-            android:id="@+id/SampleDynamicMenu_AddMenuItemVisible"
-            style="@style/Widget.MaterialComponents.CompoundButton.CheckBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add menu item action visible" />
-
+        <ImageView
+            style="@style/CSMatch"
+            android:scaleType="centerInside"
+            android:src="@drawable/ohm_black" />
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

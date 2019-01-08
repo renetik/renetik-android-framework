@@ -84,6 +84,10 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="CSVerticalLayoutMatch" parent="CSMatch">
+        <item name="android:orientation">vertical</item>
+    </style>
+
     <style name="CSVerticalLayoutMatchFill" parent="CSMatchWrap">
         <item name="android:orientation">vertical</item>
         <item name="android:layout_width">match_parent</item>
@@ -131,6 +135,10 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSContentCardMatchWrap" parent="CSContentCardWrap">
+        <item name="android:layout_width">match_parent</item>
     </style>
 
     <style name="CSContentMain" parent="CSMatchFill" />
@@ -214,14 +222,18 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
-    <style name="CSButtonFloatingTopWrap" parent="Widget.MaterialComponents.FloatingActionButton">
+    <style name="CSButtonFloatingTopEndWrap" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:layout_gravity">top|end</item>
         <item name="android:layout_margin">16dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="CSButtonFloatingBottomWrap" parent="CSButtonFloatingTopWrap">
+    <style name="CSButtonFloatingTopStartWrap" parent="CSButtonFloatingTopEndWrap">
+        <item name="android:layout_gravity">top|start</item>
+    </style>
+
+    <style name="CSButtonFloatingBottomEndWrap" parent="CSButtonFloatingTopEndWrap">
         <item name="android:layout_gravity">bottom|end</item>
     </style>
 

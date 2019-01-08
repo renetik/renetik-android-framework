@@ -12,7 +12,7 @@ open class CSConcurrentResponse(data: MutableList<Any>) : CSResponse<List<Any>>(
     constructor() : this(list())
 
     constructor(vararg adding: CSResponse<*>) : this() {
-        runningResponses.putAll(responses.putAll(adding)).forEach { response ->
+        runningResponses.putAll(responses.putAll(*adding)).forEach { response ->
             response.onSuccess { onResponseSuccess(it) }
             response.onFailed { onResponseFailed(it) }
         }
@@ -25,7 +25,7 @@ open class CSConcurrentResponse(data: MutableList<Any>) : CSResponse<List<Any>>(
     private fun onResponseSuccess(successResponse: CSResponse<*>) {
         if (runningResponses.apply { remove(successResponse) }.isEmpty())
             success((data as MutableList).apply {
-                responses.forEach { response -> add(response.data) }
+                responses.forEach { response -> add(response.data()) }
             })
     }
 
@@ -38,8 +38,4 @@ open class CSConcurrentResponse(data: MutableList<Any>) : CSResponse<List<Any>>(
         runningResponses.forEach { it.cancel() }
         super.cancel()
     }
-}
-
-private fun <E> MutableList<E>.kokot(adding: Array<E>) = apply {
-
 }

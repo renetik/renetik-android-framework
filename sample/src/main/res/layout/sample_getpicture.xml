@@ -31,7 +31,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/SampleGetPicture_AddImageButton"
-            style="@style/CSButtonFloatingBottomWrap"
+            style="@style/CSButtonFloatingBottomEndWrap"
             android:src="@drawable/baseline_photo_camera_24"
             app:layout_anchorGravity="end" />
 

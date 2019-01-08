@@ -9,7 +9,7 @@ import org.robolectric.annotation.Config
 import renetik.android.BuildConfig.DEBUG
 import renetik.android.json.data.CSJsonData
 import renetik.android.json.data.properties.CSJsonDataListProperty
-import renetik.android.json.data.properties.CSJsonStringProperty
+import renetik.android.json.data.properties.CSJsonString
 import renetik.android.base.CSApplication
 import renetik.android.java.collections.list
 import renetik.android.java.collections.map
@@ -82,12 +82,12 @@ class ApplicationMock : CSApplication() {
 
 class HouseJsonDataTest : CSJsonData() {
     val floors = CSJsonDataListProperty(this, FlorJsonDataTest::class, "floors")
-    val title = CSJsonStringProperty(this, "title")
+    val title = CSJsonString(this, "title")
 }
 
 class FlorJsonDataTest() : CSJsonData() {
 
-    val title = CSJsonStringProperty(this, "title")
+    val title = CSJsonString(this, "title")
 
     constructor(title: String) : this() {
         this.title.string = title

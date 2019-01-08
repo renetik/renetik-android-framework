@@ -7,6 +7,7 @@ import renetik.android.themes.defaultThemes
 import renetik.android.themes.extensions.initializeThemes
 
 lateinit var navigation: CSNavigationController
+
 fun CSViewController<*>.push() = navigation.push(this)
 
 class SampleNavigationActivity : CSActivity() {
@@ -15,7 +16,7 @@ class SampleNavigationActivity : CSActivity() {
         return object : CSNavigationController(this) {
             override fun onViewShowingFirstTime() {
                 navigation = this
-                SampleMainMenuController().push()
+                SampleMainController().push()
             }
         }
     }

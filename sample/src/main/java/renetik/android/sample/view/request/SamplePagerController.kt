@@ -26,19 +26,20 @@ class SamplePagerController(val title: String)
 
     init {
         textView(R.id.SamplePager_Title).title(title)
-        floatingButton(R.id.SamplePager_ButtonAdd).onClick {
-            dialog("Add item to list").showView(R.layout.sample_pager_add_item) { onAction ->
-                val nameView = onAction.view.editText(R.id.SamplePagerAddItem_Name)
-                val descView = onAction.view.editText(R.id.SamplePagerAddItem_Description)
-                list(nameView, descView).validateNotEmpty("Cannot be empty") {
-                    model.server.addSampleListItem(SampleListItem().apply {
-                        name = nameView.title
-                        description = descView.title
-                    }).send("Posting item to server", withProgress = true).onSuccess { reloadPager() }
-                }
-            }
-        }
+        floatingButton(R.id.SamplePager_ButtonAdd).onClick { showAddItemDialog() }
         reloadPager()
+    }
+
+    private fun showAddItemDialog() = dialog("Add item to list").showView(R.layout.sample_pager_add_item) { onAction ->
+        val nameView = onAction.view.editText(R.id.SamplePagerAddItem_Name)
+        val descView = onAction.view.editText(R.id.SamplePagerAddItem_Description)
+        list(nameView, descView).validateNotEmpty("Cannot be empty") {
+            model.server.addSampleListItem(SampleListItem().apply {
+                name.string = nameView.title
+                description.string = descView.title
+            }).send("Posting item to server", withProgress = true)
+                    .onSuccess { pager.current.list.prependData(it.value) }
+        }
     }
 
     private fun reloadPager() = pager.reload(list(

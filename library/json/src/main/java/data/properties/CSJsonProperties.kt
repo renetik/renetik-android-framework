@@ -6,21 +6,23 @@ import renetik.android.java.common.CSSizeInterface
 import renetik.android.java.extensions.collections.delete
 import renetik.android.java.extensions.collections.deleteLast
 import renetik.android.java.extensions.collections.lastItem
-import renetik.android.json.createList
+import renetik.android.json.createJsonDataList
+import renetik.android.json.createJsonDataType
 import renetik.android.json.data.CSJsonData
 import java.io.File
 import kotlin.reflect.KClass
 
 
-
-class CSJsonStringProperty(val data: CSJsonData, private val key: String) {
+class CSJsonString(val data: CSJsonData, private val key: String) : CharSequence {
     var string: String?
         get() = data.getString(key)
         set(value) = data.put(key, value)
 
     val value get() = string ?: ""
-
     override fun toString() = value
+    override val length get() = value.length
+    override fun get(index: Int) = value[index]
+    override fun subSequence(startIndex: Int, endIndex: Int) = value.subSequence(startIndex, endIndex)
 }
 
 class CSJsonBoolProperty(val data: CSJsonData, private val key: String) {
@@ -33,6 +35,16 @@ class CSJsonBoolProperty(val data: CSJsonData, private val key: String) {
     override fun toString() = "$value"
 }
 
+class CSJsonIntProperty(val data: CSJsonData, private val key: String) {
+    var integer: Int?
+        get() = data.getInt(key)
+        set(value) = data.put(key, value)
+
+    val value: Int get() = integer ?: 0
+
+    override fun toString() = "$value"
+}
+
 class CSJsonFileProperty(val data: CSJsonData, private val key: String) {
     var value: File?
         get() = File(data.getString(key))
@@ -41,13 +53,20 @@ class CSJsonFileProperty(val data: CSJsonData, private val key: String) {
     override fun toString() = "$value"
 }
 
+class CSJsonDataProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<T>,
+                                         private val key: String) {
+    val value: T by lazy {
+        createJsonDataType(type, data.getMap(key)!!)
+    }
+}
+
 @Suppress("unchecked_cast")
 class CSJsonDataListProperty<T : CSJsonData>(val data: CSJsonData, val type: KClass<T>,
                                              private val key: String) : Iterable<T>, CSSizeInterface {
     override fun iterator() = list.iterator()
 
     var list: List<T>
-        get() = createList(type, data.getList(key) as List<CSMap<String, Any?>>?)
+        get() = createJsonDataList(type, data.getList(key) as List<CSMap<String, Any?>>?)
         set(list) {
             data.getList(key)?.clear()
             list.forEach { item -> add(item) }
