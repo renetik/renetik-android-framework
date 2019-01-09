@@ -11,6 +11,7 @@ import renetik.android.extensions.imageView
 import renetik.android.extensions.textView
 import renetik.android.getpicture.CSGetPictureController
 import renetik.android.imaging.extensions.image
+import renetik.android.view.extensions.image
 import renetik.android.java.extensions.collections.delete
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRemoveListRowsController

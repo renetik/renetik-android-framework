@@ -8,7 +8,7 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.extensions.button
 import renetik.android.extensions.textView
-import renetik.android.imaging.extensions.image
+import renetik.android.view.extensions.image
 import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
 import renetik.android.material.extensions.floatingButton

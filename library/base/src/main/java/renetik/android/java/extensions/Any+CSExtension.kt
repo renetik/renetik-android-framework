@@ -7,5 +7,9 @@ fun Any?.stringify() = this?.toString() ?: ""
 fun <Type : Any> Any.asType(): Type? = this as? Type
 
 fun <T> T.init(block: T.() -> Unit) = apply { block() }
+//fun <T> T.and(block: (T) -> Unit) {
+//    block(this)
+//}
+
 fun <T, ArgumentType : Any> T.init(argument: ArgumentType, block: T.(ArgumentType) -> Unit) = apply { block(argument) }
 

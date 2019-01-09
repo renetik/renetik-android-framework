@@ -2,7 +2,6 @@ package renetik.android.themes
 
 import android.view.View
 import android.widget.GridView
-import renetik.android.base.application
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationController
@@ -10,10 +9,13 @@ import renetik.android.controller.common.CSNavigationItem
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.simpleView
 import renetik.android.extensions.textView
-import renetik.android.java.extensions.collections.at
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
 import renetik.android.material.extensions.snackBarInfo
+import renetik.android.themes.CSThemes.Companion.applyTheme
+import renetik.android.themes.CSThemes.Companion.availableThemes
+import renetik.android.themes.CSThemes.Companion.currentTheme
+import renetik.android.themes.CSThemes.Companion.currentThemeIndex
 import renetik.android.view.extensions.background
 import renetik.android.view.extensions.title
 
@@ -21,22 +23,17 @@ class CSThemeChooserController(val navigation: CSNavigationController, title: St
     : CSViewController<View>(navigation, layout(R.layout.theme_chooser)), CSNavigationItem {
 
     init {
-        textView(R.id.ThemeSwitcher_Title).title(availableThemes.at(currentThemeIndex!!)!!.title)
-        CSListController<Theme, GridView>(this, R.id.ThemeSwitcher_Grid) {
+        textView(R.id.ThemeSwitcher_Title).title(currentTheme.title)
+        CSListController<CSTheme, GridView>(this, R.id.ThemeSwitcher_Grid) {
             CSRowView(this, layout(R.layout.theme_switcher_item), onLoadSwitchItem)
         }.onItemClick(R.id.ThemeSwitcherItem_Button) { row ->
             if (row.index == currentThemeIndex) snackBarInfo("Current theme...")
-            else dialog("You selected other theme").show("Apply theme ?") { applyTheme(row.index) }
+            else dialog("You selected theme: ${row.data.title}")
+                    .show("Apply selected theme ?") { applyTheme(activity(), row.index) }
         }.reload(availableThemes).apply { currentThemeIndex?.let { selectedIndex(it) } }
     }
 
-    private fun applyTheme(themeIndex: Int) {
-        application.store.put("theme_index", themeIndex)
-        activity().recreate()
-        navigation.pop()
-    }
-
-    private val onLoadSwitchItem: (CSRowView<Theme>.(Theme) -> Unit) = { theme ->
+    private val onLoadSwitchItem: (CSRowView<CSTheme>.(CSTheme) -> Unit) = { theme ->
         val attributes = obtainStyledAttributes(theme.style, R.styleable.Theme)
         simpleView(R.id.ThemeSwitcherItem_ColorPrimary)
                 .background(attributes.getColor(R.styleable.Theme_colorPrimary, 0))
