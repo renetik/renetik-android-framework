@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/CSContainer"
-    android:background="?attr/colorSecondaryVariant">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CSContainer">
 
     <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
 
@@ -14,7 +14,6 @@
     <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchWrap">
 
         <LinearLayout
-            android:background="?attr/colorSecondaryVariant"
             style="@style/CSVerticalLayoutMatch"
             android:paddingTop="5dp">
 
@@ -23,8 +22,7 @@
                 style="@style/CSWrap"
                 android:layout_gravity="start"
                 android:text="Add menu item action visible"
-                android:textAppearance="@style/CSTextHeadline6"
-                android:textColor="?attr/colorOnSecondary" />
+                android:textAppearance="@style/CSTextHeadline6" />
 
             <TextView
                 style="@style/CSMatchWrap"
@@ -34,19 +32,20 @@
                 android:paddingEnd="8dp"
                 android:paddingBottom="3dp"
                 android:text="@string/SampleDynamicMenu_Text"
-                android:textAppearance="@style/CSTextHeadline6"
-                android:textColor="?attr/colorOnSecondary" />
+                android:textAppearance="@style/CSTextHeadline6" />
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CSContentCardMatchFill"
+        app:cardBackgroundColor="?attr/colorSecondary">
 
         <ImageView
             style="@style/CSMatch"
             android:scaleType="centerInside"
-            android:src="@drawable/ohm_black" />
+            android:src="@drawable/ohm_white" />
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

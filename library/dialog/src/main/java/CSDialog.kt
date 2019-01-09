@@ -1,6 +1,7 @@
 package renetik.android.dialog
 
 import android.app.Activity
+import android.graphics.drawable.Drawable
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import renetik.android.base.CSContextController
@@ -16,6 +17,11 @@ import renetik.android.view.extensions.withClear
 
 class CSDialog : CSContextController {
 
+    companion object {
+        private var initDefaultsFunction: (CSDialog.() -> Unit)? = null
+        fun defaults(function: CSDialog.() -> Unit) = apply { initDefaultsFunction = function }
+    }
+
     constructor(activity: Activity) : super(activity)
     constructor(view: CSView<*>) : super(view)
     constructor(view: View) : super(view.context)
@@ -26,6 +32,11 @@ class CSDialog : CSContextController {
     private var message: String? = null
     private var view: View? = null
     private var isShowAppIcon = true
+    private var icon: Drawable? = null
+
+    init {
+        initDefaultsFunction?.invoke(this)
+    }
 
     fun title(value: String) = apply { title = value }
     fun message(value: String) = apply { message = value }
@@ -48,12 +59,16 @@ class CSDialog : CSContextController {
                 .negativeColorAttr(R.attr.colorOnSurface)
                 .widgetColorAttr(R.attr.colorPrimaryVariant) //textField line
                 .buttonRippleColorAttr(R.attr.colorSecondaryVariant)
+        updateIcon()
+    }
 
-        if (isShowAppIcon) applicationIcon()?.let { icon -> builder.icon(icon) }
-                ?: let {
-                    applicationLogo()?.let { logo -> builder.icon(logo) }
-                            ?: logWarn("Not Icon nor Logo found for dialog")
-                }
+    private fun updateIcon() {
+        if (isShowAppIcon) icon?.let { icon -> builder.icon(icon) } ?: let {
+            applicationIcon?.let { appIcon -> builder.icon(appIcon) } ?: let {
+                applicationLogo?.let { logo -> builder.icon(logo) }
+                        ?: logWarn("Not Icon nor Logo found for dialog")
+            }
+        }
     }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
@@ -108,6 +123,9 @@ class CSDialog : CSContextController {
 
     fun withIcon(showAppIcon: Boolean) = apply { isShowAppIcon = showAppIcon }
 
+
+    fun withIcon(resource: Int) = apply { icon = getDrawable(resource) }
+
     fun onCancel(cancelAction: (CSDialog) -> Unit) =
             apply { builder.cancelListener { cancelAction(this) } }
 
@@ -118,7 +136,6 @@ class CSDialog : CSContextController {
     fun <ViewType : View> showView(view: ViewType,
                                    action: ((CSOnDialogViewAction<ViewType>) -> Boolean)? = null): View {
         if (notNull(title, message)) throw UnsupportedOperationException("No place for second text with custom view")
-        styleDialogBuilder()
         this.view = view
         action?.let {
             builder.positiveText(R.string.cs_dialog_ok).onPositive { _, _ ->
@@ -126,9 +143,12 @@ class CSDialog : CSContextController {
             }
         }
         builder.title(title ?: message ?: "").autoDismiss(action == null).customView(view, true)
+        styleDialogBuilder()
         dialog = builder.show()
         return view
     }
+
+
 }
 
 fun <ViewType : View> CSDialog.showViewOf(layoutId: Int, action: ((CSDialog.CSOnDialogViewAction<View>) -> Boolean)? = null) =

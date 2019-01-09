@@ -83,7 +83,7 @@ open class CSNavigationController(activity: CSActivity)
         } ?: let {
             navigationItemTitle?.let { navigationControllerItemTitle ->
                 setActionBarTitle(navigationControllerItemTitle)
-            } ?: setActionBarTitle(applicationLabel())
+            } ?: setActionBarTitle(applicationLabel)
         }
     }
 
@@ -93,7 +93,7 @@ open class CSNavigationController(activity: CSActivity)
         } ?: let {
             navigationItemIcon?.let { navigationControllerItemIcon ->
                 setActionBarIcon(navigationControllerItemIcon)
-            } ?: setActionBarIcon(applicationLogo())
+            } ?: setActionBarIcon(applicationLogo)
         }
     }
 

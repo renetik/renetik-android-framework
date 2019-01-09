@@ -14,10 +14,10 @@ import android.text.format.DateFormat.getTimeFormat
 import android.util.Base64
 import android.view.Display
 import android.view.WindowManager
-import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.set
 import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndWarn
+import renetik.android.java.extensions.notNull
+import renetik.android.java.extensions.set
 import java.io.FileNotFoundException
 import java.security.MessageDigest
 import java.util.*
@@ -92,11 +92,6 @@ abstract class CSContextController : ContextWrapper {
     fun formatDate(date: Date) = date.notNull { getDateFormat(this).format(date) }
     fun formatTime(date: Date) = date.notNull { getTimeFormat(this).format(date) }
 
-
-    fun openInputStream(uri: Uri) = tryAndError(FileNotFoundException::class) {
-        contentResolver.openInputStream(uri)
-    }
-
     fun isServiceRunning(serviceClass: Class<out Service>): Boolean {
         @Suppress("DEPRECATION")
         for (running in service<ActivityManager>(Context.ACTIVITY_SERVICE).getRunningServices(Integer.MAX_VALUE))
@@ -108,5 +103,7 @@ abstract class CSContextController : ContextWrapper {
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
     protected open fun onDestroy() = Unit
 }
+
+
 
 

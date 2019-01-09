@@ -2,17 +2,20 @@ package renetik.android.extensions
 
 import android.content.Context
 import android.content.res.Resources.NotFoundException
+import android.net.Uri
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import renetik.android.base.application
 import renetik.android.java.collections.list
 import renetik.android.java.common.tryAndCatch
+import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndFinally
 import renetik.android.java.common.tryAndWarn
 import renetik.android.java.extensions.isEmpty
 import renetik.android.java.extensions.stringify
 import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
 
 fun Context.color(value: Int): Int {
     return tryAndCatch(NotFoundException::class, { application.resourceColor(value) }, {
@@ -37,6 +40,10 @@ fun Context.resourceBytes(id: Int) = tryAndWarn {
         } while (true)
         outputStream.toByteArray()
     }) { stream.close() }
+}
+
+fun Context.openInputStream(uri: Uri) = tryAndError(FileNotFoundException::class) {
+    contentResolver.openInputStream(uri)
 }
 
 fun Context.resourceDimension(id: Int) = resources.getDimension(id).toInt()
