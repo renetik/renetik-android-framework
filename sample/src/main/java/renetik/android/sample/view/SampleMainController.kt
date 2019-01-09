@@ -21,6 +21,7 @@ import renetik.android.themes.CSThemeChooserController
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.title
 
+
 class SampleMainController : CSViewController<View>(navigation, layout(R.layout.sample_main)),
         CSNavigationItem {
 

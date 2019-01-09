@@ -1,4 +1,5 @@
 apply from: '../library.gradle'
 
 dependencies {
+    implementation "org.jetbrains.anko:anko-sdk21-coroutines:$anko_version"
 }

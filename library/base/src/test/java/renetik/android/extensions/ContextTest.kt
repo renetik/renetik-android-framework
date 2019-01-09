@@ -14,9 +14,9 @@ class ContextTest {
     @Test
     fun applicationNameTest() {
         assertEquals("CSApplicationMock", application.name)
-        assertEquals("CSApplicationMock", application.applicationLabel())
-        assertNotNull(application.applicationLogo())
-        assertNull(application.applicationIcon())
+        assertEquals("CSApplicationMock", application.applicationLabel)
+        assertNotNull(application.applicationLogo)
+        assertNull(application.applicationIcon)
     }
 }
 

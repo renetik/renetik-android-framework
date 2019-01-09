@@ -15,7 +15,7 @@ lateinit var application: CSApplication
 
 open class CSApplication : Application() {
 
-    open val name: String by lazy { applicationLabel() }
+    open val name: String by lazy { applicationLabel }
     open val logger: CSLogger by lazy { AndroidLogger() }
     open val store: CSValueStore by lazy { CSValueStore("ApplicationSettings") }
     open val externalFilesDir: File
