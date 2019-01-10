@@ -37,8 +37,8 @@ class SamplePagerController(val title: String)
             model.server.addSampleListItem(SampleListItem().apply {
                 name.string = nameView.title
                 description.string = descView.title
-            }).send("Posting item to server", withProgress = true)
-                    .onSuccess { pager.current.list.prependData(it.value) }
+            }).send("Posting item to server", progress = true)
+                    .onSuccess { pager.current.listController.prependData(it.value) }
         }
     }
 

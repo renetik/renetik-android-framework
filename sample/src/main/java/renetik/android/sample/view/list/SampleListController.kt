@@ -11,14 +11,15 @@ import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.button
 import renetik.android.extensions.textView
 import renetik.android.java.collections.list
-import renetik.android.java.extensions.collections.delete
 import renetik.android.listview.CSListController
-import renetik.android.listview.CSRemoveListRowsController
+import renetik.android.listview.onItemClick
+import renetik.android.listview.emptyView
+import renetik.android.listview.actions.CSRemoveListRowsController
 import renetik.android.listview.CSRowView
 import renetik.android.logging.CSLog.logInfoToast
 import renetik.android.material.extensions.snackBarInfo
 import renetik.android.sample.R
-import renetik.android.sample.model.SampleListRow
+import renetik.android.sample.model.ListItem
 import renetik.android.sample.model.model
 import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.onClick
@@ -27,7 +28,7 @@ import renetik.android.view.extensions.title
 class SampleListController(private val title: String)
     : CSViewController<View>(navigation, layout(R.layout.sample_list)), CSNavigationItem {
 
-    private val listController = CSListController<SampleListRow, ListView>(this, R.id.SampleList_List) {
+    private val listController = CSListController<ListItem, ListView>(this, R.id.SampleList_List) {
         CSRowView(this, layout(R.layout.sample_list_item)) { row ->
             textView(R.id.header).title(row.time)
             textView(R.id.title).title(row.title)
@@ -40,8 +41,9 @@ class SampleListController(private val title: String)
     init {
         textView(R.id.SampleList_Title).title(title)
         CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
-            toRemove.forEach { item -> model.sampleList.delete(item) }
-            listController.reload(model.sampleList)
+            toRemove.forEach { item -> model.sampleList.remove(item) }
+            model.save()
+            listController.reload(model.sampleList.list)
         }
         menuItem(searchController.view)
         menuItem("Action").onClick { snackBarInfo("This is some action") }.alwaysAsAction()
@@ -55,8 +57,8 @@ class SampleListController(private val title: String)
 
     private fun reloadList() {
         listController.reload(
-                if (searchController.text.isEmpty()) model.sampleList
-                else list<SampleListRow>().apply {
+                if (searchController.text.isEmpty()) model.sampleList.list
+                else list<ListItem>().apply {
                     for (row in model.sampleList)
                         if (row.searchableText.contains(searchController.text, ignoreCase = true))
                             add(row)
