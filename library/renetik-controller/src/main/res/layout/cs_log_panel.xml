@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSContainer">
+
+    <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
+
+        <TextView
+            android:id="@+id/CSLog_Title"
+            style="@style/CSPageTitleMatchWrap"
+            android:text="Application Log" />
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
+
+        <ScrollView
+            android:id="@+id/CSLog_TextScroll"
+            style="@style/CSMatch"
+            android:fillViewport="true"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/CSLog_LogText"
+                style="@style/CSMatch"
+                android:scrollbars="vertical" />
+
+        </ScrollView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/CSLog_Reload"
+            style="@style/CSButtonFloatingBottomEndWrap"
+            android:src="@drawable/baseline_refresh_24" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

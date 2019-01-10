@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Renetik Library</string>
     <string name="SampleDynamicMenu_Text">This is example of dynamic bar menu items. You can see how titles are updated, items are added and removed and can be hidden, with just little of code</string>
+    <string name="SamplePageList_ReloadTitle">Reloading list from heroku free server so it first pings server if it fails pings again and then try to load so dyno has time to startup</string>
 </resources>
