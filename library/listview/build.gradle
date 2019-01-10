@@ -1,9 +1,0 @@
-apply from: '../library.gradle'
-
-dependencies {
-    implementation project(':renetik-android:renetik-base')
-    implementation project(':renetik-android:renetik-json')
-    implementation project(':renetik-android:renetik-dialog')
-    implementation project(':renetik-android:renetik-imaging')
-    implementation project(':renetik-android:renetik-controller')
-}

@@ -20,6 +20,7 @@ import renetik.android.location.asLatLng
 import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
 import renetik.android.sample.R
+import renetik.android.sample.model.MapPosition
 import renetik.android.sample.model.model
 import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.title
@@ -41,9 +42,11 @@ class SampleMapPathController(title: String, private val mapController: CSMapCon
 
     private var locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
-            model.mapRoute.add(result.lastLocation.asLatLng())
-            model.mapRoute.previousLastItem?.let {
-                mapController.map?.addPolyline(lineOptions.add(it).add(model.mapRoute.last()))
+            model.mapRoute.add(MapPosition(result.lastLocation.asLatLng()))
+            model.save()
+            model.mapRoute.list.previousLastItem?.let {
+                mapController.map?.addPolyline(lineOptions.add(it.latLng)
+                        .add(model.mapRoute.last!!.latLng))
             }
             mapController.camera(result.lastLocation, 11f)
         }
@@ -53,7 +56,7 @@ class SampleMapPathController(title: String, private val mapController: CSMapCon
         textView(R.id.SampleMap_Title).title(title)
         mapClient.onMapShowing { map ->
             map.isMyLocationEnabled = true
-            mapController.map?.addPolyline(lineOptions.addAll(model.mapRoute))
+            map.addPolyline(lineOptions.apply { model.mapRoute.forEach { add(it.latLng) } })
             getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, locationCallback, null)
         }
     }

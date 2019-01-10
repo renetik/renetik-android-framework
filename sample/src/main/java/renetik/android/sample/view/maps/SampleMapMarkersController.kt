@@ -8,7 +8,6 @@ import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.textView
-import renetik.android.java.extensions.collections.put
 import renetik.android.location.location
 import renetik.android.location.locationClient
 import renetik.android.maps.CSMapClientController
@@ -40,9 +39,10 @@ class SampleMapMarkersController(title: String, mapController: CSMapController)
     private fun showMarker(marker: MapMarker) =
             mapClient.map!!.addMarker(MarkerOptions().position(marker.latLng).title(marker.title))
 
-    private fun addMapClick(latLng: LatLng) =
-            dialog("Add marker at position").showInput("Enter marker title") {
-                showMarker(model.mapMarkers.put(MapMarker(latLng, it.inputValue())))
+    private fun addMapClick(latLng: LatLng) = dialog("Add marker at position")
+            .showInput("Enter marker title") {
+                showMarker(model.mapMarkers.add(MapMarker(latLng, it.inputValue())))
+                model.save()
             }
 }
 
