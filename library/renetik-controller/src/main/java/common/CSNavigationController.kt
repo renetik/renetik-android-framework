@@ -9,6 +9,7 @@ import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.menu.CSOnMenuItem
+import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLabel
 import renetik.android.extensions.applicationLogo
 import renetik.android.java.collections.list
@@ -91,9 +92,8 @@ open class CSNavigationController(activity: CSActivity)
         (controllers.last as? CSNavigationItem)?.navigationItemIcon?.let { lastControllerItemIcon ->
             setActionBarIcon(lastControllerItemIcon)
         } ?: let {
-            navigationItemIcon?.let { navigationControllerItemIcon ->
-                setActionBarIcon(navigationControllerItemIcon)
-            } ?: setActionBarIcon(applicationLogo)
+            navigationItemIcon?.let { icon -> setActionBarIcon(icon) }
+                    ?: setActionBarIcon(applicationLogo ?: applicationIcon)
         }
     }
 

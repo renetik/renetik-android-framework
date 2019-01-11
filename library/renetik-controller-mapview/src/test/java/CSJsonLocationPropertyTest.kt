@@ -19,8 +19,7 @@ import renetik.android.java.extensions.primitives.trimNewLines
 @Config(application = ApplicationMock::class)
 class CSJsonTest {
 
-    private val json =
-            """"location":[90,-138],"title":"Nice House"}""".trimMargin().trimNewLines()
+    private val json = """ {"location":[90,-138],"title":"Nice House"} """
 
     @Test
     fun testJsonDataSave() {
