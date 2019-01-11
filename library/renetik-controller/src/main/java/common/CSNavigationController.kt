@@ -14,7 +14,7 @@ import renetik.android.extensions.applicationLogo
 import renetik.android.java.collections.list
 import renetik.android.java.extensions.collections.deleteLast
 import renetik.android.java.extensions.collections.hasItems
-import renetik.android.java.extensions.collections.lastItem
+import renetik.android.java.extensions.collections.last
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
@@ -27,7 +27,7 @@ open class CSNavigationController(activity: CSActivity)
     open var controllers = list<CSViewController<*>>()
 
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
-        if (controllers.hasItems) controllers.lastItem?.showingInContainer(false)
+        if (controllers.hasItems) controllers.last?.showingInContainer(false)
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_in_top))
         view.add(controller)
@@ -48,7 +48,7 @@ open class CSNavigationController(activity: CSActivity)
             view.remove(lastController)
             lastController.deInitialize()
 
-            controllers.lastItem?.showingInContainer(true)
+            controllers.last?.showingInContainer(true)
             updateBackButton()
             updateBarTitle()
             updateBarIcon()
@@ -78,7 +78,7 @@ open class CSNavigationController(activity: CSActivity)
     }
 
     private fun updateBarTitle() {
-        (controllers.lastItem as? CSNavigationItem)?.navigationItemTitle?.let { lastControllerItemTitle ->
+        (controllers.last as? CSNavigationItem)?.navigationItemTitle?.let { lastControllerItemTitle ->
             setActionBarTitle(lastControllerItemTitle)
         } ?: let {
             navigationItemTitle?.let { navigationControllerItemTitle ->
@@ -88,7 +88,7 @@ open class CSNavigationController(activity: CSActivity)
     }
 
     private fun updateBarIcon() {
-        (controllers.lastItem as? CSNavigationItem)?.navigationItemIcon?.let { lastControllerItemIcon ->
+        (controllers.last as? CSNavigationItem)?.navigationItemIcon?.let { lastControllerItemIcon ->
             setActionBarIcon(lastControllerItemIcon)
         } ?: let {
             navigationItemIcon?.let { navigationControllerItemIcon ->
@@ -114,7 +114,7 @@ open class CSNavigationController(activity: CSActivity)
 
     private fun updateBackButton() {
         val isBackButtonVisible =
-                (controllers.lastItem as? CSNavigationItem)?.isNavigationItemBackButton
+                (controllers.last as? CSNavigationItem)?.isNavigationItemBackButton
                         ?: isNavigationItemBackButton
         if (controllers.size > 1 && isBackButtonVisible) showBackButton()
         else hideBackButton()

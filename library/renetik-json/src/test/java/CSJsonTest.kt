@@ -13,7 +13,7 @@ import renetik.android.json.data.properties.CSJsonString
 import renetik.android.base.CSApplication
 import renetik.android.java.collections.list
 import renetik.android.java.collections.map
-import renetik.android.java.extensions.collections.secondItem
+import renetik.android.java.extensions.collections.second
 import renetik.android.java.extensions.primitives.trimNewLines
 
 @RunWith(RobolectricTestRunner::class)
@@ -53,14 +53,14 @@ class CSJsonTest {
         house.floors.add(FlorJsonDataTest("second"))
         house.title.string = "Nice House"
         house.load(fromJson(toJson(house))!!)
-        assertEquals("second", house.floors.list.secondItem!!.title.value)
+        assertEquals("second", house.floors.list.second!!.title.value)
     }
 
     @Test
     fun testJsonDataLoad() {
         val house = HouseJsonDataTest()
         house.load(fromJson(json)!!)
-        assertEquals("second", house.floors.list.secondItem!!.title.string)
+        assertEquals("second", house.floors.list.second!!.title.string)
     }
 
     @Test
