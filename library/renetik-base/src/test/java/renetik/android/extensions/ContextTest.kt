@@ -16,7 +16,7 @@ class ContextTest {
         assertEquals("CSApplicationMock", application.name)
         assertEquals("CSApplicationMock", application.applicationLabel)
         assertNotNull(application.applicationLogo)
-        assertNull(application.applicationIcon)
+        assertNotNull(application.applicationIcon)
     }
 }
 

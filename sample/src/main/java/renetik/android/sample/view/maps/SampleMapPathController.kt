@@ -15,7 +15,7 @@ import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.textView
 import renetik.android.java.common.CSConstants.SECOND
-import renetik.android.java.extensions.collections.previousLastItem
+import renetik.android.java.extensions.collections.beforeLast
 import renetik.android.location.asLatLng
 import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
@@ -44,7 +44,7 @@ class SampleMapPathController(title: String, private val mapController: CSMapCon
         override fun onLocationResult(result: LocationResult) {
             model.mapRoute.add(MapPosition(result.lastLocation.asLatLng()))
             model.save()
-            model.mapRoute.list.previousLastItem?.let {
+            model.mapRoute.list.beforeLast?.let {
                 mapController.map?.addPolyline(lineOptions.add(it.latLng)
                         .add(model.mapRoute.last!!.latLng))
             }
