@@ -12,7 +12,6 @@ import renetik.android.extensions.colorFromAttribute
 import renetik.android.extensions.inflate
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.string
-import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.withClear
 
 class CSDialog : CSContextController {
@@ -63,12 +62,8 @@ class CSDialog : CSContextController {
     }
 
     private fun updateIcon() {
-        if (isShowAppIcon) icon?.let { icon -> builder.icon(icon) } ?: let {
-            applicationIcon?.let { appIcon -> builder.icon(appIcon) } ?: let {
-                applicationLogo?.let { logo -> builder.icon(logo) }
-                        ?: logWarn("Not Icon nor Logo found for dialog")
-            }
-        }
+        if (isShowAppIcon) icon?.let { icon -> builder.icon(icon) }
+                ?: let { builder.icon(applicationLogo ?: applicationIcon) }
     }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
