@@ -1,3 +1,4 @@
+ext.publish_module_name = 'controller-list'
 apply from: '../library.gradle'
 
 dependencies {
