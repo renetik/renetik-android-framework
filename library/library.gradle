@@ -12,6 +12,11 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
     }
+    lintOptions {
+    	tasks.lint.enabled = false
+//         checkReleaseBuilds false
+//         abortOnError false
+    }
 }
 
 dependencies {
