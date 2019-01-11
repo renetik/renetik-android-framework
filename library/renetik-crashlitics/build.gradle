@@ -1,3 +1,4 @@
+ext.publish_module_name = 'crashlitics'
 apply from: '../library.gradle'
 
 dependencies {

@@ -1,0 +1,33 @@
+def properties() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties
+}
+
+def bintrayUser() { return properties().getProperty("bintray.user") }
+
+def bintrayKey() { return properties().getProperty("bintray.apikey") }
+
+if (bintrayUser() == null || bintrayKey() == null) {
+    println "bintrayUser or bintrayKey not set, not applying bintrayconfig.gradle"
+    return
+}
+
+apply plugin: 'com.novoda.bintray-release'
+
+if (!project.hasProperty('publish_module_name')) {
+    throw new IllegalStateException("Must specify a publish_module_name in module's build.gradle")
+}
+
+publish {
+    bintrayUser = bintrayUser()
+    bintrayKey = bintrayKey()
+    userOrg = 'renetik'
+    groupId = 'renetik.android'
+    uploadName = "renetik-android:$publish_module_name"
+    artifactId = publish_module_name
+    publishVersion = '1.0.1-rc1'
+    desc = 'Android framework for development with pleasure'
+    website = 'https://github.com/rene-dohan/renetik-android'
+    dryRun = false
+}
