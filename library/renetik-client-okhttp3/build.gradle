@@ -1,9 +1,9 @@
 apply from: '../library.gradle'
 
 dependencies {
-    implementation project(':renetik-android:renetik-base')
-    implementation project(':renetik-android:renetik-json')
-    implementation project(':renetik-android:renetik-client')
+    implementation project(':renetik-android-base')
+    implementation project(':renetik-android-json')
+    implementation project(':renetik-android-client')
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
 //    implementation 'com.github.bumptech.glide:okhttp3-integration:4.8.0'
 }
