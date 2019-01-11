@@ -13,4 +13,8 @@ val Context.applicationLabel: String get() = "${applicationInfo.loadLabel(packag
 
 val Context.applicationLogo: Drawable? get() = applicationInfo.loadLogo(packageManager)
 
-val Context.applicationIcon: Drawable? get() = applicationInfo.loadIcon(packageManager)
+/**
+ * If the item does not have an icon, the item's default icon is returned
+ * such as the default activity icon.
+ */
+val Context.applicationIcon: Drawable get() = applicationInfo.loadIcon(packageManager)

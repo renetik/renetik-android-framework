@@ -5,7 +5,7 @@ import renetik.android.java.collections.list
 import renetik.android.java.common.CSSizeInterface
 import renetik.android.java.extensions.collections.delete
 import renetik.android.java.extensions.collections.deleteLast
-import renetik.android.java.extensions.collections.lastItem
+import renetik.android.java.extensions.collections.last
 import renetik.android.json.createJsonDataList
 import renetik.android.json.createJsonDataType
 import renetik.android.json.data.CSJsonData
@@ -74,7 +74,7 @@ class CSJsonDataListProperty<T : CSJsonData>(val data: CSJsonData, val type: KCl
             list.forEach { item -> add(item) }
         }
 
-    val last: T? get() = list.lastItem
+    val last: T? get() = list.last
     val isEmpty get() = size == 0
     override val size get() = data.getList(key)?.size ?: let { 0 }
 
@@ -98,7 +98,7 @@ class CSJsonStringListProperty(val data: CSJsonData, val key: String) : Iterable
         get() = data.getList(key) as List<String>
         set(list) = data.put(key, list)
 
-    val last: String? get() = list.lastItem
+    val last: String? get() = list.last
     val empty get() = size() == 0
 
     fun add(item: String) = data.getList(key)?.add(item)
