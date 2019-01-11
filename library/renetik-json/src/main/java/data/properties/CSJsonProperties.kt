@@ -30,7 +30,7 @@ class CSJsonBoolProperty(val data: CSJsonData, private val key: String) {
         get() = data.getBoolean(key)
         set(value) = data.put(key, value)
 
-    val value: Boolean get() = bool ?: false
+    val value get() = bool ?: false
 
     override fun toString() = "$value"
 }
@@ -40,7 +40,7 @@ class CSJsonIntProperty(val data: CSJsonData, private val key: String) {
         get() = data.getInt(key)
         set(value) = data.put(key, value)
 
-    val value: Int get() = integer ?: 0
+    val value get() = integer ?: 0
 
     override fun toString() = "$value"
 }
@@ -50,7 +50,7 @@ class CSJsonFileProperty(val data: CSJsonData, private val key: String) {
         get() = File(data.getString(key))
         set(file) = data.put(key, file?.toString())
 
-    val value = file!!
+    val value: File get() = file!!
 
     override fun toString() = "$file"
 }

@@ -13,6 +13,8 @@ import java.io.File
 import java.text.DateFormat
 import java.util.*
 
+const val MODEL_KEY = "model_data"
+
 class SampleModel : CSJsonData() {
 
     val sampleList = CSJsonDataListProperty(this, ListItem::class, "sampleList")
@@ -22,7 +24,7 @@ class SampleModel : CSJsonData() {
     val server by lazy { SampleServer() }
 
     fun save() {
-        application.store.save("model", this)
+        application.store.save(MODEL_KEY, this)
     }
 
     init {

@@ -7,7 +7,7 @@ import renetik.android.crashlitics.extensions.startFabricCrashlitics
 import renetik.android.json.extensions.load
 import renetik.android.sample.BuildConfig.DEBUG
 
-val model by lazy { application.store.load(SampleModel::class, "model") }
+val model by lazy { application.store.load(SampleModel::class, MODEL_KEY) }
 
 class SampleApplication : CSApplication() {
     override val isDebugBuild = DEBUG
