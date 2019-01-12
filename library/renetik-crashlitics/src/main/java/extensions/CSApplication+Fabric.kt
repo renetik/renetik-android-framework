@@ -6,7 +6,7 @@ import com.crashlytics.android.core.CrashlyticsCore.Builder
 import io.fabric.sdk.android.Fabric
 import renetik.android.base.CSApplication
 
-fun CSApplication.startFabricCrashlitics(): Crashlytics {
+fun CSApplication.startFabricCrashlytics(): Crashlytics {
     val crashlytics = Crashlytics.Builder().core(Builder().disabled(isDebugBuild).build()).build()
     Fabric.with(this, crashlytics)
     return crashlytics
