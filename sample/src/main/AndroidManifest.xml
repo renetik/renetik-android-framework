@@ -19,11 +19,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/maps_api_key" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="7dee86dce9a31a096797a5cc91b1e7f76d8e9453" />
+        <!--<meta-data-->
+            <!--android:name="io.fabric.ApiKey"-->
+            <!--android:value="@string/fabric_api_key" />-->
 
         <activity
             android:name=".view.SampleNavigationActivity"
