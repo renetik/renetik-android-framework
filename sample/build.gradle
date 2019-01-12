@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'io.fabric'
+if (project.file('fabric.properties').exists()) {
+    apply plugin: 'io.fabric'
+}
 
 def mapsApiKey = properties().getProperty('com.google.android.geo.API_KEY')
 if (mapsApiKey == null) mapsApiKey = "Place com.google.android.geo.API_KEY to local.properties"
