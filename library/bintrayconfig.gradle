@@ -22,7 +22,7 @@ if (!project.hasProperty('publish_module_name')) {
 publish {
     bintrayUser = bintrayUser()
     bintrayKey = bintrayKey()
-    userOrg = 'renetik'
+    userOrg = 'rene-dohan'
     groupId = 'renetik.android'
     uploadName = "renetik-android:$publish_module_name"
     artifactId = publish_module_name
