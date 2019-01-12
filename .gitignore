@@ -39,7 +39,6 @@ captures/
 # Keystore files
 *.jks
 build_file_checksums.ser
-gradle
 .idea
 .git.bfg-report
 fabric.properties
