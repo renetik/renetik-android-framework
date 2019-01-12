@@ -17,8 +17,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.fabric.tools:gradle:1.26.1"
         classpath "com.novoda:bintray-release:$bintrayPlugin"
-//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-//        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17"
     }
 }
@@ -33,4 +31,11 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+def properties() {
+    Properties properties = new Properties()
+    def file = project.rootProject.file('local.properties')
+    if (file.exists()) properties.load(file.newDataInputStream())
+    return properties
 }
