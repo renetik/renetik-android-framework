@@ -42,3 +42,4 @@ build_file_checksums.ser
 gradle
 .idea
 .git.bfg-report
+fabric.properties
