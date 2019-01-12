@@ -6,6 +6,8 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def mapsApiKey = properties.getProperty('maps_api_key')
 if (mapsApiKey == null) mapsApiKey = ""
+def fabricApiKey = properties.getProperty('fabric_api_key')
+if (fabricApiKey == null) fabricApiKey = ""
 
 android {
     compileSdkVersion 28
@@ -21,6 +23,7 @@ android {
         versionCode 3
         versionName "1.0.2"
         resValue "string", "maps_api_key", mapsApiKey
+        resValue "string", "fabric_api_key", fabricApiKey
     }
 }
 
