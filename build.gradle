@@ -32,10 +32,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-def properties() {
-    Properties properties = new Properties()
-    def file = project.rootProject.file('local.properties')
-    if (file.exists()) properties.load(file.newDataInputStream())
-    return properties
-}

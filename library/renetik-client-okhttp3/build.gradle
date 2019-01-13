@@ -6,5 +6,4 @@ dependencies {
     implementation project(':renetik-android-json')
     implementation project(':renetik-android-client')
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
-//    implementation 'com.github.bumptech.glide:okhttp3-integration:4.8.0'
 }

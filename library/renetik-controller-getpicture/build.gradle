@@ -8,7 +8,4 @@ dependencies {
     implementation project(':renetik-android-imaging')
     implementation project(':renetik-android-controller')
     implementation "org.jetbrains.anko:anko-sdk21-coroutines:$anko_version"
-//    implementation ("com.github.bumptech.glide:glide:4.8.0") {    //should be external as image loading
-//        exclude group: "com.android.support"
-//    }
 }
