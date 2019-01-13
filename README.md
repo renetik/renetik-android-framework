@@ -21,22 +21,27 @@ Framework to enjoy, improve and speed up your application development while writ
 13. [Imaging](#imaging)
 14. [Material](#material)
 
-## Getting Started
+# Getting Started
 
-Sample Application:
+## Sample Application:
 <p align="center">
     <img src="sample/screenshots/Menu Theme 1.png" width="100">
+    <img src="sample/screenshots/Maps.png" width="100">
+    <img src="sample/screenshots/Simple List.png" width="100">
+    <img src="sample/screenshots/Request List Load.png" width="100">
+    <img src="sample/screenshots/Log.png" width="100">
+    <img src="sample/screenshots/Dynamic Menu Remove.png" width="100">
 </p>
 
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
 
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
+[ ![Core](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:framework/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:framework/_latestVersion)
+
+The `framework` module contains everything in this library. So it's convenient way to add all to gradle dependencies in one line.
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
+  implementation 'renetik.android:framework:1.0.1-rc1'
 }
 ```
 
