@@ -45,7 +45,7 @@ Sample application showcase some of the most visible features of framework, some
 I also made sever side project in Spring Boot so Sample application communicate with heroku server by simple rest api. Server sample project is here [Renetik Library Sample Server](https://github.com/rene-dohan/renetik-library-sample-server)
 
 ## Framework
-[ ![Core](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:framework/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:framework/_latestVersion)
+[ ![Framework](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:framework/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:framework/_latestVersion)
 
 The `framework` module contains everything in this library. So it's convenient way to add all to gradle dependencies in one line.
 
