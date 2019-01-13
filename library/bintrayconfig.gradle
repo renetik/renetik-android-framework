@@ -1,6 +1,6 @@
-def bintrayUser() { return properties().getProperty("bintray.user") }
+def bintrayUser() { return properties().getProperty("bintrayUser") }
 
-def bintrayKey() { return properties().getProperty("bintray.apikey") }
+def bintrayKey() { return properties().getProperty("bintrayKey") }
 
 if (bintrayUser() == null || bintrayKey() == null) {
     println "bintrayUser or bintrayKey not set, not applying bintrayconfig.gradle"
@@ -15,7 +15,7 @@ if (!project.hasProperty('publish_module_name')) {
 
 publish {
     bintrayUser = bintrayUser()
-    bintrayKey = bintrayKey()
+//    bintrayKey = bintrayKey()
     userOrg = 'rene-dohan'
     groupId = 'renetik.android'
     uploadName = "renetik-android:$publish_module_name"
