@@ -1,5 +1,5 @@
-# Renetik Software Android Library
+# Renetik Android Library
 
-Library to enjoy, improve and speed your application development
+Framework to enjoy, improve and speed up your application development while writing readable code.
 
 [![Build Status](https://travis-ci.org/rene-dohan/renetik-android.svg?branch=master)](https://travis-ci.org/rene-dohan/renetik-android)
