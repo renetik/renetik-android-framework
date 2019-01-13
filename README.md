@@ -42,7 +42,7 @@ Good way to start with the framework, is to download checkout or fork it, open i
 </p>
 Sample application showcase some of the most visible features of framework, some of them are more hidden and I will try to mention most of them. Sample application shows how with few lines of code complex features can be implemented and still keepeng code readable. Basis of application are ViewControllers and NavigationController. Controllers can be pushed to navigation controller stack and in each controller can be used, instead of onCreate,onResume... wery simple methods like onViewShowing with some othe features that makes life easier. But somtimes its even not needed because ListController and simmilar can access them by events delegation. Still underdehood are accessible android methods that are called from Activity if they are needed somehow. But in whole sample application there is no need for them.
 
-I also made sever side project in Spring Boot so Sample application communicate with heroku server by simple rest api. Server sample project is here [Renetik Library Server](https://github.com/rene-dohan/renetik-library-server)
+I also made sever side project in Spring Boot so Sample application communicate with heroku server by simple rest api. Server sample project is here [Renetik Library Sample Server](https://github.com/rene-dohan/renetik-library-sample-server)
 
 ## Framework
 [ ![Core](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:framework/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:framework/_latestVersion)
