@@ -6,7 +6,9 @@ Framework to enjoy, improve and speed up your application development while writ
 
 # Table of Contents
 
+1. [About](#about)
 1. [Getting Started](#getting-started)
+2. [Framework](#framework)
 2. [Base](#base)
 3. [Themes](#themes)
 4. [Controller](#controller)
@@ -17,14 +19,17 @@ Framework to enjoy, improve and speed up your application development while writ
 9. [Json](#json)
 10. [Client](#client)
 11. [Client OKHTTP3](#client-okhttp3)
-12. [Crashlitics](#crashlitics)
+12. [Crashlytics](#crashlytics)
 13. [Imaging](#imaging)
 14. [Material](#material)
 
-# Getting Started
+# About
+I started with this framework few years ago with my first Android application and made similar framework with sisimilareasilymilar classes for iOS too so I could write more easily two applications, one in Java and other in iOS while keeping similar structure of code. Then framework mutated as I was easily kotlindeveloping apps further and 3 months ago I rewrote it to kotlin and polished while removing large part with idea to release it for others and showcase how I code for development clients or companies who can hire me for software development.
+I didn't try to re-invent the wheel but with background from multiple platfroms and languages I just see how things can be done nicely without some overcomlexities of Android framework like activities lifetime, fragments, java listeners and so on. For example I missed event classes similar to that used in c# and other programming patterns, like Navigation from iOS so I made them.
+I am sure there are number of other libnraries that alrady has those features, with some pros and cons, but I was able to keep this code functional and usefull for me for quite a few years so I dont need to look for code from others that can be quite dificult to fix if problems happens. I always tried to use good libraries but for example CSEvent classes are quite old maybe 7 years now, and are still quite usefull. 
 
-Good way to start with the framework, is to download it togather with sample application, open in Android Studio and run while 
-look at how som parts are written. Code is quite readable and in this documentation will i show snippets from sample application and framework to explain how ti can be used.
+# Getting Started
+Good way to start with the framework, is to download checkout or fork it, open in Android Studio and run sample application while look at how code is written. Code is quite readable and self explanatory and in this documentation I will show snippets from sample application and framework to explain how it can be used and how I use it in my own projects.
 
 ## Sample Application:
 <p align="center">
@@ -35,8 +40,12 @@ look at how som parts are written. Code is quite readable and in this documentat
     <img src="sample/screenshots/Log.png" width="100">
     <img src="sample/screenshots/Dynamic Menu Remove.png" width="100">
 </p>
+Sample application showcase some of the most visible features of framework, some of them are more hidden and I will try to mention most of them. Sample application shows how with few lines of code complex features can be implemented and still keepeng code readable. Basis of application are ViewControllers and NavigationController. Controllers can be pushed to navigation controller stack and in each controller can be used, instead of onCreate,onResume... wery simple methods like onViewShowing with some othe features that makes life easier. But somtimes its even not needed because ListController and simmilar can access them by events delegation. Still underdehood are accessible android methods that are called from Activity if they are needed somehow. But in whole sample application there is no need for them.
 
-[ ![Core](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:framework/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:framework/_latestVersion)
+I also made sever side project in Spring Boot so Sample application communicate with heroku server by simple rest api. Server sample project is here [Renetik Library Sample Server](https://github.com/rene-dohan/renetik-library-sample-server)
+
+## Framework
+[ ![Framework](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:framework/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:framework/_latestVersion)
 
 The `framework` module contains everything in this library. So it's convenient way to add all to gradle dependencies in one line.
 
@@ -46,12 +55,23 @@ dependencies {
   implementation 'renetik.android:framework:1.0.1-rc1'
 }
 ```
+Then you need to create class that extends CSApplication and add it to Manifest.
+```gradle
+class SampleApplication : CSApplication() {
+    override val isDebugBuild = DEBUG
+}
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="renetik.android.sample">
+
+    ...
+    <application
+        android:name=".model.SampleApplication"
+        ...
+```
+Most if not all library classes are prefixed with CS, so they can be easyly recognized and found. 
 
 ## Base
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
 
 [ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
 
