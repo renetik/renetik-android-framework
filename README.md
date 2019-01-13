@@ -22,9 +22,10 @@ Framework to enjoy, improve and speed up your application development while writ
 14. [Material](#material)
 
 ## Getting Started
+
+Sample Application:
 <p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
+    <img src="sample/screenshots/Menu Theme 1.png" width="100">
 </p>
 
 [ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
