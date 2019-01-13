@@ -23,6 +23,9 @@ Framework to enjoy, improve and speed up your application development while writ
 
 # Getting Started
 
+Good way to start with the framework, is to download it togather with sample application, open in Android Studio and run while 
+look at how som parts are written. Code is quite readable and in this documentation will i show snippets from sample application and framework to explain how ti can be used.
+
 ## Sample Application:
 <p align="center">
     <img src="sample/screenshots/Menu Theme 1.png" width="100">
@@ -32,7 +35,6 @@ Framework to enjoy, improve and speed up your application development while writ
     <img src="sample/screenshots/Log.png" width="100">
     <img src="sample/screenshots/Dynamic Menu Remove.png" width="100">
 </p>
-
 
 [ ![Core](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:framework/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:framework/_latestVersion)
 
