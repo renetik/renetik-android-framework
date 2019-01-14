@@ -253,8 +253,8 @@ This all code you need to make fully functional list with loaded items from your
     }
 ```
 Here is how layout for list is made, there are special styles in framewrok that make xml layout files quite readable too.
-```kotlin
-    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
+```xml
+        <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
 
         <ListView
             android:id="@+id/SampleList_List"
@@ -263,7 +263,6 @@ Here is how layout for list is made, there are special styles in framewrok that 
         <TextView
             android:id="@+id/SampleList_ListEmpty"
             style="@style/CSWrap"
-            android:layout_gravity="center"
             android:text="No items in list"
             android:textAppearance="@style/CSTextHeadline6"
             android:textColor="@color/cs_dark_grey_text" />
