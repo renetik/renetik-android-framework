@@ -114,7 +114,17 @@ There are also some helper methods that use this class for delegation and decupl
 ## Themes
 <p align="center">
     <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
+    <img src="sample/screenshots/Themes2.png" width="100">
+    <img src="sample/screenshots/Themes Apply.png" width="100">
+</p>
+# Then varioius default styles
+<p align="center">
+    <img src="sample/screenshots/Menu Theme 1.png" width="100">
+    <img src="sample/screenshots/Menu Theme 2.png" width="100">
+    <img src="sample/screenshots/Menu Theme 3.png" width="100">
+    <img src="sample/screenshots/Menu Theme 4.png" width="100">
+    <img src="sample/screenshots/Menu Theme 5.png" width="100">
+    <img src="sample/screenshots/Menu Theme 6.png" width="100">
 </p>
 
 [ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
@@ -258,7 +268,7 @@ dependencies {
 ## Imaging
 <p align="center">
     <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
+    <img src="sample/screenshots/Themes2.png" width="100">
 </p>
 
 [ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
