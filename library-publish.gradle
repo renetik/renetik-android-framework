@@ -27,7 +27,7 @@ publish {
     groupId = 'renetik.android'
     uploadName = "renetik-android:$publish_module_name"
     artifactId = publish_module_name
-    publishVersion = '1.0.1-rc3'
+    publishVersion = '1.0.1-rc4'
     desc = 'Android framework for development with pleasure'
     website = 'https://github.com/rene-dohan/renetik-android'
     dryRun = false

@@ -5,8 +5,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/SampleGetPictureItem_ImageButton"
-        style="@style/CSGridItemCardMatchWrap"
-        android:clickable="true">
+        style="@style/CSGridItemCardMatchWrap">
 
         <ImageView
             android:id="@+id/SampleGetPictureItem_Image"

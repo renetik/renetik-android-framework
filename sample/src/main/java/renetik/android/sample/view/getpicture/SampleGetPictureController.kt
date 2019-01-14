@@ -12,6 +12,7 @@ import renetik.android.extensions.textView
 import renetik.android.getpicture.CSGetPictureController
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
+import renetik.android.listview.onItemClick
 import renetik.android.listview.actions.CSRemoveListRowsController
 import renetik.android.listview.emptyView
 import renetik.android.material.extensions.floatingButton
@@ -31,7 +32,7 @@ class SampleGetPictureController(title: String)
         CSRowView(this, layout(R.layout.sample_getpicture_item)) { data ->
             imageView(R.id.SampleGetPictureItem_Image).image(data.image.value)
         }
-    }.onItemClick(R.id.SampleGetPictureItem_ImageButton) { row ->
+    }.onItemClick { row ->
         dialog("Image detail").showView(R.layout.sample_getpicture_item)
                 .imageView(R.id.SampleGetPictureItem_Image).image(row.data.image.value)
     }.emptyView(R.id.SampleGetPicture_ListEmpty)

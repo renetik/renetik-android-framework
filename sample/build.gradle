@@ -16,15 +16,15 @@ android {
         applicationId "renetik.android.sample"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.5"
         resValue "string", "maps_api_key", mapsApiKey
     }
 }
 
 dependencies {
-//    implementation project(':renetik-android-framework')
-    implementation 'renetik.android:framework:1.0.1-rc3'
+    implementation project(':renetik-android-framework')
+//    implementation 'renetik.android:framework:1.0.1-rc3'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
     implementation "com.google.android.gms:play-services-maps:$play_version"
