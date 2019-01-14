@@ -12,9 +12,9 @@ Framework to enjoy, improve and speed up your application development while writ
 2. [Base](#base)
 3. [Themes](#themes)
 4. [Controller](#controller)
-5. [List](#list)
-6. [Get Picture](#get-picture)
-7. [Maps](#maps)
+5. [List and Grid Controller](#list)
+6. [Get Picture Controller](#get-picture)
+7. [Maps Controller](#maps)
 8. [Dialog](#dialogs)
 9. [Json](#json)
 10. [Client](#client)
@@ -56,7 +56,7 @@ dependencies {
 }
 ```
 Then you need to create class that extends CSApplication and add it to Manifest.
-```gradle
+```kotlin
 class SampleApplication : CSApplication() {
     override val isDebugBuild = DEBUG
 }
@@ -83,7 +83,7 @@ dependencies {
 }
 ```
 Most notable class is CSEvent. It's usage can be understood by looking at this test:
-```gradle
+```kotlin
     private var eventOneCounter = 0
     private var eventOneValue = ""
     private val eventOne = event<String>()
@@ -122,7 +122,7 @@ dependencies {
 The `controller` module contains basic mvc fuctionality fro building nice applicartion without relying on Android concepts
 like Activities and Fragments, but still you can use them if needed. Most important class is CSViewController and also CSNavigationController packed with extensionsto do many thing more elegantly then is coomon. Loog at this implementation of Navigation controller from one project.
 
-```gradle
+```kotlin
 class DriverNavigationController(activity: NavigationActivity) : CSNavigationController(activity) {
 
     val mapController = CSMapController(this)
@@ -168,16 +168,16 @@ Yo can see there are used extensions to request permisions with callbacks. And s
     <img src="sample/screenshots/Menu Theme 6.png" width="100">
 </p>
 
-The `themes` module contains Themes controller and default themes with some code that initialize it. 
+The `controller-themes` module contains Themes controller and default themes with some code that initialize it. 
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.afollestad.material-dialogs:controller-themes:$renetik_version'
+  implementation 'renetik.android:controller-themes:$renetik_version'
 }
 ```
 You initialized themes before view is created, in example I do it like this:
-```gradle
+```kotlin
 class SampleNavigationActivity : CSActivity() {
     override fun createController(): CSNavigationController {
         CSThemes.initialize(this)
@@ -186,11 +186,11 @@ class SampleNavigationActivity : CSActivity() {
 }
 ```
 Then you can show build in theme chooser controller or create you own:
-```gradle
+```kotlin
 CSThemeChooserController(navigation).push()
 ```
 As well as you can create your own themes instead of default ones. Example theme from themes.xml:
-```gradle
+```xml
  <style name="CSThemeCyan" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">#00363a</item>
         <item name="colorPrimaryVariant">#006064</item>
@@ -201,5 +201,74 @@ As well as you can create your own themes instead of default ones. Example theme
 </style>
 ```
 You can then pass list with themes to `CSThemes.initialize(this)` as second parameter.
+
+## List
+[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:controller-list/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:controller-list/_latestVersion)
+
+<p align="center">
+    <img src="sample/screenshots/Simple List.png" width="100">
+    <img src="sample/screenshots/Simple List Add.png" width="100">
+    <img src="sample/screenshots/Simple List Edit.png" width="100">
+    <img src="sample/screenshots/Simple List Search.png" width="100">
+</p>
+
+The `controller-list` module contains principal list controller andother controllers and for other use cases like list actions, loading of reqeuests, loadnext after scrooll, search, so all this repetuos tasks can be implemented with nice simple code. 
+
+```gradle
+dependencies {
+  ...
+  implementation 'renetik.android:controller-list:$renetik_version'
+}
+```
+Basic list or grid controller can be seen in sample application.
+This all code you need to make fully functional list with loaded items from your model list, functional search residing in action bar, and possibility to remove items by long click and selection remove like you see in pictures. Also with list is empty text view displaying.
+```kotlin
+    private val listController = CSListController<ListItem, ListView>(this, R.id.SampleList_List) {
+        CSRowView(this, layout(R.layout.sample_list_item)) { row ->
+            textView(R.id.header).title(row.time)
+            textView(R.id.title).title(row.title)
+            textView(R.id.subtitle).title(row.subtitle)
+        }
+    }.onItemClick { rowView -> snackBarInfo("SampleListItemView clicked ${rowView.data.title}") }
+            .emptyView(R.id.SampleList_ListEmpty)
+    private val searchController = CSSearchController(this) { reloadList() }
+    
+    init {
+        menuItem(searchController.view)
+        CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
+            toRemove.forEach { item -> model.sampleList.remove(item) }
+            model.save()
+            listController.reload(model.sampleList.list)
+        }
+        reloadList()
+    }
+    
+    private fun reloadList() {
+        listController.reload(
+                if (searchController.text.isEmpty()) model.sampleList.list
+                else list<ListItem>().apply {
+                    for (row in model.sampleList)
+                        if (row.searchableText.contains(searchController.text, ignoreCase = true)) add(row)
+                })
+    }
+```
+Here is how layout for list is made, there are special styles in framewrok that make xml layout files quite readable too.
+```kotlin
+    <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
+
+        <ListView
+            android:id="@+id/SampleList_List"
+            style="@style/CSListMatch" />
+
+        <TextView
+            android:id="@+id/SampleList_ListEmpty"
+            style="@style/CSWrap"
+            android:layout_gravity="center"
+            android:text="No items in list"
+            android:textAppearance="@style/CSTextHeadline6"
+            android:textColor="@color/cs_dark_grey_text" />
+
+    </com.google.android.material.card.MaterialCardView>
+```
 
 # To be continued.....
