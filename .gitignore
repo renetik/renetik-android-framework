@@ -42,3 +42,4 @@ build_file_checksums.ser
 .idea
 .git.bfg-report
 fabric.properties
+sample/release
