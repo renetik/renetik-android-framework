@@ -112,15 +112,13 @@ There are also some helper methods that use this class for delegation and decupl
 
 
 ## Themes
-[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:themes/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:themes/_latestVersion)
+[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:controller-themes/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:controller-themes/_latestVersion)
 
 <p align="center">
     <img src="sample/screenshots/Themes.png" width="100">
     <img src="sample/screenshots/Themes2.png" width="100">
     <img src="sample/screenshots/Themes Apply.png" width="100">
 </p>
-
-# Then varioius default styles
 <p align="center">
     <img src="sample/screenshots/Menu Theme 1.png" width="100">
     <img src="sample/screenshots/Menu Theme 2.png" width="100">
@@ -130,16 +128,37 @@ There are also some helper methods that use this class for delegation and decupl
     <img src="sample/screenshots/Menu Theme 6.png" width="100">
 </p>
 
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
+The `themes` module contains Themes controller and default themes with some code that initialize it. 
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
+  implementation 'com.afollestad.material-dialogs:controller-themes:$renetik_version'
 }
+```
+You initialized themes before view is created, in example I do it like this:
+```gradle
+class SampleNavigationActivity : CSActivity() {
+    override fun createController(): CSNavigationController {
+        CSThemes.initialize(this)
+        return SampleNavigation(this)
+    }
+}
+```
+Then you can show build in theme chooser controller or create you own:
+```gradle
+CSThemeChooserController(navigation).push()
+```
+As well as you can create your own themes instead of default ones. Example theme from themes.xml:
+```gradle
+ <style name="CSThemeCyan" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#00363a</item>
+        <item name="colorPrimaryVariant">#006064</item>
+        <item name="colorSecondary">#4dd0e1</item>
+        <item name="colorSecondaryVariant">#88ffff</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#000000</item>
+</style>
 ```
 
 ## Controller
