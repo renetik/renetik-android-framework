@@ -288,7 +288,7 @@ Made by this code:
 val listController = CSRequestListController<ServerListItem, ListView>(this, R.id.SamplePageList_List) {
         CSRowView(this, layout(R.layout.sample_page_list_item)) { row -> view.loadPageListItem(row) }
     }.onReload { progress ->
-        model.server.loadSampleList(1).send(getString(R.string.SampleDynamicMenu_Text), progress)
+        model.server.loadSampleList(page =  1).send(getString(R.string.SampleDynamicMenu_Text), progress)
     }.onItemClick { view ->
         dialog("List item:").showView(R.layout.sample_page_list_item).loadPageListItem(view.data)
     }.emptyView(R.id.SamplePageList_ListEmpty)
