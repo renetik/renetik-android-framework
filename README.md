@@ -112,11 +112,14 @@ There are also some helper methods that use this class for delegation and decupl
 
 
 ## Themes
+[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:themes/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:themes/_latestVersion)
+
 <p align="center">
     <img src="sample/screenshots/Themes.png" width="100">
     <img src="sample/screenshots/Themes2.png" width="100">
     <img src="sample/screenshots/Themes Apply.png" width="100">
 </p>
+
 # Then varioius default styles
 <p align="center">
     <img src="sample/screenshots/Menu Theme 1.png" width="100">
