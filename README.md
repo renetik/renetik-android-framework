@@ -222,7 +222,7 @@ dependencies {
 ```
 Basic list or grid controller can be seen in sample application.
 This all code you need to make fully functional list with loaded items from your model list, functional search residing in action bar, and possibility to remove items by long click and selection remove like you see in pictures. Also with list is empty text view displaying.
-```kotlin
+```java
     private val listController = CSListController<ListItem, ListView>(this, R.id.SampleList_List) {
         CSRowView(this, layout(R.layout.sample_list_item)) { row ->
             textView(R.id.header).title(row.time)
