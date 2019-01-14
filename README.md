@@ -111,6 +111,46 @@ Most notable class is CSEvent. It's usage can be understood by looking at this t
 There are also some helper methods that use this class for delegation and decupling, most intresting example of usage is seen in [Maps](#maps) module for automatic cancelation of listeners when view controller is hidden. 
 
 
+## Controller
+[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:controller/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:controller/_latestVersion)
+```gradle
+dependencies {
+  ...
+  implementation 'renetik.android:controller:$renetik_version'
+}
+```
+The `controller` module contains basic mvc fuctionality fro building nice applicartion without relying on Android concepts
+like Activities and Fragments, but still you can use them if needed. Most important class is CSViewController and also CSNavigationController packed with extensionsto do many thing more elegantly then is coomon. Loog at this implementation of Navigation controller from one project.
+
+```gradle
+class DriverNavigationController(activity: NavigationActivity) : CSNavigationController(activity) {
+
+    val mapController = CSMapController(this)
+
+    override fun onViewShowingFirstTime() {
+        super.onViewShowingFirstTime()
+        requestDriverApplicationPermissions()
+    }
+
+    private fun requestDriverApplicationPermissions() {
+        requestPermissions(list(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, ACCESS_FINE_LOCATION,
+                CAMERA),
+                onGranted = { StoppedRoutesController().push() },
+                onNotGranted = {
+                    dialog("Application cannot work without this permissions",
+                            "You need to allow application to use this permissions to work or it will exit")
+                            .show("Allow permissions", { requestDriverApplicationPermissions() },
+                                    "Exit", { activity().finish() })
+                })
+    }
+
+    override val navigationItemTitle = "Reality Driver"
+}
+
+```
+Yo can see there are used extensions to request permisions with callbacks. And special function onViewShowingFirstTime that is called exactly how it's named. To be continued... 
+
+
 ## Themes
 [ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:controller-themes/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:controller-themes/_latestVersion)
 
@@ -160,24 +200,7 @@ As well as you can create your own themes instead of default ones. Example theme
         <item name="colorOnSecondary">#000000</item>
 </style>
 ```
-
-## Controller
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
-```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
-```
+You can then pass list with themes to `CSThemes.initialize(this)` as second parameter.
 
 ## List
 <p align="center">
