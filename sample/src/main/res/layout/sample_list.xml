@@ -19,7 +19,6 @@
         <TextView
             android:id="@+id/SampleList_ListEmpty"
             style="@style/CSWrap"
-            android:layout_gravity="center"
             android:text="No items in list"
             android:textAppearance="@style/CSTextHeadline6"
             android:textColor="@color/cs_dark_grey_text" />

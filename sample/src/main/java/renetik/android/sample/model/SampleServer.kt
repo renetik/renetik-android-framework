@@ -17,9 +17,9 @@ class SampleServer : CSServerWithPing {
     private val client = CSOkHttpClient(SERVER_URL)
             .apply { basicAuthenticatorHeader("Authorization", USERNAME, PASSWORD) }
 
-    fun loadSampleList(pageNumber: Int) = CSPingRequest(this) {
+    fun loadSampleList(page: Int) = CSPingRequest(this) {
         client.get(this, "sampleList", CSListServerData("list", ServerListItem::class)
-                , map("pageNumber", "$pageNumber"))
+                , map("pageNumber", "$page"))
     }
 
     fun addSampleListItem(item: ServerListItem) = CSPingRequest(this) {

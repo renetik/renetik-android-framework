@@ -30,35 +30,35 @@ import renetik.android.view.extensions.title
 class SamplePageListController(parent: CSViewController<ViewGroup>, title: String)
     : CSViewController<View>(parent, layout(R.layout.sample_page_list)), CSPagerPage {
 
-    val listController = CSRequestListController<ServerListItem, ListView>(this, R.id.SamplePageList_List) {
-        CSRowView(this, layout(R.layout.sample_page_list_item)) { row -> view.loadPageListItem(row) }
-    }.onReload { progress ->
-        model.server.loadSampleList(1).send(getString(R.string.SampleDynamicMenu_Text), progress)
-    }.onItemClick { view ->
-        dialog("List item:").showView(R.layout.sample_page_list_item).loadPageListItem(view.data)
-    }.emptyView(R.id.SamplePageList_ListEmpty)
+        val listController = CSRequestListController<ServerListItem, ListView>(this, R.id.SamplePageList_List) {
+            CSRowView(this, layout(R.layout.sample_page_list_item)) { row -> view.loadPageListItem(row) }
+        }.onReload { progress ->
+            model.server.loadSampleList(page =  1).send(getString(R.string.SampleDynamicMenu_Text), progress)
+        }.onItemClick { view ->
+            dialog("List item:").showView(R.layout.sample_page_list_item).loadPageListItem(view.data)
+        }.emptyView(R.id.SamplePageList_ListEmpty)
 
-    init {
-        CSRequestListLoadNextController(listController, R.layout.cs_list_load_next) {
-            model.server.loadSampleList(it.pageNumber).send("Loading list items", progress = false)
+        init {
+            CSRequestListLoadNextController(listController, R.layout.cs_list_load_next) {
+                model.server.loadSampleList(it.pageNumber).send("Loading list items", progress = false)
+            }
+            CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
+                model.server.deleteSampleListItems(toRemove).sendWithProgress("Deleting list item")
+                        .onSuccess { listController.reload(progress = true).forceNetwork() }
+            }
+            swipeRefresh(R.id.SamplePageList_Pull).listController(listController)
         }
-        CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
-            model.server.deleteSampleListItems(toRemove).sendWithProgress("Deleting list item")
-                    .onSuccess { listController.reload(progress = true).forceNetwork() }
+
+        override fun onViewShowingFirstTime() {
+            super.onViewShowingFirstTime()
+            listController.reload(progress = true).forceNetwork()
         }
-        swipeRefresh(R.id.SamplePageList_Pull).listController(listController)
-    }
 
-    override fun onViewShowingFirstTime() {
-        super.onViewShowingFirstTime()
-        listController.reload(progress = true).forceNetwork()
-    }
-
-    private fun View.loadPageListItem(row: ServerListItem) = apply {
-        imageView(R.id.SamplePageListItem_Image).image(row.image)
-        textView(R.id.SamplePageListItem_Title).title(row.name)
-        textView(R.id.SamplePageListItem_Subtitle).title(row.description)
-    }
+        private fun View.loadPageListItem(row: ServerListItem) = apply {
+            imageView(R.id.SamplePageListItem_Image).image(row.image)
+            textView(R.id.SamplePageListItem_Title).title(row.name)
+            textView(R.id.SamplePageListItem_Subtitle).title(row.description)
+        }
 
     override val pagerPageTitle = title
 }
