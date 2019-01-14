@@ -58,13 +58,14 @@ dependencies {
 ```
 Then you need to create class that extends CSApplication and add it to Manifest.
 ```kotlin
+import renetik.android.sample.BuildConfig.DEBUG
+
 class SampleApplication : CSApplication() {
     override val isDebugBuild = DEBUG
 }
-
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="renetik.android.sample">
-
+```
+```xml
+<manifest 
     ...
     <application
         android:name=".model.SampleApplication"
