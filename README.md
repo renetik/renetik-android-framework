@@ -108,7 +108,7 @@ Most notable class is CSEvent. It's usage can be understood by looking at this t
         assertEquals("testOne", eventOneValue)
     }
 ```
-
+There are also some helper methods that use this class for delegation and decupling, most intresting example of usage is seen in #maps module for automatic cancelation of listeners whe view controller is hidden. 
 
 
 ## Themes
