@@ -52,7 +52,7 @@ The `framework` module contains everything in this library. So it's convenient w
 ```gradle
 dependencies {
   ...
-  implementation 'renetik.android:framework:1.0.1-rc1'
+  implementation 'renetik.android:framework:$renetik_version'
 }
 ```
 Then you need to create class that extends CSApplication and add it to Manifest.
@@ -72,195 +72,134 @@ class SampleApplication : CSApplication() {
 Most if not all library classes are prefixed with CS, so they can be easyly recognized and found. 
 
 ## Base
+[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:base/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:base/_latestVersion)
 
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
+The `base` module contains various extensions and classes used across the framework. 
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
+  implementation 'renetik.android:base:$renetik_version'
 }
 ```
-
-## Themes
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
+Most notable class is CSEvent. It's usage can be understood by looking at this test:
 ```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
+    private var eventOneCounter = 0
+    private var eventOneValue = ""
+    private val eventOne = event<String>()
+    @Test
+    fun twoListenersCancelBothInSecond() {
+        val eventOneRegistration = eventOne.run { _, value ->
+            eventOneCounter++
+            eventOneValue = value
+        }
+        eventOne.run { registration, value ->
+            eventOneCounter++
+            eventOneValue = value
+            registration.cancel()
+            eventOneRegistration.cancel()
+        }
+        eventOne.fire("testOne")
+        assertEquals(2, eventOneCounter)
+        assertEquals("testOne", eventOneValue)
+
+        eventOne.fire("testTwo")
+        assertEquals(2, eventOneCounter)
+        assertEquals("testOne", eventOneValue)
+    }
 ```
+There are also some helper methods that use this class for delegation and decupling, most intresting example of usage is seen in [Maps](#maps) module for automatic cancelation of listeners when view controller is hidden. 
+
 
 ## Controller
+[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:controller/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:controller/_latestVersion)
+```gradle
+dependencies {
+  ...
+  implementation 'renetik.android:controller:$renetik_version'
+}
+```
+The `controller` module contains basic mvc fuctionality fro building nice applicartion without relying on Android concepts
+like Activities and Fragments, but still you can use them if needed. Most important class is CSViewController and also CSNavigationController packed with extensionsto do many thing more elegantly then is coomon. Loog at this implementation of Navigation controller from one project.
+
+```gradle
+class DriverNavigationController(activity: NavigationActivity) : CSNavigationController(activity) {
+
+    val mapController = CSMapController(this)
+
+    override fun onViewShowingFirstTime() {
+        super.onViewShowingFirstTime()
+        requestDriverApplicationPermissions()
+    }
+
+    private fun requestDriverApplicationPermissions() {
+        requestPermissions(list(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, ACCESS_FINE_LOCATION,
+                CAMERA),
+                onGranted = { StoppedRoutesController().push() },
+                onNotGranted = {
+                    dialog("Application cannot work without this permissions",
+                            "You need to allow application to use this permissions to work or it will exit")
+                            .show("Allow permissions", { requestDriverApplicationPermissions() },
+                                    "Exit", { activity().finish() })
+                })
+    }
+
+    override val navigationItemTitle = "Reality Driver"
+}
+
+```
+Yo can see there are used extensions to request permisions with callbacks. And special function onViewShowingFirstTime that is called exactly how it's named. To be continued... 
+
+
+## Themes
+[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:controller-themes/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:controller-themes/_latestVersion)
+
 <p align="center">
     <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
+    <img src="sample/screenshots/Themes2.png" width="100">
+    <img src="sample/screenshots/Themes Apply.png" width="100">
+</p>
+<p align="center">
+    <img src="sample/screenshots/Menu Theme 1.png" width="100">
+    <img src="sample/screenshots/Menu Theme 2.png" width="100">
+    <img src="sample/screenshots/Menu Theme 3.png" width="100">
+    <img src="sample/screenshots/Menu Theme 4.png" width="100">
+    <img src="sample/screenshots/Menu Theme 5.png" width="100">
+    <img src="sample/screenshots/Menu Theme 6.png" width="100">
 </p>
 
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
+The `themes` module contains Themes controller and default themes with some code that initialize it. 
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
+  implementation 'com.afollestad.material-dialogs:controller-themes:$renetik_version'
 }
 ```
-
-## List
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
+You initialized themes before view is created, in example I do it like this:
 ```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
+class SampleNavigationActivity : CSActivity() {
+    override fun createController(): CSNavigationController {
+        CSThemes.initialize(this)
+        return SampleNavigation(this)
+    }
 }
 ```
-
-## Get Picture
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
+Then you can show build in theme chooser controller or create you own:
 ```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
+CSThemeChooserController(navigation).push()
 ```
-
-## Json
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
+As well as you can create your own themes instead of default ones. Example theme from themes.xml:
 ```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
+ <style name="CSThemeCyan" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#00363a</item>
+        <item name="colorPrimaryVariant">#006064</item>
+        <item name="colorSecondary">#4dd0e1</item>
+        <item name="colorSecondaryVariant">#88ffff</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorOnSecondary">#000000</item>
+</style>
 ```
+You can then pass list with themes to `CSThemes.initialize(this)` as second parameter.
 
-## Client
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
-```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
-```
-
-## Client OKHTTP3
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
-```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
-```
-
-## Crashlitics
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
-```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
-```
-
-## Imaging
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
-```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
-```
-
-## Material
-<p align="center">
-    <img src="sample/screenshots/Themes.png" width="100">
-    <img src="sample/screenshots/Themes.png" width="100">
-</p>
-
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
-
-```gradle
-dependencies {
-  ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
-}
-```
+# To be continued.....
