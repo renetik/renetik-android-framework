@@ -5,13 +5,14 @@ import renetik.android.logging.CSLog.logError
 import renetik.android.java.collections.list
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.collections.delete
+import renetik.android.java.extensions.isEmpty
 
 class CSEventImpl<T> : CSEvent<T> {
 
     private var registrations = list<EventRegistrationImpl>()
     private var toRemove = list<EventRegistrationImpl>()
     private var toAdd = list<EventRegistrationImpl>()
-    private var running: Boolean = false
+    private var running = false
 
     override fun run(listener: (CSEventRegistration, T) -> Unit): CSEventRegistration {
         val registration = EventRegistrationImpl(listener)
