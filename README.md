@@ -269,7 +269,18 @@ Here is how layout for list is made, there are special styles in framewrok that 
 
     </com.google.android.material.card.MaterialCardView>
 ```
-Simillarily there is CSRequestListController that supports CSRequest classes for loading data from server , loading next functionality swipe to refresh and already mentioned classes can be seen here in action:
+
+## Request List
+Simillarily there is CSRequestListController in `controller-list` module that supports CSRequest classes from `client` module for loading data from server , loading next functionality swipe to refresh and already mentioned classes can be seen here in action:
+
+<p align="center">
+    <img src="sample/screenshots/Request List Pull.png" width="100">
+    <img src="sample/screenshots/Request List Add.png" width="100">
+    <img src="sample/screenshots/Request List Detail.png" width="100">
+    <img src="sample/screenshots/Request List Load.png" width="100">
+</p>
+
+Made by this code:
 
 ```kotlin
 val listController = CSRequestListController<ServerListItem, ListView>(this, R.id.SamplePageList_List) {
