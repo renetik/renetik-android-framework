@@ -222,7 +222,7 @@ dependencies {
 ```
 Basic list or grid controller can be seen in sample application.
 This all code you need to make fully functional list with loaded items from your model list, functional search residing in action bar, and possibility to remove items by long click and selection remove like you see in pictures. Also with list is empty text view displaying.
-```
+```kotlin
     private val listController = CSListController<ListItem, ListView>(this, R.id.SampleList_List) {
         CSRowView(this, layout(R.layout.sample_list_item)) { row ->
             textView(R.id.header).title(row.time)
@@ -253,7 +253,7 @@ This all code you need to make fully functional list with loaded items from your
     }
 ```
 Here is how layout for list is made, there are special styles in framewrok that make xml layout files quite readable too.
-```
+```xml
         <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
 
         <ListView
@@ -269,5 +269,38 @@ Here is how layout for list is made, there are special styles in framewrok that 
 
     </com.google.android.material.card.MaterialCardView>
 ```
+Simillarily there is CSRequestListController that supports CSRequest classes for loading data from server , loading next functionality swipe to refresh and already mentioned classes can be seen here in action:
 
+```kotlin
+val listController = CSRequestListController<ServerListItem, ListView>(this, R.id.SamplePageList_List) {
+        CSRowView(this, layout(R.layout.sample_page_list_item)) { row -> view.loadPageListItem(row) }
+    }.onReload { progress ->
+        model.server.loadSampleList(1).send(getString(R.string.SampleDynamicMenu_Text), progress)
+    }.onItemClick { view ->
+        dialog("List item:").showView(R.layout.sample_page_list_item).loadPageListItem(view.data)
+    }.emptyView(R.id.SamplePageList_ListEmpty)
+
+    init {
+        CSRequestListLoadNextController(listController, R.layout.cs_list_load_next) {
+            model.server.loadSampleList(it.pageNumber).send("Loading list items", progress = false)
+        }
+        CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
+            model.server.deleteSampleListItems(toRemove).sendWithProgress("Deleting list item")
+                    .onSuccess { listController.reload(progress = true).forceNetwork() }
+        }
+        swipeRefresh(R.id.SamplePageList_Pull).listController(listController)
+    }
+
+    override fun onViewShowingFirstTime() {
+        super.onViewShowingFirstTime()
+        listController.reload(progress = true).forceNetwork()
+    }
+
+    private fun View.loadPageListItem(row: ServerListItem) = apply {
+        imageView(R.id.SamplePageListItem_Image).image(row.image)
+        textView(R.id.SamplePageListItem_Title).title(row.name)
+        textView(R.id.SamplePageListItem_Subtitle).title(row.description)
+    }
+```
+ 
 # To be continued.....
