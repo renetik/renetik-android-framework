@@ -1,16 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-if (project.file('fabric.properties').exists()) {
-    apply plugin: 'io.fabric'
-} else println("For fabric to work create fabric.properties with apiSecret")
-
 apply from: '../common.gradle'
 
 def mapsApiKey = localProperties().getProperty('com.google.android.geo.API_KEY')
 if (mapsApiKey == null) mapsApiKey = "Place com.google.android.geo.API_KEY to local.properties"
-
-def fabricApiKey = localProperties().getProperty('io.fabric.ApiKey')
-if (fabricApiKey == null) fabricApiKey = "Place io.fabric.ApiKey to local.properties"
 
 android {
     compileSdkVersion 28
@@ -26,7 +19,6 @@ android {
         versionCode 3
         versionName "1.0.2"
         resValue "string", "maps_api_key", mapsApiKey
-        resValue "string", "fabric_api_key", fabricApiKey
     }
 }
 

@@ -13,9 +13,4 @@ val model by lazy { application.store.load(SampleModel::class, MODEL_KEY) }
 class SampleApplication : CSApplication() {
     override val isDebugBuild = DEBUG
     override val logger by lazy { CrashlyticsLogger() }
-    override fun onCreate() {
-        super.onCreate()
-        startFabricCrashlytics()
-        startFabricAnswers()
-    }
 }
