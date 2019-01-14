@@ -52,7 +52,7 @@ The `framework` module contains everything in this library. So it's convenient w
 ```gradle
 dependencies {
   ...
-  implementation 'renetik.android:framework:1.0.1-rc1'
+  implementation 'renetik.android:framework:$renetik_version'
 }
 ```
 Then you need to create class that extends CSApplication and add it to Manifest.
@@ -72,18 +72,44 @@ class SampleApplication : CSApplication() {
 Most if not all library classes are prefixed with CS, so they can be easyly recognized and found. 
 
 ## Base
+[ ![Base](https://api.bintray.com/packages/rene-dohan/maven/renetik-android:base/images/download.svg) ](https://bintray.com/rene-dohan/maven/renetik-android:base/_latestVersion)
 
-[ ![Core](https://api.bintray.com/packages/drummer-aidan/maven/material-dialogs%3Acore/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-dialogs%3Acore/_latestVersion)
-
-The `core` module contains everything you need to get started with the library. It contains all
-core and normal-use functionality.
+The `base` module contains various extensions and classes used across the framework. 
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.afollestad.material-dialogs:core:2.0.0-rc7'
+  implementation 'renetik.android:base:$renetik_version'
 }
 ```
+Most notable class is CSEvent. It's usage can be understood by looking at this test:
+```gradle
+    private var eventOneCounter = 0
+    private var eventOneValue = ""
+    private val eventOne = event<String>()
+    @Test
+    fun twoListenersCancelBothInSecond() {
+        val eventOneRegistration = eventOne.run { _, value ->
+            eventOneCounter++
+            eventOneValue = value
+        }
+        eventOne.run { registration, value ->
+            eventOneCounter++
+            eventOneValue = value
+            registration.cancel()
+            eventOneRegistration.cancel()
+        }
+        eventOne.fire("testOne")
+        assertEquals(2, eventOneCounter)
+        assertEquals("testOne", eventOneValue)
+
+        eventOne.fire("testTwo")
+        assertEquals(2, eventOneCounter)
+        assertEquals("testOne", eventOneValue)
+    }
+```
+
+
 
 ## Themes
 <p align="center">
