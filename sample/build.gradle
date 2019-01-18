@@ -17,8 +17,8 @@ android {
         applicationId "renetik.android.sample"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.0.6"
+        versionCode 7
+        versionName "1.0.7"
         resValue "string", "maps_api_key", mapsApiKey
     }
 }
