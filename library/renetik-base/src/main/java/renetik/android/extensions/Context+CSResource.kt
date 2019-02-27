@@ -16,6 +16,7 @@ import renetik.android.java.extensions.isEmpty
 import renetik.android.java.extensions.stringify
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
+import java.io.InputStream
 
 fun Context.color(value: Int): Int {
     return tryAndCatch(NotFoundException::class, { application.resourceColor(value) }, {
@@ -25,7 +26,7 @@ fun Context.color(value: Int): Int {
 
 fun Context.resourceColor(color: Int) = ContextCompat.getColor(this, color)
 
-fun Context.resourceString(id: Int) = resources.getString(id)
+//fun Context.resourceString(id: Int) = resources.getString(id)
 
 fun Context.resourceBytes(id: Int) = tryAndWarn {
     val stream = resources.openRawResource(id)
@@ -87,3 +88,12 @@ fun Context.stringFromAttribute(styleable: IntArray, styleableAttribute: Int): S
 fun Context.resourceFromAttribute(attribute: Int) = resolveAttribute(attribute).resourceId.apply {
     if (isEmpty) throw NotFoundException()
 }
+
+fun Context.openAsset(path: String): InputStream {
+    return assets.open(path)
+}
+
+fun Context.readAsset(path: String): String {
+    return openAsset(path).bufferedReader().use { it.readText() }
+}
+

@@ -70,17 +70,17 @@
         <item name="android:textAppearance">@style/CSTextTitleOverline</item>
     </style>
 
-    <style name="CSHorizontalLayoutMatchWrap">
-        <item name="android:orientation">horizontal</item>
-        <item name="android:baselineAligned">false</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
     <style name="CSVerticalLayoutMatchWrap">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="CSVerticalLayoutMatchFill">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="CSVerticalLayoutWrap">
@@ -92,14 +92,20 @@
     <style name="CSVerticalLayoutMatch">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:orientation">vertical</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="CSVerticalLayoutMatchFill">
+    <style name="CSHorizontalLayoutMatchWrap">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:baselineAligned">false</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSHorizontalLayoutMatch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="CSPageTitleCard" parent="Widget.MaterialComponents.CardView">
@@ -206,7 +212,7 @@
     </style>
 
     <style name="CSButtonSecondaryMatchWrap" parent="CSButtonMatchWrap">
-        <item name="backgroundTint">?attr/colorSecondaryVariant</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 

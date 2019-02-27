@@ -58,7 +58,7 @@ class CSDialog : CSContextController {
                 .neutralColorAttr(R.attr.colorPrimary)
                 .negativeColorAttr(R.attr.colorOnSurface)
                 .widgetColorAttr(R.attr.colorPrimaryVariant) //textField line
-                .buttonRippleColorAttr(R.attr.colorSecondaryVariant)
+                .buttonRippleColorAttr(R.attr.colorPrimaryVariant)
     }
 
     private fun updateIcon() {

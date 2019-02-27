@@ -33,4 +33,3 @@ fun File.createDatedFile(extension: String): File {
     mkdirs()
     return createTempFile(Date().format("yyyy-MM-dd_HH-mm-ss"), ".$extension", this)
 }
-
