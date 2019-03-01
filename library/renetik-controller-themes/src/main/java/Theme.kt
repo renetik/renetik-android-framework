@@ -13,7 +13,7 @@ class CSThemes {
         var currentThemeIndex: Int? = null
         val availableThemes = default
 
-        fun theme(index: Int) = availableThemes.at(index)!!
+        fun theme(index: Int) = availableThemes.at(index) ?: availableThemes[0]
         val currentTheme get() = theme(currentThemeIndex!!)
 
         fun initialize(activity: Activity, themes: List<CSTheme>? = null) {
