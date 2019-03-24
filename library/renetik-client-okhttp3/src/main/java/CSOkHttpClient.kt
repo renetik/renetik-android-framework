@@ -78,7 +78,7 @@ fun CSOkHttpClient.get(request: CSRequest<CSServerData>? = null, url: String, pa
 fun <ServerDataType : CSServerData> CSOkHttpClient.get(request: CSRequest<*>?, action: String, data: ServerDataType, params: CSMap<String, String> = map()) =
         CSResponse("$url/$action", data).also { response ->
             val builder = get(response.url).addQueryParameter(params)
-            if (request?.isforceNetwork.isTrue) builder.responseOnlyFromNetwork
+            if (request?.isForceNetwork.isTrue) builder.responseOnlyFromNetwork
             builder.build().apply {
                 logInfo("get $url")
                 getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
