@@ -22,8 +22,15 @@ import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.remove
 
+lateinit var navigation: CSNavigationController
+
 open class CSNavigationController(activity: CSActivity)
     : CSViewController<FrameLayout>(activity, layout(R.layout.cs_navigation)), CSNavigationItem {
+
+    override fun onCreate() {
+        super.onCreate()
+        navigation = this
+    }
 
     open var controllers = list<CSViewController<*>>()
 
@@ -89,8 +96,8 @@ open class CSNavigationController(activity: CSActivity)
     }
 
     private fun updateBarIcon() {
-        (controllers.last as? CSNavigationItem)?.navigationItemIcon?.let { lastControllerItemIcon ->
-            setActionBarIcon(lastControllerItemIcon)
+        (controllers.last as? CSNavigationItem)?.navigationItemIcon?.let { icon ->
+            setActionBarIcon(icon)
         } ?: let {
             navigationItemIcon?.let { icon -> setActionBarIcon(icon) }
                     ?: setActionBarIcon(applicationLogo ?: applicationIcon)
