@@ -20,7 +20,7 @@ class SampleNavigation(activity: CSActivity) : CSNavigationController(activity) 
 
 class SampleNavigationActivity : CSActivity() {
     override fun createController(): CSNavigationController {
-        CSThemes.initialize(this)
+        CSThemes.initializeThemes(this)
         CSDialog.defaults { withIcon(R.drawable.om_black_196) }
         return SampleNavigation(this)
     }

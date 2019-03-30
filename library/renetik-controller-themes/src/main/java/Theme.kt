@@ -16,7 +16,7 @@ class CSThemes {
         fun theme(index: Int) = availableThemes.at(index) ?: availableThemes[0]
         val currentTheme get() = theme(currentThemeIndex!!)
 
-        fun initialize(activity: Activity, themes: List<CSTheme>? = null) {
+        fun initializeThemes(activity: Activity, themes: List<CSTheme>? = null) {
             themes?.let { availableThemes.reload(themes) }
             currentThemeIndex = application.store.loadInt("theme_index", 0)
             activity.setTheme(currentTheme.style)
