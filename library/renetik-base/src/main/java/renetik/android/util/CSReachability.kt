@@ -8,6 +8,7 @@ import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import renetik.android.extensions.asString
 import renetik.android.java.event.event
 import renetik.android.base.CSContextController
+import renetik.android.logging.CSLog.logInfo
 
 class CSReachability : CSContextController() {
 
@@ -17,7 +18,7 @@ class CSReachability : CSContextController() {
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            intent.asString()
+            logInfo(intent.asString)
             onNetworkStateChange()
         }
     }

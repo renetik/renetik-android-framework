@@ -3,6 +3,7 @@ package renetik.android.dialog
 import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.CompoundButton
 import com.afollestad.materialdialogs.MaterialDialog
 import renetik.android.base.CSContextController
 import renetik.android.base.CSView
@@ -32,6 +33,9 @@ class CSDialog : CSContextController {
     private var view: View? = null
     private var isShowAppIcon = true
     private var icon: Drawable? = null
+    val isCanceled get() = dialog?.isCancelled ?: false
+    val notCanceled get() = !isCanceled
+    val isCheckboxChecked get() = dialog?.isPromptCheckBoxChecked ?: false
 
     init {
         initDefaultsFunction?.invoke(this)
@@ -40,6 +44,10 @@ class CSDialog : CSContextController {
     fun title(value: String) = apply { title = value }
     fun message(value: String) = apply { message = value }
     fun text(title: String, message: String) = title(title).message(message)
+
+    fun checkBox(title: String, checked: Boolean, onChecked: ((CompoundButton) -> Void)? = null) =
+            apply { builder.checkBoxPrompt(title, checked) { button, _ -> onChecked?.invoke(button) } }
+
     fun show() = apply {
         title?.let { builder.title(it) }
         message?.let { builder.content(it) }
@@ -106,6 +114,11 @@ class CSDialog : CSContextController {
                 .progress(true, 0).cancelable(false)
     }.show()
 
+    fun showProgress(progressMax: Int, cancelText: String, onCancel: ((CSDialog) -> Unit)? = null) = apply {
+        builder.negativeText(cancelText).onNegative { _, _ -> onCancel?.invoke(this) }
+                .progress(false, progressMax).cancelable(false)
+    }.show()
+
     fun showInput(hint: String = "", value: String = "", positiveAction: (CSDialog) -> Unit) = apply {
         builder.positiveText(R.string.cs_dialog_ok)
                 .input(hint, value, false) { _, _ -> positiveAction(this) }
@@ -143,6 +156,11 @@ class CSDialog : CSContextController {
         if (title.isSet or message.isSet) updateIcon()
         dialog = builder.show()
         return view
+    }
+
+    fun progress(value: Int): CSDialog {
+        dialog!!.setProgress(value)
+        return this
     }
 }
 

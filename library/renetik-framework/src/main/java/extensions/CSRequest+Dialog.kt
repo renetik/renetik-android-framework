@@ -1,8 +1,10 @@
 package renetik.android.framework.extensions
 
+import android.widget.ProgressBar
 import renetik.android.client.request.CSRequest
 import renetik.android.controller.base.root
 import renetik.android.dialog.extensions.dialog
+import renetik.android.view.extensions.show
 
 fun <Data : Any> CSRequest<Data>.send(title: String, progress: Boolean) =
         if (progress) sendWithProgress(title) else sendWithFailedDialog(title)

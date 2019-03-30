@@ -132,9 +132,9 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         updateVisibilityChanged()
     }
 
-    protected fun onResumeFirstTime() {}
+    protected open fun onResumeFirstTime() {}
 
-    protected fun onResumeRestore() {}
+    protected open fun onResumeRestore() {}
 
     open fun onPause() {
         if (!isResumed)
@@ -211,7 +211,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     protected open fun onLowMemory() = onLowMemory.fire()
 
-    protected fun onBack(goBack: CSValue<Boolean>) {
+    protected open fun onBack(goBack: CSValue<Boolean>) {
         onBack.fire(goBack)
         if (goBack.value && isShowing) {
             hideKeyboard()
@@ -223,9 +223,9 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     fun goBack(): Unit = parentController?.goBack() ?: let { activity().onBackPressed() }
 
-    protected fun onActivityResult(result: CSActivityResult) = onActivityResult.fire(result)
+    protected open fun onActivityResult(result: CSActivityResult) = onActivityResult.fire(result)
 
-    protected fun onCreateOptionsMenu(menu: CSOnMenu) = onCreateOptionsMenu.fire(menu)
+    protected open fun onCreateOptionsMenu(menu: CSOnMenu) = onCreateOptionsMenu.fire(menu)
 
     protected open fun onOptionsItemSelected(onItem: CSOnMenuItem) {
         if (onItem.isConsumed) return
@@ -240,16 +240,16 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
             }
     }
 
-    protected fun onPrepareOptionsMenu(onMenu: CSOnMenu) {
+    protected open fun onPrepareOptionsMenu(onMenu: CSOnMenu) {
         onPrepareOptionsMenu.fire(onMenu)
         for (item in menuItems) if (item.isVisible && isShowing) onMenu.show(item)
     }
 
-    protected fun onKeyDown(onKey: CSOnKeyDownResult) = onKeyDown.fire(onKey)
+    protected open fun onKeyDown(onKey: CSOnKeyDownResult) = onKeyDown.fire(onKey)
 
-    protected fun onNewIntent(intent: Intent) = onNewIntent.fire(intent)
+    protected open fun onNewIntent(intent: Intent) = onNewIntent.fire(intent)
 
-    protected fun onUserLeaveHint() = onUserLeaveHint.fire()
+    protected open fun onUserLeaveHint() = onUserLeaveHint.fire()
 
     override fun obtainView(): ViewType? {
         return parentController?.let { parent ->
@@ -259,7 +259,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         } ?: throw exception("This should not happen man ;)")
     }
 
-    protected fun onHideByInViewController() {}
+    protected open fun onHideByInViewController() {}
 
     fun showingInContainer(isShowing: Boolean) {
         if (showingInContainer == isShowing) return
@@ -326,12 +326,12 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     protected fun whileShowing(registration: CSEventRegistration?) =
             registration?.let { whileShowingEventRegistrations.add(it) }
 
-    open fun onConfigurationChanged(newConfig: Configuration) = onConfigurationChanged.fire(newConfig)
+    protected open fun onConfigurationChanged(newConfig: Configuration) = onConfigurationChanged.fire(newConfig)
 
-    open fun onRequestPermissionsResult(requestPermissionResult: CSRequestPermissionResult) =
+    protected open fun onRequestPermissionsResult(requestPermissionResult: CSRequestPermissionResult) =
             onRequestPermissionsResult.fire(requestPermissionResult)
 
-    open fun onSaveInstanceState(outState: Bundle) = onSaveInstanceState.fire(outState)
+    protected open fun onSaveInstanceState(outState: Bundle) = onSaveInstanceState.fire(outState)
 
     fun invalidateOptionsMenu() = activity?.invalidateOptionsMenu()
 
