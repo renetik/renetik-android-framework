@@ -4,18 +4,24 @@
     <color name="cs_white">#FFFFFF</color>
     <color name="cs_black">#000000</color>
     <color name="cs_red">#F44336</color>
+    <color name="cs_material_red">#F44336</color>
     <color name="cs_blue">#3F51B5</color>
+    <color name="cs_material_blue">#2196F3</color>
     <color name="cs_clear">#00000000</color>
     <color name="cs_transparent">#00000000</color>
     <color name="cs_lightGrey">#d7ccc8</color>
     <color name="cs_grey">#A1887F</color>
     <color name="cs_darkGrey">#424242</color>
+    <color name="cs_material_grey">#00BCD4</color>
+    <color name="cs_dark_grey_text">#616161</color>
+    <color name="cs_light_grey">#009688</color>
+    <color name="cs_light_grey_text">#bdbdbd</color>
     <color name="cs_green">#64dd17</color>
+    <color name="cs_material_green">#8BC34A</color>
     <color name="cs_yellow">#ffea00</color>
+    <color name="cs_material_yellow">#FFEB3B</color>
     <color name="cs_button_selection">#b4311b92</color>
     <color name="cs_dialog_background">#88000000</color>
     <color name="cs_progress_background">#55000000</color>
-    <color name="cs_dark_grey_text">#616161</color>
-    <color name="cs_light_grey_text">#bdbdbd</color>
     <color name="cs_border">#b79e9e9e</color>
 </resources>

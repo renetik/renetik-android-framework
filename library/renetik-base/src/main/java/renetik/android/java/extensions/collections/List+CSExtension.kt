@@ -6,6 +6,8 @@ val <T> List<T>.length get() = size
 
 val <T> List<T>.hasItems get() = size > 0
 
+val <T> List<T>.isEmpty get() = size == 0
+
 val <T> List<T>.lastIndex get() = size - 1
 
 val <T> List<T>.first get() = at(0)
@@ -32,7 +34,9 @@ fun <T> List<T>.isLastIndex(index: Int) = index == lastIndex
 
 fun <T> List<T>.range(fromIndex: Int) = range(fromIndex, size)
 
-fun <T> List<T>.range(fromIndex: Int, toIndex: Int) = list(subList(fromIndex, toIndex))
+fun <T> List<T>.range(fromIndex: Int, toIndex: Int): List<T> {
+    return list(subList(fromIndex, toIndex))
+}
 
 fun <T> List<T>.has(item: T) = contains(item)
 

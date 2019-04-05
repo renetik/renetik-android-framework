@@ -1,5 +1,8 @@
 package renetik.android.java.extensions.collections
 
+import renetik.android.java.collections.list
+import renetik.android.java.common.tryOrNull
+
 fun <T, ListType : MutableList<T>> ListType.put(item: T) = item.apply { add(item) }
 fun <T, ListType : MutableList<T>> ListType.putAll(items: Iterable<T>) = apply { addAll(items) }
 fun <T, ListType : MutableList<T>> ListType.putAll(vararg items: T) = apply { addAll(items) }
@@ -11,3 +14,8 @@ fun <T, ListType : MutableList<T>> ListType.delete(index: Int): T? = at(index)?.
 fun <T, ListType : MutableList<T>> ListType.deleteFirst() = delete(0)
 fun <T, ListType : MutableList<T>> ListType.deleteLast() = delete(lastIndex)
 fun <T, ListType : MutableList<T>> ListType.deleteAll() = apply { clear() }
+fun <T> MutableList<T>.removeRange(fromIndex: Int): List<T> =
+    tryOrNull { range(fromIndex) }?.let {
+        removeAll(it)
+        return it
+    } ?: let { return list() }
