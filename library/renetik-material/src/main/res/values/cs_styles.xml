@@ -113,6 +113,12 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="CSHorizontalLayoutWrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
     <style name="CSPageTitleCard" parent="Widget.MaterialComponents.CardView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -157,7 +163,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSContentMain" parent="CSMatchFill" />
+    <style name="CSContentMain" parent="CSMatchFill"/>
 
     <style name="CSGridMatch" parent="android:Widget.Material.GridView">
         <item name="android:layout_width">match_parent</item>
@@ -240,17 +246,36 @@
 
     <style name="CSButtonFloatingTopEndWrap" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:layout_gravity">top|end</item>
-        <item name="android:layout_margin">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="CSButtonFloatingTopStartWrap" parent="CSButtonFloatingTopEndWrap">
         <item name="android:layout_gravity">top|start</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
     </style>
 
     <style name="CSButtonFloatingBottomEndWrap" parent="CSButtonFloatingTopEndWrap">
         <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginStart">0dp</item>
+    </style>
+
+    <style name="CSButtonFloatingBottomStartWrap" parent="CSButtonFloatingBottomEndWrap">
+        <item name="android:layout_gravity">bottom|start</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
     </style>
 
     <style name="CSInputLayoutMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

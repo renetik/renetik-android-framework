@@ -26,8 +26,8 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
         view
     }
 
-    fun <ViewType : View> inflate(layoutId: Int): ViewType = parentGroup?.inflate(layoutId)
-            ?: context.inflate(layoutId)
+    fun <ViewType : View> inflate(layoutId: Int): ViewType =
+        parentGroup?.inflate(layoutId) ?: context.inflate(layoutId)
 
     protected open fun obtainView(): ViewType? = null
 
@@ -48,11 +48,11 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
 
     open fun hideKeyboard() {
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
-                .hideSoftInputFromWindow(view.rootView.windowToken, 0)
+            .hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
 
     fun showKeyboard(view: View, flag: Int) =
-            service<InputMethodManager>(Context.INPUT_METHOD_SERVICE).showSoftInput(view, flag)
+        service<InputMethodManager>(Context.INPUT_METHOD_SERVICE).showSoftInput(view, flag)
 
     override fun onDestroy() {
         super.onDestroy()

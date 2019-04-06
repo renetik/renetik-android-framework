@@ -14,4 +14,10 @@ fun <T : CSViewController<*>> T.menuItem(actionView: View) = menuItem("").apply 
 fun <T : CSViewController<*>> T.menuItem(title: String) = addMenuItem(CSMenuItem(this, title))
 
 fun <T : CSViewController<*>> T.menuItem(title: String, iconResource: Int) =
-        addMenuItem(CSMenuItem(this, title)).setIconResourceId(iconResource)
+    addMenuItem(CSMenuItem(this, title)).setIconResourceId(iconResource)
+
+fun <T : CSViewController<*>> T.menuItem(title: String, onClick: (CSMenuItem) -> Unit) =
+    menuItem(title).onClick(onClick)
+
+fun <T : CSViewController<*>> T.menuItem(iconResource: Int, onClick: (CSMenuItem) -> Unit) =
+    menuItem("", iconResource).onClick(onClick)
