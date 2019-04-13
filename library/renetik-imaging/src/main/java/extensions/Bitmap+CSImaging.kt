@@ -12,8 +12,13 @@ fun Bitmap.scale(maxTargetWidth: Int, maxTargetHeight: Int): Bitmap {
     matrix.setRectToRect(inRect, outRect, Matrix.ScaleToFit.CENTER)
     val values = FloatArray(9)
     matrix.getValues(values)
-    val scaled = createScaledBitmap(this, (width * values[0]).toInt(),
-            (height * values[4]).toInt(), true)
+    val scaled = createScaledBitmap(
+        this, (width * values[0]).toInt(),
+        (height * values[4]).toInt(), true
+    )
     recycle()
     return scaled;
 }
+
+
+fun Bitmap.copy(): Bitmap? = copy(config, isMutable)

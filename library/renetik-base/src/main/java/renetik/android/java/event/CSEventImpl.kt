@@ -1,11 +1,11 @@
 package renetik.android.java.event
 
-import renetik.android.java.extensions.exception
-import renetik.android.logging.CSLog.logError
 import renetik.android.java.collections.list
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.collections.delete
-import renetik.android.java.extensions.isEmpty
+import renetik.android.java.extensions.collections.hasItems
+import renetik.android.java.extensions.exception
+import renetik.android.logging.CSLog.logError
 
 class CSEventImpl<T> : CSEvent<T> {
 
@@ -26,16 +26,21 @@ class CSEventImpl<T> : CSEvent<T> {
         if (registrations.isEmpty()) return
         running = true
         for (registration in registrations) registration.onEvent(argument)
-        for (registration in toRemove) registrations.delete(registration)
-        toRemove.clear()
-        registrations.addAll(toAdd)
-        toAdd.clear()
+        if (toRemove.hasItems) {
+            for (registration in toRemove) registrations.delete(registration)
+            toRemove.clear()
+        }
+        if (toAdd.hasItems) {
+            registrations.addAll(toAdd)
+            toAdd.clear()
+        }
         running = false
     }
 
     override fun clear() = registrations.clear()
 
-    internal inner class EventRegistrationImpl(private val listener: (CSEventRegistration, T) -> Unit) : CSEventRegistration {
+    internal inner class EventRegistrationImpl(private val listener: (CSEventRegistration, T) -> Unit) :
+        CSEventRegistration {
 
         override var isActive = true
 

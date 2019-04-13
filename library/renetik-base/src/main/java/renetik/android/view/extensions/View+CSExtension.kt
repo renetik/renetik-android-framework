@@ -36,6 +36,7 @@ fun View.timePicker(id: Int) = findView<TimePicker>(id)!!
 fun View.webView(id: Int) = findView<WebView>(id)!!
 fun View.imageView(id: Int) = findView<ImageView>(id)!!
 fun View.swipeRefresh(id: Int) = findView<SwipeRefreshLayout>(id)!!
+fun View.seekBar(id: Int) = findView<SeekBar>(id)!!
 
 
 val <T : View> T.isVisible get() = visibility == VISIBLE
@@ -51,7 +52,7 @@ val <T : View> T.parentView get() = parent as? View
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
 
 fun <T : View> View.findViewRecursive(id: Int): T? = findView<T>(id)
-        ?: parentView?.findViewRecursive<T>(id)
+    ?: parentView?.findViewRecursive<T>(id)
 
 
 fun <T : View> T.fade(fadeIn: Boolean) = if (fadeIn) fadeIn() else fadeOut()
@@ -63,31 +64,41 @@ fun <T : View> T.fadeIn(duration: Int): ViewPropertyAnimator? {
     show()
     alpha = 0f
     return animate().alpha(1.0f).setDuration(duration.toLong())
-            .setInterpolator(AccelerateDecelerateInterpolator()).setListener(null)
+        .setInterpolator(AccelerateDecelerateInterpolator()).setListener(null)
 }
 
 fun <T : View> T.fadeOut() = fadeOut(300)
 
 fun <T : View> T.fadeOut(duration: Int, onDone: (() -> Unit)? = null): ViewPropertyAnimator? {
-    return if (!isVisible || alpha == 0f) null else animate().alpha(0f).setDuration(duration.toLong())
+    if (!isVisible) return null
+    else if (alpha == 0f) {
+        hide()
+        return null
+    } else {
+        isClickable = false
+        return animate().alpha(0f).setDuration(duration.toLong())
             .setInterpolator(AccelerateDecelerateInterpolator())
             .setListener(object : CSAnimatorAdapter() {
                 override fun onAnimationEnd(animator: Animator?) {
+                    isClickable = true
                     hide()
                     onDone?.invoke()
                 }
             })
+    }
 }
 
 fun <T : View> T.onClick(onClick: (view: T) -> Unit) = apply { setOnClickListener { onClick(this) } }
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit) {
     val self = this
-    if (width == 0 && height == 0)
+    if (width == 0 || height == 0)
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
-                onHasSize(self)
+                if (width != 0 && height != 0) {
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    onHasSize(self)
+                }
             }
         })
     else onHasSize(this)

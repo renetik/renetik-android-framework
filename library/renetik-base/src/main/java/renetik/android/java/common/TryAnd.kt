@@ -1,12 +1,27 @@
 package renetik.android.java.common
 
+import renetik.android.java.extensions.isInstanceOf
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logWarn
-import renetik.android.java.extensions.isInstanceOf
 import kotlin.reflect.KClass
 
+fun <ReturnType, ExceptionType : Throwable> tryOrNull(
+    type: KClass<ExceptionType>, function: () -> ReturnType
+): ReturnType? {
+    return try {
+        function()
+    } catch (e: Throwable) {
+        if (type.java.isInstance(e)) {
+            null
+        } else throw e
+    }
+}
+
+fun <ReturnType> tryOrNull(function: () -> ReturnType) = tryOrNull(Exception::class, function)
+
 fun <ReturnType, ExceptionType : Throwable> tryAndWarn(
-        type: KClass<ExceptionType>, function: () -> ReturnType): ReturnType? {
+    type: KClass<ExceptionType>, function: () -> ReturnType
+): ReturnType? {
     return try {
         function()
     } catch (e: Throwable) {
@@ -20,7 +35,8 @@ fun <ReturnType, ExceptionType : Throwable> tryAndWarn(
 fun <ReturnType> tryAndWarn(function: () -> ReturnType) = tryAndWarn(Exception::class, function)
 
 fun <ReturnType, ExceptionType : Throwable> tryAndError(
-        type: KClass<ExceptionType>, function: () -> ReturnType): ReturnType? {
+    type: KClass<ExceptionType>, function: () -> ReturnType
+): ReturnType? {
     return try {
         function()
     } catch (e: Throwable) {
@@ -42,7 +58,8 @@ fun <ReturnType> tryAndFinally(function: () -> ReturnType, finally: () -> Unit):
 }
 
 fun <ReturnType, ExceptionType : Throwable> tryAndCatch(
-        type: KClass<ExceptionType>, function: () -> ReturnType, onException: (ExceptionType) -> ReturnType): ReturnType {
+    type: KClass<ExceptionType>, function: () -> ReturnType, onException: (ExceptionType) -> ReturnType
+): ReturnType {
     return try {
         function()
     } catch (throwable: Throwable) {
@@ -53,4 +70,4 @@ fun <ReturnType, ExceptionType : Throwable> tryAndCatch(
 }
 
 fun <ReturnType> tryAndCatch(function: () -> ReturnType, onException: (Exception) -> ReturnType) =
-        tryAndCatch(Exception::class, function, onException)
+    tryAndCatch(Exception::class, function, onException)

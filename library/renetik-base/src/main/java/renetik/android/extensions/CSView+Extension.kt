@@ -35,6 +35,7 @@ fun CSView<*>.timePicker(id: Int) = view.timePicker(id)
 fun CSView<*>.webView(id: Int) = view.webView(id)
 fun CSView<*>.imageView(id: Int) = view.imageView(id)
 fun CSView<*>.swipeRefresh(id: Int) = view.swipeRefresh(id)
+fun CSView<*>.seekBar(id: Int) = view.seekBar(id)
 
 //move to DatePicker extension
 fun CSView<*>.getDate(picker: DatePicker) = getInstance().apply {
