@@ -9,7 +9,7 @@ import renetik.android.dialog.extensions.dialog
 import renetik.android.dialog.showView
 import renetik.android.extensions.textView
 import renetik.android.framework.extensions.send
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.material.extensions.floatingButton
 import renetik.android.sample.R
 import renetik.android.sample.model.ServerListItem

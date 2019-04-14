@@ -1,7 +1,5 @@
 package renetik.android.java.extensions.collections
 
-import renetik.android.java.collections.list
-
 val <T> List<T>.length get() = size
 
 val <T> List<T>.hasItems get() = size > 0
@@ -40,3 +38,6 @@ fun <T> List<T>.range(fromIndex: Int, toIndex: Int): List<T> {
 
 fun <T> List<T>.has(item: T) = contains(item)
 
+fun <T> list(): MutableList<T> = ArrayList()
+fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
+fun <T> list(items: Iterable<T>): MutableList<T> = list<T>().putAll(items)

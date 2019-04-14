@@ -4,13 +4,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
 import renetik.android.java.collections.CSMap
-import renetik.android.java.collections.linkedMap
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.linkedMap
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.collections.putAll
 import renetik.android.java.extensions.createInstance
 import renetik.android.json.data.CSJsonData
-import kotlin.collections.set
 import kotlin.reflect.KClass
 
 fun <T : CSJsonData> createJsonDataType(type: KClass<T>, data: CSMap<String, Any?>?) =

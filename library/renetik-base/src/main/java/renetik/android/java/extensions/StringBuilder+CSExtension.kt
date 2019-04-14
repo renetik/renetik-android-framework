@@ -1,6 +1,6 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.CSConstants.NEWLINE
 
 fun StringBuilder(vararg values: String) = kotlin.text.StringBuilder().add(*values)

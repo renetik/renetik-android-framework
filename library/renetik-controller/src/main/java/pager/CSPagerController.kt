@@ -3,7 +3,7 @@ package renetik.android.controller.pager
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import renetik.android.controller.base.CSViewController
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.at
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.collections.putAll

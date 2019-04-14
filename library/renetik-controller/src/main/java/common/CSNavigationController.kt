@@ -12,7 +12,7 @@ import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLabel
 import renetik.android.extensions.applicationLogo
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.deleteLast
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.collections.last

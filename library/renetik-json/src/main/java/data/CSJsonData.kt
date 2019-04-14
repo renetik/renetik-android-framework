@@ -1,7 +1,7 @@
 package renetik.android.json.data
 
 import renetik.android.java.collections.CSMap
-import renetik.android.java.collections.linkedMap
+import renetik.android.java.extensions.collections.linkedMap
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
 import renetik.android.json.*

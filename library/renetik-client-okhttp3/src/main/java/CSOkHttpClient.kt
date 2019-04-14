@@ -10,7 +10,7 @@ import renetik.android.client.request.CSRequest
 import renetik.android.client.request.CSResponse
 import renetik.android.client.request.CSServerData
 import renetik.android.java.collections.CSMap
-import renetik.android.java.collections.map
+import renetik.android.java.extensions.collections.map
 import renetik.android.java.common.CSConstants
 import renetik.android.java.extensions.primitives.isTrue
 import renetik.android.json.data.CSJsonData

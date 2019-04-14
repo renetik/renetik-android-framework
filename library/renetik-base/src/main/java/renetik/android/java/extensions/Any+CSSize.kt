@@ -1,8 +1,7 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.collections.CSMap
-import renetik.android.java.common.CSValueInterface
 import renetik.android.java.common.CSSizeInterface
+import renetik.android.java.common.CSValueInterface
 
 val Any?.size: Int
     get() { ///TODO tests for this please so its more clear what it returns in some situations :)
@@ -14,7 +13,6 @@ val Any?.size: Int
         if (this is Collection<*>) return this.size
         if (this is CSValueInterface<*>) return this.value.size
         if (this is CSSizeInterface) return this.size
-        if (this is CSMap<*, *>) return this.size
         if (this is Array<*>) return this.size
         if (this is IntArray) return this.size
         if (this is DoubleArray) return this.size

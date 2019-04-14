@@ -11,8 +11,8 @@ import renetik.android.json.data.CSJsonData
 import renetik.android.json.data.properties.CSJsonDataListProperty
 import renetik.android.json.data.properties.CSJsonString
 import renetik.android.base.CSApplication
-import renetik.android.java.collections.list
-import renetik.android.java.collections.map
+import renetik.android.java.extensions.collections.list
+import renetik.android.java.extensions.collections.map
 import renetik.android.java.extensions.collections.second
 import renetik.android.java.extensions.primitives.trimNewLines
 

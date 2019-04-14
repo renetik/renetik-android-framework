@@ -10,7 +10,7 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.listview.CSListController
 

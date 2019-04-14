@@ -2,7 +2,7 @@ package renetik.android.logging
 
 import renetik.android.base.application
 import renetik.android.extensions.toast
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.putAll
 import renetik.android.java.extensions.primitives.separateToString
 

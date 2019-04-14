@@ -2,7 +2,7 @@ package renetik.android.maps.json
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.json.data.CSJsonData
 import renetik.android.location.asLatLng
 

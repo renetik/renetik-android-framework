@@ -1,6 +1,5 @@
 package renetik.android.java.extensions.collections
 
-import renetik.android.java.collections.list
 import renetik.android.java.common.tryOrNull
 
 fun <T, ListType : MutableList<T>> ListType.put(item: T) = item.apply { add(item) }

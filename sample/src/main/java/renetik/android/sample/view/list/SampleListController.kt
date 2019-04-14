@@ -12,7 +12,7 @@ import renetik.android.dialog.extensions.dialog
 import renetik.android.dialog.showView
 import renetik.android.extensions.button
 import renetik.android.extensions.textView
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
 import renetik.android.listview.actions.CSRemoveListRowsController

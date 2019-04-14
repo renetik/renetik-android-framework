@@ -8,7 +8,7 @@ import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import renetik.android.base.application
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.tryAndCatch
 import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndFinally

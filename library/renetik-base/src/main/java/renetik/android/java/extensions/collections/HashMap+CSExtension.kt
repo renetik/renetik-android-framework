@@ -1,8 +1,6 @@
-package renetik.android.java.collections
+package renetik.android.java.extensions.collections
 
-fun <K, V> map() = CSMapImpl<K, V>()
-fun <K, V> linkedMap() = CSLinkedMapImpl<K, V>()
-
+fun <K, V> map() = HashMap<K, V>()
 fun map(vararg values: Any) = map<Any, Any>().apply {
     var i = 0
     while (i < values.size) {
@@ -19,12 +17,6 @@ fun map(vararg values: String) = map<String, String>().apply {
     }
 }
 
-interface CSMap<K, V> : Map<K, V>, MutableMap<K, V> {
-
-    fun hasKey(key: K): Boolean
-
-    fun hasValue(value: V): Boolean
-
-    fun value(key: K): V?
-
-}
+fun <K, V> HashMap<K, V>.hasKey(key: K) = containsKey(key)
+fun <K, V> HashMap<K, V>.hasValue(value: V) = containsValue(value)
+fun <K, V> HashMap<K, V>.value(key: K) = get(key)

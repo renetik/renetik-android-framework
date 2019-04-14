@@ -5,7 +5,7 @@ import android.content.Intent.*
 import android.net.Uri
 import android.os.Environment.getExternalStorageDirectory
 import renetik.android.controller.base.CSViewController
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import java.io.File
 
 fun <T : CSViewController<*>> T.sendMail(email: String, subject: String, text: String) {

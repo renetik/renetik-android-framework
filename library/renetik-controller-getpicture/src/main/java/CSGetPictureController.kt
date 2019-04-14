@@ -19,7 +19,7 @@ import renetik.android.controller.base.startActivityForResult
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.dialog.extensions.dialog
 import renetik.android.imaging.extensions.resizeImage
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.tryAndError
 import renetik.android.java.extensions.createDatedFile
 import renetik.android.material.extensions.snackBarWarn

@@ -13,7 +13,7 @@ import android.widget.ListView.CHOICE_MODE_SINGLE
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.findView
 import renetik.android.extensions.simpleView
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.event.event
 import renetik.android.java.extensions.collections.at
 import renetik.android.view.extensions.fadeIn

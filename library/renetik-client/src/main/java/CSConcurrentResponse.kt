@@ -1,6 +1,6 @@
 package renetik.android.client.request
 
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.collections.putAll
 

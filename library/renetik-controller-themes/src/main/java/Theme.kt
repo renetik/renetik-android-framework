@@ -2,7 +2,7 @@ package renetik.android.themes
 
 import android.app.Activity
 import renetik.android.base.application
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.at
 import renetik.android.java.extensions.collections.reload
 

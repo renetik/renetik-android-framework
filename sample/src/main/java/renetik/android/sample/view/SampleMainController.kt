@@ -10,7 +10,7 @@ import renetik.android.controller.extensions.menuItem
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.dialog.extensions.dialog
 import renetik.android.extensions.button
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.sample.R
 import renetik.android.sample.view.dynamicmenu.SampleDynamicMenuController
 import renetik.android.sample.view.getpicture.SampleGetPictureController

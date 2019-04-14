@@ -4,7 +4,7 @@ import renetik.android.client.okhttp3.CSOkHttpClient
 import renetik.android.client.okhttp3.get
 import renetik.android.client.okhttp3.post
 import renetik.android.client.request.*
-import renetik.android.java.collections.map
+import renetik.android.java.extensions.collections.map
 import renetik.android.json.data.properties.CSJsonString
 
 const val SERVER_URL = "https://renetik-library-server.herokuapp.com/api"

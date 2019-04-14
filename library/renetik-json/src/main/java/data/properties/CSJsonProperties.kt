@@ -1,7 +1,7 @@
 package renetik.android.json.data.properties
 
 import renetik.android.java.collections.CSMap
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.CSSizeInterface
 import renetik.android.java.extensions.collections.delete
 import renetik.android.java.extensions.collections.deleteLast

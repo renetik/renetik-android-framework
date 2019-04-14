@@ -1,6 +1,6 @@
 package renetik.android.listview
 
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.CSValues
 import renetik.android.java.extensions.collections.deleteLast
 import renetik.android.json.data.CSJsonData

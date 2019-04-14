@@ -3,12 +3,9 @@ package renetik.android.extensions
 import android.R.layout.simple_spinner_dropdown_item
 import android.R.layout.simple_spinner_item
 import android.view.View
-import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.*
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.base.CSView
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.CSConstants.MINUTE
 import renetik.android.view.extensions.*
 import java.util.*

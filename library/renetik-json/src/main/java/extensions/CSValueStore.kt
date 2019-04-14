@@ -2,7 +2,7 @@ package renetik.android.json.extensions
 
 import renetik.android.base.CSValueStore
 import renetik.android.java.collections.CSMap
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.isEmpty
 import renetik.android.json.createJsonDataList

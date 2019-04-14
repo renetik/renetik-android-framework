@@ -13,7 +13,7 @@ import renetik.android.base.CSView
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.java.collections.list
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.CSValue
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.CSEventRegistrations
