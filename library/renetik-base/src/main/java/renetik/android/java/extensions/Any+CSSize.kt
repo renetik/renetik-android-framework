@@ -4,6 +4,8 @@ import renetik.android.java.common.CSSizeInterface
 import renetik.android.java.common.CSValueInterface
 import kotlin.math.roundToInt
 
+//TODO: size define as float so double and float don't get rounded ? or make size private and use just for isEmpty isSet
+
 val Any?.size: Int
     get() {
         if (this == null) return 0
@@ -29,7 +31,3 @@ val Any?.size: Int
 val Any?.isEmpty get() = size == 0
 
 val Any?.isSet get() = !isEmpty
-
-fun set(value: Any?) = value.isSet
-
-fun size(value: Any?) = value.size

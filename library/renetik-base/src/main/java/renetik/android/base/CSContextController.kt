@@ -1,13 +1,14 @@
 package renetik.android.base
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.Service
 import android.content.*
+import android.content.Context.*
 import android.content.pm.PackageManager.GET_SIGNATURES
 import android.content.pm.PackageManager.NameNotFoundException
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.BatteryManager
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
@@ -16,9 +17,8 @@ import android.view.Display
 import android.view.WindowManager
 import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndWarn
+import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.set
-import java.io.FileNotFoundException
 import java.security.MessageDigest
 import java.util.*
 
@@ -41,7 +41,7 @@ abstract class CSContextController : ContextWrapper {
     val appKeyHash
         get() = tryAndError {
             val info = packageManager.getPackageInfo(packageName, GET_SIGNATURES)
-            if (set(info.signatures)) {
+            if (info.signatures.isSet) {
                 val messageDigest = MessageDigest.getInstance("SHA")
                 messageDigest.update(info.signatures[0].toByteArray())
                 Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT)
@@ -54,8 +54,9 @@ abstract class CSContextController : ContextWrapper {
         }
 
     val isNetworkConnected
-        get() = service<ConnectivityManager>(Context.CONNECTIVITY_SERVICE).activeNetworkInfo?.isConnected
-                ?: false
+        @SuppressLint("MissingPermission")
+        get() = service<ConnectivityManager>(CONNECTIVITY_SERVICE)
+                .activeNetworkInfo?.isConnected ?: false
 
     protected val batteryPercent: Float
         get() {
@@ -65,7 +66,7 @@ abstract class CSContextController : ContextWrapper {
             return level / scale.toFloat()
         }
 
-    val defaultDisplay: Display get() = service<WindowManager>(Context.WINDOW_SERVICE).defaultDisplay
+    val defaultDisplay: Display get() = service<WindowManager>(WINDOW_SERVICE).defaultDisplay
 
     @Suppress("DEPRECATION")
     val displayWidth

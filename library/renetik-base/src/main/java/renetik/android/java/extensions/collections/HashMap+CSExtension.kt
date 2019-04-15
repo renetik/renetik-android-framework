@@ -1,6 +1,6 @@
 package renetik.android.java.extensions.collections
 
-fun <K, V> map() = HashMap<K, V>()
+fun <K, V> map(): MutableMap<K, V> = hashMapOf()
 fun map(vararg values: Any) = map<Any, Any>().apply {
     var i = 0
     while (i < values.size) {
@@ -20,7 +20,7 @@ fun map(vararg values: String) = map<String, String>().apply {
 fun <K, V> HashMap<K, V>.hasKey(key: K) = containsKey(key)
 fun <K, V> HashMap<K, V>.hasValue(value: V) = containsValue(value)
 fun <K, V> HashMap<K, V>.value(key: K) = get(key)
-fun <K, V> HashMap<K, V>.reload(map:Map<K, V>) {
+fun <K, V> HashMap<K, V>.reload(map: Map<K, V>) {
     clear()
     putAll(map)
 }

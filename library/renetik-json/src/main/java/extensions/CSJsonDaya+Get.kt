@@ -29,9 +29,7 @@ fun CSJsonData.getBoolean(key: String) = try {
 
 fun CSJsonData.getMap(key: String) = data()[key] as? MutableMap<String, Any?>
 fun CSJsonData.getList(key: String) = data()[key] as? MutableList<Any?>
-fun <T : CSJsonData> CSJsonData.load(dataValue: T, data: Map<String, *>, key: String): T? {
-    (data[key] as? MutableMap<String, Any?>)?.let { dataValue.load(it) } ?: return null
-    return dataValue
-}
-
-fun <T : CSJsonData> CSJsonData.load(dataValue: T, key: String) = load(dataValue, data(), key)
+//fun <T : CSJsonData> CSJsonData.load(dataValue: T, key: String): T? {
+//    getMap(key)?.let { dataValue.load(it) } ?: return null
+//    return dataValue
+//}

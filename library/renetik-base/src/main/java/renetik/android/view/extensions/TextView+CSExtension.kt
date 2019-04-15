@@ -2,7 +2,7 @@ package renetik.android.view.extensions
 
 import android.text.Editable
 import android.widget.TextView
-import renetik.android.java.extensions.set
+import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.string
 import renetik.android.view.adapter.CSTextWatcherAdapter
 
@@ -14,7 +14,7 @@ fun <T : TextView> T.title(): String = string(text)
 val <T : TextView> T.title get() = title()
 fun <T : TextView> T.text() = title()
 
-fun <T : TextView> T.hideIfEmpty() = apply { visible(set(title())) }
+fun <T : TextView> T.hideIfEmpty() = apply { visible(title().isSet) }
 
 fun <T : TextView> T.onChange(onChange: (view: T) -> Unit) = apply {
     addTextChangedListener(object : CSTextWatcherAdapter() {

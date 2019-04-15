@@ -3,8 +3,8 @@ package renetik.android.controller.menu
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import renetik.android.java.extensions.set
 import renetik.android.java.common.CSValue
+import renetik.android.java.extensions.isSet
 
 const val GeneratedMenuItems = 7687678
 
@@ -28,7 +28,7 @@ class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) {
     private fun createProgrammaticallyItem(item: CSMenuItem) {
         menu.add(GeneratedMenuItems, item.id, Menu.NONE, item.title).apply {
             setShowAsAction(item.showAsAction)
-            if (set(item.iconResource)) setIcon(item.iconResource)
+            if (item.iconResource.isSet) setIcon(item.iconResource)
             item.isChecked?.let {
                 isCheckable = true
                 isChecked = it

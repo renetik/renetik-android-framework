@@ -1,7 +1,7 @@
 package renetik.android.controller.menu
 
 import android.view.MenuItem
-import renetik.android.java.extensions.set
+import renetik.android.java.extensions.isSet
 
 class CSOnMenuItem(private val item: MenuItem) {
     var isConsumed = false
@@ -18,7 +18,7 @@ class CSOnMenuItem(private val item: MenuItem) {
 
     fun consume(item: CSMenuItem): Boolean {
         if (isConsumed) return false
-        if (set(item.id)) isConsumed = this.item.itemId == item.id
+        if (item.id.isSet) isConsumed = this.item.itemId == item.id
         return isConsumed
     }
 

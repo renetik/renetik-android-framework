@@ -2,6 +2,7 @@ package renetik.android.json.data
 
 import renetik.android.java.event.event
 import renetik.android.java.extensions.collections.linkedMap
+import renetik.android.java.extensions.collections.map
 import renetik.android.java.extensions.collections.reload
 import renetik.android.json.CSJsonMap
 import renetik.android.json.toJSONObject
@@ -19,12 +20,12 @@ open class CSJsonData() : Iterable<String>, CSJsonMap {
     var key: String? = null
     val onValueChangedEvent = event<JsonDataValueChange>()
     val onChangedEvent = event<CSJsonData>()
-    private var data = linkedMap<String, Any?>()
+    private var data = map<String, Any?>()
     private var childDataKey: String? = null
     private var dataChanged = false
 
-    fun load(data: MutableMap<String, Any?>): CSJsonData {
-        this.data.reload(data)
+    fun load(map: MutableMap<String, Any?>): CSJsonData {
+        data = map
         return this
     }
 

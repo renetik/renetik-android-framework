@@ -9,7 +9,12 @@ class CSJsonString(val data: CSJsonData, private val key: String) : CharSequence
         get() = data.getString(key)
         set(value) = data.put(key, value)
 
-    val value get() = string ?: ""
+    var value
+        get() = string ?: ""
+        set(value) {
+            string = value
+        }
+
     override fun toString() = value
     override val length get() = value.length
     override fun get(index: Int) = value[index]

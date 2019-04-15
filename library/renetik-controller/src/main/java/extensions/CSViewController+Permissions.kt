@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.set
+import renetik.android.java.extensions.isSet
 import renetik.android.java.math.CSMath.randomInt
 
 fun CSViewController<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {
@@ -24,7 +24,7 @@ fun CSViewController<*>.requestPermissions(permissions: List<String>,
         return
     }
     val deniedPermissions = getDeniedPermissions(permissions)
-    if (set(deniedPermissions)) {
+    if (deniedPermissions.isSet) {
         val requestCode = randomInt(0, 999)
         ActivityCompat.requestPermissions(activity(), deniedPermissions, requestCode)
         onRequestPermissionsResult.run { registration, results ->

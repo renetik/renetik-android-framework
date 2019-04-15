@@ -1,9 +1,9 @@
 package renetik.android.extensions
 
 import android.view.View
-import renetik.android.java.math.CSPoint
 import renetik.android.base.CSView
-import renetik.android.java.extensions.set
+import renetik.android.java.extensions.isSet
+import renetik.android.java.math.CSPoint
 
 val CSView<*>.layoutWidth get() = this.view.layoutParams.width
 val CSView<*>.layoutHeight get() = this.view.layoutParams.height
@@ -42,9 +42,9 @@ fun CSView<*>.setPercentWidth(viewId: Int, percent: Int, minimal: Int, maximal: 
 fun CSView<*>.setPercentWidth(view: View, percent: Int, minimal: Int = 0, maximal: Int = 0) {
     val onePercent = (displayWidth / 100).toDouble()
     var wantedSize = (onePercent * percent).toInt()
-    if (set(minimal) && wantedSize < minimal)
+    if (minimal.isSet && wantedSize < minimal)
         wantedSize = minimal
-    else if (set(maximal) && wantedSize > maximal) wantedSize = maximal
+    else if (maximal.isSet && wantedSize > maximal) wantedSize = maximal
     val layoutParams = view.layoutParams
     layoutParams.width = wantedSize
     view.layoutParams = layoutParams

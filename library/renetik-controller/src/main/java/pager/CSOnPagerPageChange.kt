@@ -3,7 +3,6 @@ package renetik.android.controller.pager
 import androidx.viewpager.widget.ViewPager.*
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.size
 import renetik.android.java.math.CSMath.between
 
 class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageType>) : OnPageChangeListener
@@ -40,11 +39,11 @@ class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageTyp
 
     protected fun onPageDragged(index: Int) {
         draggedPage = index
-        if (between(draggedPage, 0, size(pager.controllers))) onPageDragged?.invoke(draggedPage)
+        if (between(draggedPage, 0, pager.controllers.size)) onPageDragged?.invoke(draggedPage)
     }
 
     protected fun onPageReleased() {
-        if (between(draggedPage, 0, size(pager.controllers))) onPageReleased?.invoke(draggedPage)
+        if (between(draggedPage, 0, pager.controllers.size)) onPageReleased?.invoke(draggedPage)
         draggingPageIndex = null
     }
 
