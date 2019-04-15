@@ -6,11 +6,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import renetik.android.client.request.CSResponse
 import renetik.android.client.request.CSServerData
-import renetik.android.java.collections.CSMap
 import renetik.android.java.common.tryAndCatch
 import renetik.android.java.common.tryAndError
-import renetik.android.json.fromJson
-import renetik.android.logging.CSLog
+import renetik.android.json.parseJson
+import renetik.android.logging.CSLog.logInfo
 import java.io.IOException
 
 const val INVALID_RESPONSE = "Invalid response from client"
@@ -26,8 +25,8 @@ class CSOkHttpResponseListener<Data : CSServerData>(
 
     @Suppress("unchecked_cast")
     private fun onContent(content: String, response: CSResponse<Data>) {
-        CSLog.logInfo("${response.url} $content")
-        fromJson<CSMap<String, Any?>>(content)?.let { response.data().load(it) }
+        logInfo("${response.url} $content")
+        content.parseJson<MutableMap<String, Any?>>()?.let { response.data().load(it) }
                 ?: onError(response, INVALID_RESPONSE, null)
         tryAndCatch({
             if (response.data().success) response.success()

@@ -1,6 +1,6 @@
 package renetik.android.json.data
 
-import renetik.android.json.data.properties.CSJsonFileProperty
+import renetik.android.json.data.properties.CSJsonFile
 import java.io.File
 
 class CSFileJsonData() : CSJsonData() {
@@ -11,5 +11,5 @@ class CSFileJsonData() : CSJsonData() {
         fileProperty.file = file
     }
 
-    private val fileProperty = CSJsonFileProperty(this, "file")
+    private val fileProperty = CSJsonFile(this, "file")
 }

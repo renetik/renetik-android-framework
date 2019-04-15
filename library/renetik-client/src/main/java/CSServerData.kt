@@ -1,7 +1,14 @@
 package renetik.android.client.request
 
 import renetik.android.json.data.CSJsonData
-import renetik.android.json.data.properties.*
+import renetik.android.json.data.properties.CSJsonBoolean
+import renetik.android.json.data.properties.CSJsonDataList
+import renetik.android.json.data.properties.CSJsonInt
+import renetik.android.json.data.properties.CSJsonString
+import renetik.android.json.extensions.createJsonData
+import renetik.android.json.extensions.getBoolean
+import renetik.android.json.extensions.getMap
+import renetik.android.json.extensions.getString
 import kotlin.reflect.KClass
 
 open class CSServerData : CSJsonData() {
@@ -12,14 +19,13 @@ open class CSServerData : CSJsonData() {
 class CSValueServerData<ValueType : CSJsonData>(key: String, kClass: KClass<ValueType>) : CSServerData() {
     constructor(kClass: KClass<ValueType>) : this("value", kClass)
 
-    private val property = CSJsonDataProperty(this, kClass, key)
-    val value get() = property.value
+    val value: ValueType by lazy { kClass.createJsonData(getMap(key)) }
 }
 
 class CSListServerData<ListItem : CSJsonData>(key: String, kClass: KClass<ListItem>) : CSServerData() {
     constructor(kClass: KClass<ListItem>) : this("list", kClass)
 
-    private val property = CSJsonDataListProperty(this, kClass, key)
+    private val property = CSJsonDataList(this, kClass, key)
     val list get() = property.list
 }
 
@@ -33,13 +39,13 @@ class CSStringServerData(key: String) : CSServerData() {
 class CSIntServerData(key: String) : CSServerData() {
     constructor() : this("value")
 
-    private val property = CSJsonIntProperty(this, key)
+    private val property = CSJsonInt(this, key)
     val value get() = property.value
 }
 
 class CSBoolServerData(key: String) : CSServerData() {
     constructor() : this("value")
 
-    private val property = CSJsonBoolProperty(this, key)
+    private val property = CSJsonBoolean(this, key)
     val value get() = property.value
 }

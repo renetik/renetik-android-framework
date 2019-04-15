@@ -7,14 +7,14 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import renetik.android.BuildConfig.DEBUG
-import renetik.android.json.data.CSJsonData
-import renetik.android.json.data.properties.CSJsonDataListProperty
-import renetik.android.json.data.properties.CSJsonString
 import renetik.android.base.CSApplication
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.map
 import renetik.android.java.extensions.collections.second
 import renetik.android.java.extensions.primitives.trimNewLines
+import renetik.android.json.data.CSJsonData
+import renetik.android.json.data.properties.CSJsonDataList
+import renetik.android.json.data.properties.CSJsonString
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = ApplicationMock::class)
@@ -25,12 +25,12 @@ class CSJsonTest {
 
     @Test
     fun testToJson1() {
-        assertEquals(jsonTest1, toJson(mapTest1))
+        assertEquals(jsonTest1, mapTest1.toJsonString())
     }
 
     @Test
     fun testFromJson1() {
-        val map = fromJson<Map<*, *>>(jsonTest1)!!
+        val map = jsonTest1.parseJson<Map<*, *>>()!!
         assertEquals("litItem2", (map["list"] as? List<*>)?.get(1))
     }
 
@@ -39,7 +39,7 @@ class CSJsonTest {
 
     @Test
     fun testToJson2() {
-        assertTrue(toJson(mapTest2).startsWith(jsonTest2))
+        assertTrue(mapTest2.toJsonString().startsWith(jsonTest2))
     }
 
     private val json =
@@ -52,21 +52,21 @@ class CSJsonTest {
         house.floors.add(FlorJsonDataTest("first"))
         house.floors.add(FlorJsonDataTest("second"))
         house.title.string = "Nice House"
-        house.load(fromJson(toJson(house))!!)
+        house.load(house.toJsonString().parseJson()!!)
         assertEquals("second", house.floors.list.second!!.title.value)
     }
 
     @Test
     fun testJsonDataLoad() {
         val house = HouseJsonDataTest()
-        house.load(fromJson(json)!!)
+        house.load(json.parseJson()!!)
         assertEquals("second", house.floors.list.second!!.title.string)
     }
 
     @Test
     fun jsonDataListSave() {
         val house = HouseJsonDataTest()
-        house.load(fromJson(json)!!)
+        house.load(json.parseJson()!!)
         assertEquals(2, house.floors.size)
         house.floors.list = list(FlorJsonDataTest("first"),
                 FlorJsonDataTest("second"), FlorJsonDataTest("third"))
@@ -82,7 +82,7 @@ class ApplicationMock : CSApplication() {
 }
 
 class HouseJsonDataTest : CSJsonData() {
-    val floors = CSJsonDataListProperty(this, FlorJsonDataTest::class, "floors")
+    val floors = CSJsonDataList(this, FlorJsonDataTest::class, "floors")
     val title = CSJsonString(this, "title")
 }
 

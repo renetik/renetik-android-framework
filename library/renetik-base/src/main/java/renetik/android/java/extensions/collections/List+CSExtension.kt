@@ -38,6 +38,9 @@ fun <T> List<T>.range(fromIndex: Int, toIndex: Int): List<T> {
 
 fun <T> List<T>.has(item: T) = contains(item)
 
-fun <T> list(): MutableList<T> = ArrayList()
+fun <T> list(block: (MutableList<T>.() -> Unit)? = null): MutableList<T> {
+    return ArrayList<T>().apply { block?.invoke(this) }
+}
+
 fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
 fun <T> list(items: Iterable<T>): MutableList<T> = list<T>().putAll(items)

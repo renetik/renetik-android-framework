@@ -4,22 +4,23 @@ import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
-import renetik.android.task.doLater
-import renetik.android.java.collections.CSMap
 import renetik.android.java.extensions.primitives.randomIntInRange
+import renetik.android.task.doLater
 
 fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
     startActivity(Intent(activity(), activityClass))
 }
 
-fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>, extras: CSMap<String, String>) {
+fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>,
+                                      extras: Map<String, String>) {
     val intent = Intent(activity(), activityClass)
     for ((key, value) in extras)
         intent.putExtra(key, value)
     startActivity(intent)
 }
 
-fun CSViewController<*>.startActivityForResult(activityClass: Class<out AppCompatActivity>, requestCode: Int) =
+fun CSViewController<*>.startActivityForResult(activityClass: Class<out AppCompatActivity>,
+                                               requestCode: Int) =
         startActivityForResult(Intent(activity(), activityClass), requestCode)
 
 fun CSViewController<*>.startActivityForResult(intent: Intent, onResult: (Intent?) -> Unit) {

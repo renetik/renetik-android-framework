@@ -11,5 +11,5 @@ class CSLocationJsonData() : CSJsonData() {
         locationProperty.latLng = latLng
     }
 
-    private val locationProperty = CSJsonLocationProperty(this, "location")
+    private val locationProperty = CSJsonLocation(this, "location")
 }

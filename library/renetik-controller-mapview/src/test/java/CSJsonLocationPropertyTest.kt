@@ -9,11 +9,10 @@ import org.robolectric.annotation.Config
 import renetik.android.BuildConfig.DEBUG
 import renetik.android.json.data.CSJsonData
 import renetik.android.json.data.properties.CSJsonString
-import renetik.android.json.fromJson
-import renetik.android.json.toJson
+import renetik.android.json.parseJson
+import renetik.android.json.toJsonString
 import renetik.android.logging.AndroidLogger
 import renetik.android.base.CSApplication
-import renetik.android.java.extensions.primitives.trimNewLines
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = ApplicationMock::class)
@@ -28,21 +27,21 @@ class CSJsonTest {
         house.location.latLng = LatLng(222.0, 222.0)
 
         val loadedHouse = HouseJsonDataTest()
-        loadedHouse.load(fromJson(toJson(house))!!)
+        loadedHouse.load(house.toJsonString().parseJson()!!)
         assertEquals(LatLng(222.0, 222.0), loadedHouse.location.latLng)
     }
 
     @Test
     fun testJsonDataLoad() {
         val house = HouseJsonDataTest()
-        house.load(fromJson(json)!!)
+        house.load(json.parseJson()!!)
         assertEquals(LatLng(90.0, -138.0), house.location.latLng)
     }
 }
 
 class HouseJsonDataTest : CSJsonData() {
     val title = CSJsonString(this, "title")
-    val location = CSJsonLocationProperty(this, "location")
+    val location = CSJsonLocation(this, "location")
 }
 
 class ApplicationMock : CSApplication() {

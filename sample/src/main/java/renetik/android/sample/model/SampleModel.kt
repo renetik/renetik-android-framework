@@ -4,11 +4,11 @@ import com.google.android.gms.maps.model.LatLng
 import renetik.android.base.application
 import renetik.android.java.extensions.format
 import renetik.android.json.data.CSJsonData
-import renetik.android.json.data.properties.CSJsonDataListProperty
-import renetik.android.json.data.properties.CSJsonFileProperty
+import renetik.android.json.data.properties.CSJsonDataList
+import renetik.android.json.data.properties.CSJsonFile
 import renetik.android.json.data.properties.CSJsonString
 import renetik.android.json.extensions.save
-import renetik.android.maps.json.CSJsonLocationProperty
+import renetik.android.maps.json.CSJsonLocation
 import java.io.File
 import java.text.DateFormat
 import java.util.*
@@ -17,10 +17,10 @@ const val MODEL_KEY = "model_data"
 
 class SampleModel : CSJsonData() {
 
-    val sampleList = CSJsonDataListProperty(this, ListItem::class, "sampleList")
-    val getPictureList = CSJsonDataListProperty(this, ImageItem::class, "getPictureList")
-    val mapMarkers = CSJsonDataListProperty(this, MapMarker::class, "mapMarkers")
-    val mapRoute = CSJsonDataListProperty(this, MapPosition::class, "mapRoute")
+    val sampleList = CSJsonDataList(this, ListItem::class, "sampleList")
+    val getPictureList = CSJsonDataList(this, ImageItem::class, "getPictureList")
+    val mapMarkers = CSJsonDataList(this, MapMarker::class, "mapMarkers")
+    val mapRoute = CSJsonDataList(this, MapPosition::class, "mapRoute")
     val server by lazy { SampleServer() }
 
     fun save() {
@@ -48,7 +48,7 @@ class ListItem() : CSJsonData() {
 }
 
 class ImageItem() : CSJsonData() {
-    val image = CSJsonFileProperty(this, "image")
+    val image = CSJsonFile(this, "image")
 
     constructor(image: File) : this() {
         this.image.file = image
@@ -58,7 +58,7 @@ class ImageItem() : CSJsonData() {
 class MapMarker() : CSJsonData() {
     val latLng get() = locationProperty.value
     val title get() = titleProperty.value
-    private val locationProperty = CSJsonLocationProperty(this, "position")
+    private val locationProperty = CSJsonLocation(this, "position")
     private val titleProperty = CSJsonString(this, "title")
 
     constructor(latLng: LatLng, title: String) : this() {
@@ -69,7 +69,7 @@ class MapMarker() : CSJsonData() {
 
 class MapPosition() : CSJsonData() {
     val latLng get() = property.latLng!!
-    private val property = CSJsonLocationProperty(this, "position")
+    private val property = CSJsonLocation(this, "position")
 
     constructor(latLng: LatLng) : this() {
         property.latLng = latLng

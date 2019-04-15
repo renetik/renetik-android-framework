@@ -1,40 +1,39 @@
 package renetik.android.json.extensions
 
 import renetik.android.base.CSValueStore
-import renetik.android.java.collections.CSMap
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.isEmpty
-import renetik.android.json.createJsonDataList
-import renetik.android.json.createJsonDataType
 import renetik.android.json.data.CSJsonData
-import renetik.android.json.fromJson
-import renetik.android.json.toJson
+import renetik.android.json.parseJson
+import renetik.android.json.toJsonString
 import kotlin.reflect.KClass
 
 fun CSValueStore.save(key: String, value: Any?) = value?.let {
     val editor = preferences.edit()
-    editor.putString(key, toJson(it))
+    editor.putString(key, it.toJsonString())
     editor.apply()
 } ?: clear(key)
 
 fun <T : CSJsonData> CSValueStore.load(data: T, key: String): T? {
     val loadString = loadString(key) ?: return null
-    fromJson<CSMap<String, Any?>>(loadString)?.let { data.load(it) }
+    loadString.parseJson<MutableMap<String, Any?>>()?.let { data.load(it) }
     return data
 }
 
-fun <T : CSJsonData> CSValueStore.load(type: KClass<T>, key: String) = createJsonDataType(type, loadJson(key))
+fun <T : CSJsonData> CSValueStore.load(type: KClass<T>, key: String) =
+        type.createJsonData(loadJson(key))
 
-fun <T : CSJsonData> CSValueStore.loadList(type: KClass<T>, key: String) = createJsonDataList(type, loadJson(key))
+fun <T : CSJsonData> CSValueStore.loadList(type: KClass<T>, key: String) =
+        type.createJsonDataList(loadJson(key))
 
 fun <T : CSJsonData> CSValueStore.loadList(type: KClass<T>, key: String, default: List<T>) =
-        createJsonDataList(type, loadJson(key), default)
+        type.createJsonDataList(loadJson(key), default)
 
 fun <T : Any> CSValueStore.loadList(key: String) =
         list<T>().apply { loadJson<List<T>>(key)?.forEach { data -> put(data) } }
 
 private fun <Type> CSValueStore.loadJson(key: String): Type? {
     val loadString = loadString(key)
-    return if (loadString.isEmpty) null else fromJson<Type>(loadString!!)
+    return if (loadString.isEmpty) null else loadString!!.parseJson<Type>()
 }

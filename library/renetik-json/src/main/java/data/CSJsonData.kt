@@ -1,55 +1,48 @@
 package renetik.android.json.data
 
-import renetik.android.java.collections.CSMap
-import renetik.android.java.extensions.collections.linkedMap
-import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
-import renetik.android.json.*
+import renetik.android.java.extensions.collections.linkedMap
+import renetik.android.java.extensions.collections.reload
+import renetik.android.json.CSJsonMap
+import renetik.android.json.toJSONObject
+import renetik.android.json.toJsonString
 import renetik.android.task.doLater
 
-data class OnJsonDataValueChanged(val data: CSJsonData, val key: String, val value: Any?)
+data class JsonDataValueChange(val data: CSJsonData, val key: String, val value: Any?)
+
+fun CSJsonData.toJsonObject() = asJsonMap().toJSONObject()
 
 @Suppress("unchecked_cast")
-open class CSJsonData() : Iterable<String>, CSJsonDataMap {
+open class CSJsonData() : Iterable<String>, CSJsonMap {
 
-    override fun getJsonDataMap(): Map<String, *> = data
-
-    override fun iterator(): Iterator<String> = data.keys.iterator()
-
-    open var index: Int? = null
-    open var key: String? = null
-    open val onValueChangedEvent: CSEvent<OnJsonDataValueChanged> = event()
-    open val onChangedEvent: CSEvent<CSJsonData> = event()
-    protected var data: CSMap<String, Any?> = linkedMap()
+    var index: Int? = null
+    var key: String? = null
+    val onValueChangedEvent = event<JsonDataValueChange>()
+    val onChangedEvent = event<CSJsonData>()
+    private var data = linkedMap<String, Any?>()
     private var childDataKey: String? = null
     private var dataChanged = false
 
-    constructor(data: CSMap<String, Any?>) : this() {
-        load(data)
-    }
-
-    fun load(data: CSMap<String, Any?>): CSJsonData {
-        this.data = data
+    fun load(data: MutableMap<String, Any?>): CSJsonData {
+        this.data.reload(data)
         return this
     }
 
-    private fun data(): CSMap<String, Any?> {
+    open fun data(): MutableMap<String, Any?> {
         childDataKey?.let { key ->
-            var childValue = data[key] as? CSMap<String, Any?>
+            var childValue = data[key] as? MutableMap<String, Any?>
             return childValue ?: let {
                 childValue = linkedMap()
                 data[key] = childValue
-                return childValue as CSMap<String, Any?>
+                return childValue as MutableMap<String, Any?>
             }
         }
         return data
     }
 
-    override fun toString() = toFormattedJson()
-
-    fun setValue(key: String, value: Any?) {
+    open fun setValue(key: String, value: Any?) {
         data()[key] = value
-        onValueChangedEvent.fire(OnJsonDataValueChanged(this, key, value))
+        onValueChangedEvent.fire(JsonDataValueChange(this, key, value))
         if (!dataChanged) {
             doLater {
                 onChangedEvent.fire(this)
@@ -59,58 +52,10 @@ open class CSJsonData() : Iterable<String>, CSJsonDataMap {
         }
     }
 
-    fun put(key: String, value: String?) = setValue(key, value)
+    override fun toString() = toJsonString(formatted = true)
 
-    fun put(key: String, value: Number?) = setValue(key, value)
+    override fun asJsonMap(): Map<String, *> = data
 
-    fun put(key: String, value: Boolean?) = setValue(key, value)
-
-    fun put(key: String, value: CSJsonDataMap) = setValue(key, value.getJsonDataMap())
-
-    fun put(key: String, value: CSJsonDataList) = setValue(key, value.getJsonDataList())
-
-    fun put(key: String, value: List<*>) = setValue(key, value)
-
-    fun put(key: String, value: Map<String, *>) = setValue(key, value)
-
-    fun getString(key: String): String? = data()[key]?.let { return it.toString() }
-
-    fun getDouble(key: String) = try {
-        getString(key)?.toDouble()
-    } catch (e: NumberFormatException) {
-        null
-    }
-
-    fun getLong(key: String) = try {
-        getString(key)?.toLong()
-    } catch (e: NumberFormatException) {
-        null
-    }
-
-    fun getInt(key: String) = try {
-        getString(key)?.toInt()
-    } catch (e: NumberFormatException) {
-        null
-    }
-
-    fun getBoolean(key: String) = try {
-        getString(key)?.toBoolean()
-    } catch (e: NumberFormatException) {
-        null
-    }
-
-    fun getMap(key: String) = data()[key] as? CSMap<String, Any?>
-
-    fun getList(key: String) = data()[key] as? MutableList<Any?>
-
-    fun <T : CSJsonData> load(dataValue: T, data: CSMap<String, *>, key: String): T? {
-        (data[key] as? CSMap<String, Any?>)?.let { dataValue.load(it) } ?: return null
-        return dataValue
-    }
-
-    fun <T : CSJsonData> load(dataValue: T, key: String) = load(dataValue, data(), key)
+    override fun iterator(): Iterator<String> = data.keys.iterator()
 }
 
-fun CSJsonData.toJson() = toJson(this)
-fun CSJsonData.toFormattedJson() = toFormattedJson(this)
-fun CSJsonData.toJsonObject() = createJsonObject(getJsonDataMap())
