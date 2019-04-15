@@ -1,7 +1,6 @@
 package renetik.android.json
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -13,6 +12,7 @@ import renetik.android.java.extensions.collections.map
 import renetik.android.java.extensions.collections.second
 import renetik.android.java.extensions.primitives.trimNewLines
 import renetik.android.json.data.CSJsonData
+import renetik.android.json.data.clone
 import renetik.android.json.data.properties.CSJsonDataList
 import renetik.android.json.data.properties.CSJsonString
 
@@ -74,6 +74,20 @@ class CSJsonTest {
         assertEquals("third", house.floors.last!!.title.value)
         house.floors.clear()
         assertTrue(house.floors.isEmpty)
+    }
+
+    @Test
+    fun clone() {
+        val house = HouseJsonDataTest()
+        house.floors.add(FlorJsonDataTest("first"))
+        house.floors.add(FlorJsonDataTest("second"))
+
+        val houseClone = house.clone()
+        house.floors.last!!.title.value = "Original house last floor title"
+
+        assertTrue(houseClone::class == house::class)
+        assertEquals(house.floors.size, houseClone.floors.size)
+        assertNotEquals(houseClone.floors.last!!.title.value, house.floors.last!!.title.value)
     }
 }
 
