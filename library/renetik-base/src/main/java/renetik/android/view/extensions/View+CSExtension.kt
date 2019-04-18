@@ -47,6 +47,8 @@ fun <T : View> T.hide() = apply { visibility = GONE }
 
 fun <T : View> T.show() = apply { visibility = VISIBLE }
 
+val <T : View> T.superview get() = parent as? View
+
 val <T : View> T.parentView get() = parent as? View
 
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
@@ -89,42 +91,6 @@ fun <T : View> T.fadeOut(duration: Int, onDone: (() -> Unit)? = null): ViewPrope
 }
 
 fun <T : View> T.onClick(onClick: (view: T) -> Unit) = apply { setOnClickListener { onClick(this) } }
-
-fun <T : View> T.hasSize(onHasSize: (View) -> Unit) {
-    val self = this
-    if (width == 0 || height == 0)
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                if (width != 0 && height != 0) {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    onHasSize(self)
-                }
-            }
-        })
-    else onHasSize(this)
-}
-
-fun <T : View> T.width(function: (Int) -> Unit) = hasSize { function(width) }
-
-fun <T : View> T.height(function: (Int) -> Unit) = hasSize { function(height) }
-
-fun <T : View> T.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
-    val params = layoutParams as? ViewGroup.MarginLayoutParams
-    params?.setMargins(left, top, right, bottom)
-    layoutParams = params
-}
-
-fun <T : View> T.bottomMargin(bottom: Int) {
-    val params = layoutParams as? ViewGroup.MarginLayoutParams
-    params?.setMargins(params.leftMargin, params.topMargin, params.rightMargin, bottom)
-    layoutParams = params
-}
-
-fun <T : View> T.topMargin(top: Int) {
-    val params = layoutParams as? ViewGroup.MarginLayoutParams
-    params?.setMargins(params.leftMargin, top, params.rightMargin, params.bottomMargin)
-    layoutParams = params
-}
 
 fun <T : View> T.createBitmap(): Bitmap {
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
