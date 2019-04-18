@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.Service
 import android.content.*
-import android.content.Context.*
 import android.content.pm.PackageManager.GET_SIGNATURES
 import android.content.pm.PackageManager.NameNotFoundException
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
@@ -24,9 +23,9 @@ import java.util.*
 
 abstract class CSContextController : ContextWrapper {
 
-    constructor() : super(application) {}
+    constructor() : super(application)
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
     val context: Context get() = this
 

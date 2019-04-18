@@ -2,7 +2,7 @@ package renetik.android.listview.request
 
 import android.widget.AbsListView
 import renetik.android.client.request.CSListServerData
-import renetik.android.client.request.CSRequest
+import renetik.android.client.request.CSOperation
 import renetik.android.controller.base.CSViewController
 import renetik.android.json.data.CSJsonData
 import renetik.android.listview.CSListController
@@ -11,7 +11,7 @@ import renetik.android.listview.CSRowView
 open class CSRequestListController<RowType : CSJsonData, ViewType : AbsListView>
     : CSListController<RowType, ViewType> {
 
-    var onReload: ((progress: Boolean) -> CSRequest<CSListServerData<RowType>>)? = null
+    var onReload: ((progress: Boolean) -> CSOperation<CSListServerData<RowType>>)? = null
 
     constructor(parent: CSViewController<*>, view: ViewType,
                 createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
@@ -27,5 +27,5 @@ open class CSRequestListController<RowType : CSJsonData, ViewType : AbsListView>
 }
 
 fun <RowType : CSJsonData, ListControllerType : CSRequestListController<RowType, *>>
-        ListControllerType.onReload(function: (progress: Boolean) -> CSRequest<CSListServerData<RowType>>) =
+        ListControllerType.onReload(function: (progress: Boolean) -> CSOperation<CSListServerData<RowType>>) =
         apply { onReload = function }

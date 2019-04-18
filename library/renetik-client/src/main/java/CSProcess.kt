@@ -9,17 +9,17 @@ import renetik.android.logging.CSLog.logDebug
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logInfo
 
-open class CSResponse<Data : Any> : CSContextController {
-    private val eventSuccess = event<CSResponse<Data>>()
-    fun onSuccess(function: (CSResponse<Data>) -> Unit) = apply { eventSuccess.execute(function) }
+open class CSProcess<Data : Any> : CSContextController {
+    private val eventSuccess = event<CSProcess<Data>>()
+    fun onSuccess(function: (CSProcess<Data>) -> Unit) = apply { eventSuccess.execute(function) }
 
-    private val eventFailed = event<CSResponse<*>>()
-    fun onFailed(function: (CSResponse<*>) -> Unit) = apply { eventFailed.execute(function) }
+    private val eventFailed = event<CSProcess<*>>()
+    fun onFailed(function: (CSProcess<*>) -> Unit) = apply { eventFailed.execute(function) }
 
-    private val eventDone = event<CSResponse<Data>>()
-    fun onDone(function: (CSResponse<Data>) -> Unit) = apply { eventDone.execute(function) }
+    private val eventDone = event<CSProcess<Data>>()
+    fun onDone(function: (CSProcess<Data>) -> Unit) = apply { eventDone.execute(function) }
 
-    val onProgress = event<CSResponse<Data>>()
+    val onProgress = event<CSProcess<Data>>()
     var progress: Long = 0
         set(progress) {
             field = progress
@@ -33,7 +33,7 @@ open class CSResponse<Data : Any> : CSContextController {
     var title: String? = null
     var data: Data? = null
     var failedMessage: String? = null
-    var failedResponse: CSResponse<*>? = null
+    var failedProcess: CSProcess<*>? = null
     var throwable: Throwable? = null
 
     constructor(url: String, data: Data) {
@@ -69,13 +69,13 @@ open class CSResponse<Data : Any> : CSContextController {
         eventSuccess.fire(this)
     }
 
-    fun failed(response: CSResponse<*>) {
+    fun failed(process: CSProcess<*>) {
         if (isCanceled) return
-        onFailedImpl(response)
+        onFailedImpl(process)
         onDoneImpl()
     }
 
-    fun failed(message: String): CSResponse<Data> {
+    fun failed(message: String): CSProcess<Data> {
         if (isCanceled) return this
         this.failedMessage = message
         failed(this)
@@ -90,15 +90,15 @@ open class CSResponse<Data : Any> : CSContextController {
         onDoneImpl()
     }
 
-    private fun onFailedImpl(response: CSResponse<*>) {
+    private fun onFailedImpl(process: CSProcess<*>) {
         if (isDone) logError(exception("already done"))
         if (isFailed) logError(exception("already failed"))
-        failedResponse = response
+        failedProcess = process
         isFailed = true
-        failedMessage = "${response.failedMessage}, ${response.throwable?.getRootCauseMessage()}"
-        throwable = response.throwable ?: Throwable()
+        failedMessage = "${process.failedMessage}, ${process.throwable?.getRootCauseMessage()}"
+        throwable = process.throwable ?: Throwable()
         logError(throwable!!, failedMessage)
-        eventFailed.fire(response)
+        eventFailed.fire(process)
     }
 
     open fun cancel() {

@@ -7,8 +7,8 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
 import renetik.android.base.application
-import renetik.android.client.request.CSRequest
-import renetik.android.client.request.CSResponse
+import renetik.android.client.request.CSOperation
+import renetik.android.client.request.CSProcess
 import renetik.android.client.request.CSServerData
 import renetik.android.java.common.CSConstants.MB
 import renetik.android.java.extensions.collections.map
@@ -64,7 +64,7 @@ class CSOkHttpClient(val url: String) {
 
 fun <ServerDataType : CSServerData> CSOkHttpClient.upload(
         action: String, file: File, data: ServerDataType) =
-        CSResponse("$url/$action", data).also { response ->
+        CSProcess("$url/$action", data).also { response ->
             val request = upload(response.url).addMultipartFile("file", file).build()
             logInfo("upload ${request.url} $file")
             request.setUploadProgressListener { uploaded, total ->
@@ -75,16 +75,16 @@ fun <ServerDataType : CSServerData> CSOkHttpClient.upload(
 
 fun CSOkHttpClient.get(url: String, params: Map<String, String> = map()) = get(null, url, params)
 
-fun CSOkHttpClient.get(request: CSRequest<CSServerData>? = null, url: String,
+fun CSOkHttpClient.get(operation: CSOperation<CSServerData>? = null, url: String,
                        params: Map<String, String> = map()) =
-        get(request, url, CSServerData(), params)
+        get(operation, url, CSServerData(), params)
 
 fun <ServerDataType : CSServerData> CSOkHttpClient.get(
-        request: CSRequest<*>?, action: String, data: ServerDataType,
+        operation: CSOperation<*>?, action: String, data: ServerDataType,
         params: Map<String, String> = map()) =
-        CSResponse("$url/$action", data).also { response ->
+        CSProcess("$url/$action", data).also { response ->
             val builder = get(response.url).addQueryParameter(params)
-            if (request?.isForceNetwork.isTrue) builder.responseOnlyFromNetwork
+            if (operation?.isForceNetwork.isTrue) builder.responseOnlyFromNetwork
             builder.build().apply {
                 logInfo("get $url")
                 getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
@@ -96,7 +96,7 @@ fun CSOkHttpClient.post(url: String, params: Map<String, String> = map()) =
 
 fun <ResponseData : CSServerData> CSOkHttpClient.post(
         action: String, params: Map<String, String>, responseData: ResponseData) =
-        CSResponse("$url/$action", responseData).also { response ->
+        CSProcess("$url/$action", responseData).also { response ->
             val request = post(response.url).addBodyParameter(params).build()
             logInfo("post ${request.url}")
             request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
@@ -106,7 +106,7 @@ fun CSOkHttpClient.post(url: String, data: CSJsonData) = post(url, data, CSServe
 
 fun <ResponseData : CSServerData> CSOkHttpClient.post(
         url: String, data: CSJsonData, responseData: ResponseData) =
-        CSResponse("${this.url}/$url", responseData).also { response ->
+        CSProcess("${this.url}/$url", responseData).also { response ->
             val request = post(response.url).addJSONObjectBody(data.toJsonObject()).build()
             logInfo("post ${request.url}")
             request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))

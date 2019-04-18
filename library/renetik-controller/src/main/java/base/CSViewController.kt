@@ -282,6 +282,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     private fun onViewVisibilityChanged(showing: Boolean) {
         isShowing = showing
+        onViewVisibilityChanged.fire(isShowing)
         if (isShowing) {
             isVisibleEventRegistrations.setActive(true)
             invalidateOptionsMenu()
@@ -292,7 +293,6 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
             onViewHiding()
             whileShowingEventRegistrations.cancel()
         }
-        onViewVisibilityChanged.fire(isShowing)
     }
 
     protected open fun onViewShowing() {

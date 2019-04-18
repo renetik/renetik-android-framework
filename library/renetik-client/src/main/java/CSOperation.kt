@@ -4,25 +4,37 @@ import renetik.android.base.CSContextController
 import renetik.android.java.event.event
 import renetik.android.java.event.execute
 
-open class CSRequest<Data : Any>(val function: CSRequest<*>.() -> CSResponse<Data>) : CSContextController() {
+open class CSOperation<Data : Any>() : CSContextController() {
+
+    var executeProcess: (CSOperation<Data>.() -> CSProcess<Data>)? = null
+
+    constructor(function: CSOperation<Data>.() -> CSProcess<Data>) : this() {
+        executeProcess = function
+    }
+
+    open fun executeProcess(): CSProcess<Data> {
+        return executeProcess!!.invoke(this)
+    }
+
     private val eventSuccess = event<Data>()
-    private val eventFailed = event<CSResponse<*>>()
+    private val eventFailed = event<CSProcess<*>>()
     private val eventDone = event<Data?>()
-    var response: CSResponse<Data>? = null
+    var process: CSProcess<Data>? = null
     var isForceNetwork = false
+
     fun forceNetwork() = apply { isForceNetwork = true }
 
     fun onSuccess(function: (argument: Data) -> Unit) =
             apply { eventSuccess.execute(function) }
 
-    fun onFailed(function: (argument: CSResponse<*>) -> Unit) =
+    fun onFailed(function: (argument: CSProcess<*>) -> Unit) =
             apply { eventFailed.execute(function) }
 
     fun onDone(function: (argument: Data?) -> Unit) =
             apply { eventDone.execute(function) }
 
-    fun send(): CSResponse<Data> = function().apply {
-        response = this
+    fun send(): CSProcess<Data> = executeProcess().apply {
+        process = this
         onSuccess {
             eventSuccess.fire(data!!)
             eventDone.fire(data)
@@ -30,7 +42,7 @@ open class CSRequest<Data : Any>(val function: CSRequest<*>.() -> CSResponse<Dat
     }
 
     fun cancel() {
-        response!!.apply {
+        process!!.apply {
             if (isFailed) {
                 eventFailed.fire(this)
                 eventDone.fire(data)
