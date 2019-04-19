@@ -12,4 +12,5 @@ object CSConstants {
     val HOUR = 60 * MINUTE
     val DAY = 24 * HOUR
     val NEWLINE = "\n"
+    val COMMA = ","
 }

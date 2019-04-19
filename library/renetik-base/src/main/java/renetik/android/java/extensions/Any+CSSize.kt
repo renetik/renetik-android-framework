@@ -31,3 +31,5 @@ val Any?.size: Int
 val Any?.isEmpty get() = size == 0
 
 val Any?.isSet get() = !isEmpty
+
+val Any?.notEmpty get() = isSet

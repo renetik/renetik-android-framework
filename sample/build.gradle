@@ -21,6 +21,10 @@ android {
         versionName "1.0.7"
         resValue "string", "maps_api_key", mapsApiKey
     }
+    lintOptions {
+        tasks.lint.enabled = false
+//        checkReleaseBuilds false
+    }
 }
 
 dependencies {
@@ -28,6 +32,6 @@ dependencies {
 //    implementation 'renetik.android:framework:1.0.1-rc3'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics"
-    implementation "com.google.android.gms:play-services-maps:$play_version"
+    implementation "com.google.android.gms:play-services-maps:16.1.0"
     implementation "com.google.android.gms:play-services-location:16.0.0"
 }
