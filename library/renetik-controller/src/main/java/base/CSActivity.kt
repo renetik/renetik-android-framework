@@ -8,12 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.android.java.event.event
-import renetik.android.java.event.fire
 import renetik.android.java.common.CSValue
 import renetik.android.java.common.tryAndWarn
+import renetik.android.java.event.event
+import renetik.android.java.event.fire
+
 
 abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
+
+    companion object {
+        var instance: CSActivity? = null
+    }
 
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
@@ -36,11 +41,12 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override val onViewVisibilityChanged = event<Boolean>()
     override fun activity() = this
 
-    private var controller: CSViewController<*>? = null
+    var controller: CSViewController<*>? = null
     abstract fun createController(): CSViewController<*>
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
+        Companion.instance = this
         controller = createController()
         setContentView(controller!!.view)
         onCreate.fire(state)
@@ -71,6 +77,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
         controller!!.view.let { onDestroyUnbindDrawables(it) }
         onDestroy.fire()
         controller = null
+        Companion.instance = null
         System.gc()
     }
 
@@ -146,4 +153,6 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
         onLowMemory.fire()
         super.onLowMemory()
     }
+
+
 }

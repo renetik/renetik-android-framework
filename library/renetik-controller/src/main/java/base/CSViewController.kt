@@ -13,13 +13,13 @@ import renetik.android.base.CSView
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.CSValue
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.CSEventRegistrations
 import renetik.android.java.event.event
 import renetik.android.java.event.execute
 import renetik.android.java.event.fire
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isNull
@@ -27,7 +27,6 @@ import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
 var root: CSViewController<*>? = null
-val rootActivity get() = root?.activity()
 
 abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewControllerParent {
     override val onCreate = event<Bundle?>()
@@ -346,7 +345,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     }
 
     override fun hideKeyboard() {
-        val view = rootActivity!!.currentFocus ?: view
+        val view = activity!!.currentFocus ?: view
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
                 .hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
