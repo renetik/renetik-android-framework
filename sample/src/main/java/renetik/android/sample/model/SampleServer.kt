@@ -1,4 +1,4 @@
-package renetik.android.sample.model
+    package renetik.android.sample.model
 
 import renetik.android.client.okhttp3.CSOkHttpClient
 import renetik.android.client.okhttp3.get
@@ -8,7 +8,7 @@ import renetik.android.java.extensions.collections.map
 import renetik.android.json.data.properties.CSJsonString
 import renetik.android.json.extensions.getString
 
-const val SERVER_URL = "https://renetik-library-server.herokuapp.com/api"
+const val SERVER_URL = "https://renetik-library-sample-server.herokuapp.com/api"
 const val SERVER_DEV_URL = "http://localhost:8080/api"
 const val USERNAME = "username"
 const val PASSWORD = "password"
