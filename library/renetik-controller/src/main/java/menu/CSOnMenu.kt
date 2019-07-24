@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.java.common.CSValue
 import renetik.android.java.extensions.isSet
 
+
 const val GeneratedMenuItems = 7687678
 
 class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) {
@@ -21,7 +22,7 @@ class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) {
         isVisible = true
         item.title?.let { title = it }
         if (isCheckable) item.isChecked?.let { isChecked = it }
-                ?: let { item.isChecked = isChecked }
+            ?: let { item.isChecked = isChecked }
         actionView?.let { item.actionView }
     }
 

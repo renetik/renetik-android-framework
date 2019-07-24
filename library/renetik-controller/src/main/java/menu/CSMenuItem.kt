@@ -13,6 +13,7 @@ open class CSMenuItem {
         private var lastGeneratedMenuItemId = 10
     }
 
+    val isNeverAsAction: Boolean get() = showAsAction == SHOW_AS_ACTION_NEVER
     val id: Int
     val isGenerated: Boolean
     private val controller: CSViewController<*>

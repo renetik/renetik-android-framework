@@ -41,7 +41,7 @@ class SampleMapMarkersController(title: String, mapController: CSMapController)
 
     private fun addMapClick(latLng: LatLng) = dialog("Add marker at position")
             .showInput("Enter marker title") {
-                showMarker(model.mapMarkers.add(MapMarker(latLng, it.inputValue())))
+                showMarker(model.mapMarkers.add(MapMarker(latLng, it.inputText)))
                 model.save()
             }
 }

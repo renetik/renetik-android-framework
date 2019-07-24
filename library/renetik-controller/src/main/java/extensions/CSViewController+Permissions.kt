@@ -17,10 +17,12 @@ fun CSViewController<*>.requestPermissionsWithForce(permissions: List<String>, o
     requestPermissions(permissions, onGranted, { requestPermissionsWithForce(permissions, onGranted) })
 }
 
-fun CSViewController<*>.requestPermissions(permissions: List<String>,
-                                           onGranted: () -> Unit, onNotGranted: (() -> Unit)?) {
+fun CSViewController<*>.requestPermissions(
+    permissions: List<String>,
+    onGranted: (() -> Unit)? = null, onNotGranted: (() -> Unit)? = null
+) {
     if (SDK_INT < 23) {
-        onGranted()
+        onGranted?.invoke()
         return
     }
     val deniedPermissions = getDeniedPermissions(permissions)
@@ -34,10 +36,10 @@ fun CSViewController<*>.requestPermissions(permissions: List<String>,
                     onNotGranted?.invoke()
                     return@run
                 }
-                onGranted()
+                onGranted?.invoke()
             }
         }
-    } else onGranted()
+    } else onGranted?.invoke()
 }
 
 fun CSViewController<*>.getDeniedPermissions(permissions: List<String>): Array<String> {

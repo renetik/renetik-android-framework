@@ -28,7 +28,7 @@ class SampleDynamicMenuController(title: String)
         addMenuItem.onClick {
             dialog(addMenuItem.title!!)
                     .showInput("Enter menu item name", "Sub Menu item ${menuItems.size}") { dialog ->
-                menuItem(dialog.inputValue()).onClick { addedMenuItem ->
+                menuItem(dialog.inputText).onClick { addedMenuItem ->
                     dialog("Remove menu item '${addedMenuItem.title}'?")
                             .withIcon(R.drawable.om_black_196).show {
                         addedMenuItem.remove()

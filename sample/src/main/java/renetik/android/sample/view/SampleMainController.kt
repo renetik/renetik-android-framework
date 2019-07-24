@@ -26,7 +26,7 @@ class SampleMainController : CSViewController<View>(navigation, layout(R.layout.
         CSNavigationItem {
 
     init {
-        menuItem("Theme chooser").onClick { CSThemeChooserController(navigation).push() }
+        menuItem("Theme chooser") { CSThemeChooserController(navigation).push() }
         button(R.id.SampleMenu_ButtonList).onClick { SampleListController(it.title).push() }
         button(R.id.SampleMenu_ButtonMaps).onClick {
             requestPermissions(list(ACCESS_FINE_LOCATION),
