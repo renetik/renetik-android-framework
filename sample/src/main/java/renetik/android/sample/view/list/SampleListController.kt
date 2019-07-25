@@ -29,7 +29,7 @@ import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.text
 import renetik.android.view.extensions.title
 
-class SampleListController(private val title: String)
+class SampleListController(title: String)
     : CSViewController<View>(navigation, layout(R.layout.sample_list)), CSNavigationItem {
 
     private val listController = CSListController<ListItem, ListView>(this, R.id.SampleList_List) {
