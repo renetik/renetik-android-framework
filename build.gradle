@@ -5,6 +5,7 @@ buildscript {
     ext.play_version = '16.0.0'
     ext.anko_version = '0.10.8'
     ext.crashlytics = '2.10.1'
+
     ext.bintray_plugin = '0.9'
 
     repositories {
