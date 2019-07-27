@@ -1,15 +1,20 @@
 package renetik.android.controller.menu
 
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import renetik.android.base.CSContextController
+import renetik.android.controller.R
+import renetik.android.extensions.colorFromAttribute
 import renetik.android.java.common.CSValue
 import renetik.android.java.extensions.isSet
 
 
 const val GeneratedMenuItems = 7687678
 
-class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) {
+class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) : CSContextController(activity) {
 
     val showMenu = CSValue(true)
 
@@ -35,6 +40,14 @@ class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) {
                 isChecked = it
             }
             item.actionView?.let { actionView = it }
+            // Title color was not taken from theme
+            title = SpannableString(title).apply {
+                setSpan(
+                    ForegroundColorSpan(
+                        colorFromAttribute(R.attr.colorOnSurface)
+                    ), 0, length, 0
+                )
+            }
         }
     }
 
