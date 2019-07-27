@@ -42,7 +42,7 @@ open class CSOperation<Data : Any>() : CSContextController() {
     }
 
     fun cancel() {
-        process!!.apply {
+        process?.apply {
             if (isFailed) {
                 eventFailed.fire(this)
                 eventDone.fire(data)

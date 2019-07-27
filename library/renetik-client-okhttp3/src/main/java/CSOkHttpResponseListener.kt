@@ -34,7 +34,8 @@ class CSOkHttpResponseListener<Data : CSServerData>(
         }) { exception -> onError(process, APPLICATION_ERROR, exception) }
     }
 
-    private fun onError(process: CSProcess<*>, error: ANError) = onError(process, error.errorBody, error)
+    private fun onError(process: CSProcess<*>, error: ANError) =
+            onError(process, error.errorBody, error)
 
     private fun onError(process: CSProcess<*>, message: String?, exception: Throwable?) {
         invalidate(process.url!!)
@@ -42,6 +43,7 @@ class CSOkHttpResponseListener<Data : CSServerData>(
     }
 
     private fun invalidate(url: String) = tryAndError(IOException::class) {
-        client.cache().urls().apply { while (this.hasNext()) if (this.next().contains(url)) this.remove() }
+        client.cache().urls().apply { while (this.hasNext())
+            if (this.next().contains(url)) this.remove() }
     }
 }
