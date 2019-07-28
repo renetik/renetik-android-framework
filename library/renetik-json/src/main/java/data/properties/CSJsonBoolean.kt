@@ -9,7 +9,11 @@ class CSJsonBoolean(val data: CSJsonData, private val key: String) {
         get() = data.getBoolean(key)
         set(value) = data.put(key, value)
 
-    val value get() = bool ?: false
+    var value
+        get() = bool ?: false
+        set(value) {
+            bool = value
+        }
 
     override fun toString() = "$value"
 }

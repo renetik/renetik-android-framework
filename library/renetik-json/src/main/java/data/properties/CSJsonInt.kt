@@ -9,7 +9,12 @@ class CSJsonInt(val data: CSJsonData, private val key: String) {
         get() = data.getInt(key)
         set(value) = data.put(key, value)
 
-    val value get() = integer ?: 0
+    var value
+        get() = integer ?: 0
+        set(value) {
+            integer = value
+        }
+
 
     override fun toString() = "$value"
 }

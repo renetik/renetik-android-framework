@@ -9,7 +9,11 @@ class CSJsonFloat(val data: CSJsonData, private val key: String) {
         get() = data.getDouble(key)?.toFloat()
         set(value) = data.put(key, value)
 
-    val value get() = float ?: 0
+    var value: Float
+        get() = float ?: 0F
+        set(value) {
+            float = value
+        }
 
     override fun toString() = "$value"
 }
