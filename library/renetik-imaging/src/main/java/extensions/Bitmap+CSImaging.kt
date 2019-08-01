@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.Matrix
 import android.graphics.RectF
+import renetik.android.java.extensions.write
+import java.io.File
 
 fun Bitmap.scale(maxTargetWidth: Int, maxTargetHeight: Int): Bitmap {
     val matrix = Matrix()
@@ -22,3 +24,9 @@ fun Bitmap.scale(maxTargetWidth: Int, maxTargetHeight: Int): Bitmap {
 
 
 fun Bitmap.copy(): Bitmap? = copy(config, isMutable)
+
+fun Bitmap.saveTo(
+    file: File,
+    format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
+    quality: Int = 100
+) = apply { file.write(this, format, quality) }
