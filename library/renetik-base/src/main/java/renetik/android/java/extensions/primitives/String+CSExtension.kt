@@ -15,7 +15,7 @@ fun generateRandomStringOfLength(length: Int): String {
 }
 
 fun containsNoCase(string1: String, string2: String) =
-        if (string1.isNull || string2.isNull) false else string1.toLowerCase().contains(string2.toLowerCase())
+    if (string1.isNull || string2.isNull) false else string1.toLowerCase().contains(string2.toLowerCase())
 
 fun String.asLong(): Long? {
     return try {
@@ -79,6 +79,14 @@ fun String.trimNewLines(): String {
 
 fun String.remove(toRemove: String): String {
     return replace(toRemove, "")
+}
+
+fun String.leaveEndOfLength(length: Int): String {
+    if (this.length > length) {
+        val toCut = this.length - length
+        return substring(toCut)
+    }
+    return this
 }
 
 fun String.separateToString(items: Iterable<Any?>?) = items?.let {

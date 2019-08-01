@@ -4,6 +4,6 @@ apply from: '../../library.gradle'
 dependencies {
     implementation project(':renetik-android-base')
     implementation project(':renetik-android-material')
-    implementation 'com.afollestad.material-dialogs:core:2.6.0'
-    implementation 'com.afollestad.material-dialogs:input:2.6.0'
+    implementation 'com.afollestad.material-dialogs:core:3.1.0'
+    implementation 'com.afollestad.material-dialogs:input:3.1.0'
 }

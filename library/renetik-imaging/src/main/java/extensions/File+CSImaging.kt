@@ -1,12 +1,36 @@
 package renetik.android.imaging.extensions
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri.fromFile
+import renetik.android.java.extensions.createNewFileAndDirs
+import renetik.android.logging.CSLog.logInfo
 import java.io.File
 import java.io.FileOutputStream
+
 
 fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int) = apply {
     fromFile(this).resizeImage(maxTargetWidth, maxTargetHeight, FileOutputStream(this))
 }
+
+fun File.write(
+    bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG
+    , quality: Int = 100
+) = apply {
+    createNewFileAndDirs()
+    outputStream().use { out ->
+        bitmap.compress(format, quality, out)
+        out.flush()
+    }
+    logInfo("$this saved:${exists()}")
+}
+
+fun File.loadBitmap(mutable: Boolean = false): Bitmap? {
+    val options = BitmapFactory.Options()
+    options.inMutable = mutable
+    return BitmapFactory.decodeFile(path, options)
+}
+
 
 //fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, context: Context) {
 //    val futureBitmap = Glide.with(context).asBitmap().load(this).apply(RequestOptions

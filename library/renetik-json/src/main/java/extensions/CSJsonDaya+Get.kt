@@ -36,6 +36,9 @@ fun CSJsonData.getList(key: String) = data()[key] as? MutableList<Any?>
 fun <T : CSJsonData> CSJsonData.get(type: KClass<T>, key: String) =
     type.createJsonData(getJson(key))
 
+fun <T : CSJsonData> CSJsonData.getList(type: KClass<T>, key: String) =
+    type.createJsonDataList(getJson(key))
+
 private fun <Type> CSJsonData.getJson(key: String): Type? {
     val loadString = getString(key)
     return if (loadString.isEmpty) null else loadString!!.parseJson<Type>()

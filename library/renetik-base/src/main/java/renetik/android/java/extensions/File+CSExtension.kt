@@ -11,14 +11,6 @@ fun File.createNewFileAndDirs() {
     createNewFile()
 }
 
-fun File.write(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int) = apply {
-    createNewFileAndDirs()
-    outputStream().use { out ->
-        bitmap.compress(format, quality, out)
-        out.flush()
-    }
-}
-
 fun File.write(text: String) = apply {
     createNewFileAndDirs()
     writeText(text)

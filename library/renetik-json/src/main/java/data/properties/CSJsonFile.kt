@@ -7,7 +7,7 @@ import java.io.File
 
 class CSJsonFile(val data: CSJsonData, private val key: String) {
     var file: File?
-        get() = File(data.getString(key))
+        get() = data.getString(key)?.let { File(it) }
         set(file) = data.put(key, file?.toString())
 
     val value: File get() = file!!

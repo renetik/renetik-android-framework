@@ -15,7 +15,7 @@ import renetik.android.extensions.openInputStream
 import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndWarn
 import java.io.OutputStream
-import java.lang.Math.max
+import kotlin.math.max
 
 fun Uri.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, output: OutputStream) = apply {
     tryAndError {
@@ -26,13 +26,17 @@ fun Uri.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, output: OutputStr
         }
         application.openInputStream(this).use { input ->
             val options = Options()
-            options.inSampleSize = max(decodeBounds.outWidth / maxTargetWidth,
-                    decodeBounds.outHeight / maxTargetHeight)
+            options.inSampleSize = max(
+                decodeBounds.outWidth / maxTargetWidth,
+                decodeBounds.outHeight / maxTargetHeight
+            )
             decodeStream(input, null, options)?.let { roughBitmap: Bitmap ->
                 val scaledBitmap = roughBitmap.scale(maxTargetWidth, maxTargetHeight)
-                val rotatedBitmap = createBitmap(scaledBitmap, 0, 0,
-                        scaledBitmap.width, scaledBitmap.height,
-                        createFixOrientationMatrix(), true)
+                val rotatedBitmap = createBitmap(
+                    scaledBitmap, 0, 0,
+                    scaledBitmap.width, scaledBitmap.height,
+                    createFixOrientationMatrix(), true
+                )
                 scaledBitmap.recycle()
                 output.use {
                     rotatedBitmap.compress(JPEG, 80, it)
@@ -48,7 +52,7 @@ fun Uri.createFixOrientationMatrix(): Matrix {
     val matrix = Matrix()
     tryAndWarn {
         val orientation = ExifInterface(application.openInputStream(this)!!)
-                .getAttributeInt(TAG_ORIENTATION, ORIENTATION_NORMAL)
+            .getAttributeInt(TAG_ORIENTATION, ORIENTATION_NORMAL)
         when (orientation) {
             ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
             ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
@@ -69,7 +73,7 @@ fun Uri.createFixOrientationMatrix(): Matrix {
         }
         if (orientation == ORIENTATION_UNDEFINED) fixRotationByContentQuery(matrix)
     }
-    return matrix;
+    return matrix
 }
 
 fun Uri.fixRotationByContentQuery(matrix: Matrix) {
