@@ -90,7 +90,7 @@ class CSDialog : CSContextController {
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
         dialog = MaterialDialog(this).show {
             positiveButton(text = positiveText) { onPositive(this@CSDialog) }
-            negativeButton(R.string.cs_dialog_cancel)
+            if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
             initialize()
         }
     }
@@ -110,7 +110,7 @@ class CSDialog : CSContextController {
         dialog = MaterialDialog(this).show {
             initialize()
             positiveButton(R.string.cs_dialog_ok) { onPositive(this@CSDialog) }
-                .negativeButton(R.string.cs_dialog_cancel)
+            if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
         }
     }
 
@@ -145,10 +145,9 @@ class CSDialog : CSContextController {
             cancelable(false)
             negativeButton(R.string.cs_dialog_cancel) {
                 dismiss()
-                onCancel(this@CSDialog) }
+                onCancel(this@CSDialog)
+            }
         }
-        //        builder.progress(true, 0).negativeText(R.string.cs_dialog_cancel).cancelable(false)
-//            .onNegative { _, _ -> onCancel(this) }
     }
 
     fun showIndeterminateProgress(
@@ -164,17 +163,12 @@ class CSDialog : CSContextController {
             positiveButton(text = actionText) { action(this@CSDialog) }
             negativeButton(text = cancelText) {
                 dismiss()
-                onCancel(this@CSDialog) }
+                onCancel(this@CSDialog)
+            }
         }
-
-        //        builder.positiveText(actionText).onPositive { _, _ -> action(this) }
-//            .negativeText(cancelText).onNegative { _, _ -> onCancel(this) }
-//            .progress(true, 0).cancelable(false)
     }
 
     fun showProgress(progressMax: Int, cancelText: String, onCancel: ((CSDialog) -> Unit)? = null) = apply {
-        //        builder.negativeText(cancelText).onNegative { _, _ -> onCancel?.invoke(this) }
-//            .progress(false, progressMax).cancelable(false)
         progress = ProgressBar(this).apply {
             isIndeterminate = false
             max = progressMax
@@ -186,15 +180,16 @@ class CSDialog : CSContextController {
             cancelable(false)
             negativeButton(text = cancelText) {
                 dismiss()
-                onCancel?.invoke(this@CSDialog) }
+                onCancel?.invoke(this@CSDialog)
+            }
         }
     }
 
     fun showInput(hint: String = "", text: String = "", positiveAction: (CSDialog) -> Unit) = apply {
         dialog = MaterialDialog(this).show {
             initialize()
-            positiveButton(R.string.cs_dialog_ok) { }
-            negativeButton(R.string.cs_dialog_cancel)
+            positiveButton(R.string.cs_dialog_ok) { positiveAction(this@CSDialog) }
+            if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
             input(hint = hint, prefill = text, allowEmpty = false) { _, _ ->
                 positiveAction(this@CSDialog)
             }
@@ -249,7 +244,7 @@ class CSDialog : CSContextController {
         }
 
     fun progress(value: Int): CSDialog {
-//        dialog!!.setProgress(value)
+        progress!!.progress = value
         return this
     }
 }
