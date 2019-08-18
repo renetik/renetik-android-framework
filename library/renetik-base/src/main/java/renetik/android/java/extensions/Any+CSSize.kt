@@ -33,3 +33,13 @@ val Any?.isEmpty get() = size == 0
 val Any?.isSet get() = !isEmpty
 
 val Any?.notEmpty get() = isSet
+
+fun <T : Any?> T.isSet(block: (T) -> Unit): Boolean = if (this.isSet) {
+    block(this)
+    true
+} else false
+
+fun <T : Any?> T.isEmpty(block: (T) -> Unit): Boolean = if (this.isEmpty) {
+    block(this)
+    true
+} else false

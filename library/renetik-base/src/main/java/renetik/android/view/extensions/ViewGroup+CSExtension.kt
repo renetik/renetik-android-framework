@@ -1,6 +1,7 @@
 package renetik.android.view.extensions
 
 import android.view.LayoutInflater
+import android.view.LayoutInflater.*
 import android.view.View
 import android.view.ViewGroup
 import renetik.android.base.CSView
@@ -21,11 +22,13 @@ fun <ViewType : View> ViewGroup.add(view: ViewType, layout: ViewGroup.LayoutPara
     return view
 }
 
-fun <ViewType : View> ViewGroup.add(layoutId: Int): ViewType = add(inflate<ViewType>(layoutId))
+//  return add(inflate<ViewType>(layoutId))
+fun <ViewType : View> ViewGroup.add(layoutId: Int) =
+    from(context).inflate(layoutId, this, true) as ViewType
 
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.inflate(layoutId: Int): ViewType =
-        LayoutInflater.from(context).inflate(layoutId, this, false) as ViewType
+        from(context).inflate(layoutId, this, false) as ViewType
 
 fun <T : ViewGroup> T.remove(view: CSView<*>) = remove(view.view)
 

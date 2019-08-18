@@ -38,6 +38,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     override val onDestroy = event<Unit>()
     override val onBack = event<CSValue<Boolean>>()
     override val onConfigurationChanged = event<Configuration>()
+    override val onOrientationChanged = event<Configuration>()
     override val onLowMemory = event<Unit>()
     override val onUserLeaveHint = event<Unit>()
     override val onPrepareOptionsMenu = event<CSOnMenu>()
@@ -152,7 +153,10 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         onStop.fire()
     }
 
+    protected open fun onBeforeDestroy() = Unit
+
     override fun onDestroy() {
+        onBeforeDestroy()
         super.onDestroy()
         if (isStarted) logWarn(Throwable(), "Started while destroyed, should be stopped first")
         if (isDestroyed) throw exception("Already destroyed")
@@ -186,25 +190,26 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         activity = parent.activity()
         parentController.isNull { root = this }
         return CSEventRegistrations(
-                parent.onCreate.execute { argument -> onCreate(argument) },
-                parent.onStart.execute { onStart() },
-                parent.onResume.execute { onResume() },
-                parent.onPause.execute { onPause() },
-                parent.onStop.execute { onStop() },
-                parent.onDestroy.execute { onDestroy() },
-                parent.onBack.execute { argument -> onBack(argument) },
-                parent.onActivityResult.execute { argument -> onActivityResult(argument) },
-                parent.onCreateOptionsMenu.execute { argument -> onCreateOptionsMenu(argument) },
-                parent.onOptionsItemSelected.execute { argument -> onOptionsItemSelected(argument) },
-                parent.onPrepareOptionsMenu.execute { argument -> onPrepareOptionsMenu(argument) },
-                parent.onKeyDown.execute { argument -> onKeyDown(argument) },
-                parent.onNewIntent.execute { argument -> onNewIntent(argument) },
-                parent.onUserLeaveHint.execute { onUserLeaveHint() },
-                parent.onLowMemory.execute { onLowMemory() },
-                parent.onConfigurationChanged.execute { argument -> onConfigurationChanged(argument) },
-                parent.onRequestPermissionsResult.execute { argument -> onRequestPermissionsResult(argument) },
-                parent.onSaveInstanceState.execute { argument -> onSaveInstanceState(argument) },
-                parent.onViewVisibilityChanged.execute { updateVisibilityChanged() }
+            parent.onCreate.execute { argument -> onCreate(argument) },
+            parent.onStart.execute { onStart() },
+            parent.onResume.execute { onResume() },
+            parent.onPause.execute { onPause() },
+            parent.onStop.execute { onStop() },
+            parent.onDestroy.execute { onDestroy() },
+            parent.onBack.execute { argument -> onBack(argument) },
+            parent.onActivityResult.execute { argument -> onActivityResult(argument) },
+            parent.onCreateOptionsMenu.execute { argument -> onCreateOptionsMenu(argument) },
+            parent.onOptionsItemSelected.execute { argument -> onOptionsItemSelected(argument) },
+            parent.onPrepareOptionsMenu.execute { argument -> onPrepareOptionsMenu(argument) },
+            parent.onKeyDown.execute { argument -> onKeyDown(argument) },
+            parent.onNewIntent.execute { argument -> onNewIntent(argument) },
+            parent.onUserLeaveHint.execute { onUserLeaveHint() },
+            parent.onLowMemory.execute { onLowMemory() },
+            parent.onConfigurationChanged.execute { argument -> onConfigurationChanged(argument) },
+            parent.onOrientationChanged.execute { argument -> onOrientationChanged(argument) },
+            parent.onRequestPermissionsResult.execute { argument -> onRequestPermissionsResult(argument) },
+            parent.onSaveInstanceState.execute { argument -> onSaveInstanceState(argument) },
+            parent.onViewVisibilityChanged.execute { updateVisibilityChanged() }
         )
     }
 
@@ -254,7 +259,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         return parentController?.let { parent ->
             @Suppress("UNCHECKED_CAST")
             viewId?.let { id -> parent.view.findViewRecursive<ViewType>(id) }
-                    ?: parentController!!.view as ViewType
+                ?: parentController!!.view as ViewType
         } ?: throw exception("This should not happen man ;)")
     }
 
@@ -317,18 +322,20 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     protected open fun onViewHidingAgain() {}
 
     protected fun ifVisible(registration: CSEventRegistration?) =
-            registration?.let { isVisibleEventRegistrations.add(it) }
+        registration?.let { isVisibleEventRegistrations.add(it) }
 
     protected fun register(registration: CSEventRegistration?) =
-            registration?.let { eventRegistrations.add(it) }
+        registration?.let { eventRegistrations.add(it) }
 
     protected fun whileShowing(registration: CSEventRegistration?) =
-            registration?.let { whileShowingEventRegistrations.add(it) }
+        registration?.let { whileShowingEventRegistrations.add(it) }
 
     protected open fun onConfigurationChanged(newConfig: Configuration) = onConfigurationChanged.fire(newConfig)
 
+    protected open fun onOrientationChanged(newConfig: Configuration) = onOrientationChanged.fire(newConfig)
+
     protected open fun onRequestPermissionsResult(requestPermissionResult: CSRequestPermissionResult) =
-            onRequestPermissionsResult.fire(requestPermissionResult)
+        onRequestPermissionsResult.fire(requestPermissionResult)
 
     protected open fun onSaveInstanceState(outState: Bundle) = onSaveInstanceState.fire(outState)
 
@@ -347,6 +354,6 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     override fun hideKeyboard() {
         val view = activity!!.currentFocus ?: view
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
-                .hideSoftInputFromWindow(view.rootView.windowToken, 0)
+            .hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
 }

@@ -12,3 +12,8 @@ fun <T : View> CSViewController<T>.push(): CSViewController<T> {
     return this
 }
 
+var <T : View> CSViewController<T>.requestedOrientation
+    get() = activity().requestedOrientation
+    set(value) {
+        activity().requestedOrientation = value
+    }

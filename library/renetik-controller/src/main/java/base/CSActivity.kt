@@ -29,6 +29,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override val onDestroy = event<Unit>()
     override val onBack = event<CSValue<Boolean>>()
     override val onConfigurationChanged = event<Configuration>()
+    override val onOrientationChanged = event<Configuration>()
     override val onLowMemory = event<Unit>()
     override val onUserLeaveHint = event<Unit>()
     override val onPrepareOptionsMenu = event<CSOnMenu>()
@@ -40,12 +41,15 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override val onRequestPermissionsResult = event<CSRequestPermissionResult>()
     override val onViewVisibilityChanged = event<Boolean>()
     override fun activity() = this
-
     var controller: CSViewController<*>? = null
+    var configuration = Configuration()
+
     abstract fun createController(): CSViewController<*>
+
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
+        configuration.updateFrom(resources.configuration)
         Companion.instance = this
         controller = createController()
         setContentView(controller!!.view)
@@ -74,10 +78,10 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
 
     override fun onDestroy() {
         super.onDestroy()
-        controller!!.view.let { onDestroyUnbindDrawables(it) }
+        onDestroyUnbindDrawables(controller!!.view)
         onDestroy.fire()
         controller = null
-        Companion.instance = null
+        instance = null
         System.gc()
     }
 
@@ -136,6 +140,9 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         onConfigurationChanged.fire(newConfig)
+        if (configuration.orientation != newConfig.orientation)
+            onOrientationChanged.fire(newConfig)
+        configuration.updateFrom(newConfig)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

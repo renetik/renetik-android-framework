@@ -15,8 +15,8 @@ import org.jetbrains.anko.uiThread
 import renetik.android.base.CSView
 import renetik.android.base.application
 import renetik.android.controller.base.CSViewController
-import renetik.android.controller.base.startActivityForResult
 import renetik.android.controller.extensions.requestPermissions
+import renetik.android.controller.extensions.startActivityForResult
 import renetik.android.dialog.extensions.dialog
 import renetik.android.imaging.extensions.resizeImage
 import renetik.android.java.extensions.collections.list
@@ -25,8 +25,9 @@ import renetik.android.java.extensions.createDatedFile
 import renetik.android.material.extensions.snackBarWarn
 import java.io.File
 
-class CSGetPictureController<T : View>(val parent: CSViewController<T>, val title: String, private val folder: File,
-                                       private val onImageReady: (File) -> Unit) : CSViewController<T>(parent) {
+class CSGetPictureController<T : View>(
+    parent: CSViewController<T>, val title: String, private val folder: File,
+    private val onImageReady: (File) -> Unit) : CSViewController<T>(parent) {
 
     constructor(parent: CSViewController<T>, title: String, imagesDirName: String, onImageReady: (File) -> Unit) :
             this(parent, title, File(File(application.externalFilesDir, "Pictures"), imagesDirName), onImageReady)

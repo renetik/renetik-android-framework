@@ -12,6 +12,7 @@ import android.os.BatteryManager
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
 import android.util.Base64
+import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
 import renetik.android.java.common.tryAndError
@@ -20,6 +21,10 @@ import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
 import java.security.MessageDigest
 import java.util.*
+
+private val LOW_DPI_STATUS_BAR_HEIGHT = 19
+private val MEDIUM_DPI_STATUS_BAR_HEIGHT = 25
+private val HIGH_DPI_STATUS_BAR_HEIGHT = 38
 
 abstract class CSContextController : ContextWrapper {
 
@@ -55,7 +60,7 @@ abstract class CSContextController : ContextWrapper {
     val isNetworkConnected
         @SuppressLint("MissingPermission")
         get() = service<ConnectivityManager>(CONNECTIVITY_SERVICE)
-                .activeNetworkInfo?.isConnected ?: false
+            .activeNetworkInfo?.isConnected ?: false
 
     protected val batteryPercent: Float
         get() {
@@ -75,10 +80,16 @@ abstract class CSContextController : ContextWrapper {
     val displayHeight
         get() = defaultDisplay.height
 
-    val statusBarHeight: Int
-        get() {
-            val resource = resources.getIdentifier("status_bar_height", "dimen", "android")
-            return if (resource > 0) resources.getDimensionPixelSize(resource) else 0
+    val displayMetrics get() = DisplayMetrics().apply { defaultDisplay.getMetrics(this) }
+
+    val realDisplayMetrics get() = DisplayMetrics().apply { defaultDisplay.getRealMetrics(this) }
+
+    val statusBarHeight
+        get() = when (displayMetrics.densityDpi) {
+            DisplayMetrics.DENSITY_HIGH -> HIGH_DPI_STATUS_BAR_HEIGHT
+            DisplayMetrics.DENSITY_MEDIUM -> MEDIUM_DPI_STATUS_BAR_HEIGHT
+            DisplayMetrics.DENSITY_LOW -> LOW_DPI_STATUS_BAR_HEIGHT
+            else -> MEDIUM_DPI_STATUS_BAR_HEIGHT
         }
     val isPortrait get() = resources.configuration.orientation == ORIENTATION_PORTRAIT
     val isLandscape get() = !isPortrait

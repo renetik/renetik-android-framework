@@ -9,7 +9,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
-import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.webkit.WebView
 import android.widget.*
@@ -39,7 +38,11 @@ fun View.swipeRefresh(id: Int) = findView<SwipeRefreshLayout>(id)!!
 fun View.seekBar(id: Int) = findView<SeekBar>(id)!!
 
 
-val <T : View> T.isVisible get() = visibility == VISIBLE
+var <T : View> T.isVisible
+    get() = visibility == VISIBLE
+    set(value) {
+        visible(value)
+    }
 
 fun <T : View> T.visible(visible: Boolean) = apply { visibility = if (visible) VISIBLE else GONE }
 

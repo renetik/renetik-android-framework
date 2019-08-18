@@ -8,6 +8,7 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.java.event.CSEvent
 import renetik.android.java.common.CSValue
+import renetik.android.java.event.event
 
 interface CSViewControllerParent {
     val onCreate: CSEvent<Bundle?>
@@ -19,6 +20,7 @@ interface CSViewControllerParent {
     val onDestroy: CSEvent<Unit>
     val onBack: CSEvent<CSValue<Boolean>>
     val onConfigurationChanged: CSEvent<Configuration>
+    val onOrientationChanged: CSEvent<Configuration>
     val onLowMemory: CSEvent<Unit>
     val onUserLeaveHint: CSEvent<Unit>
     val onPrepareOptionsMenu: CSEvent<CSOnMenu>
