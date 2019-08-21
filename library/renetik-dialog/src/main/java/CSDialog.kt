@@ -4,6 +4,8 @@ import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ProgressBar
+import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.customview.customView
@@ -203,8 +205,7 @@ class CSDialog : CSContextController {
 
     fun withIcon(showAppIcon: Boolean) = apply { isShowAppIcon = showAppIcon }
 
-
-    fun withIcon(resource: Int) = apply { icon = getDrawable(resource) }
+    fun withIcon(@DrawableRes resource: Int) = apply { icon = getDrawable(resource) }
 
     fun onCancel(cancelAction: (CSDialog) -> Unit) = apply { onDialogCancel = cancelAction }
 
@@ -250,11 +251,11 @@ class CSDialog : CSContextController {
 }
 
 fun <ViewType : View> CSDialog.showViewOf(
-    layoutId: Int,
+    @LayoutRes layoutId: Int,
     action: ((CSDialog.CSOnDialogViewAction<View>) -> Boolean)? = null
 ) = showView(inflate<ViewType>(layoutId), action)
 
 fun CSDialog.showView(
-    layoutId: Int,
+    @LayoutRes layoutId: Int,
     action: ((CSDialog.CSOnDialogViewAction<View>) -> Boolean)? = null
 ) = showViewOf<View>(layoutId, action)

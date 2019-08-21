@@ -8,7 +8,11 @@ fun <T, ListType : MutableList<T>> ListType.putAll(vararg items: T) = apply { ad
 fun <T, ListType : MutableList<T>> ListType.put(item: T, index: Int) = item.apply { add(index, this) }
 fun <T, ListType : MutableList<T>> ListType.replace(item: T, index: Int) = item.apply { set(index, item) }
 fun <T, ListType : MutableList<T>> ListType.reload(values: Iterable<T>) = deleteAll().putAll(values)
-fun <T, ListType : MutableList<T>> ListType.delete(item: T) = indexOf(item).apply { removeAt(this) }
+fun <T, ListType : MutableList<T>> ListType.delete(item: T): T {
+    indexOf(item).apply { removeAt(this) }
+    return item
+}
+
 fun <T, ListType : MutableList<T>> ListType.delete(index: Int): T? = at(index)?.apply { removeAt(index) }
 fun <T, ListType : MutableList<T>> ListType.deleteFirst() = delete(0)
 fun <T, ListType : MutableList<T>> ListType.deleteLast() = delete(lastIndex)

@@ -1,12 +1,13 @@
 package renetik.android.themes
 
 import android.app.Activity
+import androidx.annotation.StyleRes
 import renetik.android.base.application
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.at
 import renetik.android.java.extensions.collections.reload
 
-class CSTheme(val title: String, val style: Int)
+class CSTheme(val title: String, @StyleRes val style: Int)
 
 class CSThemes {
     companion object {
@@ -27,7 +28,7 @@ class CSThemes {
             activity.recreate()
         }
 
-        val default
+        private val default
             get() = list(
                     CSTheme("Theme Purple 2", R.style.CSThemePurple2),
                     CSTheme("Theme Cyan Teal", R.style.CSThemeCyanTeal),

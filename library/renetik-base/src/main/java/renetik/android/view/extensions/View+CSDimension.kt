@@ -3,6 +3,9 @@ package renetik.android.view.extensions
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
+import renetik.android.base.application
+import renetik.android.extensions.toDp
+import renetik.android.extensions.toPixel
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit) = apply {
     if (width == 0 || height == 0)
@@ -100,5 +103,15 @@ var View.layoutHeight: Int
         height(value)
     }
 
+var View.widthDp: Float
+    get() = application.toDp(width)
+    set(value) {
+        width(application.toPixel(value))
+    }
 
+var View.heightDp: Float
+    get() = application.toDp(height)
+    set(value) {
+        height(application.toPixel(value))
+    }
 

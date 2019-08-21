@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.base.CSLayoutId
 import renetik.android.base.CSView
@@ -90,7 +91,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         parentRegistrations = initialize(parent)
     }
 
-    constructor(parent: CSViewController<*>, viewId: Int) : super(parent) {
+    constructor(parent: CSViewController<*>, @IdRes viewId: Int) : super(parent) {
         parentController = parent
         this.viewId = viewId
         parentRegistrations = initialize(parent)

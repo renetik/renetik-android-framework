@@ -12,11 +12,8 @@ import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLabel
 import renetik.android.extensions.applicationLogo
-import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.collections.deleteLast
-import renetik.android.java.extensions.collections.hasItems
-import renetik.android.java.extensions.collections.last
-import renetik.android.java.extensions.collections.put
+import renetik.android.java.extensions.collections.*
+import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.add
@@ -24,8 +21,8 @@ import renetik.android.view.extensions.remove
 
 lateinit var navigation: CSNavigationController
 
-open class CSNavigationController(activity: CSActivity)
-    : CSViewController<FrameLayout>(activity, layout(R.layout.cs_navigation)), CSNavigationItem {
+open class CSNavigationController(activity: CSActivity) :
+    CSViewController<FrameLayout>(activity, layout(R.layout.cs_navigation)), CSNavigationItem {
 
     override fun onCreate() {
         super.onCreate()
@@ -85,6 +82,34 @@ open class CSNavigationController(activity: CSActivity)
         return controller
     }
 
+    fun <T : View> replace(
+        oldController: CSViewController<T>,
+        newController: CSViewController<T>
+    ): CSViewController<T> {
+        if (controllers.last == oldController) return pushAsLast(newController)
+
+        val indexOfController = controllers.indexOf(oldController)
+        if (indexOfController == -1) throw exception("oldController not found in navigation")
+
+        controllers.delete(oldController).let { lastController ->
+//            lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
+            lastController.showingInContainer(false)
+            view.remove(lastController)
+            lastController.deInitialize()
+        }
+        controllers.put(newController, indexOfController)
+//        controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
+        view.addView(newController.view, indexOfController)
+        newController.showingInContainer(false)
+        newController.initialize()
+//        updateBackButton()
+//        updateBarTitle()
+//        updateBarIcon()
+//        invalidateOptionsMenu()
+//        hideKeyboard()
+        return newController
+    }
+
     private fun updateBarTitle() {
         (controllers.last as? CSNavigationItem)?.navigationItemTitle?.let { lastControllerItemTitle ->
             setActionBarTitle(lastControllerItemTitle)
@@ -100,7 +125,7 @@ open class CSNavigationController(activity: CSActivity)
             setActionBarIcon(icon)
         } ?: let {
             navigationItemIcon?.let { icon -> setActionBarIcon(icon) }
-                    ?: setActionBarIcon(applicationLogo ?: applicationIcon)
+                ?: setActionBarIcon(applicationLogo ?: applicationIcon)
         }
     }
 
@@ -121,8 +146,8 @@ open class CSNavigationController(activity: CSActivity)
 
     private fun updateBackButton() {
         val isBackButtonVisible =
-                (controllers.last as? CSNavigationItem)?.isNavigationItemBackButton
-                        ?: isNavigationItemBackButton
+            (controllers.last as? CSNavigationItem)?.isNavigationItemBackButton
+                ?: isNavigationItemBackButton
         if (controllers.size > 1 && isBackButtonVisible) showBackButton()
         else hideBackButton()
     }
