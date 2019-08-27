@@ -4,5 +4,6 @@ apply from: '../../library.gradle'
 dependencies {
     implementation project(':renetik-android-base')
     implementation project(':renetik-android-dialog')
-    implementation project(':renetik-android-material') //using snackbar
+    implementation project(':renetik-android-material') //using snackbar and floating button
+    implementation "com.google.android.material:material:$material_version"
 }
