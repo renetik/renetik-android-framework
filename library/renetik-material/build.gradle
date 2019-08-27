@@ -3,5 +3,4 @@ apply from: '../../library.gradle'
 
 dependencies {
     implementation project(':renetik-android-base')
-    api "com.google.android.material:material:$material_version"
 }
