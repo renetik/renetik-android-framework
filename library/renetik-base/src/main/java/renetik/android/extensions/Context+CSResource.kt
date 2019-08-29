@@ -29,8 +29,6 @@ fun Context.color(value: Int): Int {
 @ColorInt
 fun Context.resourceColor(color: Int) = ContextCompat.getColor(this, color)
 
-//fun Context.resourceString(id: Int) = resources.getString(id)
-
 fun Context.resourceBytes(id: Int) = tryAndWarn {
     val stream = resources.openRawResource(id)
     val outputStream = ByteArrayOutputStream()

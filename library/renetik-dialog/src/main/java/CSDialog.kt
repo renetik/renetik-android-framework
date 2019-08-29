@@ -18,7 +18,7 @@ import renetik.android.extensions.applicationLogo
 import renetik.android.extensions.inflate
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.string
+import renetik.android.java.extensions.stringify
 import renetik.android.view.extensions.withClear
 
 class CSDialog : CSContextController {
@@ -45,7 +45,7 @@ class CSDialog : CSContextController {
     var isCheckboxChecked = false
     var onDialogCancel: ((CSDialog) -> Unit)? = null
 
-    val inputText get() = string(dialog?.getInputField()?.text)
+    val inputText get() = dialog?.getInputField()?.text.stringify()
 
     init {
         initDefaultsFunction?.invoke(this)
@@ -170,34 +170,36 @@ class CSDialog : CSContextController {
         }
     }
 
-    fun showProgress(progressMax: Int, cancelText: String, onCancel: ((CSDialog) -> Unit)? = null) = apply {
-        progress = ProgressBar(this).apply {
-            isIndeterminate = false
-            max = progressMax
-        }
-        dialog = MaterialDialog(this).show {
-            initialize()
-            customView(view = progress, scrollable = false)
-            noAutoDismiss()
-            cancelable(false)
-            negativeButton(text = cancelText) {
-                dismiss()
-                onCancel?.invoke(this@CSDialog)
+    fun showProgress(progressMax: Int, cancelText: String, onCancel: ((CSDialog) -> Unit)? = null) =
+        apply {
+            progress = ProgressBar(this).apply {
+                isIndeterminate = false
+                max = progressMax
+            }
+            dialog = MaterialDialog(this).show {
+                initialize()
+                customView(view = progress, scrollable = false)
+                noAutoDismiss()
+                cancelable(false)
+                negativeButton(text = cancelText) {
+                    dismiss()
+                    onCancel?.invoke(this@CSDialog)
+                }
             }
         }
-    }
 
-    fun showInput(hint: String = "", text: String = "", positiveAction: (CSDialog) -> Unit) = apply {
-        dialog = MaterialDialog(this).show {
-            initialize()
-            positiveButton(R.string.cs_dialog_ok) { positiveAction(this@CSDialog) }
-            if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
-            input(hint = hint, prefill = text, allowEmpty = false) { _, _ ->
-                positiveAction(this@CSDialog)
+    fun showInput(hint: String = "", text: String = "", positiveAction: (CSDialog) -> Unit) =
+        apply {
+            dialog = MaterialDialog(this).show {
+                initialize()
+                positiveButton(R.string.cs_dialog_ok) { positiveAction(this@CSDialog) }
+                if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
+                input(hint = hint, prefill = text, allowEmpty = false) { _, _ ->
+                    positiveAction(this@CSDialog)
+                }
+                getInputField().withClear()
             }
-            getInputField().withClear()
         }
-    }
 
     fun cancelable(cancelable: Boolean) = apply {
         isCancelable = cancelable
