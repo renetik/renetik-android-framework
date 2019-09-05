@@ -27,6 +27,7 @@ fun <ViewType : View> ViewGroup.add(
     return view
 }
 
+@Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.add(layoutId: Int): ViewType {
     from(context).inflate(layoutId, this, true)
     return lastChild as ViewType

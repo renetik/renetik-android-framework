@@ -30,7 +30,10 @@ fun CSJsonData.getBoolean(key: String) = try {
     null
 }
 
+@Suppress("UNCHECKED_CAST")
 fun CSJsonData.getMap(key: String) = data()[key] as? MutableMap<String, Any?>
+
+@Suppress("UNCHECKED_CAST")
 fun CSJsonData.getList(key: String) = data()[key] as? MutableList<Any?>
 
 fun <T : CSJsonData> CSJsonData.get(type: KClass<T>, key: String) =
