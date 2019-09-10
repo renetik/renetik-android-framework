@@ -1,4 +1,4 @@
-package renetik.android.json
+package renetik.android.json.renetik.android.json
 
 import org.junit.Assert.*
 import org.junit.Test

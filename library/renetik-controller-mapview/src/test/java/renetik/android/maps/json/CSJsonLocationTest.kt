@@ -16,7 +16,7 @@ import renetik.android.base.CSApplication
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = ApplicationMock::class)
-class CSJsonTest {
+class CSJsonLocationTest {
 
     private val json = """ {"location":[90,-138],"title":"Nice House"} """
 
