@@ -122,6 +122,7 @@ class CSDialog : CSContextController {
     ) = apply {
         dialog = MaterialDialog(this).show {
             initialize()
+            @Suppress("DEPRECATION")
             neutralButton(text = leftButton) { leftButtonAction(this@CSDialog) }
             positiveButton(text = rightButton) { rightButtonAction(this@CSDialog) }
         }
@@ -138,16 +139,18 @@ class CSDialog : CSContextController {
         }
     }
 
-    fun showIndeterminateProgress(onCancel: (CSDialog) -> Unit) = apply {
+    fun showIndeterminateProgress(onCancel: ((CSDialog) -> Unit)? = null) = apply {
         progress = ProgressBar(this).apply { isIndeterminate = true }
         dialog = MaterialDialog(this).show {
             initialize()
             customView(view = progress, scrollable = false)
             noAutoDismiss()
             cancelable(false)
-            negativeButton(R.string.cs_dialog_cancel) {
-                dismiss()
-                onCancel(this@CSDialog)
+            onCancel?.let {
+                negativeButton(R.string.cs_dialog_cancel) {
+                    dismiss()
+                    onCancel(this@CSDialog)
+                }
             }
         }
     }

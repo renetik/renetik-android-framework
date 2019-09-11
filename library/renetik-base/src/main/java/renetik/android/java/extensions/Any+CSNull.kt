@@ -9,7 +9,7 @@ fun isSet(vararg items: Any?) = notNull(*items)
 
 fun notSet(vararg items: Any?) = !isSet(*items)
 
-fun isNull(vararg items: Any?): Boolean = !notNull(*items)
+fun isSomeNull(vararg items: Any?): Boolean = !notNull(*items)
 
 fun <T : Any, R> T?.notNull(block: (T) -> R): R? = if (this != null) block(this) else null
 
