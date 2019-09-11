@@ -15,13 +15,11 @@ open class CSRequestListController<RowType : CSJsonData, ViewType : AbsListView>
 
     constructor(parent: CSViewController<*>, view: ViewType,
                 createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
-            : super(parent, view, createView) {
-    }
+            : super(parent, view, createView)
 
     constructor(parent: CSViewController<*>, listViewId: Int,
                 createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
-            : super(parent, listViewId, createView) {
-    }
+            : super(parent, listViewId, createView)
 
     fun reload(progress: Boolean) = onReload!!(progress).onSuccess { reload(it.list) }
 }

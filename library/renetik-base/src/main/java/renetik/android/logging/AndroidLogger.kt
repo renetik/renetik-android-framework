@@ -11,7 +11,7 @@ import java.lang.StringBuilder
 import java.text.DateFormat
 import java.util.*
 
-class AndroidLogger() : CSContextController(), CSLogger {
+class AndroidLogger : CSContextController(), CSLogger {
 
     private val maxLogSize = 2.5 * MB
     private val dateFormat = DateFormat.getDateTimeInstance()

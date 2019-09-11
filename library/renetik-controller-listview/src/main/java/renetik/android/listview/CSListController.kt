@@ -192,7 +192,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     }
 
     fun selectedIndex(index: Int) = apply {
-        view.choiceMode = CHOICE_MODE_SINGLE;
+        view.choiceMode = CHOICE_MODE_SINGLE
         view.setItemChecked(index, true)
         view.setSelectionFromTop(index, 0)
         view.setSelection(index)

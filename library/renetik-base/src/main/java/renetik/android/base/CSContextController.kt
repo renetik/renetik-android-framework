@@ -110,7 +110,7 @@ abstract class CSContextController : ContextWrapper {
         return false
     }
 
-    fun startService(serviceClass: Class<out Service>) = startService(Intent(this, serviceClass))
+    fun startService(serviceClass: Class<out Service>): ComponentName? = startService(Intent(this, serviceClass))
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
     protected open fun onDestroy() = Unit
 }

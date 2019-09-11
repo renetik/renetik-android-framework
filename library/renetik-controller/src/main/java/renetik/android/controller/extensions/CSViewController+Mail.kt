@@ -29,7 +29,7 @@ fun <T : CSViewController<*>> T.sendMail(emails: List<String>, subject: String, 
             else if (!(file.exists() && file.canRead())) throw Exception("Attachment can not be read")
             attachmentUris.add(Uri.fromFile(file))
         }
-        if (attachments.isNotEmpty()) putParcelableArrayListExtra(EXTRA_STREAM, attachmentUris);
+        if (attachments.isNotEmpty()) putParcelableArrayListExtra(EXTRA_STREAM, attachmentUris)
         startActivity(createChooser(this, "Pick an Email provider"))
     }
 }

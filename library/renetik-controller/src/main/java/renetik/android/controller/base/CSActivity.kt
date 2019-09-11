@@ -50,7 +50,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         configuration.updateFrom(resources.configuration)
-        Companion.instance = this
+        instance = this
         controller = createController()
         setContentView(controller!!.view)
         onCreate.fire(state)

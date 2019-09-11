@@ -16,9 +16,9 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.textView
 import renetik.android.java.common.CSConstants.SECOND
 import renetik.android.java.extensions.collections.beforeLast
-import renetik.android.location.asLatLng
 import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
+import renetik.android.maps.extensions.asLatLng
 import renetik.android.sample.R
 import renetik.android.sample.model.MapPosition
 import renetik.android.sample.model.model

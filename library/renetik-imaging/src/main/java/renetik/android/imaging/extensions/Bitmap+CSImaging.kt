@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.Matrix
 import android.graphics.RectF
-import renetik.android.java.extensions.write
 import java.io.File
 
 fun Bitmap.scale(maxTargetWidth: Int, maxTargetHeight: Int): Bitmap {
@@ -19,7 +18,7 @@ fun Bitmap.scale(maxTargetWidth: Int, maxTargetHeight: Int): Bitmap {
         (height * values[4]).toInt(), true
     )
     recycle()
-    return scaled;
+    return scaled
 }
 
 

@@ -11,7 +11,7 @@ import renetik.android.java.extensions.*
 import java.text.DateFormat
 import java.util.*
 
-class CrashlyticsLogger() : CSContextController(), CSLogger {
+class CrashlyticsLogger : CSContextController(), CSLogger {
 
     private val maxLogSize = 2.5 * MB
     private val dateFormat = DateFormat.getDateTimeInstance()

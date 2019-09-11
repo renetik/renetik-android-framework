@@ -1,4 +1,4 @@
-package renetik.android.location
+package renetik.android.maps.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context

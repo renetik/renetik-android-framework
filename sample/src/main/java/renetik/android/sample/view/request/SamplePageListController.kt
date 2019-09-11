@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import renetik.android.base.layout
+import renetik.android.client.okhttp3.extensions.image
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.pager.CSPagerPage
 import renetik.android.dialog.extensions.dialog
@@ -11,7 +12,6 @@ import renetik.android.dialog.showView
 import renetik.android.extensions.swipeRefresh
 import renetik.android.framework.extensions.send
 import renetik.android.framework.extensions.sendWithProgress
-import renetik.android.imaging.extensions.image
 import renetik.android.listview.actions.CSRemoveListRowsController
 import renetik.android.listview.CSRowView
 import renetik.android.listview.emptyView

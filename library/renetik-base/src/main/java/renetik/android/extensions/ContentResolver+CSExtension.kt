@@ -1,3 +1,5 @@
+package renetik.android.extensions
+
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.MediaStore

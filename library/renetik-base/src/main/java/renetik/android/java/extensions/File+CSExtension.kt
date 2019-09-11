@@ -1,6 +1,5 @@
 package renetik.android.java.extensions
 
-import android.graphics.Bitmap
 import java.io.File
 import java.io.File.createTempFile
 import java.util.*

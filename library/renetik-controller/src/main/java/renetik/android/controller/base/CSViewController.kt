@@ -281,7 +281,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     protected fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (showingInContainer == false) return false
-        if (parentController?.isShowing == false) return false;
+        if (parentController?.isShowing == false) return false
         return true
     }
 

@@ -13,7 +13,7 @@ import renetik.android.java.event.CSEvent
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.event
 import renetik.android.java.event.execute
-import renetik.android.location.asLatLng
+import renetik.android.maps.extensions.asLatLng
 
 private const val DEFAULT_ZOOM = 13f
 

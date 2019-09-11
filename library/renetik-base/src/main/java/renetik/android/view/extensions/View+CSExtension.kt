@@ -15,7 +15,7 @@ import android.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.view.adapter.CSAnimatorAdapter
 
-fun <T : View> View.findView(id: Int): T? = findViewById<T>(id)
+fun <T : View> View.findView(id: Int): T? = findViewById(id)
 fun View.simpleView(id: Int) = findView<View>(id)!!
 fun View.editText(id: Int) = findView<EditText>(id)!!
 fun View.textView(id: Int) = findView<TextView>(id)!!
@@ -56,8 +56,8 @@ val <T : View> T.parentView get() = parent as? View
 
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
 
-fun <T : View> View.findViewRecursive(id: Int): T? = findView<T>(id)
-    ?: parentView?.findViewRecursive<T>(id)
+fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
+    ?: parentView?.findViewRecursive(id)
 
 
 fun <T : View> T.fade(fadeIn: Boolean) = if (fadeIn) fadeIn() else fadeOut()

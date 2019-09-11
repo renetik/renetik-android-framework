@@ -1,4 +1,4 @@
-package renetik.android.imaging.extensions
+package renetik.android.client.okhttp3.extensions
 
 import android.widget.ImageView
 import com.androidnetworking.error.ANError

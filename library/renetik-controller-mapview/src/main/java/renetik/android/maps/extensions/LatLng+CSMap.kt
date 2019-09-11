@@ -1,4 +1,4 @@
-package renetik.android.location
+package renetik.android.maps.extensions
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng

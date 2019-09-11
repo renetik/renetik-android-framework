@@ -1,7 +1,6 @@
 package renetik.android.sample.view.request
 
 import android.view.ViewGroup
-import extensions.validateNotEmpty
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.pager.CSPagerController
@@ -11,6 +10,7 @@ import renetik.android.extensions.textView
 import renetik.android.framework.extensions.send
 import renetik.android.java.extensions.collections.list
 import renetik.android.material.extensions.floatingButton
+import renetik.android.material.extensions.validateNotEmpty
 import renetik.android.sample.R
 import renetik.android.sample.model.ServerListItem
 import renetik.android.sample.model.model

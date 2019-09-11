@@ -17,7 +17,7 @@ fun CSJsonData.toJsonObject() = asJsonMap().toJSONObject()
 fun <T : CSJsonData> T.clone(): T = this::class.createJsonData(toJsonString().parseJson())
 
 @Suppress("unchecked_cast")
-open class CSJsonData() : Iterable<String>, CSJsonMap {
+open class CSJsonData : Iterable<String>, CSJsonMap {
 
     var index: Int? = null
     var key: String? = null

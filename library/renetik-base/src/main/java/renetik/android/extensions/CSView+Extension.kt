@@ -12,7 +12,7 @@ import java.util.*
 import java.util.Calendar.HOUR_OF_DAY
 import java.util.Calendar.getInstance
 
-fun <T : View> CSView<*>.findView(id: Int): T? = view.findView<T>(id)
+fun <T : View> CSView<*>.findView(id: Int): T? = view.findView(id)
 fun CSView<*>.simpleView(id: Int) = view.simpleView(id)
 fun CSView<*>.editText(id: Int) = view.editText(id)
 fun CSView<*>.textView(id: Int) = view.textView(id)
@@ -34,12 +34,12 @@ fun CSView<*>.imageView(id: Int) = view.imageView(id)
 fun CSView<*>.swipeRefresh(id: Int) = view.swipeRefresh(id)
 fun CSView<*>.seekBar(id: Int) = view.seekBar(id)
 
-//move to DatePicker extension
-fun CSView<*>.getDate(picker: DatePicker) = getInstance().apply {
+//move to DatePicker extension //TODO move to DatePicker extension
+fun CSView<*>.getDate(picker: DatePicker): Date = getInstance().apply {
     set(picker.year, picker.month, picker.dayOfMonth)
 }.time
 
-//move to TimePicker extension
+//move to TimePicker extension //TODO move to TimePicker extension
 fun CSView<*>.getTime(picker: TimePicker): Date {
     return Calendar.getInstance().apply {
         @Suppress("DEPRECATION") set(HOUR_OF_DAY, picker.currentHour)
@@ -59,7 +59,7 @@ fun CSView<*>.setSpinnerData(spinner: Spinner, strings: Collection<String>) =
 
 fun CSView<*>.setSpinnerData(spinner: Spinner, itemLayout: Int,
                              dropDownItemLayout: Int, strings: Collection<String>) {
-    val adapter = ArrayAdapter<String>(this, itemLayout, list<String>(strings))
+    val adapter = ArrayAdapter<String>(this, itemLayout, list(strings))
     adapter.setDropDownViewResource(dropDownItemLayout)
     spinner.adapter = adapter
 }

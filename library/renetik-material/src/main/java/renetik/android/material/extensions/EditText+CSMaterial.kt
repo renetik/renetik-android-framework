@@ -1,4 +1,4 @@
-package extensions
+package renetik.android.material.extensions
 
 import android.widget.EditText
 import com.google.android.material.textfield.TextInputLayout

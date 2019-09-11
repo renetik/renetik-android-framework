@@ -6,7 +6,7 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.json.data.CSJsonData
 import renetik.android.json.extensions.getList
 import renetik.android.json.extensions.put
-import renetik.android.location.asLatLng
+import renetik.android.maps.extensions.asLatLng
 
 @Suppress("unchecked_cast")
 class CSJsonLocation(val data: CSJsonData, private val key: String) {

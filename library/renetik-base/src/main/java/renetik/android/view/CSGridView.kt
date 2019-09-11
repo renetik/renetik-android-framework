@@ -9,7 +9,7 @@ import java.lang.Integer.MAX_VALUE
 
 class CSGridView : GridView {
 
-    var autoResizeHeight = false;
+    var autoResizeHeight = false
 
     private val attrs: AttributeSet?
 

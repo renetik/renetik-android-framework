@@ -1,17 +1,18 @@
 package renetik.android.view.touch
 
+
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import renetik.android.base.CSView
-import renetik.android.logging.CSLog.logInfo
 import renetik.android.java.event.event
+import renetik.android.logging.CSLog.logInfo
 import java.lang.Math.abs
 
-class CSSwipeDetector() : View.OnTouchListener {
+const val MIN_DISTANCE = 70
 
-    val MIN_DISTANCE = 70
+class CSSwipeDetector() : View.OnTouchListener {
     private var downX = 0F
     private var downY = 0F
     private var upX = 0F
@@ -73,8 +74,10 @@ class CSSwipeDetector() : View.OnTouchListener {
                         return true
                     }
                 } else
-                    logInfo("SwipeDetector Swipe was only " + abs(deltaX) + " long, need at least "
-                            + MIN_DISTANCE)
+                    logInfo(
+                        "SwipeDetector Swipe was only " + abs(deltaX) + " long, need at least "
+                                + MIN_DISTANCE
+                    )
 
                 // swipe vertical?
                 if (abs(deltaY) > MIN_DISTANCE) {

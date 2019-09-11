@@ -3,7 +3,6 @@ package renetik.android.view.extensions
 import android.text.Editable
 import android.widget.TextView
 import renetik.android.java.extensions.isSet
-import renetik.android.java.extensions.string
 import renetik.android.java.extensions.stringify
 import renetik.android.view.adapter.CSTextWatcherAdapter
 

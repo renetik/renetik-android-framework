@@ -2,7 +2,6 @@ package renetik.android.sample.view.list
 
 import android.view.View
 import android.widget.ListView
-import extensions.validateNotEmpty
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationItem
@@ -20,6 +19,7 @@ import renetik.android.listview.emptyView
 import renetik.android.listview.onItemClick
 import renetik.android.logging.CSLog.logInfoToast
 import renetik.android.material.extensions.snackBarInfo
+import renetik.android.material.extensions.validateNotEmpty
 import renetik.android.sample.R
 import renetik.android.sample.model.ListItem
 import renetik.android.sample.model.model
