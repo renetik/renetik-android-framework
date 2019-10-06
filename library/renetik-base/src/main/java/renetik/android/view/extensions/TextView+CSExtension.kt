@@ -11,7 +11,12 @@ fun <T : TextView> T.title(resourceId: Int) = apply { setText(resourceId) }
 fun <T : TextView> T.title(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text(string: CharSequence?) = title(string)
 fun <T : TextView> T.title(): String = text.stringify()
-val <T : TextView> T.title get() = title()
+var <T : TextView> T.title
+    get() = title()
+    set(value) {
+        title(value)
+    }
+
 fun <T : TextView> T.text() = title()
 
 fun <T : TextView> T.hideIfEmpty() = apply { visible(title().isSet) }

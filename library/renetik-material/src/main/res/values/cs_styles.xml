@@ -209,7 +209,7 @@
         <item name="android:padding">2dp</item>
     </style>
 
-    <style name="CSButtonMatchWrap" parent="Widget.MaterialComponents.Button">
+    <style name="CSButtonMatchWrap" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_marginStart">3dp</item>
         <item name="android:layout_marginEnd">3dp</item>
         <item name="android:layout_width">match_parent</item>
@@ -289,10 +289,16 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSInputEdit" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+    <style name="CSInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="CSContainerEmptyText" parent="CSWrap">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/CSTextTitleOverline</item>
     </style>
 
 </resources>

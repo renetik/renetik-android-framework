@@ -9,7 +9,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/SamplePagerAddItem_Name"
-                style="@style/CSInputEdit"
+                style="@style/CSInputEditText"
                 android:hint="Name"
                 android:inputType="text"/>
 
@@ -21,7 +21,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/SamplePagerAddItem_Description"
-                style="@style/CSInputEdit"
+                style="@style/CSInputEditText"
                 android:hint="Description"
                 android:inputType="text"/>
 
