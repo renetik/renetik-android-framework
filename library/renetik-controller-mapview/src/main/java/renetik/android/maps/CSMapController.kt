@@ -9,11 +9,14 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSViewController
+import renetik.android.dialog.extensions.dialog
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.event
 import renetik.android.java.event.execute
+import renetik.android.logging.CSLog.logError
 import renetik.android.maps.extensions.asLatLng
+import kotlin.system.exitProcess
 
 private const val DEFAULT_ZOOM = 13f
 
@@ -35,43 +38,72 @@ open class CSMapController(parent: CSViewController<*>, private val options: Goo
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        view.onCreate(state)
+        catchApiKeyNotFound {
+            view.onCreate(state)
+        }
+    }
+
+    private fun catchApiKeyNotFound(function: () -> Unit) {
+        try {
+            function()
+        } catch (ex: RuntimeException) {
+            logError(ex)
+            if (ex.message?.contains("API key not found") == true)
+                dialog("Error", ex.message!!).cancelable(false).show(onPositive = {
+                    exitProcess(1)
+                })
+            else throw ex
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        view.onResume()
-        view.getMapAsync { onInitializeMap(it) }
+        catchApiKeyNotFound {
+            view.onResume()
+            view.getMapAsync { onInitializeMap(it) }
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        view.onPause()
+        catchApiKeyNotFound {
+            view.onPause()
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        view.onStart()
+        catchApiKeyNotFound {
+            view.onStart()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        view.onStop()
+        catchApiKeyNotFound {
+            view.onStop()
+        }
     }
 
     override fun onDestroy() {
-        view.onDestroy()
+        catchApiKeyNotFound {
+            view.onDestroy()
+        }
         super.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        view.onLowMemory()
+        catchApiKeyNotFound {
+            view.onLowMemory()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        view.onSaveInstanceState(outState)
+        catchApiKeyNotFound {
+            view.onSaveInstanceState(outState)
+        }
     }
 
     private fun onInitializeMap(map: GoogleMap) {

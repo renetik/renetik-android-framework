@@ -6,6 +6,7 @@ dependencies {
     implementation project(':renetik-android-imaging')
     implementation project(':renetik-android-json')
     implementation project(':renetik-android-controller')
+    implementation project(':renetik-android-dialog')
     implementation "com.google.android.gms:play-services-location:17.0.0"
     implementation "com.google.android.gms:play-services-maps:17.0.0"
 }
