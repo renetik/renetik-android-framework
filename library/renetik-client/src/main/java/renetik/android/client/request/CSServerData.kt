@@ -5,10 +5,7 @@ import renetik.android.json.data.properties.CSJsonBoolean
 import renetik.android.json.data.properties.CSJsonDataList
 import renetik.android.json.data.properties.CSJsonInt
 import renetik.android.json.data.properties.CSJsonString
-import renetik.android.json.extensions.createJsonData
-import renetik.android.json.extensions.getBoolean
-import renetik.android.json.extensions.getMap
-import renetik.android.json.extensions.getString
+import renetik.android.json.extensions.*
 import kotlin.reflect.KClass
 
 open class CSServerData : CSJsonData() {

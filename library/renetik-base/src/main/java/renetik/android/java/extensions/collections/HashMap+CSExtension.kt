@@ -1,6 +1,8 @@
 package renetik.android.java.extensions.collections
 
 fun <K, V> map(): MutableMap<K, V> = hashMapOf()
+fun <K, V> map(vararg pairs: Pair<K, V>) = mapOf(*pairs)
+
 fun map(vararg values: Any) = map<Any, Any>().apply {
     var i = 0
     while (i < values.size) {
