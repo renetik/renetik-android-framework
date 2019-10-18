@@ -1,5 +1,7 @@
 package renetik.android.base
 
-fun layout(id: Int) = CSLayoutId(id)
+import androidx.annotation.LayoutRes
 
-class CSLayoutId(val id: Int)
+fun layout(@LayoutRes id: Int) = CSLayoutId(id)
+
+class CSLayoutId(@LayoutRes val id: Int)

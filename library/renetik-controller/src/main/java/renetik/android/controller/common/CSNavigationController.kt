@@ -2,6 +2,7 @@ package renetik.android.controller.common
 
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import renetik.android.base.layout
@@ -21,11 +22,13 @@ import renetik.android.view.extensions.remove
 
 lateinit var navigation: CSNavigationController
 
-open class CSNavigationController(activity: CSActivity) :
-    CSViewController<FrameLayout>(activity, layout(R.layout.cs_navigation)), CSNavigationItem {
+open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationItem {
 
-    override fun onCreate() {
-        super.onCreate()
+    constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
+
+    constructor(parent: CSViewController<out ViewGroup>) : super(parent, layout(R.layout.cs_navigation))
+
+    init {
         navigation = this
     }
 
@@ -92,7 +95,7 @@ open class CSNavigationController(activity: CSActivity) :
         if (indexOfController == -1) throw exception("oldController not found in navigation")
 
         controllers.delete(oldController).let { lastController ->
-//            lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
+            //            lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
             lastController.showingInContainer(false)
             view.remove(lastController)
             lastController.deInitialize()

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.base.CSLayoutId
 import renetik.android.base.CSView
@@ -24,6 +25,7 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isNull
+import renetik.android.java.extensions.isSet
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
@@ -331,7 +333,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     protected fun whileShowing(registration: CSEventRegistration?) =
         registration?.let { whileShowingEventRegistrations.add(it) }
 
-    protected open fun onConfigurationChanged(newConfig: Configuration) = onConfigurationChanged.fire(newConfig)
+    protected open fun onConfigurationChanged(newConfig: Configuration) =
+        onConfigurationChanged.fire(newConfig)
 
     protected open fun onOrientationChanged(newConfig: Configuration) = onOrientationChanged.fire(newConfig)
 
