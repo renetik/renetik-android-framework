@@ -25,7 +25,7 @@ val Any?.size: Int
         if (this is FloatArray) return this.size
         if (this is BooleanArray) return this.size
         if (this is ByteArray) return this.size
-        return 1;
+        return 1
     }
 
 val Any?.isEmpty get() = size == 0

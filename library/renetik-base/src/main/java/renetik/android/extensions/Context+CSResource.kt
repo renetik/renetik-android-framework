@@ -1,6 +1,7 @@
 package renetik.android.extensions
 
 import android.content.Context
+import android.content.res.Configuration
 import android.content.res.Resources.NotFoundException
 import android.net.Uri
 import android.util.DisplayMetrics
@@ -97,4 +98,7 @@ fun Context.openAsset(path: String): InputStream {
 fun Context.readAsset(path: String): String {
     return openAsset(path).bufferedReader().use { it.readText() }
 }
+
+val Context.isPortrait get() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+val Context.isLandscape get() = !isPortrait
 

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import renetik.android.extensions.inflate
+import renetik.android.extensions.service
 import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.fade
 import renetik.android.view.extensions.hide

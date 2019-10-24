@@ -13,9 +13,10 @@ import android.widget.ListView.CHOICE_MODE_SINGLE
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.findView
 import renetik.android.extensions.simpleView
-import renetik.android.java.extensions.collections.list
 import renetik.android.java.event.event
 import renetik.android.java.extensions.collections.at
+import renetik.android.java.extensions.collections.list
+import renetik.android.java.extensions.collections.reload
 import renetik.android.view.extensions.fadeIn
 import renetik.android.view.extensions.fadeOut
 import renetik.android.view.extensions.hide
@@ -23,17 +24,19 @@ import renetik.android.view.extensions.onClick
 
 open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewController<ViewType> {
 
-    val onLoad = event<List<RowType>>()
-    val data = list<RowType>()
-    var viewTypesCount = 1
+    internal val onLoad = event<List<RowType>>()
+    internal var viewTypesCount = 1
+    private val filteredData = list<RowType>()
+    private val data = list<RowType>()
+    private var dataFilter: ((data: MutableList<RowType>) -> MutableList<RowType>)? = null
     private var listAdapter: BaseAdapter = CSListAdapter(this)
     private val createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
     private var firstVisiblePosition: Int = 0
-    var emptyView: View? = null
+    internal var emptyView: View? = null
         set(value) {
             field = value?.hide()
         }
-    var onItemClick: ((CSRowView<RowType>) -> Unit)? = null
+    internal var onItemClick: ((CSRowView<RowType>) -> Unit)? = null
     private var onPositionViewType: ((Int) -> Int)? = null
     private var onItemLongClick: ((CSRowView<RowType>) -> Unit)? = null
     private var onItemClickViewId: Int? = null
@@ -47,19 +50,21 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
             if (positions != null)
                 for (i in 0 until positions.size())
                     if (positions.valueAt(i))
-                        data.at(positions.keyAt(i))?.let { checkedRow -> checkedRows.add(checkedRow) }
+                        filteredData.at(positions.keyAt(i))?.let { checkedRow -> checkedRows.add(checkedRow) }
             return checkedRows
         }
 
-    constructor(parent: CSViewController<*>, view: ViewType,
-                createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
-            : super(parent, view) {
+    constructor(
+        parent: CSViewController<*>, view: ViewType,
+        createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
+    ) : super(parent, view) {
         this.createView = createView
     }
 
-    constructor(parent: CSViewController<*>, listViewId: Int,
-                createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
-            : super(parent, listViewId) {
+    constructor(
+        parent: CSViewController<*>, listViewId: Int,
+        createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
+    ) : super(parent, listViewId) {
         this.createView = createView
     }
 
@@ -85,35 +90,35 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
     fun clear() = apply {
         data.clear()
-        reloadData()
+        filterDataAndReload()
     }
 
     fun getRowView(position: Int, view: View?): View {
         val rowView = if (view == null) createView(position) else asRowView(view)
-        rowView.load(position, data[position])
+        rowView.load(position, filteredData[position])
         return rowView.view
     }
 
     private fun createView(position: Int): CSRowView<RowType> =
-            createView.invoke(this, getItemViewType(position)).also { createdView ->
-                onItemClickViewId?.let {
-                    createdView.simpleView(it).onClick { onItemClick?.invoke(createdView) }
-                }
+        createView.invoke(this, getItemViewType(position)).also { createdView ->
+            onItemClickViewId?.let {
+                createdView.simpleView(it).onClick { onItemClick?.invoke(createdView) }
             }
+        }
 
     @Suppress("UNCHECKED_CAST")
     private fun asRowView(view: View) = view.tag as CSRowView<RowType>
 
     fun load(list: List<RowType>) = apply {
         data.addAll(list)
-        reloadData()
+        filterDataAndReload()
         onLoad.fire(list)
         return this
     }
 
     fun prependData(item: RowType) = apply {
         data.add(0, item)
-        reloadData()
+        filterDataAndReload()
     }
 
     fun reload(list: List<RowType>) = apply {
@@ -121,12 +126,13 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         load(list)
     }
 
-    fun reloadData() {
+    fun filterDataAndReload() {
+        dataFilter?.let { filteredData.reload(it(data)) } ?: filteredData.reload(data)
         listAdapter.notifyDataSetChanged()
         updateEmptyView()
     }
 
-    fun restoreSelectionAndScrollState() {
+    private fun restoreSelectionAndScrollState() {
         (view as? ListView)?.setSelectionFromTop(firstVisiblePosition, 0)
         if (savedSelectionIndex > -1) view.setSelection(savedSelectionIndex)
         savedCheckedItems?.let { item ->
@@ -135,7 +141,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         }
     }
 
-    fun saveSelectionAndScrollState() {
+    private fun saveSelectionAndScrollState() {
         (view as? ListView)?.let { firstVisiblePosition = it.firstVisiblePosition }
         savedSelectionIndex = view.selectedItemPosition
         savedCheckedItems = view.checkedItemPositions
@@ -153,11 +159,16 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         onItemClick = function
     }
 
+    fun dataFilter(function: (data: MutableList<RowType>) -> MutableList<RowType>) =
+        apply { dataFilter = function }
+
     fun onItemLongClick(function: (CSRowView<RowType>) -> Unit) = apply { onItemLongClick = function }
 
     fun onPositionViewType(function: (Int) -> Int) = apply { onPositionViewType = function }
 
-    fun dataAt(position: Int) = data.at(position)
+    fun dataAt(position: Int) = filteredData.at(position)
+
+    val dataCount: Int get() = filteredData.size
 
     fun onIsEnabled(function: (Int) -> Boolean) = apply { onIsEnabled = function }
 
@@ -177,9 +188,9 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
             }
     }
 
-    fun updateEmptyView() {
+    private fun updateEmptyView() {
         emptyView?.let {
-            if (data.isEmpty()) it.fadeIn()
+            if (filteredData.isEmpty()) it.fadeIn()
             else it.fadeOut()
         }
     }
@@ -201,7 +212,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
 fun <RowType : Any, ListControllerType : CSListController<RowType, *>>
         ListControllerType.onItemClick(function: (CSRowView<RowType>) -> Unit) =
-        apply { onItemClick = function }
+    apply { onItemClick = function }
 
 fun <ListControllerType : CSListController<*, *>> ListControllerType.emptyView(id: Int) =
-        apply { emptyView = parentController?.findView(id) }
+    apply { emptyView = parentController?.findView(id) }

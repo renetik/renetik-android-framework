@@ -33,7 +33,8 @@ class SamplePageListController(parent: CSViewController<ViewGroup>, title: Strin
         val listController = CSRequestListController<ServerListItem, ListView>(this, R.id.SamplePageList_List) {
             CSRowView(this, layout(R.layout.sample_page_list_item)) { row -> view.loadPageListItem(row) }
         }.onReload { progress ->
-            model.server.loadSampleList(page =  1).send(getString(R.string.SampleDynamicMenu_Text), progress)
+            model.server.loadSampleList(page =  1)
+                .send(getString(R.string.SampleDynamicMenu_Text), progress)
         }.onItemClick { view ->
             dialog("List item:").showView(R.layout.sample_page_list_item).loadPageListItem(view.data)
         }.emptyView(R.id.SamplePageList_ListEmpty)
@@ -44,14 +45,14 @@ class SamplePageListController(parent: CSViewController<ViewGroup>, title: Strin
             }
             CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
                 model.server.deleteSampleListItems(toRemove).sendWithProgress("Deleting list item")
-                        .onSuccess { listController.reload(progress = true).forceNetwork() }
+                        .onSuccess { listController.reload(progress = true).refresh() }
             }
             swipeRefresh(R.id.SamplePageList_Pull).listController(listController)
         }
 
         override fun onViewShowingFirstTime() {
             super.onViewShowingFirstTime()
-            listController.reload(progress = true).forceNetwork()
+            listController.reload(progress = true).refresh()
         }
 
         private fun View.loadPageListItem(row: ServerListItem) = apply {

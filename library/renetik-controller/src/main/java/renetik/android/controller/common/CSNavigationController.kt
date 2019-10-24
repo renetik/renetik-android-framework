@@ -46,6 +46,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         updateBarIcon()
         invalidateOptionsMenu()
         hideKeyboard()
+        onViewControllerPush(controller)
         return controller
     }
 
@@ -61,6 +62,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             updateBarTitle()
             updateBarIcon()
             hideKeyboard()
+            onViewControllerPop(lastController)
         }
     }
 
@@ -70,6 +72,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             lastController.showingInContainer(false)
             view.remove(lastController)
             lastController.deInitialize()
+            onViewControllerPop(lastController)
         }
 
         controllers.put(controller)
@@ -82,6 +85,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         updateBarIcon()
         invalidateOptionsMenu()
         hideKeyboard()
+        onViewControllerPush(controller)
         return controller
     }
 
@@ -99,6 +103,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             lastController.showingInContainer(false)
             view.remove(lastController)
             lastController.deInitialize()
+            onViewControllerPop(lastController)
         }
         controllers.put(newController, indexOfController)
 //        controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
@@ -110,6 +115,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 //        updateBarIcon()
 //        invalidateOptionsMenu()
 //        hideKeyboard()
+        onViewControllerPush(newController)
         return newController
     }
 
@@ -124,12 +130,18 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
     }
 
     private fun updateBarIcon() {
-        (controllers.last as? CSNavigationItem)?.navigationItemIcon?.let { icon ->
-            setActionBarIcon(icon)
-        } ?: let {
-            navigationItemIcon?.let { icon -> setActionBarIcon(icon) }
-                ?: setActionBarIcon(applicationLogo ?: applicationIcon)
+        if ((controllers.last as? CSNavigationItem)?.isNavigationIconVisible == false) {
+            setActionBarIcon(null)
+        } else {
+            (controllers.last as? CSNavigationItem)?.navigationItemIcon?.let { icon ->
+                setActionBarIcon(icon)
+            } ?: let {
+                navigationItemIcon?.let { icon -> setActionBarIcon(icon) }
+                    ?: setActionBarIcon(applicationLogo ?: applicationIcon)
+            }
         }
+
+
     }
 
     private fun setActionBarTitle(title: String) {
@@ -175,10 +187,18 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         super.onOptionsItemSelected(onItem)
         if (onItem.consume(android.R.id.home)) goBack()
     }
+
+    open fun onViewControllerPush(controller: CSViewController<*>) {
+    }
+
+    open fun onViewControllerPop(controller: CSViewController<*>) {
+
+    }
 }
 
 interface CSNavigationItem {
     val isNavigationItemBackButton get() = true
     val navigationItemIcon: Int? get() = null
+    val isNavigationIconVisible: Boolean get() = true
     val navigationItemTitle: String? get() = null
 }

@@ -1,25 +1,17 @@
 package renetik.android.base
 
-import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.Service
 import android.content.*
-import android.content.pm.PackageManager.GET_SIGNATURES
-import android.content.pm.PackageManager.NameNotFoundException
-import android.content.res.Configuration.ORIENTATION_PORTRAIT
-import android.net.ConnectivityManager
 import android.os.BatteryManager
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
-import android.util.Base64
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
-import renetik.android.java.common.tryAndError
+import renetik.android.extensions.service
 import renetik.android.java.common.tryAndWarn
-import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
-import java.security.MessageDigest
 import java.util.*
 
 private val LOW_DPI_STATUS_BAR_HEIGHT = 19
@@ -34,34 +26,6 @@ abstract class CSContextController : ContextWrapper {
 
     val context: Context get() = this
 
-    @Suppress("UNCHECKED_CAST")
-    fun <Type : Any> service(serviceName: String) = getSystemService(serviceName) as Type
-
-    @Suppress("DEPRECATION")
-    val versionString
-        get() = packageInfo!!.versionCode.toString() + "-" + packageInfo!!.versionName
-
-    @Suppress("DEPRECATION")
-    val appKeyHash
-        get() = tryAndError {
-            val info = packageManager.getPackageInfo(packageName, GET_SIGNATURES)
-            if (info.signatures.isSet) {
-                val messageDigest = MessageDigest.getInstance("SHA")
-                messageDigest.update(info.signatures[0].toByteArray())
-                Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT)
-            } else null
-        }
-
-    val packageInfo
-        get() = tryAndWarn(NameNotFoundException::class) {
-            packageManager.getPackageInfo(packageName, 0)
-        }
-
-    val isNetworkConnected
-        @SuppressLint("MissingPermission")
-        get() = service<ConnectivityManager>(CONNECTIVITY_SERVICE)
-            .activeNetworkInfo?.isConnected ?: false
-
     protected val batteryPercent: Float
         get() {
             val batteryStatus = this.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
@@ -70,7 +34,7 @@ abstract class CSContextController : ContextWrapper {
             return level / scale.toFloat()
         }
 
-    val defaultDisplay: Display get() = service<WindowManager>(WINDOW_SERVICE).defaultDisplay
+    private val defaultDisplay: Display get() = service<WindowManager>(WINDOW_SERVICE).defaultDisplay
 
     @Suppress("DEPRECATION")
     val displayWidth
@@ -80,7 +44,7 @@ abstract class CSContextController : ContextWrapper {
     val displayHeight
         get() = defaultDisplay.height
 
-    val displayMetrics get() = DisplayMetrics().apply { defaultDisplay.getMetrics(this) }
+    private val displayMetrics get() = DisplayMetrics().apply { defaultDisplay.getMetrics(this) }
 
     val realDisplayMetrics get() = DisplayMetrics().apply { defaultDisplay.getRealMetrics(this) }
 
@@ -91,8 +55,6 @@ abstract class CSContextController : ContextWrapper {
             DisplayMetrics.DENSITY_LOW -> LOW_DPI_STATUS_BAR_HEIGHT
             else -> MEDIUM_DPI_STATUS_BAR_HEIGHT
         }
-    val isPortrait get() = resources.configuration.orientation == ORIENTATION_PORTRAIT
-    val isLandscape get() = !isPortrait
 
     override fun unregisterReceiver(receiver: BroadcastReceiver) {
         tryAndWarn { super.unregisterReceiver(receiver) }
@@ -110,7 +72,9 @@ abstract class CSContextController : ContextWrapper {
         return false
     }
 
-    fun startService(serviceClass: Class<out Service>): ComponentName? = startService(Intent(this, serviceClass))
+    fun startService(serviceClass: Class<out Service>): ComponentName? =
+        startService(Intent(this, serviceClass))
+
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
     protected open fun onDestroy() = Unit
 }

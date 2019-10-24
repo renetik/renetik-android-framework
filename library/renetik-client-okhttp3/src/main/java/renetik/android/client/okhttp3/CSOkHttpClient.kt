@@ -10,13 +10,18 @@ import renetik.android.base.application
 import renetik.android.client.request.CSOperation
 import renetik.android.client.request.CSProcess
 import renetik.android.client.request.CSServerData
+import renetik.android.extensions.isNetworkConnected
 import renetik.android.java.common.CSConstants.MB
+import renetik.android.java.common.CSConstants.MINUTE
 import renetik.android.java.extensions.collections.map
+import renetik.android.java.extensions.notNull
+import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
 import renetik.android.json.data.CSJsonData
 import renetik.android.json.data.toJsonObject
 import renetik.android.logging.CSLog.logInfo
 import java.io.File
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLSocketFactory
@@ -95,7 +100,19 @@ fun <ServerDataType : CSServerData> CSOkHttpClient.get(
 ) =
     CSProcess("$url/$action", data).also { response ->
         val builder = get(response.url).addQueryParameter(params)
-        if (operation?.isForceNetwork.isTrue) builder.responseOnlyFromNetwork
+
+        if (operation?.isCached.isFalse) builder.doNotCacheResponse()
+
+        operation?.expireMinutes.notNull { minutes ->
+            builder.setMaxStaleCacheControl(minutes * MINUTE, TimeUnit.MILLISECONDS)
+        }
+
+        if (operation?.isRefresh.isTrue) builder.responseOnlyFromNetwork
+        else if (!application.isNetworkConnected && operation?.isCached.isTrue
+            || operation?.isJustUseCache.isTrue) {
+            builder.responseOnlyIfCached
+        }
+
         builder.build().apply {
             logInfo("get $url")
             getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))

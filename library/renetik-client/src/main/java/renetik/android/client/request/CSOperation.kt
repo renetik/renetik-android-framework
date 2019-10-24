@@ -20,18 +20,21 @@ open class CSOperation<Data : Any>() : CSContextController() {
     private val eventFailed = event<CSProcess<*>>()
     private val eventDone = event<Data?>()
     var process: CSProcess<Data>? = null
-    var isForceNetwork = false
+    var isRefresh = false
+    var isCached = true
+    var expireMinutes: Int? = 1
+    var isJustUseCache = false
 
-    fun forceNetwork() = apply { isForceNetwork = true }
+    fun refresh() = apply { isRefresh = true }
 
     fun onSuccess(function: (argument: Data) -> Unit) =
-            apply { eventSuccess.execute(function) }
+        apply { eventSuccess.execute(function) }
 
     fun onFailed(function: (argument: CSProcess<*>) -> Unit) =
-            apply { eventFailed.execute(function) }
+        apply { eventFailed.execute(function) }
 
     fun onDone(function: (argument: Data?) -> Unit) =
-            apply { eventDone.execute(function) }
+        apply { eventDone.execute(function) }
 
     fun send(): CSProcess<Data> = executeProcess().apply {
         process = this
