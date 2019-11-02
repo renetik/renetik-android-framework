@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="renetik_android_framework_send_request_retry">Retry</string>
+    <string name="renetik_android_framework_send_request_cancel">Cancel</string>
+    <string name="renetik_android_framework_send_request_failed">Operation failed</string>
+</resources>

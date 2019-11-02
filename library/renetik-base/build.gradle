@@ -3,6 +3,6 @@ apply from: '../../library.gradle'
 
 dependencies {
 
-    api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02"
+    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha03'
     implementation "org.jetbrains.anko:anko-sdk21-coroutines:$anko_version"
 }
