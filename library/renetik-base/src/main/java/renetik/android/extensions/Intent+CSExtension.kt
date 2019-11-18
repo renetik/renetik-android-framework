@@ -1,7 +1,9 @@
 package renetik.android.extensions
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import kotlin.reflect.KClass
 
 fun Intent.toOpenUrl(url: String) = apply {
     action = Intent.ACTION_VIEW
@@ -20,3 +22,6 @@ val Intent.asString: String
         }
         return string.toString()
     }
+
+
+fun Intent(context: Context, kClass: KClass<*>) = Intent(context, kClass.java)

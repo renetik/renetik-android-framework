@@ -18,8 +18,8 @@ fun <ViewType : View> ViewGroup.add(view: ViewType): ViewType {
 }
 
 fun <ViewType : View> ViewGroup.add(
-    view: ViewType, layout: ViewGroup.LayoutParams,
-    init: ((ViewType).() -> Unit)? = null
+        view: ViewType, layout: ViewGroup.LayoutParams,
+        init: ((ViewType).() -> Unit)? = null
 ): ViewType {
     view.removeFromSuperview()
     addView(view, layout)
@@ -35,10 +35,8 @@ fun <ViewType : View> ViewGroup.add(layoutId: Int): ViewType {
 
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.inflate(layoutId: Int): ViewType =
-    from(context).inflate(layoutId, this, false) as ViewType
+        from(context).inflate(layoutId, this, false) as ViewType
 
 fun <T : ViewGroup> T.remove(view: CSView<*>) = remove(view.view)
 
-fun <T : ViewGroup> T.remove(view: View) = apply {
-    removeView(view)
-}
+fun <T : ViewGroup> T.remove(view: View) = apply { removeView(view) }

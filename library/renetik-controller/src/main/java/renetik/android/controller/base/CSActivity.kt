@@ -9,6 +9,7 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.java.common.CSValue
+import renetik.android.java.common.tryAndIgnore
 import renetik.android.java.common.tryAndWarn
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
@@ -88,8 +89,9 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     private fun onDestroyUnbindDrawables(view: View) {
         view.background?.callback = null
         if (view is ViewGroup) {
-            for (index in 0 until view.childCount) onDestroyUnbindDrawables(view.getChildAt(index))
-            tryAndWarn { view.removeAllViews() }
+            for (index in 0 until view.childCount)
+                onDestroyUnbindDrawables(view.getChildAt(index))
+            tryAndIgnore { view.removeAllViews() }
         }
     }
 

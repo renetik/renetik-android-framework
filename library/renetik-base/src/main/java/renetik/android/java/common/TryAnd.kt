@@ -6,7 +6,7 @@ import renetik.android.logging.CSLog.logWarn
 import kotlin.reflect.KClass
 
 fun <ReturnType, ExceptionType : Throwable> tryOrNull(
-    type: KClass<ExceptionType>, function: () -> ReturnType
+        type: KClass<ExceptionType>, function: () -> ReturnType
 ): ReturnType? {
     return try {
         function()
@@ -20,7 +20,7 @@ fun <ReturnType, ExceptionType : Throwable> tryOrNull(
 fun <ReturnType> tryOrNull(function: () -> ReturnType) = tryOrNull(Exception::class, function)
 
 fun <ReturnType, ExceptionType : Throwable> tryAndWarn(
-    type: KClass<ExceptionType>, function: () -> ReturnType
+        type: KClass<ExceptionType>, function: () -> ReturnType
 ): ReturnType? {
     return try {
         function()
@@ -35,7 +35,7 @@ fun <ReturnType, ExceptionType : Throwable> tryAndWarn(
 fun <ReturnType> tryAndWarn(function: () -> ReturnType) = tryAndWarn(Exception::class, function)
 
 fun <ReturnType, ExceptionType : Throwable> tryAndError(
-    type: KClass<ExceptionType>, function: () -> ReturnType
+        type: KClass<ExceptionType>, function: () -> ReturnType
 ): ReturnType? {
     return try {
         function()
@@ -58,7 +58,7 @@ fun <ReturnType> tryAndFinally(function: () -> ReturnType, finally: () -> Unit):
 }
 
 fun <ReturnType, ExceptionType : Throwable> tryAndCatch(
-    type: KClass<ExceptionType>, function: () -> ReturnType, onException: (ExceptionType) -> ReturnType
+        type: KClass<ExceptionType>, function: () -> ReturnType, onException: (ExceptionType) -> ReturnType
 ): ReturnType {
     return try {
         function()
@@ -70,4 +70,6 @@ fun <ReturnType, ExceptionType : Throwable> tryAndCatch(
 }
 
 fun <ReturnType> tryAndCatch(function: () -> ReturnType, onException: (Exception) -> ReturnType) =
-    tryAndCatch(Exception::class, function, onException)
+        tryAndCatch(Exception::class, function, onException)
+
+fun <ReturnType> tryAndIgnore(function: () -> ReturnType) = tryAndCatch(function, { null })
