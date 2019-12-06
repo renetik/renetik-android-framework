@@ -26,11 +26,11 @@ class CSOkHttpResponseListener<Data : CSServerData>(
     @Suppress("unchecked_cast")
     private fun onContent(content: String, process: CSProcess<Data>) {
         logInfo("${process.url} $content")
-        content.parseJson<MutableMap<String, Any?>>()?.let { process.data().load(it) }
+        content.parseJson<MutableMap<String, Any?>>()?.let { process.data!!.load(it) }
                 ?: onError(process, INVALID_RESPONSE, null)
         tryAndCatch({
-            if (process.data().success) process.success()
-            else onError(process, process.data().message, null)
+            if (process.data!!.success) process.success()
+            else onError(process, process.data!!.message, null)
         }) { exception -> onError(process, APPLICATION_ERROR, exception) }
     }
 

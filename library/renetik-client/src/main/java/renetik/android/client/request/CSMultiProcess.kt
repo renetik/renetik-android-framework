@@ -5,7 +5,7 @@ open class CSMultiProcess<Data : Any>(data: Data? = null) : CSProcess<Data>(data
     protected var addedProcess: CSProcess<*>? = null
 
     fun addLast(process: CSProcess<Data>): CSProcess<Data> {
-        process.onSuccess { success(it.data()) }
+        process.onSuccess { success(it.data!!) }
         return add(process)
     }
 

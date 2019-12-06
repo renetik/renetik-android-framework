@@ -20,7 +20,7 @@ open class CSListLoadNextController<RowType : Any, ListType : ListView>(
     var pageNumber = 0
 
     init {
-        parent.onLoad.run { _, data -> onListLoad(data) }
+        parent.onLoad.add { _, data -> onListLoad(data) }
     }
 
     private fun onListLoad(data: List<*>) {

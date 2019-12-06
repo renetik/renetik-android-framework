@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.base.CSLayoutId
 import renetik.android.base.CSView
@@ -20,13 +19,12 @@ import renetik.android.java.common.CSValue
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.CSEventRegistrations
 import renetik.android.java.event.event
-import renetik.android.java.event.execute
+import renetik.android.java.event.register
 import renetik.android.java.event.fire
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isNull
-import renetik.android.java.extensions.isSet
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
@@ -194,26 +192,26 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         activity = parent.activity()
         parentController.isNull { root = this }
         return CSEventRegistrations(
-            parent.onCreate.execute { argument -> onCreate(argument) },
-            parent.onStart.execute { onStart() },
-            parent.onResume.execute { onResume() },
-            parent.onPause.execute { onPause() },
-            parent.onStop.execute { onStop() },
-            parent.onDestroy.execute { onDestroy() },
-            parent.onBack.execute { argument -> onBack(argument) },
-            parent.onActivityResult.execute { argument -> onActivityResult(argument) },
-            parent.onCreateOptionsMenu.execute { argument -> onCreateOptionsMenu(argument) },
-            parent.onOptionsItemSelected.execute { argument -> onOptionsItemSelected(argument) },
-            parent.onPrepareOptionsMenu.execute { argument -> onPrepareOptionsMenu(argument) },
-            parent.onKeyDown.execute { argument -> onKeyDown(argument) },
-            parent.onNewIntent.execute { argument -> onNewIntent(argument) },
-            parent.onUserLeaveHint.execute { onUserLeaveHint() },
-            parent.onLowMemory.execute { onLowMemory() },
-            parent.onConfigurationChanged.execute { argument -> onConfigurationChanged(argument) },
-            parent.onOrientationChanged.execute { argument -> onOrientationChanged(argument) },
-            parent.onRequestPermissionsResult.execute { argument -> onRequestPermissionsResult(argument) },
-            parent.onSaveInstanceState.execute { argument -> onSaveInstanceState(argument) },
-            parent.onViewVisibilityChanged.execute { updateVisibilityChanged() }
+            parent.onCreate.register { argument -> onCreate(argument) },
+            parent.onStart.register { onStart() },
+            parent.onResume.register { onResume() },
+            parent.onPause.register { onPause() },
+            parent.onStop.register { onStop() },
+            parent.onDestroy.register { onDestroy() },
+            parent.onBack.register { argument -> onBack(argument) },
+            parent.onActivityResult.register { argument -> onActivityResult(argument) },
+            parent.onCreateOptionsMenu.register { argument -> onCreateOptionsMenu(argument) },
+            parent.onOptionsItemSelected.register { argument -> onOptionsItemSelected(argument) },
+            parent.onPrepareOptionsMenu.register { argument -> onPrepareOptionsMenu(argument) },
+            parent.onKeyDown.register { argument -> onKeyDown(argument) },
+            parent.onNewIntent.register { argument -> onNewIntent(argument) },
+            parent.onUserLeaveHint.register { onUserLeaveHint() },
+            parent.onLowMemory.register { onLowMemory() },
+            parent.onConfigurationChanged.register { argument -> onConfigurationChanged(argument) },
+            parent.onOrientationChanged.register { argument -> onOrientationChanged(argument) },
+            parent.onRequestPermissionsResult.register { argument -> onRequestPermissionsResult(argument) },
+            parent.onSaveInstanceState.register { argument -> onSaveInstanceState(argument) },
+            parent.onViewVisibilityChanged.register { updateVisibilityChanged() }
         )
     }
 

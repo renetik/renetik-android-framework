@@ -26,7 +26,7 @@ open class CSConcurrentProcess(data: MutableList<Any>) : CSProcess<List<Any>>(da
     private fun onResponseSuccess(succeededProcess: CSProcess<*>) {
         if (runningProcesses.apply { remove(succeededProcess) }.isEmpty)
             success((data as MutableList).apply {
-                processes.forEach { response -> add(response.data()) }
+                processes.forEach { response -> add(response.data!!) }
             })
     }
 

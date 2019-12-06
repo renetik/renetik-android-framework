@@ -14,7 +14,7 @@ class CSEventImpl<T> : CSEvent<T> {
     private var toAdd = list<EventRegistrationImpl>()
     private var running = false
 
-    override fun run(listener: (CSEventRegistration, T) -> Unit): CSEventRegistration {
+    override fun add(listener: (CSEventRegistration, T) -> Unit): CSEventRegistration {
         val registration = EventRegistrationImpl(listener)
         if (running) toAdd.add(registration)
         else registrations.add(registration)

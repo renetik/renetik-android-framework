@@ -2,7 +2,7 @@ package renetik.android.client.request
 
 import renetik.android.base.CSContextController
 import renetik.android.java.event.event
-import renetik.android.java.event.execute
+import renetik.android.java.event.register
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.getRootCauseMessage
 import renetik.android.logging.CSLog.logDebug
@@ -10,16 +10,18 @@ import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logInfo
 
 open class CSProcess<Data : Any> : CSContextController {
+
     private val eventSuccess = event<CSProcess<Data>>()
-    fun onSuccess(function: (CSProcess<Data>) -> Unit) = apply { eventSuccess.execute(function) }
+    fun onSuccess(function: (CSProcess<Data>) -> Unit) = apply { eventSuccess.register(function) }
 
     private val eventFailed = event<CSProcess<*>>()
-    fun onFailed(function: (CSProcess<*>) -> Unit) = apply { eventFailed.execute(function) }
+    fun onFailed(function: (CSProcess<*>) -> Unit) = apply { eventFailed.register(function) }
 
     private val eventDone = event<CSProcess<Data>>()
-    fun onDone(function: (CSProcess<Data>) -> Unit) = apply { eventDone.execute(function) }
+    fun onDone(function: (CSProcess<Data>) -> Unit) = apply { eventDone.register(function) }
 
-    val onProgress = event<CSProcess<Data>>()
+    private val onProgress = event<CSProcess<Data>>()
+
     var progress: Long = 0
         set(progress) {
             field = progress
@@ -44,8 +46,6 @@ open class CSProcess<Data : Any> : CSContextController {
     constructor(data: Data? = null) {
         data?.let { this.data = it }
     }
-
-    fun data() = data!!
 
     fun success() {
         if (isCanceled) return
@@ -86,8 +86,7 @@ open class CSProcess<Data : Any> : CSContextController {
         if (isCanceled) return
         this.throwable = exception
         this.failedMessage = message
-        onFailedImpl(this)
-        onDoneImpl()
+        failed(this)
     }
 
     private fun onFailedImpl(process: CSProcess<*>) {
@@ -102,7 +101,10 @@ open class CSProcess<Data : Any> : CSContextController {
     }
 
     open fun cancel() {
-        logDebug("Response cancel", this, "isCanceled", isCanceled, "isDone", isDone, "isSuccess", isSuccess, "isFailed", isFailed)
+        logDebug(
+            "Response cancel", this, "isCanceled", isCanceled,
+            "isDone", isDone, "isSuccess", isSuccess, "isFailed", isFailed
+        )
         if (isCanceled || isDone || isSuccess || isFailed) return
         isCanceled = true
         onDoneImpl()

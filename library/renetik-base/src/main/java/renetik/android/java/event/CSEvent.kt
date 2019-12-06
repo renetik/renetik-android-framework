@@ -8,13 +8,13 @@ fun <T> event(): CSEvent<T> {
 
 fun CSEvent<Unit>.fire() = fire(Unit)
 
-fun <T> CSEvent<T>.execute(function: (argument: T) -> Unit): CSEventRegistration {
-    return this.run { _, argument -> function(argument) }
+fun <T> CSEvent<T>.register(listener: (argument: T) -> Unit): CSEventRegistration {
+    return this.add { _, argument -> listener(argument) }
 }
 
 interface CSEvent<T> {
 
-    fun run(listener: (registration: CSEventRegistration, argument: T) -> Unit): CSEventRegistration
+    fun add(listener: (registration: CSEventRegistration, argument: T) -> Unit): CSEventRegistration
 
     fun fire(argument: T)
 
@@ -31,7 +31,7 @@ interface CSEvent<T> {
 }
 
 fun <T> CSEvent<T>.runOnce(listener: (registration: CSEventRegistration, argument: T) -> Unit): CSEventRegistration {
-    return run { registration, argument ->
+    return add { registration, argument ->
         registration.cancel()
         listener(registration, argument)
     }

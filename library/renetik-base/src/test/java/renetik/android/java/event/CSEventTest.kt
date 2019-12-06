@@ -17,7 +17,7 @@ class CSEventTest {
 
     @Test
     fun fireTwiceAndCancel() {
-        eventOne.run { registration, value ->
+        eventOne.add { registration, value ->
             eventOneCounter++
             eventOneValue = value
             if (eventOneCounter == 2) registration.cancel()
@@ -31,11 +31,11 @@ class CSEventTest {
 
     @Test
     fun twoListenersCancelBothInSecond() {
-        val eventOneRegistration = eventOne.run { _, value ->
+        val eventOneRegistration = eventOne.add { _, value ->
             eventOneCounter++
             eventOneValue = value
         }
-        eventOne.run { registration, value ->
+        eventOne.add { registration, value ->
             eventOneCounter++
             eventOneValue = value
             registration.cancel()
@@ -52,11 +52,11 @@ class CSEventTest {
 
     @Test
     fun twoListenersAddSecondWhileRunning() {
-        eventOne.run { eventOneRegistration, value1 ->
+        eventOne.add { eventOneRegistration, value1 ->
             eventOneCounter++
             eventOneValue = value1
             if (eventOneCounter == 1)
-                eventOne.run { registration, value2 ->
+                eventOne.add { registration, value2 ->
                     eventOneCounter++
                     eventOneValue = value2
                     registration.cancel()
