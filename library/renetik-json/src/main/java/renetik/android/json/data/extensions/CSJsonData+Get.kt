@@ -1,11 +1,13 @@
-package  renetik.android.json.extensions
+package  renetik.android.json.data.extensions
 
 import renetik.android.java.extensions.isEmpty
 import renetik.android.json.data.CSJsonData
+import renetik.android.json.extensions.createJsonData
+import renetik.android.json.extensions.createJsonDataList
 import renetik.android.json.parseJson
 import kotlin.reflect.KClass
 
-fun CSJsonData.getString(key: String): String? = data()[key]?.let { return it.toString() }
+fun CSJsonData.getString(key: String): String? = data[key]?.let { return it.toString() }
 fun CSJsonData.getDouble(key: String) = try {
     getString(key)?.toDouble()
 } catch (e: NumberFormatException) {
@@ -31,10 +33,10 @@ fun CSJsonData.getBoolean(key: String) = try {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun CSJsonData.getMap(key: String) = data()[key] as? MutableMap<String, Any?>
+fun CSJsonData.getMap(key: String) = data[key] as? MutableMap<String, Any?>
 
 @Suppress("UNCHECKED_CAST")
-fun CSJsonData.getList(key: String) = data()[key] as? MutableList<Any?>
+fun CSJsonData.getList(key: String) = data[key] as? MutableList<Any?>
 
 fun <T : CSJsonData> CSJsonData.get(type: KClass<T>, key: String) =
     type.createJsonData(getJson(key))

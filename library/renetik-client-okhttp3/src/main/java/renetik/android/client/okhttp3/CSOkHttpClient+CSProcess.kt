@@ -18,13 +18,13 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 fun <ServerDataType : CSServerData> CSOkHttpClient.upload(
-    action: String, file: File, data: ServerDataType
-) = CSProcess("$url/$action", data).also { response ->
-    val request = AndroidNetworking.upload(response.url).addMultipartFile("file", file).build()
+    service: String, file: File, data: ServerDataType
+) = CSProcess("$url/$service", data).also { process ->
+    val request = AndroidNetworking.upload(process.url).addMultipartFile("file", file).build()
     CSLog.logInfo("upload ${request.url} $file")
     request.setUploadProgressListener { uploaded, total ->
-        response.progress = total / uploaded
-    }.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
+        process.progress = total / uploaded
+    }.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
 
 fun CSOkHttpClient.get(url: String, params: Map<String, String> = map()) = get(null, url, params)
@@ -35,17 +35,15 @@ fun CSOkHttpClient.get(
 ) = get(operation, url, CSServerData(), params)
 
 fun <ServerDataType : CSServerData> CSOkHttpClient.get(
-    operation: CSOperation<*>?, action: String, data: ServerDataType,
+    operation: CSOperation<*>?, service: String, data: ServerDataType,
     params: Map<String, String> = map()
-) = CSProcess("$url/$action", data).also { response ->
-    val builder = AndroidNetworking.get(response.url).addQueryParameter(params)
+) = CSProcess("$url/$service", data).also { process ->
+    val builder = AndroidNetworking.get(process.url).addQueryParameter(params)
 
     if (operation?.isCached.isFalse) builder.doNotCacheResponse()
-
     operation?.expireMinutes.notNull { minutes ->
         builder.setMaxStaleCacheControl(minutes * CSConstants.MINUTE, TimeUnit.MILLISECONDS)
     }
-
     if (operation?.isRefresh.isTrue) builder.responseOnlyFromNetwork
     else if (!application.isNetworkConnected && operation?.isCached.isTrue
         || operation?.isJustUseCache.isTrue) {
@@ -54,7 +52,7 @@ fun <ServerDataType : CSServerData> CSOkHttpClient.get(
 
     builder.build().apply {
         CSLog.logInfo("get $url")
-        getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
+        getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
     }
 }
 
@@ -62,19 +60,19 @@ fun CSOkHttpClient.post(url: String, params: Map<String, String> = map()) =
     post(url, params, CSServerData())
 
 fun <ResponseData : CSServerData> CSOkHttpClient.post(
-    action: String, params: Map<String, String>, responseData: ResponseData
-) = CSProcess("$url/$action", responseData).also { response ->
-    val request = AndroidNetworking.post(response.url).addBodyParameter(params).build()
+    service: String, params: Map<String, String>, responseData: ResponseData
+) = CSProcess("$url/$service", responseData).also { process ->
+    val request = AndroidNetworking.post(process.url).addBodyParameter(params).build()
     CSLog.logInfo("post ${request.url}")
-    request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
+    request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
 
 fun CSOkHttpClient.post(url: String, data: CSJsonData) = post(url, data, CSServerData())
 
 fun <ResponseData : CSServerData> CSOkHttpClient.post(
     url: String, data: CSJsonData, responseData: ResponseData
-) = CSProcess("${this.url}/$url", responseData).also { response ->
-    val request = AndroidNetworking.post(response.url).addJSONObjectBody(data.toJsonObject()).build()
+) = CSProcess("${this.url}/$url", responseData).also { process ->
+    val request = AndroidNetworking.post(process.url).addJSONObjectBody(data.toJsonObject()).build()
     CSLog.logInfo("post ${request.url}")
-    request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, response))
+    request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }

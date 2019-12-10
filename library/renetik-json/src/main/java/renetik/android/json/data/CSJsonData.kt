@@ -23,29 +23,30 @@ open class CSJsonData : Iterable<String>, CSJsonMap {
     var key: String? = null
     val onValueChangedEvent = event<JsonDataValueChange>()
     val onChangedEvent = event<CSJsonData>()
-    private var data = map<String, Any?>()
+    private var _data = map<String, Any?>()
     private var childDataKey: String? = null
     private var dataChanged = false
 
     fun load(map: MutableMap<String, Any?>): CSJsonData {
-        data = map
+        _data = map
         return this
     }
 
-    open fun data(): MutableMap<String, Any?> {
-        childDataKey?.let { key ->
-            var childValue = data[key] as? MutableMap<String, Any?>
-            return childValue ?: let {
-                childValue = linkedMap()
-                data[key] = childValue
-                return childValue as MutableMap<String, Any?>
+    open val data: MutableMap<String, Any?>
+        get() {
+            childDataKey?.let { key ->
+                var childValue = _data[key] as? MutableMap<String, Any?>
+                return childValue ?: let {
+                    childValue = linkedMap()
+                    _data[key] = childValue
+                    return childValue as MutableMap<String, Any?>
+                }
             }
+            return _data
         }
-        return data
-    }
 
     open fun setValue(key: String, value: Any?) {
-        data()[key] = value
+        data[key] = value
         onValueChangedEvent.fire(JsonDataValueChange(this, key, value))
         if (!dataChanged) {
             doLater {
@@ -58,9 +59,9 @@ open class CSJsonData : Iterable<String>, CSJsonMap {
 
     override fun toString() = toJsonString(formatted = true)
 
-    override fun asJsonMap(): Map<String, *> = data
+    override fun asJsonMap(): Map<String, *> = _data
 
-    override fun iterator(): Iterator<String> = data.keys.iterator()
+    override fun iterator(): Iterator<String> = _data.keys.iterator()
 
 }
 

@@ -1,4 +1,4 @@
-package  renetik.android.json.extensions
+package  renetik.android.json.data.extensions
 
 import renetik.android.json.data.CSJsonData
 

@@ -1,8 +1,8 @@
 package renetik.android.json.data.properties
 
 import renetik.android.json.data.CSJsonData
-import renetik.android.json.extensions.getInt
-import renetik.android.json.extensions.put
+import renetik.android.json.data.extensions.getInt
+import renetik.android.json.data.extensions.put
 
 class CSJsonInt(
     val data: CSJsonData,

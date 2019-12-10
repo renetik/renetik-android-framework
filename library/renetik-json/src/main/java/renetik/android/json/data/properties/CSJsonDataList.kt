@@ -3,14 +3,14 @@ package renetik.android.json.data.properties
 import renetik.android.java.common.CSSizeInterface
 import renetik.android.java.extensions.collections.*
 import renetik.android.json.data.CSJsonData
+import renetik.android.json.data.extensions.getList
+import renetik.android.json.data.extensions.put
 import renetik.android.json.extensions.createJsonDataList
-import renetik.android.json.extensions.getList
-import renetik.android.json.extensions.put
 import kotlin.reflect.KClass
 
 @Suppress("unchecked_cast")
 class CSJsonDataList<T : CSJsonData>(
-    val data: CSJsonData, val type: KClass<T>,
+    val data: CSJsonData, private val type: KClass<T>,
     private val key: String
 ) : Iterable<T>, CSSizeInterface {
     override fun iterator() = list.iterator()
@@ -34,15 +34,9 @@ class CSJsonDataList<T : CSJsonData>(
 
     fun put(item: T): T = add(item)
     fun remove(item: T) = data.getList(key)?.delete(item.asJsonMap())
-    fun removeAt(index: Int) = list[index].apply {
-        data.getList(this@CSJsonDataList.key)?.removeAt(index)
-    }
-
+    fun removeAt(index: Int) = data.getList(key)?.removeAt(index)
     fun removeLast() = data.getList(key)?.deleteLast()
-    fun removeRange(fromIndex: Int) {
-        data.getList(key)?.removeRange(fromIndex)
-    }
-
+    fun removeRange(fromIndex: Int) = data.getList(key)?.removeRange(fromIndex)
     fun clear() = data.getList(key)?.clear()
     fun add(vararg items: T) = items.forEach { add(it) }
 }

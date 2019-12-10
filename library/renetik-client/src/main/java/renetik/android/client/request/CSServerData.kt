@@ -1,6 +1,9 @@
 package renetik.android.client.request
 
 import renetik.android.json.data.CSJsonData
+import renetik.android.json.data.extensions.getBoolean
+import renetik.android.json.data.extensions.getMap
+import renetik.android.json.data.extensions.getString
 import renetik.android.json.data.properties.CSJsonBoolean
 import renetik.android.json.data.properties.CSJsonDataList
 import renetik.android.json.data.properties.CSJsonInt

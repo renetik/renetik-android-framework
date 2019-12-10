@@ -5,8 +5,8 @@ import renetik.android.java.extensions.collections.deleteLast
 import renetik.android.java.extensions.collections.last
 import renetik.android.java.extensions.collections.list
 import renetik.android.json.data.CSJsonData
-import renetik.android.json.extensions.getList
-import renetik.android.json.extensions.put
+import renetik.android.json.data.extensions.getList
+import renetik.android.json.data.extensions.put
 
 @Suppress("unchecked_cast")
 class CSJsonStringList(val data: CSJsonData, val key: String) : Iterable<String> {
