@@ -19,25 +19,22 @@ class CSOkHttpResponseListener<Data : CSServerData>(
         private val client: OkHttpClient, private val process: CSProcess<Data>)
     : OkHttpResponseAndStringRequestListener {
 
-    override fun onResponse(http: Response, content: String) = onContent(content, process)
+    override fun onResponse(http: Response, content: String) = onResponseContent(content, process)
 
-    override fun onError(error: ANError) = onError(process, error)
+    override fun onError(error: ANError) =  onResponseError(process, error.errorBody, error)
 
     @Suppress("unchecked_cast")
-    private fun onContent(content: String, process: CSProcess<Data>) {
+    private fun onResponseContent(content: String, process: CSProcess<Data>) {
         logInfo("${process.url} $content")
         content.parseJson<MutableMap<String, Any?>>()?.let { process.data!!.load(it) }
-                ?: onError(process, INVALID_RESPONSE, null)
+                ?: onResponseError(process, INVALID_RESPONSE, null)
         tryAndCatch({
             if (process.data!!.success) process.success()
-            else onError(process, process.data!!.message, null)
-        }) { exception -> onError(process, APPLICATION_ERROR, exception) }
+            else onResponseError(process, process.data!!.message, null)
+        }) { exception -> onResponseError(process, APPLICATION_ERROR, exception) }
     }
 
-    private fun onError(process: CSProcess<*>, error: ANError) =
-            onError(process, error.errorBody, error)
-
-    private fun onError(process: CSProcess<*>, message: String?, exception: Throwable?) {
+    private fun onResponseError(process: CSProcess<*>, message: String?, exception: Throwable?) {
         invalidate(process.url!!)
         process.failed(exception, message)
     }

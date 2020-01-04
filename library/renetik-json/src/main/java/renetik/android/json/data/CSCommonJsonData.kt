@@ -2,7 +2,7 @@ package renetik.android.json.data
 
 import renetik.android.json.data.extensions.getStringValue
 
-class CSNameJsonData(private val nameKey: String) : CSJsonData() {
+class CSNameData(private val nameKey: String) : CSJsonData() {
 
     constructor() : this("name")
 

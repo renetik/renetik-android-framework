@@ -36,22 +36,22 @@ open class CSOperation<Data : Any>() : CSContextController() {
     fun onDone(function: (argument: Data?) -> Unit) =
         apply { eventDone.register(function) }
 
-    fun send(): CSProcess<Data> = executeProcess().apply {
-        process = this
-        onSuccess {
-            eventSuccess.fire(data!!)
-            eventDone.fire(data)
+    fun send(): CSProcess<Data> = executeProcess().also { process ->
+        this.process = process
+        process.onSuccess {
+            eventSuccess.fire(process.data!!)
+            eventDone.fire(process.data)
         }
     }
 
     fun cancel() {
-        process?.apply {
-            if (isFailed) {
-                eventFailed.fire(this)
-                eventDone.fire(data)
+        process?.also {
+            if (it.isFailed) {
+                eventFailed.fire(it)
+                eventDone.fire(it.data)
             } else {
                 cancel()
-                eventDone.fire(data)
+                eventDone.fire(it.data)
             }
         }
     }

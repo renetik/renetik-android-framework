@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent.ACTION_UP
 import android.widget.EditText
+import android.widget.TextView
 import renetik.android.R.drawable.abc_ic_clear_material
 
 @SuppressLint("PrivateResource")
@@ -30,6 +31,16 @@ fun <T : EditText> T.withClear(): T {
 }
 
 fun EditText.updateClearIcon() {
-    setCompoundDrawablesWithIntrinsicBounds(0, 0,
-            if (editableText.isNotEmpty()) abc_ic_clear_material else 0, 0)
+    setCompoundDrawablesWithIntrinsicBounds(
+        0, 0,
+        if (editableText.isNotEmpty()) abc_ic_clear_material else 0, 0
+    )
 }
+
+val EditText.asTextView: TextView get() = this as TextView
+
+var EditText.value: CharSequence?
+    get() = asTextView.text
+    set(value) {
+        asTextView.text = value
+    }

@@ -1,7 +1,9 @@
 package renetik.android.java.extensions
 
 fun string(value: Any?) = value.stringify()
+
 fun Any?.stringify() = this?.toString() ?: ""
+
 val Any?.asString get() = stringify()
 
 @Suppress("UNCHECKED_CAST")
