@@ -6,7 +6,7 @@ import java.util.*
 
 
 fun File.createNewFileAndDirs() {
-    parentFile.mkdirs()
+    parentFile?.mkdirs()
     createNewFile()
 }
 

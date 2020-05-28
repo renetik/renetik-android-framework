@@ -37,7 +37,7 @@ fun EditText.updateClearIcon() {
     )
 }
 
-val EditText.asTextView: TextView get() = this as TextView
+val EditText.asTextView: TextView get() = this
 
 var EditText.value: CharSequence?
     get() = asTextView.text
