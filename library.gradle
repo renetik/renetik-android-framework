@@ -1,9 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply from: '../../library-publish.gradle'
+//apply from: '../../library-publish.gradle'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.rene-dohan'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     testOptions.unitTests.includeAndroidResources = true
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -23,7 +26,6 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation 'com.google.android.gms:play-services-base:17.1.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.3.1'
