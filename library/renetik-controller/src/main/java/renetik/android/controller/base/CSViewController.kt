@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import renetik.android.base.CSLayoutId
 import renetik.android.base.CSView
 import renetik.android.controller.menu.CSMenuItem
@@ -19,8 +21,8 @@ import renetik.android.java.common.CSValue
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.CSEventRegistrations
 import renetik.android.java.event.event
-import renetik.android.java.event.register
 import renetik.android.java.event.fire
+import renetik.android.java.event.register
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
@@ -30,7 +32,8 @@ import renetik.android.view.extensions.findViewRecursive
 
 var root: CSViewController<*>? = null
 
-abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewControllerParent {
+abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewControllerParent,
+    LifecycleOwner {
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
     override val onStart = event<Unit>()
@@ -148,7 +151,11 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     }
 
     protected open fun onStop() {
-        if (!isPaused) logWarn(Throwable(), "Not paused while stopped, should be paused first", this)
+        if (!isPaused) logWarn(
+            Throwable(),
+            "Not paused while stopped, should be paused first",
+            this
+        )
         isStarted = false
         state = null
         updateVisibilityChanged()
@@ -209,7 +216,11 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
             parent.onLowMemory.register { onLowMemory() },
             parent.onConfigurationChanged.register { argument -> onConfigurationChanged(argument) },
             parent.onOrientationChanged.register { argument -> onOrientationChanged(argument) },
-            parent.onRequestPermissionsResult.register { argument -> onRequestPermissionsResult(argument) },
+            parent.onRequestPermissionsResult.register { argument ->
+                onRequestPermissionsResult(
+                    argument
+                )
+            },
             parent.onSaveInstanceState.register { argument -> onSaveInstanceState(argument) },
             parent.onViewVisibilityChanged.register { updateVisibilityChanged() }
         )
@@ -335,7 +346,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     protected open fun onConfigurationChanged(newConfig: Configuration) =
         onConfigurationChanged.fire(newConfig)
 
-    protected open fun onOrientationChanged(newConfig: Configuration) = onOrientationChanged.fire(newConfig)
+    protected open fun onOrientationChanged(newConfig: Configuration) =
+        onOrientationChanged.fire(newConfig)
 
     protected open fun onRequestPermissionsResult(requestPermissionResult: CSRequestPermissionResult) =
         onRequestPermissionsResult.fire(requestPermissionResult)
@@ -359,4 +371,6 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
             .hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
+
+    override fun getLifecycle(): Lifecycle = activity().lifecycle
 }
