@@ -6,7 +6,7 @@ class CSDoLaterOnce(val function: () -> Unit) {
     fun invoke() {
         if (willInvoke) return
         willInvoke = true
-        doLater {
+        later {
             function()
             willInvoke = false
         }

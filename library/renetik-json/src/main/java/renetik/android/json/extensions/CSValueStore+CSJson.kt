@@ -16,7 +16,7 @@ fun CSValueStore.save(key: String, value: Any?) = value?.let {
 } ?: clear(key)
 
 fun <T : CSJsonData> CSValueStore.load(data: T, key: String): T? {
-    val loadString = loadString(key) ?: return null
+    val loadString = getString(key) ?: return null
     loadString.parseJson<MutableMap<String, Any?>>()?.let { data.load(it) }
     return data
 }
@@ -34,6 +34,6 @@ fun <T : Any> CSValueStore.loadList(key: String) =
         list<T>().apply { loadJson<List<T>>(key)?.forEach { data -> put(data) } }
 
 private fun <Type> CSValueStore.loadJson(key: String): Type? {
-    val loadString = loadString(key)
+    val loadString = getString(key)
     return if (loadString.isEmpty) null else loadString!!.parseJson<Type>()
 }

@@ -36,7 +36,7 @@ class CSWork(private var delayMilliseconds: Int, private val workToInvoke: () ->
     }
 
     private fun process() {
-        doLater = doLater(delayMilliseconds) {
+        doLater = later(delayMilliseconds) {
             if (!stop) {
                 workToInvoke()
                 process()

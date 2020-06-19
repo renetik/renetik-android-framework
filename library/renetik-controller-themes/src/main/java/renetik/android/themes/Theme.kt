@@ -19,7 +19,7 @@ class CSThemes {
 
         fun initializeThemes(activity: Activity, themes: List<CSTheme>? = null) {
             themes?.let { availableThemes.reload(themes) }
-            currentThemeIndex = application.store.loadInt("theme_index", 0)
+            currentThemeIndex = application.store.getInt("theme_index", 0)
             activity.setTheme(currentTheme.style)
         }
 

@@ -8,7 +8,6 @@ dependencies {
     api project(':renetik-android-client')
     api project(':renetik-android-client-okhttp3')
     api project(':renetik-android-dialog')
-    api project(':renetik-android-crashlitics')
     api project(':renetik-android-imaging')
     api project(':renetik-android-controller')
     api project(':renetik-android-controller-getpicture')

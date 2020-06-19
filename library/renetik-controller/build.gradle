@@ -5,6 +5,6 @@ dependencies {
     implementation project(':renetik-android-base')
     implementation project(':renetik-android-dialog')
     implementation project(':renetik-android-material') //using snackbar and floating button
-    implementation "com.google.android.gms:play-services-base:$play_services_base_version"
+    implementation "com.google.android.gms:play-services-base:$play_version"
     implementation "com.google.android.material:material:$material_version"
 }

@@ -1,6 +1,16 @@
 package renetik.android.logging
 
+import renetik.android.java.event.CSEvent
+
+enum class CSLogEventType(val title: String) {
+    Warn("Warn"), Info("Info"), Error("Error"), Debug("Debug")
+}
+
+data class CSLogEvent(val type: CSLogEventType, val message: String)
+
 interface CSLogger {
+
+    val onLogEvent: CSEvent<CSLogEvent>
 
     fun onLowMemory()
 

@@ -8,7 +8,7 @@ import renetik.android.json.extensions.createJsonData
 import renetik.android.json.parseJson
 import renetik.android.json.toJSONObject
 import renetik.android.json.toJsonString
-import renetik.android.task.doLater
+import renetik.android.task.later
 
 data class JsonDataValueChange(val data: CSJsonData, val key: String, val value: Any?)
 
@@ -49,7 +49,7 @@ open class CSJsonData : Iterable<String>, CSJsonMap {
         data[key] = value
         onValueChangedEvent.fire(JsonDataValueChange(this, key, value))
         if (!dataChanged) {
-            doLater {
+            later {
                 onChangedEvent.fire(this)
                 dataChanged = false
             }

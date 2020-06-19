@@ -3,15 +3,20 @@ package renetik.android.logging
 import android.util.Log
 import android.util.Log.getStackTraceString
 import android.widget.Toast
-import renetik.android.base.application
 import renetik.android.base.CSContextController
+import renetik.android.base.application
 import renetik.android.java.common.CSConstants.MB
+import renetik.android.java.event.event
 import renetik.android.java.extensions.*
+import renetik.android.logging.CSLogEventType.*
 import java.lang.StringBuilder
 import java.text.DateFormat
 import java.util.*
 
+
 class AndroidLogger : CSContextController(), CSLogger {
+
+    override val onLogEvent = event<CSLogEvent>()
 
     private val maxLogSize = 2.5 * MB
     private val dateFormat = DateFormat.getDateTimeInstance()
@@ -24,21 +29,24 @@ class AndroidLogger : CSContextController(), CSLogger {
 
     override fun error(vararg values: Any?) {
         val message = createMessage(*values).toString()
-        addMemoryMessage("Error: $message")
+        addMemoryMessage("${Error.title}: $message")
         Log.e(application.name, message)
+        onLogEvent.fire(CSLogEvent(Error, message))
     }
 
     override fun error(e: Throwable, vararg values: Any?) {
         val message = createMessage(*values)
-        addMemoryMessage("Error: " + message.addSpace().add(getStackTraceString(e)))
+        addMemoryMessage("${Error.title}: $message ${getStackTraceString(e)}")
         val messageString = message.toString()
         Log.e(application.name, messageString)
+        onLogEvent.fire(CSLogEvent(Error, messageString))
     }
 
     override fun info(vararg values: Any?) {
         val message = createMessage(*values).toString()
         addMemoryMessage(message)
         Log.i(application.name, message)
+        onLogEvent.fire(CSLogEvent(Info, message))
     }
 
     private fun toast(message: String) {
@@ -49,6 +57,7 @@ class AndroidLogger : CSContextController(), CSLogger {
         val message = createMessage(*values).toString()
         addMemoryMessage(message)
         Log.d(application.name, message)
+        onLogEvent.fire(CSLogEvent(Debug, message))
     }
 
     override fun logString(): String {
@@ -57,14 +66,16 @@ class AndroidLogger : CSContextController(), CSLogger {
 
     override fun warn(vararg values: Any?) {
         val message = createMessage(*values).toString()
-        addMemoryMessage("Warn: $message")
+        addMemoryMessage("${Warn.title}: $message")
         Log.w(application.name, message)
+        onLogEvent.fire(CSLogEvent(Warn, message))
     }
 
     override fun warn(e: Throwable, vararg values: Any?) {
         val message = createMessage(*values)
         addMemoryMessage(message.addSpace().add(getStackTraceString(e)))
         Log.w(application.name, message.toString(), e)
+        onLogEvent.fire(CSLogEvent(Warn, message.toString()))
     }
 
     private fun addMemoryMessage(message: CharSequence) {
@@ -72,7 +83,7 @@ class AndroidLogger : CSContextController(), CSLogger {
         if (logText.length > maxLogSize) logText.cut(0, MB)
     }
 
-    private fun createMessage(vararg values: Any?):StringBuilder {
+    private fun createMessage(vararg values: Any?): StringBuilder {
         val message = StringBuilder()
         for (string in values) string.notNull { message.add(it).addSpace() }
         return message

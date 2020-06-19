@@ -36,23 +36,23 @@ class CSValueStore(name: String) : CSContextController() {
 
     fun has(key: String) = preferences.contains(key)
 
-    fun loadBoolean(key: String, defaultValue: Boolean = false) =
-            loadString(key)?.toBoolean() ?: defaultValue
+    fun getBoolean(key: String, defaultValue: Boolean = false) =
+            getString(key)?.toBoolean() ?: defaultValue
 
-    fun loadDouble(key: String, defaultValue: Double = 0.0) =
-            loadString(key)?.asDouble(defaultValue) ?: defaultValue
+    fun getDouble(key: String, defaultValue: Double = 0.0) =
+            getString(key)?.asDouble(defaultValue) ?: defaultValue
 
-    fun loadLong(key: String, defaultValue: Long = 0L) =
-            loadString(key)?.asLong(defaultValue) ?: defaultValue
+    fun getLong(key: String, defaultValue: Long = 0L) =
+            getString(key)?.asLong(defaultValue) ?: defaultValue
 
-    fun loadFloat(key: String, defaultValue: Float = 0F) =
-            loadString(key)?.asFloat(defaultValue) ?: defaultValue
+    fun getFloat(key: String, defaultValue: Float = 0F) =
+            getString(key)?.asFloat(defaultValue) ?: defaultValue
 
-    fun loadInt(key: String, defaultValue: Int = 0) =
-            loadString(key)?.asInt(defaultValue) ?: defaultValue
+    fun getInt(key: String, defaultValue: Int = 0) =
+            getString(key)?.asInt(defaultValue) ?: defaultValue
 
-    fun loadString(key: String, defaultValue: String) = loadString(key) ?: defaultValue
+    fun getString(key: String, defaultValue: String) = getString(key) ?: defaultValue
 
-    fun loadString(key: String): String? = tryAndWarn { preferences.getString(key, null) }
+    fun getString(key: String): String? = tryAndWarn { preferences.getString(key, null) }
 
 }

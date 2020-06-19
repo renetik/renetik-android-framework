@@ -9,7 +9,7 @@ import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.collections.putAll
 import renetik.android.java.extensions.collections.reload
 import renetik.android.java.extensions.isEmpty
-import renetik.android.task.doLater
+import renetik.android.task.later
 import renetik.android.view.adapter.CSOnPageSelected
 import renetik.android.view.extensions.visible
 
@@ -44,7 +44,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
                 .onDragged { index -> controllers[index].showingInContainer(true) }
                 .onReleased { index -> if (currentIndex != index) controllers[index].showingInContainer(false) }
         view.addOnPageChangeListener(
-                CSOnPageSelected { index -> doLater(100) { updatePageVisibility(index) } })
+                CSOnPageSelected { index -> later(100) { updatePageVisibility(index) } })
         updatePageVisibility(0)
         view.setCurrentItem(0, true)
         updateView()

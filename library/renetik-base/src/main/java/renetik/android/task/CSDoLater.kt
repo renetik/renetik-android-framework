@@ -10,11 +10,11 @@ fun initializeHandler() {
     handler = Handler()
 }
 
-fun doLater(delayMilliseconds: Int, function: () -> Unit): CSDoLater {
+fun later(delayMilliseconds: Int, function: () -> Unit): CSDoLater {
     return CSDoLater(function, delayMilliseconds)
 }
 
-fun doLater(function: () -> Unit) = CSDoLater(function)
+fun later(function: () -> Unit) = CSDoLater(function)
 
 class CSDoLater {
 

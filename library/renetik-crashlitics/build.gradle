@@ -1,7 +1,0 @@
-ext.publish_module_name = 'crashlitics'
-apply from: '../../library.gradle'
-
-dependencies {
-    implementation project(':renetik-android-base')
-    api "com.crashlytics.sdk.android:crashlytics:2.10.1"
-}

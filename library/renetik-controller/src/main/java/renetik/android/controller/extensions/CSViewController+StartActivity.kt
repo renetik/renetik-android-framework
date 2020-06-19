@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.extensions.primitives.randomIntInRange
 import renetik.android.logging.CSLog
-import renetik.android.task.doLater
+import renetik.android.task.later
 
 fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
     startActivity(Intent(activity(), activityClass))
@@ -54,7 +54,7 @@ fun CSViewController<*>.switchActivity(activityClass: Class<out AppCompatActivit
 }
 
 fun CSViewController<*>.restartActivity() {
-    doLater {
+    later {
         val intent = activity().intent
         activity().finish()
         startActivity(intent)

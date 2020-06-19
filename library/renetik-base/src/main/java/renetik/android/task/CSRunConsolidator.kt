@@ -14,14 +14,14 @@ class CSRunConsolidator(private val miliseconds: Int) {
         else {
             runnable()
             isRunning = true
-            doLater(miliseconds) { run() }
+            later(miliseconds) { run() }
         }
     }
 
     fun run() {
         if (runnables.hasItems) {
             runnables.deleteLast()!!.invoke()
-            doLater(miliseconds) { run() }
+            later(miliseconds) { run() }
         } else isRunning = false
     }
 

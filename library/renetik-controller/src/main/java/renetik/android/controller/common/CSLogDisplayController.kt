@@ -40,7 +40,7 @@ class CSLogDisplayController(val navigation: CSNavigationController, val title: 
 
     private fun onSendLogClick() {
         dialog("Send application log", "Enter target email")
-                .showInput("Target email", application.store.loadString(sendLogMailKey, "")) { dialog ->
+                .showInput("Target email", application.store.getString(sendLogMailKey, "")) { dialog ->
                     application.store.save(sendLogMailKey, dialog.inputText)
                     sendMail(dialog.inputText, application.name +
                             " This is log from application sent as email attachment for application developer"
