@@ -33,13 +33,13 @@
                     android:gravity="center"
                     android:paddingTop="5dp"
                     android:text="Some other map examples"
-                    android:textAppearance="@style/CSTextListSubtitle" />
+                    android:textAppearance="@style/CSTextSubtitle" />
 
                 <LinearLayout style="@style/CSHorizontalLayoutMatchWrap">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/SampleMap_DrawPathMapButton"
-                        style="@style/CSButtonSecondaryFillWrap"
+                        style="@style/CSButtonVariantFillWrap"
                         android:layout_marginEnd="2dp"
                         android:text="Draw Path Example" />
 

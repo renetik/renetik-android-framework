@@ -10,9 +10,7 @@ import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLabel
-import renetik.android.extensions.applicationLogo
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isSet
@@ -26,7 +24,10 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 
     constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
 
-    constructor(parent: CSViewController<out ViewGroup>) : super(parent, layout(R.layout.cs_navigation))
+    constructor(parent: CSViewController<out ViewGroup>) : super(
+        parent,
+        layout(R.layout.cs_navigation)
+    )
 
     init {
         navigation = this
@@ -120,31 +121,48 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
     }
 
     private fun updateBarTitle() {
-        (controllers.last as? CSNavigationItem)?.navigationItemTitle?.let { lastControllerItemTitle ->
-            setActionBarTitle(lastControllerItemTitle)
-        } ?: let {
-            navigationItemTitle?.let { navigationControllerItemTitle ->
-                setActionBarTitle(navigationControllerItemTitle)
-            } ?: setActionBarTitle(applicationLabel)
+        (controllers.last as? CSNavigationItem)?.let { item ->
+            item.isNavigationTitleVisible?.let { isVisible ->
+                if (!isVisible) {
+                    setActionBarTitle(null)
+                    return
+                } else item.navigationItemTitle?.let { title ->
+                    setActionBarTitle(title)
+                    return
+                }
+            }
+        }
+        isNavigationTitleVisible?.let { isVisible ->
+            if (!isVisible) {
+                setActionBarTitle(null)
+            } else navigationItemTitle?.let { title ->
+                setActionBarTitle(title)
+            }
         }
     }
 
     private fun updateBarIcon() {
-        if ((controllers.last as? CSNavigationItem)?.isNavigationIconVisible == false) {
-            setActionBarIcon(null)
-        } else {
-            (controllers.last as? CSNavigationItem)?.navigationItemIcon?.let { icon ->
-                setActionBarIcon(icon)
-            } ?: let {
-                navigationItemIcon?.let { icon -> setActionBarIcon(icon) }
-                    ?: setActionBarIcon(applicationLogo ?: applicationIcon)
+        (controllers.last as? CSNavigationItem)?.let { item ->
+            item.isNavigationIconVisible?.let { isVisible ->
+                if (!isVisible) {
+                    setActionBarIcon(null)
+                    return
+                } else item.navigationItemIcon?.let { icon ->
+                    setActionBarIcon(icon)
+                    return
+                }
             }
         }
-
-
+        isNavigationIconVisible?.let { isVisible ->
+            if (!isVisible) {
+                setActionBarIcon(null)
+            } else navigationItemIcon?.let { icon ->
+                setActionBarIcon(icon)
+            }
+        }
     }
 
-    private fun setActionBarTitle(title: String) {
+    private fun setActionBarTitle(title: String?) {
         actionBar?.setDisplayShowTitleEnabled(title.isSet)
         actionBar?.title = title
     }
@@ -197,8 +215,9 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 }
 
 interface CSNavigationItem {
-    val isNavigationItemBackButton get() = true
+    val isNavigationIconVisible: Boolean? get() = null
     val navigationItemIcon: Int? get() = null
-    val isNavigationIconVisible: Boolean get() = true
+    val isNavigationTitleVisible: Boolean? get() = null
     val navigationItemTitle: String? get() = null
+    val isNavigationItemBackButton get() = true
 }

@@ -3,19 +3,17 @@ package renetik.android.controller.pager
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import renetik.android.controller.base.CSViewController
-import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.collections.at
-import renetik.android.java.extensions.collections.hasItems
-import renetik.android.java.extensions.collections.putAll
-import renetik.android.java.extensions.collections.reload
+import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.isEmpty
 import renetik.android.task.later
 import renetik.android.view.adapter.CSOnPageSelected
 import renetik.android.view.extensions.visible
 
-class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
-    : CSViewController<ViewPager>(parent, pagerId)
+class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
+    CSViewController<ViewPager>(parent, pagerId)
         where PageType : CSViewController<*>, PageType : CSPagerPage {
+
+    val pageCount: Int get() = controllers.size
 
     val controllers = list<PageType>()
     var currentIndex: Int? = null
@@ -38,13 +36,23 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
         updateView()
     }
 
+    fun add(page: PageType) = apply {
+        controllers.add(page)
+        page.initialize()
+        updateView()
+    }
+
     override fun onCreate() {
         super.onCreate()
         CSOnPagerPageChange(this)
-                .onDragged { index -> controllers[index].showingInContainer(true) }
-                .onReleased { index -> if (currentIndex != index) controllers[index].showingInContainer(false) }
+            .onDragged { index -> controllers[index].showingInContainer(true) }
+            .onReleased { index ->
+                if (currentIndex != index) controllers[index].showingInContainer(
+                    false
+                )
+            }
         view.addOnPageChangeListener(
-                CSOnPageSelected { index -> later(100) { updatePageVisibility(index) } })
+            CSOnPageSelected { index -> later(100) { updatePageVisibility(index) } })
         updatePageVisibility(0)
         view.setCurrentItem(0, true)
         updateView()
@@ -65,5 +73,18 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int)
 
     val current get() = controllers.at(currentIndex!!)!!
 
-    fun setCurrent(index: Int) = apply { view.currentItem = index }
+    // Bug in pager , animation work just when delayed
+    fun setActive(index: Int, animated: Boolean = true) = apply {
+        if (animated) view.post { view.setCurrentItem(index, true) }
+        else view.setCurrentItem(index, false)
+    }
+
+    fun showPage(page: PageType) {
+        if (controllers.contains(page)) {
+            setActive(index = controllers.indexOf(page))
+        } else {
+            add(page)
+            setActive(index = 1)
+        }
+    }
 }

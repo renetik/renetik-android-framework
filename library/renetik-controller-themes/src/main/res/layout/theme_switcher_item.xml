@@ -72,7 +72,7 @@
                 style="@style/CSWrap"
                 android:padding="5dp"
                 android:text="Theme Name"
-                android:textAppearance="@style/CSTextHeadline6"
+                android:textAppearance="@style/CSTextTitle"
                 android:textColor="?attr/colorOnBackground"
                 android:textStyle="bold" />
         </com.google.android.material.card.MaterialCardView>

@@ -72,7 +72,7 @@
     <style name="CSContentEmpty" parent="CSWrap">
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textAppearance">@style/CSTextTitleOverline</item>
+        <item name="android:textAppearance">@style/CSTextOverline</item>
     </style>
 
     <style name="CSVerticalLayoutMatchWrap">
@@ -134,7 +134,7 @@
     <style name="CSTabStripBottom" parent="CSMatch">
         <item name="android:background">?attr/colorPrimaryVariant</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textAppearance">@style/CSTextListSubtitle</item>
+        <item name="android:textAppearance">@style/CSTextSubtitle</item>
         <item name="android:layout_gravity">bottom</item>
         <item name="android:layout_height">40dp</item>
     </style>
@@ -163,7 +163,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSContentMain" parent="CSMatchFill"/>
+    <style name="CSContentMain" parent="CSMatchFill" />
 
     <style name="CSGridMatch" parent="android:Widget.Material.GridView">
         <item name="android:layout_width">match_parent</item>
@@ -212,6 +212,8 @@
     <style name="CSButtonMatchWrap" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_marginStart">3dp</item>
         <item name="android:layout_marginEnd">3dp</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -222,26 +224,29 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSButtonSecondaryMatchWrap" parent="CSButtonMatchWrap">
-        <item name="backgroundTint">?attr/colorSecondary</item>
-        <item name="android:textColor">?attr/colorOnSecondary</item>
+    <style name="CSButtonVariantMatchWrap" parent="CSButtonMatchWrap">
+        <item name="backgroundTint">?attr/colorPrimaryVariant</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
-    <style name="CSButtonSecondaryFillWrap" parent="CSButtonSecondaryMatchWrap">
+    <style name="CSButtonVariantFillWrap" parent="CSButtonVariantMatchWrap">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
     </style>
 
     <style name="CSButtonTextMatchWrap" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:layout_marginStart">3dp</item>
-        <item name="android:layout_marginEnd">3dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="CSButtonTextWrap" parent="CSButtonTextMatchWrap">
         <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="CSButtonTextFillWrap" parent="CSButtonTextMatchWrap">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="CSButtonFloatingTopEndWrap" parent="Widget.MaterialComponents.FloatingActionButton">
@@ -298,7 +303,7 @@
     <style name="CSContainerEmptyText" parent="CSWrap">
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textAppearance">@style/CSTextTitleOverline</item>
+        <item name="android:textAppearance">@style/CSTextOverline</item>
     </style>
 
 </resources>

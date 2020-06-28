@@ -20,7 +20,7 @@
             android:id="@+id/SampleList_ListEmpty"
             style="@style/CSWrap"
             android:text="No items in list"
-            android:textAppearance="@style/CSTextHeadline6"
+            android:textAppearance="@style/CSTextTitle"
             android:textColor="@color/cs_dark_grey_text" />
 
     </com.google.android.material.card.MaterialCardView>

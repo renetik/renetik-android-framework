@@ -1,6 +1,5 @@
 package renetik.android.view.extensions
 
-import android.animation.Animator
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,12 +7,9 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.ViewPropertyAnimator
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.webkit.WebView
 import android.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import renetik.android.view.adapter.CSAnimatorAdapter
 
 fun <T : View> View.findView(id: Int): T? = findViewById(id)
 fun View.simpleView(id: Int) = findView<View>(id)!!
@@ -44,6 +40,12 @@ var <T : View> T.isVisible
         visible(value)
     }
 
+var <T : View> T.isGone
+    get() = visibility == GONE
+    set(value) {
+        visible(!value)
+    }
+
 fun <T : View> T.visible(visible: Boolean) = apply { visibility = if (visible) VISIBLE else GONE }
 
 fun <T : View> T.hide() = apply { visibility = GONE }
@@ -59,41 +61,8 @@ fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(
 fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
     ?: parentView?.findViewRecursive(id)
 
-
-fun <T : View> T.fade(fadeIn: Boolean) = if (fadeIn) fadeIn() else fadeOut()
-
-fun <T : View> T.fadeIn() = fadeIn(150)
-
-fun <T : View> T.fadeIn(duration: Int): ViewPropertyAnimator? {
-    if (isVisible) return null
-    show()
-    alpha = 0f
-    return animate().alpha(1.0f).setDuration(duration.toLong())
-        .setInterpolator(AccelerateDecelerateInterpolator()).setListener(null)
-}
-
-fun <T : View> T.fadeOut() = fadeOut(300)
-
-fun <T : View> T.fadeOut(duration: Int, onDone: (() -> Unit)? = null): ViewPropertyAnimator? {
-    if (!isVisible) return null
-    else if (alpha == 0f) {
-        hide()
-        return null
-    } else {
-        isClickable = false
-        return animate().alpha(0f).setDuration(duration.toLong())
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .setListener(object : CSAnimatorAdapter() {
-                override fun onAnimationEnd(animator: Animator?) {
-                    isClickable = true
-                    hide()
-                    onDone?.invoke()
-                }
-            })
-    }
-}
-
-fun <T : View> T.onClick(onClick: (view: T) -> Unit) = apply { setOnClickListener { onClick(this) } }
+fun <T : View> T.onClick(onClick: (view: T) -> Unit) =
+    apply { setOnClickListener { onClick(this) } }
 
 fun <T : View> T.createBitmap(): Bitmap {
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)

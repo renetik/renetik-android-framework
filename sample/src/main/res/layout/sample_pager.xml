@@ -3,6 +3,7 @@
     style="@style/CSContainer">
 
     <com.google.android.material.card.MaterialCardView style="@style/CSPageTitleCard">
+
         <TextView
             android:id="@+id/SamplePager_Title"
             style="@style/CSPageTitleMatchWrap"
@@ -15,9 +16,7 @@
             android:id="@+id/SamplePager_Pager"
             style="@style/CSMatch">
 
-            <androidx.viewpager.widget.PagerTabStrip
-                android:id="@+id/SamplePager_Tabs"
-                style="@style/CSTabStripTop" />
+            <androidx.viewpager.widget.PagerTabStrip style="@style/CSTabStripTop" />
 
         </androidx.viewpager.widget.ViewPager>
 

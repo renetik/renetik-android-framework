@@ -2,16 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: '../common.gradle'
 
-//apply plugin: 'com.google.gms.google-services' // Google Services Gradle plugin
-// Apply the Crashlytics Gradle plugin
-//apply plugin: 'com.google.firebase.crashlytics'
-
 def mapsApiKey = localProperties().getProperty('com.google.android.geo.API_KEY')
 if (mapsApiKey == null) mapsApiKey = "Place com.google.android.geo.API_KEY to local.properties"
 
 android {
     compileSdkVersion 29
-    testOptions.unitTests.includeAndroidResources = true
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -28,6 +23,12 @@ android {
         tasks.lint.enabled = false
 //        checkReleaseBuilds false
     }
+    testOptions {
+        unitTests {
+            // For roboelectric
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -35,7 +36,6 @@ dependencies {
 //    implementation 'renetik.android:framework:1.0.1-rc3'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.google.android.material:material:$material_version"
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
     implementation "com.google.android.gms:play-services-maps:17.0.0"
     implementation "com.google.android.gms:play-services-location:17.0.0"
 }

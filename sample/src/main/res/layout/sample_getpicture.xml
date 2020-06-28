@@ -26,7 +26,7 @@
             style="@style/CSWrap"
             android:layout_gravity="center"
             android:text="No images in grid"
-            android:textAppearance="@style/CSTextHeadline6"
+            android:textAppearance="@style/CSTextTitle"
             android:textColor="@color/cs_dark_grey_text" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

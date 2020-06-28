@@ -29,7 +29,7 @@
             android:lines="1"
             android:padding="3dp"
             android:text="Headline 6"
-            android:textAppearance="@style/CSTextHeadline6" />
+            android:textAppearance="@style/CSTextTitle" />
 
         <TextView
             android:id="@+id/subtitle"
