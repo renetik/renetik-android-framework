@@ -1,12 +1,11 @@
-    package renetik.android.sample.model
+package renetik.android.sample.model
 
 import renetik.android.client.okhttp3.CSOkHttpClient
 import renetik.android.client.okhttp3.get
 import renetik.android.client.okhttp3.post
 import renetik.android.client.request.*
-import renetik.android.java.extensions.collections.map
-import renetik.android.json.data.properties.CSJsonString
 import renetik.android.json.data.extensions.getString
+import renetik.android.json.data.properties.CSJsonString
 
 const val SERVER_URL = "https://renetik-library-sample-server.herokuapp.com/api"
 const val SERVER_DEV_URL = "http://localhost:8080/api"
@@ -16,11 +15,11 @@ const val PASSWORD = "password"
 class SampleServer : CSServerWithPing {
 
     private val client = CSOkHttpClient(SERVER_URL)
-            .apply { basicAuthenticatorHeader("Authorization", USERNAME, PASSWORD) }
+        .apply { basicAuthenticatorHeader("Authorization", USERNAME, PASSWORD) }
 
     fun loadSampleList(page: Int) = CSPingRequest(this) {
         client.get(this, "sampleList", CSListServerData("list", ServerListItem::class)
-                , map("pageNumber", "$page"))
+            , mapOf("pageNumber" to "$page"))
     }
 
     fun addSampleListItem(item: ServerListItem) = CSPingRequest(this) {
@@ -28,7 +27,7 @@ class SampleServer : CSServerWithPing {
     }
 
     fun deleteSampleListItems(items: List<ServerListItem>) = CSPingConcurrentRequest(this) {
-        items.forEach { item -> it.add(client.post("sampleList/delete", map("id", item.id))) }
+        items.forEach { item -> it.add(client.post("sampleList/delete", mapOf("id" to item.id))) }
     }
 
     override fun ping() = client.get("ping")

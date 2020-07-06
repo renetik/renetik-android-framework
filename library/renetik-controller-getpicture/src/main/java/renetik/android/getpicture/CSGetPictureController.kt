@@ -10,8 +10,8 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+//import org.jetbrains.anko.doAsync
+//import org.jetbrains.anko.uiThread
 import renetik.android.base.CSView
 import renetik.android.base.application
 import renetik.android.controller.base.CSViewController
@@ -23,6 +23,8 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.tryAndError
 import renetik.android.java.extensions.createDatedFile
 import renetik.android.material.extensions.snackBarWarn
+import renetik.android.task.background
+import renetik.android.task.later
 import java.io.File
 
 class CSGetPictureController<T : View>(
@@ -54,13 +56,13 @@ class CSGetPictureController<T : View>(
     }
 
     private fun onImageSelected(input: Uri, onDone: (() -> Unit)? = null) = tryAndError {
-        doAsync {
+        background {
             tryAndError {
                 val outputImage = folder.createDatedFile("jpg")
                 outputImage.outputStream().use { output -> input.resizeImage(1024, 768, output) }
-                uiThread { onImageReady(outputImage) }
+                later { onImageReady(outputImage) }
             }
-            uiThread { onDone?.invoke() }
+            later { onDone?.invoke() }
         }
     }
 

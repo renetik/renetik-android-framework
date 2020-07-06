@@ -36,10 +36,10 @@ open class CSMapController(parent: CSViewController<*>, private val options: Goo
 
     constructor(parent: CSViewController<*>) : this(parent, GoogleMapOptions())
 
-    override fun onCreate(state: Bundle?) {
-        super.onCreate(state)
+    override fun onCreate(bundle: Bundle?) {
+        super.onCreate(bundle)
         catchApiKeyNotFound {
-            view.onCreate(state)
+            view.onCreate(bundle)
         }
     }
 

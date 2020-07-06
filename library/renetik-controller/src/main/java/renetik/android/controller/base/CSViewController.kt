@@ -67,7 +67,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     var isPaused = false
     var isDestroyed = false
 
-    var state: Bundle? = null
+    var bundle: Bundle? = null
     var parentController: CSViewController<*>? = null
     private var activity: AppCompatActivity? = null
     private val parentRegistrations: CSEventRegistrations
@@ -107,9 +107,9 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         parentRegistrations = initialize(parent)
     }
 
-    protected open fun onCreate(state: Bundle?) {
+    protected open fun onCreate(bundle: Bundle?) {
         if (isCreated) throw exception("Already created $this")
-        this.state = state
+        this.bundle = bundle
         onCreate()
     }
 
@@ -118,7 +118,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         isResumed = false
         isStarted = false
         isPaused = false
-        onCreate.fire(state)
+        onCreate.fire(bundle)
     }
 
     protected open fun onStart() {
@@ -157,7 +157,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
             this
         )
         isStarted = false
-        state = null
+        bundle = null
         updateVisibilityChanged()
         onStop.fire()
     }
@@ -183,7 +183,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     fun initialize() {
         parentController?.let {
-            if (it.isCreated) onCreate(it.state)
+            if (it.isCreated) onCreate(it.bundle)
             if (it.isStarted) onStart()
             if (it.isResumed) onResume()
         }

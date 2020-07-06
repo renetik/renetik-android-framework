@@ -7,5 +7,4 @@ dependencies {
     implementation project(':renetik-android-dialog')
     implementation project(':renetik-android-imaging')
     implementation project(':renetik-android-controller')
-    implementation "org.jetbrains.anko:anko-sdk21-coroutines:$anko_version"
 }

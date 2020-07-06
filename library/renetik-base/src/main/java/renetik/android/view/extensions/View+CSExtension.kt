@@ -4,12 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import renetik.android.java.extensions.primitives.isFalse
+import renetik.android.java.extensions.primitives.isTrue
 
 fun <T : View> View.findView(id: Int): T? = findViewById(id)
 fun View.simpleView(id: Int) = findView<View>(id)!!
@@ -33,24 +34,34 @@ fun View.imageView(id: Int) = findView<ImageView>(id)!!
 fun View.swipeRefresh(id: Int) = findView<SwipeRefreshLayout>(id)!!
 fun View.seekBar(id: Int) = findView<SeekBar>(id)!!
 
+fun <T : View> T.enabled(enabled: Boolean) = apply { isEnabled = enabled }
 
-var <T : View> T.isVisible
-    get() = visibility == VISIBLE
-    set(value) {
-        visible(value)
-    }
+fun <T : View> T.enabled() = apply { isEnabled = true }
 
-var <T : View> T.isGone
-    get() = visibility == GONE
-    set(value) {
-        visible(!value)
-    }
+fun <T : View> T.disabled() = apply { isEnabled = false }
 
-fun <T : View> T.visible(visible: Boolean) = apply { visibility = if (visible) VISIBLE else GONE }
+
+val <T : View> T.isVisible get() = visibility == VISIBLE
+
+val <T : View> T.isInvisible get() = visibility == INVISIBLE
+
+val <T : View> T.isGone get() = visibility == GONE
+
+fun <T : View> T.visible(visible: Boolean) = apply { if (visible) show() else invisible() }
+
+fun <T : View> T.invisible(invisible: Boolean) = apply { if (invisible) invisible() else show() }
+
+fun <T : View> T.invisible() = apply { visibility = INVISIBLE }
+
+fun <T : View> T.shown(show: Boolean?) = apply { if (show.isTrue) show() else hide() }
+
+fun <T : View> T.hidden(hide: Boolean?) = apply { if (hide.isTrue) hide() else show() }
+
+fun <T : View> T.show() = apply { visibility = VISIBLE }
 
 fun <T : View> T.hide() = apply { visibility = GONE }
 
-fun <T : View> T.show() = apply { visibility = VISIBLE }
+fun <T : View> T.gone() = apply { visibility = GONE }
 
 val <T : View> T.superview get() = parent as? View
 
@@ -72,5 +83,6 @@ fun <T : View> T.createBitmap(): Bitmap {
     }
     return bitmap
 }
+
 
 

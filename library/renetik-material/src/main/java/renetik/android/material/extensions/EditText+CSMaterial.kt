@@ -9,7 +9,7 @@ import renetik.android.view.extensions.title
 fun List<EditText>.validateNotEmpty(warningMessage: String, onValid: (() -> Unit)? = null): Boolean {
     forEach { editText ->
         val textInputLayout = editText.parent.parent as? TextInputLayout
-        if (editText.title.trim().isEmpty) {
+        if (editText.title?.trim().isEmpty) {
             textInputLayout?.let { it.error = warningMessage }
                     ?: let { editText.snackBarWarn("\"${editText.hint}\" $warningMessage") }
             return false

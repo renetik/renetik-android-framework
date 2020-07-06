@@ -8,7 +8,6 @@ import org.robolectric.annotation.Config
 import renetik.android.BuildConfig.DEBUG
 import renetik.android.base.CSApplication
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.collections.map
 import renetik.android.java.extensions.collections.second
 import renetik.android.java.extensions.primitives.trimNewLines
 import renetik.android.json.data.CSJsonData
@@ -20,7 +19,8 @@ import renetik.android.json.data.properties.CSJsonString
 @Config(application = ApplicationMock::class)
 class CSJsonTest {
 
-    private val mapTest1 = map("id", 1, "isTrue", true, "list", list("litItem1", "litItem2", "litItem3"))
+    private val mapTest1 =
+        mapOf("id" to 1, "isTrue" to true, "list" to list("litItem1", "litItem2", "litItem3"))
     private val jsonTest1 = """{"isTrue":true,"id":1,"list":["litItem1","litItem2","litItem3"]}"""
 
     @Test
@@ -34,7 +34,8 @@ class CSJsonTest {
         assertEquals("litItem2", (map["list"] as? List<*>)?.get(1))
     }
 
-    private val mapTest2 = map("id", 1, "isTrue", true, 1, list("litItem1", Object(), "litItem3"))
+    private val mapTest2 =
+        mapOf("id" to 1, "isTrue" to true, 1 to list("litItem1", Object(), "litItem3"))
     private val jsonTest2 = """{"isTrue":true,"1":["litItem1","java.lang.Object@"""
 
     @Test
@@ -43,7 +44,7 @@ class CSJsonTest {
     }
 
     private val json =
-            """{"floors":[{"title":"first"},{"title":"second"}],
+        """{"floors":[{"title":"first"},{"title":"second"}],
                 |"title":"Nice House"}""".trimMargin().trimNewLines()
 
     @Test
@@ -69,7 +70,7 @@ class CSJsonTest {
         house.load(json.parseJson()!!)
         assertEquals(2, house.floors.size)
         house.floors.list = list(FlorJsonDataTest("first"),
-                FlorJsonDataTest("second"), FlorJsonDataTest("third"))
+            FlorJsonDataTest("second"), FlorJsonDataTest("third"))
         assertEquals(3, house.floors.size)
         assertEquals("third", house.floors.last!!.title.value)
         house.floors.clear()

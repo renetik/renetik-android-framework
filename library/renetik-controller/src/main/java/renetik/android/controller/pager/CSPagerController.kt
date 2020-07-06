@@ -7,7 +7,7 @@ import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.isEmpty
 import renetik.android.task.later
 import renetik.android.view.adapter.CSOnPageSelected
-import renetik.android.view.extensions.visible
+import renetik.android.view.extensions.shown
 
 class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     CSViewController<ViewPager>(parent, pagerId)
@@ -24,7 +24,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         controllers.putAll(pages)
     }
 
-    fun emptyView(view: View) = apply { emptyView = view.visible(controllers.isEmpty) }
+    fun emptyView(view: View) = apply { emptyView = view.shown(controllers.isEmpty) }
 
     fun reload(pages: List<PageType>) = apply {
         val currentIndex = view.currentItem
@@ -60,8 +60,8 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
 
     private fun updateView() {
         view.adapter = CSPagerAdapter(controllers)
-        view.visible(controllers.hasItems)
-        emptyView?.visible(controllers.isEmpty())
+        view.shown(controllers.hasItems)
+        emptyView?.shown(controllers.isEmpty())
     }
 
     private fun updatePageVisibility(newIndex: Int) {
@@ -75,16 +75,19 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
 
     // Bug in pager , animation work just when delayed
     fun setActive(index: Int, animated: Boolean = true) = apply {
-        if (animated) view.post { view.setCurrentItem(index, true) }
+        if (animated) later { view.setCurrentItem(index, true) }
         else view.setCurrentItem(index, false)
     }
 
     fun showPage(page: PageType) {
-        if (controllers.contains(page)) {
-            setActive(index = controllers.indexOf(page))
-        } else {
-            add(page)
-            setActive(index = 1)
-        }
+        if (!controllers.contains(page)) add(page)
+        setActive(index = controllers.indexOf(page))
     }
+
+    fun isPrevious(page: PageType): Boolean {
+        val indexOfPage = controllers.indexOf(page)
+        return indexOfPage != -1 && indexOfPage == currentIndex!! - 1
+    }
+
+    val isOnLastPage: Boolean get() = currentIndex == pageCount - 1
 }

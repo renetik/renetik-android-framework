@@ -1,11 +1,9 @@
 package renetik.android.java.common
 
-import renetik.android.java.extensions.collections.list
-
-private fun <T : CSName> List<T>.toNames() = list<String>().apply {
-    for (hasName in this@toNames) add(hasName.name())
-}
+val <T : CSName> List<T>.asStringArray get() = map { it.name }.toTypedArray()
 
 interface CSName {
-    fun name(): String
+    val name: String
 }
+
+class CSNameValue(override val name: String) : CSName

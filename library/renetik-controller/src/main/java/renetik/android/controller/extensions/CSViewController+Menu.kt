@@ -15,11 +15,15 @@ fun <T : CSViewController<*>> T.menuItem(actionView: View) = menuItem("").apply 
 
 fun <T : CSViewController<*>> T.menuItem(title: String) = addMenuItem(CSMenuItem(this, title))
 
-fun <T : CSViewController<*>> T.menuItem(title: String, @DrawableRes iconResource: Int, onClick: ((CSMenuItem) -> Unit)? = null) =
-    addMenuItem(CSMenuItem(this, title)).setIconResourceId(iconResource).apply { onClick?.let { onClick(onClick) } }
+fun <T : CSViewController<*>> T.menuItem(title: String,
+                                         @DrawableRes iconResource: Int,
+                                         onClick: ((CSMenuItem) -> Unit)? = null) =
+    addMenuItem(CSMenuItem(this, title)).setIconResourceId(iconResource)
+        .apply { onClick?.let { onClick(onClick) } }
 
 fun <T : CSViewController<*>> T.menuItem(title: String, onClick: (CSMenuItem) -> Unit) =
     menuItem(title).onClick(onClick)
 
-fun <T : CSViewController<*>> T.menuItem(@DrawableRes iconResource: Int, onClick: (CSMenuItem) -> Unit) =
+fun <T : CSViewController<*>> T.menuItem(@DrawableRes iconResource: Int,
+                                         onClick: (CSMenuItem) -> Unit) =
     menuItem("", iconResource).onClick(onClick)

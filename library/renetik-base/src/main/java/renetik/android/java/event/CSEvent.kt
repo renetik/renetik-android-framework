@@ -2,6 +2,7 @@ package renetik.android.java.event
 
 import renetik.android.java.event.CSEvent.CSEventRegistration
 
+
 fun <T> event(): CSEvent<T> {
     return CSEventImpl()
 }
@@ -9,6 +10,14 @@ fun <T> event(): CSEvent<T> {
 fun CSEvent<Unit>.fire() = fire(Unit)
 
 fun <T> CSEvent<T>.register(listener: (argument: T) -> Unit): CSEventRegistration {
+    return this.add { _, argument -> listener(argument) }
+}
+
+fun CSEvent<Unit>.listen(listener: () -> Unit): CSEventRegistration {
+    return this.add { _, _ -> listener() }
+}
+
+fun <T> CSEvent<T>.listen(listener: (T) -> Unit): CSEventRegistration {
     return this.add { _, argument -> listener(argument) }
 }
 
@@ -35,5 +44,19 @@ fun <T> CSEvent<T>.runOnce(listener: (registration: CSEventRegistration, argumen
         registration.cancel()
         listener(registration, argument)
     }
+}
+
+class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? = null) {
+
+    private val eventChange: CSEvent<T> = event()
+
+    var value: T = value
+        set(value) {
+            field = value
+            onChange?.invoke(value)
+            eventChange.fire(value)
+        }
+
+    fun onChange(value: (T) -> Unit) = eventChange.listen(value)
 }
 

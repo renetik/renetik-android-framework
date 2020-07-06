@@ -1,17 +1,8 @@
 package renetik.android.controller.common
 
-import android.graphics.Color
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import renetik.android.controller.R
 import renetik.android.controller.base.CSViewController
-import renetik.android.extensions.color
-import renetik.android.extensions.colorFromAttribute
-import renetik.android.extensions.darken
-import renetik.android.extensions.darkenMore
-import renetik.android.view.extensions.editText
-import renetik.android.view.extensions.iconTint
-import renetik.android.view.extensions.imageView
 
 
 class CSSearchController : CSViewController<SearchView> {
@@ -21,24 +12,27 @@ class CSSearchController : CSViewController<SearchView> {
     private var searchOpened = false
     private var expanded = false
     private lateinit var searchView: SearchView
+    private var hint: String? = null
 
     override fun obtainView() = searchView
 
-    constructor(parent: CSViewController<*>, searchListener: (String) -> Unit)
+    constructor(parent: CSViewController<*>,
+                hint: String = "Enter search text",
+                searchListener: (String) -> Unit)
             : super(parent) {
+        this.hint = hint
         searchView = SearchView(this)
-        val colorOnPrimary = colorFromAttribute(R.attr.colorOnPrimary)
-        searchView.editText(androidx.appcompat.R.id.search_src_text).apply {
-            setTextColor(colorOnPrimary)
-            setLinkTextColor(colorOnPrimary.darken)
-            setHintTextColor(colorOnPrimary.darkenMore)
-            hint = "Enter search text"
-        }
-        searchView.imageView(androidx.appcompat.R.id.search_mag_icon).iconTint(colorOnPrimary)
-        searchView.imageView(androidx.appcompat.R.id.search_go_btn).iconTint(colorOnPrimary)
-        searchView.imageView(androidx.appcompat.R.id.search_close_btn).iconTint(colorOnPrimary)
-        searchView.imageView(androidx.appcompat.R.id.search_voice_btn).iconTint(colorOnPrimary)
-        searchView.imageView(androidx.appcompat.R.id.search_button).iconTint(colorOnPrimary)
+//        val colorOnPrimary = colorFromAttribute(R.attr.colorOnPrimary)
+//        searchView.editText(androidx.appcompat.R.id.search_src_text).apply {
+//            setTextColor(colorOnPrimary)
+//            setLinkTextColor(colorOnPrimary.darken)
+//            setHintTextColor(colorOnPrimary.darkenMore)
+//        }
+//        searchView.imageView(androidx.appcompat.R.id.search_mag_icon).iconTint(colorOnPrimary)
+//        searchView.imageView(androidx.appcompat.R.id.search_go_btn).iconTint(colorOnPrimary)
+//        searchView.imageView(androidx.appcompat.R.id.search_close_btn).iconTint(colorOnPrimary)
+//        searchView.imageView(androidx.appcompat.R.id.search_voice_btn).iconTint(colorOnPrimary)
+//        searchView.imageView(androidx.appcompat.R.id.search_button).iconTint(colorOnPrimary)
         this.searchListener = searchListener
     }
 
@@ -59,7 +53,12 @@ class CSSearchController : CSViewController<SearchView> {
     }
 
     private fun initializeSearch() {
-        view.setQuery(text, false)
+        searchView.onActionViewExpanded()
+        searchView.setIconifiedByDefault(!expanded)
+        view.isIconified = !expanded
+        hint?.let { searchView.queryHint = it }
+        if (!searchView.isFocused) searchView.clearFocus()
+
         view.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String) = false
             override fun onQueryTextChange(value: String): Boolean {
@@ -73,9 +72,6 @@ class CSSearchController : CSViewController<SearchView> {
             searchOpened = false
             false
         }
-        view.setIconifiedByDefault(!expanded)
-        view.isIconified = !expanded
-        view.requestFocusFromTouch()
     }
 
     fun clear() {

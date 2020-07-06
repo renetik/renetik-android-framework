@@ -7,7 +7,6 @@ import renetik.android.client.request.CSProcess
 import renetik.android.client.request.CSServerData
 import renetik.android.extensions.isNetworkConnected
 import renetik.android.java.common.CSConstants
-import renetik.android.java.extensions.collections.map
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
@@ -17,7 +16,9 @@ import renetik.android.logging.CSLog
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-fun <ServerDataType : CSServerData> CSOkHttpClient.upload(service: String, file: File, data: ServerDataType) =
+fun <ServerDataType : CSServerData> CSOkHttpClient.upload(service: String,
+                                                          file: File,
+                                                          data: ServerDataType) =
     CSProcess("$url/$service", data).also { process ->
         val request = AndroidNetworking.upload(process.url).addMultipartFile("file", file).build()
         CSLog.logInfo("upload ${request.url} $file")
@@ -26,16 +27,17 @@ fun <ServerDataType : CSServerData> CSOkHttpClient.upload(service: String, file:
         }.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
     }
 
-fun CSOkHttpClient.get(url: String, params: Map<String, String> = map()) = get(null, url, params)
+fun CSOkHttpClient.get(url: String, params: Map<String, String> = emptyMap()) =
+    get(null, url, params)
 
 fun CSOkHttpClient.get(
     operation: CSOperation<CSServerData>? = null, url: String,
-    params: Map<String, String> = map()
+    params: Map<String, String> = emptyMap()
 ) = get(operation, url, CSServerData(), params)
 
 fun <ServerDataType : CSServerData> CSOkHttpClient.get(
     operation: CSOperation<*>?, service: String, data: ServerDataType,
-    params: Map<String, String> = map()
+    params: Map<String, String> = emptyMap()
 ) = CSProcess("$url/$service", data).also { process ->
     val builder = AndroidNetworking.get(process.url!!).addQueryParameter(params)
 
@@ -55,7 +57,7 @@ fun <ServerDataType : CSServerData> CSOkHttpClient.get(
     }
 }
 
-fun CSOkHttpClient.post(service: String, params: Map<String, String> = map()) =
+fun CSOkHttpClient.post(service: String, params: Map<String, String> = emptyMap()) =
     post(service, CSServerData(), params)
 
 fun <ResponseData : CSServerData> CSOkHttpClient.post(

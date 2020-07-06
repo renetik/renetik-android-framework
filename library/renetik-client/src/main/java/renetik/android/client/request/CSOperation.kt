@@ -3,6 +3,7 @@ package renetik.android.client.request
 import renetik.android.base.CSContextController
 import renetik.android.java.event.event
 import renetik.android.java.event.register
+import renetik.android.java.extensions.notNull
 
 open class CSOperation<Data : Any>() : CSContextController() {
 
@@ -45,12 +46,12 @@ open class CSOperation<Data : Any>() : CSContextController() {
     }
 
     fun cancel() {
-        process?.also {
+        process.notNull {
             if (it.isFailed) {
                 eventFailed.fire(it)
                 eventDone.fire(it.data)
             } else {
-                cancel()
+                it.cancel()
                 eventDone.fire(it.data)
             }
         }

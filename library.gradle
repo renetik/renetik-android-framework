@@ -3,21 +3,22 @@ apply plugin: 'kotlin-android'
 //apply from: '../../library-publish.gradle'
 //apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.rene-dohan'
+group = 'com.github.rene-dohan'
 
 android {
     compileSdkVersion 29
     testOptions.unitTests.includeAndroidResources = true
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
+    kotlinOptions { jvmTarget = 1.8 }
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 29
     }
     lintOptions {
-    	tasks.lint.enabled = false
+        tasks.lint.enabled = false
 //         checkReleaseBuilds false
 //         abortOnError false
     }
