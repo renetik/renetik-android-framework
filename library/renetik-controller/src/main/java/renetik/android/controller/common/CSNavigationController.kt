@@ -10,7 +10,6 @@ import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.extensions.applicationLabel
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isSet
@@ -76,6 +75,31 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             onViewControllerPop(lastController)
         }
 
+        controllers.put(controller)
+        controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
+        view.add(controller)
+        controller.showingInContainer(true)
+        controller.initialize()
+        updateBackButton()
+        updateBarTitle()
+        updateBarIcon()
+        invalidateOptionsMenu()
+        hideKeyboard()
+        onViewControllerPush(controller)
+        return controller
+    }
+
+    fun <T : View> pushAsLast(key: String, controller: CSViewController<T>): CSViewController<T> {
+        val pushKey = "push_key"
+        controllers.deleteLast { it.getValue(pushKey) == key }
+            .notNull { lastController ->
+                lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
+                lastController.showingInContainer(false)
+                view.remove(lastController)
+                lastController.deInitialize()
+                onViewControllerPop(lastController)
+            }
+        controller.setValue(pushKey, key)
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
         view.add(controller)

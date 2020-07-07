@@ -1,5 +1,6 @@
 ext.publish_module_name = 'controller'
 apply from: '../../library.gradle'
+apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':renetik-android-base')
@@ -7,4 +8,9 @@ dependencies {
     implementation project(':renetik-android-material') //using snackbar and floating button
     implementation "com.google.android.gms:play-services-base:$play_version"
     implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

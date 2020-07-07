@@ -1,6 +1,12 @@
 ext.publish_module_name = 'json'
 apply from: '../../library.gradle'
+apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':renetik-android-base')
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

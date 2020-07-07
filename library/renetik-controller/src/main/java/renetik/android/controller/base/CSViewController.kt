@@ -76,6 +76,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     private var showingInContainer: Boolean? = null
     private var isShowing = false
     private var onViewShowingCalled = false
+    private val keyValueMap = mutableMapOf<String, Any>()
     val isRoot get() = root === this
     val actionBar get() = activity().supportActionBar
 
@@ -373,4 +374,10 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     }
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle
+
+    fun setValue(key: String, value: String) {
+        keyValueMap[key] = value
+    }
+
+    fun getValue(key: String) = keyValueMap[key]
 }

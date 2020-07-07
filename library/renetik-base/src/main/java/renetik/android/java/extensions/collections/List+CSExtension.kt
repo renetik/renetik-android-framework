@@ -1,5 +1,9 @@
 package renetik.android.java.extensions.collections
 
+import java.util.*
+import java.util.function.Predicate
+import kotlin.collections.ArrayList
+
 val <T> List<T>.length get() = size
 
 val <T> List<T>.hasItems get() = size > 0

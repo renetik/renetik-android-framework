@@ -1,5 +1,6 @@
 ext.publish_module_name = 'controller-getpicture'
 apply from: '../../library.gradle'
+apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':renetik-android-base')
@@ -7,4 +8,9 @@ dependencies {
     implementation project(':renetik-android-dialog')
     implementation project(':renetik-android-imaging')
     implementation project(':renetik-android-controller')
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

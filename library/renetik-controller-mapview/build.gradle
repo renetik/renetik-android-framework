@@ -1,5 +1,6 @@
 ext.publish_module_name = 'controller-maps'
 apply from: '../../library.gradle'
+apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':renetik-android-base')
@@ -9,4 +10,9 @@ dependencies {
     implementation project(':renetik-android-dialog')
     implementation "com.google.android.gms:play-services-location:17.0.0"
     implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

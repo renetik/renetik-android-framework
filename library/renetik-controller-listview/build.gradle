@@ -1,5 +1,6 @@
 ext.publish_module_name = 'controller-list'
 apply from: '../../library.gradle'
+apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':renetik-android-base')
@@ -8,4 +9,9 @@ dependencies {
     implementation project(':renetik-android-imaging')
     implementation project(':renetik-android-controller')
     implementation project(':renetik-android-client')
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

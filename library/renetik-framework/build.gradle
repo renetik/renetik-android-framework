@@ -1,5 +1,6 @@
 ext.publish_module_name = 'framework'
 apply from: '../../library.gradle'
+apply plugin: 'kotlin-android'
 
 dependencies {
     api project(':renetik-android-base')
@@ -14,4 +15,9 @@ dependencies {
     api project(':renetik-android-controller-list')
     api project(':renetik-android-controller-maps')
     api project(':renetik-android-controller-themes')
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

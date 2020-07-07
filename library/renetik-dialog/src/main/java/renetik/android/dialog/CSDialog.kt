@@ -1,9 +1,13 @@
 package renetik.android.dialog
 
 import android.app.Activity
+import android.app.Dialog
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.ProgressBar
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import com.afollestad.materialdialogs.MaterialDialog
@@ -15,11 +19,13 @@ import renetik.android.base.CSContextController
 import renetik.android.base.CSView
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLogo
+import renetik.android.extensions.colorFromAttribute
 import renetik.android.extensions.inflate
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.stringify
-import renetik.android.view.extensions.withClear
+import renetik.android.view.extensions.*
+
 
 class CSDialog : CSContextController {
 
@@ -32,7 +38,8 @@ class CSDialog : CSContextController {
     constructor(view: CSView<*>) : super(view)
     constructor(view: View) : super(view.context)
 
-    private var dialog: MaterialDialog? = null
+    private var materialDialog: MaterialDialog? = null
+    private var dialog: Dialog? = null
     private var title: String? = null
     private var message: String? = null
     private var view: View? = null
@@ -45,7 +52,7 @@ class CSDialog : CSContextController {
     var isCheckboxChecked = false
     var onDialogCancel: ((CSDialog) -> Unit)? = null
 
-    val inputText get() = dialog?.getInputField()?.text.stringify()
+    val inputText get() = materialDialog?.getInputField()?.text.stringify()
 
     init {
         initDefaultsFunction?.invoke(this)
@@ -56,7 +63,7 @@ class CSDialog : CSContextController {
     fun text(title: String, message: String) = title(title).message(message)
 
     fun show() = apply {
-        dialog = MaterialDialog(this).show {
+        materialDialog = MaterialDialog(this).show {
             initialize()
         }
     }
@@ -90,7 +97,7 @@ class CSDialog : CSContextController {
 //    }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
-        dialog = MaterialDialog(this).show {
+        materialDialog = MaterialDialog(this).show {
             positiveButton(text = positiveText) { onPositive(this@CSDialog) }
             if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
             initialize()
@@ -101,7 +108,7 @@ class CSDialog : CSContextController {
         positiveText: String, onPositive: (CSDialog) -> Unit,
         onNegative: (CSDialog) -> Unit
     ) = apply {
-        dialog = MaterialDialog(this).show {
+        materialDialog = MaterialDialog(this).show {
             initialize()
             positiveButton(text = positiveText) { onPositive(this@CSDialog) }
             negativeButton(R.string.cs_dialog_cancel) { onNegative(this@CSDialog) }
@@ -109,7 +116,7 @@ class CSDialog : CSContextController {
     }
 
     fun show(onPositive: (CSDialog) -> Unit) = apply {
-        dialog = MaterialDialog(this).show {
+        materialDialog = MaterialDialog(this).show {
             initialize()
             positiveButton(R.string.cs_dialog_ok) { onPositive(this@CSDialog) }
             if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
@@ -120,7 +127,7 @@ class CSDialog : CSContextController {
         leftButton: String, leftButtonAction: (CSDialog) -> Unit,
         rightButton: String, rightButtonAction: (CSDialog) -> Unit
     ) = apply {
-        dialog = MaterialDialog(this).show {
+        materialDialog = MaterialDialog(this).show {
             initialize()
             @Suppress("DEPRECATION")
             neutralButton(text = leftButton) { leftButtonAction(this@CSDialog) }
@@ -132,29 +139,57 @@ class CSDialog : CSContextController {
         positiveText: String, positiveAction: (CSDialog) -> Unit
         , negativeText: String, negativeAction: (CSDialog) -> Unit
     ) = apply {
-        dialog = MaterialDialog(this).show {
+        materialDialog = MaterialDialog(this).show {
             initialize()
             positiveButton(text = positiveText) { positiveAction(this@CSDialog) }
             negativeButton(text = negativeText) { negativeAction(this@CSDialog) }
         }
     }
 
-
     fun showProgress(
+        title: String? = null,
+        cancellable: Boolean = true,
         cancelTitle: String = getString(R.string.cs_dialog_cancel),
         onCancel: ((CSDialog) -> Unit)? = null
     ) = apply {
         progress = ProgressBar(this).apply { isIndeterminate = true }
-        dialog = MaterialDialog(this).show {
-            initialize()
-            customView(view = progress, scrollable = false)
-            noAutoDismiss()
-            cancelable(false)
-            negativeButton(text = cancelTitle) {
-                dismiss()
-                onCancel?.invoke(this@CSDialog)
+        dialog = Dialog(context, R.style.CSProgressDialogStyle).apply {
+            setCancelable(false)
+            setCanceledOnTouchOutside(false)
+            window?.setBackgroundDrawableResource(R.color.cs_transparent);
+            val content = inflate<View>(R.layout.progress)
+            content.simpleView(R.id.progress_background)
+                .roundedBackgroundColor(colorFromAttribute(R.attr.colorSurface))
+            content.textView(R.id.progress_title).title(title ?: "")
+            if (cancellable) {
+                content.button(R.id.progress_button).title(cancelTitle)
+                    .onClick { this@CSDialog.hide(); onCancel?.invoke(this@CSDialog) }
+            } else {
+                content.button(R.id.progress_button).hide()
             }
+            //TODO move to reusable code: view border radius
+            val shape = GradientDrawable()
+            shape.cornerRadius = 8f
+            shape.color = ColorStateList.valueOf(colorFromAttribute(R.attr.colorSurface))
+            content.background = shape 
+            setContentView(content)
+            show()
         }
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.window?.setBackgroundDrawableResource(R.color.cs_transparent);
+//        dialog.setContentView(R.layout.progress)
+//        dialog.show()
+//        dialog = MaterialDialog(this).show {
+//            initialize()
+//            title?.let { message(text = it) }
+//            customView(view = progress, scrollable = false)
+//            noAutoDismiss()
+//            cancelable(false)
+//            negativeButton(text = cancelTitle) {
+//                dismiss()
+//                onCancel?.invoke(this@CSDialog)
+//            }
+//        }
     }
 
     fun showProgress(
@@ -165,7 +200,7 @@ class CSDialog : CSContextController {
             isIndeterminate = false
             max = progressMax
         }
-        dialog = MaterialDialog(this).show {
+        materialDialog = MaterialDialog(this).show {
             initialize()
             customView(view = progress, scrollable = false)
             noAutoDismiss()
@@ -179,7 +214,7 @@ class CSDialog : CSContextController {
 
     fun showInput(hint: String = "", text: String = "", positiveAction: (CSDialog) -> Unit) =
         apply {
-            dialog = MaterialDialog(this).show {
+            materialDialog = MaterialDialog(this).show {
                 initialize()
                 positiveButton(R.string.cs_dialog_ok) { positiveAction(this@CSDialog) }
                 if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
@@ -200,7 +235,7 @@ class CSDialog : CSContextController {
 
     fun onCancel(cancelAction: (CSDialog) -> Unit) = apply { onDialogCancel = cancelAction }
 
-    fun hide() = apply { dialog?.dismiss() }
+    fun hide() = apply { materialDialog?.dismiss() ?: dialog?.dismiss() }
 
     class CSOnDialogViewAction<ViewType : View>(val dialog: CSDialog, val view: ViewType)
 
@@ -210,13 +245,14 @@ class CSDialog : CSContextController {
     ): View {
         if (title.isSet and message.isSet) throw UnsupportedOperationException("No place for second text with custom view")
         this.view = view
-        dialog = MaterialDialog(this).show {
+        materialDialog = MaterialDialog(this).show {
             initialize()
             customView(view = view, scrollable = true)
             if (action.notNull) noAutoDismiss()
             action?.let {
                 positiveButton(R.string.cs_dialog_ok) {
-                    if (action(CSOnDialogViewAction(this@CSDialog, view))) dialog!!.dismiss()
+                    if (action(CSOnDialogViewAction(this@CSDialog,
+                            view))) materialDialog!!.dismiss()
                 }
             }
         }
@@ -239,6 +275,12 @@ class CSDialog : CSContextController {
         progress!!.progress = value
         return this
     }
+}
+
+private fun View.roundedBackgroundColor(@ColorInt color: Int) {
+    val shape = GradientDrawable()
+    shape.cornerRadius = 8f
+    shape.color = ColorStateList.valueOf(color)
 }
 
 fun <ViewType : View> CSDialog.showViewOf(
