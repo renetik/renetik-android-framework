@@ -5,7 +5,8 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.java.extensions.notNull
 import renetik.android.java.math.CSMath.between
 
-class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageType>) : OnPageChangeListener
+class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageType>) :
+    OnPageChangeListener
         where PageType : CSViewController<*>, PageType : CSPagerPage {
 
     private var onPageDragged: ((Int) -> Unit)? = null
@@ -13,6 +14,7 @@ class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageTyp
     private var draggingPageIndex: Int? = null
     private var draggedPage: Int = 0
     private var onPageReleased: ((Int) -> Unit)? = null
+    private var onPageSelected: ((Int) -> Unit)? = null
 
     init {
         pager.view.addOnPageChangeListener(this)
@@ -21,6 +23,8 @@ class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageTyp
     fun onDragged(function: (Int) -> Unit) = apply { onPageDragged = function }
 
     fun onReleased(function: (Int) -> Unit) = apply { onPageReleased = function }
+
+    fun onSelected(function: (Int) -> Unit) = apply { onPageSelected = function }
 
     override fun onPageScrollStateChanged(state: Int) {
         this.state = state
@@ -47,6 +51,7 @@ class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageTyp
         draggingPageIndex = null
     }
 
-    override fun onPageSelected(position: Int) {}
-
+    override fun onPageSelected(position: Int) {
+        onPageSelected?.invoke(position)
+    }
 }

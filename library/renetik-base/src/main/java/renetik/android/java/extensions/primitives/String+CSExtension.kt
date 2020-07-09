@@ -15,7 +15,8 @@ fun generateRandomStringOfLength(length: Int): String {
 }
 
 fun containsNoCase(string1: String, string2: String) =
-    if (string1.isNull || string2.isNull) false else string1.toLowerCase().contains(string2.toLowerCase())
+    if (string1.isNull || string2.isNull) false else string1.toLowerCase()
+        .contains(string2.toLowerCase())
 
 fun String.asLong(): Long? {
     return try {

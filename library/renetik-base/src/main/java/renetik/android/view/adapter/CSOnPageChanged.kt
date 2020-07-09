@@ -2,7 +2,7 @@ package renetik.android.view.adapter
 
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 
-class CSOnPageSelected(private val function: (Int) -> Unit) : OnPageChangeListener {
+class CSOnPageChanged(private val function: (Int) -> Unit) : OnPageChangeListener {
 
     override fun onPageScrollStateChanged(state: Int) = Unit
 

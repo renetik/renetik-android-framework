@@ -5,27 +5,26 @@ import renetik.android.java.common.CSValueInterface
 import kotlin.math.roundToInt
 
 //TODO: size define as float so double and float don't get rounded ? or make size private and use just for isEmpty isSet
-
 val Any?.size: Int
-    get() {
-        if (this == null) return 0
-        if (this is Int) return this
-        if (this is Number) return toFloat().run { if (this > 0 && this < 1) 1 else roundToInt() }
-        if (this is Boolean) return if (this) 1 else 0
-        if (this is CharSequence) return this.length
-        if (this is Collection<*>) return this.size
-        if (this is Map<*, *>) return this.size
-        if (this is CSValueInterface<*>) return this.value.size
-        if (this is CSSizeInterface) return this.size
-        if (this is Array<*>) return this.size
-        if (this is IntArray) return this.size
-        if (this is DoubleArray) return this.size
-        if (this is LongArray) return this.size
-        if (this is CharArray) return this.size
-        if (this is FloatArray) return this.size
-        if (this is BooleanArray) return this.size
-        if (this is ByteArray) return this.size
-        return 1
+    get() = when {
+        this == null -> 0
+        this is Int -> this
+        this is Number -> toFloat().run { if (this > 0 && this < 1) 1 else roundToInt() }
+        this is Boolean -> if (this) 1 else 0
+        this is CharSequence -> this.length
+        this is Collection<*> -> this.size
+        this is Map<*, *> -> this.size
+        this is CSValueInterface<*> -> this.value.size
+        this is CSSizeInterface -> this.size
+        this is Array<*> -> this.size
+        this is IntArray -> this.size
+        this is DoubleArray -> this.size
+        this is LongArray -> this.size
+        this is CharArray -> this.size
+        this is FloatArray -> this.size
+        this is BooleanArray -> this.size
+        this is ByteArray -> this.size
+        else -> 1
     }
 
 val Any?.isEmpty get() = size == 0

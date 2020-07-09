@@ -8,7 +8,9 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
+import androidx.annotation.IdRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import renetik.android.java.extensions.isNull
 import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
 
@@ -82,6 +84,16 @@ fun <T : View> T.createBitmap(): Bitmap {
         draw(this)
     }
     return bitmap
+}
+
+fun <T : Any> View.tagProperty(@IdRes key: Int, onCreate: () -> T): T {
+    @Suppress("UNCHECKED_CAST")
+    var value = getTag(key) as? T
+    if (value.isNull) {
+        value = onCreate()
+        setTag(key, value)
+    }
+    return value!!
 }
 
 

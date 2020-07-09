@@ -3,15 +3,20 @@ package renetik.android.controller.pager
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import renetik.android.controller.base.CSViewController
+import renetik.android.java.event.event
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.isEmpty
 import renetik.android.task.later
-import renetik.android.view.adapter.CSOnPageSelected
+import renetik.android.view.adapter.CSOnPageChanged
 import renetik.android.view.extensions.shown
 
 class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     CSViewController<ViewPager>(parent, pagerId)
         where PageType : CSViewController<*>, PageType : CSPagerPage {
+
+    val eventOnPageChange = event<PageType>()
+    fun onPageChange(function: (PageType) -> Unit) = eventOnPageChange.listen(function)
 
     val pageCount: Int get() = controllers.size
 
@@ -47,12 +52,12 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         CSOnPagerPageChange(this)
             .onDragged { index -> controllers[index].showingInContainer(true) }
             .onReleased { index ->
-                if (currentIndex != index) controllers[index].showingInContainer(
-                    false
-                )
+                if (currentIndex != index)
+                    controllers[index].showingInContainer(false)
             }
-        view.addOnPageChangeListener(
-            CSOnPageSelected { index -> later(100) { updatePageVisibility(index) } })
+            .onSelected { index -> later(100) { updatePageVisibility(index) } }
+//        view.addOnPageChangeListener(
+//            CSOnPageChanged { index -> later(100) { updatePageVisibility(index) } })
         updatePageVisibility(0)
         view.setCurrentItem(0, true)
         updateView()
@@ -60,6 +65,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
 
     private fun updateView() {
         view.adapter = CSPagerAdapter(controllers)
+//        view.addOnPageChangeListener(CSOnPageChanged { hideKeyboard() })
         view.shown(controllers.hasItems)
         emptyView?.shown(controllers.isEmpty())
     }
@@ -69,6 +75,8 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         currentIndex = newIndex
         for (index in 0 until controllers.size)
             controllers[index].showingInContainer(index == currentIndex)
+        eventOnPageChange.fire(current)
+        hideKeyboard()
     }
 
     val current get() = controllers.at(currentIndex!!)!!
@@ -82,6 +90,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     fun showPage(page: PageType) {
         if (!controllers.contains(page)) add(page)
         setActive(index = controllers.indexOf(page))
+
     }
 
     fun isPrevious(page: PageType): Boolean {
