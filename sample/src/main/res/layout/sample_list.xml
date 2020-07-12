@@ -21,7 +21,7 @@
             style="@style/CSWrap"
             android:text="No items in list"
             android:textAppearance="@style/CSTextTitle"
-            android:textColor="@color/cs_dark_grey_text" />
+            android:textColor="@color/cs_dark_gray_text" />
 
     </com.google.android.material.card.MaterialCardView>
 

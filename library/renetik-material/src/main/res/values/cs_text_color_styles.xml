@@ -1,7 +1,7 @@
 <resources>
 
     <style name="CSTextBody2.Gray">
-        <item name="android:textColor">@color/cs_dark_grey_text</item>
+        <item name="android:textColor">@color/cs_dark_gray_text</item>
     </style>
 
     <style name="CSTextActionBarSearch" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
@@ -9,7 +9,7 @@
     </style>
 
     <style name="CSTextOverline.Gray">
-        <item name="android:textColor">@color/cs_dark_grey_text</item>
+        <item name="android:textColor">@color/cs_dark_gray_text</item>
     </style>
 
 </resources>

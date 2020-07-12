@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:text="No images in grid"
             android:textAppearance="@style/CSTextTitle"
-            android:textColor="@color/cs_dark_grey_text" />
+            android:textColor="@color/cs_dark_gray_text" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/SampleGetPicture_AddImageButton"

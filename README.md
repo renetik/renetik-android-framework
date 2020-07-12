@@ -267,7 +267,7 @@ Here is how layout for list is made, there are special styles in framewrok that 
             style="@style/CSWrap"
             android:text="No items in list"
             android:textAppearance="@style/CSTextHeadline6"
-            android:textColor="@color/cs_dark_grey_text" />
+            android:textColor="@color/cs_dark_gray_text" />
 
     </com.google.android.material.card.MaterialCardView>
 ```

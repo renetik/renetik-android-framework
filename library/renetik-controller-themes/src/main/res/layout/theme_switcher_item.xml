@@ -22,7 +22,7 @@
                     <View
                         android:id="@+id/ThemeSwitcherItem_ColorPrimary"
                         style="@style/CSFillMatch"
-                        android:background="@color/cs_grey" />
+                        android:background="@color/cs_gray" />
 
                     <View
                         android:id="@+id/ThemeSwitcherItem_ColorPrimaryVariant"
