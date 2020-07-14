@@ -18,10 +18,10 @@ import renetik.android.java.extensions.primitives.count
 import renetik.android.view.extensions.padding
 
 class CSItemPickerController<Row : CSName>(
-    title: CharSequence, data: List<Row>, onSelected: (Row?) -> Unit) :
+    title: CharSequence, data: List<Row>, onSelected: (Row) -> Unit) :
     CSViewController<View>(navigation) {
 
-    constructor(title: CharSequence, data: List<Row>, property: CSEventProperty<Row?>)
+    constructor(title: CharSequence, data: List<Row>, property: CSEventProperty<in Row>)
             : this(title, data, { property.value = it })
 
     companion object Factory
