@@ -10,7 +10,7 @@ data class CSLogEvent(val type: CSLogEventType, val message: String)
 
 interface CSLogger {
 
-    val onLogEvent: CSEvent<CSLogEvent>
+    val eventOnLog: CSEvent<CSLogEvent>
 
     fun onLowMemory()
 
