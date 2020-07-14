@@ -3,12 +3,12 @@ package renetik.android.base
 import android.app.Application
 import android.os.Environment.getExternalStorageDirectory
 import renetik.android.extensions.applicationLabel
+import renetik.android.java.extensions.exception
 import renetik.android.logging.AndroidLogger
 import renetik.android.logging.CSLog.logInfo
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.logging.CSLogger
 import renetik.android.task.initializeHandler
-import renetik.android.java.extensions.exception
 import java.io.File
 
 lateinit var application: CSApplication
@@ -42,5 +42,4 @@ open class CSApplication : Application() {
         super.onTerminate()
         logInfo("onTerminate")
     }
-
 }

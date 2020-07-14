@@ -76,6 +76,7 @@ abstract class CSContextController : ContextWrapper {
         startService(Intent(this, serviceClass))
 
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
+
     protected open fun onDestroy() = Unit
 }
 

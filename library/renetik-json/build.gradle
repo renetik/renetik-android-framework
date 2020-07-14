@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':renetik-android-base')
-    implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:+"
 }
 repositories {
     mavenCentral()

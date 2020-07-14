@@ -1,6 +1,7 @@
 package renetik.android.material.extensions
 
 import android.annotation.SuppressLint
+import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
@@ -50,6 +51,8 @@ var <T : TextInputLayout> T.title: String
     set(value) {
         editText!!.title = value
     }
+
+fun <T : TextInputLayout> T.title(string: String) = apply { title = string }
 
 fun <T : TextInputLayout> T.onChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onChange { onChange(this) } }

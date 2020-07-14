@@ -18,22 +18,26 @@ import renetik.android.java.extensions.primitives.count
 import renetik.android.view.extensions.padding
 
 class CSItemPickerController<Row : CSName>(
-    title: CharSequence, data: List<Row>, property: CSEventProperty<Row?>) :
+    title: CharSequence, data: List<Row>, onSelected: (Row?) -> Unit) :
     CSViewController<View>(navigation) {
+
+    constructor(title: CharSequence, data: List<Row>, property: CSEventProperty<Row?>)
+            : this(title, data, { property.value = it })
 
     companion object Factory
 
     init {
-        val picker = NumberPicker(this)
-        picker.minValue = 1
-        picker.displayedValues = data.asStringArray
-        picker.maxValue = picker.displayedValues.count
+        val picker = NumberPicker(this).apply {
+            minValue = 1
+            displayedValues = data.asStringArray
+            maxValue = displayedValues.count
+        }
         val layout = FrameLayout(this)
         layout.addView(picker, LayoutParams(MATCH_PARENT, WRAP_CONTENT, CENTER))
         layout.padding(toPixel(5))
         MaterialAlertDialogBuilder(this).setView(layout).setTitle(title)
             .setPositiveButton(getString(R.string.renetik_android_base_yes)) { _, _ ->
-                property.value = data[picker.value - 1]
+                onSelected(data[picker.value - 1])
             }.show()
     }
 }
