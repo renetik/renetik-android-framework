@@ -16,7 +16,8 @@ fun <T : Any> TextInputLayout.data(property: CSEventProperty<T?>,
                                    depends: ((CSFormFieldDependency).() -> Unit)? = null) = apply {
     editText!!.onChange { if (property.value.isSet) clearError() }
     editText!!.onClear { property.value = null }
-    property.onChange { title = it?.stringify() ?: "" }
+    fun updateTitle() = title(property.value?.stringify() ?: "")
+    updateTitle(); property.onChange { updateTitle() }
     if (depends != null) {
         val dependency = CSFormFieldDependency {
             val result = falseIfAnyConditionIsFalse()
@@ -26,6 +27,11 @@ fun <T : Any> TextInputLayout.data(property: CSEventProperty<T?>,
         depends(dependency)
         dependency.evaluate()
     }
+}
+
+fun <T : Any> TextInputLayout.data(property: CSEventProperty<T>) = apply {
+    fun updateTitle() = title(property.value.stringify())
+    updateTitle(); property.onChange { updateTitle() }
 }
 
 fun <View : android.view.View> View.depends(depend: (CSFormFieldDependency).() -> Unit) = apply {
