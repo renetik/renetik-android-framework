@@ -9,7 +9,8 @@ import renetik.android.extensions.toPixel
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit) = apply {
     if (width == 0 || height == 0)
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 if (width != 0 && height != 0) {
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -39,6 +40,14 @@ fun <T : View> T.margins(left: Int, top: Int, right: Int, bottom: Int) = apply {
     }
 }
 
+fun <T : View> T.margin(value: Int) = apply {
+    layoutParams = (layoutParams as MarginLayoutParams).apply {
+        setMargins(value, value, value, value)
+    }
+}
+
+fun <T : View> T.marginDp(value: Int) = margin(context.toPixel(value))
+
 fun <T : View> T.bottomMargin(value: Int) = apply {
     layoutParams = (layoutParams as MarginLayoutParams).apply {
         setMargins(leftMargin, topMargin, rightMargin, value)
@@ -61,6 +70,8 @@ fun <T : View> T.endMargin(value: Int) = apply {
         setMargins(leftMargin, topMargin, value, bottomMargin)
     }
 }
+
+fun <T : View> T.horizontalMarginDp(value: Int) = horizontalMargin(context.toPixel(value))
 
 fun <T : View> T.horizontalMargin(value: Int) = apply {
     layoutParams = (layoutParams as MarginLayoutParams).apply {

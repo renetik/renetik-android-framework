@@ -12,30 +12,34 @@ fun <T : View> T.backgroundTint(value: Int) = apply {
 }
 
 fun <T : View> T.background(value: Int) = apply {
-    tryAndCatch(Resources.NotFoundException::class, { setBackgroundColor(context.resourceColor(value)) }, {
-        tryAndCatch(Resources.NotFoundException::class, { setBackgroundResource(context.resourceFromAttribute(value)) }, {
-            tryAndCatch(Resources.NotFoundException::class, { setBackgroundColor(context.colorFromAttribute(value)) },
-                    { tryAndWarn { setBackgroundColor(value) } })
+    tryAndCatch(Resources.NotFoundException::class,
+        { setBackgroundColor(context.resourceColor(value)) },
+        {
+            tryAndCatch(Resources.NotFoundException::class,
+                { setBackgroundResource(context.resourceFromAttribute(value)) },
+                {
+                    tryAndCatch(Resources.NotFoundException::class,
+                        { setBackgroundColor(context.colorFromAttribute(value)) },
+                        { tryAndWarn { setBackgroundColor(value) } })
+                })
         })
-    })
 }
 
-fun <T : View> T.padding(left: Int, top: Int, right: Int, bottom: Int) = apply {
+fun <T : View> T.paddingDp(left: Int, top: Int, right: Int, bottom: Int) = apply {
     setPadding(context.toPixel(left), context.toPixel(top),
-            context.toPixel(right), context.toPixel(bottom))
+        context.toPixel(right), context.toPixel(bottom))
 }
 
-fun <T : View> T.padding(value: Int) = apply {
-    val pixelValue = context.toPixel(value)
-    setPadding(pixelValue, pixelValue, pixelValue, pixelValue)
+fun <T : View> T.paddingDp(value: Int) = apply {
+    paddingDp(value, value, value, value)
 }
 
-fun <T : View> T.verticalPadding(value: Int) = apply {
+fun <T : View> T.verticalPaddingDp(value: Int) = apply {
     val pixelValue = context.toPixel(value)
     setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
 }
 
-fun <T : View> T.horizontalPadding(value: Int) = apply {
+fun <T : View> T.horizontalPaddingDp(value: Int) = apply {
     val pixelValue = context.toPixel(value)
     setPadding(pixelValue, paddingTop, pixelValue, paddingBottom)
 }

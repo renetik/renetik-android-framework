@@ -5,7 +5,6 @@ import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.make
 import renetik.android.extensions.colorFromAttribute
-import renetik.android.java.common.CSConstants.SECOND
 import renetik.android.material.R
 
 private fun View.snackBar(text: String) = snackBar(text, Snackbar.LENGTH_SHORT)

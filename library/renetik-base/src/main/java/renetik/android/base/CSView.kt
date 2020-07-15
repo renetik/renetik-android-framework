@@ -17,6 +17,7 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
     private var parentGroup: ViewGroup? = null
     private var layoutId: CSLayoutId? = null
     private var _view: ViewType? = null
+
     fun setView(view: ViewType) {
         _view = view
     }

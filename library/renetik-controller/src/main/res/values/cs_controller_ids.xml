@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="CS_ItemPicker_TitleTextView" type="id" />
+    <item name="CS_ItemPicker_NumberPicker" type="id" />
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CSVerticalLayoutMatchWrap"
+    android:paddingHorizontal="15dp"
+    android:paddingTop="5dp">
+
+    <TextView
+        android:id="@id/CS_ItemPicker_TitleTextView"
+        style="@style/CSMatchWrap"
+        android:text="Title"
+        android:textAppearance="@style/CSTextTitle" />
+
+    <NumberPicker
+        android:id="@id/CS_ItemPicker_NumberPicker"
+        style="@style/CSMatch" />
+
+</LinearLayout>

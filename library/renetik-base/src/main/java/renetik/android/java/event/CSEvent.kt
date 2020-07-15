@@ -52,6 +52,7 @@ class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? =
 
     var value: T = value
         set(value) {
+            if (field == value) return
             field = value
             onChange?.invoke(value)
             eventChange.fire(value)

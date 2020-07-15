@@ -11,30 +11,30 @@ import android.widget.*
 import androidx.annotation.IdRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.java.extensions.isNull
-import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
 
-fun <T : View> View.findView(id: Int): T? = findViewById(id)
-fun View.simpleView(id: Int) = findView<View>(id)!!
-fun View.editText(id: Int) = findView<EditText>(id)!!
-fun View.textView(id: Int) = findView<TextView>(id)!!
-fun View.scrollView(id: Int) = findView<ScrollView>(id)!!
-fun View.listView(id: Int) = findView<ListView>(id)!!
-fun View.radio(id: Int) = findView<RadioButton>(id)!!
-fun View.radioGroup(id: Int) = findView<RadioGroup>(id)!!
-fun View.datePicker(id: Int) = findView<DatePicker>(id)!!
-fun View.frame(id: Int) = findView<FrameLayout>(id)!!
-fun View.linearLayout(id: Int) = findView<LinearLayout>(id)!!
-fun View.viewGroup(id: Int) = findView<ViewGroup>(id)!!
-fun View.spinner(id: Int) = findView<Spinner>(id)!!
-fun View.button(id: Int) = findView<Button>(id)!!
-fun View.compoundButton(id: Int) = findView<CompoundButton>(id)!!
-fun View.checkBox(id: Int) = findView<CheckBox>(id)!!
-fun View.timePicker(id: Int) = findView<TimePicker>(id)!!
-fun View.webView(id: Int) = findView<WebView>(id)!!
-fun View.imageView(id: Int) = findView<ImageView>(id)!!
-fun View.swipeRefresh(id: Int) = findView<SwipeRefreshLayout>(id)!!
-fun View.seekBar(id: Int) = findView<SeekBar>(id)!!
+fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
+fun View.simpleView(@IdRes id: Int) = findView<View>(id)!!
+fun View.editText(@IdRes id: Int) = findView<EditText>(id)!!
+fun View.textView(@IdRes id: Int) = findView<TextView>(id)!!
+fun View.scrollView(@IdRes id: Int) = findView<ScrollView>(id)!!
+fun View.listView(@IdRes id: Int) = findView<ListView>(id)!!
+fun View.radio(@IdRes id: Int) = findView<RadioButton>(id)!!
+fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
+fun View.datePicker(@IdRes id: Int) = findView<DatePicker>(id)!!
+fun View.numberPicker(@IdRes id: Int) = findView<NumberPicker>(id)!!
+fun View.frame(@IdRes id: Int) = findView<FrameLayout>(id)!!
+fun View.linearLayout(@IdRes id: Int) = findView<LinearLayout>(id)!!
+fun View.viewGroup(@IdRes id: Int) = findView<ViewGroup>(id)!!
+fun View.spinner(@IdRes id: Int) = findView<Spinner>(id)!!
+fun View.button(@IdRes id: Int) = findView<Button>(id)!!
+fun View.compoundButton(@IdRes id: Int) = findView<CompoundButton>(id)!!
+fun View.checkBox(@IdRes id: Int) = findView<CheckBox>(id)!!
+fun View.timePicker(@IdRes id: Int) = findView<TimePicker>(id)!!
+fun View.webView(@IdRes id: Int) = findView<WebView>(id)!!
+fun View.imageView(@IdRes id: Int) = findView<ImageView>(id)!!
+fun View.swipeRefresh(@IdRes id: Int) = findView<SwipeRefreshLayout>(id)!!
+fun View.seekBar(@IdRes id: Int) = findView<SeekBar>(id)!!
 
 fun <T : View> T.enabled(enabled: Boolean) = apply { isEnabled = enabled }
 
