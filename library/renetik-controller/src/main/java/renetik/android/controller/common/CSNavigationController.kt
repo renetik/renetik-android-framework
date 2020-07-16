@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import renetik.android.base.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
@@ -157,9 +159,8 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             }
         }
         isNavigationTitleVisible?.let { isVisible ->
-            if (!isVisible) {
-                setActionBarTitle(null)
-            } else navigationItemTitle?.let { title ->
+            if (!isVisible) setActionBarTitle(null)
+            else navigationItemTitle?.let { title ->
                 setActionBarTitle(title)
             }
         }
@@ -178,9 +179,8 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             }
         }
         isNavigationIconVisible?.let { isVisible ->
-            if (!isVisible) {
-                setActionBarIcon(null)
-            } else navigationItemIcon?.let { icon ->
+            if (!isVisible) setActionBarIcon(null)
+            else navigationItemIcon?.let { icon ->
                 setActionBarIcon(icon)
             }
         }
@@ -235,6 +235,13 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 
     open fun onViewControllerPop(controller: CSViewController<*>) {
 
+    }
+
+    fun setSupportActionBar(toolbar: Toolbar) {
+        activity().setSupportActionBar(toolbar)
+        updateBackButton()
+        updateBarTitle()
+        updateBarIcon()
     }
 }
 

@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
 import androidx.annotation.IdRes
+import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.java.extensions.isNull
 import renetik.android.java.extensions.primitives.isTrue
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
+fun View.view(@IdRes id: Int) = findView<View>(id)!!
 fun View.simpleView(@IdRes id: Int) = findView<View>(id)!!
 fun View.editText(@IdRes id: Int) = findView<EditText>(id)!!
 fun View.textView(@IdRes id: Int) = findView<TextView>(id)!!
@@ -35,6 +37,7 @@ fun View.webView(@IdRes id: Int) = findView<WebView>(id)!!
 fun View.imageView(@IdRes id: Int) = findView<ImageView>(id)!!
 fun View.swipeRefresh(@IdRes id: Int) = findView<SwipeRefreshLayout>(id)!!
 fun View.seekBar(@IdRes id: Int) = findView<SeekBar>(id)!!
+fun View.toolbar(@IdRes id: Int) = findView<Toolbar>(id)!!
 
 fun <T : View> T.enabled(enabled: Boolean) = apply { isEnabled = enabled }
 

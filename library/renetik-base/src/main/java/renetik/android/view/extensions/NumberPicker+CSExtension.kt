@@ -11,3 +11,7 @@ fun <Row : CSName> NumberPicker.loadData(data: List<Row>, selectedIndex: Int) = 
     maxValue = displayedValues.count
     value = selectedIndex + 1
 }
+
+fun NumberPicker.circulate(circulate: Boolean) = apply {
+    wrapSelectorWheel = circulate
+}

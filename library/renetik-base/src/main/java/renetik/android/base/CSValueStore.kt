@@ -2,13 +2,40 @@ package renetik.android.base
 
 import android.content.Context
 import android.content.SharedPreferences
+import renetik.android.java.common.tryAndWarn
 import renetik.android.java.extensions.primitives.asDouble
 import renetik.android.java.extensions.primitives.asFloat
 import renetik.android.java.extensions.primitives.asInt
 import renetik.android.java.extensions.primitives.asLong
-import renetik.android.java.common.tryAndWarn
 
-class CSValueStore(name: String) : CSContextController() {
+interface CSValueStoreInterface {
+
+    fun save(key: String, value: Int?)
+
+    fun save(key: String, value: Boolean?)
+
+    fun save(key: String, value: Float?)
+
+    fun save(key: String, value: Long?)
+
+    fun has(key: String): Boolean
+
+    fun getBoolean(key: String, defaultValue: Boolean = false): Boolean
+
+    fun getDouble(key: String, defaultValue: Double = 0.0): Double
+
+    fun getLong(key: String, defaultValue: Long = 0L): Long
+
+    fun getFloat(key: String, defaultValue: Float = 0F): Float
+
+    fun getInt(key: String, defaultValue: Int = 0): Int
+
+    fun getString(key: String, defaultValue: String): String
+
+    fun getString(key: String): String?
+}
+
+class CSValueStore(name: String) : CSContextController(), CSValueStoreInterface {
 
     val preferences: SharedPreferences = getSharedPreferences(name, Context.MODE_PRIVATE)
 
@@ -26,33 +53,33 @@ class CSValueStore(name: String) : CSContextController() {
         editor.apply()
     } ?: clear(key)
 
-    fun save(key: String, value: Int?) = save(key, value?.toString())
+    override fun save(key: String, value: Int?) = save(key, value?.toString())
 
-    fun save(key: String, value: Boolean?) = save(key, value?.toString())
+    override fun save(key: String, value: Boolean?) = save(key, value?.toString())
 
-    fun save(key: String, value: Float?) = save(key, value?.toString())
+    override fun save(key: String, value: Float?) = save(key, value?.toString())
 
-    fun save(key: String, value: Long?) = save(key, value?.toString())
+    override fun save(key: String, value: Long?) = save(key, value?.toString())
 
-    fun has(key: String) = preferences.contains(key)
+    override fun has(key: String) = preferences.contains(key)
 
-    fun getBoolean(key: String, defaultValue: Boolean = false) =
-            getString(key)?.toBoolean() ?: defaultValue
+    override fun getBoolean(key: String, defaultValue: Boolean) =
+        getString(key)?.toBoolean() ?: defaultValue
 
-    fun getDouble(key: String, defaultValue: Double = 0.0) =
-            getString(key)?.asDouble(defaultValue) ?: defaultValue
+    override fun getDouble(key: String, defaultValue: Double) =
+        getString(key)?.asDouble(defaultValue) ?: defaultValue
 
-    fun getLong(key: String, defaultValue: Long = 0L) =
-            getString(key)?.asLong(defaultValue) ?: defaultValue
+    override fun getLong(key: String, defaultValue: Long) =
+        getString(key)?.asLong(defaultValue) ?: defaultValue
 
-    fun getFloat(key: String, defaultValue: Float = 0F) =
-            getString(key)?.asFloat(defaultValue) ?: defaultValue
+    override fun getFloat(key: String, defaultValue: Float) =
+        getString(key)?.asFloat(defaultValue) ?: defaultValue
 
-    fun getInt(key: String, defaultValue: Int = 0) =
-            getString(key)?.asInt(defaultValue) ?: defaultValue
+    override fun getInt(key: String, defaultValue: Int) =
+        getString(key)?.asInt(defaultValue) ?: defaultValue
 
-    fun getString(key: String, defaultValue: String) = getString(key) ?: defaultValue
+    override fun getString(key: String, defaultValue: String) = getString(key) ?: defaultValue
 
-    fun getString(key: String): String? = tryAndWarn { preferences.getString(key, null) }
+    override fun getString(key: String): String? = tryAndWarn { preferences.getString(key, null) }
 
 }

@@ -17,6 +17,7 @@ import java.util.Calendar.HOUR_OF_DAY
 import java.util.Calendar.getInstance
 
 fun <T : View> CSView<*>.findView(@IdRes id: Int): T? = view.findView(id)
+fun CSView<*>.view(@IdRes id: Int) = view.simpleView(id)
 fun CSView<*>.simpleView(@IdRes id: Int) = view.simpleView(id)
 fun CSView<*>.editText(@IdRes id: Int) = view.editText(id)
 fun CSView<*>.textView(@IdRes id: Int) = view.textView(id)

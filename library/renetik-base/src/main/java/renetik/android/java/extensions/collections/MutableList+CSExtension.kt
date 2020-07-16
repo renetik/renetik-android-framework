@@ -13,7 +13,7 @@ fun <T, ListType : MutableList<T>> ListType.replace(item: T, index: Int) =
 
 fun <T, ListType : MutableList<T>> ListType.reload(values: Iterable<T>) = deleteAll().putAll(values)
 fun <T, ListType : MutableList<T>> ListType.delete(item: T): T {
-    indexOf(item).apply { removeAt(this) }
+    remove(item)
     return item
 }
 

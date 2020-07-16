@@ -9,9 +9,8 @@
     <color name="cs_material_blue">#2196F3</color>
     <color name="cs_clear">#00000000</color>
     <color name="cs_transparent">#00000000</color>
-    <color name="cs_lightGray">#d7ccc8</color>
     <color name="cs_gray">#A1887F</color>
-    <color name="cs_darkGray">#424242</color>
+    <color name="cs_dark_gray">#424242</color>
     <color name="cs_material_gray">#00BCD4</color>
     <color name="cs_dark_gray_text">#616161</color>
     <color name="cs_light_gray">#009688</color>

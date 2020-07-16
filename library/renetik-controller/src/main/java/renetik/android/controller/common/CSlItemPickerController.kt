@@ -1,19 +1,17 @@
 package renetik.android.controller.common
 
 import android.app.AlertDialog
-import android.os.Build
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
-import androidx.annotation.RequiresApi
 import renetik.android.base.CSView
 import renetik.android.base.layout
 import renetik.android.controller.R
 import renetik.android.extensions.numberPicker
 import renetik.android.extensions.textView
-import renetik.android.extensions.toPixel
 import renetik.android.java.common.CSName
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.extensions.collections.index
+import renetik.android.view.extensions.circulate
 import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.title
 
@@ -35,12 +33,14 @@ class CSlItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs
 
     companion object Factory
 
+    val picker = numberPicker(R.id.CS_ItemPicker_NumberPicker)
+
     init {
         textView(R.id.CS_ItemPicker_TitleTextView).title(title)
-        numberPicker(R.id.CS_ItemPicker_NumberPicker).loadData(data, selectedIndex)
-            .setOnValueChangedListener { _, _, newVal -> onSelected(data[newVal - 1]) }
-        numberPicker(R.id.CS_ItemPicker_NumberPicker).wrapSelectorWheel = true
-        AlertDialog.Builder(this).setView(view).show()
+        picker.loadData(data, selectedIndex).circulate(false)
+        AlertDialog.Builder(this).setView(view).show().setOnDismissListener {
+            onSelected(data[picker.value - 1])
+        }
     }
 }
 

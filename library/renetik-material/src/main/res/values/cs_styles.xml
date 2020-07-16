@@ -336,4 +336,18 @@
         <item name="android:textAppearance">@style/CSTextOverline</item>
     </style>
 
+    <style name="CSActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:contentInsetStart">0dp</item>
+        <item name="android:contentInsetLeft">0dp</item>
+        <item name="android:contentInsetEnd">0dp</item>
+        <item name="android:contentInsetRight">0dp</item>
+        <item name="android:elevation">4dp</item>
+        <item name="contentInsetEnd">0dp</item>
+        <item name="contentInsetLeft">0dp</item>
+        <item name="contentInsetRight">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+    </style>
+
 </resources>
