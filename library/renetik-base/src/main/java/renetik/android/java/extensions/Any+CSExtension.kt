@@ -2,6 +2,8 @@ package renetik.android.java.extensions
 
 import renetik.android.java.common.CSName
 
+inline fun <T> T.self(block: T.() -> Unit) = apply(block)
+
 fun string(value: Any?) = value.stringify()
 
 fun Any?.stringify(): String {

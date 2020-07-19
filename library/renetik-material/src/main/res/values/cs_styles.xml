@@ -109,6 +109,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="CSHorizontalLayoutWrapMatch">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
     <style name="CSHorizontalLayoutMatch">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -295,6 +301,7 @@
     <style name="CSButtonIconWrap" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -324,6 +331,7 @@
     <style name="CSInputEditTextClickable" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">textFilter|textMultiLine|textNoSuggestions</item>
         <item name="android:ellipsize">end</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:focusable">false</item>

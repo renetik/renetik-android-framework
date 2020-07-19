@@ -6,4 +6,7 @@ interface CSName {
     val name: String
 }
 
-class CSNameValue(override val name: String) : CSName
+fun CSNameValue(name: String) = CSNameValue(name, name)
+
+class CSNameValue<T>(override val name: String, val value: T) : CSName {
+}

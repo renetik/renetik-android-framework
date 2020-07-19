@@ -2,7 +2,10 @@ package renetik.android.java.event
 
 import renetik.android.base.CSValueStore
 import renetik.android.base.CSValueStoreInterface
+import renetik.android.base.application
 import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.extensions.collections.index
+import renetik.android.java.extensions.self
 
 
 fun <T> event(): CSEvent<T> {
@@ -56,22 +59,41 @@ class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? =
         set(value) {
             if (field == value) return
             field = value
-            onChange?.invoke(value)
-            eventChange.fire(value)
+            apply()
         }
 
     fun onChange(value: (T) -> Unit) = eventChange.listen(value)
+
+    fun apply() = self {
+        onChange?.invoke(value)
+        eventChange.fire(value)
+    }
 }
 
 fun property(store: CSValueStoreInterface, key: String, default: Int,
-             onChange: ((value: Int) -> Unit)? = null): CSEventProperty<Int> =
-    CSEventProperty(store.getInt(key, default), onChange).apply { onChange { store.save(key, it) } }
+             onApply: ((value: Int) -> Unit)? = null): CSEventProperty<Int> =
+    CSEventProperty(store.getInt(key, default), onApply).apply { onChange { store.save(key, it) } }
 
-//TODO: Store by hashcode not index
+fun property(key: String, default: Int,
+             onApply: ((value: Int) -> Unit)? = null): CSEventProperty<Int> =
+    property(application.store, key, default, onApply)
+
 fun <T> property(store: CSValueStoreInterface, key: String, values: List<T>, defaultIndex: Int,
-                 onChange: ((value: T) -> Unit)? = null): CSEventProperty<T> =
-    CSEventProperty(values[store.getInt(key, defaultIndex)], onChange)
+                 onApply: ((value: T) -> Unit)? = null): CSEventProperty<T> =
+    CSEventProperty(values[store.getInt(key, defaultIndex)], onApply)
         .apply { onChange { store.save(key, values.indexOf(it)) } }
+
+fun <T> property(store: CSValueStoreInterface, key: String, values: List<T>, default: T,
+                 onApply: ((value: T) -> Unit)? = null): CSEventProperty<T> =
+    property(store, key, values, values.index(default) ?: 0, onApply)
+
+fun <T> property(key: String, values: List<T>, defaultIndex: Int = 0,
+                 onApply: ((value: T) -> Unit)? = null): CSEventProperty<T> =
+    property(application.store, key, values, defaultIndex, onApply)
+
+fun <T> property(key: String, values: List<T>, default: T,
+                 onApply: ((value: T) -> Unit)? = null): CSEventProperty<T> =
+    property(application.store, key, values, default, onApply)
 
 fun <T> CSEventProperty<T>.store(store: CSValueStore, key: String,
                                  values: List<T>, defaultValue: T) {
@@ -79,6 +101,9 @@ fun <T> CSEventProperty<T>.store(store: CSValueStore, key: String,
     values.find { it.hashCode() == defaultValueHashCode }?.let { value = it }
     onChange { store.save(key, it.hashCode()) }
 }
+
+fun <T> CSEventProperty<T>.store(key: String, values: List<T>, defaultValue: T) =
+    store(application.store, key, values, defaultValue)
 
 
 
