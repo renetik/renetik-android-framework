@@ -16,7 +16,12 @@ private fun DrawerLayout.toggleDrawer(@EdgeGravity gravity: Int) =
 
 fun DrawerLayout.toggleDrawerLeft() = toggleDrawer(GravityCompat.START)
 
+fun DrawerLayout.closeDrawerLeft() = closeDrawer((GravityCompat.START))
+
 fun DrawerLayout.toggleDrawerRight() = toggleDrawer(GravityCompat.END)
+
+fun DrawerLayout.closeDrawerRight() = closeDrawer((GravityCompat.END))
+
 
 fun DrawerLayout.slideLeftDrawer(@IdRes viewId: Int, @IdRes contentId: Int) {
     addDrawerListener(CSDrawerAdapter(onDrawerSlide = { drawerView, slideOffset ->
