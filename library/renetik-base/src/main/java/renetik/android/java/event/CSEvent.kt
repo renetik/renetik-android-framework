@@ -70,11 +70,21 @@ class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? =
     }
 }
 
+fun CSEventProperty<Int>.value(value: Number) = apply { this.value = value.toInt() }
+
 fun CSEventProperty<Boolean>.toggle() = apply { value = !value }
 fun CSEventProperty<Boolean>.setFalse() = apply { value = false }
 fun CSEventProperty<Boolean>.setTrue() = apply { value = true }
-val CSEventProperty<Boolean>.isTrue get() = value
-val CSEventProperty<Boolean>.isFalse get() = !value
+var CSEventProperty<Boolean>.isTrue
+    get() = value
+    set(newValue) {
+        value = newValue
+    }
+var CSEventProperty<Boolean>.isFalse
+    get() = !value
+    set(newValue) {
+        value = !newValue
+    }
 
 fun property(store: CSValueStoreInterface, key: String, default: Int,
              onApply: ((value: Int) -> Unit)? = null) =

@@ -12,3 +12,7 @@ fun CSView<*>.slider(id: Int) = view.slider(id)
 fun <T : Slider> T.onChange(listener: (T) -> Unit) = apply {
     addOnChangeListener { _, _, _ -> listener(this) }
 }
+
+fun <T : Slider> T.value(value: Float) = apply { this.value = value }
+
+fun <T : Slider> T.value(value: Int) = apply { this.value = value.toFloat() }
