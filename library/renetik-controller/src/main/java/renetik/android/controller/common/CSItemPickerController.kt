@@ -16,9 +16,9 @@ import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.title
 
 
-class CSlItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_item_picker,
-                                            title: CharSequence, data: List<Row>,
-                                            selectedIndex: Int = 0, onSelected: (Row) -> Unit)
+class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_item_picker,
+                                           title: CharSequence, val data: List<Row>,
+                                           selectedIndex: Int = 0, val onSelected: (Row) -> Unit)
     : CSView<LinearLayout>(navigation, layout(layout)) {
 
     constructor(@LayoutRes layout: Int = R.layout.cs_item_picker, title: CharSequence,
@@ -26,21 +26,41 @@ class CSlItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs
             : this(layout = layout, title = title, data = data,
         selectedIndex = data.index(selected) ?: 0, onSelected = onSelected)
 
-    constructor(@LayoutRes layout: Int = R.layout.cs_item_picker, title: CharSequence,
+    constructor(@LayoutRes layout: Int, title: CharSequence,
                 data: List<Row>, property: CSEventProperty<in Row>)
             : this(layout = layout, title = title, data = data,
         selectedIndex = data.index(property.value) ?: 0, onSelected = { property.value = it })
+
+    constructor(title: CharSequence, data: List<Row>, property: CSEventProperty<in Row>)
+            : this(R.layout.cs_item_picker, title, data, property)
 
     companion object Factory
 
     val picker = numberPicker(R.id.CS_ItemPicker_NumberPicker)
 
+    private lateinit var dialog: AlertDialog
+
     init {
         textView(R.id.CS_ItemPicker_TitleTextView).title(title)
         picker.loadData(data, selectedIndex).circulate(false)
-        AlertDialog.Builder(this).setView(view).show().setOnDismissListener {
+    }
+
+    override fun show() = apply {
+        dialog = AlertDialog.Builder(this).setView(view).setOnDismissListener {
             onSelected(data[picker.value - 1])
-        }
+        }.show()
+    }
+
+    fun showWithOk() = apply {
+        dialog = AlertDialog.Builder(this).setView(view)
+            .setPositiveButton(R.string.cs_dialog_ok) { _, _ -> onSelected(data[picker.value - 1]) }
+            .show()
+    }
+
+    fun showWithOkAndCancel() = apply {
+        dialog = AlertDialog.Builder(this).setView(view)
+            .setPositiveButton(R.string.cs_dialog_ok) { _, _ -> onSelected(data[picker.value - 1]) }
+            .setNegativeButton(R.string.cs_dialog_cancel) { _, _ -> dialog.hide() }.show()
     }
 }
 

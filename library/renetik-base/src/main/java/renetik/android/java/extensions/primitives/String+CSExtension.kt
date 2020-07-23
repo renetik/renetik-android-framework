@@ -15,8 +15,8 @@ fun generateRandomStringOfLength(length: Int): String {
 }
 
 fun containsNoCase(string1: String, string2: String) =
-    if (string1.isNull || string2.isNull) false else string1.toLowerCase()
-        .contains(string2.toLowerCase())
+    if (string1.isNull || string2.isNull) false
+    else string1.lowerCased.contains(string2.lowerCased)
 
 fun String.asLong(): Long? {
     return try {
@@ -103,3 +103,5 @@ fun String.separateToString(vararg items: Any?): String {
     if (!text.isEmpty) text.deleteLast(this.length)
     return text.toString()
 }
+
+val String.lowerCased: String get() = toLowerCase(Locale.ROOT)
