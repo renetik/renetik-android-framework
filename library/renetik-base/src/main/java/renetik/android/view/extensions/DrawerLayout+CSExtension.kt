@@ -16,30 +16,30 @@ annotation class EdgeGravity
 private fun DrawerLayout.toggleDrawer(@EdgeGravity gravity: Int) =
     if (isDrawerOpen(gravity)) closeDrawer(gravity) else openDrawer(gravity)
 
-fun DrawerLayout.toggleDrawerLeft() = toggleDrawer(START)
+fun DrawerLayout.toggleLeftPanel() = toggleDrawer(START)
 
-fun DrawerLayout.closeDrawerLeft() = closeDrawer((START))
+fun DrawerLayout.closeLeftPanel() = closeDrawer((START))
 
-fun DrawerLayout.openDrawerLeft() = openDrawer((START))
+fun DrawerLayout.openLeftPanel() = openDrawer((START))
 
-fun DrawerLayout.toggleDrawerRight() = toggleDrawer(END)
+fun DrawerLayout.toggleRightPanel() = toggleDrawer(END)
 
-fun DrawerLayout.closeDrawerRight() = closeDrawer((END))
+fun DrawerLayout.closeRightPanel() = closeDrawer((END))
 
-fun DrawerLayout.openDrawerRight() = openDrawer((END))
+fun DrawerLayout.openRightPanel() = openDrawer((END))
 
-val DrawerLayout.isLeftDrawerOpen get() = isDrawerOpen(START)
+val DrawerLayout.isLeftPanelOpen get() = isDrawerOpen(START)
 
-val DrawerLayout.isRightDrawerOpen get() = isDrawerOpen(END)
+val DrawerLayout.isRightPanelOpen get() = isDrawerOpen(END)
 
-fun DrawerLayout.slideLeftDrawer(@IdRes viewId: Int, @IdRes contentId: Int) {
+fun DrawerLayout.setupLeftPanelSliding(@IdRes viewId: Int, @IdRes contentId: Int) {
     addDrawerListener(CSDrawerAdapter(onDrawerSlide = { drawerView, slideOffset ->
         if (drawerView.id == viewId)
             simpleView(contentId).translationX = drawerView.width * slideOffset
     }))
 }
 
-fun DrawerLayout.slideRightDrawer(@IdRes viewId: Int, @IdRes contentId: Int) {
+fun DrawerLayout.setupRightPanelSliding(@IdRes viewId: Int, @IdRes contentId: Int) {
     addDrawerListener(CSDrawerAdapter(onDrawerSlide = { drawerView, slideOffset ->
         if (drawerView.id == viewId)
             simpleView(contentId).translationX = drawerView.width * -slideOffset
@@ -49,8 +49,6 @@ fun DrawerLayout.slideRightDrawer(@IdRes viewId: Int, @IdRes contentId: Int) {
 fun DrawerLayout.onDrawerStateChanged(function: (DrawerLayout) -> Unit) {
     val drawerLayout = this
     addDrawerListener(object : SimpleDrawerListener() {
-        override fun onDrawerStateChanged(newState: Int) {
-            function(drawerLayout)
-        }
+        override fun onDrawerStateChanged(newState: Int) = function(drawerLayout)
     })
 }

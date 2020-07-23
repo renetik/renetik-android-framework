@@ -226,8 +226,6 @@
     </style>
 
     <style name="CSButtonMatchWrap" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:layout_marginStart">3dp</item>
-        <item name="android:layout_marginEnd">3dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -303,6 +301,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
+        <item name="android:layout_margin">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
@@ -335,6 +334,7 @@
         <item name="android:cursorVisible">false</item>
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="CSContainerEmptyText" parent="CSWrap">

@@ -9,11 +9,11 @@ import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import renetik.android.base.application
-import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.tryAndCatch
 import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndFinally
 import renetik.android.java.common.tryAndWarn
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.isEmpty
 import renetik.android.java.extensions.stringify
 import java.io.ByteArrayOutputStream
@@ -52,19 +52,23 @@ fun Context.openInputStream(uri: Uri) = tryAndError(FileNotFoundException::class
 fun Context.resourceDimension(id: Int) = resources.getDimension(id).toInt()
 
 fun Context.resourceStrings(id: Int): List<String>? =
-        tryAndWarn(NotFoundException::class) { list(*resources.getStringArray(id)) }
+    tryAndWarn(NotFoundException::class) { list(*resources.getStringArray(id)) }
 
 fun Context.resourceInts(id: Int) =
-        tryAndWarn(NotFoundException::class) { list(resources.getIntArray(id).asList()) }
+    tryAndWarn(NotFoundException::class) { list(resources.getIntArray(id).asList()) }
 
 val Context.displayMetrics get():DisplayMetrics = resources.displayMetrics
-fun Context.toDp(pixel: Int) = pixel / (displayMetrics.densityDpi / 160f)
-fun Context.toPixel(dp: Float) = (dp * (displayMetrics.densityDpi / 160f)).toInt()
-fun Context.toPixel(dp: Int) = toPixel(dp.toFloat())
 
+fun Context.toDpF(pixel: Int) = pixel / (displayMetrics.densityDpi / 160f)
+fun Context.toDp(pixel: Int) = toDpF(pixel).toInt()
+
+fun Context.toPixelF(dp: Float) = (dp * (displayMetrics.densityDpi / 160f))
+fun Context.toPixelF(dp: Int) = toPixelF(dp.toFloat())
+fun Context.toPixel(dp: Float) = toPixelF(dp).toInt()
+fun Context.toPixel(dp: Int) = toPixelF(dp.toFloat()).toInt()
 
 private fun Context.resolveAttribute(attribute: Int) =
-        TypedValue().apply { theme.resolveAttribute(attribute, this, true) }
+    TypedValue().apply { theme.resolveAttribute(attribute, this, true) }
 
 fun Context.colorFromAttribute(attribute: Int) = resolveAttribute(attribute).data.apply {
     if (isEmpty) throw NotFoundException()

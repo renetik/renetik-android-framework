@@ -36,5 +36,9 @@
         <!--        <item name="android:textColor">@color/cs_text_color_selector</item>-->
     </style>
 
+    <style name="CSTextOverline.Bold" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 
 </resources>

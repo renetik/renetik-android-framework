@@ -58,7 +58,7 @@ fun CSView<*>.size(width: Int, height: Int) = apply {
 fun CSView<*>.width(value: Int) = apply {
     if (value > 0) {
         val params = view.layoutParams
-        params.width = toPixel(value.toFloat())
+        params.width = toPixel(value)
         view.layoutParams = params
     }
 }
@@ -66,7 +66,7 @@ fun CSView<*>.width(value: Int) = apply {
 fun CSView<*>.height(value: Int) = apply {
     if (value > 0) {
         val params = view.layoutParams
-        params.height = toPixel(value.toFloat())
+        params.height = toPixel(value)
         view.layoutParams = params
     }
 }
@@ -74,7 +74,7 @@ fun CSView<*>.height(value: Int) = apply {
 private fun CSView<*>.setSize(width: Boolean, size: Int, dip: Boolean) {
     var value = size
     val params = view.layoutParams
-    if (value > 0 && dip) value = toPixel(value.toFloat())
+    if (value > 0 && dip) value = toPixel(value)
     if (width) params.width = value
     else params.height = value
     view.layoutParams = params

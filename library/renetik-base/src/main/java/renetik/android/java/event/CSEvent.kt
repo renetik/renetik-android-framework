@@ -51,13 +51,16 @@ fun <T> CSEvent<T>.runOnce(listener: (registration: CSEventRegistration, argumen
     }
 }
 
+
 class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? = null) {
 
     private val eventChange: CSEvent<T> = event()
+    var previous: T? = null
 
     var value: T = value
         set(value) {
             if (field == value) return
+            previous = field
             field = value
             apply()
         }
@@ -70,7 +73,8 @@ class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? =
     }
 }
 
-fun CSEventProperty<Int>.value(value: Number) = apply { this.value = value.toInt() }
+fun CSEventProperty<Float>.value(value: Float) = apply { this.value = value }
+fun CSEventProperty<Int>.value(value: Int) = apply { this.value = value }
 
 fun CSEventProperty<Boolean>.toggle() = apply { value = !value }
 fun CSEventProperty<Boolean>.setFalse() = apply { value = false }
@@ -86,13 +90,20 @@ var CSEventProperty<Boolean>.isFalse
         value = !newValue
     }
 
+fun property(store: CSValueStoreInterface, key: String, default: Float,
+             onApply: ((value: Float) -> Unit)? = null) =
+    CSEventProperty(store.getFloat(key, default), onApply)
+        .apply { onChange { store.save(key, it) } }
+
+fun property(key: String, default: Float, onApply: ((value: Float) -> Unit)? = null) =
+    property(application.store, key, default, onApply)
+
 fun property(store: CSValueStoreInterface, key: String, default: Int,
              onApply: ((value: Int) -> Unit)? = null) =
     CSEventProperty(store.getInt(key, default), onApply)
         .apply { onChange { store.save(key, it) } }
 
-fun property(key: String, default: Int,
-             onApply: ((value: Int) -> Unit)? = null): CSEventProperty<Int> =
+fun property(key: String, default: Int, onApply: ((value: Int) -> Unit)? = null) =
     property(application.store, key, default, onApply)
 
 fun property(store: CSValueStoreInterface, key: String, default: Boolean,

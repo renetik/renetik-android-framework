@@ -114,13 +114,13 @@ var View.layoutHeight: Int
         height(value)
     }
 
-var View.widthDp: Float
+var View.widthDp: Int
     get() = application.toDp(width)
     set(value) {
         width(application.toPixel(value))
     }
 
-var View.heightDp: Float
+var View.heightDp: Int
     get() = application.toDp(height)
     set(value) {
         height(application.toPixel(value))
