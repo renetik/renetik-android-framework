@@ -7,3 +7,6 @@ fun randomIntInRange(min: Int, max: Int): Int {
         throw IllegalArgumentException("max must be greater than min")
     return Random.nextInt(max - min + 1) + min
 }
+
+fun Int.max(maximumValue: Int) = if (this < maximumValue) this else maximumValue
+fun Int.min(minimumValue: Int) = if (this > minimumValue) this else minimumValue

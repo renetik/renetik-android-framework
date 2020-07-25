@@ -22,5 +22,5 @@
     <color name="cs_button_selection">#b4311b92</color>
     <color name="cs_dialog_background">#88000000</color>
     <color name="cs_progress_background">#55000000</color>
-    <color name="cs_border">#b79e9e9e</color>
+    <color name="cs_border">#5E000000</color>
 </resources>

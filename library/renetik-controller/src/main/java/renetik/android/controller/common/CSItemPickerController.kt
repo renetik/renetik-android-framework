@@ -1,8 +1,9 @@
 package renetik.android.controller.common
 
-import android.app.AlertDialog
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import renetik.android.base.CSView
 import renetik.android.base.layout
 import renetik.android.controller.R
@@ -46,19 +47,19 @@ class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_
     }
 
     override fun show() = apply {
-        dialog = AlertDialog.Builder(this).setView(view).setOnDismissListener {
+        dialog = MaterialAlertDialogBuilder(this).setView(view).setOnDismissListener {
             onSelected(data[picker.value - 1])
         }.show()
     }
 
     fun showWithOk() = apply {
-        dialog = AlertDialog.Builder(this).setView(view)
+        dialog = MaterialAlertDialogBuilder(this).setView(view)
             .setPositiveButton(R.string.cs_dialog_ok) { _, _ -> onSelected(data[picker.value - 1]) }
             .show()
     }
 
     fun showWithOkAndCancel() = apply {
-        dialog = AlertDialog.Builder(this).setView(view)
+        dialog = MaterialAlertDialogBuilder(this).setView(view)
             .setPositiveButton(R.string.cs_dialog_ok) { _, _ -> onSelected(data[picker.value - 1]) }
             .setNegativeButton(R.string.cs_dialog_cancel) { _, _ -> dialog.hide() }.show()
     }

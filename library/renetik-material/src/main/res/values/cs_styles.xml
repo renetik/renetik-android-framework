@@ -30,6 +30,7 @@
     </style>
 
     <style name="CSWrapFill" parent="CSWrap">
+        <item name="android:gravity">center</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
@@ -230,6 +231,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="CSButtonWrap" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
     <style name="CSButtonFillWrap" parent="CSButtonMatchWrap">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -355,6 +362,40 @@
         <item name="contentInsetLeft">0dp</item>
         <item name="contentInsetRight">0dp</item>
         <item name="contentInsetStart">0dp</item>
+    </style>
+
+    <style name="CSBorderLeft">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:background">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="CSBorderRight">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:background">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="CSSpaceHorizontal3dp">
+        <item name="android:layout_width">3dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="CSSpaceVertical3dp">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">3dp</item>
+    </style>
+
+    <style name="CSSpaceHorizontal5dp">
+        <item name="android:layout_width">5dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="CSSpaceVertical5dp">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">5dp</item>
     </style>
 
 </resources>
