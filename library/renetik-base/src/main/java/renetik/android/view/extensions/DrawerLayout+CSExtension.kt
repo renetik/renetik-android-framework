@@ -35,14 +35,14 @@ val DrawerLayout.isRightPanelOpen get() = isDrawerOpen(END)
 fun DrawerLayout.setupLeftPanelSliding(@IdRes viewId: Int, @IdRes contentId: Int) {
     addDrawerListener(CSDrawerAdapter(onDrawerSlide = { drawerView, slideOffset ->
         if (drawerView.id == viewId)
-            simpleView(contentId).translationX = drawerView.width * slideOffset
+            view(contentId).translationX = drawerView.width * slideOffset
     }))
 }
 
 fun DrawerLayout.setupRightPanelSliding(@IdRes viewId: Int, @IdRes contentId: Int) {
     addDrawerListener(CSDrawerAdapter(onDrawerSlide = { drawerView, slideOffset ->
         if (drawerView.id == viewId)
-            simpleView(contentId).translationX = drawerView.width * -slideOffset
+            view(contentId).translationX = drawerView.width * -slideOffset
     }))
 }
 

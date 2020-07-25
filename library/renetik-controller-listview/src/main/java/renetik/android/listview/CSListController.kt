@@ -12,7 +12,7 @@ import android.widget.ListView
 import android.widget.ListView.CHOICE_MODE_SINGLE
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.findView
-import renetik.android.extensions.simpleView
+import renetik.android.extensions.view
 import renetik.android.java.event.event
 import renetik.android.java.extensions.collections.at
 import renetik.android.java.extensions.collections.list
@@ -50,7 +50,8 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
             if (positions != null)
                 for (i in 0 until positions.size())
                     if (positions.valueAt(i))
-                        filteredData.at(positions.keyAt(i))?.let { checkedRow -> checkedRows.add(checkedRow) }
+                        filteredData.at(positions.keyAt(i))
+                            ?.let { checkedRow -> checkedRows.add(checkedRow) }
             return checkedRows
         }
 
@@ -102,7 +103,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     private fun createView(position: Int): CSRowView<RowType> =
         createView.invoke(this, getItemViewType(position)).also { createdView ->
             onItemClickViewId?.let {
-                createdView.simpleView(it).onClick { onItemClick?.invoke(createdView) }
+                createdView.view(it).onClick { onItemClick?.invoke(createdView) }
             }
         }
 
@@ -162,7 +163,8 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     fun dataFilter(function: (data: MutableList<RowType>) -> MutableList<RowType>) =
         apply { dataFilter = function }
 
-    fun onItemLongClick(function: (CSRowView<RowType>) -> Unit) = apply { onItemLongClick = function }
+    fun onItemLongClick(function: (CSRowView<RowType>) -> Unit) =
+        apply { onItemLongClick = function }
 
     fun onPositionViewType(function: (Int) -> Int) = apply { onPositionViewType = function }
 

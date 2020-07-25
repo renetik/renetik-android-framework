@@ -158,7 +158,7 @@ class CSDialog : CSContextController {
             setCanceledOnTouchOutside(false)
             window?.setBackgroundDrawableResource(R.color.cs_transparent);
             val content = inflate<View>(R.layout.progress)
-            content.simpleView(R.id.progress_background)
+            content.view(R.id.progress_background)
                 .roundedBackgroundColor(colorFromAttribute(R.attr.colorSurface))
             content.textView(R.id.progress_title).title(title ?: "")
             if (cancellable) {

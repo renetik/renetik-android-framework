@@ -7,8 +7,8 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationController
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.dialog.extensions.dialog
-import renetik.android.extensions.simpleView
 import renetik.android.extensions.textView
+import renetik.android.extensions.view
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
 import renetik.android.material.extensions.snackBarInfo
@@ -19,7 +19,8 @@ import renetik.android.themes.CSThemes.Companion.currentThemeIndex
 import renetik.android.view.extensions.background
 import renetik.android.view.extensions.title
 
-class CSThemeChooserController(val navigation: CSNavigationController, title: String = "Theme Chooser")
+class CSThemeChooserController(val navigation: CSNavigationController,
+                               title: String = "Theme Chooser")
     : CSViewController<View>(navigation, layout(R.layout.theme_chooser)), CSNavigationItem {
 
     init {
@@ -29,24 +30,24 @@ class CSThemeChooserController(val navigation: CSNavigationController, title: St
         }.onItemClick(R.id.ThemeSwitcherItem_Button) { row ->
             if (row.index == currentThemeIndex) snackBarInfo("Current theme...")
             else dialog("You selected theme: ${row.data.title}")
-                    .show("Apply selected theme ?") { applyTheme(activity(), row.index) }
+                .show("Apply selected theme ?") { applyTheme(activity(), row.index) }
         }.reload(availableThemes).apply { currentThemeIndex?.let { selectedIndex(it) } }
     }
 
     private val onLoadSwitchItem: (CSRowView<CSTheme>.(CSTheme) -> Unit) = { theme ->
         val attributes = obtainStyledAttributes(theme.style, R.styleable.Theme)
-        simpleView(R.id.ThemeSwitcherItem_ColorPrimary)
-                .background(attributes.getColor(R.styleable.Theme_colorPrimary, 0))
-        simpleView(R.id.ThemeSwitcherItem_ColorPrimaryVariant)
-                .background(attributes.getColor(R.styleable.Theme_colorPrimaryVariant, 0))
-        simpleView(R.id.ThemeSwitcherItem_ColorSecondary)
-                .background(attributes.getColor(R.styleable.Theme_colorSecondary, 0))
-        simpleView(R.id.ThemeSwitcherItem_ColorSecondaryVariant)
-                .background(attributes.getColor(R.styleable.Theme_colorSecondaryVariant, 0))
-        simpleView(R.id.ThemeSwitcherItem_ColorOnPrimary)
-                .background(attributes.getColor(R.styleable.Theme_colorOnPrimary, 0))
-        simpleView(R.id.ThemeSwitcherItem_ColorOnSecondary)
-                .background(attributes.getColor(R.styleable.Theme_colorOnSecondary, 0))
+        view(R.id.ThemeSwitcherItem_ColorPrimary)
+            .background(attributes.getColor(R.styleable.Theme_colorPrimary, 0))
+        view(R.id.ThemeSwitcherItem_ColorPrimaryVariant)
+            .background(attributes.getColor(R.styleable.Theme_colorPrimaryVariant, 0))
+        view(R.id.ThemeSwitcherItem_ColorSecondary)
+            .background(attributes.getColor(R.styleable.Theme_colorSecondary, 0))
+        view(R.id.ThemeSwitcherItem_ColorSecondaryVariant)
+            .background(attributes.getColor(R.styleable.Theme_colorSecondaryVariant, 0))
+        view(R.id.ThemeSwitcherItem_ColorOnPrimary)
+            .background(attributes.getColor(R.styleable.Theme_colorOnPrimary, 0))
+        view(R.id.ThemeSwitcherItem_ColorOnSecondary)
+            .background(attributes.getColor(R.styleable.Theme_colorOnSecondary, 0))
         attributes.recycle()
         textView(R.id.ThemeSwitcherItem_Title).title(theme.title)
     }
