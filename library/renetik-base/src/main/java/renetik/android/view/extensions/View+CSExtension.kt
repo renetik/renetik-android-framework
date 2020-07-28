@@ -3,6 +3,7 @@ package renetik.android.view.extensions
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Rect
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
@@ -103,6 +104,12 @@ fun <T : Any> View.tagProperty(@IdRes key: Int, onCreate: () -> T): T {
     }
     return value!!
 }
+
+fun View.getRectangleOnScreen(location: IntArray, rectangle: Rect) {
+    getLocationOnScreen(location)
+    rectangle.set(location[0], location[1], location[0] + width, location[1] + height)
+}
+
 
 
 
