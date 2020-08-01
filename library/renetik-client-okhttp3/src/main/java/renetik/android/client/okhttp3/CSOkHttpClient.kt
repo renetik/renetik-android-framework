@@ -6,8 +6,8 @@ import okhttp3.Credentials.basic
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
-import renetik.android.base.application
-import renetik.android.java.common.CSConstants.MB
+import renetik.android.base.CSApplicationInstance.application
+import renetik.android.java.common.CSDataConstants.MB
 import java.io.File
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.HostnameVerifier

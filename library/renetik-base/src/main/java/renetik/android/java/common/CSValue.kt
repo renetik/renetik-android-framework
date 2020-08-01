@@ -1,7 +1,9 @@
 package renetik.android.java.common
 
-interface CSValueInterface<T> {
-    val value: T
+interface CSValue<T> {
+    var value: T
 }
 
-class CSValue<T>(override var value: T) : CSValueInterface<T>
+fun <T> CSValue(value: T): CSValue<T> = CSValueImplementation(value)
+
+private class CSValueImplementation<T>(override var value: T) : CSValue<T>

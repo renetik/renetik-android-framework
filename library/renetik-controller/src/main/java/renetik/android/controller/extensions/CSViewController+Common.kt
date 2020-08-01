@@ -3,7 +3,7 @@ package renetik.android.controller.extensions
 import android.content.Intent
 import android.view.View
 import renetik.android.controller.base.CSViewController
-import renetik.android.controller.common.navigation
+import renetik.android.controller.common.CSNavigationInstance.navigation
 
 val CSViewController<*>.intent: Intent get() = activity().intent
 

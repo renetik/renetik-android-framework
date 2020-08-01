@@ -1,12 +1,12 @@
 package renetik.android.client.okhttp3
 
 import com.androidnetworking.AndroidNetworking
-import renetik.android.base.application
+import renetik.android.base.CSApplicationInstance.application
 import renetik.android.client.request.CSOperation
 import renetik.android.client.request.CSProcess
 import renetik.android.client.request.CSServerData
 import renetik.android.extensions.isNetworkConnected
-import renetik.android.java.common.CSConstants
+import renetik.android.java.common.CSTimeConstants.Minute
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
@@ -42,8 +42,8 @@ fun <ServerDataType : CSServerData> CSOkHttpClient.get(
     val builder = AndroidNetworking.get(process.url!!).addQueryParameter(params)
 
     if (operation?.isCached.isFalse) builder.doNotCacheResponse()
-    operation?.expireMinutes.notNull { minutes ->
-        builder.setMaxStaleCacheControl(minutes * CSConstants.MINUTE, TimeUnit.MILLISECONDS)
+    operation?.expireMinutes.notNull {
+        builder.setMaxStaleCacheControl(it * Minute, TimeUnit.MILLISECONDS)
     }
     if (operation?.isRefresh.isTrue) builder.responseOnlyFromNetwork
     else if (!application.isNetworkConnected && operation?.isCached.isTrue

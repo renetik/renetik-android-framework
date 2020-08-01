@@ -2,7 +2,7 @@ package renetik.android.java.event
 
 import renetik.android.base.CSValueStore
 import renetik.android.base.CSValueStoreInterface
-import renetik.android.base.application
+import renetik.android.base.CSApplicationInstance.application
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.collections.index
 import renetik.android.java.extensions.self

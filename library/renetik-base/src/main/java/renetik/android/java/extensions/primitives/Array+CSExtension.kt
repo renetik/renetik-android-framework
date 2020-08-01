@@ -8,3 +8,5 @@ fun <T> Array<out T>.asStrings() = list<String>().apply {
 }.toTypedArray()
 
 inline val <T> Array<out T>.count: Int get() = size
+
+val <T> Array<T>?.iterator get() = this?.iterator() ?: listOf<T>().iterator()

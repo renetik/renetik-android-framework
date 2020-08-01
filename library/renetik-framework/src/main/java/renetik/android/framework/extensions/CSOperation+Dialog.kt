@@ -1,7 +1,7 @@
 package renetik.android.framework.extensions
 
 import renetik.android.client.request.CSOperation
-import renetik.android.controller.common.navigation
+import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.dialog.extensions.dialog
 import renetik.android.framework.R
 

@@ -9,12 +9,10 @@ import android.widget.Spinner
 import android.widget.TimePicker
 import androidx.annotation.IdRes
 import renetik.android.base.CSView
-import renetik.android.java.common.CSConstants.MINUTE
 import renetik.android.java.extensions.collections.list
 import renetik.android.view.extensions.*
 import java.util.*
-import java.util.Calendar.HOUR_OF_DAY
-import java.util.Calendar.getInstance
+import java.util.Calendar.*
 
 fun <T : View> CSView<*>.findView(@IdRes id: Int): T? = view.findView(id)
 fun CSView<*>.view(@IdRes id: Int) = view.view(id)

@@ -6,7 +6,9 @@ interface CSName {
     val name: String
 }
 
-fun CSNameValue(name: String) = CSNameValue(name, name)
+fun CSName(name: String): CSName = CSNameImplementation(name)
 
-class CSNameValue<T>(override val name: String, val value: T) : CSName {
-}
+private class CSNameImplementation(override var name: String) : CSName
+
+open class CSNameValue<T>(override val name: String, override var value: T)
+    : CSName, CSValue<T>

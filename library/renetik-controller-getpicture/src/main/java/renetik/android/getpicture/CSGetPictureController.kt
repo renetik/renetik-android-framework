@@ -13,7 +13,7 @@ import androidx.core.content.FileProvider.getUriForFile
 //import org.jetbrains.anko.doAsync
 //import org.jetbrains.anko.uiThread
 import renetik.android.base.CSView
-import renetik.android.base.application
+import renetik.android.base.CSApplicationInstance.application
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.startActivityForResult

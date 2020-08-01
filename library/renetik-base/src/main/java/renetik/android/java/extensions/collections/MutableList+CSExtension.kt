@@ -4,6 +4,7 @@ import renetik.android.java.common.tryOrNull
 
 fun <T, ListType : MutableList<T>> ListType.put(item: T) = item.apply { add(item) }
 fun <T, ListType : MutableList<T>> ListType.putAll(items: Iterable<T>) = apply { addAll(items) }
+//fun <T, ListType : MutableList<T>> ListType.putAll(items: Array<T>) = apply { items?.let { for(item in items) add(item) }  }
 fun <T, ListType : MutableList<T>> ListType.putAll(vararg items: T) = apply { addAll(items) }
 fun <T, ListType : MutableList<T>> ListType.put(item: T, index: Int) =
     item.apply { add(index, this) }

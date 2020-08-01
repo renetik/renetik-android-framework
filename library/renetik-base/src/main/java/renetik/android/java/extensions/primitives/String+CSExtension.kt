@@ -105,3 +105,6 @@ fun String.separateToString(vararg items: Any?): String {
 }
 
 val String.lowerCased: String get() = toLowerCase(Locale.ROOT)
+
+
+val String.upperCased: String get() = toUpperCase(Locale.ROOT)

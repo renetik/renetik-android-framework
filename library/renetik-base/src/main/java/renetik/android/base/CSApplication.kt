@@ -2,6 +2,7 @@ package renetik.android.base
 
 import android.app.Application
 import android.os.Environment.getExternalStorageDirectory
+import renetik.android.base.CSApplicationInstance.application
 import renetik.android.extensions.applicationLabel
 import renetik.android.java.extensions.exception
 import renetik.android.logging.AndroidLogger
@@ -11,7 +12,9 @@ import renetik.android.logging.CSLogger
 import renetik.android.task.initializeHandler
 import java.io.File
 
-lateinit var application: CSApplication
+object CSApplicationInstance {
+    lateinit var application: CSApplication
+}
 
 open class CSApplication : Application() {
 

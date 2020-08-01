@@ -3,7 +3,7 @@ package renetik.android.framework.request
 import android.widget.ProgressBar
 import renetik.android.client.request.CSOperation
 import renetik.android.controller.base.CSViewController
-import renetik.android.java.common.CSConstants.SECOND
+import renetik.android.java.common.CSTimeConstants.Second
 import renetik.android.material.extensions.snackBarInfo
 import renetik.android.task.CSDoLater
 import renetik.android.task.later
@@ -38,7 +38,7 @@ open class CSSingleRequestController(parent: CSViewController<*>, viewId: Int)
     private fun send() {
         currentOperation?.send()?.onFailed {
             snackBarInfo("$requestTitle not successful, retrying in 3 sec.")
-            retryTimer = later(3 * SECOND) {
+            retryTimer = later(3 * Second) {
                 retryTimer = null
                 send()
             }

@@ -1,18 +1,22 @@
 package renetik.android.java.extensions
 
+import renetik.android.java.common.CSStringConstants.NewLine
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.common.CSConstants.NEWLINE
+import renetik.android.java.extensions.primitives.lowerCased
+import renetik.android.java.extensions.primitives.upperCased
 
 fun StringBuilder(vararg values: String) = kotlin.text.StringBuilder().add(*values)
 val StringBuilder.isEmpty get() = length == 0
-fun StringBuilder.add(vararg strings: CharSequence) = apply { for (string in strings) append(string) }
+fun StringBuilder.add(vararg strings: CharSequence) =
+    apply { for (string in strings) append(string) }
+
 fun StringBuilder.add(vararg objects: Any) = apply { for (any in objects) add(any.toString()) }
-fun StringBuilder.addLine() = apply { add(NEWLINE) }
+fun StringBuilder.addLine() = apply { add(NewLine) }
 fun StringBuilder.addSpace() = apply { add(" ") }
-fun StringBuilder.caseDown() = apply { reload(toString().toLowerCase()) }
+fun StringBuilder.caseDown() = apply { reload(toString().lowerCased) }
 
 fun StringBuilder.caseUp(atIndex: Int) = apply {
-    reload(substring(0, atIndex) + substring(atIndex, atIndex + 1).toUpperCase()
+    reload(substring(0, atIndex) + substring(atIndex, atIndex + 1).upperCased
             + substring(atIndex + 1, length))
 }
 

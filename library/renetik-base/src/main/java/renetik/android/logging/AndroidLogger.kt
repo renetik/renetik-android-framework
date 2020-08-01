@@ -3,9 +3,9 @@ package renetik.android.logging
 import android.util.Log
 import android.util.Log.getStackTraceString
 import android.widget.Toast
+import renetik.android.base.CSApplicationInstance.application
 import renetik.android.base.CSContextController
-import renetik.android.base.application
-import renetik.android.java.common.CSConstants.MB
+import renetik.android.java.common.CSDataConstants.MB
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.*
@@ -13,7 +13,6 @@ import renetik.android.logging.CSLogEventType.*
 import java.lang.StringBuilder
 import java.text.DateFormat
 import java.util.*
-
 
 class AndroidLogger() : CSContextController(), CSLogger {
 

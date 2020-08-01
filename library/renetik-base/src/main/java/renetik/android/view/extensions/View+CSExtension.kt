@@ -51,7 +51,6 @@ fun <T : View> T.enabled() = apply { isEnabled = true }
 
 fun <T : View> T.disabled() = apply { isEnabled = false }
 
-
 val <T : View> T.isVisible get() = visibility == VISIBLE
 
 val <T : View> T.isInvisible get() = visibility == INVISIBLE

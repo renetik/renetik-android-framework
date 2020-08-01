@@ -3,7 +3,7 @@ package renetik.android.view.extensions
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
-import renetik.android.base.application
+import renetik.android.base.CSApplicationInstance.application
 import renetik.android.extensions.toDp
 import renetik.android.extensions.toPixel
 

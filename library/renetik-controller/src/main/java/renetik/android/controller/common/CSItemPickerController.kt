@@ -7,12 +7,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import renetik.android.base.CSView
 import renetik.android.base.layout
 import renetik.android.controller.R
+import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.extensions.numberPicker
 import renetik.android.extensions.textView
 import renetik.android.java.common.CSName
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.extensions.collections.index
 import renetik.android.view.extensions.circulate
+import renetik.android.view.extensions.disableTextEditing
 import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.title
 
@@ -43,7 +45,7 @@ class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_
 
     init {
         textView(R.id.CS_ItemPicker_TitleTextView).title(title)
-        picker.loadData(data, selectedIndex).circulate(false)
+        picker.loadData(data, selectedIndex).circulate(false).disableTextEditing(true)
     }
 
     override fun show() = apply {
@@ -64,5 +66,7 @@ class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_
             .setNegativeButton(R.string.cs_dialog_cancel) { _, _ -> dialog.hide() }.show()
     }
 }
+
+
 
 

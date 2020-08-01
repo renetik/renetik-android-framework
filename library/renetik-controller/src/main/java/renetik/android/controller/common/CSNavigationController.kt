@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import renetik.android.base.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
+import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.exception
@@ -19,16 +19,17 @@ import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.remove
 
-lateinit var navigation: CSNavigationController
+object CSNavigationInstance {
+    lateinit var navigation: CSNavigationController
+}
 
+@Suppress("LeakingThis")
 open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationItem {
 
     constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
 
-    constructor(parent: CSViewController<out ViewGroup>) : super(
-        parent,
-        layout(R.layout.cs_navigation)
-    )
+    constructor(parent: CSViewController<out ViewGroup>) :
+            super(parent, layout(R.layout.cs_navigation))
 
     init {
         navigation = this

@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.RoundCap
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.textView
-import renetik.android.java.common.CSConstants.SECOND
+import renetik.android.java.common.CSTimeConstants.Second
 import renetik.android.java.extensions.collections.beforeLast
 import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
@@ -32,13 +32,13 @@ class SampleMapPathController(title: String, private val mapController: CSMapCon
     private val mapClient = CSMapClientController(this, R.id.SampleMap_Map, mapController)
     private val locationRequest = LocationRequest().apply {
         priority = PRIORITY_HIGH_ACCURACY
-        interval = 2L * SECOND
-        fastestInterval = 2L * SECOND
+        interval = 2L * Second
+        fastestInterval = 2L * Second
         smallestDisplacement = 5F
     }
     private val lineOptions
         get() = PolylineOptions().jointType(ROUND)
-                .startCap(RoundCap()).endCap(RoundCap()).width(12F).color(RED)
+            .startCap(RoundCap()).endCap(RoundCap()).width(12F).color(RED)
 
     private var locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
@@ -46,7 +46,7 @@ class SampleMapPathController(title: String, private val mapController: CSMapCon
             model.save()
             model.mapRoute.list.beforeLast?.let {
                 mapController.map?.addPolyline(lineOptions.add(it.latLng)
-                        .add(model.mapRoute.last!!.latLng))
+                    .add(model.mapRoute.last!!.latLng))
             }
             mapController.camera(result.lastLocation, 11f)
         }
@@ -57,7 +57,9 @@ class SampleMapPathController(title: String, private val mapController: CSMapCon
         mapClient.onMapShowing { map ->
             map.isMyLocationEnabled = true
             map.addPolyline(lineOptions.apply { model.mapRoute.forEach { add(it.latLng) } })
-            getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, locationCallback, null)
+            getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest,
+                locationCallback,
+                null)
         }
     }
 

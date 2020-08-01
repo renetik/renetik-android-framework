@@ -8,7 +8,7 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import renetik.android.base.application
+import renetik.android.base.CSApplicationInstance.application
 import renetik.android.java.common.tryAndCatch
 import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndFinally
