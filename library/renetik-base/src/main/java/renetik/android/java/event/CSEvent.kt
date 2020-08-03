@@ -1,8 +1,8 @@
 package renetik.android.java.event
 
+import renetik.android.base.CSApplicationInstance.application
 import renetik.android.base.CSValueStore
 import renetik.android.base.CSValueStoreInterface
-import renetik.android.base.CSApplicationInstance.application
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.collections.index
 import renetik.android.java.extensions.self
@@ -73,12 +73,12 @@ class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? =
     }
 }
 
-fun CSEventProperty<Float>.value(value: Float) = apply { this.value = value }
-fun CSEventProperty<Int>.value(value: Int) = apply { this.value = value }
+fun CSEventProperty<Float>.value(value: Float) = self { this.value = value }
+fun CSEventProperty<Int>.value(value: Int) = self { this.value = value }
 
-fun CSEventProperty<Boolean>.toggle() = apply { value = !value }
-fun CSEventProperty<Boolean>.setFalse() = apply { value = false }
-fun CSEventProperty<Boolean>.setTrue() = apply { value = true }
+fun CSEventProperty<Boolean>.toggle() = self { value = !value }
+fun CSEventProperty<Boolean>.setFalse() = self { value = false }
+fun CSEventProperty<Boolean>.setTrue() = self { value = true }
 var CSEventProperty<Boolean>.isTrue
     get() = value
     set(newValue) {
@@ -132,7 +132,7 @@ fun <T> property(key: String, values: List<T>, default: T,
                  onApply: ((value: T) -> Unit)? = null): CSEventProperty<T> =
     property(application.store, key, values, default, onApply)
 
-fun <T> CSEventProperty<T>.store(store: CSValueStore, key: String,
+fun <T> CSEventProperty<T>.store(store: CSValueStoreInterface, key: String,
                                  values: List<T>, defaultValue: T) {
     val defaultValueHashCode = store.getInt(key, defaultValue.hashCode())
     values.find { it.hashCode() == defaultValueHashCode }?.let { value = it }

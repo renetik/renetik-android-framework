@@ -1,10 +1,8 @@
 package  renetik.android.json.data.extensions
 
-import renetik.android.java.extensions.isEmpty
 import renetik.android.json.data.CSJsonData
 import renetik.android.json.extensions.createJsonData
 import renetik.android.json.extensions.createJsonDataList
-import renetik.android.json.parseJson
 import kotlin.reflect.KClass
 
 fun CSJsonData.getString(key: String): String? = data[key]?.let { return it.toString() }
@@ -38,13 +36,13 @@ fun CSJsonData.getMap(key: String) = data[key] as? MutableMap<String, Any?>
 @Suppress("UNCHECKED_CAST")
 fun CSJsonData.getList(key: String) = data[key] as? MutableList<Any?>
 
+@Suppress("UNCHECKED_CAST")
+fun CSJsonData.getStringList(key: String): List<String>? = data[key] as? List<String>
+
+@Suppress("UNCHECKED_CAST")
 fun <T : CSJsonData> CSJsonData.get(type: KClass<T>, key: String) =
-    type.createJsonData(getJson(key))
+    (data[key] as? MutableMap<String, Any?>)?.let { type.createJsonData(it) }
 
+@Suppress("UNCHECKED_CAST")
 fun <T : CSJsonData> CSJsonData.getList(type: KClass<T>, key: String) =
-    type.createJsonDataList(getJson(key))
-
-private fun <Type> CSJsonData.getJson(key: String): Type? {
-    val loadString = getString(key)
-    return if (loadString.isEmpty) null else loadString!!.parseJson<Type>()
-}
+    (data[key] as? List<MutableMap<String, Any?>>)?.let { type.createJsonDataList(it) }

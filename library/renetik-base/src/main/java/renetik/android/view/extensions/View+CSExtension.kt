@@ -57,15 +57,15 @@ val <T : View> T.isInvisible get() = visibility == INVISIBLE
 
 val <T : View> T.isGone get() = visibility == GONE
 
-fun <T : View> T.visible(visible: Boolean) = apply { if (visible) show() else invisible() }
+fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) show() else invisible() }
 
-fun <T : View> T.invisible(invisible: Boolean) = apply { if (invisible) invisible() else show() }
+fun <T : View> T.invisibleIf(condition: Boolean) = apply { if (condition) invisible() else show() }
 
 fun <T : View> T.invisible() = apply { visibility = INVISIBLE }
 
-fun <T : View> T.shown(show: Boolean?) = apply { if (show.isTrue) show() else hide() }
+fun <T : View> T.displayedIf(condition: Boolean?) = apply { if (condition.isTrue) show() else hide() }
 
-fun <T : View> T.hidden(hide: Boolean?) = apply { if (hide.isTrue) hide() else show() }
+fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) hide() else show() }
 
 fun <T : View> T.show() = apply { visibility = VISIBLE }
 

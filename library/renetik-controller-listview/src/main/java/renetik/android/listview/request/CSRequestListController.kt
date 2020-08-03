@@ -22,8 +22,7 @@ open class CSRequestListController<RowType : CSJsonData, ViewType : AbsListView>
             : super(parent, listViewId, createView)
 
     fun reload(progress: Boolean) = onReload!!(progress).onSuccess { reload(it.list) }
-}
 
-fun <RowType : CSJsonData, ListControllerType : CSRequestListController<RowType, *>>
-        ListControllerType.onReload(function: (progress: Boolean) -> CSOperation<CSListServerData<RowType>>) =
+    fun onReload(function: (progress: Boolean) -> CSOperation<CSListServerData<RowType>>) =
         apply { onReload = function }
+}

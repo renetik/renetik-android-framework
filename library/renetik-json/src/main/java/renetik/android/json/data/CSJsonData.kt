@@ -16,7 +16,11 @@ fun CSJsonData.toJsonObject() = asJsonMap().toJSONObject()
 fun <T : CSJsonData> T.clone(): T = this::class.createJsonData(toJsonString().parseJson())
 
 @Suppress("unchecked_cast")
-open class CSJsonData : Iterable<String>, CSJsonMap {
+open class CSJsonData() : Iterable<String>, CSJsonMap {
+
+    constructor(map: MutableMap<String, Any?>) : this() {
+        _data = map
+    }
 
     var index: Int? = null
     var key: String? = null
@@ -26,10 +30,7 @@ open class CSJsonData : Iterable<String>, CSJsonMap {
     private var childDataKey: String? = null
     private var dataChanged = false
 
-    fun load(map: MutableMap<String, Any?>): CSJsonData {
-        _data = map
-        return this
-    }
+    fun load(map: MutableMap<String, Any?>) = apply { _data = map }
 
     open val data: MutableMap<String, Any?>
         get() {

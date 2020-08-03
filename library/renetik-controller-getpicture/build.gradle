@@ -3,12 +3,12 @@ apply from: '../../library.gradle'
 apply plugin: 'kotlin-android'
 
 dependencies {
-    implementation project(':renetik-android-base')
-    implementation project(':renetik-android-material')
-    implementation project(':renetik-android-dialog')
-    implementation project(':renetik-android-imaging')
-    implementation project(':renetik-android-controller')
-    implementation "androidx.core:core-ktx:+"
+    implementation project(':renetik-library-base')
+    implementation project(':renetik-library-material')
+    implementation project(':renetik-library-dialog')
+    implementation project(':renetik-library-imaging')
+    implementation project(':renetik-library-controller')
+    implementation "androidx.core:core-ktx:$ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

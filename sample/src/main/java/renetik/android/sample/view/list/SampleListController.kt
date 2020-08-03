@@ -15,8 +15,6 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
 import renetik.android.listview.actions.CSRemoveListRowsController
-import renetik.android.listview.emptyView
-import renetik.android.listview.onItemClick
 import renetik.android.logging.CSLog.logInfoToast
 import renetik.android.material.extensions.snackBarInfo
 import renetik.android.material.extensions.validateNotEmpty

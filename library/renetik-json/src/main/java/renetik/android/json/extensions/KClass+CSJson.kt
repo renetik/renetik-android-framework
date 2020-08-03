@@ -8,7 +8,6 @@ import renetik.android.java.extensions.notNull
 import renetik.android.json.data.CSJsonData
 import kotlin.reflect.KClass
 
-
 fun <T : CSJsonData> KClass<T>.createJsonData(map: MutableMap<String, Any?>?) =
     createInstance()!!.apply { map.notNull { load(it) } }
 

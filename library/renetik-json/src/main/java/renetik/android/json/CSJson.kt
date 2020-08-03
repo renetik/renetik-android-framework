@@ -9,7 +9,7 @@ import renetik.android.java.extensions.collections.list
 fun <Type> String.parseJson(): Type? {
     val value = JSONTokener(this).nextValue()
     @Suppress("UNCHECKED_CAST")
-    return value.createValueFromJsonType() as Type
+    return value.createValueFromJsonType() as? Type
 }
 
 fun Any.toJsonString(formatted: Boolean = false): String {

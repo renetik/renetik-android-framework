@@ -32,14 +32,14 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     private var listAdapter: BaseAdapter = CSListAdapter(this)
     private val createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
     private var firstVisiblePosition: Int = 0
-    internal var emptyView: View? = null
+    private var emptyView: View? = null
         set(value) {
             field = value?.hide()
         }
-    internal var onItemClick: ((CSRowView<RowType>) -> Unit)? = null
-    private var onPositionViewType: ((Int) -> Int)? = null
-    private var onItemLongClick: ((CSRowView<RowType>) -> Unit)? = null
+    private var onItemClick: ((CSRowView<RowType>) -> Unit)? = null
     private var onItemClickViewId: Int? = null
+    private var onItemLongClick: ((CSRowView<RowType>) -> Unit)? = null
+    private var onPositionViewType: ((Int) -> Int)? = null
     private var onIsEnabled: ((Int) -> Boolean)? = null
     private var savedSelectionIndex: Int = 0
     private var savedCheckedItems: SparseBooleanArray? = null
@@ -87,6 +87,17 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     override fun onViewShowingFirstTime() {
         super.onViewShowingFirstTime()
         updateEmptyView()
+    }
+
+    fun onItemClick(function: (CSRowView<RowType>) -> Unit) =
+        apply { onItemClick = function }
+
+    fun emptyView(id: Int) =
+        apply { emptyView = parentController?.findView(id) }
+
+    fun onItemClick(itemClickViewId: Int, function: (CSRowView<RowType>) -> Unit) = apply {
+        onItemClickViewId = itemClickViewId
+        onItemClick = function
     }
 
     fun clear() = apply {
@@ -155,11 +166,6 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
     fun getItemViewType(position: Int) = onPositionViewType?.invoke(position) ?: position
 
-    fun onItemClick(itemClickViewId: Int, function: (CSRowView<RowType>) -> Unit) = apply {
-        onItemClickViewId = itemClickViewId
-        onItemClick = function
-    }
-
     fun dataFilter(function: (data: MutableList<RowType>) -> MutableList<RowType>) =
         apply { dataFilter = function }
 
@@ -211,10 +217,3 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         view.setSelection(index)
     }
 }
-
-fun <RowType : Any, ListControllerType : CSListController<RowType, *>>
-        ListControllerType.onItemClick(function: (CSRowView<RowType>) -> Unit) =
-    apply { onItemClick = function }
-
-fun <ListControllerType : CSListController<*, *>> ListControllerType.emptyView(id: Int) =
-    apply { emptyView = parentController?.findView(id) }

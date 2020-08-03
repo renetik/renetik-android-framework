@@ -12,9 +12,7 @@ import renetik.android.extensions.textView
 import renetik.android.getpicture.CSGetPictureController
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
-import renetik.android.listview.onItemClick
 import renetik.android.listview.actions.CSRemoveListRowsController
-import renetik.android.listview.emptyView
 import renetik.android.material.extensions.floatingButton
 import renetik.android.sample.R
 import renetik.android.sample.model.ImageItem

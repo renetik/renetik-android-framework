@@ -3,11 +3,11 @@ apply from: '../../library.gradle'
 apply plugin: 'kotlin-android'
 
 dependencies {
-    implementation project(':renetik-android-base')
-    implementation project(':renetik-android-material')
-    implementation project(':renetik-android-dialog')
+    implementation project(':renetik-library-base')
+    implementation project(':renetik-library-material')
+    implementation project(':renetik-library-dialog')
     implementation "androidx.exifinterface:exifinterface:1.2.0"
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:$ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

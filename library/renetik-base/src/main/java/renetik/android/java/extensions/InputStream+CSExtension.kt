@@ -12,6 +12,6 @@ fun InputStream.copy(output: OutputStream, bufferSize: Int = DEFAULT_BUFFER_SIZE
 
 fun InputStream.copy(output: Writer) = copy(InputStreamReader(this), output)
 
-fun InputStream.asString() = CSStringBuilderWriter().apply {
+fun InputStream.readText() = CSStringBuilderWriter().apply {
     tryAndError { copy(this) }
 }.stringify()
