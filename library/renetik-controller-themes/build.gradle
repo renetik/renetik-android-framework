@@ -8,8 +8,9 @@ dependencies {
     implementation project(':renetik-library-material')
     implementation project(':renetik-library-controller')
     implementation project(':renetik-library-controller-list')
-    implementation "androidx.core:core-ktx:$ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$ktx_version"
+    implementation "com.google.android.material:material:$material_version"
 }
 repositories {
     mavenCentral()

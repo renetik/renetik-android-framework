@@ -1,15 +1,25 @@
 package renetik.android.java.extensions
 
-fun notNull(vararg items: Any?): Boolean {
+fun isSet(vararg items: Any?): Boolean {
+    for (it in items) if (!it.isSet) return false
+    return true
+}
+
+fun isSomeNotSet(vararg items: Any?) = !isSet(*items)
+
+fun isNull(vararg items: Any?): Boolean {
+    for (it in items) if (!it.isNull) return false
+    return true
+}
+
+fun isSomeNotNull(vararg items: Any?) = !isNull(*items)
+
+fun isNotNull(vararg items: Any?): Boolean {
     for (it in items) if (it.isNull) return false
     return true
 }
 
-fun isSet(vararg items: Any?) = notNull(*items)
-
-fun notSet(vararg items: Any?) = !isSet(*items)
-
-fun isSomeNull(vararg items: Any?): Boolean = !notNull(*items)
+fun isSomeNull(vararg items: Any?) = !isNotNull(*items)
 
 fun <T : Any, R> T?.notNull(block: (T) -> R): R? = if (this != null) block(this) else null
 
