@@ -1,7 +1,7 @@
 <resources>
 
     <style name="CSLayout">
-        <!--<item name="android:baselineAligned">false</item>-->
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="CSMatchWrap" parent="CSLayout">

@@ -20,9 +20,11 @@ object CSComparisionConstants {
 
 object CSTimeConstants {
     const val QuarterSecond = 250
-    const val HalfSecond = QuarterSecond * 2
-    const val Second = HalfSecond * 2
-    const val Minute = 60 * Second
-    const val Hour = 60 * Minute
+    const val HalfSecond = 2 * QuarterSecond
+    const val Second = 2 * HalfSecond
+    const val HalfMinute = 30 * Second
+    const val Minute = 2 * HalfMinute
+    const val HalfHour = 30 * Minute
+    const val Hour = 2 * HalfHour
     const val Day = 24 * Hour
 }
