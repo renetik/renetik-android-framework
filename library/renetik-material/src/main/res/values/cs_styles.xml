@@ -333,11 +333,8 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="CSInputEditTextClickable" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="CSInputEditTextClickable" parent="CSInputEditText">
         <item name="android:inputType">textFilter|textMultiLine|textNoSuggestions</item>
-        <item name="android:ellipsize">end</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>

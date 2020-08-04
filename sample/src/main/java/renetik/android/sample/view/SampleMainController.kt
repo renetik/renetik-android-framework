@@ -18,7 +18,6 @@ import renetik.android.sample.view.list.SampleListController
 import renetik.android.sample.view.maps.SampleMapController
 import renetik.android.sample.view.request.SamplePagerController
 import renetik.android.themes.CSThemeChooserController
-import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.title
 
 class SampleMainController : CSViewController<View>(navigation, layout(R.layout.sample_main)),
@@ -26,18 +25,17 @@ class SampleMainController : CSViewController<View>(navigation, layout(R.layout.
 
     init {
         menuItem("Theme chooser") { CSThemeChooserController(navigation).push() }
-        button(R.id.SampleMenu_ButtonList).onClick { SampleListController(it.title).push() }
-        button(R.id.SampleMenu_ButtonMaps).onClick {
+        button(R.id.SampleMenu_ButtonList) { SampleListController(it.title).push() }
+        button(R.id.SampleMenu_ButtonMaps) {
             requestPermissions(list(ACCESS_FINE_LOCATION),
                 onGranted = { SampleMapController(it.title).push() },
                 onNotGranted = { dialog("You need to accept permission request for maps to work") })
         }
-        button(R.id.SampleMenu_ButtonGetPicture).onClick { SampleGetPictureController(it.title).push() }
-        button(R.id.SampleMenu_ButtonDynamicMenu).onClick { SampleDynamicMenuController(it.title).push() }
-        button(R.id.SampleMenu_ButtonRequest).onClick { SamplePagerController(it.title).push() }
-        button(R.id.SampleMenu_ButtonLog).onClick {
-            CSLogDisplayController(navigation,
-                it.title).push()
+        button(R.id.SampleMenu_ButtonGetPicture) { SampleGetPictureController(it.title).push() }
+        button(R.id.SampleMenu_ButtonDynamicMenu) { SampleDynamicMenuController(it.title).push() }
+        button(R.id.SampleMenu_ButtonRequest) { SamplePagerController(it.title).push() }
+        button(R.id.SampleMenu_ButtonLog) {
+            CSLogDisplayController(navigation, it.title).push()
         }
     }
 }

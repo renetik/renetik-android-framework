@@ -3,10 +3,7 @@ package renetik.android.extensions
 import android.R.layout.simple_spinner_dropdown_item
 import android.R.layout.simple_spinner_item
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.Spinner
-import android.widget.TimePicker
+import android.widget.*
 import androidx.annotation.IdRes
 import renetik.android.base.CSView
 import renetik.android.java.extensions.collections.list
@@ -30,7 +27,9 @@ fun CSView<*>.frame(@IdRes id: Int) = view.frame(id)
 fun CSView<*>.linearLayout(@IdRes id: Int) = view.linearLayout(id)
 fun CSView<*>.viewGroup(@IdRes id: Int) = view.viewGroup(id)
 fun CSView<*>.spinner(@IdRes id: Int) = view.spinner(id)
-fun CSView<*>.button(@IdRes id: Int) = view.button(id)
+fun CSView<*>.button(@IdRes id: Int, onClick: ((view: Button) -> Unit)? = null) =
+    view.button(id).apply { onClick?.let { this.onClick(it) } }
+
 fun CSView<*>.compound(@IdRes id: Int) = view.compound(id)
 fun CSView<*>.switch(@IdRes id: Int) = view.switch(id)
 fun CSView<*>.checkBox(@IdRes id: Int) = view.checkBox(id)
