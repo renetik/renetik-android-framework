@@ -23,7 +23,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/SamplePager_ButtonAdd"
             style="@style/CSButtonFloatingBottomEndWrap"
-            android:src="@drawable/outline_add_black_48" />
+            android:src="@drawable/outline_add_24" />
 
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
