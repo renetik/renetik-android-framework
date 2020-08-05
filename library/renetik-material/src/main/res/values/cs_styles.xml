@@ -328,6 +328,11 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="CSInputLayoutDropdownMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="CSInputLayoutFillWrap" parent="CSInputLayoutMatchWrap">
         <item name="android:layout_gravity">center|top</item>
         <item name="android:layout_width">0dp</item>

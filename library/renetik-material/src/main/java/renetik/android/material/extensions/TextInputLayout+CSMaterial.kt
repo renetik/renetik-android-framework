@@ -45,7 +45,7 @@ var <T : TextInputLayout> T.isStartIconChecked
         startIconView.isChecked = value
     }
 
-fun <T : TextInputLayout> T.autoComplete(
+fun <T : TextInputLayout> T.dropdown(
     context: Context, @LayoutRes itemLayout: Int, items: List<Any>) = apply {
     val adapter = ArrayAdapter(context, itemLayout, items)
     (editText as AutoCompleteTextView).setAdapter(adapter)
