@@ -2,13 +2,20 @@ package renetik.android.view.extensions
 
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import renetik.android.extensions.*
 import renetik.android.java.common.tryAndCatch
 import renetik.android.java.common.tryAndWarn
 
 fun <T : View> T.backgroundTint(value: Int) = apply {
     backgroundTintList = ColorStateList.valueOf(context.color(value))
+}
+
+@RequiresApi(Build.VERSION_CODES.M)
+fun <T : View> T.foregroundTint(value: Int) = apply {
+    foregroundTintList = ColorStateList.valueOf(context.color(value))
 }
 
 fun <T : View> T.background(value: Int) = apply {

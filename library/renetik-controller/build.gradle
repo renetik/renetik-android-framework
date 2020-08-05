@@ -3,13 +3,14 @@ apply from: '../../library.gradle'
 apply plugin: 'kotlin-android'
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$ktx_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "com.google.android.gms:play-services-base:$play_version"
+    
     implementation project(':renetik-library-base')
     implementation project(':renetik-library-dialog')
     implementation project(':renetik-library-material') //using snackbar and floating button
-    implementation "com.google.android.gms:play-services-base:$play_version"
-    implementation "com.google.android.material:material:$material_version"
-    implementation "androidx.core:core-ktx:$ktx_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()

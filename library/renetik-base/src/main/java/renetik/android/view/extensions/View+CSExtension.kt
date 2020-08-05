@@ -57,23 +57,22 @@ val <T : View> T.isInvisible get() = visibility == INVISIBLE
 
 val <T : View> T.isGone get() = visibility == GONE
 
-fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) show() else invisible() }
+fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) visible() else invisible() }
 
-fun <T : View> T.invisibleIf(condition: Boolean) = apply { if (condition) invisible() else show() }
+fun <T : View> T.invisibleIf(condition: Boolean) =
+    apply { if (condition) invisible() else visible() }
+
+fun <T : View> T.visible() = apply { visibility = VISIBLE }
 
 fun <T : View> T.invisible() = apply { visibility = INVISIBLE }
 
-fun <T : View> T.displayedIf(condition: Boolean?) = apply { if (condition.isTrue) show() else hide() }
+fun <T : View> T.showIf(condition: Boolean?) = apply { if (condition.isTrue) show() else hide() }
 
-fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) hide() else show() }
-
-fun <T : View> T.goneIf(condition: Boolean?) = apply { if (condition.isTrue) hide() else show() }
+fun <T : View> T.hideIf(condition: Boolean?) = apply { if (condition.isTrue) hide() else show() }
 
 fun <T : View> T.show() = apply { visibility = VISIBLE }
 
 fun <T : View> T.hide() = apply { visibility = GONE }
-
-fun <T : View> T.gone() = apply { visibility = GONE }
 
 val <T : View> T.superview get() = parent as? View
 

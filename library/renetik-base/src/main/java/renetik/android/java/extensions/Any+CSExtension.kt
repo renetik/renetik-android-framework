@@ -14,3 +14,12 @@ fun Any?.stringify(): String {
 }
 
 val Any?.asString get() = stringify()
+
+fun <T> Any.privateField(name: String): T {
+    val field = this::class.java.getDeclaredField(name)
+    field.isAccessible = true
+    @Suppress("UNCHECKED_CAST")
+    return field.get(this) as T
+}
+
+
