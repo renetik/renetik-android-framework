@@ -18,6 +18,8 @@ interface CSValueStoreInterface {
 
     fun save(key: String, value: Long?)
 
+    fun save(key: String, value: String?)
+
     fun has(key: String): Boolean
 
     fun getBoolean(key: String, defaultValue: Boolean = false): Boolean
@@ -47,7 +49,7 @@ class CSValueStore(name: String) : CSContextController(), CSValueStoreInterface 
         editor.apply()
     }
 
-    fun save(key: String, value: String?) = value?.let {
+    override fun save(key: String, value: String?) = value?.let {
         val editor = preferences.edit()
         editor.putString(key, it)
         editor.apply()

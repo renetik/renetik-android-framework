@@ -7,31 +7,14 @@ import android.view.inputmethod.InputMethodManager
 import renetik.android.extensions.inflate
 import renetik.android.extensions.service
 import renetik.android.java.extensions.notNull
-import renetik.android.view.extensions.fade
-import renetik.android.view.extensions.hide
+import renetik.android.task.later
 import renetik.android.view.extensions.inflate
-import renetik.android.view.extensions.show
 
 open class CSView<ViewType : View>(context: Context) : CSContextController(context) {
 
     private var parentGroup: ViewGroup? = null
     private var layoutId: CSLayoutId? = null
     private var _view: ViewType? = null
-
-    fun setView(view: ViewType) {
-        _view = view
-    }
-
-    val view: ViewType by lazy {
-        val view = _view ?: layoutId?.let { inflate<ViewType>(it.id) } ?: let { obtainView()!! }
-        view.tag = this
-        view
-    }
-
-    fun <ViewType : View> inflate(layoutId: Int): ViewType =
-        parentGroup?.inflate(layoutId) ?: context.inflate(layoutId)
-
-    protected open fun obtainView(): ViewType? = null
 
     constructor(parent: Context, layoutId: CSLayoutId? = null) : this(parent) {
         this.layoutId = layoutId
@@ -41,16 +24,39 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
         this.parentGroup = parent
     }
 
-    constructor(parent: CSView<out ViewGroup>, layoutId: CSLayoutId? = null) : this(parent.view, layoutId)
+    constructor(parent: CSView<out ViewGroup>, layoutId: CSLayoutId? = null) : this(
+        parent.view,
+        layoutId
+    )
 
-    fun fade(fadeIn: Boolean) = view.fade(fadeIn)
-    open fun show(): CSView<ViewType> = apply { view.show() }
-    open fun hide(): CSView<ViewType> = apply { view.hide() }
+    val view: ViewType
+        get() {
+            if (_view != null) return _view!!
+            setView(layoutId?.let { inflate<ViewType>(it.id) } ?: let { obtainView()!! })
+            return _view!!
+        }
+
+    fun setView(view: ViewType) {
+        if (_view.notNull) throw Exception("setView should be called before view was initialized")
+        _view = view
+        _view!!.tag = this@CSView
+        onViewReady()
+    }
+
+    fun <ViewType : View> inflate(layoutId: Int): ViewType =
+        parentGroup?.inflate(layoutId) ?: context.inflate(layoutId)
+
+    protected open fun obtainView(): ViewType? = null
+
+    protected open fun onViewReady() = Unit
+
     val hasParent get() = view.parent.notNull
 
     open fun hideKeyboard() {
-        service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
-            .hideSoftInputFromWindow(view.rootView.windowToken, 0)
+        later {
+            service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
+                .hideSoftInputFromWindow(view.rootView.windowToken, 0)
+        }
     }
 
     fun showKeyboard(view: View, flag: Int) =

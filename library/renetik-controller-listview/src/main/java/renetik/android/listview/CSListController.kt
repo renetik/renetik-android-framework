@@ -15,6 +15,7 @@ import renetik.android.extensions.findView
 import renetik.android.extensions.view
 import renetik.android.java.event.event
 import renetik.android.java.extensions.collections.at
+import renetik.android.java.extensions.collections.index
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.reload
 import renetik.android.view.extensions.fadeIn
@@ -107,7 +108,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
     fun getRowView(position: Int, view: View?): View {
         val rowView = if (view == null) createView(position) else asRowView(view)
-        rowView.load(position, filteredData[position])
+        rowView.load(filteredData[position], position)
         return rowView.view
     }
 
@@ -215,5 +216,9 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         view.setItemChecked(index, true)
         view.setSelectionFromTop(index, 0)
         view.setSelection(index)
+    }
+
+    fun selectedValue(value: RowType) = apply {
+        data.index(value)?.let { selectedIndex(it) }
     }
 }

@@ -27,6 +27,7 @@ fun CSView<*>.frame(@IdRes id: Int) = view.frame(id)
 fun CSView<*>.linearLayout(@IdRes id: Int) = view.linearLayout(id)
 fun CSView<*>.viewGroup(@IdRes id: Int) = view.viewGroup(id)
 fun CSView<*>.spinner(@IdRes id: Int) = view.spinner(id)
+fun CSView<*>.search(@IdRes id: Int) = view.search(id)
 fun CSView<*>.button(@IdRes id: Int, onClick: ((view: Button) -> Unit)? = null) =
     view.button(id).apply { onClick?.let { this.onClick(it) } }
 
@@ -35,7 +36,9 @@ fun CSView<*>.switch(@IdRes id: Int) = view.switch(id)
 fun CSView<*>.checkBox(@IdRes id: Int) = view.checkBox(id)
 fun CSView<*>.timePicker(@IdRes id: Int) = view.timePicker(id)
 fun CSView<*>.webView(@IdRes id: Int) = view.webView(id)
-fun CSView<*>.imageView(@IdRes id: Int) = view.imageView(id)
+fun CSView<*>.imageView(@IdRes id: Int, onClick: ((view: ImageView) -> Unit)? = null) =
+    view.imageView(id).apply { onClick?.let { this.onClick(it) } }
+
 fun CSView<*>.swipeRefresh(@IdRes id: Int) = view.swipeRefresh(id)
 fun CSView<*>.seekBar(@IdRes id: Int) = view.seekBar(id)
 

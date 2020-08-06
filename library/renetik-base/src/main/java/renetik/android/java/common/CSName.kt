@@ -8,7 +8,6 @@ interface CSName {
 
 fun CSName(name: String): CSName = CSNameImplementation(name)
 
-private class CSNameImplementation(override var name: String) : CSName
+private data class CSNameImplementation(override var name: String) : CSName
 
-open class CSNameValue<T>(override val name: String, override var value: T)
-    : CSName, CSValue<T>
+open class CSNameValue<T>(override val name: String, override var value: T) : CSName, CSValue<T>

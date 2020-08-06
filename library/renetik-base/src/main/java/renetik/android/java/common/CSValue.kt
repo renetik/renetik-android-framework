@@ -6,4 +6,4 @@ interface CSValue<T> {
 
 fun <T> CSValue(value: T): CSValue<T> = CSValueImplementation(value)
 
-private class CSValueImplementation<T>(override var value: T) : CSValue<T>
+private data class CSValueImplementation<T>(override var value: T) : CSValue<T>

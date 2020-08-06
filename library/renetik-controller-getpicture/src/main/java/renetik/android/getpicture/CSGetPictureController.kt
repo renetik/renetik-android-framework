@@ -1,5 +1,7 @@
 package renetik.android.getpicture
 
+//import org.jetbrains.anko.doAsync
+//import org.jetbrains.anko.uiThread
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent
@@ -10,17 +12,14 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
-//import org.jetbrains.anko.doAsync
-//import org.jetbrains.anko.uiThread
-import renetik.android.base.CSView
 import renetik.android.base.CSApplicationInstance.application
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.startActivityForResult
 import renetik.android.dialog.extensions.dialog
 import renetik.android.imaging.extensions.resizeImage
-import renetik.android.java.extensions.collections.list
 import renetik.android.java.common.tryAndError
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.createDatedFile
 import renetik.android.material.extensions.snackBarWarn
 import renetik.android.task.background
@@ -31,11 +30,17 @@ class CSGetPictureController<T : View>(
     parent: CSViewController<T>, val title: String, private val folder: File,
     private val onImageReady: (File) -> Unit) : CSViewController<T>(parent) {
 
-    constructor(parent: CSViewController<T>, title: String, imagesDirName: String, onImageReady: (File) -> Unit) :
-            this(parent, title, File(File(application.externalFilesDir, "Pictures"), imagesDirName), onImageReady)
+    constructor(parent: CSViewController<T>,
+                title: String,
+                imagesDirName: String,
+                onImageReady: (File) -> Unit) :
+            this(parent,
+                title,
+                File(File(application.externalFilesDir, "Pictures"), imagesDirName),
+                onImageReady)
 
     private val cacheImagesDir = File(getExternalStorageDirectory(),
-            "Android/data/renetik.android.getpicture/files/ImageCache")
+        "Android/data/renetik.android.getpicture/files/ImageCache")
     var selectPhoto = true
     var takePhoto = true
 
@@ -43,10 +48,9 @@ class CSGetPictureController<T : View>(
         folder.mkdirs()
     }
 
-    override fun show(): CSView<T> {
+    fun show() {
         requestPermissions(list(CAMERA, WRITE_EXTERNAL_STORAGE), { showAfterPermissionsGranted() },
-                onNotGranted = { snackBarWarn("Some permissions not granted for taking photos") })
-        return this
+            onNotGranted = { snackBarWarn("Some permissions not granted for taking photos") })
     }
 
     private fun showAfterPermissionsGranted() {

@@ -48,7 +48,7 @@ class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_
         picker.loadData(data, selectedIndex).circulate(false).disableTextEditing(true)
     }
 
-    override fun show() = apply {
+    fun show() {
         dialog = MaterialAlertDialogBuilder(this).setView(view).setOnDismissListener {
             onSelected(data[picker.value - 1])
         }.show()

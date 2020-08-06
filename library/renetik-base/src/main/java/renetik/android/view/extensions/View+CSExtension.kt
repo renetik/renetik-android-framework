@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
 import androidx.annotation.IdRes
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.java.extensions.isNull
@@ -34,6 +35,7 @@ fun View.frame(@IdRes id: Int) = findView<FrameLayout>(id)!!
 fun View.linearLayout(@IdRes id: Int) = findView<LinearLayout>(id)!!
 fun View.viewGroup(@IdRes id: Int) = findView<ViewGroup>(id)!!
 fun View.spinner(@IdRes id: Int) = findView<Spinner>(id)!!
+fun View.search(@IdRes id: Int) = findView<SearchView>(id)!!
 fun View.button(@IdRes id: Int) = findView<Button>(id)!!
 fun View.compound(@IdRes id: Int) = findView<CompoundButton>(id)!!
 fun View.checkBox(@IdRes id: Int) = findView<CheckBox>(id)!!
