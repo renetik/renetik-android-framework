@@ -4,8 +4,8 @@ import android.content.res.ColorStateList
 import android.graphics.BitmapFactory.decodeFile
 import android.widget.ImageView
 import renetik.android.java.common.tryAndError
-import renetik.android.task.background
-import renetik.android.task.later
+import renetik.android.java.extensions.later
+import renetik.android.task.CSBackgroundHandlerObject.background
 import java.io.File
 
 fun <T : ImageView> T.iconTint(color: Int) = apply { imageTintList = ColorStateList.valueOf(color) }

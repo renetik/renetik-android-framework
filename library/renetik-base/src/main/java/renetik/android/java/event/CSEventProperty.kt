@@ -1,9 +1,9 @@
 package renetik.android.java.event
 
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.base.CSValueStoreInterface
 
-class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? = null) {
+class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = null) {
 
     private val eventChange: CSEvent<T> = event()
     var previous: T? = null
@@ -13,7 +13,8 @@ class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? =
             if (field == value) return
             previous = field
             field = value
-            apply()
+            onApply?.invoke(value)
+            eventChange.fire(value)
         }
 
     fun value(value: T) = apply { this.value = value }
@@ -21,7 +22,7 @@ class CSEventProperty<T>(value: T, private val onChange: ((value: T) -> Unit)? =
     fun onChange(value: (T) -> Unit) = eventChange.listen(value)
 
     fun apply() = apply {
-        onChange?.invoke(value)
+        onApply?.invoke(value)
         eventChange.fire(value)
     }
 }
@@ -42,8 +43,8 @@ var CSEventProperty<Boolean>.isFalse
 
 object CSEventPropertyFunctions {
 
-    fun <T> property(value: T, onChange: ((value: T) -> Unit)? = null)
-            : CSEventProperty<T> = CSEventProperty(value, onChange)
+    fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null)
+            : CSEventProperty<T> = CSEventProperty(value, onApply)
 
     fun property(
         store: CSValueStoreInterface, key: String, default: String,

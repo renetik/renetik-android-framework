@@ -19,7 +19,7 @@ var <T : TextView> T.title: String
 
 fun <T : TextView> T.text() = title()
 
-fun <T : TextView> T.hideIfEmpty() = apply { showIf(title().isSet) }
+fun <T : TextView> T.hideIfEmpty() = apply { shownIf(title().isSet) }
 
 fun <T : TextView> T.onTextChange(onChange: (view: T) -> Unit) = apply {
     addTextChangedListener(object : CSTextWatcherAdapter() {

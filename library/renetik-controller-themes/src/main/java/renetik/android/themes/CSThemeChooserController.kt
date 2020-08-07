@@ -16,7 +16,6 @@ import renetik.android.themes.CSThemes.Companion.applyTheme
 import renetik.android.themes.CSThemes.Companion.availableThemes
 import renetik.android.themes.CSThemes.Companion.currentTheme
 import renetik.android.themes.CSThemes.Companion.currentThemeIndex
-import renetik.android.view.extensions.background
 import renetik.android.view.extensions.title
 
 class CSThemeChooserController(val navigation: CSNavigationController,
@@ -37,17 +36,17 @@ class CSThemeChooserController(val navigation: CSNavigationController,
     private val onLoadSwitchItem: (CSRowView<CSTheme>.(CSTheme) -> Unit) = { theme ->
         val attributes = obtainStyledAttributes(theme.style, R.styleable.Theme)
         view(R.id.ThemeSwitcherItem_ColorPrimary)
-            .background(attributes.getColor(R.styleable.Theme_colorPrimary, 0))
+            .setBackgroundColor(attributes.getColor(R.styleable.Theme_colorPrimary, 0))
         view(R.id.ThemeSwitcherItem_ColorPrimaryVariant)
-            .background(attributes.getColor(R.styleable.Theme_colorPrimaryVariant, 0))
+            .setBackgroundColor(attributes.getColor(R.styleable.Theme_colorPrimaryVariant, 0))
         view(R.id.ThemeSwitcherItem_ColorSecondary)
-            .background(attributes.getColor(R.styleable.Theme_colorSecondary, 0))
+            .setBackgroundColor(attributes.getColor(R.styleable.Theme_colorSecondary, 0))
         view(R.id.ThemeSwitcherItem_ColorSecondaryVariant)
-            .background(attributes.getColor(R.styleable.Theme_colorSecondaryVariant, 0))
+            .setBackgroundColor(attributes.getColor(R.styleable.Theme_colorSecondaryVariant, 0))
         view(R.id.ThemeSwitcherItem_ColorOnPrimary)
-            .background(attributes.getColor(R.styleable.Theme_colorOnPrimary, 0))
+            .setBackgroundColor(attributes.getColor(R.styleable.Theme_colorOnPrimary, 0))
         view(R.id.ThemeSwitcherItem_ColorOnSecondary)
-            .background(attributes.getColor(R.styleable.Theme_colorOnSecondary, 0))
+            .setBackgroundColor(attributes.getColor(R.styleable.Theme_colorOnSecondary, 0))
         attributes.recycle()
         textView(R.id.ThemeSwitcherItem_Title).title(theme.title)
     }

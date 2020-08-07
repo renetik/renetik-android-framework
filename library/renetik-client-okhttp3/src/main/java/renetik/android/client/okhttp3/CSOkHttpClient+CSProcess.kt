@@ -1,7 +1,7 @@
 package renetik.android.client.okhttp3
 
 import com.androidnetworking.AndroidNetworking
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.client.request.CSOperation
 import renetik.android.client.request.CSProcess
 import renetik.android.client.request.CSServerData

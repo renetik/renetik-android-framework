@@ -34,10 +34,10 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
 
     constructor(
         parent: CSViewController<*>, search: SearchView, text: String = "",
-        listener: (String) -> Unit
+        onChange: (String) -> Unit
     ) : super(parent) {
         this.text = text
-        this.listener = listener
+        this.listener = onChange
         setView(search)
     }
 

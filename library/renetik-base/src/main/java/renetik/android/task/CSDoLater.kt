@@ -3,21 +3,24 @@ package renetik.android.task
 import android.os.Handler
 import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logError
+import renetik.android.task.CSDoLaterObject.handler
 
-private lateinit var handler: Handler
+object CSDoLaterObject {
 
-fun initializeHandler() {
-    handler = Handler()
+    lateinit var handler: Handler
+
+    fun initializeDoLater() {
+        handler = Handler()
+    }
+
+    fun later(delayMilliseconds: Int, function: () -> Unit): CSDoLater {
+        return CSDoLater(function, delayMilliseconds)
+    }
+
+    fun later(function: () -> Unit) = CSDoLater(function)
 }
-
-fun later(delayMilliseconds: Int, function: () -> Unit): CSDoLater {
-    return CSDoLater(function, delayMilliseconds)
-}
-
-fun later(function: () -> Unit) = CSDoLater(function)
 
 class CSDoLater {
-
     private val function: () -> Unit
 
     constructor(function: () -> Unit, delayMilliseconds: Int) {
@@ -32,5 +35,4 @@ class CSDoLater {
     }
 
     fun stop() = handler.removeCallbacks(function)
-
 }

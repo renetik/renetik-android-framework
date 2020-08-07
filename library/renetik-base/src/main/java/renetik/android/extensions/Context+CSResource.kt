@@ -7,8 +7,9 @@ import android.net.Uri
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.java.common.tryAndCatch
 import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndFinally
@@ -28,7 +29,7 @@ fun Context.color(value: Int): Int {
 }
 
 @ColorInt
-fun Context.resourceColor(color: Int) = ContextCompat.getColor(this, color)
+fun Context.resourceColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
 fun Context.resourceBytes(id: Int) = tryAndWarn {
     val stream = resources.openRawResource(id)

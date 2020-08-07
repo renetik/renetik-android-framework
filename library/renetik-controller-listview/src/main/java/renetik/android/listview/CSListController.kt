@@ -1,10 +1,7 @@
 package renetik.android.listview
 
 import android.content.res.Configuration
-import android.os.SystemClock.uptimeMillis
 import android.util.SparseBooleanArray
-import android.view.MotionEvent.ACTION_CANCEL
-import android.view.MotionEvent.obtain
 import android.view.View
 import android.widget.AbsListView
 import android.widget.BaseAdapter
@@ -18,10 +15,7 @@ import renetik.android.java.extensions.collections.at
 import renetik.android.java.extensions.collections.index
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.reload
-import renetik.android.view.extensions.fadeIn
-import renetik.android.view.extensions.fadeOut
-import renetik.android.view.extensions.hide
-import renetik.android.view.extensions.onClick
+import renetik.android.view.extensions.*
 
 open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewController<ViewType> {
 
@@ -160,11 +154,6 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         savedCheckedItems = view.checkedItemPositions
     }
 
-    fun scrollToTop() {
-        view.setSelection(0)
-        view.dispatchTouchEvent(obtain(uptimeMillis(), uptimeMillis(), ACTION_CANCEL, 0f, 0f, 0))
-    }
-
     fun getItemViewType(position: Int) = onPositionViewType?.invoke(position) ?: position
 
     fun dataFilter(function: (data: MutableList<RowType>) -> MutableList<RowType>) =
@@ -219,6 +208,11 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     }
 
     fun selectedValue(value: RowType) = apply {
-        data.index(value)?.let { selectedIndex(it) }
+        data.index(value)?.let {
+            selectedIndex(it)
+        } ?: let {
+            view.clearChoices()
+            view.scrollToTop()
+        }
     }
 }

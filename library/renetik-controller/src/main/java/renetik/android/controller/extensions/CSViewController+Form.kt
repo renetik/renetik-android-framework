@@ -10,7 +10,7 @@ import renetik.android.material.extensions.clearError
 import renetik.android.material.extensions.title
 import renetik.android.view.extensions.onTextChange
 import renetik.android.view.extensions.onClear
-import renetik.android.view.extensions.showIf
+import renetik.android.view.extensions.shownIf
 
 fun <T : Any> TextInputLayout.data(property: CSEventProperty<T?>,
                                    depends: ((CSFormFieldDependency).() -> Unit)? = null) = apply {
@@ -21,7 +21,7 @@ fun <T : Any> TextInputLayout.data(property: CSEventProperty<T?>,
     if (depends != null) {
         val dependency = CSFormFieldDependency {
             val result = falseIfAnyConditionIsFalse()
-            showIf(result)
+            shownIf(result)
             if (!result) property.value = null
         }
         depends(dependency)
@@ -35,7 +35,7 @@ fun <T : Any> TextInputLayout.data(property: CSEventProperty<T>) = apply {
 }
 
 fun <View : android.view.View> View.depends(depend: (CSFormFieldDependency).() -> Unit) = apply {
-    CSFormFieldDependency { showIf(falseIfAnyConditionIsFalse()) }.also { depend(it) }.evaluate()
+    CSFormFieldDependency { shownIf(falseIfAnyConditionIsFalse()) }.also { depend(it) }.evaluate()
 }
 
 class CSFormFieldDependency(val evaluate: (CSFormFieldDependency).() -> Unit) {

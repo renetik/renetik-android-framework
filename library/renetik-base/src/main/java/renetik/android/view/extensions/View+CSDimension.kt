@@ -2,30 +2,38 @@ package renetik.android.view.extensions
 
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
-import android.view.ViewTreeObserver
-import renetik.android.base.CSApplicationInstance.application
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.extensions.toDp
 import renetik.android.extensions.toPixel
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit) = apply {
-    if (width == 0 || height == 0)
-        viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                if (width != 0 && height != 0) {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    onHasSize(this@hasSize)
-                }
-            }
-        })
+    if (width == 0 || height == 0) onLayout {
+        if (width != 0 && height != 0) {
+            onHasSize(this@hasSize)
+            return@onLayout true
+        }
+        return@onLayout false
+    }
     else onHasSize(this)
 }
 
 fun <T : View> T.afterLayout(action: (View) -> Unit) = apply {
-    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+    viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             viewTreeObserver.removeOnGlobalLayoutListener(this)
             action(this@afterLayout)
+        }
+    })
+}
+
+/**
+ * @return true to remove listener
+ **/
+fun <T : View> T.onLayout(action: (View) -> Boolean) = apply {
+    viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            if (action(this@onLayout)) viewTreeObserver.removeOnGlobalLayoutListener(this)
         }
     })
 }

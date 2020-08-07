@@ -1,6 +1,7 @@
 package renetik.android.java.extensions
 
 import renetik.android.java.common.CSName
+import renetik.android.task.CSDoLaterObject
 
 object AnyCSExtension {
     fun string(value: Any?) = value.stringify()
@@ -18,6 +19,10 @@ fun <T> Any.privateField(name: String): T {
     field.isAccessible = true
     @Suppress("UNCHECKED_CAST")
     return field.get(this) as T
+}
+
+fun <T : Any> T.later(function: (T).() -> Unit): T = apply {
+    CSDoLaterObject.later { function(this) }
 }
 
 

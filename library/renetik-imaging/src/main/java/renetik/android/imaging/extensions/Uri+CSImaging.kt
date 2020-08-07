@@ -10,7 +10,7 @@ import android.net.Uri
 import android.provider.MediaStore.Images.Media.ORIENTATION
 import androidx.exifinterface.media.ExifInterface
 import androidx.exifinterface.media.ExifInterface.*
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.extensions.openInputStream
 import renetik.android.java.common.tryAndError
 import renetik.android.java.common.tryAndWarn

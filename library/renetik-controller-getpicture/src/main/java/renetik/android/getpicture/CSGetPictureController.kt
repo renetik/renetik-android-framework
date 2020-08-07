@@ -12,7 +12,7 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.startActivityForResult
@@ -21,9 +21,9 @@ import renetik.android.imaging.extensions.resizeImage
 import renetik.android.java.common.tryAndError
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.createDatedFile
+import renetik.android.java.extensions.later
 import renetik.android.material.extensions.snackBarWarn
-import renetik.android.task.background
-import renetik.android.task.later
+import renetik.android.task.CSBackgroundHandlerObject.background
 import java.io.File
 
 class CSGetPictureController<T : View>(
@@ -39,6 +39,7 @@ class CSGetPictureController<T : View>(
                 File(File(application.externalFilesDir, "Pictures"), imagesDirName),
                 onImageReady)
 
+    //TODO: Migrate to Context#getExternalFilesDir(String)
     private val cacheImagesDir = File(getExternalStorageDirectory(),
         "Android/data/renetik.android.getpicture/files/ImageCache")
     var selectPhoto = true

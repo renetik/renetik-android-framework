@@ -10,7 +10,8 @@ import renetik.android.controller.common.CSNavigationInstance.navigation
 
 open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
 
-    lateinit var dialog: AlertDialog
+    private var dialog: AlertDialog? = null
+    private var cancelableOnTouchOutside = true
 
     constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId? = null) :
             super(parent, layoutId)
@@ -22,12 +23,18 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
         val builder = MaterialAlertDialogBuilder(this).setView(view)
         builder.setOnDismissListener { deInitialize() }
         dialog = builder.show()
+        dialog!!.setCanceledOnTouchOutside(cancelableOnTouchOutside)
+    }
+
+    fun cancelableOnTouchOutside(cancelable: Boolean) = apply {
+        cancelableOnTouchOutside = cancelable
+        dialog?.setCanceledOnTouchOutside(cancelableOnTouchOutside)
     }
 
     fun showFullScreen() {
         show()
-        dialog.window!!.setLayout(MATCH_PARENT, MATCH_PARENT)
+        dialog!!.window!!.setLayout(MATCH_PARENT, MATCH_PARENT)
     }
 
-    fun hide() = dialog.dismiss()
+    fun hide() = dialog!!.dismiss()
 }

@@ -1,5 +1,7 @@
 package renetik.android.task
 
+import renetik.android.task.CSDoLaterObject.later
+
 fun schedule(milliseconds: Int, runnable: () -> Unit): CSWork {
     return CSWork(milliseconds, runnable)
 }

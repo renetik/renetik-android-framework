@@ -68,9 +68,9 @@ fun <T : View> T.visible() = apply { visibility = VISIBLE }
 
 fun <T : View> T.invisible() = apply { visibility = INVISIBLE }
 
-fun <T : View> T.showIf(condition: Boolean?) = apply { if (condition.isTrue) show() else hide() }
+fun <T : View> T.shownIf(condition: Boolean?) = apply { if (condition.isTrue) show() else hide() }
 
-fun <T : View> T.hideIf(condition: Boolean?) = apply { if (condition.isTrue) hide() else show() }
+fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) hide() else show() }
 
 fun <T : View> T.show() = apply { visibility = VISIBLE }
 

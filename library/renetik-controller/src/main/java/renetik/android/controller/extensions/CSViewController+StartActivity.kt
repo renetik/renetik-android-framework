@@ -6,9 +6,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSViewController
+import renetik.android.java.extensions.later
 import renetik.android.java.extensions.primitives.randomIntInRange
 import renetik.android.logging.CSLog
-import renetik.android.task.later
 
 fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
     startActivity(Intent(activity(), activityClass))

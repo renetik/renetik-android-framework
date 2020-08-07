@@ -48,3 +48,7 @@ fun <T> list(block: (MutableList<T>.() -> Unit)? = null): MutableList<T> =
 fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
 
 fun <T> list(items: Iterable<T>): MutableList<T> = list<T>().putAll(items)
+
+fun <T> List<T>.contains(items: List<T>): Boolean = containsAll(items)
+
+fun <T> List<T>.contains(items: Array<out T>): Boolean = containsAll(items.asList())

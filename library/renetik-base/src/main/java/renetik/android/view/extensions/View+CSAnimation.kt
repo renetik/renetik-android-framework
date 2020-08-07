@@ -5,7 +5,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewPropertyAnimator
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.view.adapter.CSAnimatorAdapter
 
 val shortAnimationDuration =

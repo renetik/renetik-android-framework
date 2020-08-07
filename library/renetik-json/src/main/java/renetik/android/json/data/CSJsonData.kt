@@ -2,12 +2,12 @@ package renetik.android.json.data
 
 import renetik.android.java.event.event
 import renetik.android.java.extensions.collections.linkedMap
+import renetik.android.java.extensions.later
 import renetik.android.json.CSJsonMap
 import renetik.android.json.extensions.createJsonData
 import renetik.android.json.parseJson
 import renetik.android.json.toJSONObject
 import renetik.android.json.toJsonString
-import renetik.android.task.later
 
 data class JsonDataValueChange(val data: CSJsonData, val key: String, val value: Any?)
 

@@ -9,7 +9,7 @@ import android.text.format.DateFormat.getTimeFormat
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.extensions.service
 import renetik.android.java.common.tryAndWarn
 import renetik.android.java.extensions.notNull

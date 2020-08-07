@@ -27,8 +27,8 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isNull
+import renetik.android.java.extensions.later
 import renetik.android.logging.CSLog.logWarn
-import renetik.android.task.later
 import renetik.android.view.extensions.findViewRecursive
 
 var root: CSViewController<*>? = null
@@ -368,13 +368,11 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         invalidateOptionsMenu()
     }
 
-    override fun hideKeyboard() {
-        later {
-            activity!!.currentFocus?.let {
-                service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
-                    .hideSoftInputFromWindow(it.rootView.windowToken, 0)
-            } ?: super.hideKeyboard()
-        }
+    override fun hideKeyboard() = later {
+        activity!!.currentFocus?.let {
+            service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
+                .hideSoftInputFromWindow(it.rootView.windowToken, 0)
+        } ?: super.hideKeyboard()
     }
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle

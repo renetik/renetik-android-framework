@@ -1,6 +1,6 @@
 package renetik.android.logging
 
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.extensions.toast
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.putAll

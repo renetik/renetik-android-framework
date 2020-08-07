@@ -2,7 +2,7 @@ package renetik.android.themes
 
 import android.app.Activity
 import androidx.annotation.StyleRes
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.at
 import renetik.android.java.extensions.collections.reload

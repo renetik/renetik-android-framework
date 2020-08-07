@@ -18,19 +18,19 @@ fun <T : View> T.foregroundTint(value: Int) = apply {
     foregroundTintList = ColorStateList.valueOf(context.color(value))
 }
 
-fun <T : View> T.background(value: Int) = apply {
-    tryAndCatch(Resources.NotFoundException::class,
-        { setBackgroundColor(context.resourceColor(value)) },
-        {
-            tryAndCatch(Resources.NotFoundException::class,
-                { setBackgroundResource(context.resourceFromAttribute(value)) },
-                {
-                    tryAndCatch(Resources.NotFoundException::class,
-                        { setBackgroundColor(context.colorFromAttribute(value)) },
-                        { tryAndWarn { setBackgroundColor(value) } })
-                })
-        })
-}
+//fun <T : View> T.background(value: Int) = apply { //TODO: Is this really necesary ?
+//    tryAndCatch(Resources.NotFoundException::class,
+//        { setBackgroundColor(context.resourceColor(value)) },
+//        {
+//            tryAndCatch(Resources.NotFoundException::class,
+//                { setBackgroundResource(context.resourceFromAttribute(value)) },
+//                {
+//                    tryAndCatch(Resources.NotFoundException::class,
+//                        { setBackgroundColor(context.colorFromAttribute(value)) },
+//                        { tryAndWarn { setBackgroundColor(value) } })
+//                })
+//        })
+//}
 
 fun <T : View> T.paddingDp(left: Int, top: Int, right: Int, bottom: Int) = apply {
     setPadding(context.toPixel(left), context.toPixel(top),

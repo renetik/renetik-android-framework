@@ -7,8 +7,8 @@ import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.isEmpty
-import renetik.android.task.later
-import renetik.android.view.extensions.showIf
+import renetik.android.task.CSDoLaterObject.later
+import renetik.android.view.extensions.shownIf
 
 class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     CSViewController<ViewPager>(parent, pagerId)
@@ -28,7 +28,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         controllers.putAll(pages)
     }
 
-    fun emptyView(view: View) = apply { emptyView = view.showIf(controllers.isEmpty) }
+    fun emptyView(view: View) = apply { emptyView = view.shownIf(controllers.isEmpty) }
 
     fun reload(pages: List<PageType>) = apply {
         val currentIndex = view.currentItem
@@ -65,8 +65,8 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     private fun updateView() {
         view.adapter = CSPagerAdapter(controllers)
 //        view.addOnPageChangeListener(CSOnPageChanged { hideKeyboard() })
-        view.showIf(controllers.hasItems)
-        emptyView?.showIf(controllers.isEmpty())
+        view.shownIf(controllers.hasItems)
+        emptyView?.shownIf(controllers.isEmpty())
     }
 
     private fun updatePageVisibility(newIndex: Int) {

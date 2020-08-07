@@ -2,17 +2,17 @@ package renetik.android.base
 
 import android.app.Application
 import android.os.Environment.getExternalStorageDirectory
-import renetik.android.base.CSApplicationInstance.application
+import renetik.android.base.CSApplicationObject.application
 import renetik.android.extensions.applicationLabel
 import renetik.android.java.extensions.exception
 import renetik.android.logging.AndroidLogger
 import renetik.android.logging.CSLog.logInfo
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.logging.CSLogger
-import renetik.android.task.initializeHandler
+import renetik.android.task.CSDoLaterObject.initializeDoLater
 import java.io.File
 
-object CSApplicationInstance {
+object CSApplicationObject {
     lateinit var application: CSApplication
 }
 
@@ -31,7 +31,7 @@ open class CSApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initializeHandler()
+        initializeDoLater()
         application = this
     }
 

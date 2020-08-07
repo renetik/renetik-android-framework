@@ -12,7 +12,9 @@ import java.util.*
 import java.util.Calendar.*
 
 fun <T : View> CSView<*>.findView(@IdRes id: Int): T? = view.findView(id)
-fun CSView<*>.view(@IdRes id: Int) = view.view(id)
+fun CSView<*>.view(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+    view.view(id).apply { onClick?.let { this.onClick(it) } }
+
 fun CSView<*>.simpleView(@IdRes id: Int) = view.view(id)
 fun CSView<*>.editText(@IdRes id: Int) = view.editText(id)
 fun CSView<*>.textView(@IdRes id: Int) = view.textView(id)
