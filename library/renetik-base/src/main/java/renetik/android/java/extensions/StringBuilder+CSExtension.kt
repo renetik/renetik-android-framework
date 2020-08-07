@@ -1,6 +1,6 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.common.CSStringConstants.NewLine
+import renetik.android.java.extensions.primitives.CSStringConstants.NewLine
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.primitives.lowerCased
 import renetik.android.java.extensions.primitives.upperCased

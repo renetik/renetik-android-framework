@@ -1,11 +1,5 @@
 package renetik.android.java.common
 
-object CSStringConstants {
-    const val NewLine = "\n"
-    const val Comma = ","
-    const val Semicolon = ";"
-}
-
 object CSDataConstants {
     const val KB = 1024
     const val MB = 1024 * KB
