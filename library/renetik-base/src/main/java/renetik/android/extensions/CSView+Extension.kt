@@ -76,4 +76,7 @@ fun CSView<*>.setSpinnerData(spinner: Spinner, itemLayout: Int,
 
 fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 
+fun <T : View, CSViewT : CSView<T>> CSViewT.afterLayout(action: (CSViewT) -> Unit) =
+    apply { view.afterLayout { action(this) } }
+
 

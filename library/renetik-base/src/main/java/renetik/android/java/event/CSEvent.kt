@@ -2,23 +2,18 @@ package renetik.android.java.event
 
 import renetik.android.java.event.CSEvent.CSEventRegistration
 
-fun <T> event(): CSEvent<T> {
-    return CSEventImpl()
-}
+fun <T> event(): CSEvent<T> = CSEventImpl()
 
 fun CSEvent<Unit>.fire() = fire(Unit)
 
-fun <T> CSEvent<T>.register(listener: (argument: T) -> Unit): CSEventRegistration {
-    return this.add { _, argument -> listener(argument) }
-}
+fun <T> CSEvent<T>.register(listener: (argument: T) -> Unit) =
+    this.add { _, argument -> listener(argument) }
 
-fun CSEvent<Unit>.listen(listener: () -> Unit): CSEventRegistration {
-    return this.add { _, _ -> listener() }
-}
+fun CSEvent<Unit>.listen(listener: () -> Unit) =
+    this.add { _, _ -> listener() }
 
-fun <T> CSEvent<T>.listen(listener: (T) -> Unit): CSEventRegistration {
-    return this.add { _, argument -> listener(argument) }
-}
+fun <T> CSEvent<T>.listen(listener: (T) -> Unit) =
+    this.add { _, argument -> listener(argument) }
 
 interface CSEvent<T> {
 

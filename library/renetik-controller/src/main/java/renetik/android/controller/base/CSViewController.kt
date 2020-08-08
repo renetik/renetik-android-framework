@@ -16,6 +16,7 @@ import renetik.android.base.CSView
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
+import renetik.android.extensions.afterLayout
 import renetik.android.extensions.service
 import renetik.android.java.common.CSValue
 import renetik.android.java.event.CSEvent.CSEventRegistration
@@ -27,7 +28,6 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isNull
-import renetik.android.java.extensions.later
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
@@ -368,7 +368,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         invalidateOptionsMenu()
     }
 
-    override fun hideKeyboard() = later {
+    override fun hideKeyboard() = afterLayout {
         activity!!.currentFocus?.let {
             service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
                 .hideSoftInputFromWindow(it.rootView.windowToken, 0)
@@ -383,3 +383,4 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     fun getValue(key: String) = keyValueMap[key]
 }
+

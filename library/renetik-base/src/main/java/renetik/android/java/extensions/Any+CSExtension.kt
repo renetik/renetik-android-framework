@@ -2,6 +2,7 @@ package renetik.android.java.extensions
 
 import renetik.android.java.common.CSName
 import renetik.android.task.CSDoLaterObject
+import renetik.android.task.CSDoLaterObject.later
 
 object AnyCSExtension {
     fun string(value: Any?) = value.stringify()

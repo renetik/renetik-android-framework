@@ -7,11 +7,14 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import renetik.android.base.CSLayoutId
 import renetik.android.controller.common.CSNavigationInstance.navigation
+import renetik.android.java.event.event
+import renetik.android.java.event.fire
 
 open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
 
-    private var dialog: AlertDialog? = null
+    var dialog: AlertDialog? = null
     private var cancelableOnTouchOutside = true
+    val eventOnDismiss = event<Unit>()
 
     constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId? = null) :
             super(parent, layoutId)
@@ -21,14 +24,14 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
     fun show() {
         lifecycleInitialize()
         val builder = MaterialAlertDialogBuilder(this).setView(view)
-        builder.setOnDismissListener { lifecycleDeInitialize() }
+        builder.setOnDismissListener {
+            if (!isDestroyed) {
+                lifecycleDeInitialize()
+                eventOnDismiss.fire()
+            }
+        }
         dialog = builder.show()
         dialog!!.setCanceledOnTouchOutside(cancelableOnTouchOutside)
-    }
-
-    fun cancelableOnTouchOutside(cancelable: Boolean) = apply {
-        cancelableOnTouchOutside = cancelable
-        dialog?.setCanceledOnTouchOutside(cancelableOnTouchOutside)
     }
 
     fun showFullScreen() {
@@ -37,4 +40,14 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
     }
 
     fun hide() = dialog!!.dismiss()
+
+    fun cancelableOnTouchOutside(cancelable: Boolean) = apply {
+        cancelableOnTouchOutside = cancelable
+        dialog?.setCanceledOnTouchOutside(cancelableOnTouchOutside)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dialog?.dismiss()
+    }
 }
