@@ -13,7 +13,7 @@ object CSDoLaterObject {
         handler = Handler()
     }
 
-    fun later(delayMilliseconds: Int, function: () -> Unit): CSDoLater {
+    fun later(delayMilliseconds: Int = 0, function: () -> Unit): CSDoLater {
         return CSDoLater(function, delayMilliseconds)
     }
 

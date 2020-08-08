@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Filter
 import androidx.annotation.LayoutRes
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.internal.CheckableImageButton
@@ -17,7 +18,7 @@ import renetik.android.java.event.listen
 import renetik.android.java.extensions.privateField
 import renetik.android.view.extensions.*
 
-fun CSView<*>.textInputLayout(id: Int, onClick: ((TextInputLayout) -> Unit)? = null) =
+fun CSView<*>.textInput(id: Int, onClick: ((TextInputLayout) -> Unit)? = null) =
     view.findView<TextInputLayout>(id)!!.apply {
         onClick?.let { editText?.onClick { onClick(this) } }
     }
@@ -47,8 +48,24 @@ var <T : TextInputLayout> T.isStartIconChecked
 
 fun <T : TextInputLayout> T.dropdown(
     context: Context, @LayoutRes itemLayout: Int, items: List<Any>) = apply {
-    val adapter = ArrayAdapter(context, itemLayout, items)
-    (editText as AutoCompleteTextView).setAdapter(adapter)
+    (editText as AutoCompleteTextView)
+        .setAdapter(NotFilteringArrayAdapter(context, itemLayout, items))
+}
+
+class NotFilteringArrayAdapter<T>(context: Context, @LayoutRes resource: Int, val objects: List<T>)
+    : ArrayAdapter<T>(context, resource, objects) {
+
+    val notFilteringFilter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence) = FilterResults().apply {
+            values = objects
+            count = objects.size
+        }
+
+        override fun publishResults(constraint: CharSequence, results: FilterResults) =
+            notifyDataSetChanged()
+    }
+
+    override fun getFilter() = notFilteringFilter
 }
 
 val <T : TextInputLayout> T.eventClear
