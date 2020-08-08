@@ -83,30 +83,30 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     constructor(activity: CSActivity, layout: CSLayoutId? = null) : super(activity, layout) {
         this.activity = activity
-        parentRegistrations = initialize(activity)
+        parentRegistrations = initializeParent(activity)
     }
 
     constructor(parent: CSViewController<*>) : super(parent) {
         parentController = parent
-        parentRegistrations = initialize(parent)
+        parentRegistrations = initializeParent(parent)
     }
 
     constructor(parent: CSViewController<*>, view: ViewType) : super(parent) {
         parentController = parent
         setView(view)
-        parentRegistrations = initialize(parent)
+        parentRegistrations = initializeParent(parent)
     }
 
     constructor(parent: CSViewController<*>, @IdRes viewId: Int) : super(parent) {
         parentController = parent
         this.viewId = viewId
-        parentRegistrations = initialize(parent)
+        parentRegistrations = initializeParent(parent)
     }
 
     constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId? = null)
             : super(parent.view, layoutId) {
         parentController = parent
-        parentRegistrations = initialize(parent)
+        parentRegistrations = initializeParent(parent)
     }
 
     protected open fun onCreate(bundle: Bundle?) {
@@ -183,7 +183,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         System.gc()
     }
 
-    fun initialize() {
+    fun lifecycleInitialize() {
         parentController?.let {
             if (it.isCreated) onCreate(it.bundle)
             if (it.isStarted) onStart()
@@ -191,13 +191,13 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         }
     }
 
-    fun deInitialize() {
+    fun lifecycleDeInitialize() {
         if (isResumed && !isPaused) onPause()
         onStop()
         onDestroy()
     }
 
-    private fun initialize(parent: CSViewControllerParent): CSEventRegistrations {
+    private fun initializeParent(parent: CSViewControllerParent): CSEventRegistrations {
         activity = parent.activity()
         parentController.isNull { root = this }
         return CSEventRegistrations(

@@ -19,9 +19,9 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
     constructor(layoutId: CSLayoutId? = null) : this(navigation, layoutId)
 
     fun show() {
-        initialize()
+        lifecycleInitialize()
         val builder = MaterialAlertDialogBuilder(this).setView(view)
-        builder.setOnDismissListener { deInitialize() }
+        builder.setOnDismissListener { lifecycleDeInitialize() }
         dialog = builder.show()
         dialog!!.setCanceledOnTouchOutside(cancelableOnTouchOutside)
     }
