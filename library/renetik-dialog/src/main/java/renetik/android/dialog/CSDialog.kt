@@ -2,12 +2,9 @@ package renetik.android.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.ProgressBar
-import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import com.afollestad.materialdialogs.MaterialDialog
@@ -19,7 +16,6 @@ import renetik.android.base.CSContextController
 import renetik.android.base.CSView
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLogo
-import renetik.android.extensions.colorFromAttribute
 import renetik.android.extensions.inflate
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
@@ -148,7 +144,7 @@ class CSDialog : CSContextController {
 
     fun showProgress(
         title: String? = null,
-        cancellable: Boolean = true,
+        cancelable: Boolean = true,
         cancelTitle: String = getString(R.string.cs_dialog_cancel),
         onCancel: ((CSDialog) -> Unit)? = null
     ) = apply {
@@ -157,39 +153,16 @@ class CSDialog : CSContextController {
             setCancelable(false)
             setCanceledOnTouchOutside(false)
             window?.setBackgroundDrawableResource(R.color.cs_transparent);
-            val content = inflate<View>(R.layout.progress)
-            content.view(R.id.progress_background)
-                .backgroundRoundedWithColor(colorFromAttribute(R.attr.colorSurface))
-            content.textView(R.id.progress_title).title(title ?: "")
-            if (cancellable) {
-                content.button(R.id.progress_button).title(cancelTitle)
-                    .onClick { this@CSDialog.hide(); onCancel?.invoke(this@CSDialog) }
-            } else {
-                content.button(R.id.progress_button).hide()
-            }
-            //TODO move to reusable code: view border radius
-            val shape = GradientDrawable()
-            shape.cornerRadius = 8f
-            shape.color = ColorStateList.valueOf(colorFromAttribute(R.attr.colorSurface))
-            content.background = shape 
-            setContentView(content)
+            setContentView(inflate<View>(R.layout.progress).apply {
+                textView(R.id.progress_title).title(title ?: "")
+                button(R.id.progress_button_cancel).title(cancelTitle).onClick {
+                    this@CSDialog.hide()
+                    onCancel?.invoke(this@CSDialog)
+                }.shownIf(cancelable)
+                backgroundRoundedWithColor(R.attr.colorSurface, 10f)
+            })
             show()
         }
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.window?.setBackgroundDrawableResource(R.color.cs_transparent);
-//        dialog.setContentView(R.layout.progress)
-//        dialog.show()
-//        dialog = MaterialDialog(this).show {
-//            initialize()
-//            title?.let { message(text = it) }
-//            customView(view = progress, scrollable = false)
-//            noAutoDismiss()
-//            cancelable(false)
-//            negativeButton(text = cancelTitle) {
-//                dismiss()
-//                onCancel?.invoke(this@CSDialog)
-//            }
-//        }
     }
 
     fun showProgress(
@@ -276,7 +249,6 @@ class CSDialog : CSContextController {
         return this
     }
 }
-
 
 
 fun <ViewType : View> CSDialog.showViewOf(

@@ -10,6 +10,7 @@
     <TextView
         android:id="@+id/progress_title"
         style="@style/CSWrap"
+        android:gravity="center"
         android:layout_gravity="center"
         android:text="Progress Title"
         android:textAppearance="@style/CSTextSubtitle"
@@ -26,7 +27,7 @@
         app:indicatorColor="?attr/colorPrimary" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/progress_button"
+        android:id="@+id/progress_button_cancel"
         style="@style/CSButtonTextWrap"
         android:layout_gravity="center"
         android:text="Cancel"

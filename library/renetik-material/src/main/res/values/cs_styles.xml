@@ -100,6 +100,8 @@
     </style>
 
     <style name="CSVerticalLayoutWrap" parent="CSWrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
     </style>
 

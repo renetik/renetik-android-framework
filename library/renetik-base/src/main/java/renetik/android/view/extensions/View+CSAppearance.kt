@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.View
-import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import renetik.android.extensions.color
 import renetik.android.extensions.toPixel
@@ -19,10 +18,11 @@ fun <T : View> T.foregroundTint(value: Int) = apply {
     foregroundTintList = ColorStateList.valueOf(context.color(value))
 }
 
-fun <T : View> T.backgroundRoundedWithColor(@ColorInt color: Int) {
+fun <T : View> T.backgroundRoundedWithColor(value: Int, radius: Float = 8f) {
     val shape = GradientDrawable()
-    shape.cornerRadius = 8f
-    shape.color = ColorStateList.valueOf(color)
+    shape.cornerRadius = radius
+    shape.color = ColorStateList.valueOf(context.color(value))
+    background = shape
 }
 
 //fun <T : View> T.background(value: Int) = apply { //TODO: Is this really necesary ?
