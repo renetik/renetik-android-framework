@@ -67,9 +67,8 @@ object CSEventPropertyFunctions {
     fun property(
         store: CSValueStoreInterface, key: String, default: Int,
         onApply: ((value: Int) -> Unit)? = null
-    ) =
-        property(store.getInt(key, default), onApply)
-            .apply { onChange { store.save(key, it) } }
+    ) = property(store.getInt(key, default), onApply)
+        .apply { onChange { store.save(key, it) } }
 
     fun property(key: String, default: Int, onApply: ((value: Int) -> Unit)? = null) =
         property(application.store, key, default, onApply)
@@ -77,9 +76,8 @@ object CSEventPropertyFunctions {
     fun property(
         store: CSValueStoreInterface, key: String, default: Boolean,
         onApply: ((value: Boolean) -> Unit)? = null
-    ) =
-        property(store.getBoolean(key, default), onApply)
-            .apply { onChange { store.save(key, it) } }
+    ) = property(store.getBoolean(key, default), onApply)
+        .apply { onChange { store.save(key, it) } }
 
     fun property(
         key: String, default: Boolean,

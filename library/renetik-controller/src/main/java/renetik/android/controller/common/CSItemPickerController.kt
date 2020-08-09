@@ -2,27 +2,24 @@ package renetik.android.controller.common
 
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AlertDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import renetik.android.base.CSView
 import renetik.android.base.layout
 import renetik.android.controller.R
-import renetik.android.controller.common.CSNavigationInstance.navigation
+import renetik.android.controller.base.CSDialogController
 import renetik.android.extensions.numberPicker
 import renetik.android.extensions.textView
 import renetik.android.java.common.CSName
 import renetik.android.java.event.CSEventProperty
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.index
 import renetik.android.view.extensions.circulate
 import renetik.android.view.extensions.disableTextEditing
 import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.title
 
-
 class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_item_picker,
                                            title: CharSequence, val data: List<Row>,
                                            selectedIndex: Int = 0, val onSelected: (Row) -> Unit)
-    : CSView<LinearLayout>(navigation, layout(layout)) {
+    : CSDialogController<LinearLayout>(layout(layout)) {
 
     constructor(@LayoutRes layout: Int = R.layout.cs_item_picker, title: CharSequence,
                 data: List<Row>, selected: Row, onSelected: (Row) -> Unit)
@@ -41,30 +38,21 @@ class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_
 
     val picker = numberPicker(R.id.CS_ItemPicker_NumberPicker)
 
-    private lateinit var dialog: AlertDialog
-
     init {
         textView(R.id.CS_ItemPicker_TitleTextView).title(title)
         picker.loadData(data, selectedIndex).circulate(false).disableTextEditing(true)
     }
 
-    fun show() {
-        dialog = MaterialAlertDialogBuilder(this).setView(view).setOnDismissListener {
-            onSelected(data[picker.value - 1])
-        }.show()
+    override fun show() = apply {
+        eventOnDismiss.listen { onSelected(data[picker.value - 1]) }
+        super.show()
     }
 
-    fun showWithOk() = apply {
-        dialog = MaterialAlertDialogBuilder(this).setView(view)
-            .setPositiveButton(R.string.cs_dialog_ok) { _, _ -> onSelected(data[picker.value - 1]) }
-            .show()
-    }
+    fun showWithOk() =
+        show(R.string.cs_dialog_ok, onPositive = { onSelected(data[picker.value - 1]) })
 
-    fun showWithOkAndCancel() = apply {
-        dialog = MaterialAlertDialogBuilder(this).setView(view)
-            .setPositiveButton(R.string.cs_dialog_ok) { _, _ -> onSelected(data[picker.value - 1]) }
-            .setNegativeButton(R.string.cs_dialog_cancel) { _, _ -> dialog.hide() }.show()
-    }
+    fun showWithOkAndCancel() =
+        show(onPositive = { onSelected(data[picker.value - 1]) }, onNegative = { hide() })
 }
 
 

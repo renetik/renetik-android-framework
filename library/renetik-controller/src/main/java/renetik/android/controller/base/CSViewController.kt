@@ -339,7 +339,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     protected fun ifVisible(registration: CSEventRegistration?) =
         registration?.let { isVisibleEventRegistrations.add(it) }
 
-    protected fun register(registration: CSEventRegistration?) =
+    fun register(registration: CSEventRegistration?) =
         registration?.let { eventRegistrations.add(it) }
 
     protected fun whileShowing(registration: CSEventRegistration?) =

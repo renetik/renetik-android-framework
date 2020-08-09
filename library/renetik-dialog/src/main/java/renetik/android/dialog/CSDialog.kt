@@ -159,7 +159,7 @@ class CSDialog : CSContextController {
             window?.setBackgroundDrawableResource(R.color.cs_transparent);
             val content = inflate<View>(R.layout.progress)
             content.view(R.id.progress_background)
-                .roundedBackgroundColor(colorFromAttribute(R.attr.colorSurface))
+                .backgroundRoundedWithColor(colorFromAttribute(R.attr.colorSurface))
             content.textView(R.id.progress_title).title(title ?: "")
             if (cancellable) {
                 content.button(R.id.progress_button).title(cancelTitle)
@@ -277,11 +277,7 @@ class CSDialog : CSContextController {
     }
 }
 
-private fun View.roundedBackgroundColor(@ColorInt color: Int) {
-    val shape = GradientDrawable()
-    shape.cornerRadius = 8f
-    shape.color = ColorStateList.valueOf(color)
-}
+
 
 fun <ViewType : View> CSDialog.showViewOf(
     @LayoutRes layoutId: Int,

@@ -1,13 +1,14 @@
 package renetik.android.view.extensions
 
 import android.content.res.ColorStateList
-import android.content.res.Resources
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
-import renetik.android.extensions.*
-import renetik.android.java.common.tryAndCatch
-import renetik.android.java.common.tryAndWarn
+import renetik.android.extensions.color
+import renetik.android.extensions.toPixel
+
 
 fun <T : View> T.backgroundTint(value: Int) = apply {
     backgroundTintList = ColorStateList.valueOf(context.color(value))
@@ -16,6 +17,12 @@ fun <T : View> T.backgroundTint(value: Int) = apply {
 @RequiresApi(Build.VERSION_CODES.M)
 fun <T : View> T.foregroundTint(value: Int) = apply {
     foregroundTintList = ColorStateList.valueOf(context.color(value))
+}
+
+fun <T : View> T.backgroundRoundedWithColor(@ColorInt color: Int) {
+    val shape = GradientDrawable()
+    shape.cornerRadius = 8f
+    shape.color = ColorStateList.valueOf(color)
 }
 
 //fun <T : View> T.background(value: Int) = apply { //TODO: Is this really necesary ?
@@ -37,16 +44,22 @@ fun <T : View> T.paddingDp(left: Int, top: Int, right: Int, bottom: Int) = apply
         context.toPixel(right), context.toPixel(bottom))
 }
 
-fun <T : View> T.paddingDp(value: Int) = apply {
-    paddingDp(value, value, value, value)
+fun <T : View> T.paddingDp(horizontal: Int = -1, vertical: Int = -1) = apply {
+    if (horizontal >= 0) paddingHorizontal(dp = horizontal)
+    if (vertical >= 0) paddingVertical(dp = horizontal)
 }
 
-fun <T : View> T.verticalPaddingDp(value: Int) = apply {
-    val pixelValue = context.toPixel(value)
-    setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
+fun <T : View> T.padding(dp: Int = -1, px: Int = -1) = apply {
+    val pixelValue = if (dp > -0) context.toPixel(dp) else if (px >= 0) px else 0
+    paddingDp(pixelValue, pixelValue, pixelValue, pixelValue)
 }
 
-fun <T : View> T.horizontalPaddingDp(value: Int) = apply {
-    val pixelValue = context.toPixel(value)
+fun <T : View> T.paddingHorizontal(dp: Int = -1, px: Int = -1) = apply {
+    val pixelValue = if (dp > -0) context.toPixel(dp) else if (px >= 0) px else 0
     setPadding(pixelValue, paddingTop, pixelValue, paddingBottom)
+}
+
+fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
+    val pixelValue = if (dp > -0) context.toPixel(dp) else if (px >= 0) px else 0
+    setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
 }
