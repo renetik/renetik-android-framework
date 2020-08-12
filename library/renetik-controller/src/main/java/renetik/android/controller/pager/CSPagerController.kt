@@ -63,7 +63,8 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     }
 
     private fun updateView() {
-        view.adapter = CSPagerAdapter(controllers)
+        view.adapter?.notifyDataSetChanged()
+            ?: let { view.adapter = CSPagerAdapter(controllers) }
 //        view.addOnPageChangeListener(CSOnPageChanged { hideKeyboard() })
         view.shownIf(controllers.hasItems)
         emptyView?.shownIf(controllers.isEmpty())

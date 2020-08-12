@@ -36,7 +36,7 @@ class SampleListController(title: String)
             textView(R.id.title).title(row.title)
             textView(R.id.subtitle).title(row.subtitle)
         }
-    }.onItemClick { rowView -> snackBarInfo("SampleListItemView clicked ${rowView.data.title}") }
+    }.onItemClick { rowView -> snackBarInfo("SampleListItemView clicked ${rowView.row.title}") }
             .emptyView(R.id.SampleList_ListEmpty)
     private val searchController = CSSearchController(this) { reloadList() }
 

@@ -152,7 +152,7 @@ class CSDialog : CSContextController {
         dialog = Dialog(context, R.style.CSProgressDialogStyle).apply {
             setCancelable(false)
             setCanceledOnTouchOutside(false)
-            window?.setBackgroundDrawableResource(R.color.cs_transparent);
+            window?.setBackgroundDrawableResource(R.color.cs_transparent)
             setContentView(inflate<View>(R.layout.progress).apply {
                 textView(R.id.progress_title).title(title ?: "")
                 button(R.id.progress_button_cancel).title(cancelTitle).onClick {

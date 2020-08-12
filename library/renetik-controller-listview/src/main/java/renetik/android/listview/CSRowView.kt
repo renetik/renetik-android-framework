@@ -28,13 +28,13 @@ open class CSRowView<RowType : Any> : CSView<View> {
         this.onLoad = onLoad
     }
 
-    lateinit var data: RowType
+    lateinit var row: RowType
     var index = -1
 
-    fun load(data: RowType, index: Int = 0) {
+    fun load(row: RowType, index: Int = 0) {
         this.index = index
-        this.data = data
-        onLoad(data)
+        this.row = row
+        onLoad(row)
     }
 
     protected open fun onLoad(row: RowType) {

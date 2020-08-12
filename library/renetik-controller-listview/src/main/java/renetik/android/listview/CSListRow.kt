@@ -1,72 +1,84 @@
 package renetik.android.listview
 
-import renetik.android.java.extensions.collections.list
-import renetik.android.java.common.CSValues
+import renetik.android.java.common.CSListContainer
 import renetik.android.java.extensions.collections.deleteLast
-import renetik.android.json.data.CSJsonData
+import renetik.android.java.extensions.collections.list
+import renetik.android.java.extensions.collections.put
 import renetik.android.listview.CSListRow.RowTypes.*
 
-fun <DataType : CSJsonData> createRow(type: CSListRow.RowTypes, index: Int): CSListRow<DataType> {
-    return CSListRow(type, index)
-}
+fun <DataType : Any> createRow(type: CSListRow.RowTypes, index: Int): CSListRow<DataType> =
+    CSListRow(type, index)
 
-fun <DataType : CSJsonData> createTableHeader(): CSListRow<DataType> {
-    return CSListRow(TableHeader, 0)
-}
+fun <DataType : Any> createTableHeader(): CSListRow<DataType> = CSListRow(TableHeader, 0)
 
-fun <DataType : CSJsonData> createTableFooter(): CSListRow<DataType> {
-    return CSListRow(TableFooter, 0)
-}
+fun <DataType : Any> createTableFooter(): CSListRow<DataType> = CSListRow(TableFooter, 0)
 
-fun <DataType : CSJsonData> createRow(data: DataType, viewType: CSListRow.RowTypes, index: Int)
-        : CSListRow<DataType> {
-    return CSListRow(data, viewType, index)
-}
+fun <DataType : Any> createRow(data: DataType, viewType: CSListRow.RowTypes, index: Int)
+        : CSListRow<DataType> = CSListRow(data, viewType, index)
 
-fun <T : CSJsonData> rowsFromList(data: List<T>): List<CSListRow<T>> {
-    val listData = list<CSListRow<T>>(createTableHeader())
+fun <T : Any> rowsFromList(list: List<T>): List<CSListRow<T>> {
+    val listRows = list<CSListRow<T>>(createTableHeader())
     var rowIndex = 0
-    for (row in data) listData.add(createRow(row, Row, rowIndex++))
-    listData.add(createTableFooter())
-    return listData
+    for (data in list) listRows.add(createRow(data, Row, rowIndex++))
+    listRows.add(createTableFooter())
+    return listRows
 }
 
-fun <T : CSJsonData, Data> rowsFromListDatas(dataList: List<Data>)
-        : List<CSListRow<Data>> where  Data : CSJsonData, Data : CSValues<T> {
-    val listData = list<CSListRow<Data>>(createTableHeader())
+fun <T : Any, Data> List<Data>.createListRowsFromListContainers()
+        : List<CSListRow<Data>> where Data : CSListContainer<T> {
+    val listRows = list<CSListRow<Data>>(createTableHeader())
     var sectionIndex = 0
-    for (data in dataList) {
-        listData.add(createRow(data, SectionHeader, sectionIndex))
+    for (listContainer in this) {
+        listRows.add(createRow(listContainer, SectionHeader, sectionIndex++))
         var rowIndex = 0
-        while (rowIndex < data.values.size)
-            listData.add(createRow(data, Row, rowIndex++))
-        listData.add(createRow(data, SectionSpace, sectionIndex))
-        sectionIndex++
+        while (rowIndex < listContainer.list.size)
+            listRows.add(createRow(listContainer, Row, rowIndex++))
+        listRows.add(createRow(listContainer, SectionSpace, sectionIndex))
     }
-    listData.add(createTableFooter())
-    return listData
+    listRows.add(createTableFooter())
+    return listRows
 }
 
-fun <T : CSJsonData> rowsFromLists(data: List<List<T>>): List<CSListRow<T>> {
-    val listData = list<CSListRow<T>>(createTableHeader())
+fun <T : Any> List<T>.createListRows(
+    isHeader: (index: Int, item: T, sectionIndex: Int, rowIndex: Int) -> Boolean,
+    isSpace: (index: Int, item: T, sectionIndex: Int, rowIndex: Int) -> Boolean)
+        : List<CSListRow<T>> {
+    val listRows = list<CSListRow<T>>(createTableHeader())
     var sectionIndex = 0
-    for (sectionData in data) {
-        listData.add(createRow(SectionHeader, sectionIndex))
-        var rowIndex = 0
-        for (row in sectionData) listData.add(createRow(row, Row, rowIndex++))
-        listData.add(createRow(SectionSpace, sectionIndex))
-        sectionIndex++
+    var rowIndex = 0
+    for ((index, item) in withIndex()) {
+        if (isHeader(index, item, sectionIndex, rowIndex)) {
+            listRows.put(CSListRow(item, SectionHeader, sectionIndex++))
+            rowIndex = 0
+        } else {
+            if (isSpace(index, item, sectionIndex, rowIndex))
+                listRows.add(createRow(SectionSpace, sectionIndex))
+            listRows.add(CSListRow(item, Row, rowIndex++))
+        }
     }
-    listData.deleteLast()
-    listData.add(createTableFooter())
-    return listData
+    listRows.add(createTableFooter())
+    return listRows
 }
 
-class CSListRow<DataType : CSJsonData> {
+fun <T : Any> rowsFromLists(list: List<List<T>>): List<CSListRow<T>> {
+    val listRows = list<CSListRow<T>>(createTableHeader())
+    var sectionIndex = 0
+    for (childList in list) {
+        listRows.add(createRow(SectionHeader, sectionIndex++))
+        var rowIndex = 0
+        for (data in childList) listRows.add(createRow(data, Row, rowIndex++))
+        listRows.add(createRow(SectionSpace, sectionIndex))
+    }
+    listRows.deleteLast()
+    listRows.add(createTableFooter())
+    return listRows
+}
+
+class CSListRow<DataType : Any> {
 
     val type: RowTypes
     val index: Int
-    lateinit var data: DataType
+    var data: DataType? = null
 
     constructor(type: RowTypes, index: Int) {
         this.type = type

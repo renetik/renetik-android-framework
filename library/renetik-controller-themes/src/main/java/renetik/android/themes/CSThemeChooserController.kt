@@ -28,7 +28,7 @@ class CSThemeChooserController(val navigation: CSNavigationController,
             CSRowView(this, layout(R.layout.theme_switcher_item), onLoadSwitchItem)
         }.onItemClick(R.id.ThemeSwitcherItem_Button) { row ->
             if (row.index == currentThemeIndex) snackBarInfo("Current theme...")
-            else dialog("You selected theme: ${row.data.title}")
+            else dialog("You selected theme: ${row.row.title}")
                 .show("Apply selected theme ?") { applyTheme(activity(), row.index) }
         }.reload(availableThemes).apply { currentThemeIndex?.let { selectedIndex(it) } }
     }

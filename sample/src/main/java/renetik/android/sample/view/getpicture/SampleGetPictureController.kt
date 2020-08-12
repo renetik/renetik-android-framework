@@ -32,7 +32,7 @@ class SampleGetPictureController(title: String)
         }
     }.onItemClick { row ->
         dialog("Image detail").showView(R.layout.sample_getpicture_item)
-                .imageView(R.id.SampleGetPictureItem_Image).image(row.data.image.value)
+                .imageView(R.id.SampleGetPictureItem_Image).image(row.row.image.value)
     }.emptyView(R.id.SampleGetPicture_ListEmpty)
 
     private val getPicture = CSGetPictureController(this, "Select photo or take picture", "Pictures") {

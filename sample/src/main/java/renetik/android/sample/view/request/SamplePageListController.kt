@@ -40,7 +40,7 @@ class SamplePageListController(parent: CSViewController<ViewGroup>, title: Strin
                 .send(getString(R.string.SampleDynamicMenu_Text), progress)
         }.onItemClick { view ->
             dialog("List item:").showView(R.layout.sample_page_list_item)
-                .loadPageListItem(view.data)
+                .loadPageListItem(view.row)
         }.emptyView(R.id.SamplePageList_ListEmpty)
 
         CSRequestListLoadNextController(listController, R.layout.cs_list_load_next) {

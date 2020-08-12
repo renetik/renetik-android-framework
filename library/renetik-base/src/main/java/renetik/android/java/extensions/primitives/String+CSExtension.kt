@@ -23,6 +23,9 @@ object CSStringConstants {
     fun contains(string1: String?, string2: String?, ignoreCase: Boolean = false) =
         if (string1 == null || string2 == null) false
         else string1.contains(string2, ignoreCase)
+
+    fun range(start: Int, endInclusive: Int): List<String> =
+        IntRange(start, endInclusive).map { "$it" }
 }
 
 val String.isEmpty get() = size == 0

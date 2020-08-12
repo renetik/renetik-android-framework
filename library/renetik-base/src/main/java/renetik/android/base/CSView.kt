@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import renetik.android.extensions.afterLayout
 import renetik.android.extensions.inflate
 import renetik.android.extensions.service
+import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.inflate
 
@@ -52,7 +53,7 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
 
     val hasParent get() = view.parent.notNull
 
-    open fun hideKeyboard() = afterLayout {
+    open fun hideKeyboard() = later {
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
             .hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }

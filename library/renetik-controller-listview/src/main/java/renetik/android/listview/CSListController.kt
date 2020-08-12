@@ -23,7 +23,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     internal var viewTypesCount = 1
     private val filteredData = list<RowType>()
     private val data = list<RowType>()
-    private var dataFilter: ((data: MutableList<RowType>) -> MutableList<RowType>)? = null
+    private var dataFilter: ((data: List<RowType>) -> List<RowType>)? = null
     private var listAdapter: BaseAdapter = CSListAdapter(this)
     private val createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
     private var firstVisiblePosition: Int = 0
@@ -134,7 +134,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     }
 
     fun filterDataAndReload() {
-        dataFilter?.let { filteredData.reload(it(data)) } ?: filteredData.reload(data)
+        dataFilter?.let { filter -> filteredData.reload(filter(data)) } ?: filteredData.reload(data)
         listAdapter.notifyDataSetChanged()
         updateEmptyView()
     }
@@ -156,7 +156,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
     fun getItemViewType(position: Int) = onPositionViewType?.invoke(position) ?: position
 
-    fun dataFilter(function: (data: MutableList<RowType>) -> MutableList<RowType>) =
+    fun filter(function: (data: List<RowType>) -> List<RowType>) =
         apply { dataFilter = function }
 
     fun onItemLongClick(function: (CSRowView<RowType>) -> Unit) =
