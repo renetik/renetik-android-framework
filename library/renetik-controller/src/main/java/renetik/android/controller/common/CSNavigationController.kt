@@ -38,7 +38,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
     open var controllers = list<CSViewController<*>>()
 
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
-        if (controllers.hasItems) controllers.last?.showingInContainer(false)
+        if (controllers.hasItems) currentController.showingInContainer(false)
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_in_top))
         view.add(controller)
@@ -60,7 +60,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             view.remove(lastController)
             lastController.lifecycleDeInitialize()
 
-            controllers.last?.showingInContainer(true)
+            currentController.showingInContainer(true)
             updateBackButton()
             updateBarTitle()
             updateBarIcon()
@@ -121,7 +121,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         oldController: CSViewController<T>,
         newController: CSViewController<T>
     ): CSViewController<T> {
-        if (controllers.last == oldController) return pushAsLast(newController)
+        if (currentController == oldController) return pushAsLast(newController)
 
         val indexOfController = controllers.indexOf(oldController)
         if (indexOfController == -1) throw exception("oldController not found in navigation")
@@ -148,7 +148,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
     }
 
     private fun updateBarTitle() {
-        (controllers.last as? CSNavigationItem)?.let { item ->
+        (currentController as? CSNavigationItem)?.let { item ->
             item.isNavigationTitleVisible?.let { isVisible ->
                 if (!isVisible) {
                     setActionBarTitle(null)
@@ -168,7 +168,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
     }
 
     private fun updateBarIcon() {
-        (controllers.last as? CSNavigationItem)?.let { item ->
+        (currentController as? CSNavigationItem)?.let { item ->
             item.isNavigationIconVisible?.let { isVisible ->
                 if (!isVisible) {
                     setActionBarIcon(null)
@@ -204,11 +204,13 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 
     private fun updateBackButton() {
         val isBackButtonVisible =
-            (controllers.last as? CSNavigationItem)?.isNavigationItemBackButton
-                ?: isNavigationItemBackButton
+            (currentController as? CSNavigationItem)?.isNavigationBackButtonVisible
+                ?: isNavigationBackButtonVisible
         if (controllers.size > 1 && isBackButtonVisible) showBackButton()
         else hideBackButton()
     }
+
+    val currentController get() = controllers.last!!
 
     open fun showBackButton() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -251,5 +253,5 @@ interface CSNavigationItem {
     val navigationItemIcon: Int? get() = null
     val isNavigationTitleVisible: Boolean? get() = null
     val navigationItemTitle: String? get() = null
-    val isNavigationItemBackButton get() = true
+    val isNavigationBackButtonVisible get() = true
 }
