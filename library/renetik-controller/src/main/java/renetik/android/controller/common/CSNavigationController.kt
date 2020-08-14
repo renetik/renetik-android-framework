@@ -38,7 +38,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
     open var controllers = list<CSViewController<*>>()
 
     fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
-        if (controllers.hasItems) currentController.showingInContainer(false)
+        currentController?.showingInContainer(false)
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_in_top))
         view.add(controller)
@@ -60,7 +60,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             view.remove(lastController)
             lastController.lifecycleDeInitialize()
 
-            currentController.showingInContainer(true)
+            currentController?.showingInContainer(true)
             updateBackButton()
             updateBarTitle()
             updateBarIcon()
@@ -210,7 +210,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         else hideBackButton()
     }
 
-    val currentController get() = controllers.last!!
+    val currentController get() = controllers.last
 
     open fun showBackButton() {
         actionBar?.setDisplayHomeAsUpEnabled(true)

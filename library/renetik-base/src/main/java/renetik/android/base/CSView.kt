@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import renetik.android.extensions.afterLayout
 import renetik.android.extensions.inflate
 import renetik.android.extensions.service
 import renetik.android.java.extensions.later
@@ -25,10 +24,8 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
         this.parentGroup = parent
     }
 
-    constructor(parent: CSView<out ViewGroup>, layoutId: CSLayoutId? = null) : this(
-        parent.view,
-        layoutId
-    )
+    constructor(parent: CSView<out ViewGroup>, layoutId: CSLayoutId? = null) :
+            this(parent.view, layoutId)
 
     val view: ViewType
         get() {

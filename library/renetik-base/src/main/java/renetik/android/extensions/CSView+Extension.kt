@@ -57,7 +57,6 @@ fun CSView<*>.getTime(picker: TimePicker): Date {
     }.time
 }
 
-
 //move to Spinner extension
 fun CSView<*>.initSpinner(id: Int, values: List<String>, value: String) {
     setSpinnerData(spinner(id), values)
@@ -76,7 +75,7 @@ fun CSView<*>.setSpinnerData(spinner: Spinner, itemLayout: Int,
 
 fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 
-fun <T : View, CSViewT : CSView<T>> CSViewT.afterLayout(action: (CSViewT) -> Unit) =
+fun <Type : CSView<*>> Type.afterLayout(action: (Type) -> Unit) =
     apply { view.afterLayout { action(this) } }
 
 
