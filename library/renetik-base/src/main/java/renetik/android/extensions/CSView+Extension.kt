@@ -22,7 +22,7 @@ fun CSView<*>.scrollView(@IdRes id: Int) = view.scrollView(id)
 fun CSView<*>.horizontalScroll(@IdRes id: Int) = view.horizontalScroll(id)
 fun CSView<*>.listView(@IdRes id: Int) = view.listView(id)
 fun CSView<*>.radio(@IdRes id: Int) = view.radio(id)
-fun CSView<*>.radioGroup(@IdRes id: Int) = view.radioGroup(id)
+
 fun CSView<*>.datePicker(@IdRes id: Int) = view.datePicker(id)
 fun CSView<*>.numberPicker(@IdRes id: Int) = view.numberPicker(id)
 fun CSView<*>.frame(@IdRes id: Int) = view.frame(id)

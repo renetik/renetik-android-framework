@@ -16,6 +16,7 @@ import renetik.android.java.common.tryAndFinally
 import renetik.android.java.common.tryAndWarn
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.isEmpty
+import renetik.android.java.extensions.readText
 import renetik.android.java.extensions.stringify
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
@@ -100,7 +101,9 @@ fun Context.openAsset(path: String): InputStream {
     return assets.open(path)
 }
 
-fun Context.readAsset(path: String): String {
+//fun Context.assetsReadText(path: String) = resources.assets.open(path).readText()
+
+fun Context.assetsReadText(path: String): String {
     return openAsset(path).bufferedReader().use { it.readText() }
 }
 

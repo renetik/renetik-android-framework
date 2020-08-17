@@ -46,10 +46,11 @@ var <T : TextInputLayout> T.isStartIconChecked
         startIconView.isChecked = value
     }
 
-fun <T : TextInputLayout> T.dropdown(
-    context: Context, @LayoutRes itemLayout: Int, items: List<Any>) = apply {
-    (editText as AutoCompleteTextView)
-        .setAdapter(NotFilteringArrayAdapter(context, itemLayout, items))
+fun <T : TextInputLayout> T.dropdown(context: Context, @LayoutRes itemLayout: Int,
+                                     items: List<Any>, filter: Boolean = true) = apply {
+    val adapter = if (filter) ArrayAdapter(context, itemLayout, items) else
+        NotFilteringArrayAdapter(context, itemLayout, items)
+    (editText as AutoCompleteTextView).setAdapter(adapter)
 }
 
 class NotFilteringArrayAdapter<T>(context: Context, @LayoutRes resource: Int, val objects: List<T>)

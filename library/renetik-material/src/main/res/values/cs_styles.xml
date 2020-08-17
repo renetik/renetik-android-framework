@@ -422,4 +422,8 @@
         <item name="android:layout_height">5dp</item>
     </style>
 
+    <style name="CSScrollMatch" parent="CSMatch">
+        <item name="android:fillViewport">true</item>
+    </style>
+
 </resources>

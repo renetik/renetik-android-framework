@@ -28,7 +28,6 @@ fun View.scrollView(@IdRes id: Int) = findView<ScrollView>(id)!!
 fun View.horizontalScroll(@IdRes id: Int) = findView<HorizontalScrollView>(id)!!
 fun View.listView(@IdRes id: Int) = findView<ListView>(id)!!
 fun View.radio(@IdRes id: Int) = findView<RadioButton>(id)!!
-fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
 fun View.datePicker(@IdRes id: Int) = findView<DatePicker>(id)!!
 fun View.numberPicker(@IdRes id: Int) = findView<NumberPicker>(id)!!
 fun View.frame(@IdRes id: Int) = findView<FrameLayout>(id)!!
