@@ -10,7 +10,7 @@ class CSPagerAdapter<PagerPageType>(val controllers: List<PagerPageType> = list(
     : PagerAdapter() where PagerPageType : CSViewController<*>, PagerPageType : CSPagerPage {
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) =
-            container.removeView(`object` as View)
+        container.removeView(`object` as View)
 
     override fun getCount() = controllers.size
 
