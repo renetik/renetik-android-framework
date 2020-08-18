@@ -8,6 +8,8 @@ import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.primitives.isTrue
 import renetik.android.java.extensions.stringify
 import renetik.android.material.extensions.clearError
+import renetik.android.material.extensions.onClear
+import renetik.android.material.extensions.onTextChange
 import renetik.android.material.extensions.title
 import renetik.android.view.extensions.onClear
 import renetik.android.view.extensions.onTextChange
@@ -15,8 +17,8 @@ import renetik.android.view.extensions.shownIf
 
 fun <T : Any> TextInputLayout.data(property: CSEventProperty<T?>,
                                    depends: ((CSFormFieldDependency).() -> Unit)? = null) = apply {
-    editText!!.onTextChange { if (property.value.isSet) clearError() }
-    editText!!.onClear { property.value = null }
+    onTextChange { if (property.value.isSet) clearError() }
+    onClear { property.value = null }
     fun updateTitle() = title(property.value?.stringify() ?: "")
     updateTitle()
     navigation.register(property.onChange { updateTitle() })

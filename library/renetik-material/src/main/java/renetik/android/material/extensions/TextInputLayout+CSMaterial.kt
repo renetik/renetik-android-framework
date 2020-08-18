@@ -97,6 +97,12 @@ fun <T : TextInputLayout> T.clearError() = apply {
     isErrorEnabled = false
 }
 
+val TextInputLayout.isError get() = error != null && isErrorEnabled
+
+fun TextInputLayout.onChangeClearError() = apply {
+    onTextChange { if (isError) clearError() }
+}
+
 var <T : TextInputLayout> T.title: String
     get() = editText!!.title
     set(value) {
