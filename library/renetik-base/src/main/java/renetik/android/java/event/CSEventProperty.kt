@@ -19,7 +19,7 @@ class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = 
 
     fun value(value: T) = apply { this.value = value }
 
-    fun onChange(value: (T) -> Unit) = eventChange.listen(value)
+    fun onChange(value: (T) -> Unit) = eventChange.listener(value)
 
     fun apply() = apply {
         onApply?.invoke(value)

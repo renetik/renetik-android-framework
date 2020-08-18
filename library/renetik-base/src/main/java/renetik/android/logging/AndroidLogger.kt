@@ -7,7 +7,7 @@ import renetik.android.base.CSApplicationObject.application
 import renetik.android.base.CSContextController
 import renetik.android.java.common.CSDataConstants.MB
 import renetik.android.java.event.event
-import renetik.android.java.event.listen
+import renetik.android.java.event.listener
 import renetik.android.java.extensions.*
 import renetik.android.logging.CSLogEventType.*
 import java.lang.StringBuilder
@@ -16,15 +16,15 @@ import java.util.*
 
 class AndroidLogger() : CSContextController(), CSLogger {
 
-    constructor(onLogEvent: (CSLogEvent) -> Unit) : this() {
-        this.eventOnLog.listen(onLogEvent)
-    }
-
     override val eventOnLog = event<CSLogEvent>()
 
     private val maxLogSize = 2.5 * MB
     private val dateFormat = DateFormat.getDateTimeInstance()
     private val logText = StringBuilder()
+
+    constructor(onLogListener: (CSLogEvent) -> Unit) : this() {
+        eventOnLog.listener(onLogListener)
+    }
 
     override fun onLowMemory() {
         val sizeAboveLowMemoryMax = logText.length - MB

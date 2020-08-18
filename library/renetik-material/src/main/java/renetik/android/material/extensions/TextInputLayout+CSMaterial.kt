@@ -14,7 +14,7 @@ import renetik.android.R
 import renetik.android.base.CSView
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
-import renetik.android.java.event.listen
+import renetik.android.java.event.listener
 import renetik.android.java.extensions.privateField
 import renetik.android.view.extensions.*
 
@@ -70,10 +70,10 @@ class NotFilteringArrayAdapter<T>(context: Context, @LayoutRes resource: Int, va
 }
 
 val <T : TextInputLayout> T.eventClear
-    get() = tagProperty(R.id.EditTextEventOnClearTagKey) { event<Unit>() }
+    get() = propertyWithTag(R.id.EditTextEventOnClearTagKey) { event<Unit>() }
 
 fun <T : TextInputLayout> T.onClear(listener: () -> Unit): T = apply {
-    eventClear.listen(listener)
+    eventClear.listener(listener)
 }
 
 @SuppressLint("PrivateResource")

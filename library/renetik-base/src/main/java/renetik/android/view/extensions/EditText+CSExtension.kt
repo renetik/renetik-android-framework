@@ -8,11 +8,11 @@ import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
-import renetik.android.java.event.listen
+import renetik.android.java.event.listener
 
-val EditText.eventClear get() = tagProperty(R.id.EditTextEventOnClearTagKey) { event<Unit>() }
+val EditText.eventClear get() = propertyWithTag(R.id.EditTextEventOnClearTagKey) { event<Unit>() }
 
-fun <T : EditText> T.onClear(listener: () -> Unit): T = apply { eventClear.listen(listener) }
+fun <T : EditText> T.onClear(listener: () -> Unit): T = apply { eventClear.listener(listener) }
 
 @SuppressLint("ClickableViewAccessibility")
 fun <T : EditText> T.withClear(): T {

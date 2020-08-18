@@ -96,7 +96,7 @@ fun <T : View> T.createBitmap(): Bitmap {
     return bitmap
 }
 
-fun <T : Any> View.tagProperty(@IdRes key: Int, onCreate: () -> T): T {
+fun <T : Any> View.propertyWithTag(@IdRes key: Int, onCreate: () -> T): T {
     @Suppress("UNCHECKED_CAST")
     var value = getTag(key) as? T
     if (value.isNull) {

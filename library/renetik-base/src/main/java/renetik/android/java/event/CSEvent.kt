@@ -6,14 +6,14 @@ fun <T> event(): CSEvent<T> = CSEventImpl()
 
 fun CSEvent<Unit>.fire() = fire(Unit)
 
+fun CSEvent<Unit>.listener(function: () -> Unit) =
+    this.add { _, _ -> function() }
+
 fun <T> CSEvent<T>.register(listener: (argument: T) -> Unit) =
     this.add { _, argument -> listener(argument) }
 
-fun CSEvent<Unit>.listen(listener: () -> Unit) =
-    this.add { _, _ -> listener() }
-
-fun <T> CSEvent<T>.listen(listener: (T) -> Unit) =
-    this.add { _, argument -> listener(argument) }
+fun <T> CSEvent<T>.listener(function: (argument: T) -> Unit) =
+    this.add { _, argument -> function(argument) }
 
 interface CSEvent<T> {
 

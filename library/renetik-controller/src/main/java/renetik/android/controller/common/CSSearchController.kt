@@ -8,7 +8,7 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import renetik.android.controller.base.CSViewController
 import renetik.android.extensions.findView
 import renetik.android.java.event.event
-import renetik.android.java.event.listen
+import renetik.android.java.event.listener
 import renetik.android.java.extensions.isSet
 import renetik.android.view.extensions.onClick
 
@@ -92,7 +92,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     fun expanded(value: Boolean) = apply { expanded = value }
 
     fun onClearButtonClick(listener: (CSSearchController) -> Unit) = apply {
-        eventOnClearButtonClick.listen(listener)
+        eventOnClearButtonClick.listener(listener)
     }
 
 }
