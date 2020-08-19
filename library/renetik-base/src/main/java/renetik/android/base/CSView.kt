@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.LayoutRes
 import renetik.android.extensions.inflate
 import renetik.android.extensions.service
 import renetik.android.java.extensions.later
@@ -41,7 +42,7 @@ open class CSView<ViewType : View>(context: Context) : CSContextController(conte
         onViewReady()
     }
 
-    fun <ViewType : View> inflate(layoutId: Int): ViewType =
+    fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType =
         parentGroup?.inflate(layoutId) ?: context.inflate(layoutId)
 
     protected open fun obtainView(): ViewType? = null
