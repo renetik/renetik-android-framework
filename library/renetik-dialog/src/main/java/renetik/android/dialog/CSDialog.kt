@@ -17,9 +17,9 @@ import renetik.android.base.CSView
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLogo
 import renetik.android.extensions.inflate
+import renetik.android.java.common.CSName
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.stringify
 import renetik.android.view.extensions.*
 
 
@@ -48,7 +48,12 @@ class CSDialog : CSContextController {
     var isCheckboxChecked = false
     var onDialogCancel: ((CSDialog) -> Unit)? = null
 
-    val inputText get() = materialDialog?.getInputField()?.text.stringify()
+    val inputText: String
+        get() {
+            val text = materialDialog?.getInputField()?.text
+            val name = text as? CSName
+            return name?.name ?: text?.toString() ?: ""
+        }
 
     init {
         initDefaultsFunction?.invoke(this)

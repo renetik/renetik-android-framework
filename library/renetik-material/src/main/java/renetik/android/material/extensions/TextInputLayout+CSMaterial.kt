@@ -2,6 +2,7 @@ package renetik.android.material.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Filter
@@ -26,20 +27,22 @@ fun CSView<*>.textInput(id: Int, onClick: ((TextInputLayout) -> Unit)? = null) =
 @SuppressLint("RestrictedApi")
 fun <T : TextInputLayout> T.startIconCheckable(onCheckChanged: (TextInputLayout) -> Unit) = apply {
     isStartIconCheckable = true
-    this.editText?.isEnabled = isStartIconChecked
-    isEndIconVisible = isStartIconChecked
+    this.editText?.isEnabled = isChecked
+    isEndIconVisible = isChecked
     setStartIconOnClickListener {
         startIconView.toggle()
-        this.editText?.isEnabled = isStartIconChecked
-        isEndIconVisible = isStartIconChecked
+        this.editText?.isEnabled = isChecked
+        isEndIconVisible = isChecked
         onCheckChanged(this)
     }
 }
 
+val TextInputLayout.autoCompleteView get() = (editText as AutoCompleteTextView)
+
 val <T : TextInputLayout> T.startIconView: CheckableImageButton
     get() = privateField("startIconView")
 
-var <T : TextInputLayout> T.isStartIconChecked
+var <T : TextInputLayout> T.isChecked
     @SuppressLint("RestrictedApi") get() = startIconView.isChecked
     set(value) {
         @SuppressLint("RestrictedApi")
@@ -47,10 +50,14 @@ var <T : TextInputLayout> T.isStartIconChecked
     }
 
 fun <T : TextInputLayout> T.dropdown(context: Context, @LayoutRes itemLayout: Int,
-                                     items: List<Any>, filter: Boolean = true) = apply {
+                                     items: List<Any>, filter: Boolean = false,
+                                     onItemChange: ((Int) -> Unit)? = null) = apply {
     val adapter = if (filter) ArrayAdapter(context, itemLayout, items) else
         NotFilteringArrayAdapter(context, itemLayout, items)
-    (editText as AutoCompleteTextView).setAdapter(adapter)
+    autoCompleteView.setAdapter(adapter)
+    autoCompleteView.onItemClickListener = OnItemClickListener { _, _, position, _ ->
+        onItemChange?.invoke(position)
+    }
 }
 
 class NotFilteringArrayAdapter<T>(context: Context, @LayoutRes resource: Int, val objects: List<T>)
@@ -62,7 +69,7 @@ class NotFilteringArrayAdapter<T>(context: Context, @LayoutRes resource: Int, va
             count = objects.size
         }
 
-        override fun publishResults(constraint: CharSequence, results: FilterResults) =
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) =
             notifyDataSetChanged()
     }
 

@@ -1,5 +1,6 @@
 package renetik.android.java.extensions
 
+import renetik.android.java.common.CSName
 import renetik.android.java.common.CSStringBuilderWriter
 import renetik.android.java.common.tryAndError
 import java.io.InputStream
@@ -12,6 +13,10 @@ fun InputStream.copy(output: OutputStream, bufferSize: Int = DEFAULT_BUFFER_SIZE
 
 fun InputStream.copy(output: Writer) = copy(InputStreamReader(this), output)
 
-fun InputStream.readText() = CSStringBuilderWriter().apply {
+fun InputStream.readText(): String {
+    val apply = CSStringBuilderWriter().apply {
     tryAndError { copy(this) }
-}.stringify()
+}
+    val name = apply as? CSName
+    return name?.name ?: apply?.toString() ?: ""
+}

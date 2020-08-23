@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="renetik_android_base_yes">Yes</string>
-    <string name="renetik_android_base_no">No</string>
+    <string name="cs_base_yes">Yes</string>
+    <string name="cs_base_no">No</string>
+    <string name="cs_base_dummy_short">Lorem ipsum</string>
+    <string name="cs_base_dummy_medium">Lorem ipsum dolor sit amet</string>
+    <string name="cs_base_dummy_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="cs_base_dummy_complete">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+
 </resources>
