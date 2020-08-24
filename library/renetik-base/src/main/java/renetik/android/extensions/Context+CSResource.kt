@@ -80,7 +80,7 @@ fun Context.dimensionFromAttribute(attribute: Int): Int {
 
 fun Context.stringFromAttribute(attribute: Int): String {
     val string = resolveAttribute(attribute).string
-    val name = string as? CSName
+    val name = string as? CSName  //TODO fix this
     return name?.name ?: string?.toString() ?: ""
 }
 fun Context.stringFromAttribute2(attribute: Int) = stringFromAttribute(intArrayOf(attribute), 0)
@@ -89,7 +89,7 @@ fun Context.stringFromAttribute(styleable: IntArray, styleableAttribute: Int): S
     val attributes = obtainStyledAttributes(styleable)
     val string = attributes.getString(styleableAttribute)
     attributes.recycle()
-    val name = string as? CSName
+    val name = string as? CSName  //TODO fix this
     return name?.name ?: string?.toString() ?: ""
 }
 

@@ -51,7 +51,7 @@ class CSDialog : CSContextController {
     val inputText: String
         get() {
             val text = materialDialog?.getInputField()?.text
-            val name = text as? CSName
+            val name = text as? CSName  //TODO fix this
             return name?.name ?: text?.toString() ?: ""
         }
 

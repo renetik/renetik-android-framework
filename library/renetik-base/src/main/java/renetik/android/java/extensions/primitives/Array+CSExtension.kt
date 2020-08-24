@@ -10,7 +10,7 @@ object ArrayCSExtension {
 fun <T> Array<out T>.asStrings() = list<String>().apply {
     for (index in indices) {
         val t = this@asStrings[index]
-        val name = t as? CSName
+        val name = t as? CSName  //TODO fix this
         add(name?.name ?: t?.toString() ?: "")
     }
 }.toTypedArray()
