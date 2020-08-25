@@ -8,6 +8,14 @@ import renetik.android.base.CSView
 
 fun ViewGroup.add(view: CSView<*>) = add(view.view)
 
+fun <ViewType : View, Controller : CSView<ViewType>> ViewGroup.add(
+    controller: Controller, layout: ViewGroup.LayoutParams,
+    init: ((ViewType).() -> Unit)? = null
+): Controller {
+    add(controller.view, layout, init)
+    return controller
+}
+
 val ViewGroup.lastChild: View?
     get() = if (childCount > 0) getChildAt(childCount - 1) else null
 

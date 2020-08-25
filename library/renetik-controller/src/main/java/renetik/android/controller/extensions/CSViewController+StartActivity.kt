@@ -7,7 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.extensions.later
-import renetik.android.java.extensions.primitives.randomIntInRange
+import renetik.android.java.extensions.primitives.IntCSExtension.randomIntInRange
 import renetik.android.logging.CSLog
 
 fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
@@ -48,7 +48,8 @@ fun CSViewController<*>.switchActivity(intent: Intent) {
     startActivity(intent)
 }
 
-fun CSViewController<*>.switchActivity(activityClass: Class<out AppCompatActivity>, resultCode: Int) {
+fun CSViewController<*>.switchActivity(activityClass: Class<out AppCompatActivity>,
+                                       resultCode: Int) {
     activity().setResult(resultCode)
     switchActivity(Intent(activity(), activityClass))
 }
@@ -95,8 +96,9 @@ private fun CSViewController<*>.showInMarket(packageName: String?) {
     startActivity(intent)
 }
 
-fun <T : CSViewController<*>> T.startActivityForUri(uri: Uri, onActivityNotFound: ((ActivityNotFoundException) -> Unit)?) =
-        startActivityForUriAndType(uri, null, onActivityNotFound)
+fun <T : CSViewController<*>> T.startActivityForUri(uri: Uri,
+                                                    onActivityNotFound: ((ActivityNotFoundException) -> Unit)?) =
+    startActivityForUriAndType(uri, null, onActivityNotFound)
 
 fun <T : CSViewController<*>> T.startActivityForUriAndType(uri: Uri, type: String?,
                                                            onActivityNotFound: ((ActivityNotFoundException) -> Unit)?) {

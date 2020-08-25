@@ -2,6 +2,8 @@ package renetik.android.java.event
 
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.base.CSValueStoreInterface
+import renetik.android.java.extensions.primitives.isFalse
+import renetik.android.java.extensions.primitives.isTrue
 
 class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = null) {
 
@@ -30,6 +32,12 @@ class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = 
 fun CSEventProperty<Boolean>.toggle() = apply { value = !value }
 fun CSEventProperty<Boolean>.setFalse() = apply { value = false }
 fun CSEventProperty<Boolean>.setTrue() = apply { value = true }
+fun CSEventProperty<Boolean>.onFalse(function: () -> Unit) =
+    onChange { if (it.isFalse) function() }
+
+fun CSEventProperty<Boolean>.onTrue(function: () -> Unit) =
+    onChange { if (it.isTrue) function() }
+
 var CSEventProperty<Boolean>.isTrue
     get() = value
     set(newValue) {

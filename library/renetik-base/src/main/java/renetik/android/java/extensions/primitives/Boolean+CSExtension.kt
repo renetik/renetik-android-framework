@@ -1,5 +1,11 @@
 package renetik.android.java.extensions.primitives
 
+import renetik.android.java.extensions.primitives.IntCSExtension.randomIntInRange
+
+object BooleanCSExtension {
+    fun randomBoolean() = randomIntInRange(0, 1) == 1
+}
+
 fun Boolean.ifIs(function: () -> Unit) {
     if (this) function()
 }
