@@ -55,6 +55,10 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="CSScrollMatch" parent="CSMatch">
+        <item name="android:fillViewport">true</item>
+    </style>
+
     <style name="CSContainer">
         <item name="android:background">?android:attr/colorBackground</item>
         <item name="android:orientation">vertical</item>
@@ -408,8 +412,18 @@
         <item name="android:layout_height">5dp</item>
     </style>
 
-    <style name="CSScrollMatch" parent="CSMatch">
-        <item name="android:fillViewport">true</item>
+    <style name="CSBorderLeft">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:background">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="CSBorderRight">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:background">?attr/colorPrimaryVariant</item>
     </style>
 
 </resources>

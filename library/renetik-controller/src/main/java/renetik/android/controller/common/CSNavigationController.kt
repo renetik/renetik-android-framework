@@ -69,7 +69,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         }
     }
 
-    fun <T : View> pushAsLast(controller: CSViewController<T>): CSViewController<T> {
+    fun <T : View> pushReplaceLast(controller: CSViewController<T>): CSViewController<T> {
         controllers.deleteLast().notNull { lastController ->
             lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
             lastController.showingInContainer(false)
@@ -92,9 +92,9 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         return controller
     }
 
-    fun <T : View> pushAsLast(key: String, controller: CSViewController<T>): CSViewController<T> {
+    fun <T : View> pushReplaceLast(pushKey: String, controller: CSViewController<T>): CSViewController<T> {
         val pushKey = "push_key"
-        controllers.deleteLast { it.getValue(pushKey) == key }
+        controllers.deleteLast { it.getValue(pushKey) == pushKey }
             .notNull { lastController ->
                 lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
                 lastController.showingInContainer(false)
@@ -102,7 +102,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
                 lastController.lifecycleDeInitialize()
                 onViewControllerPop(lastController)
             }
-        controller.setValue(pushKey, key)
+        controller.setValue(pushKey, pushKey)
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
         view.add(controller)
@@ -121,7 +121,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         oldController: CSViewController<T>,
         newController: CSViewController<T>
     ): CSViewController<T> {
-        if (currentController == oldController) return pushAsLast(newController)
+        if (currentController == oldController) return pushReplaceLast(newController)
 
         val indexOfController = controllers.indexOf(oldController)
         if (indexOfController == -1) throw exception("oldController not found in navigation")
