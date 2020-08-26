@@ -92,17 +92,20 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         return controller
     }
 
-    fun <T : View> pushReplaceLast(pushKey: String, controller: CSViewController<T>): CSViewController<T> {
-        val pushKey = "push_key"
-        controllers.deleteLast { it.getValue(pushKey) == pushKey }
-            .notNull { lastController ->
-                lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
+    fun <T : View> pushReplaceLast(pushKey: String,
+                                   controller: CSViewController<T>): CSViewController<T> {
+        val pushKeyId = "push_key"
+        if (controllers.contains { it.getValue(pushKeyId) == pushKey })
+            for (lastController in controllers.reversed()) {
+//                lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
+                controllers.delete(lastController)
                 lastController.showingInContainer(false)
                 view.remove(lastController)
                 lastController.lifecycleDeInitialize()
                 onViewControllerPop(lastController)
+                if (lastController.getValue(pushKeyId) == pushKey) break
             }
-        controller.setValue(pushKey, pushKey)
+        controller.setValue(pushKeyId, pushKey)
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
         view.add(controller)

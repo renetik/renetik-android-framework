@@ -358,13 +358,14 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+    <style name="CSInputTextMatchWrap" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:inputType">textFilter|textMultiLine|textNoSuggestions</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="CSInputEditTextClickable" parent="CSInputEditText">
+    <style name="CSInputTextClickableMatchWrap" parent="CSInputTextMatchWrap">
         <item name="android:inputType">textFilter|textMultiLine|textNoSuggestions</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:focusable">false</item>
