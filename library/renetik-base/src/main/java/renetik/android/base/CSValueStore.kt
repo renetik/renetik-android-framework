@@ -2,6 +2,7 @@ package renetik.android.base
 
 import android.content.Context
 import android.content.SharedPreferences
+import renetik.android.extensions.reload
 import renetik.android.java.common.tryAndWarn
 import renetik.android.java.extensions.primitives.asDouble
 import renetik.android.java.extensions.primitives.asFloat
@@ -37,9 +38,9 @@ interface CSValueStoreInterface {
     fun getString(key: String): String?
 }
 
-class CSValueStore(name: String) : CSContextController(), CSValueStoreInterface {
+class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
-    val preferences: SharedPreferences = getSharedPreferences(name, Context.MODE_PRIVATE)
+    val preferences: SharedPreferences = getSharedPreferences(id, Context.MODE_PRIVATE)
 
     fun clear() = preferences.edit().clear().apply()
 
@@ -84,4 +85,7 @@ class CSValueStore(name: String) : CSContextController(), CSValueStoreInterface 
 
     override fun getString(key: String): String? = tryAndWarn { preferences.getString(key, null) }
 
+    fun clone(id: String) = CSValueStore(id).also { it.preferences.reload(preferences) }
+
+    fun reload(store: CSValueStore) = preferences.reload(store.preferences)
 }

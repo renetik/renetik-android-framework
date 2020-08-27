@@ -106,12 +106,11 @@ object CSEventPropertyFunctions {
     fun <T> property(
         key: String, values: List<T>, default: T,
         onApply: ((value: T) -> Unit)? = null
-    ): CSEventProperty<T> =
-        property(application.store, key, values, default, onApply)
+    ) = property(application.store, key, values, default, onApply)
 
     fun <T> property(
         key: String, values: List<T>, defaultIndex: Int = 0,
         onApply: ((value: T) -> Unit)? = null
-    ): CSEventProperty<T> =
-        property(key, values, values[defaultIndex], onApply)
+    ) = property(application.store, key, values,  values[defaultIndex], onApply)
+
 }
