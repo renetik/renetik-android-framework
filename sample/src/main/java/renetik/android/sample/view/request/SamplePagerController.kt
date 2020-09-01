@@ -38,7 +38,7 @@ class SamplePagerController(val title: String)
                 name.string = nameView.title
                 description.string = descView.title
             }).send("Posting item to server", progress = true)
-                    .onSuccess { pager.current.listController.prependData(it.value) }
+                    .onSuccess { pager.current!!.listController.prependData(it.value) }
         }
     }
 

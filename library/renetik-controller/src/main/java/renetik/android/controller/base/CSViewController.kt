@@ -17,7 +17,6 @@ import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.extensions.afterLayout
 import renetik.android.extensions.service
 import renetik.android.java.common.CSValue
 import renetik.android.java.event.CSEvent.CSEventRegistration
@@ -186,6 +185,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     }
 
     fun lifecycleInitialize() {
+        if (isCreated) return
         parentController?.let {
             if (it.isCreated) onCreate(it.bundle)
             if (it.isStarted) onStart()

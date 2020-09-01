@@ -64,8 +64,10 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
                     updatePageVisibility(index)
             }
             .onSelected { index -> currentIndex = index }
-        updatePageVisibility(0)
-        view.setCurrentItem(0, true)
+        if (controllers.hasItems) {
+            updatePageVisibility(0)
+            view.setCurrentItem(0, true)
+        }
         updateView()
     }
 
@@ -80,11 +82,11 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         currentIndex = newIndex
         for (index in 0 until controllers.size)
             controllers[index].showingInContainer(index == currentIndex)
-        eventOnPageChange.fire(current)
+        eventOnPageChange.fire(current!!)
         hideKeyboard()
     }
 
-    val current get() = controllers.at(currentIndex!!)!!
+    val current get() = currentIndex?.let { controllers.at(it) }
 
     // Bug in pager , animation work just when delayed
     fun setActive(index: Int, animated: Boolean = true) = apply {
