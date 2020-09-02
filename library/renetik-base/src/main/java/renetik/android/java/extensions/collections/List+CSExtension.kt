@@ -25,6 +25,11 @@ fun <T> List<T>.index(item: T): Int? {
     return if (indexOf == -1) null else indexOf
 }
 
+fun <T> List<T>.index(predicate: (T) -> Boolean): Int? {
+    val indexOf = indexOfFirst(predicate)
+    return if (indexOf == -1) null else indexOf
+}
+
 fun <T> List<T>.second() = this[1]
 
 fun <T> List<T>.third() = this[2]

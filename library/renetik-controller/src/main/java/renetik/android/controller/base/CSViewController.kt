@@ -282,6 +282,12 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     protected open fun onHideByInViewController() {}
 
+    /**
+     *  Call to correct behaviour if created outside page viewer and added later so
+     *  onViewVisibilityChanged works correctly
+     */
+    fun willBeShownInPagerContainer() = showingInContainer(false)
+
     fun showingInContainer(isShowing: Boolean) {
         if (showingInContainer == isShowing) return
         showingInContainer = isShowing
