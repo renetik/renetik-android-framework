@@ -2,15 +2,23 @@ package renetik.android.java.event
 
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.base.CSValueStoreInterface
+import renetik.android.base.getValue
+import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
 
-class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = null) {
+interface CSEventPropertyInterface<T> {
+    var value: T
+    fun onChange(value: (T) -> Unit): CSEventRegistration
+}
+
+open class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = null)
+    : CSEventPropertyInterface<T> {
 
     private val eventChange: CSEvent<T> = event()
     var previous: T? = null
 
-    var value: T = value
+    override var value: T = value
         set(value) {
             if (field == value) return
             previous = field
@@ -21,7 +29,7 @@ class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = 
 
     fun value(value: T) = apply { this.value = value }
 
-    fun onChange(value: (T) -> Unit) = eventChange.listener(value)
+    override fun onChange(value: (T) -> Unit) = eventChange.listener(value)
 
     fun apply() = apply {
         onApply?.invoke(value)
@@ -97,9 +105,7 @@ object CSEventPropertyFunctions {
         store: CSValueStoreInterface, key: String, values: List<T>, default: T,
         onApply: ((value: T) -> Unit)? = null
     ): CSEventProperty<T> {
-        val savedValueHashCode = store.getInt(key)
-        val value = values.find { it.hashCode() == savedValueHashCode }
-        return property(value ?: default, onApply)
+        return property(store.getValue(key, values, default), onApply)
             .apply { onChange { store.save(key, it.hashCode()) } }
     }
 
@@ -111,6 +117,6 @@ object CSEventPropertyFunctions {
     fun <T> property(
         key: String, values: List<T>, defaultIndex: Int = 0,
         onApply: ((value: T) -> Unit)? = null
-    ) = property(application.store, key, values,  values[defaultIndex], onApply)
+    ) = property(application.store, key, values, values[defaultIndex], onApply)
 
 }

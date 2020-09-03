@@ -55,6 +55,12 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="CSFill">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
     <style name="CSScrollMatch" parent="CSMatch">
         <item name="android:fillViewport">true</item>
     </style>
@@ -426,5 +432,7 @@
         <item name="android:layout_gravity">end</item>
         <item name="android:background">?attr/colorPrimaryVariant</item>
     </style>
+
+
 
 </resources>

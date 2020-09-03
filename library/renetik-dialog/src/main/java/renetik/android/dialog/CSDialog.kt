@@ -137,8 +137,10 @@ class CSDialog : CSContextController {
     }
 
     fun show(
-        positiveText: String, positiveAction: (CSDialog) -> Unit
-        , negativeText: String, negativeAction: (CSDialog) -> Unit
+        positiveText: String,
+        positiveAction: (CSDialog) -> Unit,
+        negativeText: String,
+        negativeAction: (CSDialog) -> Unit
     ) = apply {
         materialDialog = MaterialDialog(this).show {
             initialize()
@@ -194,7 +196,7 @@ class CSDialog : CSContextController {
         apply {
             materialDialog = MaterialDialog(this).show {
                 initialize()
-                positiveButton(R.string.cs_dialog_ok) { positiveAction(this@CSDialog) }
+                positiveButton(R.string.cs_dialog_ok)
                 if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
                 input(hint = hint, prefill = text, allowEmpty = false) { _, _ ->
                     positiveAction(this@CSDialog)

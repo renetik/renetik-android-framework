@@ -2,6 +2,7 @@ package renetik.android.base
 
 import android.content.Context
 import android.content.SharedPreferences
+import renetik.android.extensions.load
 import renetik.android.extensions.reload
 import renetik.android.java.common.tryAndWarn
 import renetik.android.java.extensions.primitives.asDouble
@@ -87,5 +88,13 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
     fun clone(id: String) = CSValueStore(id).also { it.preferences.reload(preferences) }
 
+    fun load(store: CSValueStore) = preferences.load(store.preferences)
+
     fun reload(store: CSValueStore) = preferences.reload(store.preferences)
+}
+
+fun <T> CSValueStoreInterface.getValue(key: String, values: List<T>, default: T): T {
+    val savedValueHashCode = getInt(key)
+    val value = values.find { it.hashCode() == savedValueHashCode }
+    return value ?: default
 }
