@@ -17,6 +17,7 @@ import renetik.android.sample.view.navigation
 import renetik.android.sample.view.push
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 class SampleMapController(title: String) : CSViewController<View>(navigation, layout(R.layout.sample_map)),
         CSNavigationItem {
@@ -25,7 +26,7 @@ class SampleMapController(title: String) : CSViewController<View>(navigation, la
     private val mapTypeButton = floatingButton(R.id.SampleMap_MapTypeButton).onClick { onMapTypeClick() }
 
     init {
-        textView(R.id.SampleMap_Title).title(title)
+        textView(R.id.SampleMap_Title).text(title)
         CSMapClientController(this, R.id.SampleMap_Map, mapController)
         button(R.id.SampleMap_DrawPathMapButton)
                 .onClick { SampleMapPathController(it.title, mapController).push() }

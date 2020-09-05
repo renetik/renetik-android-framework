@@ -15,6 +15,7 @@ import renetik.android.view.extensions.onChange
 import renetik.android.view.extensions.onTextChange
 import renetik.android.view.extensions.shownIf
 import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 fun <T : Any> TextInputLayout.property(property: CSEventProperty<T?>,
                                        depends: ((CSPropertyConditionList).() -> Unit)? = null) =
@@ -36,7 +37,7 @@ fun TextInputLayout.property(property: CSEventProperty<String?>,
 
 fun <T : Any> TextView.property(property: CSEventProperty<T?>,
                                 depends: ((CSPropertyConditionList).() -> Unit)? = null) = apply {
-    fun updateTitle() = title(property.value.asString())
+    fun updateTitle() = text(property.value.asString())
     navigation.register(property.onChange { updateTitle() })
     updateTitle()
     if (depends != null) depends(property, depends)
@@ -45,7 +46,7 @@ fun <T : Any> TextView.property(property: CSEventProperty<T?>,
 @JvmName("propertyString")
 fun TextView.property(property: CSEventProperty<String?>,
                       depends: ((CSPropertyConditionList).() -> Unit)? = null) = apply {
-    fun updateTitle() = title(property.value.asString())
+    fun updateTitle() = text(property.value.asString())
     val onPropertyChange = navigation.register(property.onChange { updateTitle() })
     onTextChange {
         onPropertyChange?.isActive = false

@@ -18,6 +18,7 @@ import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.editText
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 class SamplePagerController(val title: String)
     : CSViewController<ViewGroup>(navigation, layout(R.layout.sample_pager)) {
@@ -25,7 +26,7 @@ class SamplePagerController(val title: String)
     private val pager = CSPagerController<SamplePageListController>(this, R.id.SamplePager_Pager)
 
     init {
-        textView(R.id.SamplePager_Title).title(title)
+        textView(R.id.SamplePager_Title).text(title)
         floatingButton(R.id.SamplePager_ButtonAdd).onClick { showAddItemDialog() }
         reloadPager()
     }

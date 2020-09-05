@@ -25,23 +25,22 @@ import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.editText
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.text
-import renetik.android.view.extensions.title
 
 class SampleListController(title: String)
     : CSViewController<View>(navigation, layout(R.layout.sample_list)), CSNavigationItem {
 
     private val listController = CSListController<ListItem, ListView>(this, R.id.SampleList_List) {
         CSRowView(this, layout(R.layout.sample_list_item)) { row ->
-            textView(R.id.header).title(row.time)
-            textView(R.id.title).title(row.title)
-            textView(R.id.subtitle).title(row.subtitle)
+            textView(R.id.header).text(row.time)
+            textView(R.id.title).text(row.title)
+            textView(R.id.subtitle).text(row.subtitle)
         }
     }.onItemClick { rowView -> snackBarInfo("SampleListItemView clicked ${rowView.row.title}") }
             .emptyView(R.id.SampleList_ListEmpty)
     private val searchController = CSSearchController(this) { reloadList() }
 
     init {
-        textView(R.id.SampleList_Title).title(title)
+        textView(R.id.SampleList_Title).text(title)
         CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
             toRemove.forEach { item -> model.sampleList.remove(item) }
             model.save()

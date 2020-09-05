@@ -161,8 +161,8 @@ class CSDialog : CSContextController {
             setCanceledOnTouchOutside(false)
             window?.setBackgroundDrawableResource(R.color.cs_transparent)
             setContentView(inflate<View>(R.layout.progress).apply {
-                textView(R.id.progress_title).title(title ?: "")
-                button(R.id.progress_button_cancel).title(cancelTitle).onClick {
+                textView(R.id.progress_title).text(title ?: "")
+                button(R.id.progress_button_cancel).text(cancelTitle).onClick {
                     this@CSDialog.hide()
                     onCancel?.invoke(this@CSDialog)
                 }.shownIf(cancelable)

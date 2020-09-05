@@ -14,7 +14,7 @@ import renetik.android.java.extensions.collections.index
 import renetik.android.view.extensions.circulate
 import renetik.android.view.extensions.disableTextEditing
 import renetik.android.view.extensions.loadData
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_item_picker,
                                            title: CharSequence, val data: List<Row>,
@@ -39,7 +39,7 @@ class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_
     val picker = numberPicker(R.id.CS_ItemPicker_NumberPicker)
 
     init {
-        textView(R.id.CS_ItemPicker_TitleTextView).title(title)
+        textView(R.id.CS_ItemPicker_TitleTextView).text(title)
         picker.loadData(data, selectedIndex).circulate(false).disableTextEditing(true)
     }
 

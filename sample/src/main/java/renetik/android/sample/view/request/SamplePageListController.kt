@@ -22,7 +22,7 @@ import renetik.android.sample.model.ServerListItem
 import renetik.android.sample.model.model
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.textView
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 class SamplePageListController(parent: CSViewController<ViewGroup>, title: String)
     : CSViewController<View>(parent, layout(R.layout.sample_page_list)), CSPagerPage {
@@ -60,8 +60,8 @@ class SamplePageListController(parent: CSViewController<ViewGroup>, title: Strin
 
     private fun View.loadPageListItem(row: ServerListItem) = apply {
         imageView(R.id.SamplePageListItem_Image).image(row.image)
-        textView(R.id.SamplePageListItem_Title).title(row.name)
-        textView(R.id.SamplePageListItem_Subtitle).title(row.description)
+        textView(R.id.SamplePageListItem_Title).text(row.name)
+        textView(R.id.SamplePageListItem_Subtitle).text(row.description)
     }
 
     override val pagerPageTitle = title
