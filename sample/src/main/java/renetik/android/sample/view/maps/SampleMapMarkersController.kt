@@ -16,7 +16,7 @@ import renetik.android.sample.R
 import renetik.android.sample.model.MapMarker
 import renetik.android.sample.model.model
 import renetik.android.sample.view.navigation
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 @SuppressLint("MissingPermission")
 class SampleMapMarkersController(title: String, mapController: CSMapController) :
@@ -25,7 +25,7 @@ class SampleMapMarkersController(title: String, mapController: CSMapController) 
     private val mapClient = CSMapClientController(this, R.id.SampleMap_Map, mapController)
 
     init {
-        textView(R.id.SampleMap_Title).title(title)
+        textView(R.id.SampleMap_Title).text(title)
         mapClient.onMapShowing { map ->
             map.isMyLocationEnabled = true
             locationClient().location { mapController.camera(it) }

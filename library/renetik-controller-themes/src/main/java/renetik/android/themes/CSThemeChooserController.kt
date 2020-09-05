@@ -16,14 +16,14 @@ import renetik.android.themes.CSThemes.Companion.applyTheme
 import renetik.android.themes.CSThemes.Companion.availableThemes
 import renetik.android.themes.CSThemes.Companion.currentTheme
 import renetik.android.themes.CSThemes.Companion.currentThemeIndex
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 class CSThemeChooserController(val navigation: CSNavigationController,
                                title: String = "Theme Chooser")
     : CSViewController<View>(navigation, layout(R.layout.theme_chooser)), CSNavigationItem {
 
     init {
-        textView(R.id.ThemeSwitcher_Title).title(currentTheme.title)
+        textView(R.id.ThemeSwitcher_Title).text(currentTheme.title)
         CSListController<CSTheme, GridView>(this, R.id.ThemeSwitcher_Grid) {
             CSRowView(this, layout(R.layout.theme_switcher_item), onLoadSwitchItem)
         }.onItemClick(R.id.ThemeSwitcherItem_Button) { row ->
@@ -48,7 +48,7 @@ class CSThemeChooserController(val navigation: CSNavigationController,
         view(R.id.ThemeSwitcherItem_ColorOnSecondary)
             .setBackgroundColor(attributes.getColor(R.styleable.Theme_colorOnSecondary, 0))
         attributes.recycle()
-        textView(R.id.ThemeSwitcherItem_Title).title(theme.title)
+        textView(R.id.ThemeSwitcherItem_Title).text(theme.title)
     }
 
     override val navigationItemTitle = title

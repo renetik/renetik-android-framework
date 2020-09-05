@@ -21,7 +21,7 @@ import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.image
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 class SampleGetPictureController(title: String)
     : CSViewController<View>(navigation, layout(R.layout.sample_getpicture)), CSNavigationItem {
@@ -42,7 +42,7 @@ class SampleGetPictureController(title: String)
     }
 
     init {
-        textView(R.id.SampleGetPicture_Title).title(title)
+        textView(R.id.SampleGetPicture_Title).text(title)
         CSRemoveListRowsController(grid, "Remove selected items ?") { toRemove ->
             toRemove.forEach { item -> model.getPictureList.remove(item) }
             model.save()

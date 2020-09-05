@@ -12,7 +12,7 @@ import renetik.android.extensions.textView
 import renetik.android.sample.R
 import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.onChecked
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 class SampleDynamicMenuController(title: String)
     : CSViewController<View>(navigation, layout(R.layout.sample_dynamic_menu)),
@@ -21,7 +21,7 @@ class SampleDynamicMenuController(title: String)
     private val addMenuItem: CSMenuItem = menuItem("").alwaysAsAction()
 
     init {
-        textView(R.id.SampleDynamicMenu_Title).title(title)
+        textView(R.id.SampleDynamicMenu_Title).text(title)
         checkBox(R.id.SampleDynamicMenu_AddMenuItemVisible)
                 .onChecked { addMenuItem.visible(it.isChecked) }.isChecked = addMenuItem.isVisible
         updateAddMenuItemTitle()

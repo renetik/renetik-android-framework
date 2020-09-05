@@ -23,7 +23,7 @@ import renetik.android.sample.R
 import renetik.android.sample.model.MapPosition
 import renetik.android.sample.model.model
 import renetik.android.sample.view.navigation
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 @SuppressLint("MissingPermission")
 class SampleMapPathController(title: String, private val mapController: CSMapController)
@@ -53,7 +53,7 @@ class SampleMapPathController(title: String, private val mapController: CSMapCon
     }
 
     init {
-        textView(R.id.SampleMap_Title).title(title)
+        textView(R.id.SampleMap_Title).text(title)
         mapClient.onMapShowing { map ->
             map.isMyLocationEnabled = true
             map.addPolyline(lineOptions.apply { model.mapRoute.forEach { add(it.latLng) } })

@@ -14,7 +14,7 @@ import renetik.android.extensions.scrollView
 import renetik.android.extensions.textView
 import renetik.android.material.extensions.floatingButton
 import renetik.android.view.extensions.onClick
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.text
 
 const val sendLogMailKey = "send_log_mail"
 
@@ -31,12 +31,12 @@ class CSLogDisplayController(val navigation: CSNavigationController, val title: 
 
     override fun onCreate() {
         super.onCreate()
-        textView(R.id.CSLog_Title).title(title)
+        textView(R.id.CSLog_Title).text(title)
         floatingButton(R.id.CSLog_Reload).onClick { loadText() }
         loadText()
     }
 
-    private fun loadText() = logText.title(application.logger.logString())
+    private fun loadText() = logText.text(application.logger.logString())
 
     private fun onSendLogClick() {
         dialog("Send application log", "Enter target email")
@@ -44,7 +44,7 @@ class CSLogDisplayController(val navigation: CSNavigationController, val title: 
                     application.store.save(sendLogMailKey, dialog.inputText)
                     sendMail(dialog.inputText, application.name +
                             " This is log from application sent as email attachment for application developer"
-                            , logText.title())
+                            , logText.text())
                 }
     }
 }
