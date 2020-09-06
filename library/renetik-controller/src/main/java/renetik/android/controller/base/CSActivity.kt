@@ -8,9 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.android.java.common.CSValue
+import renetik.android.java.common.CSProperty
 import renetik.android.java.common.tryAndIgnore
-import renetik.android.java.common.tryAndWarn
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
 
@@ -28,7 +27,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override val onPause = event<Unit>()
     override val onStop = event<Unit>()
     override val onDestroy = event<Unit>()
-    override val onBack = event<CSValue<Boolean>>()
+    override val onBack = event<CSProperty<Boolean>>()
     override val onConfigurationChanged = event<Configuration>()
     override val onOrientationChanged = event<Configuration>()
     override val onLowMemory = event<Unit>()
@@ -116,7 +115,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     }
 
     override fun onBackPressed() {
-        val goBack = CSValue(true)
+        val goBack = CSProperty(true)
         onBack.fire(goBack)
         if (goBack.value) super.onBackPressed()
     }

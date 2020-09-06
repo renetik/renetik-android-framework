@@ -18,7 +18,7 @@ import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.extensions.service
-import renetik.android.java.common.CSValue
+import renetik.android.java.common.CSProperty
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.CSEventRegistrations
 import renetik.android.java.event.event
@@ -43,7 +43,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     override val onPause = event<Unit>()
     override val onStop = event<Unit>()
     override val onDestroy = event<Unit>()
-    override val onBack = event<CSValue<Boolean>>()
+    override val onBack = event<CSProperty<Boolean>>()
     override val onConfigurationChanged = event<Configuration>()
     override val onOrientationChanged = event<Configuration>()
     override val onLowMemory = event<Unit>()
@@ -232,7 +232,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     protected open fun onLowMemory() = onLowMemory.fire()
 
-    protected open fun onBack(goBack: CSValue<Boolean>) {
+    protected open fun onBack(goBack: CSProperty<Boolean>) {
         onBack.fire(goBack)
         if (goBack.value && isShowing) {
             hideKeyboard()

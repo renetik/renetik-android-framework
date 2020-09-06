@@ -60,13 +60,13 @@ fun TextView.property(property: CSEventProperty<String?>,
 fun <T> RadioGroup.property(property: CSEventProperty<T?>, mapOf: Map<Int, T>) =
     onChange { property.value = mapOf[it] }
 
-fun View.shownIfValueSet(property: CSEventProperty<*>) = apply {
+fun View.shownIfPropertySet(property: CSEventProperty<*>) = apply {
     fun updateVisibility() = shownIf(property.value.isSet)
     navigation.register(property.onChange { updateVisibility() })
     updateVisibility()
 }
 
-fun <T> View.shownIfValueEquals(property: CSEventProperty<T?>, value: T) = apply {
+fun <T> View.shownIfProperty(property: CSEventProperty<T?>, value: T) = apply {
     fun updateVisibility() = shownIf(property.value == value)
     navigation.register(property.onChange { shownIf(property.value == value) })
     updateVisibility()

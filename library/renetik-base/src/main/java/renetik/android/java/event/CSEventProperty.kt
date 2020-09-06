@@ -3,19 +3,20 @@ package renetik.android.java.event
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.base.CSValueStoreInterface
 import renetik.android.base.getValue
+import renetik.android.java.common.CSProperty
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
 
-interface CSEventPropertyInterface<T> {
-    var value: T
+interface CSEventPropertyInterface<T> : CSProperty<T> {
     fun onChange(value: (T) -> Unit): CSEventRegistration
 }
 
-open class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = null)
-    : CSEventPropertyInterface<T> {
+open class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = null) :
+    CSEventPropertyInterface<T> {
 
     private val eventChange: CSEvent<T> = event()
+
     var previous: T? = null
 
     override var value: T = value

@@ -1,8 +1,8 @@
 package renetik.android.controller.base
 
 import android.view.KeyEvent
-import renetik.android.java.common.CSValue
+import renetik.android.java.common.CSProperty
 
 class CSOnKeyDownResult(val keyCode: Int, val event: KeyEvent) {
-    val returnValue = CSValue(false)
+    val returnValue = CSProperty(false)
 }

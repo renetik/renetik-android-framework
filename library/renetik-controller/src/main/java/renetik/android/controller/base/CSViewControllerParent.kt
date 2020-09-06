@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.java.common.CSValue
+import renetik.android.java.common.CSProperty
 import renetik.android.java.event.CSEvent
 
 interface CSViewControllerParent {
@@ -17,7 +17,7 @@ interface CSViewControllerParent {
     val onPause: CSEvent<Unit>
     val onStop: CSEvent<Unit>
     val onDestroy: CSEvent<Unit>
-    val onBack: CSEvent<CSValue<Boolean>>
+    val onBack: CSEvent<CSProperty<Boolean>>
     val onConfigurationChanged: CSEvent<Configuration>
     val onOrientationChanged: CSEvent<Configuration>
     val onLowMemory: CSEvent<Unit>

@@ -1,7 +1,7 @@
 package renetik.android.java.extensions
 
 import renetik.android.java.common.CSSizeInterface
-import renetik.android.java.common.CSValue
+import renetik.android.java.common.CSProperty
 import kotlin.math.roundToInt
 
 //TODO: size define as float so double and float don't get rounded ? or make size private and use just for isEmpty isSet
@@ -14,7 +14,7 @@ val Any?.size: Int
         this is CharSequence -> this.length
         this is Collection<*> -> this.size
         this is Map<*, *> -> this.size
-        this is CSValue<*> -> this.value.size
+        this is CSProperty<*> -> this.value.size
         this is CSSizeInterface -> this.size
         this is Array<*> -> this.size
         this is IntArray -> this.size
