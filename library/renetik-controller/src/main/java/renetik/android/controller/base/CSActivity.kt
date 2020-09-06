@@ -46,7 +46,6 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
 
     abstract fun createController(): CSViewController<*>
 
-
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         configuration.updateFrom(resources.configuration)
