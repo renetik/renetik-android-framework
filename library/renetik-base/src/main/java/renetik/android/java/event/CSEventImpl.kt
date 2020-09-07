@@ -48,6 +48,7 @@ class CSEventImpl<T> : CSEvent<T> {
 
         override fun cancel() {
             if (canceled) return
+            isActive = false
             val index = registrations.indexOf(this)
             if (index >= 0) {
                 if (running) toRemove.add(this)
