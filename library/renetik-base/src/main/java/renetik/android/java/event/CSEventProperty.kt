@@ -5,6 +5,7 @@ import renetik.android.base.CSValueStoreInterface
 import renetik.android.base.getValue
 import renetik.android.java.common.CSProperty
 import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
 
@@ -56,6 +57,12 @@ var CSEventProperty<Boolean>.isFalse
     get() = !value
     set(newValue) {
         value = !newValue
+    }
+
+var CSEventProperty<String?>.string
+    get() = value.asString()
+    set(newValue) {
+        value = newValue
     }
 
 object CSEventPropertyFunctions {

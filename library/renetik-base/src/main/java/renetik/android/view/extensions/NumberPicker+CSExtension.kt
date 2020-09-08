@@ -3,11 +3,10 @@ package renetik.android.view.extensions
 import android.widget.NumberPicker
 import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
-import renetik.android.java.common.CSName
-import renetik.android.java.common.asStringArray
+import renetik.android.java.extensions.asStringArray
 import renetik.android.java.extensions.primitives.count
 
-fun <Row : CSName> NumberPicker.loadData(data: List<Row>, selectedIndex: Int) = apply {
+fun <Row : Any> NumberPicker.loadData(data: List<Row>, selectedIndex: Int) = apply {
     minValue = 1
     displayedValues = data.asStringArray
     maxValue = displayedValues.count

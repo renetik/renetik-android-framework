@@ -3,6 +3,7 @@ package renetik.android.json
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
+import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.collections.linkedMap
 import renetik.android.java.extensions.collections.list
 
@@ -21,25 +22,26 @@ fun Any.toJsonString(formatted: Boolean = false): String {
     return java.lang.String.valueOf(jsonType)
 }
 
-private fun Any?.toJsonType(): Any {
+@Suppress("UNCHECKED_CAST")
+private fun Any?.toJsonType(): Any? {
     if (this is Number || this is String || this is Boolean) return this
-    if (this is Map<*, *>) return toJSONObject()
-    if (this is List<*>) return toJSONArray()
-    if (this is CSJsonMap) return asJsonMap().toJSONObject()
-    if (this is CSJsonList) return asJsonList().toJSONArray()
-    return java.lang.String.valueOf(this)
+    return (this as? Map<String, *>)?.toJSONObject()
+        ?: (this as? List<*>)?.toJSONArray()
+        ?: (this as? CSJsonMap)?.asJsonMap()?.toJSONObject()
+        ?: (this as? CSJsonList)?.asJsonList()?.toJSONArray()
+        ?: this?.asString()
 }
 
-private fun List<*>.toJSONArray(): JSONArray {
+fun List<*>.toJSONArray(): JSONArray {
     val jsonArray = JSONArray()
     for (entry in this) jsonArray.put(entry!!.toJsonType())
     return jsonArray
 }
 
-fun Map<*, *>.toJSONObject(): JSONObject {
+fun Map<String, *>.toJSONObject(): JSONObject {
     val jsonObject = JSONObject()
     for (entry in entries)
-        jsonObject.put(entry.key.toString(), entry.value!!.toJsonType())
+        jsonObject.put(entry.key, entry.value!!.toJsonType())
     return jsonObject
 }
 

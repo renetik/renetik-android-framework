@@ -12,16 +12,22 @@ import renetik.android.java.extensions.primitives.isFalse
 import renetik.android.java.extensions.primitives.isTrue
 import renetik.android.json.data.CSJsonData
 import renetik.android.json.data.toJsonObject
+import renetik.android.json.toJSONArray
+import renetik.android.json.toJSONObject
+import renetik.android.json.toJsonString
 import renetik.android.logging.CSLog
+import renetik.android.logging.CSLog.logInfo
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-fun <ServerDataType : CSServerData> CSOkHttpClient.upload(service: String,
-                                                          file: File,
-                                                          data: ServerDataType) =
+fun <ServerDataType : CSServerData> CSOkHttpClient.upload(
+    service: String,
+    file: File,
+    data: ServerDataType
+) =
     CSProcess("$url/$service", data).also { process ->
         val request = AndroidNetworking.upload(process.url).addMultipartFile("file", file).build()
-        CSLog.logInfo("upload ${request.url} $file")
+        logInfo("upload ${request.url} $file")
         request.setUploadProgressListener { uploaded, total ->
             process.progress = total / uploaded
         }.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
@@ -47,12 +53,13 @@ fun <ServerDataType : CSServerData> CSOkHttpClient.get(
     }
     if (operation?.isRefresh.isTrue) builder.responseOnlyFromNetwork
     else if (!application.isNetworkConnected && operation?.isCached.isTrue
-        || operation?.isJustUseCache.isTrue) {
+        || operation?.isJustUseCache.isTrue
+    ) {
         builder.responseOnlyIfCached
     }
 
     builder.build().apply {
-        CSLog.logInfo("get $url")
+        logInfo("get $url")
         getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
     }
 }
@@ -64,7 +71,29 @@ fun <ResponseData : CSServerData> CSOkHttpClient.post(
     service: String, responseData: ResponseData, params: Map<String, String>
 ) = CSProcess("$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addBodyParameter(params).build()
-    CSLog.logInfo("post ${request.url}")
+    logInfo("post ${request.url}")
+    request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
+}
+
+fun CSOkHttpClient.postJson(service: String, data: Map<String, *>) =
+    postJson(service, CSServerData(), data)
+
+fun <ResponseData : CSServerData> CSOkHttpClient.postJson(
+    service: String, responseData: ResponseData, data: Map<String, *>
+) = CSProcess("$url/$service", responseData).also { process ->
+    val request = AndroidNetworking.post(process.url).addJSONObjectBody(data.toJSONObject()).build()
+    logInfo("post:${request.url} json:${data.toJsonString(true)}")
+    request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
+}
+
+fun CSOkHttpClient.postJson(service: String, data: List<*>) =
+    postJson(service, CSServerData(), data)
+
+fun <ResponseData : CSServerData> CSOkHttpClient.postJson(
+    service: String, responseData: ResponseData, data: List<*>
+) = CSProcess("$url/$service", responseData).also { process ->
+    val request = AndroidNetworking.post(process.url).addJSONArrayBody(data.toJSONArray()).build()
+    logInfo("post:${request.url} json:${data.toJsonString(true)}")
     request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
 
@@ -74,6 +103,6 @@ fun <ResponseData : CSServerData> CSOkHttpClient.post(
     url: String, data: CSJsonData, responseData: ResponseData
 ) = CSProcess("${this.url}/$url", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONObjectBody(data.toJsonObject()).build()
-    CSLog.logInfo("post ${request.url}")
+    logInfo("post ${request.url}")
     request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }

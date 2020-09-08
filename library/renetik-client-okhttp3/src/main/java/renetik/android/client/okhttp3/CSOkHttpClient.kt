@@ -1,10 +1,8 @@
 package renetik.android.client.okhttp3
 
 import com.androidnetworking.AndroidNetworking.initialize
-import okhttp3.Cache
+import okhttp3.*
 import okhttp3.Credentials.basic
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.java.common.CSDataConstants.MB
@@ -21,6 +19,17 @@ class CSOkHttpClient(val url: String) {
     var hostNameVerifier: HostnameVerifier? = null
     var sslSocketFactory: SSLSocketFactory? = null
     private var timeouts: Timeouts? = null
+    var cookieJar: CookieJar = object : CookieJar {
+        private val cookieStore: HashMap<String, List<Cookie>> = HashMap()
+        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+            cookieStore[url.host()] = cookies
+        }
+
+        override fun loadForRequest(url: HttpUrl): List<Cookie>? {
+            val cookies: List<Cookie>? = cookieStore[url.host()]
+            return cookies ?: ArrayList()
+        }
+    }
 
     fun timeouts(connection: Long, read: Long, write: Long) = apply {
         timeouts = Timeouts(connection, read, write)
@@ -42,6 +51,7 @@ class CSOkHttpClient(val url: String) {
 
     val client: OkHttpClient by lazy {
         val builder = Builder().cache(Cache(File(application.cacheDir, "ResponseCache"), 10L * MB))
+        builder.cookieJar(cookieJar)
         timeouts?.let {
             builder.connectTimeout(it.connection, SECONDS)
                 .readTimeout(it.read, SECONDS).writeTimeout(it.write, SECONDS)
