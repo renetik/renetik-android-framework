@@ -10,6 +10,7 @@ import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.java.common.CSProperty
 import renetik.android.java.common.tryAndIgnore
+import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
 
@@ -114,7 +115,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     }
 
     override fun onBackPressed() {
-        val goBack = CSProperty(true)
+        val goBack = property(true)
         onBack.fire(goBack)
         if (goBack.value) super.onBackPressed()
     }

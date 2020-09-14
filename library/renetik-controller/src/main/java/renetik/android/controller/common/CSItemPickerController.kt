@@ -8,7 +8,7 @@ import renetik.android.controller.base.CSDialogController
 import renetik.android.extensions.numberPicker
 import renetik.android.extensions.textView
 import renetik.android.java.event.CSEventProperty
-import renetik.android.java.event.listener
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.index
 import renetik.android.view.extensions.circulate
 import renetik.android.view.extensions.disableTextEditing
@@ -43,7 +43,7 @@ class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_ite
     }
 
     override fun show() = apply {
-        eventOnDismiss.listener { onSelected(data[picker.value - 1]) }
+        eventOnDismiss.listen { onSelected(data[picker.value - 1]) }
         super.show()
     }
 

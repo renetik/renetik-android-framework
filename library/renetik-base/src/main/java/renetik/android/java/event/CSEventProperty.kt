@@ -18,9 +18,7 @@ open class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit
 
     private val eventChange: CSEvent<T> = event()
 
-    var previous: T? = null
-
-    var _value: T = value
+    private var _value: T = value
 
     override var value: T
         get() = _value
@@ -30,7 +28,6 @@ open class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit
 
     fun value(newValue: T, fireEvents: Boolean = true) = apply {
         if (_value == newValue) return this
-        previous = _value
         _value = newValue
         if (fireEvents) {
             onApply?.invoke(newValue)
@@ -38,7 +35,7 @@ open class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit
         }
     }
 
-    override fun onChange(value: (T) -> Unit) = eventChange.listener(value)
+    override fun onChange(value: (T) -> Unit) = eventChange.listen(value)
 
     fun apply() = apply {
         onApply?.invoke(value)

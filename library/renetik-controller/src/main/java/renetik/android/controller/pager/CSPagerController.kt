@@ -6,7 +6,7 @@ import android.widget.Scroller
 import androidx.viewpager.widget.ViewPager
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.event.event
-import renetik.android.java.event.listener
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.isEmpty
 import renetik.android.java.extensions.later
@@ -18,7 +18,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         where PageType : CSViewController<*>, PageType : CSPagerPage {
 
     val eventOnPageChange = event<PageType>()
-    fun onPageChange(function: (PageType) -> Unit) = eventOnPageChange.listener(function)
+    fun onPageChange(function: (PageType) -> Unit) = eventOnPageChange.listen(function)
 
     val pageCount: Int get() = controllers.size
 

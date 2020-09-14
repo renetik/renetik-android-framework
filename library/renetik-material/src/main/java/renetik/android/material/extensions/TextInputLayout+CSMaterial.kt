@@ -2,6 +2,7 @@ package renetik.android.material.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.InputFilter
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -15,7 +16,7 @@ import renetik.android.R
 import renetik.android.base.CSView
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
-import renetik.android.java.event.listener
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.privateField
 import renetik.android.view.extensions.*
 
@@ -80,7 +81,7 @@ val <T : TextInputLayout> T.eventClear
     get() = propertyWithTag(R.id.EditTextEventOnClearTagKey) { event<Unit>() }
 
 fun <T : TextInputLayout> T.onClear(listener: () -> Unit): T = apply {
-    eventClear.listener(listener)
+    eventClear.listen(listener)
 }
 
 @SuppressLint("PrivateResource")
@@ -99,6 +100,10 @@ fun <T : TextInputLayout> T.updateClearIcon() {
     isEndIconVisible = title.isNotEmpty()
 }
 
+fun <T : TextInputLayout> T.filters(vararg filters: InputFilter) = apply {
+    editText!!.filters = filters
+}
+
 fun <T : TextInputLayout> T.clearError() = apply {
     error = null
     isErrorEnabled = false
@@ -109,6 +114,9 @@ val TextInputLayout.isError get() = error != null && isErrorEnabled
 fun TextInputLayout.onChangeClearError() = apply {
     onTextChange { if (isError) clearError() }
 }
+
+fun TextInputLayout.text() = editText!!.text()
+fun TextInputLayout.text(value: String) = editText!!.text(value)
 
 var <T : TextInputLayout> T.title: String
     get() = editText!!.title

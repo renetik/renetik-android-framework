@@ -7,7 +7,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import renetik.android.BuildConfig.DEBUG
-import renetik.android.json.data.CSJsonData
+import renetik.android.json.data.CSJsonMap
 import renetik.android.json.data.properties.CSJsonString
 import renetik.android.json.parseJson
 import renetik.android.json.toJsonString
@@ -39,7 +39,7 @@ class CSJsonLocationTest {
     }
 }
 
-class HouseJsonDataTest : CSJsonData() {
+class HouseJsonDataTest : CSJsonMap() {
     val title = CSJsonString(this, "title")
     val location = CSJsonLocation(this, "location")
 }

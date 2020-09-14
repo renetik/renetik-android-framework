@@ -5,8 +5,10 @@ import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.dialog.extensions.dialog
 import renetik.android.framework.R
 
-fun <Data : Any> CSOperation<Data>.send(title: String, progress: Boolean) =
-    if (progress) sendWithProgress(title) else sendWithFailedDialog(title)
+fun <Data : Any> CSOperation<Data>.send(title: String,
+                                        progress: Boolean = true,
+                                        onSuccess: ((Data) -> Unit)? = null) =
+    if (progress) sendWithProgress(title, onSuccess) else sendWithFailedDialog(title, onSuccess)
 
 fun <Data : Any> CSOperation<Data>.sendWithProgress(title: String,
                                                     onSuccess: ((Data) -> Unit)? = null)
@@ -27,13 +29,17 @@ fun <Data : Any> CSOperation<Data>.sendWithProgress(title: String,
     onSuccess?.let { this.onSuccess(it) }
 }
 
-fun <Data : Any> CSOperation<Data>.sendWithFailedDialog(title: String): CSOperation<Data> = apply {
-    send().onFailed {
-        navigation.dialog(title, getString(R.string.renetik_android_framework_send_request_failed))
-            .show(
-                getString(R.string.renetik_android_framework_send_request_retry),
-                { sendWithFailedDialog(title) },
-                getString(R.string.renetik_android_framework_send_request_cancel),
-                { cancel() })
+fun <Data : Any> CSOperation<Data>.sendWithFailedDialog(
+    title: String, onSuccess: ((Data) -> Unit)? = null): CSOperation<Data> =
+    apply {
+        onSuccess?.let { this.onSuccess(it) }
+        send().onFailed {
+            navigation.dialog(title,
+                getString(R.string.renetik_android_framework_send_request_failed))
+                .show(
+                    getString(R.string.renetik_android_framework_send_request_retry),
+                    { sendWithFailedDialog(title) },
+                    getString(R.string.renetik_android_framework_send_request_cancel),
+                    { cancel() })
+        }
     }
-}

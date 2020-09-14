@@ -7,6 +7,10 @@ import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.collections.linkedMap
 import renetik.android.java.extensions.collections.list
 
+fun String.parseJsonMap() = parseJson<MutableMap<String, Any?>>()
+
+fun String.parseJsonList() = parseJson<MutableList<Any?>>()
+
 fun <Type> String.parseJson(): Type? {
     val value = JSONTokener(this).nextValue()
     @Suppress("UNCHECKED_CAST")
@@ -27,8 +31,8 @@ private fun Any?.toJsonType(): Any? {
     if (this is Number || this is String || this is Boolean) return this
     return (this as? Map<String, *>)?.toJSONObject()
         ?: (this as? List<*>)?.toJSONArray()
-        ?: (this as? CSJsonMap)?.asJsonMap()?.toJSONObject()
-        ?: (this as? CSJsonList)?.asJsonList()?.toJSONArray()
+        ?: (this as? CSJsonMapInterface)?.asStringMap()?.toJSONObject()
+        ?: (this as? CSJsonListInterface)?.asList()?.toJSONArray()
         ?: this?.asString()
 }
 
@@ -64,10 +68,10 @@ private fun JSONObject.createMapObject(): Map<String, Any?> {
     return map
 }
 
-interface CSJsonMap {
-    fun asJsonMap(): Map<String, *>
+interface CSJsonMapInterface {
+    fun asStringMap(): Map<String, *>
 }
 
-interface CSJsonList {
-    fun asJsonList(): List<*>
+interface CSJsonListInterface {
+    fun asList(): List<*>
 }

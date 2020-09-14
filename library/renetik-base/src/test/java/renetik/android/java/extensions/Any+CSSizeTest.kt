@@ -3,7 +3,7 @@ package renetik.android.java.extensions
 import org.junit.Assert.*
 import org.junit.Test
 import renetik.android.java.common.CSSizeInterface
-import renetik.android.java.common.CSProperty
+import renetik.android.java.common.property
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.map
 
@@ -18,7 +18,7 @@ class AnyCSSizeTest {
         assertEquals(4, "test".size)
         assertEquals(2, (mapOf("a" to 1, "b" to 2) as Any).size)
         assertEquals(3, (list("a", "b", "c") as Any).size)
-        assertEquals(10, CSProperty(10.00f).size)
+        assertEquals(10, property(10.00f).size)
         assertEquals(10, (CSSizeInterfaceTest("testString") as Any).size)
         assertEquals(3, (arrayOf("s", "S", 2) as Any).size)
         assertEquals(5, (intArrayOf(2, 3, 45, 5, 6) as Any).size)
@@ -34,7 +34,7 @@ class AnyCSSizeTest {
         assertTrue("".isEmpty)
         assertTrue(emptyMap<String, String>().isEmpty)
         assertTrue(list<String>().isEmpty)
-        assertTrue(CSProperty(0.00f).isEmpty)
+        assertTrue(property(0.00f).isEmpty)
         assertTrue(CSSizeInterfaceTest("").isEmpty)
         assertTrue(arrayOf<String>().isEmpty)
         assertTrue(intArrayOf().isEmpty)
@@ -46,7 +46,7 @@ class AnyCSSizeTest {
         assertFalse("sss".isEmpty)
         assertFalse(mapOf("a" to 1, "b" to 2).isEmpty)
         assertFalse(list("a", "b", "c").isEmpty)
-        assertFalse(CSProperty(10.00f).isEmpty)
+        assertFalse(property(10.00f).isEmpty)
         assertFalse(CSSizeInterfaceTest("testString").isEmpty)
         assertFalse(arrayOf("s", "S", 2).isEmpty)
         assertFalse(intArrayOf(2, 3, 45, 5, 6).isEmpty)

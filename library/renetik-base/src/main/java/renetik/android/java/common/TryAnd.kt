@@ -2,74 +2,68 @@ package renetik.android.java.common
 
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logWarn
-import kotlin.reflect.KClass
 
-fun <ReturnType, ExceptionType : Throwable> tryOrNull(
-    type: KClass<ExceptionType>, function: () -> ReturnType
-): ReturnType? {
+inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturn(
+    tryFunction: () -> ReturnType, onExceptionReturn: (ExceptionType) -> ReturnType
+): ReturnType {
     return try {
-        function()
+        tryFunction()
     } catch (e: Throwable) {
-        if (type.java.isInstance(e)) {
-            null
-        } else throw e
-    }
-}
-
-fun <ReturnType> tryOrNull(function: () -> ReturnType) = tryOrNull(Exception::class, function)
-
-fun <ReturnType, ExceptionType : Throwable> tryAndWarn(
-    type: KClass<ExceptionType>, function: () -> ReturnType
-): ReturnType? {
-    return try {
-        function()
-    } catch (e: Throwable) {
-        if (type.java.isInstance(e)) {
+        if (e is ExceptionType) {
             logWarn(e)
-            null
+            onExceptionReturn(e)
         } else throw e
     }
 }
 
-fun <ReturnType> tryAndWarn(function: () -> ReturnType) = tryAndWarn(Exception::class, function)
+inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturn(
+    onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
+) = catchWarnReturn<ReturnType, ExceptionType>(tryFunction, { onExceptionReturn })
 
-fun <ReturnType, ExceptionType : Throwable> tryAndError(
-    type: KClass<ExceptionType>, function: () -> ReturnType
-): ReturnType? {
+inline fun <ReturnType> catchAllWarnReturn(
+    onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
+) = catchWarnReturn<ReturnType, Exception>(tryFunction, { onExceptionReturn })
+
+inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturnNull(
+    tryFunction: () -> ReturnType
+): ReturnType? = catchWarnReturn<ReturnType?, ExceptionType>(tryFunction, { null })
+
+
+inline fun <ReturnType> catchAllWarnReturnNull(tryFunction: () -> ReturnType)
+        : ReturnType? = catchWarnReturn<ReturnType?, Exception>(tryFunction, { null })
+
+inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturn(
+    tryFunction: () -> ReturnType, onExceptionReturn: (ExceptionType) -> ReturnType
+): ReturnType {
     return try {
-        function()
+        tryFunction()
     } catch (e: Throwable) {
-        if (type.java.isInstance(e)) {
+        if (e is ExceptionType) {
             logError(e)
-            null
+            onExceptionReturn(e)
         } else throw e
     }
 }
 
-fun <ReturnType> tryAndError(function: () -> ReturnType) = tryAndError(Exception::class, function)
+inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturn(
+    onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
+) = catchErrorReturn<ReturnType, ExceptionType>(tryFunction, { onExceptionReturn })
 
-fun <ReturnType> tryAndFinally(function: () -> ReturnType, finally: () -> Unit): ReturnType {
+inline fun <ReturnType> catchAllErrorReturn(
+    onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
+) = catchErrorReturn<ReturnType, Exception>(tryFunction, { onExceptionReturn })
+
+inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturnNull(
+    tryFunction: () -> ReturnType
+): ReturnType? = catchWarnReturn<ReturnType?, ExceptionType>(tryFunction, { null })
+
+inline fun <ReturnType> catchAllErrorReturnNull(tryFunction: () -> ReturnType)
+        : ReturnType? = catchErrorReturn<ReturnType?, Exception>(tryFunction, { null })
+
+fun <ReturnType> tryAndFinally(tryFunction: () -> ReturnType, finally: () -> Unit): ReturnType {
     try {
-        return function()
+        return tryFunction()
     } finally {
         finally()
     }
 }
-
-fun <ReturnType, ExceptionType : Throwable> tryAndCatch(
-    type: KClass<ExceptionType>,
-    function: () -> ReturnType,
-    onException: (ExceptionType) -> ReturnType
-): ReturnType {
-    return try {
-        function()
-    } catch (throwable: Throwable) {
-        @Suppress("UNCHECKED_CAST")
-        (throwable as? ExceptionType)?.let { onException.invoke(it) } ?: throw throwable
-    }
-}
-
-fun <ReturnType> tryAndCatch(function: () -> ReturnType, onException: (Exception) -> ReturnType) =
-    tryAndCatch(Exception::class, function, onException)
-
-fun <ReturnType> tryAndIgnore(function: () -> ReturnType) = tryAndCatch(function, { null })

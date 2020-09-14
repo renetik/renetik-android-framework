@@ -195,7 +195,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         actionBar?.title = title
     }
 
-    private fun setActionBarIcon(icon: Drawable?) {
+    open fun setActionBarIcon(icon: Drawable?) {
         actionBar?.setDisplayShowHomeEnabled(icon.isSet)
         actionBar?.setIcon(icon)
     }

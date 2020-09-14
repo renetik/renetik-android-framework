@@ -18,8 +18,10 @@ class SampleServer : CSServerWithPing {
         .apply { basicAuthenticatorHeader("Authorization", USERNAME, PASSWORD) }
 
     fun loadSampleList(page: Int) = CSPingRequest(this) {
-        client.get(this, "sampleList", CSListServerData("list", ServerListItem::class)
-            , mapOf("pageNumber" to "$page"))
+        client.get(this,
+            "sampleList",
+            CSListServerData("list", ServerListItem::class),
+            mapOf("pageNumber" to "$page"))
     }
 
     fun addSampleListItem(item: ServerListItem) = CSPingRequest(this) {
@@ -27,13 +29,16 @@ class SampleServer : CSServerWithPing {
     }
 
     fun deleteSampleListItems(items: List<ServerListItem>) = CSPingConcurrentRequest(this) {
-        items.forEach { item -> it.add(client.post("sampleList/delete", mapOf("id" to item.id))) }
+        items.forEach { item ->
+            it.add(client.post("sampleList/delete", CSServerMapData(),
+                mapOf("id" to item.id)))
+        }
     }
 
-    override fun ping() = client.get("ping")
+    override fun ping() = client.get("ping", CSServerMapData())
 }
 
-class ServerListItem : CSServerData() {
+class ServerListItem : CSServerMapData() {
     val id get() = getString("id")!!
     val image get() = getString("image")!!
     val name = CSJsonString(this, "name")

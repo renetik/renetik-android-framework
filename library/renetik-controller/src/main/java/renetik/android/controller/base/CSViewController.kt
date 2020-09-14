@@ -19,11 +19,8 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.extensions.service
 import renetik.android.java.common.CSProperty
+import renetik.android.java.event.*
 import renetik.android.java.event.CSEvent.CSEventRegistration
-import renetik.android.java.event.CSEventRegistrations
-import renetik.android.java.event.event
-import renetik.android.java.event.fire
-import renetik.android.java.event.register
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
@@ -203,30 +200,30 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         activity = parent.activity()
         parentController.isNull { root = this }
         return CSEventRegistrations(
-            parent.onCreate.register { argument -> onCreate(argument) },
-            parent.onStart.register { onStart() },
-            parent.onResume.register { onResume() },
-            parent.onPause.register { onPause() },
-            parent.onStop.register { onStop() },
-            parent.onDestroy.register { onDestroy() },
-            parent.onBack.register { argument -> onBack(argument) },
-            parent.onActivityResult.register { argument -> onActivityResult(argument) },
-            parent.onCreateOptionsMenu.register { argument -> onCreateOptionsMenu(argument) },
-            parent.onOptionsItemSelected.register { argument -> onOptionsItemSelected(argument) },
-            parent.onPrepareOptionsMenu.register { argument -> onPrepareOptionsMenu(argument) },
-            parent.onKeyDown.register { argument -> onKeyDown(argument) },
-            parent.onNewIntent.register { argument -> onNewIntent(argument) },
-            parent.onUserLeaveHint.register { onUserLeaveHint() },
-            parent.onLowMemory.register { onLowMemory() },
-            parent.onConfigurationChanged.register { argument -> onConfigurationChanged(argument) },
-            parent.onOrientationChanged.register { argument -> onOrientationChanged(argument) },
-            parent.onRequestPermissionsResult.register { argument ->
+            parent.onCreate.listen { argument -> onCreate(argument) },
+            parent.onStart.listen { onStart() },
+            parent.onResume.listen { onResume() },
+            parent.onPause.listen { onPause() },
+            parent.onStop.listen { onStop() },
+            parent.onDestroy.listen { onDestroy() },
+            parent.onBack.listen { argument -> onBack(argument) },
+            parent.onActivityResult.listen { argument -> onActivityResult(argument) },
+            parent.onCreateOptionsMenu.listen { argument -> onCreateOptionsMenu(argument) },
+            parent.onOptionsItemSelected.listen { argument -> onOptionsItemSelected(argument) },
+            parent.onPrepareOptionsMenu.listen { argument -> onPrepareOptionsMenu(argument) },
+            parent.onKeyDown.listen { argument -> onKeyDown(argument) },
+            parent.onNewIntent.listen { argument -> onNewIntent(argument) },
+            parent.onUserLeaveHint.listen { onUserLeaveHint() },
+            parent.onLowMemory.listen { onLowMemory() },
+            parent.onConfigurationChanged.listen { argument -> onConfigurationChanged(argument) },
+            parent.onOrientationChanged.listen { argument -> onOrientationChanged(argument) },
+            parent.onRequestPermissionsResult.listen { argument ->
                 onRequestPermissionsResult(
                     argument
                 )
             },
-            parent.onSaveInstanceState.register { argument -> onSaveInstanceState(argument) },
-            parent.onViewVisibilityChanged.register { updateVisibilityChanged() }
+            parent.onSaveInstanceState.listen { argument -> onSaveInstanceState(argument) },
+            parent.onViewVisibilityChanged.listen { updateVisibilityChanged() }
         )
     }
 

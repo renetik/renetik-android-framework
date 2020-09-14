@@ -13,7 +13,7 @@ import renetik.android.dialog.extensions.dialog
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.event
-import renetik.android.java.event.register
+import renetik.android.java.event.listen
 import renetik.android.logging.CSLog.logError
 import renetik.android.maps.extensions.asLatLng
 import kotlin.system.exitProcess
@@ -26,11 +26,11 @@ open class CSMapController(parent: CSViewController<*>, private val options: Goo
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
     private var animatingCamera = false
     private var onCameraMoveStartedByUser = event<GoogleMap>()
-    fun onCameraMoveStartedByUser(function: (GoogleMap) -> Unit) = onCameraMoveStartedByUser.register(function)
+    fun onCameraMoveStartedByUser(function: (GoogleMap) -> Unit) = onCameraMoveStartedByUser.listen(function)
     var onCameraStopped = event<GoogleMap>()
-    fun onCameraStopped(function: (GoogleMap) -> Unit) = onCameraStopped.register(function)
+    fun onCameraStopped(function: (GoogleMap) -> Unit) = onCameraStopped.listen(function)
     private var onInfoWindowClick = event<Marker>()
-    fun onMarkerInfoClick(function: (Marker) -> Unit) = onInfoWindowClick.register(function)
+    fun onMarkerInfoClick(function: (Marker) -> Unit) = onInfoWindowClick.listen(function)
 
     override fun obtainView() = MapView(this, options)
 

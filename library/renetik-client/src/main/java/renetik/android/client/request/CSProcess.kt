@@ -2,7 +2,7 @@ package renetik.android.client.request
 
 import renetik.android.base.CSContextController
 import renetik.android.java.event.event
-import renetik.android.java.event.register
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.getRootCauseMessage
 import renetik.android.logging.CSLog.logDebug
@@ -12,13 +12,13 @@ import renetik.android.logging.CSLog.logInfo
 open class CSProcess<Data : Any> : CSContextController {
 
     private val eventSuccess = event<CSProcess<Data>>()
-    fun onSuccess(function: (CSProcess<Data>) -> Unit) = apply { eventSuccess.register(function) }
+    fun onSuccess(function: (CSProcess<Data>) -> Unit) = apply { eventSuccess.listen(function) }
 
     private val eventFailed = event<CSProcess<*>>()
-    fun onFailed(function: (CSProcess<*>) -> Unit) = apply { eventFailed.register(function) }
+    fun onFailed(function: (CSProcess<*>) -> Unit) = apply { eventFailed.listen(function) }
 
     private val eventDone = event<CSProcess<Data>>()
-    fun onDone(function: (CSProcess<Data>) -> Unit) = apply { eventDone.register(function) }
+    fun onDone(function: (CSProcess<Data>) -> Unit) = apply { eventDone.listen(function) }
 
     private val onProgress = event<CSProcess<Data>>()
 

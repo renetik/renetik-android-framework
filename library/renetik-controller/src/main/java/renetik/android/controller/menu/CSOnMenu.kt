@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.base.CSContextController
 import renetik.android.controller.R
 import renetik.android.extensions.colorFromAttribute
-import renetik.android.java.common.CSProperty
+import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.extensions.isSet
 
 
@@ -16,7 +16,7 @@ const val GeneratedMenuItems = 7687678
 
 class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) : CSContextController(activity) {
 
-    val showMenu = CSProperty(true)
+    val showMenu = property(true)
 
     fun show(item: CSMenuItem) {
         if (item.isGenerated) createProgrammaticallyItem(item)
