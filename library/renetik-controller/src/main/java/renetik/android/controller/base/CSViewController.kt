@@ -12,15 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.base.CSLayoutId
-import renetik.android.base.CSView
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.extensions.service
 import renetik.android.java.common.CSProperty
-import renetik.android.java.event.*
 import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.event.CSEventRegistrations
+import renetik.android.java.event.event
+import renetik.android.java.event.fire
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
@@ -79,7 +81,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     val isRoot get() = root === this
     val actionBar get() = activity().supportActionBar
 
-    constructor(activity: CSActivity, layout: CSLayoutId? = null) : super(activity, layout) {
+    constructor(activity: CSActivity, layout: CSLayoutId) : super(activity, layout) {
         this.activity = activity
         parentRegistrations = initializeParent(activity)
     }
@@ -89,9 +91,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         parentRegistrations = initializeParent(parent)
     }
 
-    constructor(parent: CSViewController<*>, view: ViewType) : super(parent) {
+    constructor(parent: CSViewController<*>, view: ViewType) : super(parent, view) {
         parentController = parent
-        setView(view)
         parentRegistrations = initializeParent(parent)
     }
 
@@ -101,7 +102,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         parentRegistrations = initializeParent(parent)
     }
 
-    constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId? = null)
+    constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId)
             : super(parent.view, layoutId) {
         parentController = parent
         parentRegistrations = initializeParent(parent)

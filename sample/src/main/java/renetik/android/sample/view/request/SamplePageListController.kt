@@ -6,10 +6,10 @@ import android.widget.ListView
 import renetik.android.base.layout
 import renetik.android.client.okhttp3.extensions.image
 import renetik.android.controller.base.CSViewController
+import renetik.android.controller.extensions.dialog
+import renetik.android.controller.extensions.swipeRefresh
 import renetik.android.controller.pager.CSPagerPage
-import renetik.android.dialog.extensions.dialog
 import renetik.android.dialog.showView
-import renetik.android.extensions.swipeRefresh
 import renetik.android.framework.extensions.send
 import renetik.android.framework.extensions.sendWithProgress
 import renetik.android.listview.CSRowView
@@ -21,8 +21,8 @@ import renetik.android.sample.R
 import renetik.android.sample.model.ServerListItem
 import renetik.android.sample.model.model
 import renetik.android.view.extensions.imageView
-import renetik.android.view.extensions.textView
 import renetik.android.view.extensions.text
+import renetik.android.view.extensions.textView
 
 class SamplePageListController(parent: CSViewController<ViewGroup>, title: String)
     : CSViewController<View>(parent, layout(R.layout.sample_page_list)), CSPagerPage {

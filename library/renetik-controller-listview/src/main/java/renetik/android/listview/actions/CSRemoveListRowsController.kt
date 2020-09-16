@@ -3,7 +3,7 @@ package renetik.android.listview.actions
 import android.view.ActionMode
 import android.view.Menu
 import android.widget.AbsListView
-import renetik.android.dialog.extensions.dialog
+import renetik.android.controller.extensions.dialog
 import renetik.android.listview.CSListController
 
 open class CSRemoveListRowsController<RowType : Any, AbsListViewType : AbsListView>(
@@ -22,6 +22,7 @@ open class CSRemoveListRowsController<RowType : Any, AbsListViewType : AbsListVi
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu) =
-        super.onPrepareActionMode(mode, menu).also { selectAll.visible(listController.dataCount > 1) }
+        super.onPrepareActionMode(mode, menu)
+            .also { selectAll.visible(listController.dataCount > 1) }
 
 }

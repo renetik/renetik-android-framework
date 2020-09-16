@@ -8,19 +8,15 @@ import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.isSet
-import renetik.android.material.extensions.clearError
+import renetik.android.material.extensions.errorClear
 import renetik.android.material.extensions.onClear
 import renetik.android.material.extensions.onTextChange
-import renetik.android.view.extensions.onChange
-import renetik.android.view.extensions.onTextChange
-import renetik.android.view.extensions.shownIf
-import renetik.android.view.extensions.title
-import renetik.android.view.extensions.text
+import renetik.android.view.extensions.*
 
 fun <T : Any> TextInputLayout.property(property: CSEventProperty<T?>,
                                        depends: ((CSPropertyConditionList).() -> Unit)? = null) =
     apply {
-        onTextChange { if (property.value.isSet) clearError() }
+        onTextChange { if (property.value.isSet) errorClear() }
         onClear { property.value = null }
         editText!!.property(property)
         if (depends != null) depends(property, depends)
@@ -29,7 +25,7 @@ fun <T : Any> TextInputLayout.property(property: CSEventProperty<T?>,
 @JvmName("propertyString")
 fun TextInputLayout.property(property: CSEventProperty<String?>,
                              depends: ((CSPropertyConditionList).() -> Unit)? = null) = apply {
-    onTextChange { if (property.value.isSet) clearError() }
+    onTextChange { if (property.value.isSet) errorClear() }
     onClear { property.value = null }
     editText!!.property(property)
     if (depends != null) depends(property, depends)
@@ -66,9 +62,15 @@ fun View.shownIfPropertySet(property: CSEventProperty<*>) = apply {
     updateVisibility()
 }
 
+fun View.shownIfProperty(property: CSEventProperty<Boolean>) = apply {
+    fun updateVisibility() = shownIf(property.value)
+    navigation.register(property.onChange { updateVisibility() })
+    updateVisibility()
+}
+
 fun <T> View.shownIfProperty(property: CSEventProperty<T?>, value: T) = apply {
     fun updateVisibility() = shownIf(property.value == value)
-    navigation.register(property.onChange { shownIf(property.value == value) })
+    navigation.register(property.onChange { updateVisibility() })
     updateVisibility()
 }
 

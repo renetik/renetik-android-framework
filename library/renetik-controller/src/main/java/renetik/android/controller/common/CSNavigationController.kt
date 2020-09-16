@@ -11,13 +11,13 @@ import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationInstance.navigation
+import renetik.android.controller.extensions.add
+import renetik.android.controller.extensions.remove
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
-import renetik.android.view.extensions.add
-import renetik.android.view.extensions.remove
 
 object CSNavigationInstance {
     lateinit var navigation: CSNavigationController

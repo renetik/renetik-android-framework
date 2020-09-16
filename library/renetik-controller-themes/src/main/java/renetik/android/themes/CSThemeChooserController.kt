@@ -6,12 +6,12 @@ import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationController
 import renetik.android.controller.common.CSNavigationItem
-import renetik.android.dialog.extensions.dialog
-import renetik.android.extensions.textView
-import renetik.android.extensions.view
+import renetik.android.controller.extensions.dialog
+import renetik.android.controller.extensions.snackBarInfo
+import renetik.android.controller.extensions.textView
+import renetik.android.controller.extensions.view
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
-import renetik.android.material.extensions.snackBarInfo
 import renetik.android.themes.CSThemes.Companion.applyTheme
 import renetik.android.themes.CSThemes.Companion.availableThemes
 import renetik.android.themes.CSThemes.Companion.currentTheme

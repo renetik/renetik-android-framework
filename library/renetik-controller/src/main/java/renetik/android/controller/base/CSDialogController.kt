@@ -12,7 +12,6 @@ import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
 
-
 open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
 
     private lateinit var dialog: AlertDialog

@@ -1,10 +1,9 @@
-package renetik.android.controller.common
+package renetik.android.controller.base
 
 import android.media.MediaPlayer
 import android.view.View
-import renetik.android.controller.base.CSViewController
 
-class CSMediaPlayerController(parent: CSViewController<*>) : CSViewController<View>(parent) {
+class CSMediaPlayerController(parent: CSViewController<out View>) : CSViewController<View>(parent) {
 
     private var mediaPlayer: MediaPlayer? = null
 

@@ -5,8 +5,8 @@ import androidx.annotation.LayoutRes
 import renetik.android.base.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSDialogController
-import renetik.android.extensions.numberPicker
-import renetik.android.extensions.textView
+import renetik.android.controller.extensions.numberPicker
+import renetik.android.controller.extensions.textView
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.index

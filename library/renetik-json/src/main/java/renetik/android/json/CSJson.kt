@@ -1,8 +1,10 @@
 package renetik.android.json
 
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import org.json.JSONTokener
+import renetik.android.java.common.catchWarnReturnNull
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.collections.linkedMap
 import renetik.android.java.extensions.collections.list
@@ -11,11 +13,11 @@ fun String.parseJsonMap() = parseJson<MutableMap<String, Any?>>()
 
 fun String.parseJsonList() = parseJson<MutableList<Any?>>()
 
-fun <Type> String.parseJson(): Type? {
-    val value = JSONTokener(this).nextValue()
-    @Suppress("UNCHECKED_CAST")
-    return value.createValueFromJsonType() as? Type
-}
+@Suppress("UNCHECKED_CAST")
+fun <Type> String.parseJson(): Type? =
+    catchWarnReturnNull<Any, JSONException> {
+        JSONTokener(this).nextValue()
+    }.createValueFromJsonType() as? Type
 
 fun Any.toJsonString(formatted: Boolean = false): String {
     val jsonType = toJsonType()

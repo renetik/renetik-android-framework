@@ -5,7 +5,6 @@ import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
 import android.view.View
-import renetik.android.base.CSView
 import renetik.android.java.event.event
 import renetik.android.logging.CSLog.logInfo
 import java.lang.Math.abs
@@ -20,8 +19,8 @@ class CSSwipeDetector() : View.OnTouchListener {
 
     val eventSwipe = event<CSSwipeType>()
 
-    constructor(widget: CSView<*>) : this() {
-        widget.view.setOnTouchListener(this)
+    constructor(view: View) : this() {
+        view.setOnTouchListener(this)
     }
 
     enum class CSSwipeType {

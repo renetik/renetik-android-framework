@@ -6,7 +6,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import renetik.android.controller.R
 import renetik.android.controller.base.CSViewController
-import renetik.android.extensions.findView
+import renetik.android.controller.extensions.findView
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.isSet
@@ -24,7 +24,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     private val listener: (String) -> Unit
 
     constructor(
-        parent: CSViewController<*>, hint: String = "Enter search text",
+        parent: CSViewController<View>, hint: String = "Enter search text",
         listener: (String) -> Unit
     ) : super(parent) {
         this.hint = hint

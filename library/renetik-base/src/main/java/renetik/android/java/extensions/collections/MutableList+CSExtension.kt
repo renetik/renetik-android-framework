@@ -1,5 +1,6 @@
 package renetik.android.java.extensions.collections
 
+import renetik.android.java.common.catchAllWarnReturnNull
 import renetik.android.java.common.catchWarnReturnNull
 
 fun <T, ListType : MutableList<T>> ListType.put(item: T) = item.apply { add(item) }
@@ -31,7 +32,7 @@ fun <T, ListType : MutableList<T>> ListType.deleteFirst() = delete(0)
 fun <T, ListType : MutableList<T>> ListType.deleteLast() = delete(lastIndex)
 fun <T, ListType : MutableList<T>> ListType.deleteAll() = apply { clear() }
 fun <T> MutableList<T>.removeRange(fromIndex: Int): List<T> =
-    catchWarnReturnNull { range(fromIndex) }?.let {
+    catchAllWarnReturnNull { range(fromIndex) }?.let {
         removeAll(it)
         return it
     } ?: let { return list() }

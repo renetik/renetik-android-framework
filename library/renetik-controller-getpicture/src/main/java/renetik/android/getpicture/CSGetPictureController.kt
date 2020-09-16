@@ -14,15 +14,15 @@ import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.controller.base.CSViewController
+import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.requestPermissions
+import renetik.android.controller.extensions.snackBarWarn
 import renetik.android.controller.extensions.startActivityForResult
-import renetik.android.dialog.extensions.dialog
 import renetik.android.imaging.extensions.resizeImage
-import renetik.android.java.common.tryAndError
+import renetik.android.java.common.catchAllError
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.createDatedFile
 import renetik.android.java.extensions.later
-import renetik.android.material.extensions.snackBarWarn
 import renetik.android.task.CSBackgroundHandlerObject.background
 import java.io.File
 
@@ -60,9 +60,9 @@ class CSGetPictureController<T : View>(
         else dialog(title).showChoice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
     }
 
-    private fun onImageSelected(input: Uri, onDone: (() -> Unit)? = null) = tryAndError {
+    private fun onImageSelected(input: Uri, onDone: (() -> Unit)? = null) = catchAllError {
         background {
-            tryAndError {
+            catchAllError {
                 val outputImage = folder.createDatedFile("jpg")
                 outputImage.outputStream().use { output -> input.resizeImage(1024, 768, output) }
                 later { onImageReady(outputImage) }
@@ -75,7 +75,7 @@ class CSGetPictureController<T : View>(
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(createChooser(intent, "Select Picture")) { result ->
-            tryAndError { onImageSelected(result!!.data!!) }
+            catchAllError { onImageSelected(result!!.data!!) }
         }
     }
 

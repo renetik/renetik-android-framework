@@ -3,14 +3,16 @@ package renetik.android.extensions
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.NameNotFoundException
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
-import renetik.android.java.common.tryAndError
-import renetik.android.java.common.tryAndWarn
+import renetik.android.java.common.catchAllErrorReturnNull
+import renetik.android.java.common.catchWarnReturnNull
 import renetik.android.java.extensions.isSet
 import java.security.MessageDigest
 
@@ -46,7 +48,7 @@ val Context.versionCode
 
 @Suppress("DEPRECATION")
 val Context.appKeyHash
-    get() = tryAndError {
+    get() = catchAllErrorReturnNull {
         val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
         if (info.signatures.isSet) {
             val messageDigest = MessageDigest.getInstance("SHA")
@@ -56,7 +58,7 @@ val Context.appKeyHash
     }
 
 val Context.packageInfo
-    get() = tryAndWarn(PackageManager.NameNotFoundException::class) {
+    get() = catchWarnReturnNull<PackageInfo, NameNotFoundException> {
         packageManager.getPackageInfo(packageName, 0)
     }
 

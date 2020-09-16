@@ -1,7 +1,7 @@
 package renetik.android.java.extensions
 
 import renetik.android.java.common.CSStringBuilderWriter
-import renetik.android.java.common.tryAndError
+import renetik.android.java.common.catchAllError
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStream
@@ -13,5 +13,5 @@ fun InputStream.copy(output: OutputStream, bufferSize: Int = DEFAULT_BUFFER_SIZE
 fun InputStream.copy(output: Writer) = copy(InputStreamReader(this), output)
 
 fun InputStream.readText(): String = CSStringBuilderWriter().apply {
-    tryAndError { copy(this) }
+    catchAllError { copy(this) }
 }.toString()

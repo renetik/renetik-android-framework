@@ -8,7 +8,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSViewController
-import renetik.android.java.common.tryAndError
+import renetik.android.java.common.catchError
 
 fun CSViewController<*>.locationClient(): FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(activity())
@@ -20,13 +20,8 @@ fun <T : CSViewController<*>> T.navigateToLatLng(latLng: LatLng, title: String) 
             setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
         })
     } catch (ex: ActivityNotFoundException) {
-        tryAndError(ActivityNotFoundException::class) {
-            startActivity(
-                Intent(
-                    ACTION_VIEW,
-                    parse(uri)
-                )
-            )
+        catchError<ActivityNotFoundException> {
+            startActivity(Intent(ACTION_VIEW, parse(uri)))
         }
     }
 }

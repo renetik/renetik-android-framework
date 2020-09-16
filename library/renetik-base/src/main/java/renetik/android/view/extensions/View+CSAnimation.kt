@@ -15,40 +15,43 @@ fun <T : View> T.fadeIn(duration: Int = shortAnimationDuration): ViewPropertyAni
     if (isVisible) return null
     visibility = VISIBLE
     alpha = 0f
-    return animate().alpha(1f).setDuration(duration.toLong())
-//        .setInterpolator(AccelerateDecelerateInterpolator())
-        .setListener(null)
+    return animate().alpha(1f).setDuration(duration.toLong()).setListener(null)
 }
 
 fun <T : View> T.fadeOut(
     duration: Int = shortAnimationDuration,
     onDone: (() -> Unit)? = null
 ): ViewPropertyAnimator? {
-    if (isGone) {
-        onDone?.invoke()
-        return null
-    } else if (alpha == 0f) {
-        hide()
-        return null
-    } else {
-        isClickable = false
-        return animate().alpha(0f).setDuration(duration.toLong())
-//            .setInterpolator(AccelerateDecelerateInterpolator())
-            .setListener(object : CSAnimatorAdapter() {
-                override fun onAnimationEnd(animator: Animator?) {
-                    isClickable = true
-                    visibility = GONE
-                    onDone?.invoke()
-                }
-            })
+    when {
+        isGone -> {
+            onDone?.invoke()
+            return null
+        }
+        alpha == 0f -> {
+            hide()
+            return null
+        }
+        else -> {
+            isClickable = false
+            return animate().alpha(0f).setDuration(duration.toLong())
+                .setListener(object : CSAnimatorAdapter() {
+                    override fun onAnimationEnd(animator: Animator?) {
+                        isClickable = true
+                        visibility = GONE
+                        onDone?.invoke()
+                    }
+                })
+        }
     }
 }
 
-fun <T : View> T.fade(fadeIn: Boolean) = if (fadeIn) fadeIn() else fadeOut()
+fun <T : View> T.fadeVisible(fadeVisible: Boolean) = if (fadeVisible) fadeIn() else fadeOut()
+
+fun <T : View> T.fadeGone(fadeGone: Boolean) = if (fadeGone) fadeOut() else fadeIn()
 
 var <T : View> T.isFadeVisible
     get() = visibility == VISIBLE
     set(value) {
-        fade(fadeIn = value)
+        fadeVisible(value)
     }
 

@@ -1,7 +1,8 @@
-package renetik.android.extensions
+package renetik.android.controller.extensions
 
 import android.view.View
-import renetik.android.base.CSView
+import renetik.android.controller.base.CSView
+import renetik.android.extensions.toPixel
 import renetik.android.java.extensions.isSet
 import renetik.android.java.math.CSPoint
 

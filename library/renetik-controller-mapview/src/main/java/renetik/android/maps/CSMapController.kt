@@ -9,7 +9,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSViewController
-import renetik.android.dialog.extensions.dialog
+import renetik.android.controller.extensions.dialog
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.event
@@ -20,13 +20,16 @@ import kotlin.system.exitProcess
 
 private const val DEFAULT_ZOOM = 13f
 
-open class CSMapController(parent: CSViewController<*>, private val options: GoogleMapOptions) : CSViewController<MapView>(parent) {
+open class CSMapController(parent: CSViewController<*>, private val options: GoogleMapOptions) :
+    CSViewController<MapView>(parent) {
 
     var map: GoogleMap? = null
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
     private var animatingCamera = false
     private var onCameraMoveStartedByUser = event<GoogleMap>()
-    fun onCameraMoveStartedByUser(function: (GoogleMap) -> Unit) = onCameraMoveStartedByUser.listen(function)
+    fun onCameraMoveStartedByUser(function: (GoogleMap) -> Unit) =
+        onCameraMoveStartedByUser.listen(function)
+
     var onCameraStopped = event<GoogleMap>()
     fun onCameraStopped(function: (GoogleMap) -> Unit) = onCameraStopped.listen(function)
     private var onInfoWindowClick = event<Marker>()
@@ -155,12 +158,12 @@ open class CSMapController(parent: CSViewController<*>, private val options: Goo
 
     fun onMapAvailable(onMapReady: (GoogleMap) -> Unit): CSEventRegistration? {
         map?.let { onMapReady(it) }
-                ?: let {
-                    return onMapReadyEvent.add { registration, map ->
-                        onMapReady(map)
-                        registration.cancel()
-                    }
+            ?: let {
+                return onMapReadyEvent.add { registration, map ->
+                    onMapReady(map)
+                    registration.cancel()
                 }
+            }
         return null
     }
 

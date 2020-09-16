@@ -1,32 +1,49 @@
-package renetik.android.base
+package renetik.android.controller.base
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
+import renetik.android.base.CSContextController
+import renetik.android.base.CSLayoutId
 import renetik.android.extensions.inflate
 import renetik.android.extensions.service
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.inflate
 
-open class CSView<ViewType : View>(context: Context) : CSContextController(context) {
+open class CSView<ViewType : View> : CSContextController {
 
     private var parentGroup: ViewGroup? = null
     private var layoutId: CSLayoutId? = null
     private var _view: ViewType? = null
 
-    constructor(parent: Context, layoutId: CSLayoutId? = null) : this(parent) {
+    constructor(parent: Context, layoutId: CSLayoutId) : super(parent) {
         this.layoutId = layoutId
     }
 
-    constructor(parent: ViewGroup, layoutId: CSLayoutId? = null) : this(parent.context, layoutId) {
+    constructor(parent: ViewGroup, layoutId: CSLayoutId) : super(parent.context) {
         this.parentGroup = parent
+        this.layoutId = layoutId
     }
 
-    constructor(parent: CSView<out ViewGroup>, layoutId: CSLayoutId? = null) :
-            this(parent.view, layoutId)
+    constructor(parent: CSView<out ViewGroup>, layoutId: CSLayoutId) : super(parent) {
+        this.parentGroup = parent.view
+        this.layoutId = layoutId
+    }
+
+    constructor(parent: CSView<*>, view: ViewType) : super(parent) {
+        this.parentGroup = parent.parentGroup
+        setView(view)
+    }
+
+    constructor(parent: CSView<out ViewType>) : super(parent) {
+        this.parentGroup = parent.parentGroup
+        setView(parent.view)
+    }
+
+    constructor(parent: Context) : super(parent)
 
     val view: ViewType
         get() {

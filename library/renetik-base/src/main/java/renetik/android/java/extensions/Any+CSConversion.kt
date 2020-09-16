@@ -14,5 +14,7 @@ val List<*>.asStringArray get() = asStringList.toTypedArray()
 
 val List<*>.asStringList: List<String> get() = map { it.asString() }
 
-fun Any?.asInt() = catchAllWarnReturn(0) { asString().toInt() }
-
+fun Any?.asInt() = catchAllWarnReturn(0) {
+    val value = asString()
+    if (value.isEmpty) 0 else value.toInt()
+}

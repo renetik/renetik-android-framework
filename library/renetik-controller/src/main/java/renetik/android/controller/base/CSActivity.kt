@@ -9,7 +9,7 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.java.common.CSProperty
-import renetik.android.java.common.tryAndIgnore
+import renetik.android.java.common.catchAllWarn
 import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
@@ -90,7 +90,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
         if (view is ViewGroup) {
             for (index in 0 until view.childCount)
                 onDestroyUnbindDrawables(view.getChildAt(index))
-            tryAndIgnore { view.removeAllViews() }
+            catchAllWarn { view.removeAllViews() }
         }
     }
 
@@ -152,9 +152,13 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
         return onMenuItem.isConsumed
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, results: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>,
+                                            results: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, results)
-        onRequestPermissionsResult.fire(CSRequestPermissionResult(requestCode, permissions, results))
+        onRequestPermissionsResult.fire(CSRequestPermissionResult(requestCode,
+            permissions,
+            results))
     }
 
     override fun onLowMemory() {
