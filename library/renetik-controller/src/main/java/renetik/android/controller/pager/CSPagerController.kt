@@ -3,7 +3,6 @@ package renetik.android.controller.pager
 import android.content.Context
 import android.view.View
 import android.widget.Scroller
-import androidx.viewpager.widget.ViewPager
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
@@ -14,16 +13,19 @@ import renetik.android.java.extensions.setPrivateField
 import renetik.android.view.extensions.shownIf
 
 class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
-    CSViewController<ViewPager>(parent, pagerId)
+    CSViewController<CSViewPager>(parent, pagerId)
         where PageType : CSViewController<*>, PageType : CSPagerPage {
 
     val eventOnPageChange = event<PageType>()
     fun onPageChange(function: (PageType) -> Unit) = eventOnPageChange.listen(function)
-
     val pageCount: Int get() = controllers.size
-
     val controllers = list<PageType>()
     var currentIndex: Int? = null
+    var isSwipePagingEnabled
+        get() = view.isSwipePagingEnabled
+        set(value) {
+            view.isSwipePagingEnabled = value
+        }
     private var emptyView: View? = null
 
     constructor(parent: CSViewController<*>, pagerId: Int, pages: List<PageType>)
@@ -32,7 +34,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     }
 
     init {
-        view.setPrivateField("mScroller", CSPagerScroller(this))
+//        view.setPrivateField("mScroller", CSPagerScroller(this)) //TODO crash
     }
 
     fun emptyView(view: View) = apply { emptyView = view.shownIf(controllers.isEmpty) }
@@ -97,7 +99,6 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     fun showPage(page: PageType) {
         if (!controllers.contains(page)) add(page)
         setActive(index = controllers.indexOf(page))
-
     }
 
     fun isPrevious(page: PageType): Boolean {
