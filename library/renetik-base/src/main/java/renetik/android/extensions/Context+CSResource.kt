@@ -9,7 +9,6 @@ import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import renetik.android.base.CSApplicationObject.application
 import renetik.android.java.common.*
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.isEmpty
@@ -18,16 +17,9 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 
 @ColorInt
-fun Context.color(value: Int): Int {
-    return tryAndCatch(NotFoundException::class, { application.resourceColor(value) }, {
-        tryAndCatch(NotFoundException::class, { colorFromAttribute(value) }, { value })
-    })
-}
-
-@ColorInt
 fun Context.resourceColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
-fun Context.resourceBytes(id: Int) = tryAndWarn {
+fun Context.resourceBytes(id: Int) = catchAllWarn {
     val stream = resources.openRawResource(id)
     val outputStream = ByteArrayOutputStream()
     val buffer = ByteArray(4 * 1024)
@@ -42,17 +34,19 @@ fun Context.resourceBytes(id: Int) = tryAndWarn {
     }) { stream.close() }
 }
 
-fun Context.openInputStream(uri: Uri) = tryAndError(FileNotFoundException::class) {
-    contentResolver.openInputStream(uri)
+fun Context.openInputStream(uri: Uri) = catchErrorReturnNull<InputStream, FileNotFoundException> {
+    return contentResolver.openInputStream(uri)
 }
 
 fun Context.resourceDimension(id: Int) = resources.getDimension(id).toInt()
 
-fun Context.resourceStrings(id: Int): List<String>? =
-    tryAndWarn(NotFoundException::class) { list(*resources.getStringArray(id)) }
+fun Context.resourceStrings(id: Int) = catchWarnReturnNull<List<String>, NotFoundException> {
+    list(*resources.getStringArray(id))
+}
 
-fun Context.resourceInts(id: Int) =
-    tryAndWarn(NotFoundException::class) { list(resources.getIntArray(id).asList()) }
+fun Context.resourceInts(id: Int) = catchError<NotFoundException> {
+    list(resources.getIntArray(id).asList())
+}
 
 val Context.displayMetrics get():DisplayMetrics = resources.displayMetrics
 
@@ -67,6 +61,7 @@ fun Context.toPixel(dp: Int) = toPixelF(dp.toFloat()).toInt()
 private fun Context.resolveAttribute(attribute: Int) =
     TypedValue().apply { theme.resolveAttribute(attribute, this, true) }
 
+@ColorInt
 fun Context.colorFromAttribute(attribute: Int) = resolveAttribute(attribute).data.apply {
     if (isEmpty) throw NotFoundException()
 }
@@ -83,6 +78,7 @@ fun Context.stringFromAttribute(attribute: Int): String {
     val name = string as? CSName  //TODO fix this
     return name?.name ?: string?.toString() ?: ""
 }
+
 fun Context.stringFromAttribute2(attribute: Int) = stringFromAttribute(intArrayOf(attribute), 0)
 
 fun Context.stringFromAttribute(styleable: IntArray, styleableAttribute: Int): String {

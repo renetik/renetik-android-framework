@@ -6,8 +6,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
-import renetik.android.dialog.extensions.dialog
-import renetik.android.extensions.textView
+import renetik.android.controller.extensions.dialog
+import renetik.android.controller.extensions.textView
 import renetik.android.maps.CSMapClientController
 import renetik.android.maps.CSMapController
 import renetik.android.maps.extensions.location

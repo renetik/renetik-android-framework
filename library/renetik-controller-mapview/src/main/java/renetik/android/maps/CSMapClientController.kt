@@ -5,7 +5,7 @@ import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSViewController
-import renetik.android.extensions.frame
+import renetik.android.controller.extensions.frame
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
 import renetik.android.view.extensions.add
@@ -19,13 +19,18 @@ open class CSMapClientController<V : View>(parent: CSViewController<V>, private 
     private var lastLocation: LatLng? = null
     private var lastZoom: Float? = null
     private val onMapShowingEvent: CSEvent<GoogleMap> = event()
-    fun onMapShowing(function: (GoogleMap) -> Unit) = onMapShowingEvent.add { _, map -> function(map) }
+    fun onMapShowing(function: (GoogleMap) -> Unit) =
+        onMapShowingEvent.add { _, map -> function(map) }
+
     private val onMapClickEvent: CSEvent<LatLng> = event()
-    fun onMapClick(function: (LatLng) -> Unit) = onMapClickEvent.add { _, location -> function(location) }
+    fun onMapClick(function: (LatLng) -> Unit) =
+        onMapClickEvent.add { _, location -> function(location) }
+
     private val onMapLongClickEvent: CSEvent<LatLng> = event()
     val map get() = mapController.map
 
-    fun onMapLongClick(function: (LatLng) -> Unit) = onMapLongClickEvent.add { _, location -> function(location) }
+    fun onMapLongClick(function: (LatLng) -> Unit) =
+        onMapLongClickEvent.add { _, location -> function(location) }
 
 
     @SuppressLint("MissingPermission")

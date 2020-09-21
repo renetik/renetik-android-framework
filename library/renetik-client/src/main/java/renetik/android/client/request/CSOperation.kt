@@ -2,7 +2,7 @@ package renetik.android.client.request
 
 import renetik.android.base.CSContextController
 import renetik.android.java.event.event
-import renetik.android.java.event.register
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.notNull
 
 open class CSOperation<Data : Any>() : CSContextController() {
@@ -29,13 +29,13 @@ open class CSOperation<Data : Any>() : CSContextController() {
     fun refresh() = apply { isRefresh = true }
 
     fun onSuccess(function: (argument: Data) -> Unit) =
-        apply { eventSuccess.register(function) }
+        apply { eventSuccess.listen(function) }
 
     fun onFailed(function: (argument: CSProcess<*>) -> Unit) =
-        apply { eventFailed.register(function) }
+        apply { eventFailed.listen(function) }
 
     fun onDone(function: (argument: Data?) -> Unit) =
-        apply { eventDone.register(function) }
+        apply { eventDone.listen(function) }
 
     fun send(): CSProcess<Data> = executeProcess().also { process ->
         this.process = process

@@ -22,10 +22,10 @@ class AnyCSNullTest {
         var a: String? = ""
         var b: String? = ""
         var c: String? = ""
-        assertFalse(isSomeNull(a, b, c))
+        assertFalse(isAnyNull(a, b, c))
         a = null
-        assertTrue(isSomeNull(a, b, c))
+        assertTrue(isAnyNull(a, b, c))
         b = null; c = null
-        assertTrue(isSomeNull(a, b, c))
+        assertTrue(isAnyNull(a, b, c))
     }
 }

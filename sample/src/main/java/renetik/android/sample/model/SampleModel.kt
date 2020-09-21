@@ -3,7 +3,7 @@ package renetik.android.sample.model
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.java.extensions.format
-import renetik.android.json.data.CSJsonData
+import renetik.android.json.data.CSJsonMap
 import renetik.android.json.data.properties.CSJsonDataList
 import renetik.android.json.data.properties.CSJsonFile
 import renetik.android.json.data.properties.CSJsonString
@@ -15,7 +15,7 @@ import java.util.*
 
 const val MODEL_KEY = "model_data"
 
-class SampleModel : CSJsonData() {
+class SampleModel : CSJsonMap() {
 
     val sampleList = CSJsonDataList(this, ListItem::class, "sampleList")
     val getPictureList = CSJsonDataList(this, ImageItem::class, "getPictureList")
@@ -34,7 +34,7 @@ class SampleModel : CSJsonData() {
     }
 }
 
-class ListItem() : CSJsonData() {
+class ListItem() : CSJsonMap() {
     val searchableText get() = "$title $subtitle"
     val time = CSJsonString(this, "time")
     val title = CSJsonString(this, "title")
@@ -47,7 +47,7 @@ class ListItem() : CSJsonData() {
     }
 }
 
-class ImageItem() : CSJsonData() {
+class ImageItem() : CSJsonMap() {
     val image = CSJsonFile(this, "image")
 
     constructor(image: File) : this() {
@@ -55,7 +55,7 @@ class ImageItem() : CSJsonData() {
     }
 }
 
-class MapMarker() : CSJsonData() {
+class MapMarker() : CSJsonMap() {
     val latLng get() = locationProperty.value
     val title get() = titleProperty.value
     private val locationProperty = CSJsonLocation(this, "position")
@@ -67,7 +67,7 @@ class MapMarker() : CSJsonData() {
     }
 }
 
-class MapPosition() : CSJsonData() {
+class MapPosition() : CSJsonMap() {
     val latLng get() = property.latLng!!
     private val property = CSJsonLocation(this, "position")
 

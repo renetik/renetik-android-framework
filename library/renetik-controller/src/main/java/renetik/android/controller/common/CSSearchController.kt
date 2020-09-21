@@ -2,13 +2,13 @@ package renetik.android.controller.common
 
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.R.id.search_close_btn
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import renetik.android.controller.R
 import renetik.android.controller.base.CSViewController
-import renetik.android.extensions.findView
+import renetik.android.controller.extensions.findView
 import renetik.android.java.event.event
-import renetik.android.java.event.listener
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.isSet
 import renetik.android.view.extensions.onClick
 
@@ -20,11 +20,11 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     private var searchOpened = false
     private var expanded = false
     private var hint: String? = null
-    private val clearButton by lazy { findView<ImageView>(search_close_btn)!! }
+    private val clearButton by lazy { findView<ImageView>(R.id.search_close_btn)!! }
     private val listener: (String) -> Unit
 
     constructor(
-        parent: CSViewController<*>, hint: String = "Enter search text",
+        parent: CSViewController<View>, hint: String = "Enter search text",
         listener: (String) -> Unit
     ) : super(parent) {
         this.hint = hint
@@ -92,7 +92,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     fun expanded(value: Boolean) = apply { expanded = value }
 
     fun onClearButtonClick(listener: (CSSearchController) -> Unit) = apply {
-        eventOnClearButtonClick.listener(listener)
+        eventOnClearButtonClick.listen(listener)
     }
 
 }

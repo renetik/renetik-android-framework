@@ -4,17 +4,6 @@ import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import renetik.android.base.CSView
-
-fun ViewGroup.add(view: CSView<*>) = add(view.view)
-
-fun <ViewType : View, Controller : CSView<ViewType>> ViewGroup.add(
-    controller: Controller, layout: ViewGroup.LayoutParams,
-    init: ((ViewType).() -> Unit)? = null
-): Controller {
-    add(controller.view, layout, init)
-    return controller
-}
 
 val ViewGroup.lastChild: View?
     get() = if (childCount > 0) getChildAt(childCount - 1) else null
@@ -45,8 +34,6 @@ fun <ViewType : View> ViewGroup.add(@LayoutRes layoutId: Int): ViewType {
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.inflate(@LayoutRes layoutId: Int): ViewType =
     from(context).inflate(layoutId, this, false) as ViewType
-
-fun <T : ViewGroup> T.remove(view: CSView<*>) = remove(view.view)
 
 fun <T : ViewGroup> T.remove(view: View) = apply { removeView(view) }
 

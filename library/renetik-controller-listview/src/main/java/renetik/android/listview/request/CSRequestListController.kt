@@ -4,11 +4,11 @@ import android.widget.AbsListView
 import renetik.android.client.request.CSListServerData
 import renetik.android.client.request.CSOperation
 import renetik.android.controller.base.CSViewController
-import renetik.android.json.data.CSJsonData
+import renetik.android.json.data.CSJsonMap
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
 
-open class CSRequestListController<RowType : CSJsonData, ViewType : AbsListView>
+open class CSRequestListController<RowType : CSJsonMap, ViewType : AbsListView>
     : CSListController<RowType, ViewType> {
 
     var onReload: ((progress: Boolean) -> CSOperation<CSListServerData<RowType>>)? = null

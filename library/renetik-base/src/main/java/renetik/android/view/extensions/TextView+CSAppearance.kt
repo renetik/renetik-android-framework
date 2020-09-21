@@ -2,8 +2,8 @@ package renetik.android.view.extensions
 
 import android.content.res.ColorStateList
 import android.widget.TextView
-import renetik.android.extensions.color
+import androidx.annotation.ColorInt
 
-fun TextView.textColor(value: Int) = apply {
-    setTextColor(ColorStateList.valueOf(context.color(value)))
+fun TextView.textColor(@ColorInt value: Int) = apply {
+    setTextColor(ColorStateList.valueOf(value))
 }

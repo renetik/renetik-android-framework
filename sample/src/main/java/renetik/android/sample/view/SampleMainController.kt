@@ -6,10 +6,10 @@ import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSLogDisplayController
 import renetik.android.controller.common.CSNavigationItem
+import renetik.android.controller.extensions.button
+import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.menuItem
 import renetik.android.controller.extensions.requestPermissions
-import renetik.android.dialog.extensions.dialog
-import renetik.android.extensions.button
 import renetik.android.java.extensions.collections.list
 import renetik.android.sample.R
 import renetik.android.sample.view.dynamicmenu.SampleDynamicMenuController

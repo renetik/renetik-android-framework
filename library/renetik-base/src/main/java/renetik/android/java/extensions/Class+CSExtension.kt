@@ -1,5 +1,5 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.common.tryAndWarn
+import renetik.android.java.common.catchAllWarn
 
-fun <T> Class<T>.createInstance() = tryAndWarn { this.newInstance() }
+fun <T> Class<T>.createInstance() = catchAllWarn { this.newInstance() }

@@ -18,10 +18,6 @@ import renetik.android.java.extensions.primitives.isTrue
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
-
-@Deprecated("To be removed", ReplaceWith("view(id)"))
-fun View.simpleView(@IdRes id: Int) = view(id)
-
 fun View.editText(@IdRes id: Int) = findView<EditText>(id)!!
 fun View.textView(@IdRes id: Int) = findView<TextView>(id)!!
 fun View.scrollView(@IdRes id: Int) = findView<ScrollView>(id)!!
@@ -46,7 +42,9 @@ fun View.swipeRefresh(@IdRes id: Int) = findView<SwipeRefreshLayout>(id)!!
 fun View.seekBar(@IdRes id: Int) = findView<SeekBar>(id)!!
 fun View.toolbar(@IdRes id: Int) = findView<Toolbar>(id)!!
 
-fun <T : View> T.enabled(enabled: Boolean) = apply { isEnabled = enabled }
+fun <T : View> T.enabledIf(enabled: Boolean) = apply { isEnabled = enabled }
+
+fun <T : View> T.disabledIf(disabled: Boolean) = apply { isEnabled = !disabled }
 
 fun <T : View> T.enabled() = apply { isEnabled = true }
 

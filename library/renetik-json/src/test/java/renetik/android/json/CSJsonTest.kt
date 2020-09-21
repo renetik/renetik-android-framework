@@ -10,7 +10,7 @@ import renetik.android.base.CSApplication
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.second
 import renetik.android.java.extensions.primitives.trimNewLines
-import renetik.android.json.data.CSJsonData
+import renetik.android.json.data.CSJsonMap
 import renetik.android.json.data.clone
 import renetik.android.json.data.properties.CSJsonDataList
 import renetik.android.json.data.properties.CSJsonString
@@ -96,12 +96,12 @@ class ApplicationMock : CSApplication() {
     override val isDebugBuild get() = DEBUG
 }
 
-class HouseJsonDataTest : CSJsonData() {
+class HouseJsonDataTest : CSJsonMap() {
     val floors = CSJsonDataList(this, FlorJsonDataTest::class, "floors")
     val title = CSJsonString(this, "title")
 }
 
-class FlorJsonDataTest() : CSJsonData() {
+class FlorJsonDataTest() : CSJsonMap() {
 
     val title = CSJsonString(this, "title")
 

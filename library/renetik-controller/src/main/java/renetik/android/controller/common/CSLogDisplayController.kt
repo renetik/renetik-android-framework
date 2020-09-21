@@ -7,26 +7,22 @@ import renetik.android.base.CSApplicationObject.application
 import renetik.android.base.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSViewController
-import renetik.android.controller.extensions.menuItem
-import renetik.android.controller.extensions.sendMail
-import renetik.android.dialog.extensions.dialog
-import renetik.android.extensions.scrollView
-import renetik.android.extensions.textView
-import renetik.android.material.extensions.floatingButton
+import renetik.android.controller.extensions.*
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.text
 
 const val sendLogMailKey = "send_log_mail"
 
-class CSLogDisplayController(val navigation: CSNavigationController, val title: String = "Application Log") :
-        CSViewController<View>(navigation, layout(R.layout.cs_log_panel)), CSNavigationItem {
+class CSLogDisplayController(val navigation: CSNavigationController,
+                             val title: String = "Application Log") :
+    CSViewController<View>(navigation, layout(R.layout.cs_log_panel)), CSNavigationItem {
 
     private val logText = textView(R.id.CSLog_LogText)
 
     init {
         menuItem("Send to developer").onClick { onSendLogClick() }.alwaysAsAction()
         menuItem("Scroll to bottom")
-                .onClick { scrollView(R.id.CSLog_TextScroll).scrollToBottom() }.neverAsAction()
+            .onClick { scrollView(R.id.CSLog_TextScroll).scrollToBottom() }.neverAsAction()
     }
 
     override fun onCreate() {
@@ -40,12 +36,13 @@ class CSLogDisplayController(val navigation: CSNavigationController, val title: 
 
     private fun onSendLogClick() {
         dialog("Send application log", "Enter target email")
-                .showInput("Target email", application.store.getString(sendLogMailKey, "")) { dialog ->
-                    application.store.save(sendLogMailKey, dialog.inputText)
-                    sendMail(dialog.inputText, application.name +
-                            " This is log from application sent as email attachment for application developer"
-                            , logText.text())
-                }
+            .showInput("Target email", application.store.getString(sendLogMailKey, "")) { dialog ->
+                application.store.save(sendLogMailKey, dialog.inputText)
+                sendMail(dialog.inputText,
+                    application.name +
+                            " This is log from application sent as email attachment for application developer",
+                    logText.text())
+            }
     }
 }
 

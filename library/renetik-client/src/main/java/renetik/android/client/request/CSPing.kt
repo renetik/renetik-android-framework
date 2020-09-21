@@ -2,7 +2,7 @@ package renetik.android.client.request
 
 
 interface CSServerWithPing {
-    fun ping(): CSProcess<CSServerData>
+    fun ping(): CSProcess<CSServerMapData>
 }
 
 open class CSPingConcurrentRequest(server: CSServerWithPing, onPingDone: CSOperation<*>.(CSConcurrentProcess) -> Unit)
@@ -27,5 +27,5 @@ open class CSPingMultiProcess<Data : Any> : CSMultiProcess<Data> {
     }
 
     private fun onPingSuccess(onPingDone: CSMultiProcess<Data>.() -> Unit)
-            : (CSProcess<CSServerData>) -> Unit = { if (!it.isCanceled) onPingDone(this) }
+            : (CSProcess<CSServerMapData>) -> Unit = { if (!it.isCanceled) onPingDone(this) }
 }

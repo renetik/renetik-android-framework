@@ -11,7 +11,7 @@ import android.view.Display
 import android.view.WindowManager
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.extensions.service
-import renetik.android.java.common.tryAndWarn
+import renetik.android.java.common.catchAllWarn
 import renetik.android.java.extensions.notNull
 import java.util.*
 
@@ -29,7 +29,8 @@ abstract class CSContextController : ContextWrapper {
 
     protected val batteryPercent: Float
         get() {
-            val batteryStatus = this.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+            val batteryStatus =
+                this.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
             val level = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
             val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
             return level / scale.toFloat()
@@ -57,18 +58,18 @@ abstract class CSContextController : ContextWrapper {
             else -> MEDIUM_DPI_STATUS_BAR_HEIGHT
         }
 
-    override fun unregisterReceiver(receiver: BroadcastReceiver) {
-        tryAndWarn { super.unregisterReceiver(receiver) }
-    }
+    override fun unregisterReceiver(receiver: BroadcastReceiver) =
+        catchAllWarn { super.unregisterReceiver(receiver) }
 
-    fun parseTimeFormat(text: String) = tryAndWarn { getTimeFormat(this).parse(text) }
-    fun parseDateFormat(text: String) = tryAndWarn { getDateFormat(this).parse(text) }
+    fun parseTimeFormat(text: String) = catchAllWarn { getTimeFormat(this).parse(text) }
+    fun parseDateFormat(text: String) = catchAllWarn { getDateFormat(this).parse(text) }
     fun formatDate(date: Date) = date.notNull { getDateFormat(this).format(date) }
     fun formatTime(date: Date) = date.notNull { getTimeFormat(this).format(date) }
 
     fun isServiceRunning(serviceClass: Class<out Service>): Boolean {
         @Suppress("DEPRECATION")
-        for (running in service<ActivityManager>(Context.ACTIVITY_SERVICE).getRunningServices(Integer.MAX_VALUE))
+        for (running in service<ActivityManager>(Context.ACTIVITY_SERVICE).getRunningServices(
+            Integer.MAX_VALUE))
             if (serviceClass.name == running.service.className) return true
         return false
     }

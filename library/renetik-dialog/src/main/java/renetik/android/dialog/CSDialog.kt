@@ -13,9 +13,9 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import renetik.android.base.CSContextController
-import renetik.android.base.CSView
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLogo
+import renetik.android.extensions.colorFromAttribute
 import renetik.android.extensions.inflate
 import renetik.android.java.common.CSName
 import renetik.android.java.extensions.isSet
@@ -31,7 +31,6 @@ class CSDialog : CSContextController {
     }
 
     constructor(activity: Activity) : super(activity)
-    constructor(view: CSView<*>) : super(view)
     constructor(view: View) : super(view.context)
 
     private var materialDialog: MaterialDialog? = null
@@ -166,7 +165,7 @@ class CSDialog : CSContextController {
                     this@CSDialog.hide()
                     onCancel?.invoke(this@CSDialog)
                 }.shownIf(cancelable)
-                backgroundRoundedWithColor(R.attr.colorSurface, 10f)
+                backgroundRoundedWithColor(colorFromAttribute(R.attr.colorSurface), 10f)
             })
             show()
         }

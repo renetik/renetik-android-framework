@@ -13,7 +13,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
-import renetik.android.extensions.textView
+import renetik.android.controller.extensions.textView
 import renetik.android.java.common.CSTimeConstants.Second
 import renetik.android.java.extensions.collections.beforeLast
 import renetik.android.maps.CSMapClientController

@@ -6,18 +6,13 @@ import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.common.CSSearchController
-import renetik.android.controller.extensions.menuItem
-import renetik.android.dialog.extensions.dialog
+import renetik.android.controller.extensions.*
 import renetik.android.dialog.showView
-import renetik.android.extensions.button
-import renetik.android.extensions.textView
 import renetik.android.java.extensions.collections.list
 import renetik.android.listview.CSListController
 import renetik.android.listview.CSRowView
 import renetik.android.listview.actions.CSRemoveListRowsController
 import renetik.android.logging.CSLog.logInfoToast
-import renetik.android.material.extensions.snackBarInfo
-import renetik.android.material.extensions.validateNotEmpty
 import renetik.android.sample.R
 import renetik.android.sample.model.ListItem
 import renetik.android.sample.model.model
@@ -36,7 +31,7 @@ class SampleListController(title: String)
             textView(R.id.subtitle).text(row.subtitle)
         }
     }.onItemClick { rowView -> snackBarInfo("SampleListItemView clicked ${rowView.row.title}") }
-            .emptyView(R.id.SampleList_ListEmpty)
+        .emptyView(R.id.SampleList_ListEmpty)
     private val searchController = CSSearchController(this) { reloadList() }
 
     init {
@@ -56,23 +51,25 @@ class SampleListController(title: String)
         reloadList()
     }
 
-    private fun showAddItemDialog() = dialog("Add item to list").showView(R.layout.sample_pager_add_item) {
-        val nameView = it.view.editText(R.id.SamplePagerAddItem_Name)
-        val descView = it.view.editText(R.id.SamplePagerAddItem_Description)
-        list(nameView, descView).validateNotEmpty("Cannot be empty") {
-            model.sampleList.add(ListItem(nameView.text(), descView.text()))
-            reloadList()
+    private fun showAddItemDialog() =
+        dialog("Add item to list").showView(R.layout.sample_pager_add_item) {
+            val nameView = it.view.editText(R.id.SamplePagerAddItem_Name)
+            val descView = it.view.editText(R.id.SamplePagerAddItem_Description)
+            true //TODO Broken...
+//            list(nameView, descView).validateNotEmpty("Cannot be empty") {
+//                model.sampleList.add(ListItem(nameView.text(), descView.text()))
+//                reloadList()
+//            }
         }
-    }
 
     private fun reloadList() {
         listController.reload(
-                if (searchController.text.isEmpty()) model.sampleList.list
-                else list<ListItem>().apply {
-                    for (row in model.sampleList)
-                        if (row.searchableText.contains(searchController.text, ignoreCase = true))
-                            add(row)
-                })
+            if (searchController.text.isEmpty()) model.sampleList.list
+            else list<ListItem>().apply {
+                for (row in model.sampleList)
+                    if (row.searchableText.contains(searchController.text, ignoreCase = true))
+                        add(row)
+            })
     }
 
     override val navigationItemTitle = "Renetik"

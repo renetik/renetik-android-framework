@@ -5,20 +5,19 @@ import androidx.annotation.LayoutRes
 import renetik.android.base.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSDialogController
-import renetik.android.extensions.numberPicker
-import renetik.android.extensions.textView
-import renetik.android.java.common.CSName
+import renetik.android.controller.extensions.numberPicker
+import renetik.android.controller.extensions.textView
 import renetik.android.java.event.CSEventProperty
-import renetik.android.java.event.listener
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.index
 import renetik.android.view.extensions.circulate
 import renetik.android.view.extensions.disableTextEditing
 import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.text
 
-class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_item_picker,
-                                           title: CharSequence, val data: List<Row>,
-                                           selectedIndex: Int = 0, val onSelected: (Row) -> Unit)
+class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_item_picker,
+                                        title: CharSequence, val data: List<Row>,
+                                        selectedIndex: Int = 0, val onSelected: (Row) -> Unit)
     : CSDialogController<LinearLayout>(layout(layout)) {
 
     constructor(@LayoutRes layout: Int = R.layout.cs_item_picker, title: CharSequence,
@@ -44,7 +43,7 @@ class CSItemPickerController<Row : CSName>(@LayoutRes layout: Int = R.layout.cs_
     }
 
     override fun show() = apply {
-        eventOnDismiss.listener { onSelected(data[picker.value - 1]) }
+        eventOnDismiss.listen { onSelected(data[picker.value - 1]) }
         super.show()
     }
 

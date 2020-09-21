@@ -4,7 +4,7 @@ import android.widget.ProgressBar
 import renetik.android.client.request.CSOperation
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.common.CSTimeConstants.Second
-import renetik.android.material.extensions.snackBarInfo
+import renetik.android.controller.extensions.snackBarInfo
 import renetik.android.task.CSDoLater
 import renetik.android.task.CSDoLaterObject.later
 import renetik.android.view.extensions.hide

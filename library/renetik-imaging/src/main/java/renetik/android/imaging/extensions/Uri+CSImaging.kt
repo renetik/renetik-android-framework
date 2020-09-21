@@ -12,13 +12,12 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.exifinterface.media.ExifInterface.*
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.extensions.openInputStream
-import renetik.android.java.common.tryAndError
-import renetik.android.java.common.tryAndWarn
+import renetik.android.java.common.catchAllError
 import java.io.OutputStream
 import kotlin.math.max
 
 fun Uri.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, output: OutputStream) = apply {
-    tryAndError {
+    catchAllError {
         val decodeBounds = Options()
         application.openInputStream(this).use {
             decodeBounds.inJustDecodeBounds = true
@@ -50,7 +49,7 @@ fun Uri.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, output: OutputStr
 
 fun Uri.createFixOrientationMatrix(): Matrix {
     val matrix = Matrix()
-    tryAndWarn {
+    catchAllError {
         val orientation = ExifInterface(application.openInputStream(this)!!)
             .getAttributeInt(TAG_ORIENTATION, ORIENTATION_NORMAL)
         when (orientation) {

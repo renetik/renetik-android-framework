@@ -3,7 +3,7 @@ package renetik.android.json.data
 import renetik.android.json.data.properties.CSJsonFile
 import java.io.File
 
-class CSFileJsonData() : CSJsonData() {
+class CSFileJsonData() : CSJsonMap() {
 
     val file get() = fileProperty.file
 

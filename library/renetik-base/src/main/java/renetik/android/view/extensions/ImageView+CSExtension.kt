@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory.decodeFile
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import renetik.android.java.common.tryAndError
+import renetik.android.java.common.catchAllErrorReturnNull
 import renetik.android.java.extensions.later
 import renetik.android.task.CSBackgroundHandlerObject.background
 import java.io.File
@@ -18,7 +18,7 @@ fun <T : ImageView> T.image(@DrawableRes resourceId: Int) =
 
 fun <T : ImageView> T.image(file: File) = apply {
     background {
-        tryAndError { decodeFile(file.absolutePath) }
+        catchAllErrorReturnNull { decodeFile(file.absolutePath) }
             ?.let { bitmap -> later { setImageBitmap(bitmap) } }
     }
 }

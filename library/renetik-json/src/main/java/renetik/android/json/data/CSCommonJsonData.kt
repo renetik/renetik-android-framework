@@ -3,7 +3,7 @@ package renetik.android.json.data
 import renetik.android.java.common.CSName
 import renetik.android.json.data.extensions.getStringValue
 
-class CSNameData : CSJsonData, CSName {
+class CSNameData : CSJsonMap, CSName {
 
     private var idKey: String = "id"
     private var nameKey: String = "name"
@@ -23,8 +23,8 @@ class CSNameData : CSJsonData, CSName {
     constructor(data: MutableMap<String, Any?>) : super(data)
 
     constructor(id: String, name: String) : this() {
-        setValue(idKey, id)
-        setValue(nameKey, name)
+        put(idKey, id)
+        put(nameKey, name)
     }
 
     val id get() = getStringValue(idKey)

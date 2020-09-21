@@ -1,5 +1,7 @@
 package renetik.android.java.extensions.primitives
 
+import renetik.android.java.common.catchWarnReturn
+import renetik.android.java.common.catchWarnReturnNull
 import renetik.android.java.extensions.*
 import renetik.android.java.extensions.primitives.CSStringConstants.Empty
 import renetik.android.java.extensions.primitives.CSStringConstants.NewLine
@@ -30,47 +32,20 @@ object CSStringConstants {
 
 val String.isEmpty get() = size == 0
 
-fun String.asLong(): Long? = try {
-    toLong()
-} catch (ex: NumberFormatException) {
-    null
-}
+fun String.asLong() = catchWarnReturnNull<Long, NumberFormatException> { toLong() }
+fun String.asFloat() = catchWarnReturnNull<Float, NumberFormatException> { toFloat() }
+fun String.asInt() = catchWarnReturnNull<Int, NumberFormatException> { toInt() }
+fun String.asDouble(default: Double) =
+    catchWarnReturn<Double, NumberFormatException>(default) { toDouble() }
 
-fun String.asFloat(): Float? = try {
-    toFloat()
-} catch (ex: NumberFormatException) {
-    null
-}
+fun String.asLong(default: Long) =
+    catchWarnReturn<Long, NumberFormatException>(default) { toLong() }
 
-fun String.asInt(): Int? = try {
-    toInt()
-} catch (ex: NumberFormatException) {
-    null
-}
+fun String.asFloat(default: Float) =
+    catchWarnReturn<Float, NumberFormatException>(default) { toFloat() }
 
-fun String.asDouble(default: Double): Double = try {
-    toDouble()
-} catch (ex: NumberFormatException) {
-    default
-}
-
-fun String.asLong(default: Long): Long = try {
-    toLong()
-} catch (ex: NumberFormatException) {
-    default
-}
-
-fun String.asFloat(default: Float): Float = try {
-    toFloat()
-} catch (ex: NumberFormatException) {
-    default
-}
-
-fun String.asInt(default: Int): Int = try {
-    toInt()
-} catch (ex: NumberFormatException) {
-    default
-}
+fun String.asInt(default: Int) =
+    catchWarnReturn<Int, NumberFormatException>(default) { toInt() }
 
 fun String.trimNewLines(): String {
     return replace(NewLine, Empty)

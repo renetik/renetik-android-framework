@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import renetik.android.extensions.load
 import renetik.android.extensions.reload
-import renetik.android.java.common.tryAndWarn
+import renetik.android.java.common.catchAllWarnReturnNull
 import renetik.android.java.extensions.primitives.asDouble
 import renetik.android.java.extensions.primitives.asFloat
 import renetik.android.java.extensions.primitives.asInt
@@ -84,7 +84,8 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
     override fun getString(key: String, defaultValue: String) = getString(key) ?: defaultValue
 
-    override fun getString(key: String): String? = tryAndWarn { preferences.getString(key, null) }
+    override fun getString(key: String): String? =
+        catchAllWarnReturnNull { preferences.getString(key, null) }
 
     fun clone(id: String) = CSValueStore(id).also { it.preferences.reload(preferences) }
 
