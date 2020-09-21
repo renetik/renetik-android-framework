@@ -42,7 +42,7 @@ class CSDialog : CSContextController {
     private var isShowAppIcon = true
     private var isCancelable = true
     private var icon: Drawable? = null
-    private var progress: ProgressBar? = null
+    private var progressBar: ProgressBar? = null
     var isCanceled = false
     val notCanceled get() = !isCanceled
     var isCheckboxChecked = false
@@ -155,7 +155,7 @@ class CSDialog : CSContextController {
         cancelTitle: String = getString(R.string.cs_dialog_cancel),
         onCancel: ((CSDialog) -> Unit)? = null
     ) = apply {
-        progress = ProgressBar(this).apply { isIndeterminate = true }
+        progressBar = ProgressBar(this).apply { isIndeterminate = true }
         dialog = Dialog(context, R.style.CSProgressDialogStyle).apply {
             setCancelable(false)
             setCanceledOnTouchOutside(false)
@@ -176,13 +176,13 @@ class CSDialog : CSContextController {
         progressMax: Int, cancelTitle: String = getString(R.string.cs_dialog_cancel),
         onCancel: ((CSDialog) -> Unit)? = null
     ) = apply {
-        progress = ProgressBar(this).apply {
+        progressBar = ProgressBar(this).apply {
             isIndeterminate = false
             max = progressMax
         }
         materialDialog = MaterialDialog(this).show {
             initialize()
-            customView(view = progress, scrollable = false)
+            customView(view = progressBar, scrollable = false)
             noAutoDismiss()
             cancelable(false)
             negativeButton(text = cancelTitle) {
@@ -252,7 +252,7 @@ class CSDialog : CSContextController {
         }
 
     fun progress(value: Int): CSDialog {
-        progress!!.progress = value
+        progressBar!!.progress = value
         return this
     }
 }

@@ -97,7 +97,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
     fun clear() = apply {
         data.clear()
-        filterDataAndReload()
+        reload()
     }
 
     fun getRowView(position: Int, view: View?): View {
@@ -118,14 +118,14 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
 
     fun load(list: List<RowType>) = apply {
         data.addAll(list)
-        filterDataAndReload()
+        reload()
         onLoad.fire(list)
         return this
     }
 
     fun prependData(item: RowType) = apply {
         data.add(0, item)
-        filterDataAndReload()
+        reload()
     }
 
     fun reload(list: List<RowType>) = apply {
@@ -133,7 +133,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         load(list)
     }
 
-    fun filterDataAndReload() {
+    fun reload() {
         dataFilter?.let { filter -> filteredData.reload(filter(data)) } ?: filteredData.reload(data)
         listAdapter.notifyDataSetChanged()
         updateEmptyView()

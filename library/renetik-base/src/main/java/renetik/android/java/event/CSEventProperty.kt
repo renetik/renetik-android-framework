@@ -1,8 +1,6 @@
 package renetik.android.java.event
 
 import renetik.android.base.CSApplicationObject.application
-import renetik.android.base.CSValueStoreInterface
-import renetik.android.base.getValue
 import renetik.android.java.common.CSProperty
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.primitives.isFalse
@@ -67,64 +65,30 @@ var CSEventProperty<Boolean>.isFalse
 
 object CSEventPropertyFunctions {
 
-    fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null)
-            : CSEventProperty<T> = CSEventProperty(value, onApply)
-
-    fun property(
-        store: CSValueStoreInterface, key: String, default: String,
-        onChange: ((value: String) -> Unit)? = null
-    ) = property(store.getString(key, default), onChange)
-        .apply { onChange { store.save(key, it) } }
+    fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null) =
+        CSEventProperty(value, onApply)
 
     fun property(key: String, default: String, onApply: ((value: String) -> Unit)? = null) =
-        property(application.store, key, default, onApply)
-
-    fun property(
-        store: CSValueStoreInterface, key: String, default: Float,
-        onApply: ((value: Float) -> Unit)? = null
-    ) = property(store.getFloat(key, default), onApply)
-        .apply { onChange { store.save(key, it) } }
+        application.store.property(key, default, onApply)
 
     fun property(key: String, default: Float, onApply: ((value: Float) -> Unit)? = null) =
-        property(application.store, key, default, onApply)
-
-    fun property(
-        store: CSValueStoreInterface, key: String, default: Int,
-        onApply: ((value: Int) -> Unit)? = null
-    ) = property(store.getInt(key, default), onApply)
-        .apply { onChange { store.save(key, it) } }
+        application.store.property(key, default, onApply)
 
     fun property(key: String, default: Int, onApply: ((value: Int) -> Unit)? = null) =
-        property(application.store, key, default, onApply)
-
-    fun property(
-        store: CSValueStoreInterface, key: String, default: Boolean,
-        onApply: ((value: Boolean) -> Unit)? = null
-    ) = property(store.getBoolean(key, default), onApply)
-        .apply { onChange { store.save(key, it) } }
+        application.store.property(key, default, onApply)
 
     fun property(
         key: String, default: Boolean,
         onApply: ((value: Boolean) -> Unit)? = null
-    ): CSEventProperty<Boolean> =
-        property(application.store, key, default, onApply)
-
-    fun <T> property(
-        store: CSValueStoreInterface, key: String, values: List<T>, default: T,
-        onApply: ((value: T) -> Unit)? = null
-    ): CSEventProperty<T> {
-        return property(store.getValue(key, values, default), onApply)
-            .apply { onChange { store.save(key, it.hashCode()) } }
-    }
+    ) = application.store.property(key, default, onApply)
 
     fun <T> property(
         key: String, values: List<T>, default: T,
         onApply: ((value: T) -> Unit)? = null
-    ) = property(application.store, key, values, default, onApply)
+    ) = application.store.property(key, values, default, onApply)
 
     fun <T> property(
         key: String, values: List<T>, defaultIndex: Int = 0,
         onApply: ((value: T) -> Unit)? = null
-    ) = property(application.store, key, values, values[defaultIndex], onApply)
-
+    ) = application.store.property(key, values, values[defaultIndex], onApply)
 }

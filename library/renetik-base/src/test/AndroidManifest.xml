@@ -3,7 +3,7 @@
     package="renetik.android">
 
     <application
-        android:logo="@drawable/baseline_refresh_24"
+        android:logo="@drawable/outline_refresh_24"
         android:name=".CSApplicationMock"
         android:label="CSApplicationMock" />
 </manifest>
