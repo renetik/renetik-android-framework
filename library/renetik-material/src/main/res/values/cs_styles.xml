@@ -343,14 +343,14 @@
         <item name="android:minHeight">48dp</item>
     </style>
 
-    <style name="CSImageViewButtonWrap" >
+    <style name="CSImageViewButtonWrap">
+        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
     </style>
 
-
-    <style name="CSButtonIconWrapFillWrap" parent="CSButtonIconWrap">
+    <style name="CSImageViewButtonFillWrap" parent="CSImageViewButtonWrap">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
@@ -439,7 +439,5 @@
         <item name="android:layout_gravity">end</item>
         <item name="android:background">?attr/colorPrimaryVariant</item>
     </style>
-
-
 
 </resources>
