@@ -10,8 +10,8 @@ fun <Data : Any> CSOperation<Data>.send(title: String,
                                         onSuccess: ((Data) -> Unit)? = null) =
     if (progress) sendWithProgress(title, onSuccess) else sendWithFailedDialog(title, onSuccess)
 
-fun <Data : Any> CSOperation<Data>.sendWithProgress(title: String,
-                                                    onSuccess: ((Data) -> Unit)? = null)
+private fun <Data : Any> CSOperation<Data>.sendWithProgress(title: String,
+                                                            onSuccess: ((Data) -> Unit)? = null)
         : CSOperation<Data> = apply {
     val process = send()
 
@@ -29,7 +29,7 @@ fun <Data : Any> CSOperation<Data>.sendWithProgress(title: String,
     onSuccess?.let { this.onSuccess(it) }
 }
 
-fun <Data : Any> CSOperation<Data>.sendWithFailedDialog(
+private fun <Data : Any> CSOperation<Data>.sendWithFailedDialog(
     title: String, onSuccess: ((Data) -> Unit)? = null): CSOperation<Data> =
     apply {
         onSuccess?.let { this.onSuccess(it) }
