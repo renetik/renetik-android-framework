@@ -270,9 +270,12 @@
     </style>
 
     <style name="CSButtonVariantMatchWrap" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <!--        <item name="backgroundTint">?attr/colorPrimaryVariant</item>-->
-        <!--        <item name="android:textColor">?attr/colorOnPrimary</item>-->
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSButtonVariantWrap" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
@@ -344,7 +347,7 @@
     </style>
 
     <style name="CSImageViewButtonWrap">
-        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -357,6 +360,11 @@
 
     <style name="CSInputLayoutMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSInputLayoutWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
