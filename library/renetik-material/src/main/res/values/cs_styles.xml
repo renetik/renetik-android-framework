@@ -65,6 +65,10 @@
         <item name="android:fillViewport">true</item>
     </style>
 
+    <style name="CSScrollMatchFill" parent="CSMatchFill">
+        <item name="android:fillViewport">true</item>
+    </style>
+
     <style name="CSContainer">
         <item name="android:background">?android:attr/colorBackground</item>
         <item name="android:orientation">vertical</item>
