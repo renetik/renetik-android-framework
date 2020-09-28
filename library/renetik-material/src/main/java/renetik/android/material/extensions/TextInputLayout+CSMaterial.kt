@@ -7,7 +7,9 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Filter
+import androidx.annotation.FontRes
 import androidx.annotation.LayoutRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
@@ -17,10 +19,7 @@ import renetik.android.java.event.event
 import renetik.android.java.event.fire
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.privateField
-import renetik.android.view.extensions.onTextChange
-import renetik.android.view.extensions.propertyWithTag
-import renetik.android.view.extensions.text
-import renetik.android.view.extensions.title
+import renetik.android.view.extensions.*
 
 @SuppressLint("RestrictedApi")
 fun <T : TextInputLayout> T.startIconCheckable(onCheckChanged: (TextInputLayout) -> Unit) = apply {
@@ -112,6 +111,10 @@ fun TextInputLayout.onChangeClearError() = apply {
     onTextChange { if (isError) errorClear() }
 }
 
+fun TextInputLayout.typeface(@FontRes font: Int) = apply {
+    typeface = ResourcesCompat.getFont(context, font)
+}
+
 fun TextInputLayout.text() = editText!!.text()
 fun TextInputLayout.text(value: String) = editText!!.text(value)
 
@@ -125,3 +128,6 @@ fun <T : TextInputLayout> T.title(string: String) = apply { title = string }
 
 fun <T : TextInputLayout> T.onTextChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onTextChange { onChange(this) } }
+
+fun <T : TextInputLayout> T.onFocusChange(onChange: (view: T) -> Unit) =
+    apply { editText!!.onFocusChange { onChange(this) } }

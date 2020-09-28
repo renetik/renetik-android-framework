@@ -28,3 +28,7 @@ fun <T : TextView> T.onTextChange(onChange: (view: T) -> Unit) = apply {
         override fun afterTextChanged(editable: Editable) = onChange(this@onTextChange)
     })
 }
+
+fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
+    setOnFocusChangeListener { _, _ -> onChange(this) }
+}

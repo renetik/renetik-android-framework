@@ -22,7 +22,7 @@
                 style="@style/CSWrap"
                 android:layout_gravity="start"
                 android:text="Add menu item action visible"
-                android:textAppearance="@style/CSTextTitle" />
+                android:textAppearance="@style/CSTextHeadline" />
 
             <TextView
                 style="@style/CSMatchWrap"
@@ -32,7 +32,7 @@
                 android:paddingEnd="8dp"
                 android:paddingBottom="3dp"
                 android:text="@string/SampleDynamicMenu_Text"
-                android:textAppearance="@style/CSTextTitle" />
+                android:textAppearance="@style/CSTextHeadline" />
 
         </LinearLayout>
 

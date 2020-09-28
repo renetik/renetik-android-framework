@@ -26,12 +26,12 @@
             style="@style/CSWrap"
             android:layout_gravity="center"
             android:text="No images in grid"
-            android:textAppearance="@style/CSTextTitle"
+            android:textAppearance="@style/CSTextHeadline"
             android:textColor="@color/cs_dark_gray_text" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/SampleGetPicture_AddImageButton"
-            style="@style/CSButtonFloatingBottomEndWrap"
+            style="@style/CSFloatingButtonBottomEndWrap"
             android:src="@drawable/baseline_photo_camera_24"
             app:layout_anchorGravity="end" />
 

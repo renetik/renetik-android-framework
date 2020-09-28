@@ -23,6 +23,8 @@ object CSNavigationInstance {
     lateinit var navigation: CSNavigationController
 }
 
+const val PushID = "push_key"
+
 @Suppress("LeakingThis")
 open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationItem {
 
@@ -37,8 +39,10 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 
     open var controllers = list<CSViewController<*>>()
 
-    fun <T : View> push(controller: CSViewController<T>): CSViewController<T> {
+    fun <T : View> push(controller: CSViewController<T>,
+                        pushId: String? = null): CSViewController<T> {
         currentController?.showingInContainer(false)
+        pushId?.let { controller.setValue(PushID, it) }
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_in_top))
         view.add(controller)
@@ -92,10 +96,9 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         return controller
     }
 
-    fun <T : View> pushReplaceLast(pushKey: String,
+    fun <T : View> pushReplaceLast(pushId: String,
                                    controller: CSViewController<T>): CSViewController<T> {
-        val pushKeyId = "push_key"
-        if (controllers.contains { it.getValue(pushKeyId) == pushKey })
+        if (controllers.contains { it.getValue(PushID) == pushId })
             for (lastController in controllers.reversed()) {
 //                lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
                 controllers.delete(lastController)
@@ -103,9 +106,9 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
                 view.remove(lastController)
                 lastController.lifecycleDeInitialize()
                 onViewControllerPop(lastController)
-                if (lastController.getValue(pushKeyId) == pushKey) break
+                if (lastController.getValue(PushID) == pushId) break
             }
-        controller.setValue(pushKeyId, pushKey)
+        controller.setValue(PushID, pushId)
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
         view.add(controller)
