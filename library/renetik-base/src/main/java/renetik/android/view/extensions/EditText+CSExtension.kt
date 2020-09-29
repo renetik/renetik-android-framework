@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.view.KeyEvent.ACTION_UP
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.FontRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
 import renetik.android.java.event.event
@@ -13,6 +15,10 @@ import renetik.android.java.event.listen
 val EditText.eventClear get() = propertyWithTag(R.id.EditTextEventOnClearTagKey) { event<Unit>() }
 
 fun <T : EditText> T.onClear(listener: () -> Unit): T = apply { eventClear.listen(listener) }
+
+fun EditText.typeface(@FontRes font: Int) = apply {
+    typeface = ResourcesCompat.getFont(context, font)
+}
 
 @SuppressLint("ClickableViewAccessibility")
 fun <T : EditText> T.withClear(): T {

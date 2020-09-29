@@ -82,18 +82,31 @@ fun <T : TextInputLayout> T.onClear(listener: () -> Unit): T = apply {
 
 @SuppressLint("PrivateResource")
 fun <T : TextInputLayout> T.withClear(): TextInputLayout = apply {
-    setEndIconDrawable(R.drawable.abc_ic_clear_material)
-    endIconMode = END_ICON_CUSTOM
+    fun updateClearIcon() {
+        val endIconDrawableToRestore = endIconDrawable
+        val isEndIconVisibleToRestore = isEndIconVisible
+        val endIconModeToRestore = endIconMode
+        fun restoreIcon() {
+            endIconDrawable = endIconDrawableToRestore
+            isEndIconVisible = isEndIconVisibleToRestore
+            endIconMode = endIconModeToRestore
+            // Imposible to restore click listener for now
+//            setEndIconOnClickListener { editText!!.performClick() } //TODO: remove if works
+            setEndIconOnClickListener(null)
+        }
+        if (title.isNotEmpty()) {
+            setEndIconDrawable(R.drawable.abc_ic_clear_material)
+            isEndIconVisible = true
+            endIconMode = END_ICON_CUSTOM
+            setEndIconOnClickListener {
+                restoreIcon()
+                title = ""
+                eventClear.fire()
+            }
+        } else restoreIcon()
+    }
     updateClearIcon()
     editText!!.doAfterTextChanged { updateClearIcon() }
-    setEndIconOnClickListener {
-        title = ""
-        eventClear.fire()
-    }
-}
-
-fun <T : TextInputLayout> T.updateClearIcon() {
-    isEndIconVisible = title.isNotEmpty()
 }
 
 fun <T : TextInputLayout> T.filters(vararg filters: InputFilter) = apply {
@@ -113,6 +126,10 @@ fun TextInputLayout.onChangeClearError() = apply {
 
 fun TextInputLayout.typeface(@FontRes font: Int) = apply {
     typeface = ResourcesCompat.getFont(context, font)
+}
+
+fun TextInputLayout.textTypeFace(@FontRes font: Int) = apply {
+    editText!!.typeface(font)
 }
 
 fun TextInputLayout.text() = editText!!.text()
