@@ -61,7 +61,7 @@ class NotFilteringArrayAdapter<T>(context: Context, @LayoutRes resource: Int, va
     : ArrayAdapter<T>(context, resource, objects) {
 
     val notFilteringFilter = object : Filter() {
-        override fun performFiltering(constraint: CharSequence) = FilterResults().apply {
+        override fun performFiltering(constraint: CharSequence?) = FilterResults().apply {
             values = objects
             count = objects.size
         }

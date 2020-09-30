@@ -362,22 +362,22 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSInputLayoutMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="CSTextInputMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="CSInputLayoutWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="CSTextInputWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="CSInputLayoutDropdownMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+    <style name="CSTextInputDropdownMatchWrap" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="CSInputLayoutFillWrap" parent="CSInputLayoutMatchWrap">
+    <style name="CSTextInputFillWrap" parent="CSTextInputMatchWrap">
         <item name="android:layout_gravity">center|top</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -390,7 +390,7 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="CSInputTextClickableMatchWrap" parent="CSInputTextMatchWrap">
+    <style name="CSInputTextPickerMatchWrap" parent="CSInputTextMatchWrap">
         <item name="android:inputType">textFilter|textMultiLine|textNoSuggestions</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:focusable">false</item>

@@ -5,7 +5,7 @@
               android:paddingEnd="7dp"
 >
 
-    <com.google.android.material.textfield.TextInputLayout style="@style/CSInputLayoutMatchWrap">
+    <com.google.android.material.textfield.TextInputLayout style="@style/CSTextInputMatchWrap">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/SamplePagerAddItem_Name"
@@ -17,7 +17,7 @@
     x
 
 
-    <com.google.android.material.textfield.TextInputLayout style="@style/CSInputLayoutMatchWrap">
+    <com.google.android.material.textfield.TextInputLayout style="@style/CSTextInputMatchWrap">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/SamplePagerAddItem_Description"
