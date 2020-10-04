@@ -1,9 +1,13 @@
 package renetik.android.view.extensions
 
 import android.content.Context
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.text.InputType.TYPE_CLASS_NUMBER
+import android.text.InputType.TYPE_NUMBER_VARIATION_NORMAL
 import android.util.AttributeSet
+import android.util.TypedValue.COMPLEX_UNIT_SP
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -14,6 +18,7 @@ import androidx.annotation.ColorInt
 import renetik.android.java.extensions.asStringArray
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.primitives.count
+import renetik.android.java.extensions.privateField
 import renetik.android.java.extensions.setPrivateField2
 
 
@@ -80,5 +85,35 @@ class CSNumberPicker(context: Context, attrs: AttributeSet) : NumberPicker(conte
     private fun updateView(view: View) {
         if (editTextList == null) editTextList = mutableListOf<EditText>()
         if (view is EditText) editTextList!!.add(view)
+    }
+
+    private fun updateTextAttributes() {
+        disableFocusability()
+        textColor?.let { selectorWheelPaint?.color = it }
+        textSize?.let { selectorWheelPaint?.textSize = it.toFloat() }
+        typeface?.let { selectorWheelPaint?.typeface = it }
+
+        for (i in 0 until childCount) {
+            val child = getChildAt(i)
+            if (child is EditText) {
+                textColor?.let { child.setTextColor(it) }
+                textSize?.let { child.setTextSize(COMPLEX_UNIT_SP, it.toFloat()) }
+                child.inputType = TYPE_CLASS_NUMBER or TYPE_NUMBER_VARIATION_NORMAL
+                typeface?.let { child.typeface = it }
+                invalidate()
+            }
+        }
+    }
+
+    private fun disableFocusability() {
+        inputText?.filters = arrayOfNulls(0)
+    }
+
+    private val selectorWheelPaint: Paint? by lazy {
+        privateField<Paint>("mSelectorWheelPaint")
+    }
+
+    private val inputText: EditText? by lazy {
+        privateField<EditText>("mInputText")
     }
 }
