@@ -24,26 +24,23 @@ import renetik.android.view.extensions.*
 @SuppressLint("RestrictedApi")
 fun <T : TextInputLayout> T.startIconCheckable(onCheckChanged: (TextInputLayout) -> Unit) = apply {
     isStartIconCheckable = true
-    this.editText?.isEnabled = isChecked
-    isEndIconVisible = isChecked
     setStartIconOnClickListener {
-        startIconView.toggle()
-        this.editText?.isEnabled = isChecked
-        isEndIconVisible = isChecked
+        startIconView?.toggle()
         onCheckChanged(this)
     }
 }
 
 val TextInputLayout.autoCompleteView get() = (editText as AutoCompleteTextView)
 
-val <T : TextInputLayout> T.startIconView: CheckableImageButton
+val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")
 
 var <T : TextInputLayout> T.isChecked
-    @SuppressLint("RestrictedApi") get() = startIconView.isChecked
+    @SuppressLint("RestrictedApi") get() =
+        startIconView?.isChecked ?: false
     set(value) {
         @SuppressLint("RestrictedApi")
-        startIconView.isChecked = value
+        startIconView?.isChecked = value
     }
 
 fun <T : TextInputLayout> T.dropdown(context: Context, @LayoutRes itemLayout: Int,
@@ -90,9 +87,9 @@ fun <T : TextInputLayout> T.withClear(): TextInputLayout = apply {
             endIconDrawable = endIconDrawableToRestore
             isEndIconVisible = isEndIconVisibleToRestore
             endIconMode = endIconModeToRestore
-            // Imposible to restore click listener for now
-//            setEndIconOnClickListener { editText!!.performClick() } //TODO: remove if works
-            setEndIconOnClickListener(null)
+            // Imposible to restore click listener if was set and
+            // there was visual glitch if set to null
+            setEndIconOnClickListener { editText!!.performClick() }
         }
         if (title.isNotEmpty()) {
             setEndIconDrawable(R.drawable.abc_ic_clear_material)

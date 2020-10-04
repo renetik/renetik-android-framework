@@ -13,35 +13,50 @@ import renetik.android.material.extensions.onClear
 import renetik.android.material.extensions.onTextChange
 import renetik.android.view.extensions.*
 
+private fun <View : android.view.View, T : Any> View.depends(
+    property: CSEventProperty<T?>, conditions: (CSPropertyConditionList).() -> Unit,
+    isInContainer: Boolean) = apply {
+    validate(conditions) { result ->
+        if (isInContainer) superview!!.shownIf(result)
+        else shownIf(result)
+        if (!result) property.value = null
+    }
+}
+
 fun <T : Any> TextInputLayout.property(property: CSEventProperty<T?>,
-                                       depends: ((CSPropertyConditionList).() -> Unit)? = null) =
+                                       depends: ((CSPropertyConditionList).() -> Unit)? = null,
+                                       isInContainer: Boolean = false) =
     apply {
         onTextChange { if (property.value.isSet) errorClear() }
         onClear { property.value = null }
         editText!!.property(property)
-        if (depends != null) depends(property, depends)
+        if (depends != null) depends(property, depends, isInContainer)
     }
 
 @JvmName("propertyString")
 fun TextInputLayout.property(property: CSEventProperty<String?>,
-                             depends: ((CSPropertyConditionList).() -> Unit)? = null) = apply {
+                             depends: ((CSPropertyConditionList).() -> Unit)? = null,
+                             isInContainer: Boolean = false) = apply {
     onTextChange { if (property.value.isSet) errorClear() }
     onClear { property.value = null }
     editText!!.property(property)
-    if (depends != null) depends(property, depends)
+    if (depends != null) depends(property, depends, isInContainer)
 }
 
 fun <T : Any> TextView.property(property: CSEventProperty<T?>,
-                                depends: ((CSPropertyConditionList).() -> Unit)? = null) = apply {
+                                depends: ((CSPropertyConditionList).() -> Unit)? = null,
+                                isInContainer: Boolean = false) = apply {
     fun updateTitle() = text(property.value.asString())
     navigation.register(property.onChange { updateTitle() })
     updateTitle()
-    if (depends != null) depends(property, depends)
+    if (depends != null) depends(property, depends, isInContainer)
 }
+
 
 @JvmName("propertyString")
 fun TextView.property(property: CSEventProperty<String?>,
-                      depends: ((CSPropertyConditionList).() -> Unit)? = null) = apply {
+                      depends: ((CSPropertyConditionList).() -> Unit)? = null,
+                      isInContainer: Boolean = false) = apply {
     fun updateTitle() = text(property.value.asString())
     val onPropertyChange = navigation.register(property.onChange { updateTitle() })
     onTextChange {
@@ -50,7 +65,7 @@ fun TextView.property(property: CSEventProperty<String?>,
         onPropertyChange?.isActive = true
     }
     updateTitle()
-    if (depends != null) depends(property, depends)
+    if (depends != null) depends(property, depends, isInContainer)
 }
 
 fun <T> RadioGroup.property(property: CSEventProperty<T?>, mapOf: Map<Int, T>) =

@@ -1,19 +1,27 @@
 package renetik.android.java.extensions
 
+import renetik.android.java.common.catchAllWarn
+import renetik.android.java.common.catchAllWarnReturnNull
+
 const val INVOKE_FAILED = "invoke_failed"
 
-fun <T> Any.privateField(name: String): T {
+fun <T> Any.privateField(name: String): T? = catchAllWarnReturnNull {
     val field = this::class.java.getDeclaredField(name)
     field.isAccessible = true
     @Suppress("UNCHECKED_CAST")
     return field.get(this) as T
 }
 
-fun <T> Any.setPrivateField(name: String, fieldValue: T): T {
+fun <T> Any.setPrivateField(name: String, fieldValue: T) = catchAllWarn {
     val field = this::class.java.getDeclaredField(name)
     field.isAccessible = true
     field.set(this, fieldValue)
-    return fieldValue
+}
+
+inline fun <reified ClassType : Any> ClassType.setPrivateField2(name: String, fieldValue: Any) = catchAllWarn {
+    val field = ClassType::class.java.getDeclaredField(name)
+    field.isAccessible = true
+    field.set(this, fieldValue)
 }
 
 @Suppress("UNCHECKED_CAST")

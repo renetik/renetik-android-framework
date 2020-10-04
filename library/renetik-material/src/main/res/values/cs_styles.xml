@@ -75,9 +75,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-        <item name="android:descendantFocusability">beforeDescendants</item>
-        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:focusable">false</item>
+<!--        <item name="android:descendantFocusability">beforeDescendants</item>-->
+        <item name="android:focusableInTouchMode">false</item>
     </style>
 
     <style name="CSNavigationContainer">

@@ -6,13 +6,19 @@ import renetik.android.json.data.CSJsonMap
 import renetik.android.json.data.load
 import renetik.android.task.CSDoLaterObject.later
 
-fun <T : CSJsonMap> T.mockSuccess(data: String) = CSProcess<T>().apply {
+fun <T : CSJsonMap> T.mockProcessSuccess(data: String) = CSProcess<T>().apply {
     later(1 * Second) {
         success(load(data))
     }
 }
 
-fun <T : CSJsonList> T.mockSuccess(data: String) = CSProcess<T>().apply {
+fun <T : CSJsonMap> T.mockProcessSuccess() = CSProcess<T>().apply {
+    later(1 * Second) {
+        success(this@mockProcessSuccess)
+    }
+}
+
+fun <T : CSJsonList> T.mockProcessSuccess(data: String) = CSProcess<T>().apply {
     later(1 * Second) {
         success(load(data))
     }

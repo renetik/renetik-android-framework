@@ -71,9 +71,9 @@ fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) visible(
 fun <T : View> T.invisibleIf(condition: Boolean) =
     apply { if (condition) invisible() else visible() }
 
-fun <T : View> T.shownIf(condition: Boolean?) = apply { if (condition.isTrue) show() else hide() }
+fun <T : View> T.shownIf(condition: Boolean?) = apply { if (condition.isTrue) show() else gone() }
 
-fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) hide() else show() }
+fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) gone() else show() }
 
 val <T : View> T.superview get() = parent as? View
 
