@@ -6,7 +6,7 @@ def mapsApiKey = localProperties().getProperty('com.google.android.geo.API_KEY')
 if (mapsApiKey == null) mapsApiKey = "Place com.google.android.geo.API_KEY to local.properties"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "renetik.android.sample"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 11
         versionName "1.0.2"
         resValue "string", "maps_api_key", mapsApiKey

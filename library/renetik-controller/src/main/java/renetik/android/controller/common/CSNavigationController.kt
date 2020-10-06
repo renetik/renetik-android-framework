@@ -1,5 +1,6 @@
 package renetik.android.controller.common
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,8 @@ import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
+import renetik.android.java.extensions.primitives.isFalse
+
 
 object CSNavigationInstance {
     lateinit var navigation: CSNavigationController
@@ -26,6 +29,7 @@ object CSNavigationInstance {
 const val PushID = "push_key"
 
 @Suppress("LeakingThis")
+@SuppressLint("UseCompatLoadingForDrawables")
 open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationItem {
 
     constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
@@ -48,9 +52,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         view.add(controller)
         controller.showingInContainer(true)
         controller.lifecycleInitialize()
-        updateBackButton()
-        updateBarTitle()
-        updateBarIcon()
+        updateBar()
         invalidateOptionsMenu()
         hideKeyboard()
         onViewControllerPush(controller)
@@ -63,11 +65,8 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             lastController.showingInContainer(false)
             view.remove(lastController)
             lastController.lifecycleDeInitialize()
-
             currentController?.showingInContainer(true)
-            updateBackButton()
-            updateBarTitle()
-            updateBarIcon()
+            updateBar()
             hideKeyboard()
             onViewControllerPop(lastController)
         }
@@ -87,9 +86,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         view.add(controller)
         controller.showingInContainer(true)
         controller.lifecycleInitialize()
-        updateBackButton()
-        updateBarTitle()
-        updateBarIcon()
+        updateBar()
         invalidateOptionsMenu()
         hideKeyboard()
         onViewControllerPush(controller)
@@ -100,7 +97,6 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
                                    controller: CSViewController<T>): CSViewController<T> {
         if (controllers.contains { it.getValue(PushID) == pushId })
             for (lastController in controllers.reversed()) {
-//                lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
                 controllers.delete(lastController)
                 lastController.showingInContainer(false)
                 view.remove(lastController)
@@ -114,9 +110,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         view.add(controller)
         controller.showingInContainer(true)
         controller.lifecycleInitialize()
-        updateBackButton()
-        updateBarTitle()
-        updateBarIcon()
+        updateBar()
         invalidateOptionsMenu()
         hideKeyboard()
         onViewControllerPush(controller)
@@ -133,22 +127,15 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         if (indexOfController == -1) throw exception("oldController not found in navigation")
 
         controllers.delete(oldController).let { lastController ->
-            //            lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
             lastController.showingInContainer(false)
             view.remove(lastController)
             lastController.lifecycleDeInitialize()
             onViewControllerPop(lastController)
         }
         controllers.put(newController, indexOfController)
-//        controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
         view.addView(newController.view, indexOfController)
         newController.showingInContainer(false)
         newController.lifecycleInitialize()
-//        updateBackButton()
-//        updateBarTitle()
-//        updateBarIcon()
-//        invalidateOptionsMenu()
-//        hideKeyboard()
         onViewControllerPush(newController)
         return newController
     }
@@ -208,23 +195,25 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         actionBar?.setIcon(icon)
     }
 
-    private fun updateBackButton() {
-        val isBackButtonVisible =
-            (currentController as? CSNavigationItem)?.isNavigationBackButtonVisible
-                ?: isNavigationBackButtonVisible
-        if (controllers.size > 1 && isBackButtonVisible) showBackButton()
-        else hideBackButton()
+    private fun updateBarBackButton() {
+        val isBackButtonVisible = currentNavigationItem.isNavigationBackButtonVisible
+        if (controllers.size > 1 && isBackButtonVisible) {
+            actionBar?.setDisplayHomeAsUpEnabled(true)
+            updateBackButtonIcon()
+        } else actionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    private fun updateBackButtonIcon() {
+        val navigationBackButtonIcon = currentNavigationItem.navigationBackButtonIcon
+        val navigationBackButtonIconTint = currentNavigationItem.navigationBackButtonIconTint
+        navigationBackButtonIcon?.let {
+            val drawable = getDrawable(it)!!
+            navigationBackButtonIconTint?.let { drawable.setTint(it) }
+            actionBar?.setHomeAsUpIndicator(drawable)
+        } ?: actionBar?.setHomeAsUpIndicator(null)
     }
 
     val currentController get() = controllers.last
-
-    open fun showBackButton() {
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    open fun hideBackButton() {
-        actionBar?.setDisplayHomeAsUpEnabled(false)
-    }
 
     override fun onGoBack(): Boolean {
         if (controllers.size > 1) {
@@ -248,16 +237,27 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 
     fun setSupportActionBar(toolbar: Toolbar) {
         activity().setSupportActionBar(toolbar)
-        updateBackButton()
+        updateBar()
+    }
+
+    private fun updateBar() {
+        val isBarVisible = currentNavigationItem.isBarVisible
+        if (isBarVisible.isFalse) actionBar!!.hide() else actionBar!!.show()
+        updateBarBackButton()
         updateBarTitle()
         updateBarIcon()
     }
+
+    val currentNavigationItem get() = (currentController as? CSNavigationItem) ?: this
 }
 
 interface CSNavigationItem {
+    val isBarVisible: Boolean? get() = null
     val isNavigationIconVisible: Boolean? get() = null
     val navigationItemIcon: Int? get() = null
     val isNavigationTitleVisible: Boolean? get() = null
     val navigationItemTitle: String? get() = null
     val isNavigationBackButtonVisible get() = true
+    val navigationBackButtonIcon: Int? get() = null
+    val navigationBackButtonIconTint: Int? get() = null
 }

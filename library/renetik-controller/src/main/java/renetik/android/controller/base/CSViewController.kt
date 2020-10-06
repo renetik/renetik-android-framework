@@ -374,11 +374,11 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         invalidateOptionsMenu()
     }
 
-    override fun hideKeyboard() = later {
+    override fun hideKeyboardImpl() {
         navigation.activity().currentFocus?.let {
             service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
                 .hideSoftInputFromWindow(it.rootView.windowToken, 0)
-        } ?: super.hideKeyboard()
+        } ?: super.hideKeyboardImpl()
     }
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle

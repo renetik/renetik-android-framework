@@ -10,6 +10,7 @@ import renetik.android.controller.extensions.findView
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.isSet
+import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
 
 class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, View.OnClickListener,
@@ -24,7 +25,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     private val listener: (String) -> Unit
 
     constructor(
-        parent: CSViewController<View>, hint: String = "Enter search text",
+        parent: CSViewController<View>, hint: String = "", text: String = "",
         listener: (String) -> Unit
     ) : super(parent) {
         this.hint = hint
@@ -33,18 +34,20 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     }
 
     constructor(
-        parent: CSViewController<*>, search: SearchView, text: String = "",
+        parent: CSViewController<*>, search: SearchView, hint: String = "", text: String = "",
         onChange: (String) -> Unit
     ) : super(parent) {
+        this.hint = hint
         this.text = text
         this.listener = onChange
         setView(search)
     }
 
     constructor(
-        parent: CSViewController<*>, viewId: Int, text: String = "",
+        parent: CSViewController<*>, viewId: Int, hint: String = "", text: String = "",
         listener: (String) -> Unit
     ) : super(parent, viewId) {
+        this.hint = hint
         this.text = text
         this.listener = listener
     }
@@ -63,6 +66,10 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
         clearButton.onClick {
             view.setQuery("", true)
             eventOnClearButtonClick.fire(this)
+        }
+        view.imageView(androidx.appcompat.R.id.search_mag_icon).onClick {
+            view.requestFocus()
+            showKeyboard()
         }
     }
 

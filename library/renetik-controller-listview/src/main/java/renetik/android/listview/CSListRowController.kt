@@ -11,11 +11,10 @@ import renetik.android.listview.CSListRow.RowTypes.Row
 open class CSListRowController<RowType : Any, T : AbsListView>(
     parent: CSViewController<*>, listViewId: Int,
     private val onCreateView: (CSListRowController<RowType, T>).(Int) -> CSRowView<CSListRow<RowType>>?)
-    : CSListController<CSListRow<RowType>, T>(parent, listViewId,
-    { viewType ->
-        onCreateView(this as CSListRowController<RowType, T>, viewType)
-            ?: CSRowView(this, layout(R.layout.cs_empty))
-    }) {
+    : CSListController<CSListRow<RowType>, T>(parent, listViewId, { viewType ->
+    onCreateView(this as CSListRowController<RowType, T>, viewType)
+        ?: CSRowView(this, layout(R.layout.cs_empty))
+}) {
 
     fun createRowView(layout: CSLayoutId,
                       function: ((CSRowView<CSListRow<RowType>>).(RowType) -> Unit)? = null) =
