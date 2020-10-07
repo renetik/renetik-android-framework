@@ -5,7 +5,9 @@ import android.content.res.Configuration
 import android.content.res.Resources.NotFoundException
 import android.net.Uri
 import android.util.DisplayMetrics
+import android.util.DisplayMetrics.DENSITY_DEFAULT
 import android.util.TypedValue
+import android.util.TypedValue.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
@@ -50,13 +52,18 @@ fun Context.resourceInts(id: Int) = catchError<NotFoundException> {
 
 val Context.displayMetrics get():DisplayMetrics = resources.displayMetrics
 
-fun Context.toDpF(pixel: Int) = pixel / (displayMetrics.densityDpi / 160f)
+fun Context.toDpF(pixel: Int) = pixel / (displayMetrics.densityDpi.toFloat() / DENSITY_DEFAULT)
 fun Context.toDp(pixel: Int) = toDpF(pixel).toInt()
 
-fun Context.toPixelF(dp: Float) = (dp * (displayMetrics.densityDpi / 160f))
-fun Context.toPixelF(dp: Int) = toPixelF(dp.toFloat())
-fun Context.toPixel(dp: Float) = toPixelF(dp).toInt()
-fun Context.toPixel(dp: Int) = toPixelF(dp.toFloat()).toInt()
+fun Context.dpToPixelF(dp: Float) = applyDimension(COMPLEX_UNIT_DIP, dp, displayMetrics)
+fun Context.dpToPixelF(dp: Int) = dpToPixelF(dp.toFloat())
+fun Context.dpToPixel(dp: Float) = dpToPixelF(dp).toInt()
+fun Context.dpToPixel(dp: Int) = dpToPixelF(dp.toFloat()).toInt()
+
+fun Context.spToPixelF(sp: Float) = applyDimension(COMPLEX_UNIT_SP, sp, displayMetrics)
+fun Context.spToPixelF(sp: Int) = dpToPixelF(sp.toFloat())
+fun Context.spToPixel(sp: Float) = dpToPixelF(sp).toInt()
+fun Context.spToPixel(sp: Int) = dpToPixelF(sp.toFloat()).toInt()
 
 private fun Context.resolveAttribute(attribute: Int) =
     TypedValue().apply { theme.resolveAttribute(attribute, this, true) }

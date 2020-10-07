@@ -6,7 +6,6 @@ dependencies {
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':customFontHtml')
 }
 repositories {
     mavenCentral()

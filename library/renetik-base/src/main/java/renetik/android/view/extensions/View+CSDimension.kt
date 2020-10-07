@@ -5,7 +5,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.base.CSApplicationObject.application
 import renetik.android.extensions.toDp
-import renetik.android.extensions.toPixel
+import renetik.android.extensions.dpToPixel
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit) = apply {
     if (width == 0 || height == 0) onLayout {
@@ -54,7 +54,7 @@ fun <T : View> T.margin(value: Int) = apply {
     }
 }
 
-fun <T : View> T.marginDp(value: Int) = margin(context.toPixel(value))
+fun <T : View> T.marginDp(value: Int) = margin(context.dpToPixel(value))
 
 fun <T : View> T.bottomMargin(value: Int) = apply {
     layoutParams = (layoutParams as MarginLayoutParams).apply {
@@ -79,7 +79,7 @@ fun <T : View> T.endMargin(value: Int) = apply {
     }
 }
 
-fun <T : View> T.horizontalMarginDp(value: Int) = horizontalMargin(context.toPixel(value))
+fun <T : View> T.horizontalMarginDp(value: Int) = horizontalMargin(context.dpToPixel(value))
 
 fun <T : View> T.horizontalMargin(value: Int) = apply {
     layoutParams = (layoutParams as MarginLayoutParams).apply {
@@ -125,12 +125,12 @@ var View.layoutHeight: Int
 var View.widthDp: Int
     get() = application.toDp(width)
     set(value) {
-        width(application.toPixel(value))
+        width(application.dpToPixel(value))
     }
 
 var View.heightDp: Int
     get() = application.toDp(height)
     set(value) {
-        height(application.toPixel(value))
+        height(application.dpToPixel(value))
     }
 

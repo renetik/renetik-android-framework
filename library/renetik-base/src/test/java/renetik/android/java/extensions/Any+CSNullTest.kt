@@ -6,19 +6,19 @@ import org.junit.Test
 
 class AnyCSNullTest {
     @Test
-    fun notNull() {
+    fun notNullTest() {
         var a: String? = ""
         var b: String? = ""
         var c: String? = ""
-        assertTrue(notNull(a, b, c))
+        assertTrue(isAllNotNull(a, b, c))
         a = null
-        assertFalse(notNull(a, b, c))
+        assertTrue(isAnyNotNull(a, b, c))
         b = null; c = null
-        assertFalse(notNull(a, b, c))
+        assertTrue(isAllNull(a, b, c))
     }
 
     @Test
-    fun isNull() {
+    fun isNullTest() {
         var a: String? = ""
         var b: String? = ""
         var c: String? = ""
@@ -26,6 +26,6 @@ class AnyCSNullTest {
         a = null
         assertTrue(isAnyNull(a, b, c))
         b = null; c = null
-        assertTrue(isAnyNull(a, b, c))
+        assertTrue(isAllNull(a, b, c))
     }
 }
