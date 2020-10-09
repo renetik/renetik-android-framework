@@ -9,6 +9,7 @@ import renetik.android.java.common.CSDataConstants.MB
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import java.io.File
+import java.net.CookieManager
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLSocketFactory
@@ -54,7 +55,8 @@ class CSOkHttpClient(val url: String) {
 
     val client: OkHttpClient by lazy {
         val builder = Builder().cache(Cache(File(application.cacheDir, "ResponseCache"), 10L * MB))
-        builder.cookieJar(cookieJar)
+        val cookieManager = CookieManager()
+        builder.cookieJar(JavaNetCookieJar(cookieManager))
         timeouts?.let {
             builder.connectTimeout(it.connection, SECONDS)
                 .readTimeout(it.read, SECONDS).writeTimeout(it.write, SECONDS)

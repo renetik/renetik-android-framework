@@ -94,7 +94,8 @@ open class CSProcess<Data : Any> : CSContextController {
         if (isFailed) logError(exception("already failed"))
         failedProcess = process
         isFailed = true
-        failedMessage = "${process.failedMessage}, ${process.throwable?.rootCauseMessage}"
+        failedMessage = (process.failedMessage?.let { "$it, " } ?: "") +
+                process.throwable?.rootCauseMessage
         throwable = process.throwable ?: Throwable()
         logError(throwable!!, failedMessage)
         eventFailed.fire(process)

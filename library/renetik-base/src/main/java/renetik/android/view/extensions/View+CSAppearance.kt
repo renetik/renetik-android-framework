@@ -25,20 +25,6 @@ fun <T : View> T.backgroundRoundedWithColor(@ColorInt value: Int, radius: Float 
     background = shape
 }
 
-//fun <T : View> T.background(value: Int) = apply { //TODO: Is this really necesary ?
-//    tryAndCatch(Resources.NotFoundException::class,
-//        { setBackgroundColor(context.resourceColor(value)) },
-//        {
-//            tryAndCatch(Resources.NotFoundException::class,
-//                { setBackgroundResource(context.resourceFromAttribute(value)) },
-//                {
-//                    tryAndCatch(Resources.NotFoundException::class,
-//                        { setBackgroundColor(context.colorFromAttribute(value)) },
-//                        { tryAndWarn { setBackgroundColor(value) } })
-//                })
-//        })
-//}
-
 fun <T : View> T.paddingDp(left: Int, top: Int, right: Int, bottom: Int) = apply {
     setPadding(context.dpToPixel(left), context.dpToPixel(top),
         context.dpToPixel(right), context.dpToPixel(bottom))
