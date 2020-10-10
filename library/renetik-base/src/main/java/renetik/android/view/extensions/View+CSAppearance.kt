@@ -1,6 +1,7 @@
 package renetik.android.view.extensions
 
 import android.content.res.ColorStateList
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.View
@@ -8,6 +9,10 @@ import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import renetik.android.extensions.dpToPixel
 
+
+fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {
+    background = ColorDrawable(value)
+}
 
 fun <T : View> T.backgroundTint(@ColorInt value: Int) = apply {
     backgroundTintList = ColorStateList.valueOf(value)
@@ -26,8 +31,10 @@ fun <T : View> T.backgroundRoundedWithColor(@ColorInt value: Int, radius: Float 
 }
 
 fun <T : View> T.paddingDp(left: Int, top: Int, right: Int, bottom: Int) = apply {
-    setPadding(context.dpToPixel(left), context.dpToPixel(top),
-        context.dpToPixel(right), context.dpToPixel(bottom))
+    setPadding(
+        context.dpToPixel(left), context.dpToPixel(top),
+        context.dpToPixel(right), context.dpToPixel(bottom)
+    )
 }
 
 fun <T : View> T.paddingDp(horizontal: Int = -1, vertical: Int = -1) = apply {

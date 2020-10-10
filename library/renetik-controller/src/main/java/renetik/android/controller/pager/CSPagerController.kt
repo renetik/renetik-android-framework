@@ -9,7 +9,6 @@ import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.isEmpty
 import renetik.android.java.extensions.later
-import renetik.android.java.extensions.setPrivateField
 import renetik.android.view.extensions.shownIf
 
 class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
@@ -62,10 +61,12 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
             .onReleased { index ->
                 if (currentIndex == view.currentItem)
                     updatePageVisibility(view.currentItem)
-                if (index == view.currentItem)
+                else if (index == view.currentItem)
                     updatePageVisibility(index)
             }
-            .onSelected { index -> currentIndex = index }
+            .onSelected { index ->
+                currentIndex = index
+            }
         if (controllers.hasItems) {
             updatePageVisibility(0)
             view.setCurrentItem(0, true)
@@ -91,13 +92,17 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     val current get() = currentIndex?.let { controllers.at(it) }
 
     // Bug in pager , animation work just when delayed
-    fun setActive(index: Int, animated: Boolean = true) = apply {
+    private fun setActive(index: Int, animated: Boolean = true) = apply {
         if (animated) later { view.setCurrentItem(index, true) }
         else view.setCurrentItem(index, false)
     }
 
     fun showPage(page: PageType) {
-        if (!controllers.contains(page)) add(page)
+        if (!controllers.contains(page)) {
+            add(page)
+            //OnPageChangeListener onSelected not called for first index
+            updatePageVisibility(0)
+        }
         setActive(index = controllers.indexOf(page))
     }
 

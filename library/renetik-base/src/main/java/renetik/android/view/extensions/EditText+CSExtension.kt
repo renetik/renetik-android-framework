@@ -16,10 +16,6 @@ val EditText.eventClear get() = propertyWithTag(R.id.EditTextEventOnClearTagKey)
 
 fun <T : EditText> T.onClear(listener: () -> Unit): T = apply { eventClear.listen(listener) }
 
-fun EditText.typeface(@FontRes font: Int) = apply {
-    typeface = ResourcesCompat.getFont(context, font)
-}
-
 @SuppressLint("ClickableViewAccessibility")
 fun <T : EditText> T.withClear(): T {
     updateClearIcon()
