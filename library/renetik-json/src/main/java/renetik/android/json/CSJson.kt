@@ -40,14 +40,14 @@ private fun Any?.toJsonType(): Any? {
 
 fun List<*>.toJSONArray(): JSONArray {
     val jsonArray = JSONArray()
-    for (entry in this) jsonArray.put(entry!!.toJsonType())
+    for (entry in this) jsonArray.put(entry.toJsonType())
     return jsonArray
 }
 
 fun Map<String, *>.toJSONObject(): JSONObject {
     val jsonObject = JSONObject()
     for (entry in entries)
-        jsonObject.put(entry.key, entry.value!!.toJsonType())
+        jsonObject.put(entry.key, entry.value.toJsonType())
     return jsonObject
 }
 

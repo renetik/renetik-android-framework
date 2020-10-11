@@ -1,6 +1,6 @@
 package renetik.android.client.okhttp3
 
-import com.androidnetworking.AndroidNetworking.initialize
+import com.androidnetworking.AndroidNetworking
 import okhttp3.*
 import okhttp3.Credentials.basic
 import okhttp3.OkHttpClient.Builder
@@ -70,6 +70,6 @@ class CSOkHttpClient(val url: String) {
         networkInterceptor?.let { builder.addNetworkInterceptor(it).addInterceptor(it) }
         sslSocketFactory?.let { builder.sslSocketFactory(it) }
         hostNameVerifier?.let { builder.hostnameVerifier(it) }
-        builder.build().apply { initialize(application, this) }
+        builder.build().apply { AndroidNetworking.initialize(application, this) }
     }
 }

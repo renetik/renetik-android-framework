@@ -1,10 +1,14 @@
 package renetik.android.controller.extensions
 
 import android.view.View
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.annotation.LayoutRes
+import androidx.lifecycle.LiveData
 import com.google.android.material.textfield.TextInputLayout
 import renetik.android.controller.common.CSNavigationInstance.navigation
+import renetik.android.java.common.CSName
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.isSet
@@ -12,6 +16,7 @@ import renetik.android.material.extensions.errorClear
 import renetik.android.material.extensions.onClear
 import renetik.android.material.extensions.onTextChange
 import renetik.android.view.extensions.*
+import kotlin.reflect.full.isSubclassOf
 
 private fun <View : android.view.View, T : Any> View.depends(
     property: CSEventProperty<T?>, conditions: (CSPropertyConditionList).() -> Unit,
@@ -68,8 +73,23 @@ fun TextView.property(property: CSEventProperty<String?>,
     if (depends != null) depends(property, depends, isInContainer)
 }
 
-fun <T> RadioGroup.property(property: CSEventProperty<T?>, mapOf: Map<Int, T>) =
-    onChange { property.value = mapOf[it] }
+inline fun <reified T> RadioGroup.property(
+    property: CSEventProperty<T?>, data: LiveData<List<T>>, @LayoutRes layoutId: Int) = apply {
+    data.observe(navigation) { list ->
+        list.forEach { add(inflate<RadioButton>(layoutId)).text(it.asString()) }
+        onChange { property.value = list[it] }
+    }
+}
+
+inline fun <reified T> RadioGroup.property(property: CSEventProperty<T?>,
+                                           mapOf: Map<Int, T>): RadioGroup {
+    if (T::class.isSubclassOf(CSName::class)) {
+        mapOf.forEach {
+            radio(it.key).text = it.value.asString()
+        }
+    }
+    return onChange { property.value = mapOf[it] }
+}
 
 fun View.shownIfPropertySet(property: CSEventProperty<*>) = apply {
     fun updateVisibility() = shownIf(property.value.isSet)
