@@ -10,9 +10,6 @@ val CSViewController<*>.intent: Intent get() = activity().intent
 fun <T : View, ViewController : CSViewController<T>>
         ViewController.push() = apply { navigation.push(this) }
 
-//fun <T : View, ViewController : CSViewController<T>>
-//        ViewController.push(pushKey: String) = apply { navigation.push(this, pushKey) }
-
 fun <T : View, ViewController : CSViewController<T>>
         ViewController.pushMain() = push("mainController")
 
