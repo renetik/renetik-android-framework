@@ -78,7 +78,7 @@ fun <T : CSName> RadioGroup.property(
     removeAllViews()
     data.observe(navigation) { list ->
         list.forEach { add(inflate<RadioButton>(layoutId)).text(it.name).model(it) }
-        onChange { property.value = list[it] }
+        onChange { property.value = radio(it).model() }
     }
 }
 

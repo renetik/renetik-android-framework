@@ -43,3 +43,9 @@ private fun <Data : Any> CSOperation<Data>.sendWithFailedDialog(
                     { cancel() })
         }
     }
+
+fun <Data : Any> CSOperation<Data>.sendSilently(
+    onSuccess: ((Data) -> Unit)? = null) = apply {
+    onSuccess?.let { this.onSuccess(it) }
+    send().onFailed { cancel() }
+}
