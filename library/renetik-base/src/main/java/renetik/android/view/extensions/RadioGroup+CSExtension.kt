@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import renetik.android.R
+import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 

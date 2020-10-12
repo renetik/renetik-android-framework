@@ -73,10 +73,11 @@ fun TextView.property(property: CSEventProperty<String?>,
     if (depends != null) depends(property, depends, isInContainer)
 }
 
-inline fun <reified T> RadioGroup.property(
+fun <T : CSName> RadioGroup.property(
     property: CSEventProperty<T?>, data: LiveData<List<T>>, @LayoutRes layoutId: Int) = apply {
+    removeAllViews()
     data.observe(navigation) { list ->
-        list.forEach { add(inflate<RadioButton>(layoutId)).text(it.asString()) }
+        list.forEach { add(inflate<RadioButton>(layoutId)).text(it.name).model(it) }
         onChange { property.value = list[it] }
     }
 }
