@@ -17,5 +17,6 @@ fun Any?.equalsAll(vararg items: Any?): Boolean {
 fun Any?.isAll(vararg items: Any?) = equalsAll(*items)
 
 fun <T : Any?> T.isTrue(predicate: (T) -> Boolean): Boolean = predicate(this)
+fun <T : Any?> T.isFalse(predicate: (T) -> Boolean): Boolean = !predicate(this)
 
 fun Any?.isOtherThen(vararg items: Any?) = !isAny(*items)

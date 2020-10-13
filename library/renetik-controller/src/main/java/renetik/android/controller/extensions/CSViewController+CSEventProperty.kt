@@ -5,7 +5,6 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import androidx.lifecycle.LiveData
 import com.google.android.material.textfield.TextInputLayout
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.java.common.CSName
@@ -74,12 +73,10 @@ fun TextView.property(property: CSEventProperty<String?>,
 }
 
 fun <T : CSName> RadioGroup.property(
-    property: CSEventProperty<T?>, data: LiveData<List<T>>, @LayoutRes layoutId: Int) = apply {
+    property: CSEventProperty<T?>, list: List<T>, @LayoutRes layoutId: Int) = apply {
     removeAllViews()
-    data.observe(navigation) { list ->
-        list.forEach { add(inflate<RadioButton>(layoutId)).text(it.name).model(it) }
-        onChange { property.value = radio(it).model() }
-    }
+    list.forEach { add(inflate<RadioButton>(layoutId)).text(it.name).model(it) }
+    onChange { property.value = radio(it).model() }
 }
 
 inline fun <reified T> RadioGroup.property(property: CSEventProperty<T?>,
