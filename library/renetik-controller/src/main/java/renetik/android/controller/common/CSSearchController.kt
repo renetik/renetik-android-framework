@@ -29,6 +29,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
         listener: (String) -> Unit
     ) : super(parent) {
         this.hint = hint
+        this.text = text
         this.listener = listener
         setView(SearchView(this))
     }

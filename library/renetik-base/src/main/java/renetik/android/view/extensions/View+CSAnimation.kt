@@ -11,7 +11,10 @@ import renetik.android.view.adapter.CSAnimatorAdapter
 val shortAnimationDuration =
     application.resources.getInteger(android.R.integer.config_shortAnimTime)
 
-fun <T : View> T.fadeIn(duration: Int = shortAnimationDuration): ViewPropertyAnimator? {
+val mediumAnimationDuration =
+    application.resources.getInteger(android.R.integer.config_mediumAnimTime)
+
+fun <T : View> T.fadeIn(duration: Int = mediumAnimationDuration): ViewPropertyAnimator? {
     if (isVisible) return null
     visibility = VISIBLE
     alpha = 0f
@@ -19,9 +22,7 @@ fun <T : View> T.fadeIn(duration: Int = shortAnimationDuration): ViewPropertyAni
 }
 
 fun <T : View> T.fadeOut(
-    duration: Int = shortAnimationDuration,
-    onDone: (() -> Unit)? = null
-): ViewPropertyAnimator? {
+    duration: Int = shortAnimationDuration, onDone: (() -> Unit)? = null): ViewPropertyAnimator? {
     when {
         isGone -> {
             onDone?.invoke()

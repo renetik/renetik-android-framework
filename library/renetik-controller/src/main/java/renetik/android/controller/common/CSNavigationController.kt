@@ -24,6 +24,7 @@ import renetik.android.java.extensions.primitives.isFalse
 
 object CSNavigationInstance {
     lateinit var navigation: CSNavigationController
+    val isInitialized get() = ::navigation.isInitialized
 }
 
 const val PushID = "push_key"
@@ -38,6 +39,9 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             super(parent, layout(R.layout.cs_navigation))
 
     init {
+        if (CSNavigationInstance.isInitialized) {
+            navigation.activity?.finish()
+        }
         navigation = this
     }
 

@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.base.CSLayoutId
-import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
@@ -27,7 +26,6 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isNull
-import renetik.android.java.extensions.later
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
@@ -70,7 +68,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     var bundle: Bundle? = null
     var parentController: CSViewController<*>? = null
-    private var activity: AppCompatActivity? = null
+    var activity: AppCompatActivity? = null
     private val parentRegistrations: CSEventRegistrations
     private var viewId: Int? = null
     val menuItems = list<CSMenuItem>()
@@ -375,7 +373,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     }
 
     override fun hideKeyboardImpl() {
-        navigation.activity().currentFocus?.let {
+        activity?.currentFocus?.let {
             service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
                 .hideSoftInputFromWindow(it.rootView.windowToken, 0)
         } ?: super.hideKeyboardImpl()
