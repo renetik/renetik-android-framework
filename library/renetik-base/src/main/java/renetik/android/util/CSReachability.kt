@@ -13,9 +13,9 @@ import renetik.android.logging.CSLog.logInfo
 
 class CSReachability : CSContextController() {
 
-    private val eventOnConnected = event<CSReachability>()
-    private val eventOnDisConnected = event<CSReachability>()
-    private val eventOnStateChanged = event<CSReachability>()
+    val eventOnConnected = event<CSReachability>()
+    val eventOnDisConnected = event<CSReachability>()
+    val eventOnStateChanged = event<CSReachability>()
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
