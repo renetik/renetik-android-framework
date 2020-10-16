@@ -23,13 +23,13 @@ class CSOkHttpClient(val url: String) {
     var sslSocketFactory: SSLSocketFactory? = null
     private var timeouts: Timeouts? = null
     val eventCookiesReceived = event<List<Cookie>>()
-    val cookies: MutableList<Cookie> = mutableListOf()
-    private var cookieJar: CookieJar = object : CookieJar {
-        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) =
-            eventCookiesReceived.fire(cookies)
-
-        override fun loadForRequest(url: HttpUrl): List<Cookie>? = cookies
-    }
+//    val cookies: MutableList<Cookie> = mutableListOf()
+//    private var cookieJar: CookieJar = object : CookieJar {
+//        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) =
+//            eventCookiesReceived.fire(cookies)
+//
+//        override fun loadForRequest(url: HttpUrl): List<Cookie>? = cookies
+//    }
 
     fun onCookiesReceived(function: (List<Cookie>) -> Unit) =
         eventCookiesReceived.listen(function)
@@ -52,11 +52,9 @@ class CSOkHttpClient(val url: String) {
         }
     }
 
-
     val client: OkHttpClient by lazy {
         val builder = Builder().cache(Cache(File(application.cacheDir, "ResponseCache"), 10L * MB))
-        val cookieManager = CookieManager()
-        builder.cookieJar(JavaNetCookieJar(cookieManager))
+        builder.cookieJar(JavaNetCookieJar(CookieManager()))
         timeouts?.let {
             builder.connectTimeout(it.connection, SECONDS)
                 .readTimeout(it.read, SECONDS).writeTimeout(it.write, SECONDS)

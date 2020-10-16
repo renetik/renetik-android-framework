@@ -43,7 +43,7 @@ class SamplePageListController(parent: CSViewController<ViewGroup>, title: Strin
         }.emptyView(R.id.SamplePageList_ListEmpty)
 
         CSRequestListLoadNextController(listController, R.layout.cs_list_load_next) {
-            model.server.loadSampleList(it.pageNumber).send("Loading list items", progress = false)
+            model.server.loadSampleList(it.pageNumber).send("Loading list items", isProgress = false)
         }
         CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
             model.server.deleteSampleListItems(toRemove).send("Deleting list item")

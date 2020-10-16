@@ -15,5 +15,6 @@ fun Boolean.ifNot(function: () -> Unit) {
 }
 
 val <T : Boolean?> T.isTrue: Boolean get() = this == true
+val <T : Boolean?> T.isNotTrue: Boolean get() = this != true
 
 val <T : Boolean?> T.isFalse: Boolean get() = this == false

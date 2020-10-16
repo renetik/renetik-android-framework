@@ -76,7 +76,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         }
     }
 
-    fun <T : View> pushReplaceLast(controller: CSViewController<T>): CSViewController<T> {
+    fun <T : View> pushAsLast(controller: CSViewController<T>): CSViewController<T> {
         controllers.deleteLast().notNull { lastController ->
             lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
             lastController.showingInContainer(false)
@@ -97,8 +97,8 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         return controller
     }
 
-    fun <T : View> pushReplaceLast(pushId: String,
-                                   controller: CSViewController<T>): CSViewController<T> {
+    fun <T : View> push(pushId: String,
+                        controller: CSViewController<T>): CSViewController<T> {
         if (controllers.contains { it.getValue(PushID) == pushId })
             for (lastController in controllers.reversed()) {
                 controllers.delete(lastController)
@@ -125,7 +125,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         oldController: CSViewController<T>,
         newController: CSViewController<T>
     ): CSViewController<T> {
-        if (currentController == oldController) return pushReplaceLast(newController)
+        if (currentController == oldController) return pushAsLast(newController)
 
         val indexOfController = controllers.indexOf(oldController)
         if (indexOfController == -1) throw exception("oldController not found in navigation")

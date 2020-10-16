@@ -14,11 +14,11 @@ fun <T : View, ViewController : CSViewController<T>>
         ViewController.pushMain() = push("mainController")
 
 fun <T : View, ViewController : CSViewController<T>>
-        ViewController.pushReplaceLast() = apply { navigation.pushReplaceLast(this) }
+        ViewController.pushAsLast() = apply { navigation.pushAsLast(this) }
 
 fun <T : View, ViewController : CSViewController<T>>
         ViewController.push(pushKey: String) =
-    apply { navigation.pushReplaceLast(pushKey, this) }
+    apply { navigation.push(pushKey, this) }
 
 var <T : View> CSViewController<T>.requestedOrientation
     get() = activity().requestedOrientation
