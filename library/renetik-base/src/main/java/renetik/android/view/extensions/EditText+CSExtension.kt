@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.view.KeyEvent.ACTION_UP
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.FontRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
 import renetik.android.java.event.event

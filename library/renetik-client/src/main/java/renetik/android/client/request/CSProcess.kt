@@ -4,7 +4,7 @@ import renetik.android.base.CSContextController
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.exception
-import renetik.android.java.extensions.getRootCauseMessage
+import renetik.android.java.extensions.rootCauseMessage
 import renetik.android.logging.CSLog.logDebug
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logInfo
@@ -94,7 +94,8 @@ open class CSProcess<Data : Any> : CSContextController {
         if (isFailed) logError(exception("already failed"))
         failedProcess = process
         isFailed = true
-        failedMessage = "${process.failedMessage}, ${process.throwable?.getRootCauseMessage()}"
+        failedMessage = (process.failedMessage?.let { "$it, " } ?: "") +
+                process.throwable?.rootCauseMessage
         throwable = process.throwable ?: Throwable()
         logError(throwable!!, failedMessage)
         eventFailed.fire(process)

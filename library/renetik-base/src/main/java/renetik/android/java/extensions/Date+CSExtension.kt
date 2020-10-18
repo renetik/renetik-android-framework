@@ -25,3 +25,9 @@ fun Date.addYears(value: Int): Date {
 }
 
 fun Date.createDatedDirName() = format("yyyy-MM-dd_HH-mm-ss")
+
+fun Date.formatToISO8601(): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US)
+    dateFormat.timeZone = TimeZone.getTimeZone("CET")
+    return dateFormat.format(this)
+}

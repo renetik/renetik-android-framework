@@ -4,23 +4,17 @@ import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.extensions.primitives.isTrue
 import renetik.android.view.extensions.shownIf
+import renetik.android.view.extensions.superview
 
-fun <View : android.view.View, T : Any> View.depends(
-    property: CSEventProperty<T?>, conditions: (CSPropertyConditionList).() -> Unit) = apply {
-    val dependency = CSPropertyConditionList {
-        val result = falseIfAnyConditionIsFalse()
-        shownIf(result)
-        if (!result) property.value = null
-    }
+fun validate(conditions: (CSPropertyConditionList).() -> Unit, onResult: (Boolean) -> Unit) {
+    val dependency = CSPropertyConditionList { onResult(falseIfAnyConditionIsFalse()) }
     conditions(dependency)
     dependency.evaluate()
 }
 
-fun <View : android.view.View> View.depends(conditions: (CSPropertyConditionList).() -> Unit) =
+fun <View : android.view.View> View.shownIf(conditions: (CSPropertyConditionList).() -> Unit) =
     apply {
-        val dependency = CSPropertyConditionList { shownIf(falseIfAnyConditionIsFalse()) }
-        conditions(dependency)
-        dependency.evaluate()
+        validate(conditions) { result -> shownIf(result) }
     }
 
 class CSPropertyConditionList(val evaluate: (CSPropertyConditionList).() -> Unit) {

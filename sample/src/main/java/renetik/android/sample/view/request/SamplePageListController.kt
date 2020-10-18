@@ -11,7 +11,6 @@ import renetik.android.controller.extensions.swipeRefresh
 import renetik.android.controller.pager.CSPagerPage
 import renetik.android.dialog.showView
 import renetik.android.framework.extensions.send
-import renetik.android.framework.extensions.sendWithProgress
 import renetik.android.listview.CSRowView
 import renetik.android.listview.actions.CSRemoveListRowsController
 import renetik.android.listview.extensions.listController
@@ -44,10 +43,10 @@ class SamplePageListController(parent: CSViewController<ViewGroup>, title: Strin
         }.emptyView(R.id.SamplePageList_ListEmpty)
 
         CSRequestListLoadNextController(listController, R.layout.cs_list_load_next) {
-            model.server.loadSampleList(it.pageNumber).send("Loading list items", progress = false)
+            model.server.loadSampleList(it.pageNumber).send("Loading list items", isProgress = false)
         }
         CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
-            model.server.deleteSampleListItems(toRemove).sendWithProgress("Deleting list item")
+            model.server.deleteSampleListItems(toRemove).send("Deleting list item")
                 .onSuccess { listController.reload(progress = true).refresh() }
         }
         swipeRefresh(R.id.SamplePageList_Pull).listController(listController)

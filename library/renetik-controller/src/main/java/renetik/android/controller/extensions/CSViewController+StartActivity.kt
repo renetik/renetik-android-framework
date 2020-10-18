@@ -96,12 +96,12 @@ private fun CSViewController<*>.showInMarket(packageName: String?) {
     startActivity(intent)
 }
 
-fun <T : CSViewController<*>> T.startActivityForUri(uri: Uri,
-                                                    onActivityNotFound: ((ActivityNotFoundException) -> Unit)?) =
+fun <T : CSViewController<*>> T.startActivityForUri(
+    uri: Uri, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) =
     startActivityForUriAndType(uri, null, onActivityNotFound)
 
-fun <T : CSViewController<*>> T.startActivityForUriAndType(uri: Uri, type: String?,
-                                                           onActivityNotFound: ((ActivityNotFoundException) -> Unit)?) {
+fun <T : CSViewController<*>> T.startActivityForUriAndType(
+    uri: Uri, type: String?, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.setDataAndType(uri, type)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP

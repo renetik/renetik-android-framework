@@ -4,6 +4,7 @@ import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.children
 
 val ViewGroup.lastChild: View?
     get() = if (childCount > 0) getChildAt(childCount - 1) else null
@@ -38,3 +39,5 @@ fun <ViewType : View> ViewGroup.inflate(@LayoutRes layoutId: Int): ViewType =
 fun <T : ViewGroup> T.remove(view: View) = apply { removeView(view) }
 
 fun <T : ViewGroup> T.removeSubViews() = apply { removeAllViews() }
+
+fun ViewGroup.childAt(condition: (View) -> Boolean) = children.find(condition)

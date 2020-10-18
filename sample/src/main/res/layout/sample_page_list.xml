@@ -18,6 +18,6 @@
         style="@style/CSWrap"
         android:layout_gravity="center"
         android:text="No items in list"
-        android:textAppearance="@style/CSTextTitle"
+        android:textAppearance="@style/CSTextHeadline"
         android:textColor="@color/cs_dark_gray_text" />
 </FrameLayout>

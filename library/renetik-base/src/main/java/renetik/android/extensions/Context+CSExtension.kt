@@ -48,6 +48,7 @@ val Context.versionCode
 
 @Suppress("DEPRECATION")
 val Context.appKeyHash
+    @SuppressLint("PackageManagerGetSignatures")
     get() = catchAllErrorReturnNull {
         val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
         if (info.signatures.isSet) {
@@ -61,6 +62,21 @@ val Context.packageInfo
     get() = catchWarnReturnNull<PackageInfo, NameNotFoundException> {
         packageManager.getPackageInfo(packageName, 0)
     }
+
+@SuppressLint("UseCompatLoadingForDrawables")
+fun Context.getDrawable(name: String): Drawable? {
+    val resourceId = resources.getIdentifier(name, "drawable", packageName)
+    return resources.getDrawable(resourceId);
+}
+
+fun Context.getColorResource(name: String): Int? {
+    val colorResource = resources.getIdentifier(name, "color", packageName)
+    return if (colorResource == 0) null else colorResource
+}
+
+fun Context.getColor(name: String): Int? = getColorResource(name)?.let { resourceColor(it) }
+
+
 
 
 

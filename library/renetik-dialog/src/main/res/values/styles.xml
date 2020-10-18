@@ -7,4 +7,12 @@
         <item name="android:windowNoTitle">true</item>
         <!--        <item name="android:background">@android:color/transparent</item>-->
     </style>
+
+    <style name="CSFullScreenDialogStyle">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
 </resources>

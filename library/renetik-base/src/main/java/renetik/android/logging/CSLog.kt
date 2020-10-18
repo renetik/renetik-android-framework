@@ -8,34 +8,41 @@ import renetik.android.java.extensions.primitives.separateToString
 
 object CSLog {
 
+    //TODO: I could not make this work somehow...
+    // When view is created by android studio layout editor there is no application
+//    val defaultLogger = AndroidLogger()
+
+    val logger: CSLogger
+        get() = application.logger
+
     fun logDebug(vararg values: Any?) =
-            application.logger.debug(*createLogMessage(values))
+        logger.debug(*createLogMessage(values))
 
     fun logWarn(vararg values: Any?) =
-            application.logger.warn(*createLogMessage(values))
+        logger.warn(*createLogMessage(values))
 
     fun logWarn(e: Throwable, vararg values: Any?) =
-            application.logger.warn(e, *createLogMessage(values))
+        logger.warn(e, *createLogMessage(values))
 
     fun logError(vararg values: Any?) =
-            application.logger.error(*createLogMessage(values))
+        logger.error(*createLogMessage(values))
 
     fun logError(e: Throwable, vararg values: Any?) =
-            application.logger.error(e, *createLogMessage(values))
+        logger.error(e, *createLogMessage(values))
 
     fun logInfo(vararg values: Any?) =
-            application.logger.info(*createLogMessage(values))
+        logger.info(*createLogMessage(values))
 
     fun logInfoToast(vararg values: Any?) {
         val message = createLogMessage(values)
         toast(" ".separateToString(*message))
-        application.logger.info(*message)
+        logger.info(*message)
     }
 
     private fun createLogMessage(values: Array<out Any?>): Array<Any?> {
         val element = Thread.currentThread().stackTrace[4]
         return list<Any?>("${element.className}(${element.fileName}:${element.lineNumber})")
-                .putAll(*values).toTypedArray()
+            .putAll(*values).toTypedArray()
     }
 }
 

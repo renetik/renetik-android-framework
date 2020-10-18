@@ -18,7 +18,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/SampleMap_MapTypeButton"
-            style="@style/CSButtonFloatingTopStartWrap"
+            style="@style/CSFloatingButtonTopStartWrap"
             android:src="@drawable/outline_map_24" />
 
 
@@ -33,13 +33,13 @@
                     android:gravity="center"
                     android:paddingTop="5dp"
                     android:text="Some other map examples"
-                    android:textAppearance="@style/CSTextSubtitle" />
+                    android:textAppearance="@style/CSTextSubtitle1" />
 
                 <LinearLayout style="@style/CSHorizontalLayoutMatchWrap">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/SampleMap_DrawPathMapButton"
-                        style="@style/CSButtonVariantFillWrap"
+                        style="@style/CSVariantButtonFillWrap"
                         android:layout_marginEnd="2dp"
                         android:text="Draw Path Example" />
 

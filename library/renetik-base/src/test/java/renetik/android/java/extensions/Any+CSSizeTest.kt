@@ -3,9 +3,8 @@ package renetik.android.java.extensions
 import org.junit.Assert.*
 import org.junit.Test
 import renetik.android.java.common.CSSizeInterface
-import renetik.android.java.common.property
+import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.collections.map
 
 class AnyCSSizeTest {
     @Test

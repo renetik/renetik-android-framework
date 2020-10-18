@@ -2,7 +2,7 @@ package renetik.android.controller.extensions
 
 import android.view.View
 import renetik.android.controller.base.CSView
-import renetik.android.extensions.toPixel
+import renetik.android.extensions.dpToPixel
 import renetik.android.java.extensions.isSet
 import renetik.android.java.math.CSPoint
 
@@ -59,7 +59,7 @@ fun CSView<*>.size(width: Int, height: Int) = apply {
 fun CSView<*>.width(value: Int) = apply {
     if (value > 0) {
         val params = view.layoutParams
-        params.width = toPixel(value)
+        params.width = dpToPixel(value)
         view.layoutParams = params
     }
 }
@@ -67,7 +67,7 @@ fun CSView<*>.width(value: Int) = apply {
 fun CSView<*>.height(value: Int) = apply {
     if (value > 0) {
         val params = view.layoutParams
-        params.height = toPixel(value)
+        params.height = dpToPixel(value)
         view.layoutParams = params
     }
 }
@@ -75,7 +75,7 @@ fun CSView<*>.height(value: Int) = apply {
 private fun CSView<*>.setSize(width: Boolean, size: Int, dip: Boolean) {
     var value = size
     val params = view.layoutParams
-    if (value > 0 && dip) value = toPixel(value)
+    if (value > 0 && dip) value = dpToPixel(value)
     if (width) params.width = value
     else params.height = value
     view.layoutParams = params

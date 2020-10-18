@@ -8,7 +8,7 @@
         android:id="@id/CS_ItemPicker_TitleTextView"
         style="@style/CSMatchWrap"
         android:text="Title"
-        android:textAppearance="@style/CSTextTitle" />
+        android:textAppearance="@style/CSTextHeadline" />
 
     <NumberPicker
         android:id="@id/CS_ItemPicker_NumberPicker"

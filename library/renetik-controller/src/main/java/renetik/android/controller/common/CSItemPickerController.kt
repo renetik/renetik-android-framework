@@ -15,6 +15,7 @@ import renetik.android.view.extensions.disableTextEditing
 import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.text
 
+
 class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_item_picker,
                                         title: CharSequence, val data: List<Row>,
                                         selectedIndex: Int = 0, val onSelected: (Row) -> Unit)

@@ -1,11 +1,26 @@
 package renetik.android.view.extensions
 
+import android.content.Context
+import android.graphics.Paint
+import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
+import android.text.InputType.TYPE_CLASS_NUMBER
+import android.text.InputType.TYPE_NUMBER_VARIATION_NORMAL
+import android.util.AttributeSet
+import android.util.TypedValue.COMPLEX_UNIT_SP
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
+import androidx.annotation.ColorInt
 import renetik.android.java.extensions.asStringArray
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.primitives.count
+import renetik.android.java.extensions.privateField
+import renetik.android.java.extensions.setPrivateField2
+
 
 fun <Row : Any> NumberPicker.loadData(data: List<Row>, selectedIndex: Int) = apply {
     if (data.hasItems) {
@@ -22,4 +37,83 @@ fun NumberPicker.circulate(circulate: Boolean) = apply {
 
 fun NumberPicker.disableTextEditing(disable: Boolean) = apply {
     descendantFocusability = if (disable) FOCUS_BLOCK_DESCENDANTS else FOCUS_BEFORE_DESCENDANTS
+}
+
+// setSelectionDividerHeight requires api 29
+fun NumberPicker.selectionDividerHeight(height: Int) =
+    setPrivateField2("mSelectionDividerHeight", height)
+
+fun NumberPicker.selectionDividerColor(@ColorInt color: Int) =
+    setPrivateField2("mSelectionDivider", ColorDrawable(color))
+
+class CSNumberPicker(context: Context, attrs: AttributeSet) : NumberPicker(context, attrs) {
+
+    var editTextList: MutableList<EditText>? = null
+    var typeface: Typeface? = null
+        set(value) {
+            field = value
+            for (editText in editTextList!!) value?.let { editText.typeface = it }
+        }
+    var textSize: Int? = null
+        set(value) {
+            field = value
+            for (editText in editTextList!!) value?.let { editText.textSize = it.toFloat() }
+        }
+
+    @ColorInt
+    var textColor: Int? = null
+        set(value) {
+            field = value
+            for (editText in editTextList!!) value?.let { editText.setTextColor(it) }
+        }
+
+    override fun addView(child: View) {
+        super.addView(child)
+        updateView(child)
+    }
+
+    override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams) {
+        super.addView(child, index, params)
+        updateView(child)
+    }
+
+    override fun addView(child: View, params: ViewGroup.LayoutParams) {
+        super.addView(child, params)
+        updateView(child)
+    }
+
+    private fun updateView(view: View) {
+        if (editTextList == null) editTextList = mutableListOf<EditText>()
+        if (view is EditText) editTextList!!.add(view)
+    }
+
+    private fun updateTextAttributes() {
+        disableFocusability()
+        textColor?.let { selectorWheelPaint?.color = it }
+        textSize?.let { selectorWheelPaint?.textSize = it.toFloat() }
+        typeface?.let { selectorWheelPaint?.typeface = it }
+
+        for (i in 0 until childCount) {
+            val child = getChildAt(i)
+            if (child is EditText) {
+                textColor?.let { child.setTextColor(it) }
+                textSize?.let { child.setTextSize(COMPLEX_UNIT_SP, it.toFloat()) }
+                child.inputType = TYPE_CLASS_NUMBER or TYPE_NUMBER_VARIATION_NORMAL
+                typeface?.let { child.typeface = it }
+                invalidate()
+            }
+        }
+    }
+
+    private fun disableFocusability() {
+        inputText?.filters = arrayOfNulls(0)
+    }
+
+    private val selectorWheelPaint: Paint? by lazy {
+        privateField<Paint>("mSelectorWheelPaint")
+    }
+
+    private val inputText: EditText? by lazy {
+        privateField<EditText>("mInputText")
+    }
 }

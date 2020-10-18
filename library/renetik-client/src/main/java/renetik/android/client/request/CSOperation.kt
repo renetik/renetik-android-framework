@@ -49,10 +49,10 @@ open class CSOperation<Data : Any>() : CSContextController() {
         process.notNull {
             if (it.isFailed) {
                 eventFailed.fire(it)
-                eventDone.fire(it.data)
+                eventDone.fire(null)
             } else {
                 it.cancel()
-                eventDone.fire(it.data)
+                eventDone.fire(null)
             }
         }
     }

@@ -13,7 +13,7 @@
         android:gravity="center"
         android:layout_gravity="center"
         android:text="Progress Title"
-        android:textAppearance="@style/CSTextSubtitle"
+        android:textAppearance="@style/CSTextSubtitle1"
         android:textColor="?attr/colorPrimary" />
 
     <com.google.android.material.progressindicator.ProgressIndicator
@@ -28,7 +28,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/progress_button_cancel"
-        style="@style/CSButtonTextWrap"
+        style="@style/CSTextButtonWrap"
         android:layout_gravity="center"
         android:text="Cancel"
         android:textAppearance="@style/CSTextButton"

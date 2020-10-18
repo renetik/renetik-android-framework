@@ -15,7 +15,7 @@
 
         <Button
             android:id="@+id/Request_ButtonCancel"
-            style="@style/CSButtonTextWrap"
+            style="@style/CSTextButtonWrap"
             android:text="@string/cs_dialog_cancel" />
 
     </LinearLayout>

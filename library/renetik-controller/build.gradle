@@ -7,6 +7,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "com.google.android.gms:play-services-base:$play_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     
     implementation project(':renetik-library-base')
     implementation project(':renetik-library-dialog')

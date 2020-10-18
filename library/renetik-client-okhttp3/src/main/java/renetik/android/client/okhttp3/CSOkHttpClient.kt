@@ -1,6 +1,6 @@
 package renetik.android.client.okhttp3
 
-import com.androidnetworking.AndroidNetworking.initialize
+import com.androidnetworking.AndroidNetworking
 import okhttp3.*
 import okhttp3.Credentials.basic
 import okhttp3.OkHttpClient.Builder
@@ -9,6 +9,7 @@ import renetik.android.java.common.CSDataConstants.MB
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import java.io.File
+import java.net.CookieManager
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLSocketFactory
@@ -22,13 +23,13 @@ class CSOkHttpClient(val url: String) {
     var sslSocketFactory: SSLSocketFactory? = null
     private var timeouts: Timeouts? = null
     val eventCookiesReceived = event<List<Cookie>>()
-    val cookies: MutableList<Cookie> = mutableListOf()
-    private var cookieJar: CookieJar = object : CookieJar {
-        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) =
-            eventCookiesReceived.fire(cookies)
-
-        override fun loadForRequest(url: HttpUrl): List<Cookie>? = cookies
-    }
+//    val cookies: MutableList<Cookie> = mutableListOf()
+//    private var cookieJar: CookieJar = object : CookieJar {
+//        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) =
+//            eventCookiesReceived.fire(cookies)
+//
+//        override fun loadForRequest(url: HttpUrl): List<Cookie>? = cookies
+//    }
 
     fun onCookiesReceived(function: (List<Cookie>) -> Unit) =
         eventCookiesReceived.listen(function)
@@ -51,10 +52,9 @@ class CSOkHttpClient(val url: String) {
         }
     }
 
-
     val client: OkHttpClient by lazy {
         val builder = Builder().cache(Cache(File(application.cacheDir, "ResponseCache"), 10L * MB))
-        builder.cookieJar(cookieJar)
+        builder.cookieJar(JavaNetCookieJar(CookieManager()))
         timeouts?.let {
             builder.connectTimeout(it.connection, SECONDS)
                 .readTimeout(it.read, SECONDS).writeTimeout(it.write, SECONDS)
@@ -68,6 +68,6 @@ class CSOkHttpClient(val url: String) {
         networkInterceptor?.let { builder.addNetworkInterceptor(it).addInterceptor(it) }
         sslSocketFactory?.let { builder.sslSocketFactory(it) }
         hostNameVerifier?.let { builder.hostnameVerifier(it) }
-        builder.build().apply { initialize(application, this) }
+        builder.build().apply { AndroidNetworking.initialize(application, this) }
     }
 }

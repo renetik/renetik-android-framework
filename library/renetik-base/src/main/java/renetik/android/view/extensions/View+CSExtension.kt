@@ -13,6 +13,9 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import renetik.android.R
+import renetik.android.java.event.CSEventProperty
+import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.extensions.isNull
 import renetik.android.java.extensions.primitives.isTrue
 
@@ -71,9 +74,9 @@ fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) visible(
 fun <T : View> T.invisibleIf(condition: Boolean) =
     apply { if (condition) invisible() else visible() }
 
-fun <T : View> T.shownIf(condition: Boolean?) = apply { if (condition.isTrue) show() else hide() }
+fun <T : View> T.shownIf(condition: Boolean?) = apply { if (condition.isTrue) show() else gone() }
 
-fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) hide() else show() }
+fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) gone() else show() }
 
 val <T : View> T.superview get() = parent as? View
 
@@ -110,6 +113,14 @@ fun View.getRectangleOnScreen(location: IntArray, rectangle: Rect) {
     getLocationOnScreen(location)
     rectangle.set(location[0], location[1], location[0] + width, location[1] + height)
 }
+
+fun <T> View.modelProperty(): CSEventProperty<T?> =
+    propertyWithTag(R.id.ViewModelTagKey) { property(null) }
+
+fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
+fun <T> View.model(): T? = modelProperty<T?>().value
+
+
 
 
 

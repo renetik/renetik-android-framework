@@ -30,4 +30,7 @@ fun View.snackBarError(text: String) =
         context.colorFromAttribute(R.attr.colorError),
         context.colorFromAttribute(R.attr.colorOnError))
 
-fun View.snackBarInfo(text: String) = snackBar(text)
+fun View.snackBarInfo(text: String)=
+    snackBar(text,
+        context.colorFromAttribute(R.attr.colorPrimary),
+        context.colorFromAttribute(R.attr.colorOnPrimary))

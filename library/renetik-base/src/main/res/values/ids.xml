@@ -2,4 +2,5 @@
 <resources>
     <item name="EditTextEventOnClearTagKey" type="id" />
     <item name="RadioGroupEventOnChangeTagKey" type="id" />
+    <item name="ViewModelTagKey" type="id" />
 </resources>

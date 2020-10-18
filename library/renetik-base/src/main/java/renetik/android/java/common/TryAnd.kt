@@ -3,6 +3,18 @@ package renetik.android.java.common
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logWarn
 
+
+inline fun <ReturnType> catchReturn(
+    tryFunction: () -> ReturnType, onExceptionReturn: (Throwable) -> ReturnType
+): ReturnType = try {
+    tryFunction()
+} catch (e: Throwable) {
+    onExceptionReturn(e)
+}
+
+inline fun <ReturnType> catchReturnNull(
+    tryFunction: () -> ReturnType): ReturnType? = catchReturn(tryFunction, { null })
+
 inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturn(
     tryFunction: () -> ReturnType, onExceptionReturn: (ExceptionType) -> ReturnType
 ): ReturnType {

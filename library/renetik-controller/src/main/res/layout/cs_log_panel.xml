@@ -29,7 +29,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/CSLog_Reload"
-            style="@style/CSButtonFloatingBottomEndWrap"
+            style="@style/CSFloatingButtonBottomEndWrap"
             android:src="@drawable/outline_refresh_24" />
 
     </com.google.android.material.card.MaterialCardView>

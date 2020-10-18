@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
+import android.view.inputmethod.InputMethodManager.SHOW_FORCED
 import androidx.annotation.LayoutRes
 import renetik.android.base.CSContextController
 import renetik.android.base.CSLayoutId
@@ -68,13 +70,22 @@ open class CSView<ViewType : View> : CSContextController {
 
     val hasParent get() = view.parent.notNull
 
-    open fun hideKeyboard() = later {
+    fun hideKeyboard() {
+        hideKeyboardImpl()
+        later { hideKeyboardImpl() }
+    }
+
+    open fun hideKeyboardImpl() {
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
             .hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
 
     fun showKeyboard(view: View, flag: Int) =
         service<InputMethodManager>(Context.INPUT_METHOD_SERVICE).showSoftInput(view, flag)
+
+    fun showKeyboard() =
+        service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
+            .toggleSoftInput(SHOW_FORCED, HIDE_IMPLICIT_ONLY);
 
     override fun onDestroy() {
         super.onDestroy()
