@@ -20,7 +20,7 @@ android {
         resValue "string", "maps_api_key", mapsApiKey
     }
     lintOptions {
-        tasks.lint.enabled = false
+//        tasks.lint.enabled = false
 //        checkReleaseBuilds false
     }
     testOptions {
@@ -37,5 +37,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "com.google.android.gms:play-services-maps:17.0.0"
-    implementation "com.google.android.gms:play-services-location:17.0.0"
+    implementation "com.google.android.gms:play-services-location:17.1.0"
 }
