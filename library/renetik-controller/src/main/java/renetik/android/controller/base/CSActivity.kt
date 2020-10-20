@@ -17,10 +17,6 @@ import renetik.android.java.event.fire
 
 abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
 
-    companion object {
-        var instance: CSActivity? = null
-    }
-
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
     override val onStart = event<Unit>()
@@ -50,7 +46,6 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         configuration.updateFrom(resources.configuration)
-        instance = this
         controller = createController()
         setContentView(controller!!.view)
         onCreate.fire(state)
@@ -81,7 +76,6 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
         onDestroyUnbindDrawables(controller!!.view)
         onDestroy.fire()
         controller = null
-        instance = null
         System.gc()
     }
 

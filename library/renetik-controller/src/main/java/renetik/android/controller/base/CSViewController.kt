@@ -29,8 +29,6 @@ import renetik.android.java.extensions.isNull
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
-var root: CSViewController<*>? = null
-
 abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewControllerParent,
     LifecycleOwner {
     override val onCreate = event<Bundle?>()
@@ -76,7 +74,6 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     private var isShowing = false
     private var onViewShowingCalled = false
     private val keyValueMap = mutableMapOf<String, Any>()
-    val isRoot get() = root === this
     val actionBar get() = activity().supportActionBar
 
     constructor(activity: CSActivity, layout: CSLayoutId) : super(activity, layout) {
@@ -170,7 +167,6 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         if (isDestroyed) throw exception("Already destroyed")
         parentRegistrations.cancel()
         parentController = null
-        if (isRoot) root = null
         activity = null
         isDestroyed = true
         whileShowingEventRegistrations.cancel()
@@ -197,7 +193,6 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
 
     private fun initializeParent(parent: CSViewControllerParent): CSEventRegistrations {
         activity = parent.activity()
-        parentController.isNull { root = this }
         return CSEventRegistrations(
             parent.onCreate.listen { argument -> onCreate(argument) },
             parent.onStart.listen { onStart() },
