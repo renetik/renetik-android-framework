@@ -2,6 +2,7 @@ package renetik.android.material.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.text.InputFilter
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
@@ -79,28 +80,46 @@ fun <T : TextInputLayout> T.onClear(listener: () -> Unit): T = apply {
 
 @SuppressLint("PrivateResource")
 fun <T : TextInputLayout> T.withClear(): TextInputLayout = apply {
-    fun updateClearIcon() {
-        val endIconDrawableToRestore = endIconDrawable
-        val isEndIconVisibleToRestore = isEndIconVisible
-        val endIconModeToRestore = endIconMode
-        fun restoreIcon() {
-            endIconDrawable = endIconDrawableToRestore
-            isEndIconVisible = isEndIconVisibleToRestore
-            endIconMode = endIconModeToRestore
-            // Imposible to restore click listener if was set and
-            // there was visual glitch if set to null
-            setEndIconOnClickListener { editText!!.performClick() }
+    var endIconDrawableToRestore: Drawable? = null
+    var isEndIconVisibleToRestore: Boolean? = null
+    var endIconModeToRestore: Int? = null
+    fun restoreState() {
+        endIconDrawable = endIconDrawableToRestore
+        endIconDrawableToRestore = null
+        isEndIconVisible = isEndIconVisibleToRestore!!
+        isEndIconVisibleToRestore = null
+        endIconMode = endIconModeToRestore!!
+        endIconModeToRestore = null
+        // Imposible to restore click listener if was set and
+        // there was visual glitch if set to null
+        setEndIconOnClickListener { editText!!.performClick() }
+    }
+
+    fun saveStateToRestore() {
+        endIconDrawableToRestore = endIconDrawable
+        isEndIconVisibleToRestore = isEndIconVisible
+        endIconModeToRestore = endIconMode
+    }
+
+    fun showClearIcon() {
+        setEndIconDrawable(R.drawable.abc_ic_clear_material)
+        isEndIconVisible = true
+        endIconMode = END_ICON_CUSTOM
+        setEndIconOnClickListener {
+//            restoreState()
+            title = ""
+            eventClear.fire()
         }
+    }
+
+    fun isClearVisible() = isEndIconVisibleToRestore != null
+    fun updateClearIcon() {
         if (title.isNotEmpty()) {
-            setEndIconDrawable(R.drawable.abc_ic_clear_material)
-            isEndIconVisible = true
-            endIconMode = END_ICON_CUSTOM
-            setEndIconOnClickListener {
-                restoreIcon()
-                title = ""
-                eventClear.fire()
+            if (!isClearVisible()) {
+                saveStateToRestore()
+                showClearIcon()
             }
-        } else restoreIcon()
+        } else if (isClearVisible()) restoreState()
     }
     updateClearIcon()
     editText!!.doAfterTextChanged { updateClearIcon() }
@@ -108,6 +127,11 @@ fun <T : TextInputLayout> T.withClear(): TextInputLayout = apply {
 
 fun <T : TextInputLayout> T.filters(vararg filters: InputFilter) = apply {
     editText!!.filters = filters
+}
+
+fun TextInputLayout.error(hint: String) {
+    isErrorEnabled = true
+    error = hint
 }
 
 fun <T : TextInputLayout> T.errorClear() = apply {

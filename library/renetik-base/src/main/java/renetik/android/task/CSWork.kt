@@ -2,47 +2,39 @@ package renetik.android.task
 
 import renetik.android.task.CSDoLaterObject.later
 
-fun schedule(milliseconds: Int, runnable: () -> Unit): CSWork {
+fun schedule(milliseconds: Int, runnable: (CSWork) -> Unit): CSWork {
     return CSWork(milliseconds, runnable)
 }
 
-class CSWork(private var delayMilliseconds: Int, private val workToInvoke: () -> Unit) {
+class CSWork(private var interval: Int, private val function: (CSWork) -> Unit) {
 
-    private var stop = true
+    private var isStarted = false
     private var doLater: CSDoLater? = null
 
-    val isStarted: Boolean
-        get() = !stop
-
-    fun run() = apply { workToInvoke() }
-
-    fun start(start: Boolean) = apply {
-        if (start) start()
-        else stop()
-    }
-
-    fun interval(interval: Int) = apply { delayMilliseconds = interval }
-
-    fun interval() = delayMilliseconds
+    fun run() = apply { function(this) }
 
     fun start() = apply {
-        if (stop) {
-            stop = false
+        if (!isStarted) {
+            isStarted = true
             process()
         }
     }
 
     fun stop() = apply {
-        stop = true
+        isStarted = false
         doLater?.stop()
     }
 
     private fun process() {
-        doLater = later(delayMilliseconds) {
-            if (!stop) {
-                workToInvoke()
+        doLater = later(interval) {
+            if (this.isStarted) {
+                function(this)
                 process()
             }
         }
     }
+
+    fun start(start: Boolean) = apply { if (start) start() else stop() }
+
+    fun interval(interval: Int) = apply { this.interval = interval }
 }

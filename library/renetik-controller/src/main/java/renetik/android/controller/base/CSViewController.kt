@@ -25,7 +25,6 @@ import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
-import renetik.android.java.extensions.isNull
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 

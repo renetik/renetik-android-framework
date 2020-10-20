@@ -24,6 +24,7 @@ interface CSServerData {
 const val PARSING_FAILED = "Parsing data as json failed"
 
 open class CSServerMapData : CSJsonMap(), CSServerData {
+    var code: Int? = null
 
     override fun loadHttp(code: Int, message: String, content: String) {
         content.parseJsonMap()?.let {
