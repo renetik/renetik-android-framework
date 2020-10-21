@@ -8,9 +8,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import renetik.android.base.CSLayoutId
 import renetik.android.controller.R
 import renetik.android.controller.common.CSNavigationInstance.navigation
+import renetik.android.java.common.CSProperty
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
-
 
 open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
 
@@ -48,7 +48,7 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
     fun showFullScreen() = apply {
         lifecycleInitialize()
         dialog = Dialog(context, R.style.CSFullScreenDialogStyle).apply {
-            setCancelable(false)
+            setCancelable(true)
             setCanceledOnTouchOutside(false)
             window?.setBackgroundDrawableResource(R.color.cs_transparent)
             setContentView(view)
