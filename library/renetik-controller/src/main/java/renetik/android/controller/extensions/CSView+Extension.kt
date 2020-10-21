@@ -12,8 +12,7 @@ import java.util.*
 import java.util.Calendar.HOUR_OF_DAY
 import java.util.Calendar.MINUTE
 
-fun <T : View> CSView<*>.findView(@IdRes id: Int): T? =
-    view.findView(id)
+fun <T : View> CSView<*>.findView(@IdRes id: Int): T? = view.findView(id)
 
 fun CSView<*>.view(
     @IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
