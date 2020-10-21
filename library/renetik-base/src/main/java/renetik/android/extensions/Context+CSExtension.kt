@@ -6,11 +6,14 @@ import android.content.ContextWrapper
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.util.Base64
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.content.res.getDrawableOrThrow
 import renetik.android.java.common.catchAllErrorReturnNull
 import renetik.android.java.common.catchWarnReturnNull
 import renetik.android.java.extensions.isSet
@@ -76,6 +79,19 @@ fun Context.getColorResource(name: String): Int? {
 
 fun Context.getColor(name: String): Int? = getColorResource(name)?.let { resourceColor(it) }
 
+
+val Context.progressDrawable: Drawable
+    get() {
+        val value = TypedValue()
+        theme.resolveAttribute(android.R.attr.progressBarStyleSmall, value, false)
+        val progressBarStyle = value.data
+        val attributes = intArrayOf(android.R.attr.indeterminateDrawable)
+        val array = obtainStyledAttributes(progressBarStyle, attributes)
+        val drawable = array.getDrawableOrThrow(0)
+        array.recycle()
+        (drawable as? Animatable)?.start()
+        return drawable
+    }
 
 
 

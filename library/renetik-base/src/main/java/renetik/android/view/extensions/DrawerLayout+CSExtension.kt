@@ -18,6 +18,14 @@ private fun DrawerLayout.toggleDrawer(@EdgeGravity gravity: Int) =
 
 fun DrawerLayout.toggleLeftPanel() = toggleDrawer(START)
 
+fun DrawerLayout.lockRightSide() {
+    setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, END);
+}
+
+fun DrawerLayout.unlockRightSide() {
+    setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, END);
+}
+
 fun DrawerLayout.closeLeftPanel() = closeDrawer((START))
 
 fun DrawerLayout.openLeftPanel() = openDrawer((START))

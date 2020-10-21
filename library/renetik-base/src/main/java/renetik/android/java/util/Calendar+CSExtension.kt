@@ -18,8 +18,10 @@ fun Calendar.dateFrom(year: Int, month: Int? = null, day: Int? = null): Date? {
     return from(year, month, day).time
 }
 
-fun Calendar.dateFrom(year: String?, month: String? = null, day: String? = null) =
-    dateFrom(year.asInt(), month?.toInt(), day?.toInt())
+fun Calendar.dateFrom(year: String?, month: String? = null, day: String? = null): Date? {
+    if (year == null) return null
+    return dateFrom(year.toInt(), month?.toInt(), day?.toInt())
+}
 
 val Calendar.age: Int
     get() {
