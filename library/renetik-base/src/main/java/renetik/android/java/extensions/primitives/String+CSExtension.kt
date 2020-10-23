@@ -5,6 +5,7 @@ import renetik.android.java.common.catchWarnReturnNull
 import renetik.android.java.extensions.*
 import renetik.android.java.extensions.primitives.CSStringConstants.Empty
 import renetik.android.java.extensions.primitives.CSStringConstants.NewLine
+import java.text.Normalizer
 import java.util.*
 
 object CSStringConstants {
@@ -74,3 +75,14 @@ val String.lowerCased: String get() = toLowerCase(Locale.ROOT)
 
 
 val String.upperCased: String get() = toUpperCase(Locale.ROOT)
+
+val String.noAccents: String get() = removeAccents()
+
+private val nonSpacingCharactersRegex = "\\p{Mn}+".toRegex()
+// some used this in remove accents code instead
+//private val combiningdiacriticalMarksRegex = "\\p{Mn}+".toRegex()
+
+fun String.removeAccents(): String {
+    return Normalizer.normalize(this, Normalizer.Form.NFD)
+        .replace(nonSpacingCharactersRegex, "")
+}
