@@ -9,7 +9,7 @@ import renetik.android.logging.CSLog.logDebug
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logInfo
 
-open class CSProcess<Data : Any> : CSContextController {
+open class CSProcess<Data : Any>(var data: Data? = null) : CSContextController() {
 
     private val eventSuccess = event<CSProcess<Data>>()
     fun onSuccess(function: (CSProcess<Data>) -> Unit) = apply { eventSuccess.listen(function) }
@@ -31,21 +31,10 @@ open class CSProcess<Data : Any> : CSContextController {
     var isFailed = false
     var isDone = false
     var isCanceled = false
-    var url: String? = null
     var title: String? = null
-    var data: Data? = null
     var failedMessage: String? = null
     var failedProcess: CSProcess<*>? = null
     var throwable: Throwable? = null
-
-    constructor(url: String, data: Data) {
-        this.url = url
-        this.data = data
-    }
-
-    constructor(data: Data? = null) {
-        data?.let { this.data = it }
-    }
 
     fun success() {
         if (isCanceled) return
@@ -61,7 +50,7 @@ open class CSProcess<Data : Any> : CSContextController {
     }
 
     private fun onSuccessImpl() {
-        logInfo("Response onSuccessImpl", this, url)
+        logInfo("Response onSuccessImpl", this)
         if (isFailed) logError(exception("already failed"))
         if (isSuccess) logError(exception("already success"))
         if (isDone) logError(exception("already done"))
@@ -119,6 +108,15 @@ open class CSProcess<Data : Any> : CSContextController {
         }
         isDone = true
         eventDone.fire(this)
+    }
+}
+
+open class CSHttpProcess<Data : Any>(url: String, data: Data) : CSProcess<Data>(data) {
+
+    var url: String? = url
+
+    override fun toString(): String {
+        return super.toString() + url
     }
 }
 

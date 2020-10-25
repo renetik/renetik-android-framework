@@ -15,19 +15,19 @@ import renetik.android.json.parseJsonList
 import renetik.android.json.parseJsonMap
 import kotlin.reflect.KClass
 
-interface CSServerData {
-    fun loadHttp(code: Int, message: String, content: String)
+interface CSHttpResponseData {
+    fun onHttpResponse(code: Int, message: String, content: String?)
     val success: Boolean
     val message: String?
 }
 
 const val PARSING_FAILED = "Parsing data as json failed"
 
-open class CSServerMapData : CSJsonMap(), CSServerData {
+open class CSServerMapData : CSJsonMap(), CSHttpResponseData {
     var code: Int? = null
 
-    override fun loadHttp(code: Int, message: String, content: String) {
-        content.parseJsonMap()?.let {
+    override fun onHttpResponse(code: Int, message: String, content: String?) {
+        content?.parseJsonMap()?.let {
             load(it)
         } ?: put("message", PARSING_FAILED)
     }
@@ -36,12 +36,12 @@ open class CSServerMapData : CSJsonMap(), CSServerData {
     override val message: String? get() = getString("message")
 }
 
-open class CSServerListData : CSJsonList(), CSServerData {
+open class CSServerListData : CSJsonList(), CSHttpResponseData {
 
     private var _message = ""
 
-    override fun loadHttp(code: Int, message: String, content: String) {
-        content.parseJsonList()?.let {
+    override fun onHttpResponse(code: Int, message: String, content: String?) {
+        content?.parseJsonList()?.let {
             load(it)
         } ?: let {
             _message = PARSING_FAILED

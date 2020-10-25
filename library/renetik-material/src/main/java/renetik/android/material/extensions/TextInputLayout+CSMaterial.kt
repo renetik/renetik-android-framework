@@ -169,3 +169,11 @@ fun <T : TextInputLayout> T.onTextChange(onChange: (view: T) -> Unit) =
 
 fun <T : TextInputLayout> T.onFocusChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onFocusChange { onChange(this) } }
+
+//fun TextInputLayout.enabledIf(enabled: Boolean) = apply { editText!!.isEnabled = enabled }
+//
+//fun TextInputLayout.disabledIf(disabled: Boolean) = apply { editText!!.isEnabled = !disabled }
+//
+//fun TextInputLayout.enabled() = apply { editText!!.isEnabled = true }
+//
+//fun TextInputLayout.disabled() = apply { editText!!.isEnabled = false }

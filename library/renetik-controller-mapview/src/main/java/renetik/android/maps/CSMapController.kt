@@ -52,9 +52,9 @@ open class CSMapController(parent: CSViewController<*>, private val options: Goo
         } catch (ex: RuntimeException) {
             logError(ex)
             if (ex.message?.contains("API key not found") == true)
-                dialog("Error", ex.message!!).cancelable(false).show(onPositive = {
+                dialog("Error", ex.message!!).cancelable(false).show {
                     exitProcess(1)
-                })
+                }
             else throw ex
         }
     }

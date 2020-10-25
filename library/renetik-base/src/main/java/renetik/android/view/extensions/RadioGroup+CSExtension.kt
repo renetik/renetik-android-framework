@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import renetik.android.R
-import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 
@@ -20,4 +19,4 @@ fun RadioGroup.onChange(listener: (buttonId: Int) -> Unit) = apply {
 
 val RadioGroup.checkedId get() = checkedRadioButtonId
 
-val RadioGroup.selectedId get() = checkedRadioButtonId
+val RadioGroup.isChecked get() = checkedRadioButtonId != -1

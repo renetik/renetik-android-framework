@@ -65,6 +65,10 @@
         <item name="android:fillViewport">true</item>
     </style>
 
+    <style name="CSScrollMatchWrap" parent="CSScrollMatch">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="CSScrollMatchFill" parent="CSMatchFill">
         <item name="android:fillViewport">true</item>
     </style>
@@ -76,8 +80,11 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">false</item>
+        // to remove auto focus of child edit text elements
+        // commented out for some reason ???
         <!--        <item name="android:descendantFocusability">beforeDescendants</item>-->
-        <item name="android:focusableInTouchMode">false</item>
+        // to remove auto focus of child edit text elements
+        <item name="android:focusableInTouchMode">true</item>
     </style>
 
     <style name="CSNavigationContainer">

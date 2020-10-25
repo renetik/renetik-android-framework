@@ -32,10 +32,10 @@ private fun <Data : Any> CSOperation<Data>.onSendFailed(
             onInternetFailed()
         else navigation.dialog(title,
             getString(R.string.renetik_android_framework_operation_send_failed))
-            .show(getString(R.string.renetik_android_framework_operation_send_retry), {
-                send(title, isProgress, true, onInternetFailed, onSuccess)
-            }, getString(R.string.renetik_android_framework_operation_send_cancel), {
+            .show(getString(R.string.renetik_android_framework_operation_send_cancel), {
                 cancel()
+            }, getString(R.string.renetik_android_framework_operation_send_retry), {
+                send(title, isProgress, true, onInternetFailed, onSuccess)
             })
     }
 }
@@ -66,10 +66,10 @@ fun <Data : Any> CSOperation<Data>.sendWithProgressAndDescriptiveDialog(
                 it.failedMessage
                     ?: getString(R.string.renetik_android_framework_operation_send_failed))
                 .show(
-                    getString(R.string.renetik_android_framework_operation_send_retry),
-                    { sendWithProgressAndDescriptiveDialog(title, onInternetFailed, onSuccess) },
                     getString(R.string.renetik_android_framework_operation_send_cancel),
-                    { cancel() })
+                    { cancel() },
+                    getString(R.string.renetik_android_framework_operation_send_retry),
+                    { sendWithProgressAndDescriptiveDialog(title, onInternetFailed, onSuccess) })
     }.onDone { progress.hide() }
     onSuccess?.let { this.onSuccess(it) }
 }

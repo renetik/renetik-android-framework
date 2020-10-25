@@ -104,22 +104,40 @@ class CSDialog : CSContextController {
         }
     }
 
+//    fun show(
+//        positiveText: String, onPositive: (CSDialog) -> Unit,
+//        onNegative: (CSDialog) -> Unit
+//    ) = apply {
+//        materialDialog = MaterialDialog(this).show {
+//            initialize()
+//            positiveButton(text = positiveText) { onPositive(this@CSDialog) }
+//            negativeButton(R.string.cs_dialog_cancel) { onNegative(this@CSDialog) }
+//        }
+//    }
+
+//    fun show(onPositive: (CSDialog) -> Unit) = apply {
+//        materialDialog = MaterialDialog(this).show {
+//            initialize()
+//            positiveButton(R.string.cs_dialog_ok) { onPositive(this@CSDialog) }
+//            if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
+//        }
+//    }
+
     fun show(
-        positiveText: String, onPositive: (CSDialog) -> Unit,
-        onNegative: (CSDialog) -> Unit
+        negativeText: String? = null,
+        negativeAction: ((CSDialog) -> Unit)? = null,
+        positiveText: String? = null,
+        positiveAction: (CSDialog) -> Unit,
     ) = apply {
         materialDialog = MaterialDialog(this).show {
             initialize()
-            positiveButton(text = positiveText) { onPositive(this@CSDialog) }
-            negativeButton(R.string.cs_dialog_cancel) { onNegative(this@CSDialog) }
-        }
-    }
-
-    fun show(onPositive: (CSDialog) -> Unit) = apply {
-        materialDialog = MaterialDialog(this).show {
-            initialize()
-            positiveButton(R.string.cs_dialog_ok) { onPositive(this@CSDialog) }
-            if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
+            if (negativeText.notNull || negativeAction.notNull || isCancelable)
+                negativeButton(text = negativeText ?: getString(R.string.cs_dialog_cancel)) {
+                    negativeAction?.let { it(this@CSDialog) }
+                }
+            positiveButton(text = positiveText ?: getString(R.string.cs_dialog_ok)) {
+                positiveAction(this@CSDialog)
+            }
         }
     }
 
@@ -132,19 +150,6 @@ class CSDialog : CSContextController {
             @Suppress("DEPRECATION")
             neutralButton(text = leftButton) { leftButtonAction(this@CSDialog) }
             positiveButton(text = rightButton) { rightButtonAction(this@CSDialog) }
-        }
-    }
-
-    fun show(
-        positiveText: String,
-        positiveAction: (CSDialog) -> Unit,
-        negativeText: String,
-        negativeAction: (CSDialog) -> Unit
-    ) = apply {
-        materialDialog = MaterialDialog(this).show {
-            initialize()
-            positiveButton(text = positiveText) { positiveAction(this@CSDialog) }
-            negativeButton(text = negativeText) { negativeAction(this@CSDialog) }
         }
     }
 
