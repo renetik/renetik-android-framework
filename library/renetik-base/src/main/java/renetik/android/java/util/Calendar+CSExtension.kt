@@ -5,6 +5,9 @@ import java.util.*
 
 val calendar: Calendar get() = Calendar.getInstance()
 
+fun Calendar.fromTime(time: Long) =
+    apply { this.timeInMillis = time }
+
 fun Calendar.from(date: Date) =
     apply { this.time = date }
 
