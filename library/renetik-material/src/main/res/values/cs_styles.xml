@@ -79,11 +79,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">true</item>
-        <item name="android:focusable">false</item>
-        // to remove auto focus of child edit text elements
-        // commented out for some reason ???
-        <!--        <item name="android:descendantFocusability">beforeDescendants</item>-->
-        // to remove auto focus of child edit text elements
+        <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
     </style>
 

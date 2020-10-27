@@ -14,6 +14,7 @@ import renetik.android.extensions.service
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.inflate
+import renetik.android.view.extensions.onClick
 
 open class CSView<ViewType : View> : CSContextController {
 

@@ -10,7 +10,7 @@ import renetik.android.java.event.listen
 fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
 
 val <T : RadioGroup> T.eventChange
-    get() = propertyWithTag(R.id.RadioGroupEventOnChangeTagKey) { event<Int>() }
+    get() = propertyWithTag(R.id.ViewEventOnChangeTag) { event<Int>() }
 
 fun RadioGroup.onChange(listener: (buttonId: Int) -> Unit) = apply {
     eventChange.listen(listener)

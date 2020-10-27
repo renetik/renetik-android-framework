@@ -4,15 +4,13 @@ import android.annotation.SuppressLint
 import android.view.KeyEvent.ACTION_UP
 import android.widget.EditText
 import android.widget.TextView
-import androidx.annotation.FontRes
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
 import renetik.android.java.event.listen
 
-val EditText.eventClear get() = propertyWithTag(R.id.EditTextEventOnClearTagKey) { event<Unit>() }
+val EditText.eventClear get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<Unit>() }
 
 fun <T : EditText> T.onClear(listener: () -> Unit): T = apply { eventClear.listen(listener) }
 

@@ -115,7 +115,7 @@ fun View.getRectangleOnScreen(location: IntArray, rectangle: Rect) {
 }
 
 fun <T> View.modelProperty(): CSEventProperty<T?> =
-    propertyWithTag(R.id.ViewModelTagKey) { property(null) }
+    propertyWithTag(R.id.ViewModelTag) { property(null) }
 
 fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
 fun <T> View.model(): T? = modelProperty<T?>().value

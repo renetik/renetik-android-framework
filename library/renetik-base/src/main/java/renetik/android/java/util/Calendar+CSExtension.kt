@@ -12,7 +12,7 @@ fun Calendar.from(date: Date) =
     apply { this.time = date }
 
 fun Calendar.from(year: Int, month: Int? = null, day: Int? = null) =
-    apply { set(year, month.asInt(), day.asInt()) }
+    apply { set(year, month.asInt(), day.asInt(), 0, 0, 0) }
 
 fun Calendar.from(year: String?, month: String? = null, day: String? = null) =
     apply { from(year.asInt(), month.asInt(), day.asInt()) }

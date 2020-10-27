@@ -27,6 +27,7 @@ import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
+import renetik.android.view.extensions.onClick
 
 abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewControllerParent,
     LifecycleOwner {

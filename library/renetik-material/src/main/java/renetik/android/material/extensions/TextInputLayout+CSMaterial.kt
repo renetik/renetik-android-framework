@@ -16,25 +16,31 @@ import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
 import renetik.android.R
+import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.privateField
 import renetik.android.view.extensions.*
 
-@SuppressLint("RestrictedApi")
-fun <T : TextInputLayout> T.startIconCheckable(onCheckChanged: (TextInputLayout) -> Unit) = apply {
-    isStartIconCheckable = true
-    setStartIconOnClickListener {
-        startIconView?.toggle()
-        onCheckChanged(this)
-    }
-}
-
-val TextInputLayout.autoCompleteView get() = (editText as AutoCompleteTextView)
-
 val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")
+
+fun <T : TextInputLayout> T.onCheck(listener: () -> Unit): T = apply {
+    propertyWithTag(R.id.ViewEventOnCheckTag) { event<Unit>() }.listen(listener)
+}
+
+@Suppress("UNCHECKED_CAST")
+fun <T : TextInputLayout> T.fireCheck(): T = apply {
+    (getTag(R.id.ViewEventOnCheckTag) as? CSEvent<Unit>)?.fire()
+}
+
+@SuppressLint("RestrictedApi")
+fun <T : TextInputLayout> T.startIconCheckable(checkable: Boolean = true) = apply {
+    isStartIconCheckable = checkable
+    if (checkable) setStartIconOnClickListener { isChecked = !isChecked }
+    else setStartIconOnClickListener(null)
+}
 
 var <T : TextInputLayout> T.isChecked
     @SuppressLint("RestrictedApi") get() =
@@ -42,7 +48,10 @@ var <T : TextInputLayout> T.isChecked
     set(value) {
         @SuppressLint("RestrictedApi")
         startIconView?.isChecked = value
+        fireCheck()
     }
+
+val TextInputLayout.autoCompleteView get() = (editText as AutoCompleteTextView)
 
 fun <T : TextInputLayout> T.dropdown(context: Context, @LayoutRes itemLayout: Int,
                                      items: List<Any>, filter: Boolean = false,
@@ -72,7 +81,7 @@ class NotFilteringArrayAdapter<T>(context: Context, @LayoutRes resource: Int, va
 }
 
 val <T : TextInputLayout> T.eventClear
-    get() = propertyWithTag(R.id.EditTextEventOnClearTagKey) { event<Unit>() }
+    get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<Unit>() }
 
 fun <T : TextInputLayout> T.onClear(listener: () -> Unit): T = apply {
     eventClear.listen(listener)
@@ -169,11 +178,3 @@ fun <T : TextInputLayout> T.onTextChange(onChange: (view: T) -> Unit) =
 
 fun <T : TextInputLayout> T.onFocusChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onFocusChange { onChange(this) } }
-
-//fun TextInputLayout.enabledIf(enabled: Boolean) = apply { editText!!.isEnabled = enabled }
-//
-//fun TextInputLayout.disabledIf(disabled: Boolean) = apply { editText!!.isEnabled = !disabled }
-//
-//fun TextInputLayout.enabled() = apply { editText!!.isEnabled = true }
-//
-//fun TextInputLayout.disabled() = apply { editText!!.isEnabled = false }
