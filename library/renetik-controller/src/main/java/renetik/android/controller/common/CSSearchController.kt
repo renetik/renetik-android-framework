@@ -53,8 +53,8 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
         this.listener = listener
     }
 
-    override fun onViewShowingFirstTime() {
-        super.onViewShowingFirstTime()
+    override fun onViewReady() {
+        super.onViewReady()
         view.onActionViewExpanded()
         view.setIconifiedByDefault(!expanded)
         view.isIconified = if (text.isSet) false else !expanded

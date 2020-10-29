@@ -1,6 +1,7 @@
 package renetik.android.controller.extensions
 
 import android.content.ActivityNotFoundException
+import android.content.ClipData
 import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
@@ -8,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.primitives.IntCSExtension.randomIntInRange
-import renetik.android.logging.CSLog
+import renetik.android.logging.CSLog.logWarn
 
 fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
     startActivity(Intent(activity(), activityClass))
@@ -104,11 +105,14 @@ fun <T : CSViewController<*>> T.startActivityForUriAndType(
     uri: Uri, type: String?, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.setDataAndType(uri, type)
-    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    // Grant Permission to a Specific Package
+    // https://developer.android.com/reference/androidx/core/content/FileProvider
+    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_GRANT_READ_URI_PERMISSION
+    intent.clipData = ClipData.newRawUri("", uri)
     try {
         startActivity(intent)
     } catch (exception: ActivityNotFoundException) {
-        CSLog.logWarn(exception)
+        logWarn(exception)
         onActivityNotFound?.invoke(exception)
     }
 }
