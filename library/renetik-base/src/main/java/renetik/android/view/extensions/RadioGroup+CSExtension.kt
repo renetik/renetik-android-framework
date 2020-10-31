@@ -17,6 +17,8 @@ fun RadioGroup.onChange(listener: (buttonId: Int) -> Unit) = apply {
     setOnCheckedChangeListener { _, checkedId -> eventChange.fire(checkedId) }
 }
 
-val RadioGroup.checkedId get() = checkedRadioButtonId
+var RadioGroup.checkedId: Int?
+    get() = if (checkedRadioButtonId != -1) checkedRadioButtonId else null
+    set(value) = if (value == null) check(-1) else check(value)
 
-val RadioGroup.isChecked get() = checkedRadioButtonId != -1
+val RadioGroup.isChecked get() = checkedId != null

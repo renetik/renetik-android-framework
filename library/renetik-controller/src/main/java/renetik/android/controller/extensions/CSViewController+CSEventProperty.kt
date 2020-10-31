@@ -15,7 +15,6 @@ import renetik.android.material.extensions.errorClear
 import renetik.android.material.extensions.onClear
 import renetik.android.material.extensions.onTextChange
 import renetik.android.view.extensions.*
-import kotlin.reflect.full.isSubclassOf
 
 private fun <View : android.view.View, T : Any> View.depends(
     property: CSEventProperty<T?>, conditions: (CSPropertyConditionList).() -> Unit,
@@ -73,20 +72,48 @@ fun TextView.property(property: CSEventProperty<String?>,
 }
 
 fun <T : CSName> RadioGroup.property(
-    property: CSEventProperty<T?>, list: List<T>, @LayoutRes layoutId: Int) = apply {
+    property: CSEventProperty<T?>, list: List<T>, @LayoutRes layoutId: Int,
+    depends: ((CSPropertyConditionList).() -> Unit)? = null,
+    isInContainer: Boolean = false) = apply {
+    val data = mutableMapOf<Int, T>()
     removeAllViews()
-    list.forEach { add(inflate<RadioButton>(layoutId)).text(it.name).model(it) }
-    onChange { property.value = radio(it).model() }
+    list.forEach {
+        val viewId = View.generateViewId()
+        add(inflate<RadioButton>(layoutId)).text(it.name).model(it).id(viewId)
+        data[viewId] = it
+    }
+    property(property, data, depends, isInContainer)
+
+//    fun updateChecked() {
+//        checkedId = childAt { it.model<T>() == property.value }?.id
+//    }
+//
+//    val onPropertyChange = navigation.register(property.onChange { updateChecked() })
+//    onChange {
+//        onPropertyChange?.isActive = false
+//        property.value = radio(it).model()
+//        onPropertyChange?.isActive = true
+//    }
+//    updateChecked()
+//    if (depends != null) depends(property, depends, isInContainer)
 }
 
-inline fun <reified T> RadioGroup.property(property: CSEventProperty<T?>,
-                                           mapOf: Map<Int, T>): RadioGroup {
-    if (T::class.isSubclassOf(CSName::class)) {
-        mapOf.forEach {
-            radio(it.key).text = it.value.asString()
-        }
+fun <T : Any> RadioGroup.property(
+    property: CSEventProperty<T?>, data: Map<Int, T>,
+    depends: ((CSPropertyConditionList).() -> Unit)? = null,
+    isInContainer: Boolean = false) = apply {
+    fun updateChecked() {
+        checkedId = data.filterValues { it == property.value }.keys.firstOrNull()
     }
-    return onChange { property.value = mapOf[it] }
+
+    val onPropertyChange = navigation.register(property.onChange { updateChecked() })
+    onChange {
+        onPropertyChange?.isActive = false
+        property.value = data[it]
+        onPropertyChange?.isActive = true
+    }
+    updateChecked()
+    if (depends != null) depends(property, depends, isInContainer)
 }
 
 fun View.shownIfPropertySet(property: CSEventProperty<*>) = apply {

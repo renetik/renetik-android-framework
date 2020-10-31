@@ -120,6 +120,8 @@ fun <T> View.modelProperty(): CSEventProperty<T?> =
 fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
 fun <T> View.model(): T? = modelProperty<T?>().value
 
+fun View.id(value: Int) = apply { id = value }
+
 
 
 
