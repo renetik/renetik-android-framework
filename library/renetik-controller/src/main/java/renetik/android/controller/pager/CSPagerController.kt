@@ -1,8 +1,6 @@
 package renetik.android.controller.pager
 
-import android.content.Context
 import android.view.View
-import android.widget.Scroller
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
@@ -30,10 +28,6 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     constructor(parent: CSViewController<*>, pagerId: Int, pages: List<PageType>)
             : this(parent, pagerId) {
         controllers.putAll(pages)
-    }
-
-    init {
-//        view.setPrivateField("mScroller", CSPagerScroller(this)) //TODO crash
     }
 
     fun emptyView(view: View) = apply { emptyView = view.shownIf(controllers.isEmpty) }
@@ -97,13 +91,13 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         else view.setCurrentItem(index, false)
     }
 
-    fun showPage(page: PageType) {
+    fun showPage(page: PageType, animated: Boolean = true) {
         if (!controllers.contains(page)) {
             add(page)
-            //OnPageChangeListener onSelected not called for first index
+            // OnPageChangeListener onSelected not called for first index
             updatePageVisibility(0)
         }
-        setActive(index = controllers.indexOf(page))
+        setActive(index = controllers.indexOf(page), animated)
     }
 
     fun isPrevious(page: PageType): Boolean {
@@ -112,11 +106,4 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     }
 
     val isOnLastPage: Boolean get() = currentIndex == pageCount - 1
-}
-
-class CSPagerScroller(context: Context) : Scroller(context) {
-
-    override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) =
-        super.startScroll(startX, startY, dx, dy, 700)
-
 }
