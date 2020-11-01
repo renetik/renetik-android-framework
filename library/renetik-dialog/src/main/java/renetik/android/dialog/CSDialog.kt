@@ -78,23 +78,7 @@ class CSDialog : CSContextController {
             onDialogCancel?.invoke(this@CSDialog)
         }
         cancelable(isCancelable)
-//            onPreShow { dialog -> }
-//            onShow { dialog -> }
-//            onDismiss { dialog -> }
     }
-
-//    private fun styleDialogBuilder() {
-//        builder.titleColorAttr(R.attr.colorOnSurface)
-//            .contentColorAttr(R.attr.colorPrimaryVariant)  //title,textfield color
-//            .linkColorAttr(R.attr.colorSecondaryVariant)  // notice attr is used instead of none or res for attribute resolving
-//            .dividerColorAttr(R.attr.colorSecondaryVariant)
-//            .backgroundColorAttr(R.attr.colorSurface)
-//            .positiveColor(colorFromAttribute(R.attr.colorPrimary))
-//            .neutralColorAttr(R.attr.colorPrimary)
-//            .negativeColorAttr(R.attr.colorOnSurface)
-//            .widgetColorAttr(R.attr.colorPrimaryVariant) //textField line
-//            .buttonRippleColorAttr(R.attr.colorPrimaryVariant)
-//    }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
         materialDialog = MaterialDialog(this).show {
@@ -103,25 +87,6 @@ class CSDialog : CSContextController {
             initialize()
         }
     }
-
-//    fun show(
-//        positiveText: String, onPositive: (CSDialog) -> Unit,
-//        onNegative: (CSDialog) -> Unit
-//    ) = apply {
-//        materialDialog = MaterialDialog(this).show {
-//            initialize()
-//            positiveButton(text = positiveText) { onPositive(this@CSDialog) }
-//            negativeButton(R.string.cs_dialog_cancel) { onNegative(this@CSDialog) }
-//        }
-//    }
-
-//    fun show(onPositive: (CSDialog) -> Unit) = apply {
-//        materialDialog = MaterialDialog(this).show {
-//            initialize()
-//            positiveButton(R.string.cs_dialog_ok) { onPositive(this@CSDialog) }
-//            if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
-//        }
-//    }
 
     fun show(
         negativeText: String? = null,

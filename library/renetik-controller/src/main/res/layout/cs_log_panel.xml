@@ -14,12 +14,14 @@
     <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
 
         <ScrollView
+            android:background="@color/cs_white"
             android:id="@+id/CSLog_TextScroll"
             style="@style/CSMatch"
             android:fillViewport="true"
             android:scrollbars="vertical">
 
             <TextView
+                android:gravity="start"
                 android:id="@+id/CSLog_LogText"
                 style="@style/CSMatch"
                 android:scrollbars="vertical" />
