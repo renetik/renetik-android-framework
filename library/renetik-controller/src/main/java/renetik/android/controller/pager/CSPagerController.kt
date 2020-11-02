@@ -59,7 +59,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
                     updatePageVisibility(index)
             }
             .onSelected { index ->
-                currentIndex = index
+                updatePageVisibility(index)
             }
         if (controllers.hasItems) {
             updatePageVisibility(0)
@@ -76,6 +76,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
     }
 
     private fun updatePageVisibility(newIndex: Int) {
+        if (currentIndex == newIndex) return
         currentIndex = newIndex
         for (index in 0 until controllers.size)
             controllers[index].showingInContainer(index == currentIndex)
@@ -95,7 +96,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         if (!controllers.contains(page)) {
             add(page)
             // OnPageChangeListener onSelected not called for first index
-            updatePageVisibility(0)
+            if (controllers.size == 1) updatePageVisibility(0)
         }
         setActive(index = controllers.indexOf(page), animated)
     }
