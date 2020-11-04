@@ -6,10 +6,8 @@ import renetik.android.java.common.catchWarnReturnNull
 fun <T, ListType : MutableList<T>> ListType.put(item: T) = item.apply { add(item) }
 fun <T, ListType : MutableList<T>> ListType.putAll(items: Iterable<T>) = apply { addAll(items) }
 
-//fun <T, ListType : MutableList<T>> ListType.putAll(items: Array<T>) = apply { items?.let { for(item in items) add(item) }  }
 fun <T, ListType : MutableList<T>> ListType.putAll(vararg items: T) = apply { addAll(items) }
 fun <T, ListType : MutableList<T>> ListType.putAllDistinct(other: List<T>) = apply {
-//    other.forEach { item -> if (!contains(item)) add(item) }
     reload(putAll(other).distinct())
 }
 

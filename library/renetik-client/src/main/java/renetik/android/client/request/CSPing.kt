@@ -5,8 +5,8 @@ interface CSServerWithPing {
     fun ping(): CSProcess<CSServerMapData>
 }
 
-open class CSPingConcurrentRequest(server: CSServerWithPing, onPingDone: CSOperation<*>.(CSConcurrentProcess) -> Unit)
-    : CSPingRequest<List<Any>>(server, { CSConcurrentProcess().apply { onPingDone(this@apply) } })
+open class CSPingConcurrentRequest<T:Any>(server: CSServerWithPing, onPingDone: CSOperation<*>.(CSConcurrentProcess<T>) -> Unit)
+    : CSPingRequest<List<T>>(server, { CSConcurrentProcess<T>().apply { onPingDone(this@apply) } })
 
 open class CSPingRequest<Data : Any>(server: CSServerWithPing, onPingDone: CSOperation<*>.() -> CSProcess<Data>)
     : CSOperation<Data>({ CSPingMultiProcess(server) { onPingDone() } })

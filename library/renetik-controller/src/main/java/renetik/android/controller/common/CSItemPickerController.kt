@@ -16,12 +16,12 @@ import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.text
 
 
-class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_item_picker,
+class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_chooser,
                                         title: CharSequence, val data: List<Row>,
                                         selectedIndex: Int = 0, val onSelected: (Row) -> Unit)
     : CSDialogController<LinearLayout>(layout(layout)) {
 
-    constructor(@LayoutRes layout: Int = R.layout.cs_item_picker, title: CharSequence,
+    constructor(@LayoutRes layout: Int = R.layout.cs_chooser, title: CharSequence,
                 data: List<Row>, selected: Row, onSelected: (Row) -> Unit)
             : this(layout = layout, title = title, data = data,
         selectedIndex = data.index(selected) ?: 0, onSelected = onSelected)
@@ -32,14 +32,14 @@ class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_ite
         selectedIndex = data.index(property.value) ?: 0, onSelected = { property.value = it })
 
     constructor(title: CharSequence, data: List<Row>, property: CSEventProperty<in Row>)
-            : this(R.layout.cs_item_picker, title, data, property)
+            : this(R.layout.cs_chooser, title, data, property)
 
     companion object Factory
 
-    val picker = numberPicker(R.id.CS_ItemPicker_NumberPicker)
+    val picker = numberPicker(R.id.cs_chooser_picker)
 
     init {
-        textView(R.id.CS_ItemPicker_TitleTextView).text(title)
+        textView(R.id.cs_chooser_text_title).text(title)
         picker.loadData(data, selectedIndex).circulate(false).disableTextEditing(true)
     }
 

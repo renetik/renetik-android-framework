@@ -5,13 +5,13 @@
     android:paddingTop="5dp">
 
     <TextView
-        android:id="@id/CS_ItemPicker_TitleTextView"
+        android:id="@id/cs_chooser_text_title"
         style="@style/CSMatchWrap"
         android:text="Title"
         android:textAppearance="@style/CSTextHeadline" />
 
     <NumberPicker
-        android:id="@id/CS_ItemPicker_NumberPicker"
+        android:id="@id/cs_chooser_picker"
         style="@style/CSMatch" />
 
 </LinearLayout>

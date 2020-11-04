@@ -28,12 +28,12 @@ class SampleServer : CSServerWithPing {
         client.post("sampleList/add", item, CSValueServerData(ServerListItem::class))
     }
 
-    fun deleteSampleListItems(items: List<ServerListItem>) = CSPingConcurrentRequest(this) {
-        items.forEach { item ->
-            it.add(client.post("sampleList/delete", CSServerMapData(),
-                mapOf("id" to item.id)))
+    fun deleteSampleListItems(items: List<ServerListItem>) =
+        CSPingConcurrentRequest<CSServerMapData>(this) {
+            items.forEach { item ->
+                it.add(client.post("sampleList/delete", CSServerMapData(), mapOf("id" to item.id)))
+            }
         }
-    }
 
     override fun ping() = client.get("ping", CSServerMapData())
 }

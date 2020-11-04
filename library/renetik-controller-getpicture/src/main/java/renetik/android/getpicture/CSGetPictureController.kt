@@ -1,7 +1,5 @@
 package renetik.android.getpicture
 
-//import org.jetbrains.anko.doAsync
-//import org.jetbrains.anko.uiThread
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent

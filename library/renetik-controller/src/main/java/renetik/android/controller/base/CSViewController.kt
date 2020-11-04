@@ -27,7 +27,6 @@ import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
-import renetik.android.view.extensions.onClick
 
 abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewControllerParent,
     LifecycleOwner {
@@ -95,6 +94,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         parentController = parent
         this.viewId = viewId
         parentRegistrations = initializeParent(parent)
+        lifecycleInitialize()
     }
 
     constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId)
@@ -182,6 +182,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
             if (it.isCreated) onCreate(it.bundle)
             if (it.isStarted) onStart()
             if (it.isResumed) onResume()
+            if (it.isPaused) onPause()
         }
     }
 
