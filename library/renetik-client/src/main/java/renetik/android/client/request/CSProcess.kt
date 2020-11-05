@@ -8,11 +8,17 @@ import renetik.android.java.extensions.rootCauseMessage
 import renetik.android.logging.CSLog.logDebug
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logInfo
+import renetik.android.util.CSSynchronizedProperty.Companion.synchronize
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 open class CSProcess<Data : Any>(var data: Data? = null) : CSContextController() {
 
     private val eventSuccess = event<CSProcess<Data>>()
     fun onSuccess(function: (CSProcess<Data>) -> Unit) = apply { eventSuccess.listen(function) }
+
+    private val eventCancel = event<CSProcess<Data>>()
+    fun onCancel(function: (CSProcess<Data>) -> Unit) = apply { eventCancel.listen(function) }
 
     private val eventFailed = event<CSProcess<*>>()
     fun onFailed(function: (CSProcess<*>) -> Unit) = apply { eventFailed.listen(function) }
@@ -30,7 +36,7 @@ open class CSProcess<Data : Any>(var data: Data? = null) : CSContextController()
     var isSuccess = false
     var isFailed = false
     var isDone = false
-    var isCanceled = false
+    var isCanceled by synchronize(false)
     var title: String? = null
     var failedMessage: String? = null
     var failedProcess: CSProcess<*>? = null
@@ -97,6 +103,7 @@ open class CSProcess<Data : Any>(var data: Data? = null) : CSContextController()
         )
         if (isCanceled || isDone || isSuccess || isFailed) return
         isCanceled = true
+        eventCancel.fire(this)
         onDoneImpl()
     }
 
@@ -119,4 +126,3 @@ open class CSHttpProcess<Data : Any>(url: String, data: Data) : CSProcess<Data>(
         return super.toString() + url
     }
 }
-

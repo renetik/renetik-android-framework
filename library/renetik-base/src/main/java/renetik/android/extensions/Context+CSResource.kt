@@ -1,7 +1,7 @@
 package renetik.android.extensions
 
 import android.content.Context
-import android.content.res.Configuration
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.content.res.Resources.NotFoundException
 import android.net.Uri
 import android.util.DisplayMetrics
@@ -65,30 +65,37 @@ fun Context.spToPixelF(sp: Int) = dpToPixelF(sp.toFloat())
 fun Context.spToPixel(sp: Float) = dpToPixelF(sp).toInt()
 fun Context.spToPixel(sp: Int) = dpToPixelF(sp.toFloat()).toInt()
 
-private fun Context.resolveAttribute(attribute: Int) =
+private fun Context.attributeValue(attribute: Int) =
     TypedValue().apply { theme.resolveAttribute(attribute, this, true) }
 
 @ColorInt
-fun Context.colorFromAttribute(attribute: Int) = resolveAttribute(attribute).data.apply {
+fun Context.attributeColor(attribute: Int) = attributeValue(attribute).data.apply {
     if (isEmpty) throw NotFoundException()
 }
 
-fun Context.dimensionFromAttribute(attribute: Int): Int {
+fun Context.attributeDimensionPixel(attribute: Int): Int {
     val attributes = obtainStyledAttributes(intArrayOf(attribute))
     val dimension = attributes.getDimensionPixelSize(0, 0)
     attributes.recycle()
     return dimension
 }
 
-fun Context.stringFromAttribute(attribute: Int): String {
-    val string = resolveAttribute(attribute).string
+fun Context.attributeFloat(attribute: Int): Float {
+    val attributes = obtainStyledAttributes(intArrayOf(attribute))
+    val float = attributes.getFloat(0, 0F)
+    attributes.recycle()
+    return float
+}
+
+fun Context.attributeString(attribute: Int): String {
+    val string = attributeValue(attribute).string
     val name = string as? CSName  //TODO fix this
     return name?.name ?: string?.toString() ?: ""
 }
 
-fun Context.stringFromAttribute2(attribute: Int) = stringFromAttribute(intArrayOf(attribute), 0)
+fun Context.attributeString2(attribute: Int) = attributeString(intArrayOf(attribute), 0)
 
-fun Context.stringFromAttribute(styleable: IntArray, styleableAttribute: Int): String {
+fun Context.attributeString(styleable: IntArray, styleableAttribute: Int): String {
     val attributes = obtainStyledAttributes(styleable)
     val string = attributes.getString(styleableAttribute)
     attributes.recycle()
@@ -96,20 +103,12 @@ fun Context.stringFromAttribute(styleable: IntArray, styleableAttribute: Int): S
     return name?.name ?: string?.toString() ?: ""
 }
 
-fun Context.resourceFromAttribute(attribute: Int) = resolveAttribute(attribute).resourceId.apply {
+fun Context.attributeResourceId(attribute: Int) = attributeValue(attribute).resourceId.apply {
     if (isEmpty) throw NotFoundException()
 }
 
-fun Context.openAsset(path: String): InputStream {
-    return assets.open(path)
-}
+fun Context.assetsReadText(path: String) = assets.open(path).bufferedReader().use { it.readText() }
 
-//fun Context.assetsReadText(path: String) = resources.assets.open(path).readText()
-
-fun Context.assetsReadText(path: String): String {
-    return openAsset(path).bufferedReader().use { it.readText() }
-}
-
-val Context.isPortrait get() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+val Context.isPortrait get() = resources.configuration.orientation == ORIENTATION_PORTRAIT
 val Context.isLandscape get() = !isPortrait
 

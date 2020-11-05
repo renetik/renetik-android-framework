@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import renetik.android.extensions.attributeFloat
 import renetik.android.extensions.dpToPixel
 
 
@@ -55,4 +56,9 @@ fun <T : View> T.paddingHorizontal(dp: Int = -1, px: Int = -1) = apply {
 fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
     val pixelValue = if (dp > -0) context.dpToPixel(dp) else if (px >= 0) px else 0
     setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
+}
+
+fun View.disabledByAlphaIf(condition: Boolean) {
+    disabledIf(condition)
+    alpha = if (condition) context.attributeFloat(android.R.attr.disabledAlpha) else 1F
 }

@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.make
-import renetik.android.extensions.colorFromAttribute
+import renetik.android.extensions.attributeColor
 import renetik.android.material.R
 
 private fun View.snackBar(text: String) = snackBar(text, Snackbar.LENGTH_SHORT)
@@ -22,15 +22,15 @@ private fun View.snackBar(text: String, backColor: Int, textColor: Int, time: In
 
 fun View.snackBarWarn(text: String) =
     snackBar(text,
-        context.colorFromAttribute(R.attr.colorError),
-        context.colorFromAttribute(R.attr.colorOnError))
+        context.attributeColor(R.attr.colorError),
+        context.attributeColor(R.attr.colorOnError))
 
 fun View.snackBarError(text: String) =
     snackBar(text,
-        context.colorFromAttribute(R.attr.colorError),
-        context.colorFromAttribute(R.attr.colorOnError))
+        context.attributeColor(R.attr.colorError),
+        context.attributeColor(R.attr.colorOnError))
 
 fun View.snackBarInfo(text: String)=
     snackBar(text,
-        context.colorFromAttribute(R.attr.colorPrimary),
-        context.colorFromAttribute(R.attr.colorOnPrimary))
+        context.attributeColor(R.attr.colorPrimary),
+        context.attributeColor(R.attr.colorOnPrimary))

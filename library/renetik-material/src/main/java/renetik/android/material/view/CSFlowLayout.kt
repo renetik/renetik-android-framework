@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.core.view.MarginLayoutParamsCompat
 import androidx.core.view.ViewCompat
-import com.google.android.material.R
+import renetik.android.material.R
 
 open class CSFlowLayout : ViewGroup {
 

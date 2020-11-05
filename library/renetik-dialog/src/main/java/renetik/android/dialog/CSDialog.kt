@@ -15,7 +15,7 @@ import com.afollestad.materialdialogs.input.input
 import renetik.android.base.CSContextController
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLogo
-import renetik.android.extensions.colorFromAttribute
+import renetik.android.extensions.attributeColor
 import renetik.android.extensions.inflate
 import renetik.android.java.common.CSName
 import renetik.android.java.extensions.isSet
@@ -135,7 +135,7 @@ class CSDialog : CSContextController {
                     this@CSDialog.hide()
                     onCancel?.invoke(this@CSDialog)
                 }.shownIf(cancelable)
-                backgroundRoundedWithColor(colorFromAttribute(R.attr.colorSurface), 10f)
+                backgroundRoundedWithColor(attributeColor(R.attr.colorSurface), 10f)
             })
             show()
         }

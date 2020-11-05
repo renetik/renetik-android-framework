@@ -7,7 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.base.CSContextController
 import renetik.android.controller.R
-import renetik.android.extensions.colorFromAttribute
+import renetik.android.extensions.attributeColor
 import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.extensions.isSet
 
@@ -44,7 +44,7 @@ class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) : CSCont
             title = SpannableString(title).apply {
                 setSpan(
                     ForegroundColorSpan(
-                        colorFromAttribute(R.attr.colorOnSurface)
+                        attributeColor(R.attr.colorOnSurface)
                     ), 0, length, 0
                 )
             }
