@@ -138,9 +138,12 @@ fun <T : TextInputLayout> T.filters(vararg filters: InputFilter) = apply {
     editText!!.filters = filters
 }
 
-fun TextInputLayout.error(hint: String) {
+fun TextInputLayout.error(hint: String? = null) {
     isErrorEnabled = true
-    error = hint
+    if (hint == null) {
+        error(" ")
+        if (childCount == 2) getChildAt(1).gone()
+    } else error = hint
 }
 
 fun <T : TextInputLayout> T.errorClear() = apply {
