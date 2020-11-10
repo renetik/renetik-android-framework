@@ -18,6 +18,7 @@ import renetik.android.java.event.CSEventProperty
 import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.extensions.isNull
 import renetik.android.java.extensions.primitives.isTrue
+import renetik.android.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
@@ -88,7 +89,7 @@ fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
     ?: parentView?.findViewRecursive(id)
 
 fun <T : View> T.onClick(onClick: (view: T) -> Unit) =
-    apply { setOnClickListener { onClick(this) } }
+    apply { setOnClickListener(CSClickAdapter { onClick(this) }) }
 
 fun <T : View> T.createBitmap(): Bitmap {
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
