@@ -27,12 +27,14 @@ fun CSViewController<*>.startActivityForResult(activityClass: Class<out AppCompa
                                                requestCode: Int) =
     startActivityForResult(Intent(activity(), activityClass), requestCode)
 
-fun CSViewController<*>.startActivityForResult(intent: Intent, onResult: (Intent?) -> Unit) {
+fun CSViewController<*>.startActivityForResult(
+    intent: Intent, onResultCanceled: (() -> Unit)? = null, onResult: (Intent?) -> Unit) {
     val requestCode = randomIntInRange(0, 9999)
     startActivityForResult(intent, requestCode)
     onActivityResult.add { registration, result ->
         if (result.requestCode == requestCode) {
             if (result.isOK()) onResult(result.data)
+            else onResultCanceled?.invoke()
             registration.cancel()
         }
     }
@@ -71,7 +73,7 @@ fun CSViewController<*>.startApplication(packageName: String) {
         val intent = Intent("android.intent.action.MAIN")
         intent.addCategory("android.intent.category.LAUNCHER")
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        val resolveInfoList = activity().packageManager.queryIntentActivities(intent, 0)
+        val resolveInfoList = packageManager.queryIntentActivities(intent, 0)
         for (info in resolveInfoList)
             if (info.activityInfo.packageName.equals(packageName, ignoreCase = true)) {
                 launchComponent(info.activityInfo.packageName, info.activityInfo.name)
