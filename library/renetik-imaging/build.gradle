@@ -6,7 +6,7 @@ dependencies {
     implementation project(':renetik-library-base')
     implementation project(':renetik-library-material')
     implementation project(':renetik-library-dialog')
-    implementation "androidx.exifinterface:exifinterface:1.2.0"
+    implementation "androidx.exifinterface:exifinterface:1.3.2"
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

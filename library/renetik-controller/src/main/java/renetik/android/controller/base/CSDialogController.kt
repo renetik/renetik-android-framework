@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import renetik.android.base.CSLayoutId
+import renetik.android.base.CSLayoutRes
 import renetik.android.controller.R
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.java.event.event
@@ -20,10 +20,10 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
     private val eventOnDismiss = event<Unit>()
     fun onDismiss(function: () -> Unit) = eventOnDismiss.listenOnce { function() }
 
-    constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId) :
-            super(parent, layoutId)
+    constructor(parent: CSViewController<out ViewGroup>, layoutRes: CSLayoutRes) :
+            super(parent, layoutRes)
 
-    constructor(layoutId: CSLayoutId) : this(navigation, layoutId)
+    constructor(layoutRes: CSLayoutRes) : this(navigation, layoutRes)
 
     open fun show() = apply {
         val builder = prepareDialog()

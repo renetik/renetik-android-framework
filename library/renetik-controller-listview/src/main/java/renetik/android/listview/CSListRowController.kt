@@ -2,7 +2,7 @@ package renetik.android.listview
 
 import android.widget.AbsListView
 import renetik.android.R
-import renetik.android.base.CSLayoutId
+import renetik.android.base.CSLayoutRes
 import renetik.android.base.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.listview.CSListRow.RowTypes
@@ -16,7 +16,7 @@ open class CSListRowController<RowType : Any, T : AbsListView>(
         ?: CSRowView(this, layout(R.layout.cs_empty))
 }) {
 
-    fun createRowView(layout: CSLayoutId,
+    fun createRowView(layout: CSLayoutRes,
                       function: ((CSRowView<CSListRow<RowType>>).(RowType) -> Unit)? = null) =
         CSRowView<CSListRow<RowType>>(this, layout) {
             it.data?.let { data -> function?.invoke(this, data) }

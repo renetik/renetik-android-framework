@@ -2,7 +2,7 @@ package renetik.android.listview
 
 import android.view.View
 import android.view.ViewGroup
-import renetik.android.base.CSLayoutId
+import renetik.android.base.CSLayoutRes
 import renetik.android.controller.base.CSView
 import renetik.android.controller.base.CSViewController
 
@@ -10,13 +10,13 @@ open class CSRowView<RowType : Any> : CSView<View> {
 
     var onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null
 
-    constructor(parent: CSView<out ViewGroup>, layout: CSLayoutId,
+    constructor(parent: CSView<out ViewGroup>, layout: CSLayoutRes,
                 onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null)
             : super(parent, layout) {
         this.onLoad = onLoad
     }
 
-    constructor(parent: ViewGroup, layout: CSLayoutId,
+    constructor(parent: ViewGroup, layout: CSLayoutRes,
                 onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null)
             : super(parent, layout) {
         this.onLoad = onLoad

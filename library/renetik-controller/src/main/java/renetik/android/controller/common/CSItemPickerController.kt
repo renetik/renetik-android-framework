@@ -43,15 +43,15 @@ class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_cho
     }
 
     override fun show() = apply {
-        onDismiss { onSelected(data[picker.value - 1]) }
+        onDismiss { onSelected(data[picker.value]) }
         super.show()
     }
 
     fun showWithOk() =
-        show(R.string.cs_dialog_ok, onPositive = { onSelected(data[picker.value - 1]) })
+        show(R.string.cs_dialog_ok, onPositive = { onSelected(data[picker.value]) })
 
     fun showWithOkAndCancel() =
-        show(onPositive = { onSelected(data[picker.value - 1]) }, onNegative = { hide() })
+        show(onPositive = { onSelected(data[picker.value]) }, onNegative = { hide() })
 }
 
 

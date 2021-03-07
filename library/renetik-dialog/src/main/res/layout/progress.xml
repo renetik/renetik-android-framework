@@ -17,18 +17,19 @@
 
     <ProgressBar
         android:id="@+id/progress_indicator"
-        style="@style/Widget.MaterialComponents.ProgressIndicator.Circular.Indeterminate"
+        style="@style/Widget.MaterialComponents.CircularProgressIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="25dp"
+        android:indeterminate="true"
         android:indeterminateTint="?attr/colorPrimary" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/progress_button_cancel"
         style="@style/CSTextButtonWrap"
         android:layout_gravity="center"
-        android:text="Cancel"
+        android:text="@string/cs_dialog_cancel"
         android:textAppearance="@style/CSTextButton"
         android:textColor="?attr/colorPrimary" />
 

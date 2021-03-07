@@ -11,7 +11,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import renetik.android.base.CSLayoutId
+import renetik.android.base.CSLayoutRes
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
@@ -75,7 +75,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     private val keyValueMap = mutableMapOf<String, Any>()
     val actionBar get() = activity().supportActionBar
 
-    constructor(activity: CSActivity, layout: CSLayoutId) : super(activity, layout) {
+    constructor(activity: CSActivity, layout: CSLayoutRes) : super(activity, layout) {
         this.activity = activity
         parentRegistrations = initializeParent(activity)
     }
@@ -97,8 +97,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         lifecycleInitialize()
     }
 
-    constructor(parent: CSViewController<out ViewGroup>, layoutId: CSLayoutId)
-            : super(parent.view, layoutId) {
+    constructor(parent: CSViewController<out ViewGroup>, layoutRes: CSLayoutRes)
+            : super(parent.view, layoutRes) {
         parentController = parent
         parentRegistrations = initializeParent(parent)
     }

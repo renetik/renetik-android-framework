@@ -17,17 +17,23 @@ import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
 import androidx.annotation.ColorInt
 import renetik.android.java.extensions.asStringArray
 import renetik.android.java.extensions.collections.hasItems
-import renetik.android.java.extensions.primitives.count
 import renetik.android.java.extensions.privateField
 import renetik.android.java.extensions.setPrivateField2
 
 
 fun <Row : Any> NumberPicker.loadData(data: List<Row>, selectedIndex: Int) = apply {
     if (data.hasItems) {
-        minValue = 1
-        displayedValues = data.asStringArray
-        maxValue = displayedValues.count
-        value = selectedIndex + 1
+        minValue = 0
+        value = 0
+        val newMaxValue = data.size - 1
+        if (newMaxValue > maxValue) {
+            displayedValues = data.asStringArray
+            maxValue = newMaxValue
+        } else {
+            maxValue = newMaxValue
+            displayedValues = data.asStringArray
+        }
+        value = selectedIndex
     }
 }
 

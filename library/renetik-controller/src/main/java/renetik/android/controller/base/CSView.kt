@@ -8,32 +8,31 @@ import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
 import android.view.inputmethod.InputMethodManager.SHOW_FORCED
 import androidx.annotation.LayoutRes
 import renetik.android.base.CSContextController
-import renetik.android.base.CSLayoutId
+import renetik.android.base.CSLayoutRes
 import renetik.android.extensions.inflate
 import renetik.android.extensions.service
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.inflate
-import renetik.android.view.extensions.onClick
 
 open class CSView<ViewType : View> : CSContextController {
 
     private var parentGroup: ViewGroup? = null
-    private var layoutId: CSLayoutId? = null
+    private var layoutRes: CSLayoutRes? = null
     private var _view: ViewType? = null
 
-    constructor(parent: Context, layoutId: CSLayoutId) : super(parent) {
-        this.layoutId = layoutId
+    constructor(parent: Context, layoutRes: CSLayoutRes) : super(parent) {
+        this.layoutRes = layoutRes
     }
 
-    constructor(parent: ViewGroup, layoutId: CSLayoutId) : super(parent.context) {
+    constructor(parent: ViewGroup, layoutRes: CSLayoutRes) : super(parent.context) {
         this.parentGroup = parent
-        this.layoutId = layoutId
+        this.layoutRes = layoutRes
     }
 
-    constructor(parent: CSView<out ViewGroup>, layoutId: CSLayoutId) : super(parent) {
+    constructor(parent: CSView<out ViewGroup>, layoutRes: CSLayoutRes) : super(parent) {
         this.parentGroup = parent.view
-        this.layoutId = layoutId
+        this.layoutRes = layoutRes
     }
 
     constructor(parent: CSView<*>, view: ViewType) : super(parent) {
@@ -51,7 +50,7 @@ open class CSView<ViewType : View> : CSContextController {
     val view: ViewType
         get() {
             if (_view != null) return _view!!
-            setView(layoutId?.let { inflate<ViewType>(it.id) } ?: let { obtainView()!! })
+            setView(layoutRes?.let { inflate<ViewType>(it.id) } ?: let { obtainView()!! })
             return _view!!
         }
 
