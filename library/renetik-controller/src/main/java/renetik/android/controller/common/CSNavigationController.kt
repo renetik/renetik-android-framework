@@ -39,9 +39,8 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             super(parent, layout(R.layout.cs_navigation))
 
     init {
-        if (CSNavigationInstance.isInitialized) {
+        if (CSNavigationInstance.isInitialized)
             navigation.activity?.finish()
-        }
         navigation = this
     }
 

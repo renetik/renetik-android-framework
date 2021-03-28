@@ -15,13 +15,14 @@ import android.widget.NumberPicker
 import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
 import androidx.annotation.ColorInt
+import renetik.android.java.Func
 import renetik.android.java.extensions.asStringArray
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.privateField
 import renetik.android.java.extensions.setPrivateField2
 
 
-fun <Row : Any> NumberPicker.loadData(data: List<Row>, selectedIndex: Int) = apply {
+fun <Row : Any> NumberPicker.loadData(data: List<Row>, selected: Int = 0) = apply {
     if (data.hasItems) {
         minValue = 0
         value = 0
@@ -33,8 +34,14 @@ fun <Row : Any> NumberPicker.loadData(data: List<Row>, selectedIndex: Int) = app
             maxValue = newMaxValue
             displayedValues = data.asStringArray
         }
-        value = selectedIndex
+        value = selected
     }
+}
+
+val NumberPicker.index: Int get() = value
+
+fun NumberPicker.onSelected(function: Func) = apply {
+    setOnValueChangedListener { _, _, _ -> function() }
 }
 
 fun NumberPicker.circulate(circulate: Boolean) = apply {

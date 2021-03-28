@@ -116,6 +116,10 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="CSVerticalLayoutFillMatch" parent="CSVerticalLayoutFillWrap">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
     <style name="CSVerticalLayoutWrap" parent="CSWrap">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -138,6 +142,12 @@
     <style name="CSHorizontalLayoutFillWrap" parent="CSHorizontalLayoutMatchWrap">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSHorizontalLayoutFillMatch" parent="CSHorizontalLayoutMatchWrap">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="CSHorizontalLayoutWrapMatch">
@@ -229,6 +239,11 @@
     <style name="CSListMatch" parent="android:Widget.Material.ListView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="CSListMatchFill" parent="CSListMatch">
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="CSListPullMatch" parent="CSMatch">
@@ -449,7 +464,7 @@
     </style>
 
     <style name="CSSpaceHorizontal5dp">
-        <item name="android:layout_width">5dp</item>
+        <item name="android:layout_width">4dp</item>
         <item name="android:layout_height">0dp</item>
     </style>
 

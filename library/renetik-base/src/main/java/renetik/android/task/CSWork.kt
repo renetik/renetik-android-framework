@@ -2,8 +2,8 @@ package renetik.android.task
 
 import renetik.android.task.CSDoLaterObject.later
 
-fun schedule(milliseconds: Int, runnable: (CSWork) -> Unit): CSWork {
-    return CSWork(milliseconds, runnable)
+fun repeat(interval: Int, runnable: (CSWork) -> Unit): CSWork {
+    return CSWork(interval, runnable).start()
 }
 
 class CSWork(private var interval: Int, private val function: (CSWork) -> Unit) {
