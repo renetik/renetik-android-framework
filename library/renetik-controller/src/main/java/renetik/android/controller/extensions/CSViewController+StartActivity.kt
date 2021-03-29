@@ -28,13 +28,13 @@ fun CSViewController<*>.startActivityForResult(activityClass: Class<out AppCompa
     startActivityForResult(Intent(activity(), activityClass), requestCode)
 
 fun CSViewController<*>.startActivityForResult(
-    intent: Intent, onResultCanceled: (() -> Unit)? = null, onResult: (Intent?) -> Unit) {
+    intent: Intent, onCanceled: (() -> Unit)? = null, onSuccess: (Intent?) -> Unit) {
     val requestCode = randomIntInRange(0, 9999)
     startActivityForResult(intent, requestCode)
     onActivityResult.add { registration, result ->
         if (result.requestCode == requestCode) {
-            if (result.isOK()) onResult(result.data)
-            else onResultCanceled?.invoke()
+            if (result.isOK()) onSuccess(result.data)
+            else onCanceled?.invoke()
             registration.cancel()
         }
     }
