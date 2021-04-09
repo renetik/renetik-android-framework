@@ -28,7 +28,7 @@ import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
-abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewControllerParent,
+abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityController,
     LifecycleOwner {
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
@@ -36,7 +36,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
     override val onStop = event<Unit>()
-    override val onDestroy = event<Unit>()
+    override val onDestroy = event<CSActivityController>()
     override val onBack = event<CSProperty<Boolean>>()
     override val onConfigurationChanged = event<Configuration>()
     override val onOrientationChanged = event<Configuration>()
@@ -172,7 +172,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         whileShowingEventRegistrations.cancel()
         isVisibleEventRegistrations.cancel()
         eventRegistrations.cancel()
-        onDestroy.fire()
+        onDestroy.fire(this)
         System.gc()
     }
 
@@ -192,7 +192,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSViewContr
         onDestroy()
     }
 
-    private fun initializeParent(parent: CSViewControllerParent): CSEventRegistrations {
+    private fun initializeParent(parent: CSActivityController): CSEventRegistrations {
         activity = parent.activity()
         return CSEventRegistrations(
             parent.onCreate.listen { argument -> onCreate(argument) },

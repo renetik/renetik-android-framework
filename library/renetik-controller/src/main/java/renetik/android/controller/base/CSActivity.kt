@@ -15,7 +15,7 @@ import renetik.android.java.event.event
 import renetik.android.java.event.fire
 
 
-abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
+abstract class CSActivity : AppCompatActivity(), CSActivityController {
 
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
@@ -23,7 +23,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
     override val onStop = event<Unit>()
-    override val onDestroy = event<Unit>()
+    override val onDestroy = event<CSActivityController>()
     override val onBack = event<CSProperty<Boolean>>()
     override val onConfigurationChanged = event<Configuration>()
     override val onOrientationChanged = event<Configuration>()
@@ -74,7 +74,7 @@ abstract class CSActivity : AppCompatActivity(), CSViewControllerParent {
     override fun onDestroy() {
         super.onDestroy()
         onDestroyUnbindDrawables(controller!!.view)
-        onDestroy.fire()
+        onDestroy.fire(this)
         controller = null
         System.gc()
     }
