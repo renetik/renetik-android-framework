@@ -1,6 +1,7 @@
 package renetik.android.java
 
-typealias Func = () -> Unit
-typealias ArgFunc<Type> = (Type) -> Unit
+typealias void = Unit
+typealias Func = () -> void
+typealias ArgFunc<Type> = (Type) -> void
 typealias GetFunc<Type> = () -> Type
 typealias ArgGetFunc<Arg, Get> = (Arg) -> Get

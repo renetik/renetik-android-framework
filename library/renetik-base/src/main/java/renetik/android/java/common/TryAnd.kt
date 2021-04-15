@@ -1,5 +1,6 @@
 package renetik.android.java.common
 
+import renetik.android.java.Func
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logWarn
 
@@ -89,3 +90,10 @@ fun <ReturnType> tryAndFinally(tryFunction: () -> ReturnType, finally: () -> Uni
         finally()
     }
 }
+
+inline fun <reified ExceptionType : Throwable> catchIgnore(tryFunction: Func) = try {
+    tryFunction()
+} catch (e: Throwable) {
+}
+
+inline fun catchAllIgnore(tryFunction: Func) = catchIgnore<Throwable>(tryFunction)
