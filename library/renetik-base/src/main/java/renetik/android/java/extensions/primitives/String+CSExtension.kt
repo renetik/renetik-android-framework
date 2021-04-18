@@ -5,6 +5,7 @@ import renetik.android.java.common.catchWarnReturnNull
 import renetik.android.java.extensions.*
 import renetik.android.java.extensions.primitives.CSStringConstants.Empty
 import renetik.android.java.extensions.primitives.CSStringConstants.NewLine
+import java.nio.charset.StandardCharsets
 import java.text.Normalizer
 import java.util.*
 
@@ -85,4 +86,13 @@ private val nonSpacingCharactersRegex = "\\p{Mn}+".toRegex()
 fun String.removeAccents(): String {
     return Normalizer.normalize(this, Normalizer.Form.NFD)
         .replace(nonSpacingCharactersRegex, "")
+}
+
+fun String.toMaxBytesSize(length: Int): String {
+    val nameBytes = toByteArray(StandardCharsets.UTF_8)
+    return if (nameBytes.size > length) {
+        val bytes = ByteArray(length)
+        System.arraycopy(nameBytes, 0, bytes, 0, length)
+        String(bytes, StandardCharsets.UTF_8)
+    } else this
 }

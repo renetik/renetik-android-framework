@@ -1,7 +1,7 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.common.CSSizeInterface
 import renetik.android.java.common.CSProperty
+import renetik.android.java.common.CSSizeInterface
 import kotlin.math.roundToInt
 
 //TODO: size define as float so double and float don't get rounded ? or make size private and use just for isEmpty isSet
@@ -11,6 +11,7 @@ val Any?.size: Int
         this is Int -> this
         this is Number -> toFloat().run { if (this > 0 && this < 1) 1 else roundToInt() }
         this is Boolean -> if (this) 1 else 0
+        this is String -> this.trim().length
         this is CharSequence -> this.length
         this is Collection<*> -> this.size
         this is Map<*, *> -> this.size
@@ -31,14 +32,16 @@ val Any?.isEmpty get() = size == 0
 
 val Any?.isSet get() = !isEmpty
 
+val <T : Any?> T.setOrNull get() = if (!isEmpty) this else null
+
 val Any?.notEmpty get() = isSet
 
-fun <T : Any?> T.isSet(block: (T) -> Unit): Boolean = if (this.isSet) {
+fun <T : Any?> T.isSet(block: (T) -> Unit) = if (this.isSet) {
     block(this)
     true
 } else false
 
-fun <T : Any?> T.isEmpty(block: (T) -> Unit): Boolean = if (this.isEmpty) {
+fun <T : Any?> T.isEmpty(block: (T) -> Unit) = if (this.isEmpty) {
     block(this)
     true
 } else false

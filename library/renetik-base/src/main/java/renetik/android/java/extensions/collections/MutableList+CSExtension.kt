@@ -11,10 +11,10 @@ fun <T, ListType : MutableList<T>> ListType.putAllDistinct(other: List<T>) = app
 }
 
 fun <T, ListType : MutableList<T>> ListType.put(item: T, index: Int) =
-        item.apply { add(index, this) }
+    item.apply { add(index, this) }
 
 fun <T, ListType : MutableList<T>> ListType.replace(item: T, index: Int) =
-        item.apply { set(index, item) }
+    item.apply { set(index, item) }
 
 fun <T, ListType : MutableList<T>> ListType.reload(values: Iterable<T>) = deleteAll().putAll(values)
 fun <T, ListType : MutableList<T>> ListType.delete(item: T): T {
@@ -23,16 +23,18 @@ fun <T, ListType : MutableList<T>> ListType.delete(item: T): T {
 }
 
 fun <T, ListType : MutableList<T>> ListType.delete(index: Int): T? =
-        at(index)?.apply { removeAt(index) }
+    at(index)?.apply { removeAt(index) }
 
 fun <T, ListType : MutableList<T>> ListType.deleteFirst() = delete(0)
 fun <T, ListType : MutableList<T>> ListType.deleteLast() = delete(lastIndex)
 fun <T, ListType : MutableList<T>> ListType.deleteAll() = apply { clear() }
 fun <T> MutableList<T>.removeRange(fromIndex: Int): List<T> =
-        catchAllWarnReturnNull { range(fromIndex) }?.let {
-            removeAll(it)
-            return it
-        } ?: let { return list() }
+    catchAllWarnReturnNull { range(fromIndex) }?.let {
+        removeAll(it)
+        return it
+    } ?: let { return list() }
+
+fun <T> MutableList<T>.delete(filter: (T) -> Boolean) = deleteFirst(filter)
 
 fun <T> MutableList<T>.deleteFirst(filter: (T) -> Boolean): T? {
     val each = iterator()
