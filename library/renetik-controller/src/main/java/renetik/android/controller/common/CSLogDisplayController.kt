@@ -3,8 +3,8 @@ package renetik.android.controller.common
 import android.view.View
 import android.widget.ScrollView
 import android.widget.TextView
-import renetik.android.base.CSApplicationObject.application
-import renetik.android.base.layout
+import renetik.android.base.CSApplication.Companion.application
+import renetik.android.base.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.*

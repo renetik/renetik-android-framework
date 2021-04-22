@@ -2,6 +2,8 @@ package renetik.android.java.util
 
 import renetik.android.java.extensions.asInt
 import java.util.*
+import java.util.Calendar.HOUR_OF_DAY
+import java.util.Calendar.MINUTE
 
 val calendar: Calendar get() = Calendar.getInstance()
 
@@ -12,14 +14,17 @@ fun Calendar.from(date: Date) =
     apply { this.time = date }
 
 fun Calendar.from(year: Int, month: Int? = null, day: Int? = null) =
-    apply { set(year, month.asInt(), day.asInt(), 0, 0, 0) }
+    apply { set(year, month.asInt, day.asInt, 0, 0, 0) }
 
 fun Calendar.from(year: String?, month: String? = null, day: String? = null) =
-    apply { from(year.asInt(), month.asInt(), day.asInt()) }
+    apply { from(year.asInt, month.asInt, day.asInt) }
 
-fun Calendar.dateFrom(year: Int, month: Int? = null, day: Int? = null): Date? {
-    return from(year, month, day).time
-}
+fun Calendar.dateFrom(year: Int, month: Int? = null, day: Int? = null) =
+    from(year, month, day).time
+
+fun Calendar.timeFrom(hour: Int, minute: Int) = apply {
+    set(HOUR_OF_DAY, hour); set(MINUTE, minute)
+}.time
 
 fun Calendar.dateFrom(year: String?, month: String? = null, day: String? = null): Date? {
     if (year == null) return null

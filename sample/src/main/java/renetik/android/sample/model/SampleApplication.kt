@@ -1,7 +1,7 @@
 package renetik.android.sample.model
 
 import renetik.android.base.CSApplication
-import renetik.android.base.CSApplicationObject.application
+import renetik.android.base.CSApplication.Companion.application
 import renetik.android.json.extensions.load
 import renetik.android.sample.BuildConfig.DEBUG
 

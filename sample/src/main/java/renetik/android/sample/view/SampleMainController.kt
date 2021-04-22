@@ -2,7 +2,7 @@ package renetik.android.sample.view
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.view.View
-import renetik.android.base.layout
+import renetik.android.base.CSLayoutRes.Companion.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSLogDisplayController
 import renetik.android.controller.common.CSNavigationItem

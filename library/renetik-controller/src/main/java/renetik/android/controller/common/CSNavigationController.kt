@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import androidx.appcompat.widget.Toolbar
-import renetik.android.base.layout
+import renetik.android.base.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController

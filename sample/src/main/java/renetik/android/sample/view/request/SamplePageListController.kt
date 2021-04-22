@@ -3,7 +3,7 @@ package renetik.android.sample.view.request
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import renetik.android.base.layout
+import renetik.android.base.CSLayoutRes.Companion.layout
 import renetik.android.client.okhttp3.extensions.image
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.dialog

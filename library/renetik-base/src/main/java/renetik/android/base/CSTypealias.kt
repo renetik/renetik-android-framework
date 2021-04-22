@@ -1,4 +1,4 @@
-package renetik.android.java
+package renetik.android.base
 
 typealias void = Unit
 typealias Func = () -> void

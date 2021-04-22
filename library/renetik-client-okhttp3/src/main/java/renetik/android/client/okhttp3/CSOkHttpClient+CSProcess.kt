@@ -3,7 +3,7 @@ package renetik.android.client.okhttp3
 import com.androidnetworking.AndroidNetworking
 import org.json.JSONObject
 import org.json.JSONTokener
-import renetik.android.base.CSApplicationObject.application
+import renetik.android.base.CSApplication.Companion.application
 import renetik.android.client.request.CSHttpProcess
 import renetik.android.client.request.CSOperation
 import renetik.android.client.request.CSHttpResponseData

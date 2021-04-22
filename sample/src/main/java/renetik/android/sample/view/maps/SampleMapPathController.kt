@@ -11,7 +11,7 @@ import com.google.android.gms.location.LocationServices.getFusedLocationProvider
 import com.google.android.gms.maps.model.JointType.ROUND
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
-import renetik.android.base.layout
+import renetik.android.base.CSLayoutRes.Companion.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.textView
 import renetik.android.java.common.CSTimeConstants.Second

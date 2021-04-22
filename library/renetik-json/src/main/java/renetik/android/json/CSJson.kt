@@ -35,7 +35,7 @@ private fun Any?.toJsonType(): Any? {
         ?: (this as? List<*>)?.toJSONArray()
         ?: (this as? CSJsonMapInterface)?.asStringMap()?.toJSONObject()
         ?: (this as? CSJsonListInterface)?.asList()?.toJSONArray()
-        ?: this?.asString()
+        ?: this?.asString
 }
 
 fun List<*>.toJSONArray(): JSONArray {

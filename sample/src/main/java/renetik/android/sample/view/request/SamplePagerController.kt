@@ -1,7 +1,7 @@
 package renetik.android.sample.view.request
 
 import android.view.ViewGroup
-import renetik.android.base.layout
+import renetik.android.base.CSLayoutRes.Companion.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.dialog
 import renetik.android.controller.pager.CSPagerController

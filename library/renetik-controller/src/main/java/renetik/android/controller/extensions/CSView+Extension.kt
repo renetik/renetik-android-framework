@@ -1,16 +1,12 @@
 package renetik.android.controller.extensions
 
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import renetik.android.controller.base.CSView
-import renetik.android.java.extensions.collections.list
-import renetik.android.java.util.calendar
-import renetik.android.java.util.dateFrom
 import renetik.android.view.extensions.*
-import java.util.*
-import java.util.Calendar.HOUR_OF_DAY
-import java.util.Calendar.MINUTE
 
 fun <T : View> CSView<*>.findView(@IdRes id: Int): T? = view.findView(id)
 
@@ -52,41 +48,6 @@ fun CSView<*>.swipeRefresh(@IdRes id: Int) = view.swipeRefresh(id)
 fun CSView<*>.seekBar(@IdRes id: Int) = view.seekBar(id)
 fun CSView<*>.radioGroup(@IdRes id: Int, onChange: ((buttonId: Int) -> Unit)? = null): RadioGroup =
     view.radioGroup(id).apply { onChange?.let { this.onChange(it) } }
-
-
-//move to DatePicker extension //TODO move to DatePicker extension
-fun CSView<*>.getDate(picker: DatePicker): Date =
-    calendar.dateFrom(picker.year, picker.month, picker.dayOfMonth)!!
-
-//move to TimePicker extension //TODO move to TimePicker extension
-fun CSView<*>.getTime(picker: TimePicker): Date {
-    return Calendar.getInstance().apply {
-        @Suppress("DEPRECATION") set(HOUR_OF_DAY, picker.currentHour)
-        @Suppress("DEPRECATION") set(MINUTE, picker.currentMinute)
-    }.time
-}
-
-//TODO  move to Spinner extension
-fun CSView<*>.initSpinner(id: Int,
-                          values: List<String>,
-                          value: String) {
-    setSpinnerData(spinner(id), values)
-    spinner(id).setSelection(values.indexOf(value), false)
-}
-
-fun CSView<*>.setSpinnerData(spinner: Spinner,
-                             strings: Collection<String>) =
-    setSpinnerData(spinner, android.R.layout.simple_spinner_item,
-        android.R.layout.simple_spinner_dropdown_item, strings)
-
-fun CSView<*>.setSpinnerData(spinner: Spinner,
-                             itemLayout: Int,
-                             dropDownItemLayout: Int,
-                             strings: Collection<String>) {
-    val adapter = ArrayAdapter(this, itemLayout, list(strings))
-    adapter.setDropDownViewResource(dropDownItemLayout)
-    spinner.adapter = adapter
-}
 
 fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 

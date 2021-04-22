@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import renetik.android.CSApplicationMock
-import renetik.android.base.CSApplicationObject.application
+import renetik.android.base.CSApplication.Companion.application
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = "AndroidManifest.xml", application = CSApplicationMock::class)

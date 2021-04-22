@@ -3,7 +3,7 @@ package renetik.android.logging
 import android.util.Log
 import android.util.Log.getStackTraceString
 import android.widget.Toast
-import renetik.android.base.CSApplicationObject.application
+import renetik.android.base.CSApplication.Companion.application
 import renetik.android.base.CSContextController
 import renetik.android.java.common.CSDataConstants.MB
 import renetik.android.java.event.event

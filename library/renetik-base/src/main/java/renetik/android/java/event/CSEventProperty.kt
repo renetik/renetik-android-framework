@@ -1,6 +1,6 @@
 package renetik.android.java.event
 
-import renetik.android.base.CSApplicationObject.application
+import renetik.android.base.CSApplication.Companion.application
 import renetik.android.java.common.CSProperty
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.asString
@@ -62,7 +62,7 @@ var CSEventProperty<Boolean>.isFalse
     }
 
 var CSEventProperty<String?>.string
-    get() = value.asString()
+    get() = value.asString
     set(newValue) {
         value = newValue
     }

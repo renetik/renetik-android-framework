@@ -2,7 +2,7 @@ package renetik.android.task
 
 import renetik.android.java.extensions.later
 
-class CSDoLaterOnce(val interval: Int = 0, val function: () -> Unit) {
+class CSLaterOnce(val interval: Int = 0, val function: () -> Unit) {
     private var willInvoke = false
 
     fun start() {

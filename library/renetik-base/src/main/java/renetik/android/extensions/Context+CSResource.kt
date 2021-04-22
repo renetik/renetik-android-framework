@@ -12,6 +12,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import renetik.android.java.common.*
+import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.isEmpty
 import java.io.ByteArrayOutputStream
@@ -87,11 +88,7 @@ fun Context.attributeFloat(attribute: Int): Float {
     return float
 }
 
-fun Context.attributeString(attribute: Int): String {
-    val string = attributeValue(attribute).string
-    val name = string as? CSName  //TODO fix this
-    return name?.name ?: string?.toString() ?: ""
-}
+fun Context.attributeString(attribute: Int) = attributeValue(attribute).string.asString
 
 fun Context.attributeString2(attribute: Int) = attributeString(intArrayOf(attribute), 0)
 
@@ -99,8 +96,7 @@ fun Context.attributeString(styleable: IntArray, styleableAttribute: Int): Strin
     val attributes = obtainStyledAttributes(styleable)
     val string = attributes.getString(styleableAttribute)
     attributes.recycle()
-    val name = string as? CSName  //TODO fix this
-    return name?.name ?: string?.toString() ?: ""
+    return string.asString
 }
 
 fun Context.attributeResourceId(attribute: Int) = attributeValue(attribute).resourceId.apply {

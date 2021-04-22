@@ -10,10 +10,10 @@ import renetik.android.view.adapter.CSTextWatcherAdapter
 fun <T : TextView> T.text(resourceId: Int) = apply { setText(resourceId) }
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
 fun <T : TextView> T.textAppend(string: CharSequence?) = text("$title$string")
-fun <T : TextView> T.text(property: CSEventProperty<*>) = text(property.value.asString())
-fun <T : TextView> T.text(value: Any?) = text(value.asString())
+fun <T : TextView> T.text(property: CSEventProperty<*>) = text(property.value.asString)
+fun <T : TextView> T.text(value: Any?) = text(value.asString)
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
-fun <T : TextView> T.text() = text.asString()
+fun <T : TextView> T.text() = text.asString
 
 var <T : TextView> T.title: String
     get() = text()

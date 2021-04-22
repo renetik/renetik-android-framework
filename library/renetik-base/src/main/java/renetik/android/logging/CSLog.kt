@@ -1,16 +1,12 @@
 package renetik.android.logging
 
-import renetik.android.base.CSApplicationObject.application
-import renetik.android.extensions.toast
+import renetik.android.base.CSApplication.Companion.application
+import renetik.android.extensions.CSToast.toast
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.putAll
 import renetik.android.java.extensions.primitives.separateToString
 
 object CSLog {
-
-    //TODO: I could not make this work somehow...
-    // When view is created by android studio layout editor there is no application
-//    val defaultLogger = AndroidLogger()
 
     val logger: CSLogger
         get() = application.logger

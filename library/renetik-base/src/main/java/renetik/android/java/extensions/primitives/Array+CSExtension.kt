@@ -1,18 +1,14 @@
 package renetik.android.java.extensions.primitives
 
-import renetik.android.java.common.CSName
+import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.collections.list
 
 object ArrayCSExtension {
     fun <T> iterate(array: Array<T>?): Iterator<T> = array.iterator
 }
 
-fun <T> Array<out T>.asStrings() = list<String>().apply {
-    for (index in indices) {
-        val t = this@asStrings[index]
-        val name = t as? CSName  //TODO fix this
-        add(name?.name ?: t?.toString() ?: "")
-    }
+fun <T> Array<out T>.asStrings() = list<String>().also { list ->
+    for (index in indices) list.add(this[index].asString)
 }.toTypedArray()
 
 inline val <T> Array<out T>.count: Int get() = size

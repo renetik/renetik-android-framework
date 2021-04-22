@@ -49,7 +49,7 @@ fun TextInputLayout.property(property: CSEventProperty<String?>,
 fun <T : Any> TextView.property(property: CSEventProperty<T?>,
                                 depends: ((CSPropertyConditionList).() -> Unit)? = null,
                                 isInContainer: Boolean = false) = apply {
-    fun updateTitle() = text(property.value.asString())
+    fun updateTitle() = text(property.value.asString)
     navigation.register(property.onChange { updateTitle() })
     updateTitle()
     if (depends != null) depends(property, depends, isInContainer)
@@ -60,7 +60,7 @@ fun <T : Any> TextView.property(property: CSEventProperty<T?>,
 fun TextView.property(property: CSEventProperty<String?>,
                       depends: ((CSPropertyConditionList).() -> Unit)? = null,
                       isInContainer: Boolean = false) = apply {
-    fun updateTitle() = text(property.value.asString())
+    fun updateTitle() = text(property.value.asString)
     val onPropertyChange = navigation.register(property.onChange { updateTitle() })
     onTextChange {
         onPropertyChange?.isActive = false
