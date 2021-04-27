@@ -10,14 +10,14 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
-import renetik.android.base.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.snackBarWarn
 import renetik.android.controller.extensions.startActivityForResult
 import renetik.android.imaging.extensions.resizeImage
-import renetik.android.java.common.catchAllError
+import renetik.android.framework.common.catchAllError
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.createDatedFile
 import renetik.android.java.extensions.later

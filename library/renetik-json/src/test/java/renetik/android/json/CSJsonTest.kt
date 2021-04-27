@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import renetik.android.BuildConfig.DEBUG
-import renetik.android.base.CSApplication
+import renetik.android.framework.CSApplication
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.second
 import renetik.android.java.extensions.primitives.trimNewLines

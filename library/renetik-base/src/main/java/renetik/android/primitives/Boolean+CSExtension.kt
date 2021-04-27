@@ -1,9 +1,9 @@
-package renetik.android.java.extensions.primitives
+package renetik.android.primitives
 
-import renetik.android.java.extensions.primitives.IntCSExtension.randomIntInRange
+import renetik.android.primitives.CSInt.random
 
-object BooleanCSExtension {
-    fun randomBoolean() = randomIntInRange(0, 1) == 1
+object CSBoolean {
+    val random get() = random(0, 1) == 1
 }
 
 fun Boolean.ifIs(function: () -> Unit) {

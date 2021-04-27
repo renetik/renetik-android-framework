@@ -1,4 +1,4 @@
-package renetik.android.base
+package renetik.android.framework
 
 import android.app.ActivityManager
 import android.app.Service
@@ -9,9 +9,9 @@ import android.text.format.DateFormat.getTimeFormat
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
-import renetik.android.base.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.extensions.service
-import renetik.android.java.common.catchAllWarn
+import renetik.android.framework.common.catchAllWarn
 import renetik.android.java.extensions.notNull
 import java.util.*
 

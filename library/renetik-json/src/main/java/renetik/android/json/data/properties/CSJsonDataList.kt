@@ -1,6 +1,6 @@
 package renetik.android.json.data.properties
 
-import renetik.android.java.common.CSSizeInterface
+import renetik.android.framework.lang.CSSizeInterface
 import renetik.android.java.extensions.collections.*
 import renetik.android.json.data.CSJsonMap
 import renetik.android.json.data.extensions.getList

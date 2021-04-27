@@ -1,8 +1,8 @@
 package renetik.android.java.extensions.primitives
 
-import renetik.android.java.common.CSComparisionConstants.Ascending
-import renetik.android.java.common.CSComparisionConstants.Descending
-import renetik.android.java.common.CSComparisionConstants.Equal
+import renetik.android.framework.lang.CSComparisionConstants.Ascending
+import renetik.android.framework.lang.CSComparisionConstants.Descending
+import renetik.android.framework.lang.CSComparisionConstants.Equal
 import renetik.android.java.extensions.isNull
 import renetik.android.java.extensions.notNull
 

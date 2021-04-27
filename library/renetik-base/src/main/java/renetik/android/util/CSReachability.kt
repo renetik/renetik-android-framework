@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
-import renetik.android.base.CSContextController
+import renetik.android.framework.CSContextController
 import renetik.android.extensions.asString
 import renetik.android.extensions.isNetworkConnected
 import renetik.android.java.event.event

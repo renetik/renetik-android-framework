@@ -1,10 +1,10 @@
 package renetik.android.controller.extensions
 
 import renetik.android.controller.common.CSNavigationInstance.navigation
-import renetik.android.java.common.CSCondition
-import renetik.android.java.common.CSCondition.Factory.condition
+import renetik.android.framework.lang.CSCondition
+import renetik.android.framework.lang.CSCondition.Factory.condition
 import renetik.android.java.event.CSEventProperty
-import renetik.android.java.extensions.primitives.isTrue
+import renetik.android.primitives.isTrue
 import renetik.android.view.extensions.shownIf
 
 fun validate(conditions: (CSPropertyConditionList).() -> Unit, onResult: (Boolean) -> Unit) {

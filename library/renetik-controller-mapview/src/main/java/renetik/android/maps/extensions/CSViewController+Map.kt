@@ -8,7 +8,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSViewController
-import renetik.android.java.common.catchError
+import renetik.android.framework.common.catchError
 
 fun CSViewController<*>.locationClient(): FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(activity())

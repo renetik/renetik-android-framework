@@ -1,7 +1,7 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.common.catchAllWarn
-import renetik.android.java.common.catchAllWarnReturnNull
+import renetik.android.framework.common.catchAllWarn
+import renetik.android.framework.common.catchAllWarnReturnNull
 
 const val INVOKE_FAILED = "invoke_failed"
 

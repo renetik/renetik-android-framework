@@ -11,7 +11,7 @@ import android.util.TypedValue.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import renetik.android.java.common.*
+import renetik.android.framework.common.*
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.isEmpty

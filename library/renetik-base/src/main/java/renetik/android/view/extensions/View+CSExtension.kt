@@ -17,7 +17,7 @@ import renetik.android.R
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.java.extensions.isNull
-import renetik.android.java.extensions.primitives.isTrue
+import renetik.android.primitives.isTrue
 import renetik.android.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)

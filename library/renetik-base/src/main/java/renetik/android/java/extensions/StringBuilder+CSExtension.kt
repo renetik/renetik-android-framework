@@ -1,9 +1,9 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.extensions.primitives.CSStringConstants.NewLine
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.primitives.lowerCased
-import renetik.android.java.extensions.primitives.upperCased
+import renetik.android.primitives.CSString.NewLine
+import renetik.android.primitives.lowerCased
+import renetik.android.primitives.upperCased
 
 fun StringBuilder(vararg values: String) = kotlin.text.StringBuilder().add(*values)
 val StringBuilder.isEmpty get() = length == 0

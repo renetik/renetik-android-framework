@@ -3,7 +3,7 @@ package renetik.android.sample.view.maps
 import android.annotation.SuppressLint
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
-import renetik.android.base.CSLayoutRes.Companion.layout
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.button

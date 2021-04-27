@@ -1,21 +1,21 @@
-package renetik.android.java.extensions.primitives
+package renetik.android.primitives
 
-import renetik.android.java.common.catchWarnReturn
-import renetik.android.java.common.catchWarnReturnNull
+import renetik.android.framework.common.catchWarnReturn
+import renetik.android.framework.common.catchWarnReturnNull
 import renetik.android.java.extensions.*
-import renetik.android.java.extensions.primitives.CSStringConstants.Empty
-import renetik.android.java.extensions.primitives.CSStringConstants.NewLine
+import renetik.android.primitives.CSString.Empty
+import renetik.android.primitives.CSString.NewLine
 import java.nio.charset.StandardCharsets
 import java.text.Normalizer
 import java.util.*
 
-object CSStringConstants {
+object CSString {
     const val NewLine = "\n"
     const val Comma = ","
     const val Semicolon = ";"
     const val Empty = ""
 
-    fun randomString(length: Int): String {
+    fun random(length: Int): String {
         val random = Random()
         val letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         val text = CharArray(length)
@@ -73,15 +73,12 @@ fun String.separateToString(vararg items: Any?): String {
 }
 
 val String.lowerCased: String get() = toLowerCase(Locale.ROOT)
-
-
 val String.upperCased: String get() = toUpperCase(Locale.ROOT)
-
 val String.noAccents: String get() = removeAccents()
 
 private val nonSpacingCharactersRegex = "\\p{Mn}+".toRegex()
 // some used this in remove accents code instead
-//private val combiningdiacriticalMarksRegex = "\\p{Mn}+".toRegex()
+// private val combiningdiacriticalMarksRegex = "\\p{Mn}+".toRegex()
 
 fun String.removeAccents(): String {
     return Normalizer.normalize(this, Normalizer.Form.NFD)

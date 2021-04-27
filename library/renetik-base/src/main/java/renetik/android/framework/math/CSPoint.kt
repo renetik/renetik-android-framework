@@ -1,4 +1,4 @@
-package renetik.android.java.math
+package renetik.android.framework.math
 
 class CSPoint(val x: Number, val y: Number) {
 

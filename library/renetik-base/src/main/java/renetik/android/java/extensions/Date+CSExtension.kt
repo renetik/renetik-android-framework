@@ -1,6 +1,6 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.common.catchError
+import renetik.android.framework.common.catchError
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat

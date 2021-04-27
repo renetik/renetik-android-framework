@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import com.google.android.material.textfield.TextInputLayout
 import renetik.android.controller.common.CSNavigationInstance.navigation
-import renetik.android.java.common.CSName
+import renetik.android.framework.lang.CSName
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.isSet

@@ -1,6 +1,4 @@
-package renetik.android.java.common
-
-//val <T : CSName> List<T>.asStringArray get() = map { it.name }.toTypedArray()
+package renetik.android.framework.lang
 
 interface CSName {
     val name: String

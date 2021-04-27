@@ -1,6 +1,6 @@
 package renetik.android.json.extensions
 
-import renetik.android.base.CSValueStoreInterface
+import renetik.android.framework.CSValueStoreInterface
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.isEmpty
 import renetik.android.json.data.CSJsonMap

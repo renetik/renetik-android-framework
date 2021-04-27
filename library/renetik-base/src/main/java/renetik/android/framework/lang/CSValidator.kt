@@ -1,4 +1,4 @@
-package renetik.android.java.common
+package renetik.android.framework.lang
 
 interface CSValidator {
     fun validate(): Boolean?

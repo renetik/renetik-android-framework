@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import renetik.android.base.CSLayoutRes
+import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.controller.R
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.java.event.event

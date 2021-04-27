@@ -2,7 +2,7 @@ package renetik.android.view.adapter
 
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener
-import renetik.android.java.Func
+import renetik.android.framework.Func
 
 open class CSAnimatorAdapter : AnimatorListener {
     override fun onAnimationRepeat(animator: Animator?) = Unit

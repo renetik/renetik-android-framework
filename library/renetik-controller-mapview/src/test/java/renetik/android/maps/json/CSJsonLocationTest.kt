@@ -12,7 +12,7 @@ import renetik.android.json.data.properties.CSJsonString
 import renetik.android.json.parseJson
 import renetik.android.json.toJsonString
 import renetik.android.logging.AndroidLogger
-import renetik.android.base.CSApplication
+import renetik.android.framework.CSApplication
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = ApplicationMock::class)

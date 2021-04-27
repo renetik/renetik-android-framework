@@ -2,7 +2,7 @@ package renetik.android.themes
 
 import android.view.View
 import android.widget.GridView
-import renetik.android.base.CSLayoutRes.Companion.layout
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.common.CSNavigationController
 import renetik.android.controller.common.CSNavigationItem

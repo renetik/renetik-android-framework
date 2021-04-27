@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import androidx.appcompat.widget.Toolbar
-import renetik.android.base.CSLayoutRes.Companion.layout
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
@@ -19,8 +19,7 @@ import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.primitives.isFalse
-
+import renetik.android.primitives.isFalse
 
 object CSNavigationInstance {
     lateinit var navigation: CSNavigationController

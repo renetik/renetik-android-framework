@@ -1,19 +1,15 @@
 package renetik.android.sample.view.request
 
 import android.view.ViewGroup
-import renetik.android.base.CSLayoutRes.Companion.layout
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.dialog
 import renetik.android.controller.pager.CSPagerController
-import renetik.android.dialog.extensions.dialog
 import renetik.android.controller.extensions.textView
-import renetik.android.framework.extensions.send
 import renetik.android.java.extensions.collections.list
 import renetik.android.controller.extensions.floatingButton
 import renetik.android.dialog.showView
 import renetik.android.sample.R
-import renetik.android.sample.model.ServerListItem
-import renetik.android.sample.model.model
 import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.editText
 import renetik.android.view.extensions.onClick

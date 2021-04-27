@@ -1,8 +1,8 @@
-package renetik.android.extensions
+package renetik.android.content
 
 import android.content.Context
 import android.widget.Toast
-import renetik.android.base.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.application
 
 object CSToast {
     fun toast(text: String) = Toast.makeText(application, text, Toast.LENGTH_LONG).show()

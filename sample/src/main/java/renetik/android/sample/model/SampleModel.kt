@@ -1,7 +1,7 @@
 package renetik.android.sample.model
 
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.base.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.java.extensions.format
 import renetik.android.json.data.CSJsonMap
 import renetik.android.json.data.properties.CSJsonDataList

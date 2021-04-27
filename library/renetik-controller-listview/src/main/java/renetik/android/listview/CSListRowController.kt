@@ -2,8 +2,8 @@ package renetik.android.listview
 
 import android.widget.AbsListView
 import renetik.android.R
-import renetik.android.base.CSLayoutRes
-import renetik.android.base.CSLayoutRes.Companion.layout
+import renetik.android.framework.lang.CSLayoutRes
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.base.CSViewController
 import renetik.android.listview.CSListRow.RowTypes
 import renetik.android.listview.CSListRow.RowTypes.Row

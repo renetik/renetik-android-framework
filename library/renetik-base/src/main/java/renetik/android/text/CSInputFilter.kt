@@ -2,7 +2,7 @@ package renetik.android.text
 
 import android.text.InputFilter
 import android.text.Spanned
-import renetik.android.java.extensions.primitives.asInt
+import renetik.android.primitives.asInt
 
 class CSIntMaxValueInputFilter(val getMaxValue: () -> Int) : InputFilter {
     override fun filter(source: CharSequence, start: Int, end: Int,

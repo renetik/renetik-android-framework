@@ -1,6 +1,6 @@
 package renetik.android.json.data
 
-import renetik.android.java.common.CSName
+import renetik.android.framework.lang.CSName
 import renetik.android.json.data.extensions.getStringValue
 
 class CSNameData(val idKey: String = "id", val nameKey: String = "name",

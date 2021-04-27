@@ -2,7 +2,7 @@ package renetik.android.controller.common
 
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
-import renetik.android.base.CSLayoutRes.Companion.layout
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSDialogController
 import renetik.android.controller.extensions.numberPicker

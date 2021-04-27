@@ -1,6 +1,6 @@
 package renetik.android.listview
 
-import renetik.android.java.common.CSListContainer
+import renetik.android.framework.lang.CSListContainer
 import renetik.android.java.extensions.collections.deleteLast
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put

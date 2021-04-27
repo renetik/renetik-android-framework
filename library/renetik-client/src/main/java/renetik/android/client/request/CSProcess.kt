@@ -1,6 +1,6 @@
 package renetik.android.client.request
 
-import renetik.android.base.CSContextController
+import renetik.android.framework.CSContextController
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.exception
@@ -9,8 +9,6 @@ import renetik.android.logging.CSLog.logDebug
 import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logInfo
 import renetik.android.util.CSSynchronizedProperty.Companion.synchronize
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 
 open class CSProcess<Data : Any>(var data: Data? = null) : CSContextController() {
 

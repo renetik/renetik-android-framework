@@ -1,4 +1,4 @@
-package renetik.android.base
+package renetik.android.framework
 
 import android.app.Application
 import android.os.Environment.getExternalStorageDirectory

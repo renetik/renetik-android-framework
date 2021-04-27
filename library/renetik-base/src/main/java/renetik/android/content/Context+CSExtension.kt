@@ -14,8 +14,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.res.getDrawableOrThrow
-import renetik.android.java.common.catchAllErrorReturnNull
-import renetik.android.java.common.catchWarnReturnNull
+import renetik.android.framework.common.catchAllErrorReturnNull
+import renetik.android.framework.common.catchWarnReturnNull
 import renetik.android.java.extensions.isSet
 import java.security.MessageDigest
 

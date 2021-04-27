@@ -1,6 +1,6 @@
 package renetik.android.client.request
 
-import renetik.android.base.CSContextController
+import renetik.android.framework.CSContextController
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.notNull

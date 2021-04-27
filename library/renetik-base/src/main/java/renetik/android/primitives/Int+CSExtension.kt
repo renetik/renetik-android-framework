@@ -1,9 +1,9 @@
-package renetik.android.java.extensions.primitives
+package renetik.android.primitives
 
 import kotlin.random.Random
 
-object IntCSExtension {
-    fun randomIntInRange(min: Int, max: Int): Int {
+object CSInt {
+    fun random(min: Int, max: Int): Int {
         if (min >= max)
             throw IllegalArgumentException("max must be greater than min")
         return Random.nextInt(max - min + 1) + min

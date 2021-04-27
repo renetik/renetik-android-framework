@@ -4,7 +4,7 @@ import android.view.View
 import renetik.android.controller.base.CSView
 import renetik.android.extensions.dpToPixel
 import renetik.android.java.extensions.isSet
-import renetik.android.java.math.CSPoint
+import renetik.android.framework.math.CSPoint
 
 val CSView<*>.layoutWidth get() = this.view.layoutParams.width
 val CSView<*>.layoutHeight get() = this.view.layoutParams.height

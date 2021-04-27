@@ -1,11 +1,11 @@
 package renetik.android.java.event
 
-import renetik.android.base.CSApplication.Companion.application
-import renetik.android.java.common.CSProperty
+import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.lang.CSProperty
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.asString
-import renetik.android.java.extensions.primitives.isFalse
-import renetik.android.java.extensions.primitives.isTrue
+import renetik.android.primitives.isFalse
+import renetik.android.primitives.isTrue
 
 interface CSEventPropertyInterface<T> : CSProperty<T> {
     fun onChange(value: (T) -> Unit): CSEventRegistration

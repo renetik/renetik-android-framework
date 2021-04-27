@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory.decodeFile
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import renetik.android.java.common.catchAllErrorReturnNull
+import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.java.extensions.later
 import renetik.android.task.CSBackground.background
 import java.io.File

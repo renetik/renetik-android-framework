@@ -1,8 +1,8 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.common.CSName
-import renetik.android.java.common.CSValue
-import renetik.android.java.common.catchAllWarnReturn
+import renetik.android.framework.lang.CSName
+import renetik.android.framework.lang.CSValue
+import renetik.android.framework.common.catchAllWarnReturn
 
 val Any?.asString get() = (this as? CSName)?.name
     ?: (this as? CSValue<*>)?.value as? String

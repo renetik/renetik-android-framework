@@ -1,14 +1,14 @@
-package renetik.android.base
+package renetik.android.framework
 
 import android.content.Context
 import android.content.SharedPreferences
 import renetik.android.extensions.load
 import renetik.android.extensions.reload
-import renetik.android.java.common.catchAllWarnReturnNull
-import renetik.android.java.extensions.primitives.asDouble
-import renetik.android.java.extensions.primitives.asFloat
-import renetik.android.java.extensions.primitives.asInt
-import renetik.android.java.extensions.primitives.asLong
+import renetik.android.framework.common.catchAllWarnReturnNull
+import renetik.android.primitives.asDouble
+import renetik.android.primitives.asFloat
+import renetik.android.primitives.asInt
+import renetik.android.primitives.asLong
 
 interface CSValueStoreInterface {
 

@@ -1,7 +1,7 @@
 package renetik.android.java.event
 
-import renetik.android.base.CSValueStoreInterface
-import renetik.android.base.getValue
+import renetik.android.framework.CSValueStoreInterface
+import renetik.android.framework.getValue
 import renetik.android.java.event.CSEventPropertyFunctions.property
 
 class CSListStoreEventProperty<T>(

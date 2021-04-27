@@ -1,22 +1,20 @@
 package renetik.android.controller.base
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import renetik.android.base.CSLayoutRes
+import renetik.android.content.input
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.extensions.service
-import renetik.android.java.common.CSProperty
+import renetik.android.framework.lang.CSLayoutRes
+import renetik.android.framework.lang.CSProperty
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.CSEventRegistrations
 import renetik.android.java.event.event
@@ -370,8 +368,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
 
     override fun hideKeyboardImpl() {
         activity?.currentFocus?.let {
-            service<InputMethodManager>(Context.INPUT_METHOD_SERVICE)
-                .hideSoftInputFromWindow(it.rootView.windowToken, 0)
+            input.hideSoftInputFromWindow(it.rootView.windowToken, 0)
         } ?: super.hideKeyboardImpl()
     }
 

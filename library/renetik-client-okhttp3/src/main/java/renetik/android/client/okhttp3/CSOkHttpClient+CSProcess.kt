@@ -3,21 +3,21 @@ package renetik.android.client.okhttp3
 import com.androidnetworking.AndroidNetworking
 import org.json.JSONObject
 import org.json.JSONTokener
-import renetik.android.base.CSApplication.Companion.application
 import renetik.android.client.request.CSHttpProcess
-import renetik.android.client.request.CSOperation
 import renetik.android.client.request.CSHttpResponseData
+import renetik.android.client.request.CSOperation
 import renetik.android.extensions.isNetworkConnected
-import renetik.android.java.common.CSTimeConstants.Minute
+import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.lang.CSTimeConstants.Minute
 import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.primitives.isFalse
-import renetik.android.java.extensions.primitives.isTrue
 import renetik.android.json.data.CSJsonMap
 import renetik.android.json.data.toJsonObject
 import renetik.android.json.toJSONArray
 import renetik.android.json.toJSONObject
 import renetik.android.json.toJsonString
 import renetik.android.logging.CSLog.logInfo
+import renetik.android.primitives.isFalse
+import renetik.android.primitives.isTrue
 import java.io.File
 import java.util.concurrent.TimeUnit
 

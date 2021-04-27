@@ -1,4 +1,4 @@
-package renetik.android.java.common
+package renetik.android.framework.common
 
 import java.io.Serializable
 import java.io.Writer

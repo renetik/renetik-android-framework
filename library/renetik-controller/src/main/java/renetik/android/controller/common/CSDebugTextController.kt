@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.TextView
-import renetik.android.base.CSApplication.Companion.application
-import renetik.android.base.CSLayoutRes.Companion.layout
+import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.*

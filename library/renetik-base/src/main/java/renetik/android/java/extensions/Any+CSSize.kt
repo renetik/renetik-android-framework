@@ -1,7 +1,7 @@
 package renetik.android.java.extensions
 
-import renetik.android.java.common.CSProperty
-import renetik.android.java.common.CSSizeInterface
+import renetik.android.framework.lang.CSProperty
+import renetik.android.framework.lang.CSSizeInterface
 import kotlin.math.roundToInt
 
 //TODO: size define as float so double and float don't get rounded ? or make size private and use just for isEmpty isSet

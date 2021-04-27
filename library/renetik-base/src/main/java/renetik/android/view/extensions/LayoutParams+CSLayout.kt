@@ -5,7 +5,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout.LayoutParams
-import renetik.android.base.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.extensions.dpToPixel
 
 val layoutMatch get() = LayoutParams(MATCH_PARENT, MATCH_PARENT)

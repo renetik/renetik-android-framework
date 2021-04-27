@@ -1,4 +1,4 @@
-package renetik.android.java.common
+package renetik.android.framework.lang
 
 object CSDataConstants {
     const val KB = 1024

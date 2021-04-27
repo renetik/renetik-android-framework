@@ -3,7 +3,7 @@ package renetik.android.view.extensions
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import renetik.android.base.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.extensions.toDp
 import renetik.android.extensions.dpToPixel
 

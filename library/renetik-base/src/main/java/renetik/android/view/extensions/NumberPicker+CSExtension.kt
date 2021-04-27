@@ -15,7 +15,7 @@ import android.widget.NumberPicker
 import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
 import androidx.annotation.ColorInt
-import renetik.android.java.Func
+import renetik.android.framework.Func
 import renetik.android.java.extensions.asStringArray
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.privateField
