@@ -15,36 +15,35 @@ import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.text
 
 
-class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_chooser,
-                                        title: CharSequence, val data: List<Row>,
-                                        selectedIndex: Int = 0, val onSelected: (Row) -> Unit)
-    : CSDialogController<LinearLayout>(layout(layout)) {
+class CSItemPickerController<Row : Any>(
+    @LayoutRes layout: Int = R.layout.cs_chooser,
+    title: CharSequence, val data: List<Row>,
+    selectedIndex: Int = 0, val onSelected: (Row) -> Unit
+) : CSDialogController<LinearLayout>(layout(layout)) {
 
-    constructor(@LayoutRes layout: Int = R.layout.cs_chooser, title: CharSequence,
-                data: List<Row>, selected: Row, onSelected: (Row) -> Unit)
-            : this(layout = layout, title = title, data = data,
-        selectedIndex = data.index(selected) ?: 0, onSelected = onSelected)
+    constructor(
+        @LayoutRes layout: Int = R.layout.cs_chooser, title: CharSequence,
+        data: List<Row>, selected: Row, onSelected: (Row) -> Unit
+    ) : this(
+        layout = layout, title = title, data = data,
+        selectedIndex = data.index(selected) ?: 0, onSelected = onSelected
+    )
 
-    constructor(@LayoutRes layout: Int, title: CharSequence,
-                data: List<Row>, property: CSEventProperty<in Row>)
-            : this(layout = layout, title = title, data = data,
+    constructor(
+        @LayoutRes layout: Int, title: CharSequence,
+        data: List<Row>, property: CSEventProperty<in Row>
+    ) : this(layout = layout, title = title, data = data,
         selectedIndex = data.index(property.value) ?: 0, onSelected = { property.value = it })
 
     constructor(title: CharSequence, data: List<Row>, property: CSEventProperty<in Row>)
             : this(R.layout.cs_chooser, title, data, property)
 
-    companion object Factory
-
-    val picker = numberPicker(R.id.cs_chooser_picker)
+    private val picker = numberPicker(R.id.cs_chooser_picker)
 
     init {
         textView(R.id.cs_chooser_text_title).text(title)
         picker.loadData(data, selectedIndex).circulate(false).disableTextEditing(true)
-    }
-
-    override fun show() = apply {
         onDismiss { onSelected(data[picker.value]) }
-        super.show()
     }
 
     fun showWithOk() =
@@ -53,7 +52,5 @@ class CSItemPickerController<Row : Any>(@LayoutRes layout: Int = R.layout.cs_cho
     fun showWithOkAndCancel() =
         show(onPositive = { onSelected(data[picker.value]) }, onNegative = { hide() })
 }
-
-
 
 

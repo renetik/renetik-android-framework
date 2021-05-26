@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.controller.R
 import renetik.android.controller.common.CSNavigationInstance.navigation
+import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.java.event.event
 import renetik.android.java.event.fire
 import renetik.android.java.event.listenOnce
@@ -16,7 +16,6 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
 
     protected lateinit var dialog: Dialog
     private var cancelableOnTouchOutside = true
-
     private val eventOnDismiss = event<Unit>()
     fun onDismiss(function: () -> Unit) = eventOnDismiss.listenOnce { function() }
 
@@ -25,23 +24,30 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
 
     constructor(layoutRes: CSLayoutRes) : this(navigation, layoutRes)
 
-    open fun show() = apply {
-        val builder = prepareDialog()
-        showDialog(builder)
+    fun cancelOnTouchOutside(cancelable: Boolean = true) = apply {
+        cancelableOnTouchOutside = cancelable
     }
 
-    fun show(@StringRes positiveTitle: Int = R.string.cs_dialog_ok,
-             onPositive: () -> Unit) = apply {
-        val builder = prepareDialog()
+    fun show() = apply { showDialog(prepareAlertDialog()) }
+
+    fun show(
+        @StringRes positiveTitle: Int = R.string.cs_dialog_ok,
+        onPositive: () -> Unit
+    ) = apply {
+        val builder = prepareAlertDialog()
         builder.setPositiveButton(positiveTitle) { _, _ -> onPositive() }
         showDialog(builder)
     }
 
-    fun show(@StringRes positiveTitle: Int = R.string.cs_dialog_ok,
-             onPositive: () -> Unit,
-             @StringRes negativeTitle: Int = R.string.cs_dialog_cancel,
-             onNegative: () -> Unit) = apply {
-        val builder = prepareDialog()
+    fun hide() = dialog.dismiss()
+
+    fun show(
+        @StringRes positiveTitle: Int = R.string.cs_dialog_ok,
+        onPositive: () -> Unit,
+        @StringRes negativeTitle: Int = R.string.cs_dialog_cancel,
+        onNegative: () -> Unit
+    ) = apply {
+        val builder = prepareAlertDialog()
         builder.setPositiveButton(positiveTitle) { _, _ -> onPositive() }
         builder.setNegativeButton(negativeTitle) { _, _ -> onNegative() }
         showDialog(builder)
@@ -64,21 +70,15 @@ open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
         }
     }
 
-    fun hide() = dialog.dismiss()
-
-    fun cancelableOnTouchOutside(cancelable: Boolean) = apply {
-        cancelableOnTouchOutside = cancelable
-    }
-
-    private fun prepareDialog(): MaterialAlertDialogBuilder {
-        val dialog = MaterialAlertDialogBuilder(this).setView(view).setOnDismissListener {
+    private fun prepareAlertDialog() = MaterialAlertDialogBuilder(this).apply {
+        setView(view)
+        setOnDismissListener {
             if (!isDestroyed) {
                 lifecycleDeInitialize()
                 eventOnDismiss.fire()
             }
         }
         lifecycleInitialize()
-        return dialog
     }
 
     open fun showDialog(builder: MaterialAlertDialogBuilder) {

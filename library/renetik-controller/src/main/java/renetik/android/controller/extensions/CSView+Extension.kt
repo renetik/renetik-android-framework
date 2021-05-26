@@ -28,7 +28,7 @@ fun CSView<*>.datePicker(@IdRes id: Int) = view.datePicker(id)
 fun CSView<*>.numberPicker(@IdRes id: Int) = view.numberPicker(id)
 fun CSView<*>.frame(@IdRes id: Int) = view.frame(id)
 fun CSView<*>.linearLayout(@IdRes id: Int) = view.linearLayout(id)
-fun CSView<*>.viewGroup(@IdRes id: Int) = view.viewGroup(id)
+fun CSView<*>.group(@IdRes id: Int) = view.group(id)
 fun CSView<*>.spinner(@IdRes id: Int) = view.spinner(id)
 fun CSView<*>.search(@IdRes id: Int) = view.search(id)
 fun CSView<*>.button(@IdRes id: Int,

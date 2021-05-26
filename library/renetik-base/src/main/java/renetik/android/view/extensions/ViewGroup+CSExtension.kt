@@ -40,4 +40,6 @@ fun <T : ViewGroup> T.remove(view: View) = apply { removeView(view) }
 
 fun <T : ViewGroup> T.removeSubViews() = apply { removeAllViews() }
 
+fun <T : ViewGroup> T.clear() = apply { removeAllViews() }
+
 fun ViewGroup.childAt(condition: (View) -> Boolean) = children.find(condition)
