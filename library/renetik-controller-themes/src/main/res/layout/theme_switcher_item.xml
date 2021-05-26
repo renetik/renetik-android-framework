@@ -16,7 +16,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    style="@style/CSMatchFill"
+                    style="@style/cs_match_fill"
                     android:orientation="horizontal">
 
                     <View
@@ -32,7 +32,7 @@
 
                 <View
                     android:id="@+id/ThemeSwitcherItem_ColorOnPrimary"
-                    style="@style/CSMatchFill"
+                    style="@style/cs_match_fill"
                     android:layout_weight="0.5"
                     android:background="@color/cs_black" />
             </LinearLayout>
@@ -42,7 +42,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    style="@style/CSMatchFill"
+                    style="@style/cs_match_fill"
                     android:orientation="horizontal">
 
                     <View
@@ -58,7 +58,7 @@
 
                 <View
                     android:id="@+id/ThemeSwitcherItem_ColorOnSecondary"
-                    style="@style/CSMatchFill"
+                    style="@style/cs_match_fill"
                     android:layout_weight="0.5"
                     android:background="@color/cs_yellow" />
             </LinearLayout>

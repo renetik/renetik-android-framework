@@ -12,6 +12,6 @@
 
     <NumberPicker
         android:id="@id/cs_chooser_picker"
-        style="@style/CSMatch" />
+        style="@style/cs_match" />
 
 </LinearLayout>

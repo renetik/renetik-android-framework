@@ -17,7 +17,7 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="CSMatch" parent="CSLayout">
+    <style name="cs_match" parent="CSLayout">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -35,7 +35,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSMatchFill" parent="CSLayout">
+    <style name="cs_match_fill" parent="CSLayout">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
@@ -61,7 +61,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSScrollMatch" parent="CSMatch">
+    <style name="CSScrollMatch" parent="cs_match">
         <item name="android:fillViewport">true</item>
     </style>
 
@@ -69,7 +69,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="CSScrollMatchFill" parent="CSMatchFill">
+    <style name="CSScrollMatchFill" parent="cs_match_fill">
         <item name="android:fillViewport">true</item>
     </style>
 
@@ -126,7 +126,7 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="CSVerticalLayoutMatch">
+    <style name="cs_vertical_match">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
@@ -150,19 +150,19 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="CSHorizontalLayoutWrapMatch">
+    <style name="cs_horizontal_wrap_match">
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="CSHorizontalLayoutMatch">
+    <style name="cs_horizontal_match">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="CSHorizontalLayoutMatchFill">
+    <style name="cs_horizontal_match_fill">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -187,7 +187,7 @@
         </item>
     </style>
 
-    <style name="CSTabStripBottom" parent="CSMatch">
+    <style name="CSTabStripBottom" parent="cs_match">
         <item name="android:background">?attr/colorPrimaryVariant</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textAppearance">@style/CSTextSubtitle1</item>
@@ -219,7 +219,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSContentMain" parent="CSMatchFill" />
+    <style name="CSContentMain" parent="cs_match_fill" />
 
     <style name="CSGridMatch" parent="android:Widget.Material.GridView">
         <item name="android:layout_width">match_parent</item>
@@ -246,7 +246,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSListPullMatch" parent="CSMatch">
+    <style name="CSListPullMatch" parent="cs_match">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/cs_transparent</item>
