@@ -32,6 +32,8 @@ interface CSValueStoreInterface {
 
     fun getFloat(key: String, defaultValue: Float = 0F): Float
 
+    fun getFloat(key: String, defaultValue: Float? = null): Float?
+
     fun getInt(key: String, defaultValue: Int = 0): Int
 
     fun getString(key: String, defaultValue: String): String
@@ -78,6 +80,9 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
     override fun getFloat(key: String, defaultValue: Float) =
         getString(key)?.asFloat(defaultValue) ?: defaultValue
+
+    override fun getFloat(key: String, defaultValue: Float?) =
+        getString(key)?.asFloat() ?: defaultValue
 
     override fun getInt(key: String, defaultValue: Int) =
         getString(key)?.asInt(defaultValue) ?: defaultValue

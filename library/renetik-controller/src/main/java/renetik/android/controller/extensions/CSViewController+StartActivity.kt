@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSViewController
 import renetik.android.java.extensions.later
 import renetik.android.logging.CSLog.logWarn
-import renetik.android.primitives.CSInt
+import renetik.android.primitives.random
 
 fun CSViewController<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
     startActivity(Intent(activity(), activityClass))
@@ -29,7 +29,7 @@ fun CSViewController<*>.startActivityForResult(activityClass: Class<out AppCompa
 
 fun CSViewController<*>.startActivityForResult(
     intent: Intent, onCanceled: (() -> Unit)? = null, onSuccess: (Intent?) -> Unit) {
-    val requestCode = CSInt.random(0, 9999)
+    val requestCode = Int.random(0, 9999)
     startActivityForResult(intent, requestCode)
     onActivityResult.add { registration, result ->
         if (result.requestCode == requestCode) {

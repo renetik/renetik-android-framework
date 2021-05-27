@@ -1,12 +1,5 @@
 package renetik.android.java.extensions
 
-fun isAllSet(vararg items: Any?): Boolean {
-    for (it in items) if (!it.isSet) return false
-    return true
-}
-
-fun isAnyNotSet(vararg items: Any?) = !isAllSet(*items)
-
 fun isAnyNotNull(vararg items: Any?) = !isAllNull(*items)
 
 fun isAllNotNull(vararg items: Any?): Boolean {

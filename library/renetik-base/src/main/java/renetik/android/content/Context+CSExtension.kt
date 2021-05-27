@@ -16,7 +16,7 @@ import android.view.View
 import androidx.core.content.res.getDrawableOrThrow
 import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.framework.common.catchWarnReturnNull
-import renetik.android.java.extensions.isSet
+import renetik.android.primitives.isSet
 import java.security.MessageDigest
 
 @Suppress("UNCHECKED_CAST")

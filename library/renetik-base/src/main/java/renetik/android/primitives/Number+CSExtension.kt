@@ -6,8 +6,6 @@ import renetik.android.framework.lang.CSComparisionConstants.Equal
 import renetik.android.java.extensions.isNull
 import renetik.android.java.extensions.notNull
 
-val Number.isEmpty get() = toFloat() == 0F
-
 fun compare(x: Int?, y: Int?): Int {
     if (x.notNull && y.notNull) return x!!.compareTo(y!!)
     if (x.isNull && y.isNull) return Equal

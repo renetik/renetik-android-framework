@@ -3,36 +3,42 @@ package renetik.android.primitives
 import renetik.android.framework.common.catchWarnReturn
 import renetik.android.framework.common.catchWarnReturnNull
 import renetik.android.java.extensions.*
-import renetik.android.primitives.CSString.Empty
-import renetik.android.primitives.CSString.NewLine
 import java.nio.charset.StandardCharsets
 import java.text.Normalizer
 import java.util.*
 
-object CSString {
-    const val NewLine = "\n"
-    const val Comma = ","
-    const val Semicolon = ";"
-    const val Empty = ""
+val String.Companion.NewLine get() = "\n"
+val String.Companion.Comma get() = ","
+val String.Companion.Semicolon get() = ";"
+val String.Companion.Empty get() = ""
 
-    fun random(length: Int): String {
-        val random = Random()
-        val letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        val text = CharArray(length)
-        for (i in 0 until length)
-            text[i] = letters[random.nextInt(letters.length)]
-        return String(text)
-    }
-
-    fun contains(string1: String?, string2: String?, ignoreCase: Boolean = false) =
-        if (string1 == null || string2 == null) false
-        else string1.contains(string2, ignoreCase)
-
-    fun range(start: Int, endInclusive: Int): List<String> =
-        IntRange(start, endInclusive).map { "$it" }
+fun String.Companion.random(length: Int): String {
+    val random = Random()
+    val letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    val text = CharArray(length)
+    for (i in 0 until length)
+        text[i] = letters[random.nextInt(letters.length)]
+    return String(text)
 }
 
-val String.isEmpty get() = size == 0
+fun String.Companion.contains(string1: String?, string2: String?, ignoreCase: Boolean = false) =
+    if (string1 == null || string2 == null) false
+    else string1.contains(string2, ignoreCase)
+
+fun String.Companion.range(start: Int, endInclusive: Int): List<String> =
+    IntRange(start, endInclusive).map { "$it" }
+
+val String?.isEmpty get() = this?.trim()?.isEmpty() ?: true
+val String?.isSet get() = !this.isEmpty
+val String?.setOrNull get() = if (isSet) this else null
+fun String.ifEmpty(function: (String) -> Unit) = apply {
+    if (this.isEmpty) function(this)
+}
+
+fun String.ifSet(function: (String) -> Unit) = apply {
+    if (this.isSet) function(this)
+}
+
 
 fun String.asLong() = catchWarnReturnNull<Long, NumberFormatException> { toLong() }
 fun String.asFloat() = catchWarnReturnNull<Float, NumberFormatException> { toFloat() }
@@ -50,7 +56,7 @@ fun String.asInt(default: Int) =
     catchWarnReturn<Int, NumberFormatException>(default) { toInt() }
 
 fun String.trimNewLines(): String {
-    return replace(NewLine, Empty)
+    return replace(String.NewLine, String.Empty)
 }
 
 fun String.remove(toRemove: String): String {
@@ -91,5 +97,6 @@ fun String.toMaxBytesSize(length: Int): String {
         val bytes = ByteArray(length)
         System.arraycopy(nameBytes, 0, bytes, 0, length)
         String(bytes, StandardCharsets.UTF_8)
-    } else this
+    }
+    else this
 }

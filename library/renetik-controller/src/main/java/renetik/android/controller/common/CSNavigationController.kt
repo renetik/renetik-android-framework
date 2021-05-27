@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
-import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSViewController
@@ -15,11 +15,12 @@ import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
 import renetik.android.controller.menu.CSOnMenuItem
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.exception
-import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
 import renetik.android.primitives.isFalse
+import renetik.android.primitives.isSet
 
 object CSNavigationInstance {
     lateinit var navigation: CSNavigationController
@@ -45,8 +46,10 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 
     open var controllers = list<CSViewController<*>>()
 
-    fun <T : View> push(controller: CSViewController<T>,
-                        pushId: String? = null): CSViewController<T> {
+    fun <T : View> push(
+        controller: CSViewController<T>,
+        pushId: String? = null
+    ): CSViewController<T> {
         currentController?.showingInContainer(false)
         pushId?.let { controller.setValue(PushID, it) }
         controllers.put(controller)
@@ -95,8 +98,10 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         return controller
     }
 
-    fun <T : View> push(pushId: String,
-                        controller: CSViewController<T>): CSViewController<T> {
+    fun <T : View> push(
+        pushId: String,
+        controller: CSViewController<T>
+    ): CSViewController<T> {
         if (controllers.contains { it.getValue(PushID) == pushId })
             for (lastController in controllers.reversed()) {
                 controllers.delete(lastController)
@@ -166,7 +171,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         (currentController as? CSNavigationItem)?.let { item ->
             item.isNavigationIconVisible?.let { isVisible ->
                 if (!isVisible) {
-                    setActionBarIcon(null)
+                    hideActionBarIcon()
                     return
                 } else item.navigationItemIcon?.let { icon ->
                     setActionBarIcon(icon)
@@ -175,7 +180,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
             }
         }
         isNavigationIconVisible?.let { isVisible ->
-            if (!isVisible) setActionBarIcon(null)
+            if (!isVisible) hideActionBarIcon()
             else navigationItemIcon?.let { icon ->
                 setActionBarIcon(icon)
             }
@@ -187,14 +192,19 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         actionBar?.title = title
     }
 
-    open fun setActionBarIcon(icon: Drawable?) {
-        actionBar?.setDisplayShowHomeEnabled(icon.isSet)
+    open fun setActionBarIcon(icon: Drawable) {
+        actionBar?.setDisplayShowHomeEnabled(true)
         actionBar?.setIcon(icon)
     }
 
-    private fun setActionBarIcon(icon: Int) {
-        actionBar?.setDisplayShowHomeEnabled(icon.isSet)
+    private fun setActionBarIcon(@DrawableRes icon: Int) {
+        actionBar?.setDisplayShowHomeEnabled(true)
         actionBar?.setIcon(icon)
+    }
+
+    open fun hideActionBarIcon() {
+        actionBar?.setDisplayShowHomeEnabled(false)
+        actionBar?.setIcon(null)
     }
 
     private fun updateBarBackButton() {

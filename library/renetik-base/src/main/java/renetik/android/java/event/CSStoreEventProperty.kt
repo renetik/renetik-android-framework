@@ -41,6 +41,12 @@ fun CSValueStoreInterface.property(
     .apply { onChange { save(key, it) } }
 
 fun CSValueStoreInterface.property(
+    key: String, default: Float?,
+    onApply: ((value: Float?) -> Unit)? = null
+) = property(getFloat(key, default), onApply)
+    .apply { onChange { save(key, it) } }
+
+fun CSValueStoreInterface.property(
     key: String, default: String, onChange: ((value: String) -> Unit)? = null
 ) = property(getString(key, default), onChange)
     .apply { onChange { save(key, it) } }

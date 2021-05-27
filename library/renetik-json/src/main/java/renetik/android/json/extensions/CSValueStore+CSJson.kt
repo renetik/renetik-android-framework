@@ -2,10 +2,10 @@ package renetik.android.json.extensions
 
 import renetik.android.framework.CSValueStoreInterface
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.isEmpty
 import renetik.android.json.data.CSJsonMap
 import renetik.android.json.parseJson
 import renetik.android.json.toJsonString
+import renetik.android.primitives.isEmpty
 import kotlin.reflect.KClass
 
 fun CSValueStoreInterface.save(key: String, value: Any?) =

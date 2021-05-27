@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import renetik.android.framework.common.*
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.isEmpty
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -71,7 +70,7 @@ private fun Context.attributeValue(attribute: Int) =
 
 @ColorInt
 fun Context.attributeColor(attribute: Int) = attributeValue(attribute).data.apply {
-    if (isEmpty) throw NotFoundException()
+    if (this == 0) throw NotFoundException()
 }
 
 fun Context.attributeDimensionPixel(attribute: Int): Int {
@@ -100,7 +99,7 @@ fun Context.attributeString(styleable: IntArray, styleableAttribute: Int): Strin
 }
 
 fun Context.attributeResourceId(attribute: Int) = attributeValue(attribute).resourceId.apply {
-    if (isEmpty) throw NotFoundException()
+    if (this == 0) throw NotFoundException()
 }
 
 fun Context.assetsReadText(path: String) = assets.open(path).bufferedReader().use { it.readText() }

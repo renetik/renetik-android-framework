@@ -1,10 +1,6 @@
 package renetik.android.primitives
 
-import renetik.android.primitives.CSInt.random
-
-object CSBoolean {
-    val random get() = random(0, 1) == 1
-}
+val Boolean.Companion.random get() = Int.random(0, 1) == 1
 
 fun Boolean.ifIs(function: () -> Unit) {
     if (this) function()

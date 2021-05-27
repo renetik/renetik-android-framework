@@ -1,7 +1,7 @@
 package renetik.android.java.extensions
 
 import renetik.android.java.extensions.collections.list
-import renetik.android.primitives.CSString.NewLine
+import renetik.android.primitives.NewLine
 import renetik.android.primitives.lowerCased
 import renetik.android.primitives.upperCased
 
@@ -11,14 +11,12 @@ fun StringBuilder.add(vararg strings: CharSequence) =
     apply { for (string in strings) append(string) }
 
 fun StringBuilder.add(vararg objects: Any) = apply { for (any in objects) add(any.toString()) }
-fun StringBuilder.addLine() = apply { add(NewLine) }
+fun StringBuilder.addLine() = apply { add(String.NewLine) }
 fun StringBuilder.addSpace() = apply { add(" ") }
 fun StringBuilder.caseDown() = apply { reload(toString().lowerCased) }
-
-fun StringBuilder.caseUp(atIndex: Int) = apply {
-    reload(substring(0, atIndex) + substring(atIndex, atIndex + 1).upperCased
-            + substring(atIndex + 1, length))
-}
+fun StringBuilder.caseUp(index: Int) = reload(
+    substring(0, index) + substring(index, index + 1).upperCased + substring(index + 1, length)
+)
 
 fun StringBuilder.cut(startIndex: Int, endIndex: Int) = apply {
     var cutEndIndex = endIndex
@@ -55,7 +53,7 @@ fun StringBuilder.split(regex: String): List<StringBuilder> {
 
 fun StringBuilder.trim() = apply { reload(toString().trim { it <= ' ' }) }
 
-fun StringBuilder.reload(text: CharSequence) {
+fun StringBuilder.reload(text: CharSequence) = apply {
     clear()
     append(text)
 }

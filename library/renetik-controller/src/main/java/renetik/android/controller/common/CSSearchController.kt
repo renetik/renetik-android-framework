@@ -9,7 +9,7 @@ import renetik.android.controller.base.CSViewController
 import renetik.android.controller.extensions.findView
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
-import renetik.android.java.extensions.isSet
+import renetik.android.primitives.isSet
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
 

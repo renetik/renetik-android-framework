@@ -4,6 +4,7 @@ import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.lang.CSProperty
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.asString
+import renetik.android.primitives.empty
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isTrue
 
@@ -66,6 +67,17 @@ var CSEventProperty<String?>.string
     set(newValue) {
         value = newValue
     }
+
+val CSEventProperty<Float>.isEmpty get() = value == Float.empty
+val CSEventProperty<Float>.isSet get() = !this.isEmpty
+fun CSEventProperty<Float>.ifEmpty(function: (CSEventProperty<Float>) -> Unit) = apply {
+    if (this.isEmpty) function(this)
+}
+
+fun CSEventProperty<Float>.ifSet(function: (CSEventProperty<Float>) -> Unit) = apply {
+    if (this.isSet) function(this)
+}
+
 
 object CSEventPropertyFunctions {
 

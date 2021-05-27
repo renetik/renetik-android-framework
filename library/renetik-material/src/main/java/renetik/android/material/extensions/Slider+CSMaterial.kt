@@ -22,5 +22,10 @@ fun <T : Slider> T.onDragStop(listener: (T) -> Unit) = apply {
 }
 
 fun <T : Slider> T.value(value: Float) = apply { this.value = value }
-
 fun <T : Slider> T.value(value: Int) = apply { this.value = value.toFloat() }
+fun <T : Slider> T.valueFrom(value: Float) = apply { this.valueFrom = value }
+fun <T : Slider> T.valueFrom(value: Int) = apply { this.valueFrom = value.toFloat() }
+fun <T : Slider> T.valueTo(value: Float) = apply { this.valueTo = value }
+fun <T : Slider> T.valueTo(value: Int) = apply { this.valueTo = value.toFloat() }
+fun <T : Slider> T.stepSize(value: Float) = apply { this.stepSize = value }
+fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat() }

@@ -10,7 +10,3 @@ fun View.rangeSlider(id: Int) = findView<RangeSlider>(id)!!
 fun <T : RangeSlider> T.onChange(listener: (T) -> Unit) = apply {
     addOnChangeListener { _, _, _ -> listener(this) }
 }
-
-fun <T : Slider> T.valueFrom(value: Float) = apply { this.valueFrom = value }
-
-fun <T : Slider> T.valueTo(value: Int) = apply { this.valueTo = value.toFloat() }

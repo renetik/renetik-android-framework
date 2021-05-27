@@ -12,14 +12,14 @@ import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
-import renetik.android.framework.CSContextController
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLogo
 import renetik.android.extensions.attributeColor
 import renetik.android.extensions.inflate
+import renetik.android.framework.CSContextController
 import renetik.android.java.extensions.asString
-import renetik.android.java.extensions.isSet
 import renetik.android.java.extensions.notNull
+import renetik.android.primitives.isSet
 import renetik.android.view.extensions.*
 
 
@@ -195,8 +195,13 @@ class CSDialog : CSContextController {
             if (action.notNull) noAutoDismiss()
             action?.let {
                 positiveButton(R.string.cs_dialog_ok) {
-                    if (action(CSOnDialogViewAction(this@CSDialog,
-                            view))) materialDialog!!.dismiss()
+                    if (action(
+                            CSOnDialogViewAction(
+                                this@CSDialog,
+                                view
+                            )
+                        )
+                    ) materialDialog!!.dismiss()
                 }
             }
         }

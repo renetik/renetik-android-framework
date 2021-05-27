@@ -4,7 +4,7 @@ import android.text.Editable
 import android.widget.TextView
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.extensions.asString
-import renetik.android.java.extensions.isSet
+import renetik.android.primitives.isSet
 import renetik.android.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.text(resourceId: Int) = apply { setText(resourceId) }

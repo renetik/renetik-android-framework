@@ -5,16 +5,16 @@ import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import renetik.android.framework.CSContextController
 import renetik.android.controller.R
 import renetik.android.extensions.attributeColor
+import renetik.android.framework.CSContextController
 import renetik.android.java.event.CSEventPropertyFunctions.property
-import renetik.android.java.extensions.isSet
-
+import renetik.android.primitives.isSet
 
 const val GeneratedMenuItems = 7687678
 
-class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) : CSContextController(activity) {
+class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) :
+    CSContextController(activity) {
 
     val showMenu = property(true)
 
