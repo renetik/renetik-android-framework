@@ -11,6 +11,7 @@ import android.util.TypedValue.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import renetik.android.R
 import renetik.android.framework.common.*
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.collections.list
@@ -26,14 +27,14 @@ fun Context.resourceBytes(id: Int) = catchAllWarn {
     val outputStream = ByteArrayOutputStream()
     val buffer = ByteArray(4 * 1024)
     tryAndFinally({
-        var read: Int
-        do {
-            read = stream.read(buffer, 0, buffer.size)
-            if (read == -1) break
-            outputStream.write(buffer, 0, read)
-        } while (true)
-        outputStream.toByteArray()
-    }) { stream.close() }
+                      var read: Int
+                      do {
+                          read = stream.read(buffer, 0, buffer.size)
+                          if (read == -1) break
+                          outputStream.write(buffer, 0, read)
+                      } while (true)
+                      outputStream.toByteArray()
+                  }) { stream.close() }
 }
 
 fun Context.openInputStream(uri: Uri) = catchErrorReturnNull<InputStream, FileNotFoundException> {
@@ -106,4 +107,5 @@ fun Context.assetsReadText(path: String) = assets.open(path).bufferedReader().us
 
 val Context.isPortrait get() = resources.configuration.orientation == ORIENTATION_PORTRAIT
 val Context.isLandscape get() = !isPortrait
+val Context.isTablet get() = resources.getBoolean(R.bool.cs_is_tablet);
 
