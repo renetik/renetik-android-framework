@@ -1,4 +1,4 @@
-package renetik.android.extensions
+package renetik.android.primitives
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
