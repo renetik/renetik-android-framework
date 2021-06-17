@@ -1,7 +1,6 @@
 package renetik.android.framework
 
 import android.content.Context
-import android.content.SharedPreferences
 import renetik.android.extensions.load
 import renetik.android.extensions.reload
 import renetik.android.framework.common.catchAllWarnReturnNull
@@ -43,7 +42,7 @@ interface CSValueStoreInterface {
 
 class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
-    val preferences: SharedPreferences = getSharedPreferences(id, Context.MODE_PRIVATE)
+    private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
 
     fun clear() = preferences.edit().clear().apply()
 
@@ -94,9 +93,9 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
     fun clone(id: String) = CSValueStore(id).also { it.preferences.reload(preferences) }
 
-    fun load(store: CSValueStore) = preferences.load(store.preferences)
+    fun load(store: CSValueStore) = apply { preferences.load(store.preferences) }
 
-    fun reload(store: CSValueStore) = preferences.reload(store.preferences)
+    fun reload(store: CSValueStore) = apply { preferences.reload(store.preferences) }
 }
 
 fun <T> CSValueStoreInterface.getValue(key: String, values: List<T>, default: T): T {

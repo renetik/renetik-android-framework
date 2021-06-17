@@ -6,7 +6,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun currentTime() = Date().time
+val currentTime get() = Date().time
 fun dateFromString(format: String, string: String) = catchError<ParseException> {
     SimpleDateFormat(format, Locale.US).parse("" + string)
 }
