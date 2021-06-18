@@ -16,14 +16,14 @@
         <ScrollView
             android:background="@color/cs_white"
             android:id="@+id/CSLog_TextScroll"
-            style="@style/cs_match"
+            style="@style/CSMatch"
             android:fillViewport="true"
             android:scrollbars="vertical">
 
             <TextView
                 android:gravity="start"
                 android:id="@+id/CSLog_LogText"
-                style="@style/cs_match"
+                style="@style/CSMatch"
                 android:scrollbars="vertical" />
 
         </ScrollView>

@@ -14,7 +14,7 @@
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/SamplePager_Pager"
-            style="@style/cs_match">
+            style="@style/CSMatch">
 
             <androidx.viewpager.widget.PagerTabStrip style="@style/CSTabStripTop" />
 

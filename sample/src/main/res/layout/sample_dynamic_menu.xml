@@ -14,7 +14,7 @@
     <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchWrap">
 
         <LinearLayout
-            style="@style/cs_vertical_match"
+            style="@style/CSVerticalLayoutMatch"
             android:paddingTop="5dp">
 
             <CheckBox
@@ -43,7 +43,7 @@
         app:cardBackgroundColor="?attr/colorSecondary">
 
         <ImageView
-            style="@style/cs_match"
+            style="@style/CSMatch"
             android:scaleType="centerInside"
             android:src="@drawable/ohm_white" />
     </com.google.android.material.card.MaterialCardView>

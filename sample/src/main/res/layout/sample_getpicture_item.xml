@@ -9,7 +9,7 @@
 
         <ImageView
             android:id="@+id/SampleGetPictureItem_Image"
-            style="@style/cs_match"
+            style="@style/CSMatch"
             android:layout_height="150dp"
             android:padding="3dp"
             android:scaleType="centerInside"

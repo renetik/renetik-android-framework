@@ -14,7 +14,7 @@
 
         <FrameLayout
             android:id="@+id/SampleMap_Map"
-            style="@style/cs_match" />
+            style="@style/CSMatch" />
 
     </com.google.android.material.card.MaterialCardView>
 

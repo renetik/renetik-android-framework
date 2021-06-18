@@ -5,7 +5,7 @@
 
     <ImageView
         android:id="@+id/SamplePageListItem_Image"
-        style="@style/cs_match"
+        style="@style/CSMatch"
         android:layout_width="80dp"
         android:scaleType="fitCenter"
         android:src="@drawable/no_image" />

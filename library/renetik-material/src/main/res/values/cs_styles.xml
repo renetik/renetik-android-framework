@@ -17,7 +17,7 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="cs_match" parent="CSLayout">
+    <style name="CSMatch" parent="CSLayout">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -61,7 +61,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSScrollMatch" parent="cs_match">
+    <style name="CSScrollMatch" parent="CSMatch">
         <item name="android:fillViewport">true</item>
     </style>
 
@@ -126,7 +126,11 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="cs_vertical_match">
+    <style name="CSVerticalLayoutWrapMatch" parent="CSVerticalLayoutWrap">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="CSVerticalLayoutMatch" parent="CSMatch">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
@@ -187,7 +191,7 @@
         </item>
     </style>
 
-    <style name="CSTabStripBottom" parent="cs_match">
+    <style name="CSTabStripBottom" parent="CSMatch">
         <item name="android:background">?attr/colorPrimaryVariant</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textAppearance">@style/CSTextSubtitle1</item>
@@ -246,7 +250,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="CSListPullMatch" parent="cs_match">
+    <style name="CSListPullMatch" parent="CSMatch">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/cs_transparent</item>

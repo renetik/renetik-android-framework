@@ -42,7 +42,7 @@
     <com.google.android.material.card.MaterialCardView style="@style/CSContentCardMatchFill">
 
         <ImageView
-            style="@style/cs_match"
+            style="@style/CSMatch"
             android:scaleType="centerInside"
             android:src="@drawable/ohm_black" />
     </com.google.android.material.card.MaterialCardView>
