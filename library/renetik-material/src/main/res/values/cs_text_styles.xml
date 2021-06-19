@@ -1,6 +1,10 @@
 <resources>
 
-    <style name="CSTextHeadline" parent="Base.TextAppearance.MaterialComponents.Headline6">
+    <style name="CSTextHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <!--        <item name="android:textColor">@color/cs_text_color_selector</item>-->
+    </style>
+
+    <style name="CSTextHeadline" parent="TextAppearance.MaterialComponents.Headline6">
         <!--        <item name="android:textColor">@color/cs_text_color_selector</item>-->
     </style>
 

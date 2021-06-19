@@ -109,6 +109,10 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="CSVerticalLayoutWrapFill" parent="CSVerticalLayoutMatchFill">
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
     <style name="CSVerticalLayoutFillWrap">
         <item name="android:layout_width">0dp</item>
         <item name="android:orientation">vertical</item>
