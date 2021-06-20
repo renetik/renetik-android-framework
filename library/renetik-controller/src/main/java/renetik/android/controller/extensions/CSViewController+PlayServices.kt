@@ -2,12 +2,11 @@ package renetik.android.controller.extensions
 
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import renetik.android.controller.base.CSViewController
-import renetik.android.dialog.extensions.dialog
+import renetik.android.controller.base.CSActivityView
 
 private const val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
 
-fun <T : CSViewController<*>> T.checkPlayServices() {
+fun <T : CSActivityView<*>> T.checkPlayServices() {
     val apiAvailability = GoogleApiAvailability.getInstance()
     val result = apiAvailability.isGooglePlayServicesAvailable(this)
     if (result != ConnectionResult.SUCCESS) {

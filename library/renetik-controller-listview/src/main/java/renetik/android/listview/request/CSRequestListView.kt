@@ -3,22 +3,22 @@ package renetik.android.listview.request
 import android.widget.AbsListView
 import renetik.android.client.request.CSListServerData
 import renetik.android.client.request.CSOperation
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.json.data.CSJsonMap
-import renetik.android.listview.CSListController
+import renetik.android.listview.CSListView
 import renetik.android.listview.CSRowView
 
-open class CSRequestListController<RowType : CSJsonMap, ViewType : AbsListView>
-    : CSListController<RowType, ViewType> {
+open class CSRequestListView<RowType : CSJsonMap, ViewType : AbsListView>
+    : CSListView<RowType, ViewType> {
 
     var onReload: ((progress: Boolean) -> CSOperation<CSListServerData<RowType>>)? = null
 
-    constructor(parent: CSViewController<*>, view: ViewType,
-                createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
+    constructor(parent: CSActivityView<*>, view: ViewType,
+                createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>)
             : super(parent, view, createView)
 
-    constructor(parent: CSViewController<*>, listViewId: Int,
-                createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>)
+    constructor(parent: CSActivityView<*>, listViewId: Int,
+                createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>)
             : super(parent, listViewId, createView)
 
     fun reload(progress: Boolean) = onReload!!(progress).onSuccess { reload(it.list) }

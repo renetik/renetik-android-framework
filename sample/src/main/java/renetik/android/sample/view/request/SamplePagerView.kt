@@ -2,9 +2,9 @@ package renetik.android.sample.view.request
 
 import android.view.ViewGroup
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
-import renetik.android.controller.pager.CSPagerController
+import renetik.android.controller.pager.CSPagerView
 import renetik.android.controller.extensions.textView
 import renetik.android.java.extensions.collections.list
 import renetik.android.controller.extensions.floatingButton
@@ -15,10 +15,10 @@ import renetik.android.view.extensions.editText
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.text
 
-class SamplePagerController(val title: String)
-    : CSViewController<ViewGroup>(navigation, layout(R.layout.sample_pager)) {
+class SamplePagerView(val title: String)
+    : CSActivityView<ViewGroup>(navigation, layout(R.layout.sample_pager)) {
 
-    private val pager = CSPagerController<SamplePageListController>(this, R.id.SamplePager_Pager)
+    private val pager = CSPagerView<SamplePageListView>(this, R.id.SamplePager_Pager)
 
     init {
         textView(R.id.SamplePager_Title).text(title)
@@ -40,9 +40,9 @@ class SamplePagerController(val title: String)
     }
 
     private fun reloadPager() = pager.reload(list(
-            SamplePageListController(this, "First"), SamplePageListController(this, "Second"),
-            SamplePageListController(this, "Third"), SamplePageListController(this, "Fourth"),
-            SamplePageListController(this, "Fifth"), SamplePageListController(this, "Sixth"),
-            SamplePageListController(this, "Seventh"), SamplePageListController(this, "Eight")))
+        SamplePageListView(this, "First"), SamplePageListView(this, "Second"),
+        SamplePageListView(this, "Third"), SamplePageListView(this, "Fourth"),
+        SamplePageListView(this, "Fifth"), SamplePageListView(this, "Sixth"),
+        SamplePageListView(this, "Seventh"), SamplePageListView(this, "Eight")))
 }
 

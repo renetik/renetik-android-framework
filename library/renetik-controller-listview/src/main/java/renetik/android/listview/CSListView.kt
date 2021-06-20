@@ -7,7 +7,7 @@ import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.ListView.CHOICE_MODE_SINGLE
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.findView
 import renetik.android.controller.extensions.view
 import renetik.android.java.event.event
@@ -17,7 +17,7 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.reload
 import renetik.android.view.extensions.*
 
-open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewController<ViewType> {
+open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<ViewType> {
 
     internal val onLoad = event<List<RowType>>()
     internal var viewTypesCount = 1
@@ -25,7 +25,7 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
     private val data = list<RowType>()
     private var dataFilter: ((data: List<RowType>) -> List<RowType>)? = null
     private var listAdapter: BaseAdapter = CSListAdapter(this)
-    private val createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
+    private val createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
     private var firstVisiblePosition: Int = 0
     private var emptyView: View? = null
         set(value) {
@@ -51,15 +51,15 @@ open class CSListController<RowType : Any, ViewType : AbsListView> : CSViewContr
         }
 
     constructor(
-        parent: CSViewController<*>, view: ViewType,
-        createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
+        parent: CSActivityView<*>, view: ViewType,
+        createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
     ) : super(parent, view) {
         this.createView = createView
     }
 
     constructor(
-        parent: CSViewController<*>, listViewId: Int,
-        createView: (CSListController<RowType, ViewType>).(Int) -> CSRowView<RowType>
+        parent: CSActivityView<*>, listViewId: Int,
+        createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
     ) : super(parent, listViewId) {
         this.createView = createView
     }

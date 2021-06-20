@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import android.widget.ListView
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.client.okhttp3.extensions.image
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.swipeRefresh
 import renetik.android.controller.pager.CSPagerPage
 import renetik.android.dialog.showView
 import renetik.android.framework.extensions.send
 import renetik.android.listview.CSRowView
-import renetik.android.listview.actions.CSRemoveListRowsController
+import renetik.android.listview.actions.CSRemoveListRowsView
 import renetik.android.listview.extensions.listController
-import renetik.android.listview.request.CSRequestListController
-import renetik.android.listview.request.CSRequestListLoadNextController
+import renetik.android.listview.request.CSRequestListView
+import renetik.android.listview.request.CSRequestListLoadNextView
 import renetik.android.sample.R
 import renetik.android.sample.model.ServerListItem
 import renetik.android.sample.model.model
@@ -23,11 +23,11 @@ import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.text
 import renetik.android.view.extensions.textView
 
-class SamplePageListController(parent: CSViewController<ViewGroup>, title: String)
-    : CSViewController<View>(parent, layout(R.layout.sample_page_list)), CSPagerPage {
+class SamplePageListView(parent: CSActivityView<ViewGroup>, title: String)
+    : CSActivityView<View>(parent, layout(R.layout.sample_page_list)), CSPagerPage {
 
     val listController =
-        CSRequestListController<ServerListItem, ListView>(this, R.id.SamplePageList_List) {
+        CSRequestListView<ServerListItem, ListView>(this, R.id.SamplePageList_List) {
             CSRowView(this, layout(R.layout.sample_page_list_item)) { row ->
                 view.loadPageListItem(row)
             }
@@ -42,10 +42,10 @@ class SamplePageListController(parent: CSViewController<ViewGroup>, title: Strin
                 .loadPageListItem(view.row)
         }.emptyView(R.id.SamplePageList_ListEmpty)
 
-        CSRequestListLoadNextController(listController, R.layout.cs_list_load_next) {
+        CSRequestListLoadNextView(listController, R.layout.cs_list_load_next) {
             model.server.loadSampleList(it.pageNumber).send("Loading list items", isProgress = false)
         }
-        CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
+        CSRemoveListRowsView(listController, "Remove selected items ?") { toRemove ->
             model.server.deleteSampleListItems(toRemove).send("Deleting list item")
                 .onSuccess { listController.reload(progress = true).refresh() }
         }

@@ -1,21 +1,21 @@
 package renetik.android.controller.common
 
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.TextView
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.*
-import renetik.android.view.extensions.gone
+import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.text
 
-class CSDebugTextController(val parent: CSViewController<out ViewGroup>,
-                            val title: String = "Application Log",
-                            val debugText: String) :
-    CSViewController<View>(parent, layout(R.layout.cs_log_panel)), CSNavigationItem {
+const val sendLogMailKey = "send_log_mail"
+
+class CSLogDisplayView(val navigation: CSNavigationView,
+                       val title: String = "Application Log") :
+    CSActivityView<View>(navigation, layout(R.layout.cs_log_panel)), CSNavigationItem {
 
     private val logText = textView(R.id.CSLog_LogText)
 
@@ -28,9 +28,11 @@ class CSDebugTextController(val parent: CSViewController<out ViewGroup>,
     override fun onCreate() {
         super.onCreate()
         textView(R.id.CSLog_Title).text(title)
-        floatingButton(R.id.CSLog_Reload).gone()
-        logText.text(debugText)
+        floatingButton(R.id.CSLog_Reload).onClick { loadText() }
+        loadText()
     }
+
+    private fun loadText() = logText.text(application.logger.logString())
 
     private fun onSendLogClick() {
         dialog("Send application log", "Enter target email")

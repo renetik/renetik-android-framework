@@ -4,12 +4,12 @@ import android.view.ActionMode
 import android.view.Menu
 import android.widget.AbsListView
 import renetik.android.controller.extensions.dialog
-import renetik.android.listview.CSListController
+import renetik.android.listview.CSListView
 
-open class CSRemoveListRowsController<RowType : Any, AbsListViewType : AbsListView>(
-    private val listController: CSListController<RowType, AbsListViewType>,
+open class CSRemoveListRowsView<RowType : Any, AbsListViewType : AbsListView>(
+    private val listController: CSListView<RowType, AbsListViewType>,
     question: String, onRemove: (List<RowType>) -> Unit
-) : CSListActionsMultiSelectionController<RowType, AbsListViewType>(listController) {
+) : CSListActionsMultiSelectionView<RowType, AbsListViewType>(listController) {
 
     private val selectAll = listMenu("Select All").finish(false)
         .onClick { _ -> listController.checkAll() }

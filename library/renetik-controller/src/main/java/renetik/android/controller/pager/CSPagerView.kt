@@ -1,17 +1,16 @@
 package renetik.android.controller.pager
 
 import android.view.View
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.*
-import renetik.android.java.extensions.isEmpty
 import renetik.android.java.extensions.later
 import renetik.android.view.extensions.shownIf
 
-class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
-    CSViewController<CSViewPager>(parent, pagerId)
-        where PageType : CSViewController<*>, PageType : CSPagerPage {
+class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
+    CSActivityView<CSViewPager>(parent, pagerId)
+        where PageType : CSActivityView<*>, PageType : CSPagerPage {
 
     val eventOnPageChange = event<PageType>()
     fun onPageChange(function: (PageType) -> Unit) = eventOnPageChange.listen(function)
@@ -25,7 +24,7 @@ class CSPagerController<PageType>(parent: CSViewController<*>, pagerId: Int) :
         }
     private var emptyView: View? = null
 
-    constructor(parent: CSViewController<*>, pagerId: Int, pages: List<PageType>)
+    constructor(parent: CSActivityView<*>, pagerId: Int, pages: List<PageType>)
             : this(parent, pagerId) {
         controllers.putAll(pages)
     }

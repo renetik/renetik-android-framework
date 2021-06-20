@@ -9,14 +9,14 @@ import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.framework.lang.CSProperty
 import renetik.android.java.event.CSEvent
 
-interface CSActivityController {
+interface CSActivityViewInterface {
     val onCreate: CSEvent<Bundle?>
     val onSaveInstanceState: CSEvent<Bundle>
     val onStart: CSEvent<Unit>
     val onResume: CSEvent<Unit>
     val onPause: CSEvent<Unit>
     val onStop: CSEvent<Unit>
-    val onDestroy: CSEvent<CSActivityController>
+    val onDestroy: CSEvent<CSActivityViewInterface>
     val onBack: CSEvent<CSProperty<Boolean>>
     val onConfigurationChanged: CSEvent<Configuration>
     val onOrientationChanged: CSEvent<Configuration>

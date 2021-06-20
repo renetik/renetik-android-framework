@@ -1,9 +1,9 @@
 package renetik.android.listview.actions
 
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.menu.CSMenuItem
 
-class CSListMenuItem<RowType>(controller: CSViewController<*>, title: String) : CSMenuItem(controller, title) {
+class CSListMenuItem<RowType>(controller: CSActivityView<*>, title: String) : CSMenuItem(controller, title) {
 
     private var finish = true
     private var run: ((CSMenuItem, List<RowType>) -> Unit)? = null

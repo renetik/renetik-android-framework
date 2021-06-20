@@ -10,7 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
@@ -23,7 +23,7 @@ import renetik.android.primitives.isFalse
 import renetik.android.primitives.isSet
 
 object CSNavigationInstance {
-    lateinit var navigation: CSNavigationController
+    lateinit var navigation: CSNavigationView
     val isInitialized get() = ::navigation.isInitialized
 }
 
@@ -31,11 +31,11 @@ const val PushID = "push_key"
 
 @Suppress("LeakingThis")
 @SuppressLint("UseCompatLoadingForDrawables")
-open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationItem {
+open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
 
-    constructor(parent: CSViewController<out ViewGroup>) :
+    constructor(parent: CSActivityView<out ViewGroup>) :
             super(parent, layout(R.layout.cs_navigation))
 
     init {
@@ -44,12 +44,12 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         navigation = this
     }
 
-    open var controllers = list<CSViewController<*>>()
+    open var controllers = list<CSActivityView<*>>()
 
     fun <T : View> push(
-        controller: CSViewController<T>,
+        controller: CSActivityView<T>,
         pushId: String? = null
-    ): CSViewController<T> {
+    ): CSActivityView<T> {
         currentController?.showingInContainer(false)
         pushId?.let { controller.setValue(PushID, it) }
         controllers.put(controller)
@@ -77,7 +77,7 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         }
     }
 
-    fun <T : View> pushAsLast(controller: CSViewController<T>): CSViewController<T> {
+    fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
         controllers.deleteLast().notNull { lastController ->
             lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
             lastController.showingInContainer(false)
@@ -100,8 +100,8 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
 
     fun <T : View> push(
         pushId: String,
-        controller: CSViewController<T>
-    ): CSViewController<T> {
+        controller: CSActivityView<T>
+    ): CSActivityView<T> {
         if (controllers.contains { it.getValue(PushID) == pushId })
             for (lastController in controllers.reversed()) {
                 controllers.delete(lastController)
@@ -125,9 +125,9 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
     }
 
     fun <T : View> replace(
-        oldController: CSViewController<T>,
-        newController: CSViewController<T>
-    ): CSViewController<T> {
+        oldController: CSActivityView<T>,
+        newController: CSActivityView<T>
+    ): CSActivityView<T> {
         if (currentController == oldController) return pushAsLast(newController)
 
         val indexOfController = controllers.indexOf(oldController)
@@ -240,10 +240,10 @@ open class CSNavigationController : CSViewController<FrameLayout>, CSNavigationI
         if (onItem.consume(android.R.id.home)) goBack()
     }
 
-    open fun onViewControllerPush(controller: CSViewController<*>) {
+    open fun onViewControllerPush(controller: CSActivityView<*>) {
     }
 
-    open fun onViewControllerPop(controller: CSViewController<*>) {
+    open fun onViewControllerPop(controller: CSActivityView<*>) {
 
     }
 

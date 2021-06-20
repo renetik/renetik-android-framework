@@ -2,7 +2,7 @@ package renetik.android.controller.menu
 
 import android.view.MenuItem.*
 import android.view.View
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 
 /**
  * Created by Rene Dohan on 18/1/17.
@@ -16,7 +16,7 @@ open class CSMenuItem {
     val isNeverAsAction: Boolean get() = showAsAction == SHOW_AS_ACTION_NEVER
     val id: Int
     val isGenerated: Boolean
-    private val controller: CSViewController<*>
+    private val controller: CSActivityView<*>
     var title: String? = null
     var isVisible = true
     var isChecked: Boolean? = null
@@ -25,13 +25,13 @@ open class CSMenuItem {
     private var runWith: ((CSMenuItem) -> Unit)? = null
     var actionView: View? = null
 
-    constructor(controller: CSViewController<*>, id: Int) {
+    constructor(controller: CSActivityView<*>, id: Int) {
         this.controller = controller
         this.id = id
         isGenerated = false
     }
 
-    constructor(controller: CSViewController<*>, title: String) {
+    constructor(controller: CSActivityView<*>, title: String) {
         this.controller = controller
         this.id = lastGeneratedMenuItemId++
         isGenerated = true

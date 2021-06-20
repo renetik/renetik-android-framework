@@ -3,13 +3,13 @@ package renetik.android.controller.extensions
 import android.view.View
 import android.view.ViewGroup
 import renetik.android.controller.base.CSView
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.remove
 
 fun ViewGroup.add(view: CSView<*>) = add(view.view)
 
-fun <Controller : CSViewController<*>> ViewGroup.add(controller: Controller): Controller {
+fun <Controller : CSActivityView<*>> ViewGroup.add(controller: Controller): Controller {
     add(controller.view)
     controller.lifecycleInitialize()
     return controller

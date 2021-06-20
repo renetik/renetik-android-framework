@@ -1,13 +1,13 @@
 package renetik.android.controller.pager
 
 import androidx.viewpager.widget.ViewPager.*
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.java.extensions.notNull
 import renetik.android.framework.math.CSMath.between
 
-class CSOnPagerPageChange<PageType>(private val pager: CSPagerController<PageType>) :
+class CSOnPagerPageChange<PageType>(private val pager: CSPagerView<PageType>) :
     OnPageChangeListener
-        where PageType : CSViewController<*>, PageType : CSPagerPage {
+        where PageType : CSActivityView<*>, PageType : CSPagerPage {
 
     private var onPageDragged: ((Int) -> Unit)? = null
     private var state: Int = 0

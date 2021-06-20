@@ -3,17 +3,17 @@ package renetik.android.sample.view.getpicture
 import android.view.View
 import android.widget.GridView
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.floatingButton
 import renetik.android.controller.extensions.imageView
 import renetik.android.controller.extensions.textView
 import renetik.android.dialog.showView
-import renetik.android.getpicture.CSGetPictureController
-import renetik.android.listview.CSListController
+import renetik.android.getpicture.CSGetPictureView
+import renetik.android.listview.CSListView
 import renetik.android.listview.CSRowView
-import renetik.android.listview.actions.CSRemoveListRowsController
+import renetik.android.listview.actions.CSRemoveListRowsView
 import renetik.android.sample.R
 import renetik.android.sample.model.ImageItem
 import renetik.android.sample.model.model
@@ -23,10 +23,10 @@ import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.text
 
-class SampleGetPictureController(title: String)
-    : CSViewController<View>(navigation, layout(R.layout.sample_getpicture)), CSNavigationItem {
+class SampleGetPictureView(title: String)
+    : CSActivityView<View>(navigation, layout(R.layout.sample_getpicture)), CSNavigationItem {
 
-    private val grid = CSListController<ImageItem, GridView>(this, R.id.SampleGetPicture_Grid) {
+    private val grid = CSListView<ImageItem, GridView>(this, R.id.SampleGetPicture_Grid) {
         CSRowView(this, layout(R.layout.sample_getpicture_item)) { data ->
             imageView(R.id.SampleGetPictureItem_Image).image(data.image.value)
         }
@@ -36,7 +36,7 @@ class SampleGetPictureController(title: String)
     }.emptyView(R.id.SampleGetPicture_ListEmpty)
 
     private val getPicture =
-        CSGetPictureController(this, "Select photo or take picture", "Pictures") {
+        CSGetPictureView(this, "Select photo or take picture", "Pictures") {
             model.getPictureList.add(ImageItem(it))
             model.save()
             reloadGrid()
@@ -44,7 +44,7 @@ class SampleGetPictureController(title: String)
 
     init {
         textView(R.id.SampleGetPicture_Title).text(title)
-        CSRemoveListRowsController(grid, "Remove selected items ?") { toRemove ->
+        CSRemoveListRowsView(grid, "Remove selected items ?") { toRemove ->
             toRemove.forEach { item -> model.getPictureList.remove(item) }
             model.save()
             grid.reload(model.getPictureList.list)

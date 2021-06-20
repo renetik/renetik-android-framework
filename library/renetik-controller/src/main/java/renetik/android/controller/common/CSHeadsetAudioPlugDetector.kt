@@ -5,13 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.view.View
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.logging.CSLog.logInfo
 import renetik.android.logging.CSLog.logWarn
 
 class CSHeadsetAudioPlugDetector(
-    parent: CSViewController<*>, val onHeadsetPlugChanged: (isPlugged: Boolean) -> Unit)
-    : CSViewController<View>(parent) {
+    parent: CSActivityView<*>, val onHeadsetPlugChanged: (isPlugged: Boolean) -> Unit)
+    : CSActivityView<View>(parent) {
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) = onReceive(intent)

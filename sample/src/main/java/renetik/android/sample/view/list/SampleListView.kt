@@ -3,15 +3,15 @@ package renetik.android.sample.view.list
 import android.view.View
 import android.widget.ListView
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.common.CSNavigationItem
-import renetik.android.controller.common.CSSearchController
+import renetik.android.controller.common.CSSearchView
 import renetik.android.controller.extensions.*
 import renetik.android.dialog.showView
 import renetik.android.java.extensions.collections.list
-import renetik.android.listview.CSListController
+import renetik.android.listview.CSListView
 import renetik.android.listview.CSRowView
-import renetik.android.listview.actions.CSRemoveListRowsController
+import renetik.android.listview.actions.CSRemoveListRowsView
 import renetik.android.logging.CSLog.logInfoToast
 import renetik.android.sample.R
 import renetik.android.sample.model.ListItem
@@ -21,10 +21,10 @@ import renetik.android.view.extensions.editText
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.text
 
-class SampleListController(title: String)
-    : CSViewController<View>(navigation, layout(R.layout.sample_list)), CSNavigationItem {
+class SampleListView(title: String)
+    : CSActivityView<View>(navigation, layout(R.layout.sample_list)), CSNavigationItem {
 
-    private val listController = CSListController<ListItem, ListView>(this, R.id.SampleList_List) {
+    private val listController = CSListView<ListItem, ListView>(this, R.id.SampleList_List) {
         CSRowView(this, layout(R.layout.sample_list_item)) { row ->
             textView(R.id.header).text(row.time)
             textView(R.id.title).text(row.title)
@@ -32,11 +32,11 @@ class SampleListController(title: String)
         }
     }.onItemClick { rowView -> snackBarInfo("SampleListItemView clicked ${rowView.row.title}") }
         .emptyView(R.id.SampleList_ListEmpty)
-    private val searchController = CSSearchController(this) { reloadList() }
+    private val searchController = CSSearchView(this) { reloadList() }
 
     init {
         textView(R.id.SampleList_Title).text(title)
-        CSRemoveListRowsController(listController, "Remove selected items ?") { toRemove ->
+        CSRemoveListRowsView(listController, "Remove selected items ?") { toRemove ->
             toRemove.forEach { item -> model.sampleList.remove(item) }
             model.save()
             listController.reload(model.sampleList.list)

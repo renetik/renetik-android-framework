@@ -8,7 +8,7 @@ import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.CSEvent.CSEventRegistration
@@ -20,8 +20,8 @@ import kotlin.system.exitProcess
 
 private const val DEFAULT_ZOOM = 13f
 
-open class CSMapController(parent: CSViewController<*>, private val options: GoogleMapOptions) :
-    CSViewController<MapView>(parent) {
+open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOptions) :
+    CSActivityView<MapView>(parent) {
 
     var map: GoogleMap? = null
     private val onMapReadyEvent: CSEvent<GoogleMap> = event()
@@ -37,7 +37,7 @@ open class CSMapController(parent: CSViewController<*>, private val options: Goo
 
     override fun obtainView() = MapView(this, options)
 
-    constructor(parent: CSViewController<*>) : this(parent, GoogleMapOptions())
+    constructor(parent: CSActivityView<*>) : this(parent, GoogleMapOptions())
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)

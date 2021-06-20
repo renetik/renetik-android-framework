@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.frame
 import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
@@ -12,9 +12,9 @@ import renetik.android.view.extensions.add
 import renetik.android.view.extensions.layoutMatch
 import renetik.android.view.extensions.removeFromSuperview
 
-open class CSMapClientController<V : View>(parent: CSViewController<V>, private val mapFrameId: Int,
-                                           open val mapController: CSMapController)
-    : CSViewController<V>(parent) {
+open class CSMapClientView<V : View>(parent: CSActivityView<V>, private val mapFrameId: Int,
+                                     open val mapController: CSMapView)
+    : CSActivityView<V>(parent) {
 
     private var lastLocation: LatLng? = null
     private var lastZoom: Float? = null

@@ -12,14 +12,14 @@ import renetik.android.java.event.event
 import renetik.android.java.event.fire
 import renetik.android.java.event.listenOnce
 
-open class CSDialogController<ViewType : View> : CSViewController<ViewType> {
+open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
 
     protected lateinit var dialog: Dialog
     private var cancelableOnTouchOutside = true
     private val eventOnDismiss = event<Unit>()
     fun onDismiss(function: () -> Unit) = eventOnDismiss.listenOnce { function() }
 
-    constructor(parent: CSViewController<out ViewGroup>, layoutRes: CSLayoutRes) :
+    constructor(parent: CSActivityView<out ViewGroup>, layoutRes: CSLayoutRes) :
             super(parent, layoutRes)
 
     constructor(layoutRes: CSLayoutRes) : this(navigation, layoutRes)

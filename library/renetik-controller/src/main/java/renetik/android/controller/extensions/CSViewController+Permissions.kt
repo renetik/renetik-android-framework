@@ -4,20 +4,20 @@ import android.os.Build.VERSION.SDK_INT
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.java.extensions.collections.list
 import renetik.android.framework.math.CSMath.randomInt
 import renetik.android.primitives.isSet
 
-fun CSViewController<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {
+fun CSActivityView<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {
     requestPermissions(permissions, onGranted, null)
 }
 
-fun CSViewController<*>.requestPermissionsWithForce(permissions: List<String>, onGranted: () -> Unit) {
+fun CSActivityView<*>.requestPermissionsWithForce(permissions: List<String>, onGranted: () -> Unit) {
     requestPermissions(permissions, onGranted, { requestPermissionsWithForce(permissions, onGranted) })
 }
 
-fun CSViewController<*>.requestPermissions(
+fun CSActivityView<*>.requestPermissions(
     permissions: List<String>,
     onGranted: (() -> Unit)? = null, onNotGranted: (() -> Unit)? = null
 ) {
@@ -42,14 +42,14 @@ fun CSViewController<*>.requestPermissions(
     } else onGranted?.invoke()
 }
 
-fun CSViewController<*>.getDeniedPermissions(permissions: List<String>): Array<String> {
+fun CSActivityView<*>.getDeniedPermissions(permissions: List<String>): Array<String> {
     val deniedPermissions = list<String>()
     for (permission in permissions)
         if (isPermissionGranted(permission)) deniedPermissions.add(permission)
     return deniedPermissions.toTypedArray()
 }
 
-fun CSViewController<*>.isPermissionGranted(permission: String): Boolean {
+fun CSActivityView<*>.isPermissionGranted(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) != PERMISSION_GRANTED
 }
 

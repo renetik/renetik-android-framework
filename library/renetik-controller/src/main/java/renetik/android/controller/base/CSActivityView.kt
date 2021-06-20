@@ -26,15 +26,16 @@ import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
-abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityController,
-    LifecycleOwner {
+abstract class CSActivityView<ViewType : View>
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner {
+    
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
     override val onStart = event<Unit>()
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
     override val onStop = event<Unit>()
-    override val onDestroy = event<CSActivityController>()
+    override val onDestroy = event<CSActivityViewInterface>()
     override val onBack = event<CSProperty<Boolean>>()
     override val onConfigurationChanged = event<Configuration>()
     override val onOrientationChanged = event<Configuration>()
@@ -62,7 +63,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
     var isDestroyed = false
 
     var bundle: Bundle? = null
-    var parentController: CSViewController<*>? = null
+    var parentController: CSActivityView<*>? = null
     var activity: AppCompatActivity? = null
     private val parentRegistrations: CSEventRegistrations
     private var viewId: Int? = null
@@ -78,24 +79,24 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
         parentRegistrations = initializeParent(activity)
     }
 
-    constructor(parent: CSViewController<*>) : super(parent) {
+    constructor(parent: CSActivityView<*>) : super(parent) {
         parentController = parent
         parentRegistrations = initializeParent(parent)
     }
 
-    constructor(parent: CSViewController<*>, view: ViewType) : super(parent, view) {
+    constructor(parent: CSActivityView<*>, view: ViewType) : super(parent, view) {
         parentController = parent
         parentRegistrations = initializeParent(parent)
     }
 
-    constructor(parent: CSViewController<*>, @IdRes viewId: Int) : super(parent) {
+    constructor(parent: CSActivityView<*>, @IdRes viewId: Int) : super(parent) {
         parentController = parent
         this.viewId = viewId
         parentRegistrations = initializeParent(parent)
         lifecycleInitialize()
     }
 
-    constructor(parent: CSViewController<out ViewGroup>, layoutRes: CSLayoutRes)
+    constructor(parent: CSActivityView<out ViewGroup>, layoutRes: CSLayoutRes)
             : super(parent.view, layoutRes) {
         parentController = parent
         parentRegistrations = initializeParent(parent)
@@ -190,7 +191,7 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
         onDestroy()
     }
 
-    private fun initializeParent(parent: CSActivityController): CSEventRegistrations {
+    private fun initializeParent(parent: CSActivityViewInterface): CSEventRegistrations {
         activity = parent.activity()
         return CSEventRegistrations(
             parent.onCreate.listen { argument -> onCreate(argument) },
@@ -246,7 +247,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
                 if (onItem.isCheckable) {
                     item.onChecked(onItem)
                     invalidateOptionsMenu()
-                } else item.run()
+                }
+                else item.run()
                 break
             }
     }
@@ -287,7 +289,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
     protected fun updateVisibilityChanged() {
         if (checkIfIsShowing()) {
             if (!isShowing) onViewVisibilityChanged(true)
-        } else if (isShowing) onViewVisibilityChanged(false)
+        }
+        else if (isShowing) onViewVisibilityChanged(false)
     }
 
     protected fun checkIfIsShowing(): Boolean {
@@ -304,7 +307,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
             isVisibleEventRegistrations.setActive(true)
             invalidateOptionsMenu()
             onViewShowing()
-        } else {
+        }
+        else {
             isVisibleEventRegistrations.setActive(false)
             invalidateOptionsMenu()
             onViewHiding()
@@ -316,7 +320,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
         if (!onViewShowingCalled) {
             onViewShowingFirstTime()
             onViewShowingCalled = true
-        } else onViewShowingAgain()
+        }
+        else onViewShowingAgain()
     }
 
     protected open fun onViewShowingFirstTime() {}
@@ -327,7 +332,8 @@ abstract class CSViewController<ViewType : View> : CSView<ViewType>, CSActivityC
         if (!onViewShowingCalled) {
             onViewHidingFirstTime()
             onViewShowingCalled = true
-        } else onViewHidingAgain()
+        }
+        else onViewHidingAgain()
     }
 
     protected open fun onViewHidingFirstTime() {}

@@ -11,7 +11,7 @@ import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
 import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.snackBarWarn
@@ -24,11 +24,11 @@ import renetik.android.java.extensions.later
 import renetik.android.task.CSBackground.background
 import java.io.File
 
-class CSGetPictureController<T : View>(
-    parent: CSViewController<T>, val title: String, private val folder: File,
-    private val onImageReady: (File) -> Unit) : CSViewController<T>(parent) {
+class CSGetPictureView<T : View>(
+    parent: CSActivityView<T>, val title: String, private val folder: File,
+    private val onImageReady: (File) -> Unit) : CSActivityView<T>(parent) {
 
-    constructor(parent: CSViewController<T>,
+    constructor(parent: CSActivityView<T>,
                 title: String,
                 imagesDirName: String,
                 onImageReady: (File) -> Unit) :

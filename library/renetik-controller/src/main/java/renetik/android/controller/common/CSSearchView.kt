@@ -5,7 +5,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import renetik.android.controller.R
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.findView
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
@@ -13,11 +13,11 @@ import renetik.android.primitives.isSet
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
 
-class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, View.OnClickListener,
+class CSSearchView : CSActivityView<SearchView>, OnQueryTextListener, View.OnClickListener,
     SearchView.OnCloseListener {
 
     var text = ""
-    var eventOnClearButtonClick = event<CSSearchController>()
+    var eventOnClearButtonClick = event<CSSearchView>()
     private var searchOpened = false
     private var expanded = false
     private var hint: String? = null
@@ -25,7 +25,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     private val listener: (String) -> Unit
 
     constructor(
-        parent: CSViewController<View>, hint: String = "", text: String = "",
+        parent: CSActivityView<View>, hint: String = "", text: String = "",
         listener: (String) -> Unit
     ) : super(parent) {
         this.hint = hint
@@ -35,7 +35,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     }
 
     constructor(
-        parent: CSViewController<*>, search: SearchView, hint: String = "", text: String = "",
+        parent: CSActivityView<*>, search: SearchView, hint: String = "", text: String = "",
         onChange: (String) -> Unit
     ) : super(parent) {
         this.hint = hint
@@ -45,7 +45,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
     }
 
     constructor(
-        parent: CSViewController<*>, viewId: Int, hint: String = "", text: String = "",
+        parent: CSActivityView<*>, viewId: Int, hint: String = "", text: String = "",
         listener: (String) -> Unit
     ) : super(parent, viewId) {
         this.hint = hint
@@ -99,7 +99,7 @@ class CSSearchController : CSViewController<SearchView>, OnQueryTextListener, Vi
 
     fun expanded(value: Boolean) = apply { expanded = value }
 
-    fun onClearButtonClick(listener: (CSSearchController) -> Unit) = apply {
+    fun onClearButtonClick(listener: (CSSearchView) -> Unit) = apply {
         eventOnClearButtonClick.listen(listener)
     }
 

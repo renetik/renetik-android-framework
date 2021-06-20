@@ -15,7 +15,7 @@ import renetik.android.java.event.event
 import renetik.android.java.event.fire
 
 
-abstract class CSActivity : AppCompatActivity(), CSActivityController {
+abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {
 
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
@@ -23,7 +23,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityController {
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
     override val onStop = event<Unit>()
-    override val onDestroy = event<CSActivityController>()
+    override val onDestroy = event<CSActivityViewInterface>()
     override val onBack = event<CSProperty<Boolean>>()
     override val onConfigurationChanged = event<Configuration>()
     override val onOrientationChanged = event<Configuration>()
@@ -38,10 +38,10 @@ abstract class CSActivity : AppCompatActivity(), CSActivityController {
     override val onRequestPermissionsResult = event<CSRequestPermissionResult>()
     override val onViewVisibilityChanged = event<Boolean>()
     override fun activity() = this
-    var controller: CSViewController<*>? = null
+    var controller: CSActivityView<*>? = null
     var configuration = Configuration()
 
-    abstract fun createController(): CSViewController<*>
+    abstract fun createController(): CSActivityView<*>
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)

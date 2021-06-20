@@ -4,15 +4,15 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.AbsListView.OnScrollListener
 import android.widget.ListView
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.java.extensions.isNull
 import renetik.android.view.extensions.hide
 import renetik.android.view.extensions.show
 
-open class CSListLoadNextController<RowType : Any, ListType : ListView>(
-        val parent: CSListController<RowType, ListType>, loadViewLayout: Int
-        , val onLoadNext: (CSListLoadNextController<RowType, ListType>) -> Unit)
-    : CSViewController<ListType>(parent) {
+open class CSListLoadNextView<RowType : Any, ListType : ListView>(
+    val parent: CSListView<RowType, ListType>, loadViewLayout: Int
+    , val onLoadNext: (CSListLoadNextView<RowType, ListType>) -> Unit)
+    : CSActivityView<ListType>(parent) {
 
     private val loadView = inflate<View>(loadViewLayout)
     private var scrollListener: EndlessScrollListener? = null

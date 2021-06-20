@@ -12,12 +12,12 @@ import com.google.android.gms.maps.model.JointType.ROUND
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.textView
 import renetik.android.framework.lang.CSTimeConstants.Second
 import renetik.android.java.extensions.collections.beforeLast
-import renetik.android.maps.CSMapClientController
-import renetik.android.maps.CSMapController
+import renetik.android.maps.CSMapClientView
+import renetik.android.maps.CSMapView
 import renetik.android.maps.extensions.asLatLng
 import renetik.android.sample.R
 import renetik.android.sample.model.MapPosition
@@ -26,10 +26,10 @@ import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.text
 
 @SuppressLint("MissingPermission")
-class SampleMapPathController(title: String, private val mapController: CSMapController)
-    : CSViewController<View>(navigation, layout(R.layout.sample_map_path)) {
+class SampleMapPathView(title: String, private val mapController: CSMapView)
+    : CSActivityView<View>(navigation, layout(R.layout.sample_map_path)) {
 
-    private val mapClient = CSMapClientController(this, R.id.SampleMap_Map, mapController)
+    private val mapClient = CSMapClientView(this, R.id.SampleMap_Map, mapController)
     private val locationRequest = LocationRequest().apply {
         priority = PRIORITY_HIGH_ACCURACY
         interval = 2L * Second

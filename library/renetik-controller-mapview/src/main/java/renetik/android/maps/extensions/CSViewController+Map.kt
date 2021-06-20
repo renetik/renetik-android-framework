@@ -7,13 +7,13 @@ import android.net.Uri.parse
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.common.catchError
 
-fun CSViewController<*>.locationClient(): FusedLocationProviderClient =
+fun CSActivityView<*>.locationClient(): FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(activity())
 
-fun <T : CSViewController<*>> T.navigateToLatLng(latLng: LatLng, title: String) {
+fun <T : CSActivityView<*>> T.navigateToLatLng(latLng: LatLng, title: String) {
     val uri = "http://maps.google.com/maps?&daddr=${latLng.latitude},${latLng.longitude} (${title})"
     try {
         startActivity(Intent(ACTION_VIEW, parse(uri)).apply {

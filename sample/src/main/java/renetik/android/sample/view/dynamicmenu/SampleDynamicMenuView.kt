@@ -2,7 +2,7 @@ package renetik.android.sample.view.dynamicmenu
 
 import android.view.View
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.checkBox
 import renetik.android.controller.extensions.dialog
@@ -14,8 +14,8 @@ import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.onChecked
 import renetik.android.view.extensions.text
 
-class SampleDynamicMenuController(title: String)
-    : CSViewController<View>(navigation, layout(R.layout.sample_dynamic_menu)),
+class SampleDynamicMenuView(title: String)
+    : CSActivityView<View>(navigation, layout(R.layout.sample_dynamic_menu)),
     CSNavigationItem {
 
     private val addMenuItem: CSMenuItem = menuItem("").alwaysAsAction()

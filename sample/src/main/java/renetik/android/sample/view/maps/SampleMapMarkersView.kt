@@ -5,11 +5,11 @@ import android.view.View
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.controller.base.CSViewController
+import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.textView
-import renetik.android.maps.CSMapClientController
-import renetik.android.maps.CSMapController
+import renetik.android.maps.CSMapClientView
+import renetik.android.maps.CSMapView
 import renetik.android.maps.extensions.location
 import renetik.android.maps.extensions.locationClient
 import renetik.android.sample.R
@@ -19,10 +19,10 @@ import renetik.android.sample.view.navigation
 import renetik.android.view.extensions.text
 
 @SuppressLint("MissingPermission")
-class SampleMapMarkersController(title: String, mapController: CSMapController) :
-    CSViewController<View>(navigation, layout(R.layout.sample_map_markers)) {
+class SampleMapMarkersView(title: String, mapController: CSMapView) :
+    CSActivityView<View>(navigation, layout(R.layout.sample_map_markers)) {
 
-    private val mapClient = CSMapClientController(this, R.id.SampleMap_Map, mapController)
+    private val mapClient = CSMapClientView(this, R.id.SampleMap_Map, mapController)
 
     init {
         textView(R.id.SampleMap_Title).text(title)

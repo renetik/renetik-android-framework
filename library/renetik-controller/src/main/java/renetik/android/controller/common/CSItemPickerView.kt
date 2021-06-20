@@ -4,7 +4,7 @@ import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
-import renetik.android.controller.base.CSDialogController
+import renetik.android.controller.base.CSDialogView
 import renetik.android.controller.extensions.numberPicker
 import renetik.android.controller.extensions.textView
 import renetik.android.java.event.CSEventProperty
@@ -15,11 +15,11 @@ import renetik.android.view.extensions.loadData
 import renetik.android.view.extensions.text
 
 
-class CSItemPickerController<Row : Any>(
+class CSItemPickerView<Row : Any>(
     @LayoutRes layout: Int = R.layout.cs_chooser,
     title: CharSequence, val data: List<Row>,
     selectedIndex: Int = 0, val onSelected: (Row) -> Unit
-) : CSDialogController<LinearLayout>(layout(layout)) {
+) : CSDialogView<LinearLayout>(layout(layout)) {
 
     constructor(
         @LayoutRes layout: Int = R.layout.cs_chooser, title: CharSequence,
