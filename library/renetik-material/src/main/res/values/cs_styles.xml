@@ -100,6 +100,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
+        <item name="android:baselineAligned">false</item>
     </style>
 
     <style name="CSVerticalLayoutMatchFill">
@@ -107,6 +108,7 @@
         <item name="android:orientation">vertical</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:baselineAligned">false</item>
     </style>
 
     <style name="CSVerticalLayoutWrapFill" parent="CSVerticalLayoutMatchFill">
@@ -118,33 +120,57 @@
         <item name="android:orientation">vertical</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:baselineAligned">false</item>
     </style>
 
     <style name="CSVerticalLayoutFillMatch" parent="CSVerticalLayoutFillWrap">
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="CSVerticalLayoutWrap" parent="CSWrap">
+    <style name="CSVerticalLayoutWrap">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
+        <item name="android:baselineAligned">false</item>
     </style>
 
     <style name="CSVerticalLayoutWrapMatch" parent="CSVerticalLayoutWrap">
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="CSVerticalLayoutMatch" parent="CSMatch">
+    <style name="CSVerticalLayoutMatch">
+        <item name="android:orientation">vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:orientation">vertical</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSHorizontalLayoutWrap">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSHorizontalLayoutMatch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:baselineAligned">false</item>
     </style>
 
     <style name="CSHorizontalLayoutMatchWrap">
         <item name="android:orientation">horizontal</item>
-        <item name="android:baselineAligned">false</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSHorizontalLayoutWrapMatch">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:baselineAligned">false</item>
     </style>
 
     <style name="CSHorizontalLayoutFillWrap" parent="CSHorizontalLayoutMatchWrap">
@@ -158,29 +184,9 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="CSHorizontalLayoutWrapMatch">
-        <item name="android:orientation">horizontal</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-    </style>
-
-    <style name="cs_horizontal_match">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
-
-    <style name="cs_horizontal_match_fill">
-        <item name="android:layout_width">match_parent</item>
+    <style name="CSHorizontalLayoutMatchFill" parent="CSHorizontalLayoutMatch">
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
-
-    <style name="CSHorizontalLayoutWrap">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
     </style>
 
     <style name="CSPageTitleCard" parent="Widget.MaterialComponents.CardView">
