@@ -1,5 +1,10 @@
 <resources>
 
+    <style name="CSTextHeadline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <!--        <item name="android:textColor">@color/cs_text_color_selector</item>-->
+<!--        <item name="android:textStyle">bold</item>-->
+    </style>
+
     <style name="CSTextHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
         <!--        <item name="android:textColor">@color/cs_text_color_selector</item>-->
     </style>
