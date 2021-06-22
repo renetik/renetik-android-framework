@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
 import android.view.inputmethod.InputMethodManager.SHOW_FORCED
 import androidx.annotation.LayoutRes
 import renetik.android.content.input
+import renetik.android.controller.extensions.view
 import renetik.android.extensions.inflate
 import renetik.android.framework.CSContextController
 import renetik.android.framework.lang.CSLayoutRes
@@ -32,6 +33,12 @@ open class CSView<ViewType : View> : CSContextController {
     constructor(parent: CSView<out ViewGroup>, layoutRes: CSLayoutRes) : super(parent) {
         this.parentGroup = parent.view
         this.layoutRes = layoutRes
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    constructor(parent: CSView<*>, viewId: Int) : super(parent) {
+        this.parentGroup = parent.parentGroup
+        setView(parent.view(viewId) as ViewType)
     }
 
     constructor(parent: CSView<*>, view: ViewType) : super(parent) {
