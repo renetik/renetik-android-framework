@@ -1,6 +1,9 @@
 package renetik.android.java.event
 
+@JvmName("eventWithType")
 fun <T> event(): CSEvent<T> = CSEventImpl()
+
+fun event(): CSEvent<Unit> = CSEventImpl()
 
 fun CSEvent<Unit>.fire() = fire(Unit)
 

@@ -1,7 +1,7 @@
 package renetik.android.java.event
 
-import renetik.android.java.extensions.collections.list
 import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.collections.putAll
 
@@ -29,8 +29,15 @@ class CSEventRegistrations() {
         return registrations.put(registration)
     }
 
+    fun cancel(registration: CSEventRegistration) {
+        registration.cancel()
+        registrations.remove(registration)
+    }
+
     fun setActive(active: Boolean) {
         this.active = active
         for (registration in registrations) registration.isActive = active
     }
+
+    val size get() = registrations.size
 }

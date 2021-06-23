@@ -28,7 +28,7 @@ import renetik.android.view.extensions.findViewRecursive
 
 abstract class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner {
-    
+
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
     override val onStart = event<Unit>()
@@ -53,7 +53,7 @@ abstract class CSActivityView<ViewType : View>
 
     private val isVisibleEventRegistrations = CSEventRegistrations()
     private val whileShowingEventRegistrations = CSEventRegistrations()
-    private val eventRegistrations = CSEventRegistrations()
+    protected val eventRegistrations = CSEventRegistrations()
 
     var isStarted = false
     var isCreated = false
@@ -340,13 +340,16 @@ abstract class CSActivityView<ViewType : View>
 
     protected open fun onViewHidingAgain() {}
 
-    protected fun ifVisible(registration: CSEventRegistration?) =
+    fun ifVisible(registration: CSEventRegistration?) =
         registration?.let { isVisibleEventRegistrations.add(it) }
 
     fun register(registration: CSEventRegistration?) =
         registration?.let { eventRegistrations.add(it) }
 
-    protected fun whileShowing(registration: CSEventRegistration?) =
+    fun cancel(registration: CSEventRegistration) =
+        eventRegistrations.cancel(registration)
+
+    fun whileShowing(registration: CSEventRegistration?) =
         registration?.let { whileShowingEventRegistrations.add(it) }
 
     protected open fun onConfigurationChanged(newConfig: Configuration) =

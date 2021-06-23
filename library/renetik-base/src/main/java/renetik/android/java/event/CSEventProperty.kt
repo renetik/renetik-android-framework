@@ -15,7 +15,7 @@ interface CSEventPropertyInterface<T> : CSProperty<T> {
 open class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit)? = null) :
     CSEventPropertyInterface<T> {
 
-    private val eventChange: CSEvent<T> = event()
+    private val eventChange = event<T>()
 
     private var _value: T = value
 

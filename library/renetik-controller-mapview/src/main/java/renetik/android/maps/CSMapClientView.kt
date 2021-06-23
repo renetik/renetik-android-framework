@@ -6,7 +6,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.frame
-import renetik.android.java.event.CSEvent
 import renetik.android.java.event.event
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.layoutMatch
@@ -18,15 +17,15 @@ open class CSMapClientView<V : View>(parent: CSActivityView<V>, private val mapF
 
     private var lastLocation: LatLng? = null
     private var lastZoom: Float? = null
-    private val onMapShowingEvent: CSEvent<GoogleMap> = event()
+    private val onMapShowingEvent = event<GoogleMap>()
     fun onMapShowing(function: (GoogleMap) -> Unit) =
         onMapShowingEvent.add { _, map -> function(map) }
 
-    private val onMapClickEvent: CSEvent<LatLng> = event()
+    private val onMapClickEvent = event<LatLng>()
     fun onMapClick(function: (LatLng) -> Unit) =
         onMapClickEvent.add { _, location -> function(location) }
 
-    private val onMapLongClickEvent: CSEvent<LatLng> = event()
+    private val onMapLongClickEvent = event<LatLng>()
     val map get() = mapController.map
 
     fun onMapLongClick(function: (LatLng) -> Unit) =

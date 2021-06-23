@@ -1,9 +1,9 @@
 package renetik.android.java.event
 
-import renetik.android.java.extensions.collections.list
 import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.collections.delete
 import renetik.android.java.extensions.collections.hasItems
+import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logError
 
@@ -22,7 +22,7 @@ class CSEventImpl<T> : CSEvent<T> {
     }
 
     override fun fire(argument: T) {
-        if (running) logError(exception("Event run while _running"))
+        if (running) logError(exception("Event run while running"))
         if (registrations.isEmpty()) return
         running = true
         for (registration in registrations) registration.onEvent(argument)
@@ -53,7 +53,8 @@ class CSEventImpl<T> : CSEvent<T> {
             if (index >= 0) {
                 if (running) toRemove.add(this)
                 else registrations.removeAt(index)
-            } else logError("Listener not found")
+            }
+            else logError("Listener not found")
             canceled = true
         }
 
