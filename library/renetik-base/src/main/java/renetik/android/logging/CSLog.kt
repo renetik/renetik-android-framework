@@ -8,11 +8,12 @@ import renetik.android.primitives.separateToString
 
 object CSLog {
 
-    val logger: CSLogger
+    private val logger: CSLogger
         get() = application.logger
 
-    fun logDebug(vararg values: Any?) =
-        logger.debug(*createLogMessage(values))
+    fun logDebug(vararg values: Any?) {
+        if (!application.isDebugBuild) logger.debug(*createLogMessage(values))
+    }
 
     fun logWarn(vararg values: Any?) =
         logger.warn(*createLogMessage(values))

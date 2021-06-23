@@ -58,6 +58,7 @@ class AndroidLogger() : CSContextController(), CSLogger {
     }
 
     override fun debug(vararg values: Any?) {
+        if (!application.isDebugBuild) return
         val message = createMessage(*values).toString()
         addMemoryMessage(message)
         Log.d(application.name, message)
