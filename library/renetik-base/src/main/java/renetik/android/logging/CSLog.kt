@@ -12,7 +12,7 @@ object CSLog {
         get() = application.logger
 
     fun logDebug(vararg values: Any?) {
-        if (!application.isDebugBuild) logger.debug(*createLogMessage(values))
+        if (application.isDebugBuild) logger.debug(*createLogMessage(values))
     }
 
     fun logWarn(vararg values: Any?) =
