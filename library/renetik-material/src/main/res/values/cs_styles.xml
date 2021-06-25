@@ -61,6 +61,18 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="CSFillShort" parent="CSFill">
+        <item name="android:layout_weight">0.1</item>
+    </style>
+
+    <style name="CSFillMedium" parent="CSFill">
+        <item name="android:layout_weight">0.3</item>
+    </style>
+
+    <style name="CSFillLarge" parent="CSFill">
+        <item name="android:layout_weight">0.5</item>
+    </style>
+
     <style name="CSScrollMatch" parent="CSMatch">
         <item name="android:fillViewport">true</item>
     </style>
