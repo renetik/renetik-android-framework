@@ -98,7 +98,7 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
     fun reload(store: CSValueStore) = apply { preferences.reload(store.preferences) }
 }
 
-fun <T> CSValueStoreInterface.getValue(key: String, values: List<T>, default: T): T {
+fun <T> CSValueStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {
     val savedValueHashCode = getInt(key)
     val value = values.find { it.hashCode() == savedValueHashCode }
     return value ?: default

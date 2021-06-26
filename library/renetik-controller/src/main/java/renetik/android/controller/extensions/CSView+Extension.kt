@@ -14,6 +14,9 @@ fun CSView<*>.view(
     @IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
     view.view(id).apply { onClick?.let { this.onClick(it) } }
 
+fun CSView<*>.views(@IdRes vararg ids: Int): List<View> =
+    mutableListOf<View>().apply { for (id in ids) add(view(id)) }
+
 fun CSView<*>.simpleView(@IdRes id: Int) = view.view(id)
 fun CSView<*>.editText(@IdRes id: Int) = view.editText(id)
 fun CSView<*>.textView(@IdRes id: Int) = view.textView(id)
