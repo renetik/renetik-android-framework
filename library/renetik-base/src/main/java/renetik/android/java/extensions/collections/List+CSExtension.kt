@@ -43,12 +43,16 @@ fun <T> List<T>.isLastIndex(index: Int) = index == lastIndex
 fun <T> List<T>.range(fromIndex: Int) = range(fromIndex, size)
 
 fun <T> List<T>.range(fromIndex: Int, toIndex: Int) =
-        list(subList(fromIndex, toIndex))
+    list(subList(fromIndex, toIndex))
 
 fun <T> List<T>.has(item: T) = contains(item)
 
 fun <T> list(block: (MutableList<T>.() -> Unit)? = null): MutableList<T> =
-        ArrayList<T>().apply { block?.invoke(this) }
+    ArrayList<T>().apply { block?.invoke(this) }
+
+fun <T> listOfSize(size: Int): MutableList<T> = ArrayList<T>(size)
+
+fun <T> list(size: Int): MutableList<T> = ArrayList<T>(size)
 
 fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
 
