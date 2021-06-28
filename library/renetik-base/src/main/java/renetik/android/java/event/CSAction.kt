@@ -13,6 +13,7 @@ interface CSActionInterface {
 }
 
 fun CSActionInterface.toggle() = apply { if (isRunning) stop() else start() }
+val CSActionInterface.isStopped get() = !isRunning
 fun CSActionInterface.runIf(condition: Boolean) = condition.ifTrue { start() } ?: stop()
 
 class CSAction(val id: String) : CSActionInterface {
