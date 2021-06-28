@@ -1,5 +1,6 @@
 package renetik.android.java.event
 
+import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.primitives.ifTrue
 
 interface CSActionInterface {
@@ -14,13 +15,13 @@ interface CSActionInterface {
 fun CSActionInterface.toggle() = apply { if (isRunning) stop() else start() }
 fun CSActionInterface.runIf(condition: Boolean) = condition.ifTrue { start() } ?: stop()
 
-class CSAction(val id: String, default: Boolean = false) : CSActionInterface {
+class CSAction(val id: String) : CSActionInterface {
 
     companion object {
-        fun action(id: String, default: Boolean = false): CSActionInterface = CSAction(id, default)
+        fun action(id: String): CSActionInterface = CSAction(id)
     }
 
-    private val property = CSEventPropertyFunctions.property(id, default)
+    private val property = property(id, default = false)
     private val eventIsObserved = event()
     private var observerCount = 0
 

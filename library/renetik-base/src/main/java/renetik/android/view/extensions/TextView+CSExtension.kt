@@ -2,12 +2,13 @@ package renetik.android.view.extensions
 
 import android.text.Editable
 import android.widget.TextView
+import androidx.annotation.StringRes
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.isSet
 import renetik.android.view.adapter.CSTextWatcherAdapter
 
-fun <T : TextView> T.text(resourceId: Int) = apply { setText(resourceId) }
+fun <T : TextView> T.text(@StringRes resourceId: Int) = apply { setText(resourceId) }
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
 fun <T : TextView> T.textAppend(string: CharSequence?) = text("$title$string")
 fun <T : TextView> T.text(property: CSEventProperty<*>) = text(property.value.asString)
