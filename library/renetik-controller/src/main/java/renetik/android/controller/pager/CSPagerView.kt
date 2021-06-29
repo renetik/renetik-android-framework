@@ -50,7 +50,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     override fun onCreate() {
         super.onCreate()
         CSOnPagerPageChange(this)
-            .onDragged { index -> controllers[index].showingInContainer(true) }
+            .onDragged { index -> controllers[index].showingInPager(true) }
             .onReleased { index ->
                 if (currentIndex == view.currentItem)
                     updatePageVisibility(view.currentItem)
@@ -78,7 +78,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
         if (currentIndex == newIndex) return
         currentIndex = newIndex
         for (index in 0 until controllers.size)
-            controllers[index].showingInContainer(index == currentIndex)
+            controllers[index].showingInPager(index == currentIndex)
         eventOnPageChange.fire(current!!)
         hideKeyboard()
     }

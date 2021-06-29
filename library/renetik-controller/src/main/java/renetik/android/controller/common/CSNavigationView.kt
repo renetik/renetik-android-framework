@@ -50,12 +50,12 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller: CSActivityView<T>,
         pushId: String? = null
     ): CSActivityView<T> {
-        currentController?.showingInContainer(false)
+        currentController?.showingInPager(false)
         pushId?.let { controller.setValue(PushID, it) }
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_in_top))
         view.add(controller)
-        controller.showingInContainer(true)
+        controller.showingInPager(true)
         controller.lifecycleInitialize()
         updateBar()
         invalidateOptionsMenu()
@@ -67,10 +67,10 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     fun pop() {
         controllers.deleteLast().notNull { lastController ->
             lastController.view.startAnimation(loadAnimation(this, R.anim.abc_slide_out_top))
-            lastController.showingInContainer(false)
+            lastController.showingInPager(false)
             view.remove(lastController)
             lastController.lifecycleDeInitialize()
-            currentController?.showingInContainer(true)
+            currentController?.showingInPager(true)
             updateBar()
             hideKeyboard()
             onViewControllerPop(lastController)
@@ -80,7 +80,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
         controllers.deleteLast().notNull { lastController ->
             lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
-            lastController.showingInContainer(false)
+            lastController.showingInPager(false)
             view.remove(lastController)
             lastController.lifecycleDeInitialize()
             onViewControllerPop(lastController)
@@ -89,7 +89,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
         view.add(controller)
-        controller.showingInContainer(true)
+        controller.showingInPager(true)
         controller.lifecycleInitialize()
         updateBar()
         invalidateOptionsMenu()
@@ -105,7 +105,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         if (controllers.contains { it.getValue(PushID) == pushId })
             for (lastController in controllers.reversed()) {
                 controllers.delete(lastController)
-                lastController.showingInContainer(false)
                 view.remove(lastController)
                 lastController.lifecycleDeInitialize()
                 onViewControllerPop(lastController)
@@ -115,7 +114,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controllers.put(controller)
         controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
         view.add(controller)
-        controller.showingInContainer(true)
+        controller.showingInPager(true)
         controller.lifecycleInitialize()
         updateBar()
         invalidateOptionsMenu()
@@ -134,14 +133,14 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         if (indexOfController == -1) throw exception("oldController not found in navigation")
 
         controllers.delete(oldController).let { lastController ->
-            lastController.showingInContainer(false)
+            lastController.showingInPager(false)
             view.remove(lastController)
             lastController.lifecycleDeInitialize()
             onViewControllerPop(lastController)
         }
         controllers.put(newController, indexOfController)
         view.addView(newController.view, indexOfController)
-        newController.showingInContainer(false)
+        newController.showingInPager(false)
         newController.lifecycleInitialize()
         onViewControllerPush(newController)
         return newController
@@ -153,7 +152,8 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
                 if (!isVisible) {
                     setActionBarTitle(null)
                     return
-                } else item.navigationItemTitle?.let { title ->
+                }
+                else item.navigationItemTitle?.let { title ->
                     setActionBarTitle(title)
                     return
                 }
@@ -173,7 +173,8 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
                 if (!isVisible) {
                     hideActionBarIcon()
                     return
-                } else item.navigationItemIcon?.let { icon ->
+                }
+                else item.navigationItemIcon?.let { icon ->
                     setActionBarIcon(icon)
                     return
                 }
@@ -212,7 +213,8 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         if (controllers.size > 1 && isBackButtonVisible) {
             actionBar?.setDisplayHomeAsUpEnabled(true)
             updateBackButtonIcon()
-        } else actionBar?.setDisplayHomeAsUpEnabled(false)
+        }
+        else actionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun updateBackButtonIcon() {

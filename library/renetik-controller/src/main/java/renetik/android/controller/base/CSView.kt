@@ -93,4 +93,11 @@ open class CSView<ViewType : View> : CSContextController {
         super.onDestroy()
         view.tag = null
     }
+
+    open fun onAddedToParent() {
+    }
+
+    open fun onRemovedFromParent() {
+
+    }
 }

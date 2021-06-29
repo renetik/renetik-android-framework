@@ -10,9 +10,9 @@ val ViewGroup.lastChild: View?
     get() = if (childCount > 0) getChildAt(childCount - 1) else null
 
 
-fun <ViewType : View> ViewGroup.add(view: ViewType): ViewType {
+fun <ViewType : View> ViewGroup.add(view: ViewType, index: Int = -1): ViewType {
     view.removeFromSuperview()
-    addView(view)
+    addView(view, index)
     return view
 }
 

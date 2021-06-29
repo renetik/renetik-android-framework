@@ -57,4 +57,6 @@ fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 fun <Type : CSView<*>> Type.afterLayout(action: (Type) -> Unit) =
     apply { view.afterLayout { action(this) } }
 
+fun <Type : CSView<*>> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
+
 

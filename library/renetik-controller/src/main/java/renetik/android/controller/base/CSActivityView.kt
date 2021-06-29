@@ -68,7 +68,7 @@ abstract class CSActivityView<ViewType : View>
     private val parentRegistrations: CSEventRegistrations
     private var viewId: Int? = null
     val menuItems = list<CSMenuItem>()
-    private var showingInContainer: Boolean? = null
+    private var showingInPager: Boolean? = null
     private var isShowing = false
     private var onViewShowingCalled = false
     private val keyValueMap = mutableMapOf<String, Any>()
@@ -272,32 +272,36 @@ abstract class CSActivityView<ViewType : View>
         } ?: throw exception("This should not happen man ;)")
     }
 
-    protected open fun onHideByInViewController() {}
-
-    /**
-     *  Call to correct behaviour if created outside page viewer and added later so
-     *  onViewVisibilityChanged works correctly
-     */
-    fun willBeShownInPagerContainer() = showingInContainer(false)
-
-    fun showingInContainer(isShowing: Boolean) {
-        if (showingInContainer == isShowing) return
-        showingInContainer = isShowing
+    override fun onAddedToParent() {
+        super.onAddedToParent()
+        lifecycleInitialize()
         updateVisibilityChanged()
     }
 
-    protected fun updateVisibilityChanged() {
+    override fun onRemovedFromParent() {
+        super.onAddedToParent()
+        if (!isPaused) onPause()
+    }
+
+    fun showingInPager(isShowing: Boolean) {
+        if (showingInPager == isShowing) return
+        showingInPager = isShowing
+        updateVisibilityChanged()
+    }
+
+    fun updateVisibilityChanged() {
         if (checkIfIsShowing()) {
             if (!isShowing) onViewVisibilityChanged(true)
         }
         else if (isShowing) onViewVisibilityChanged(false)
     }
 
-    protected fun checkIfIsShowing(): Boolean {
+    private fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
-        if (showingInContainer == false) return false
+        if (showingInPager == false) return false
         if (parentController?.isShowing == false) return false
-        return true
+        if (view.parent?.parent?.parent?.parent != null) return true
+        return false
     }
 
     private fun onViewVisibilityChanged(showing: Boolean) {
@@ -383,6 +387,7 @@ abstract class CSActivityView<ViewType : View>
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle
 
+    //TODO: Remove keyValueMap, PushId in CSNavigation could be done cleaner by interface
     fun setValue(key: String, value: String) {
         keyValueMap[key] = value
     }
