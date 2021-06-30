@@ -1,36 +1,32 @@
 package renetik.android.task
 
-import renetik.android.task.CSDoLaterObject.later
+import renetik.android.os.CSHandler.post
+import renetik.android.os.CSHandler.removePosted
 
-fun repeat(interval: Int, runnable: (CSWork) -> Unit): CSWork {
-    return CSWork(interval, runnable).start()
-}
+fun repeat(interval: Int, runnable: (CSWork) -> Unit) = CSWork(interval, runnable).start()
 
 class CSWork(private var interval: Int, private val function: (CSWork) -> Unit) {
 
     private var isStarted = false
-    private var doLater: CSDoLater? = null
 
     fun run() = apply { function(this) }
 
     fun start() = apply {
         if (!isStarted) {
             isStarted = true
-            process()
+            post(interval, ::runFunction)
         }
     }
 
     fun stop() = apply {
         isStarted = false
-        doLater?.stop()
+        removePosted(::runFunction)
     }
 
-    private fun process() {
-        doLater = later(interval) {
-            if (this.isStarted) {
-                function(this)
-                process()
-            }
+    private fun runFunction() {
+        if (this.isStarted) {
+            function(this)
+            post(interval, ::runFunction)
         }
     }
 

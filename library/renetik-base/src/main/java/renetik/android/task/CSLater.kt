@@ -1,14 +1,12 @@
 package renetik.android.task
 
-import renetik.android.java.extensions.exception
-import renetik.android.logging.CSLog.logError
-import renetik.android.os.CSHandler.main
+import renetik.android.os.CSHandler.post
+import renetik.android.os.CSHandler.removePosted
 
 object CSDoLaterObject {
 
-    fun later(delayMilliseconds: Int = 0, function: () -> Unit): CSDoLater {
-        return CSDoLater(function, delayMilliseconds)
-    }
+    fun later(delayMilliseconds: Int = 0, function: () -> Unit) =
+        CSDoLater(function, delayMilliseconds)
 
     fun later(function: () -> Unit) = CSDoLater(function)
 }
@@ -18,14 +16,13 @@ class CSDoLater {
 
     constructor(function: () -> Unit, delayMilliseconds: Int) {
         this.function = function
-        if (!main.postDelayed(this.function, delayMilliseconds.toLong()))
-            logError(exception("Runnable not run"))
+        post(delayMilliseconds, function)
     }
 
     constructor(function: () -> Unit) {
         this.function = function
-        if (!main.post(this.function)) logError(exception("Runnable not run"))
+        post(function)
     }
 
-    fun stop() = main.removeCallbacks(function)
+    fun stop() = removePosted(function)
 }
