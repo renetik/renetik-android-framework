@@ -54,6 +54,8 @@ fun <T> listOfSize(size: Int): MutableList<T> = ArrayList<T>(size)
 
 fun <T> list(size: Int, init: (index: Int) -> T) = MutableList(size, init)
 
+fun <T> listOfNulls(size: Int) = list<T?>(size = size) { null }
+
 fun <T> list(size: Int): MutableList<T> = ArrayList<T>(size)
 
 fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
