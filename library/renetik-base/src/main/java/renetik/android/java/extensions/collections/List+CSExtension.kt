@@ -63,3 +63,13 @@ fun <T> list(vararg items: Iterable<T>): MutableList<T> = list<T>().also {
 fun <T> List<T>.contains(items: List<T>): Boolean = containsAll(items)
 fun <T> List<T>.contains(items: Array<out T>): Boolean = containsAll(items.asList())
 fun <T> List<T>.contains(predicate: (T) -> Boolean) = any(predicate)
+
+fun <T, A, B> List<T>.combine(
+    arrayA: Array<A>, arrayB: Array<B>, createItem: (A, B) -> T) =
+    combine(arrayA.asList(), arrayB.asList(), createItem)
+
+fun <T, A, B> List<T>.combine(
+    collectionA: Collection<A>, collectionB: Collection<B>, createItem: (A, B) -> T) =
+    list<T>(size = collectionA.size * collectionB.size).apply {
+        for (a in collectionA) for (b in collectionB) add(createItem(a, b))
+    }
