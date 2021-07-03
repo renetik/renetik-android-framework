@@ -50,24 +50,16 @@ fun <T> List<T>.has(item: T) = contains(item)
 fun <T> list(block: (MutableList<T>.() -> Unit)? = null): MutableList<T> =
     ArrayList<T>().apply { block?.invoke(this) }
 
-fun <T> listOfSize(size: Int): MutableList<T> = ArrayList<T>(size)
-
+fun <T> list(size: Int): MutableList<T> = ArrayList(size)
+fun <T> listOfNulls(size: Int) = list<T?>(size, null)
+fun <T> list(size: Int, default: T) = list(size) { default }
 fun <T> list(size: Int, init: (index: Int) -> T) = MutableList(size, init)
-
-fun <T> listOfNulls(size: Int) = list<T?>(size = size) { null }
-
-fun <T> list(size: Int): MutableList<T> = ArrayList<T>(size)
-
 fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
-
 fun <T> list(items: Iterable<T>): MutableList<T> = list<T>().putAll(items)
-
 fun <T> list(vararg items: Iterable<T>): MutableList<T> = list<T>().also {
     for (iterable in items) it.addAll(iterable)
 }
 
 fun <T> List<T>.contains(items: List<T>): Boolean = containsAll(items)
-
 fun <T> List<T>.contains(items: Array<out T>): Boolean = containsAll(items.asList())
-
 fun <T> List<T>.contains(predicate: (T) -> Boolean) = any(predicate)
