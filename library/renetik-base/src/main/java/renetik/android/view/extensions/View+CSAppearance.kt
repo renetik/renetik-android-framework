@@ -7,8 +7,8 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
-import renetik.android.extensions.attributeFloat
-import renetik.android.extensions.dpToPixel
+import renetik.android.content.attributeFloat
+import renetik.android.content.dpToPixel
 
 
 fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {

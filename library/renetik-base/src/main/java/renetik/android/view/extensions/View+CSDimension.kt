@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.extensions.toDp
-import renetik.android.extensions.dpToPixel
+import renetik.android.content.toDp
+import renetik.android.content.dpToPixel
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit) = apply {
     if (width == 0 || height == 0) onLayout {

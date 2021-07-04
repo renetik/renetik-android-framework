@@ -14,7 +14,7 @@ import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLogo
-import renetik.android.extensions.attributeColor
+import renetik.android.content.attributeColor
 import renetik.android.extensions.inflate
 import renetik.android.framework.CSContextController
 import renetik.android.java.extensions.asString

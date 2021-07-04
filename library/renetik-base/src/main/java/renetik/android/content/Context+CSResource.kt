@@ -1,4 +1,4 @@
-package renetik.android.extensions
+package renetik.android.content
 
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
@@ -10,6 +10,8 @@ import android.util.TypedValue
 import android.util.TypedValue.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import renetik.android.R
 import renetik.android.framework.common.*
@@ -109,3 +111,7 @@ val Context.isPortrait get() = resources.configuration.orientation == ORIENTATIO
 val Context.isLandscape get() = !isPortrait
 val Context.isTablet get() = resources.getBoolean(R.bool.cs_is_tablet);
 
+fun Context.drawable(@DrawableRes resource: Int) =
+    AppCompatResources.getDrawable(this, resource)!!.apply {
+        setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+    }

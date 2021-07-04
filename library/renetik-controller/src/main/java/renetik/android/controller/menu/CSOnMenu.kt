@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.R
-import renetik.android.extensions.attributeColor
+import renetik.android.content.attributeColor
 import renetik.android.framework.CSContextController
 import renetik.android.java.event.CSEventPropertyFunctions.property
 import renetik.android.primitives.isSet

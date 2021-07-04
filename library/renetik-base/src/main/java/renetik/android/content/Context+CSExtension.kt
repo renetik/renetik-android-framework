@@ -14,6 +14,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.res.getDrawableOrThrow
+import renetik.android.content.resourceColor
 import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.framework.common.catchWarnReturnNull
 import renetik.android.primitives.isSet

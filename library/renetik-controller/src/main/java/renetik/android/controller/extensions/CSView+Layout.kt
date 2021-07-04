@@ -2,7 +2,7 @@ package renetik.android.controller.extensions
 
 import android.view.View
 import renetik.android.controller.base.CSView
-import renetik.android.extensions.dpToPixel
+import renetik.android.content.dpToPixel
 import renetik.android.framework.math.CSPoint
 import renetik.android.primitives.isSet
 

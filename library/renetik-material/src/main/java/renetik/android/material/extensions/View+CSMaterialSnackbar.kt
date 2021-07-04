@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.make
-import renetik.android.extensions.attributeColor
+import renetik.android.content.attributeColor
 import renetik.android.material.R
 
 private fun View.snackBar(text: String) = snackBar(text, Snackbar.LENGTH_SHORT)
