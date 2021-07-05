@@ -37,4 +37,3 @@ inline fun <reified T> Array<T>.extract(indexes: IntArray) = Array(indexes.size)
     this[indexes[index]]
 }
 
-
