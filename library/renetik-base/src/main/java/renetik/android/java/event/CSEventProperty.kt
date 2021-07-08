@@ -41,6 +41,7 @@ open class CSEventProperty<T>(value: T, onChange: ((value: T) -> Unit)? = null) 
     override fun onBeforeChange(value: (T) -> Unit) = eventBeforeChange.listen(value)
     override fun onChange(value: (T) -> Unit) = eventChange.listen(value)
     fun apply() = apply { eventChange.fire(value) }
+    override fun toString() = value.toString()
 }
 
 fun CSEventProperty<Boolean>.toggle() = apply { value = !value }
