@@ -2,9 +2,12 @@ package renetik.android.primitives
 
 import renetik.android.java.extensions.asString
 
-inline fun <reified T> array(size: Int, default: T) = array(size) { default }
-
+inline fun <reified T> array(size: Int, default: T) = array(size) { _ -> default }
 inline fun <reified T> array(size: Int, noinline create: (index: Int) -> T) = Array(size, create)
+inline fun <reified T> array(size: Int, create: (index: Int, previous: T?) -> T): Array<T> {
+    var previous: T? = null
+    return Array(size) { index -> create(index, previous).apply { previous = this } }
+}
 
 val <T> Array<out T>.asStrings: Array<String>
     get() = map { it.asString }.toTypedArray()
