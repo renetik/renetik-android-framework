@@ -6,11 +6,6 @@ group = 'com.github.rene-dohan'
 android {
     compileSdkVersion project.properties.sdk_version
     testOptions.unitTests.includeAndroidResources = true
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
-    }
-    kotlinOptions { jvmTarget = 1.8 }
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion project.properties.sdk_version
@@ -26,6 +21,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.3.1'
 }

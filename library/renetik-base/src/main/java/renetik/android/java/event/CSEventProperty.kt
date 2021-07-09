@@ -53,30 +53,30 @@ fun CSEventProperty<Boolean>.onFalse(function: () -> Unit) =
 fun CSEventProperty<Boolean>.onTrue(function: () -> Unit) =
     onChange { if (it.isTrue) function() }
 
-var CSEventProperty<Boolean>.isTrue
+inline var CSEventProperty<Boolean>.isTrue
     get() = value
     set(newValue) {
         value = newValue
     }
-var CSEventProperty<Boolean>.isFalse
+inline var CSEventProperty<Boolean>.isFalse
     get() = !value
     set(newValue) {
         value = !newValue
     }
 
-var CSEventProperty<String?>.string
+inline var CSEventProperty<String?>.string
     get() = value.asString
     set(newValue) {
         value = newValue
     }
 
-val CSEventProperty<Float>.isEmpty get() = value == Float.empty
-val CSEventProperty<Float>.isSet get() = !this.isEmpty
-fun CSEventProperty<Float>.ifEmpty(function: (CSEventProperty<Float>) -> Unit) = apply {
+inline val CSEventProperty<Float>.isEmpty get() = value == Float.empty
+inline val CSEventProperty<Float>.isSet get() = !this.isEmpty
+inline fun CSEventProperty<Float>.ifEmpty(function: (CSEventProperty<Float>) -> Unit) = apply {
     if (this.isEmpty) function(this)
 }
 
-fun CSEventProperty<Float>.ifSet(function: (CSEventProperty<Float>) -> Unit) = apply {
+inline fun CSEventProperty<Float>.ifSet(function: (CSEventProperty<Float>) -> Unit) = apply {
     if (this.isSet) function(this)
 }
 

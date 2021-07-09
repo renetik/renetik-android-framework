@@ -7,10 +7,6 @@ if (mapsApiKey == null) mapsApiKey = "Place com.google.android.geo.API_KEY to lo
 
 android {
     compileSdkVersion project.properties.sdk_version
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
-    }
     defaultConfig {
         applicationId "renetik.android.sample"
         minSdkVersion 21
