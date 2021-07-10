@@ -17,6 +17,7 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.reload
 import renetik.android.view.extensions.*
 
+//TODO: REFACTOR TO SIMPLE WRAPPER PLEASE !!!
 open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<ViewType> {
 
     internal val onLoad = event<List<RowType>>()
@@ -200,16 +201,16 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
         restoreSelectionAndScrollState()
     }
 
-    fun selectedIndex(index: Int) = apply {
+    fun selected(index: Int) = apply {
         view.choiceMode = CHOICE_MODE_SINGLE
         view.setItemChecked(index, true)
         view.setSelectionFromTop(index, 0)
         view.setSelection(index)
     }
 
-    fun selectedValue(value: RowType) = apply {
+    fun selected(value: RowType) = apply {
         data.index(value)?.let {
-            selectedIndex(it)
+            selected(it)
         } ?: let {
             view.clearChoices()
             view.scrollToTop()

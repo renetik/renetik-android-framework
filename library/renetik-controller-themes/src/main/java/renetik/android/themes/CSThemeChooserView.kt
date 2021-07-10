@@ -30,7 +30,7 @@ class CSThemeChooserView(val navigation: CSNavigationView,
             if (row.index == currentThemeIndex) snackBarInfo("Current theme...")
             else dialog("You selected theme: ${row.row.title}")
                 .show("Apply selected theme ?") { applyTheme(activity(), row.index) }
-        }.reload(availableThemes).apply { currentThemeIndex?.let { selectedIndex(it) } }
+        }.reload(availableThemes).apply { currentThemeIndex?.let { selected(it) } }
     }
 
     private val onLoadSwitchItem: (CSRowView<CSTheme>.(CSTheme) -> Unit) = { theme ->

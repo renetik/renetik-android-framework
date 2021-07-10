@@ -56,7 +56,7 @@ open class CSView<ViewType : View> : CSContextController {
     val view: ViewType
         get() {
             if (_view != null) return _view!!
-            setView(layoutRes?.let { inflate<ViewType>(it.id) } ?: let { obtainView()!! })
+            setView(layoutRes?.let { inflate(it.id) } ?: let { obtainView()!! })
             return _view!!
         }
 
