@@ -29,6 +29,7 @@ fun CSView<*>.radio(@IdRes id: Int) = view.radio(id)
 
 fun CSView<*>.datePicker(@IdRes id: Int) = view.datePicker(id)
 fun CSView<*>.numberPicker(@IdRes id: Int) = view.numberPicker(id)
+fun CSView<*>.viewGroup(@IdRes id: Int) = view.viewGroup(id)
 fun CSView<*>.frame(@IdRes id: Int) = view.frame(id)
 fun CSView<*>.linearLayout(@IdRes id: Int) = view.linearLayout(id)
 fun CSView<*>.group(@IdRes id: Int) = view.group(id)

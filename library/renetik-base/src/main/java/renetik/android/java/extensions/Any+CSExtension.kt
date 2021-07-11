@@ -22,3 +22,5 @@ fun <T> observing(value: T, willSet: (T) -> Unit = { }, didSet: (T) -> Unit = { 
         override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) =
             didSet(oldValue)
     }
+
+val <T : Any> T.className get() = this::class.simpleName

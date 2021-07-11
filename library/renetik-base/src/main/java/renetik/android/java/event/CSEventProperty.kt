@@ -101,12 +101,22 @@ object CSEventPropertyFunctions {
     ) = application.store.property(key, default, onApply)
 
     fun <T> property(
-        key: String, values: List<T>, default: T,
+        key: String, values: Iterable<T>, default: T,
         onApply: ((value: T) -> Unit)? = null
     ) = application.store.property(key, values, default, onApply)
 
     fun <T> property(
+        key: String, values: Array<T>, default: T,
+        onApply: ((value: T) -> Unit)? = null
+    ) = property(key, values.asIterable(), default, onApply)
+
+    fun <T> property(
         key: String, values: List<T>, defaultIndex: Int = 0,
         onApply: ((value: T) -> Unit)? = null
-    ) = application.store.property(key, values, values[defaultIndex], onApply)
+    ) = property(key, values, values[defaultIndex], onApply)
+
+    fun <T> property(
+        key: String, values: Array<T>, defaultIndex: Int = 0,
+        onApply: ((value: T) -> Unit)? = null
+    ) = property(key, values.asIterable(), values[defaultIndex], onApply)
 }

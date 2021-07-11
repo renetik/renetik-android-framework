@@ -31,6 +31,7 @@ fun View.radio(@IdRes id: Int) = findView<RadioButton>(id)!!
 fun View.datePicker(@IdRes id: Int) = findView<DatePicker>(id)!!
 fun View.numberPicker(@IdRes id: Int) = findView<NumberPicker>(id)!!
 fun View.frame(@IdRes id: Int) = findView<FrameLayout>(id)!!
+fun View.viewGroup(@IdRes id: Int) = findView<ViewGroup>(id)!!
 fun View.linearLayout(@IdRes id: Int) = findView<LinearLayout>(id)!!
 fun View.group(@IdRes id: Int) = findView<ViewGroup>(id)!!
 fun View.spinner(@IdRes id: Int) = findView<Spinner>(id)!!

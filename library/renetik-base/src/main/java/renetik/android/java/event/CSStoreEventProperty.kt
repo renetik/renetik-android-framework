@@ -29,6 +29,10 @@ fun <T> CSValueStoreInterface.property(
     key: String, values: Iterable<T>, default: T, onApply: ((value: T) -> Unit)? = null
 ) = CSListStoreEventProperty(this, key, values, default, onApply)
 
+fun <T> CSValueStoreInterface.property(
+    key: String, values: Array<T>, default: T, onApply: ((value: T) -> Unit)? = null
+) = property(key, values.asIterable(), default, onApply)
+
 fun CSValueStoreInterface.property(
     key: String, default: Int, onApply: ((value: Int) -> Unit)? = null
 ) = property(getInt(key, default), onApply)
