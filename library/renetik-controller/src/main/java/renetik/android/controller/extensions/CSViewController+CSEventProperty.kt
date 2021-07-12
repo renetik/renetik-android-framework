@@ -17,57 +17,55 @@ import renetik.android.material.extensions.onTextChange
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.*
 
-private fun <View : android.view.View, T : Any> View.depends(
-    property: CSEventProperty<T?>, conditions: (CSPropertyConditionList).() -> Unit,
-    isInContainer: Boolean
+private fun <View : android.view.View> View.visibilityDependsOn(
+    conditions: CSPropertyConditionList.() -> Unit, isInContainer: Boolean
 ) = apply {
     validate(conditions) { result ->
         if (isInContainer) superview!!.shownIf(result)
         else shownIf(result)
-        if (!result) property.value = null
     }
 }
 
-fun <T : Any> TextInputLayout.property(
+fun <T : Any> TextInputLayout.textProperty(
     property: CSEventProperty<T?>,
-    depends: ((CSPropertyConditionList).() -> Unit)? = null,
+    visibilityDependsOn: ((CSPropertyConditionList).() -> Unit)? = null,
     isInContainer: Boolean = false
 ) =
     apply {
         onTextChange { if (property.value.notNull) errorClear() }
         onClear { property.value = null }
-        editText!!.property(property)
-        if (depends != null) depends(property, depends, isInContainer)
+        editText!!.textProperty(property)
+        if (visibilityDependsOn != null) visibilityDependsOn(visibilityDependsOn, isInContainer)
     }
 
 @JvmName("propertyString")
-fun TextInputLayout.property(
+fun TextInputLayout.textProperty(
     property: CSEventProperty<String?>,
-    depends: ((CSPropertyConditionList).() -> Unit)? = null,
+    visibilityDependsOn: ((CSPropertyConditionList).() -> Unit)? = null,
     isInContainer: Boolean = false
 ) = apply {
     onTextChange { if (property.value.isSet) errorClear() }
     onClear { property.value = null }
-    editText!!.property(property)
-    if (depends != null) depends(property, depends, isInContainer)
+    editText!!.textProperty(property)
+    if (visibilityDependsOn != null) visibilityDependsOn(visibilityDependsOn, isInContainer)
 }
 
-fun <T : Any> TextView.property(
+fun <T : Any> TextView.textProperty(
     property: CSEventProperty<T?>,
-    depends: ((CSPropertyConditionList).() -> Unit)? = null,
+    visibilityDependsOn: ((CSPropertyConditionList).() -> Unit)? = null,
     isInContainer: Boolean = false
 ) = apply {
     fun updateTitle() = text(property.value.asString)
     navigation.register(property.onChange { updateTitle() })
     updateTitle()
-    if (depends != null) depends(property, depends, isInContainer)
+    if (visibilityDependsOn != null) visibilityDependsOn(visibilityDependsOn, isInContainer)
 }
 
 
 @JvmName("propertyString")
-fun TextView.property(
+fun TextView.textProperty(
     property: CSEventProperty<String?>,
-    depends: ((CSPropertyConditionList).() -> Unit)? = null,
+    visibilityDependsOn: ((CSPropertyConditionList).() -> Unit)? = null,
     isInContainer: Boolean = false
 ) = apply {
     fun updateTitle() = text(property.value.asString)
@@ -78,12 +76,12 @@ fun TextView.property(
         onPropertyChange?.isActive = true
     }
     updateTitle()
-    if (depends != null) depends(property, depends, isInContainer)
+    if (visibilityDependsOn != null) visibilityDependsOn(visibilityDependsOn, isInContainer)
 }
 
 fun <T : CSName> RadioGroup.property(
     property: CSEventProperty<T?>, list: List<T>, @LayoutRes layoutId: Int,
-    depends: ((CSPropertyConditionList).() -> Unit)? = null,
+    visibilityDependsOn: ((CSPropertyConditionList).() -> Unit)? = null,
     isInContainer: Boolean = false
 ) = apply {
     val data = mutableMapOf<Int, T>()
@@ -93,25 +91,12 @@ fun <T : CSName> RadioGroup.property(
         add(inflate<RadioButton>(layoutId)).text(it.name).model(it).id(viewId)
         data[viewId] = it
     }
-    property(property, data, depends, isInContainer)
-
-//    fun updateChecked() {
-//        checkedId = childAt { it.model<T>() == property.value }?.id
-//    }
-//
-//    val onPropertyChange = navigation.register(property.onChange { updateChecked() })
-//    onChange {
-//        onPropertyChange?.isActive = false
-//        property.value = radio(it).model()
-//        onPropertyChange?.isActive = true
-//    }
-//    updateChecked()
-//    if (depends != null) depends(property, depends, isInContainer)
+    property(property, data, visibilityDependsOn, isInContainer)
 }
 
 fun <T : Any> RadioGroup.property(
     property: CSEventProperty<T?>, data: Map<Int, T>,
-    depends: ((CSPropertyConditionList).() -> Unit)? = null,
+    visibilityDependsOn: ((CSPropertyConditionList).() -> Unit)? = null,
     isInContainer: Boolean = false
 ) = apply {
     fun updateChecked() {
@@ -125,7 +110,7 @@ fun <T : Any> RadioGroup.property(
         onPropertyChange?.isActive = true
     }
     updateChecked()
-    if (depends != null) depends(property, depends, isInContainer)
+    if (visibilityDependsOn != null) visibilityDependsOn(visibilityDependsOn, isInContainer)
 }
 
 fun View.shownIfPropertySet(property: CSEventProperty<*>) = apply {
@@ -134,18 +119,18 @@ fun View.shownIfPropertySet(property: CSEventProperty<*>) = apply {
     updateVisibility()
 }
 
-fun View.shownIfProperty(property: CSEventProperty<Boolean>) = apply {
+fun View.visibilityProperty(property: CSEventProperty<Boolean>) = apply {
     fun updateVisibility() = shownIf(property.value)
     navigation.register(property.onChange { updateVisibility() })
     updateVisibility()
 }
 
-fun <T> View.shownIfProperty(property: CSEventProperty<T?>, value: T) = apply {
+fun <T> View.visibilityProperty(property: CSEventProperty<T?>, value: T) = apply {
     fun updateVisibility() = shownIf(property.value == value)
     navigation.register(property.onChange { updateVisibility() })
     updateVisibility()
 }
 
-fun RadioGroup.propertyTrueIf(property: CSEventProperty<Boolean?>, viewId: Int) = apply {
+fun RadioGroup.propertyTrueIfChecked(property: CSEventProperty<Boolean?>, viewId: Int) = apply {
     onChange { property.value = it == viewId }
 }

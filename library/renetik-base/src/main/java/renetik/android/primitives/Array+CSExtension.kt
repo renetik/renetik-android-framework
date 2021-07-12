@@ -40,3 +40,5 @@ inline fun <reified T> Array<T>.extract(indexes: IntArray) = Array(indexes.size)
     this[indexes[index]]
 }
 
+inline fun <reified T> Array<out T>.toArray() = asList().toTypedArray()
+

@@ -111,8 +111,8 @@ fun Context.assetsReadText(path: String) = assets.open(path).bufferedReader().us
 
 val Context.isPortrait get() = resources.configuration.orientation == ORIENTATION_PORTRAIT
 val Context.isLandscape get() = !isPortrait
-val Context.isTablet get() = resources.getBoolean(R.bool.cs_is_tablet);
-val Context.isPhone get() = resources.getBoolean(R.bool.cs_is_tablet);
+val Context.isTablet get() = resources.getBoolean(R.bool.cs_is_tablet)
+val Context.isPhone get() = !isTablet
 
 fun Context.drawable(@DrawableRes resource: Int) =
     AppCompatResources.getDrawable(this, resource)!!.apply {
