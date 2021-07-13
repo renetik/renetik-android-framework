@@ -27,9 +27,7 @@ open class CSEventProperty<T>(value: T, onChange: ((value: T) -> Unit)? = null) 
 
     override var value: T
         get() = _value
-        set(value) {
-            value(value)
-        }
+        set(value) = value(value)
 
     override fun value(newValue: T, fireEvents: Boolean) {
         if (_value == newValue) return

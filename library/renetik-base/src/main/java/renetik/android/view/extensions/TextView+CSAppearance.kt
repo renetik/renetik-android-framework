@@ -2,7 +2,6 @@ package renetik.android.view.extensions
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
-import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.FontRes
@@ -18,3 +17,6 @@ fun TextView.typeface(@FontRes font: Int) = apply {
 
 fun TextView.setBottomDrawable(drawable: Drawable?) =
     setCompoundDrawables(null, null, null, drawable)
+
+fun TextView.setRightDrawable(drawable: Drawable?) =
+    setCompoundDrawables(null, null, drawable, null)

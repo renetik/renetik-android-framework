@@ -1,7 +1,6 @@
 package renetik.android.view.extensions
 
 import android.content.res.ColorStateList
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.View
@@ -12,7 +11,7 @@ import renetik.android.content.dpToPixel
 
 
 fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {
-    background = ColorDrawable(value)
+    setBackgroundColor(value)
 }
 
 fun <T : View> T.backgroundTint(@ColorInt value: Int) = apply {
