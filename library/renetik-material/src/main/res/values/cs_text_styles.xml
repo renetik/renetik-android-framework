@@ -42,7 +42,6 @@
     </style>
 
     <style name="CSTextOverline" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="android:typeface">monospace</item>
         <!--        <item name="android:textColor">@color/cs_text_color_selector</item>-->
     </style>
 
