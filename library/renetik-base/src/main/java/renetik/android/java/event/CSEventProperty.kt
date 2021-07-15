@@ -42,6 +42,10 @@ open class CSEventProperty<T>(value: T, onChange: ((value: T) -> Unit)? = null) 
     override fun toString() = value.toString()
 }
 
+
+fun CSEventProperty<Int>.next() = value + 1
+fun CSEventProperty<Int>.previous() = value - 1
+
 fun CSEventProperty<Boolean>.toggle() = apply { value = !value }
 fun CSEventProperty<Boolean>.setFalse() = apply { value = false }
 fun CSEventProperty<Boolean>.setTrue() = apply { value = true }
@@ -99,14 +103,14 @@ object CSEventPropertyFunctions {
     ) = application.store.property(key, default, onApply)
 
     fun <T> property(
-        key: String, values: Iterable<T>, default: T,
+        key: String, values: List<T>, default: T,
         onApply: ((value: T) -> Unit)? = null
     ) = application.store.property(key, values, default, onApply)
 
     fun <T> property(
         key: String, values: Array<T>, default: T,
         onApply: ((value: T) -> Unit)? = null
-    ) = property(key, values.asIterable(), default, onApply)
+    ) = property(key, values.asList(), default, onApply)
 
     fun <T> property(
         key: String, values: List<T>, defaultIndex: Int = 0,
@@ -116,5 +120,5 @@ object CSEventPropertyFunctions {
     fun <T> property(
         key: String, values: Array<T>, defaultIndex: Int = 0,
         onApply: ((value: T) -> Unit)? = null
-    ) = property(key, values.asIterable(), values[defaultIndex], onApply)
+    ) = property(key, values.asList(), values[defaultIndex], onApply)
 }

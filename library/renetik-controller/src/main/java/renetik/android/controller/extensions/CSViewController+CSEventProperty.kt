@@ -51,7 +51,7 @@ fun TextInputLayout.textProperty(
 }
 
 fun <T : Any> TextView.textProperty(
-    property: CSEventProperty<T?>,
+    property: CSEventProperty<out T?>,
     visibilityDependsOn: ((CSPropertyConditionList).() -> Unit)? = null,
     isInContainer: Boolean = false
 ) = apply {
