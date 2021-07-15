@@ -4,4 +4,7 @@
         <attr name="title" />
         <attr name="icon" />
     </declare-styleable>
+    <declare-styleable name="CSLinearLayout">
+        <attr name="maxWidth" format="dimension" />
+    </declare-styleable>
 </resources>
