@@ -15,11 +15,8 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
+import renetik.android.java.event.*
 import renetik.android.java.event.CSEvent.CSEventRegistration
-import renetik.android.java.event.CSEventRegistrations
-import renetik.android.java.event.event
-import renetik.android.java.event.fire
-import renetik.android.java.event.listen
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
@@ -27,7 +24,7 @@ import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
 abstract class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner {
 
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
@@ -247,8 +244,7 @@ abstract class CSActivityView<ViewType : View>
                 if (onItem.isCheckable) {
                     item.onChecked(onItem)
                     invalidateOptionsMenu()
-                }
-                else item.run()
+                } else item.run()
                 break
             }
     }
@@ -292,8 +288,7 @@ abstract class CSActivityView<ViewType : View>
     fun updateVisibilityChanged() {
         if (checkIfIsShowing()) {
             if (!isShowing) onViewVisibilityChanged(true)
-        }
-        else if (isShowing) onViewVisibilityChanged(false)
+        } else if (isShowing) onViewVisibilityChanged(false)
     }
 
     private fun checkIfIsShowing(): Boolean {
@@ -311,8 +306,7 @@ abstract class CSActivityView<ViewType : View>
             isVisibleEventRegistrations.setActive(true)
             invalidateOptionsMenu()
             onViewShowing()
-        }
-        else {
+        } else {
             isVisibleEventRegistrations.setActive(false)
             invalidateOptionsMenu()
             onViewHiding()
@@ -324,8 +318,7 @@ abstract class CSActivityView<ViewType : View>
         if (!onViewShowingCalled) {
             onViewShowingFirstTime()
             onViewShowingCalled = true
-        }
-        else onViewShowingAgain()
+        } else onViewShowingAgain()
     }
 
     protected open fun onViewShowingFirstTime() {}
@@ -336,8 +329,7 @@ abstract class CSActivityView<ViewType : View>
         if (!onViewShowingCalled) {
             onViewHidingFirstTime()
             onViewShowingCalled = true
-        }
-        else onViewHidingAgain()
+        } else onViewHidingAgain()
     }
 
     protected open fun onViewHidingFirstTime() {}
@@ -347,8 +339,8 @@ abstract class CSActivityView<ViewType : View>
     fun ifVisible(registration: CSEventRegistration?) =
         registration?.let { isVisibleEventRegistrations.add(it) }
 
-    fun register(registration: CSEventRegistration?) =
-        registration?.let { eventRegistrations.add(it) }
+    override fun register(registration: CSEventRegistration) =
+        registration.let { eventRegistrations.add(it) }
 
     fun cancel(registration: CSEventRegistration) =
         eventRegistrations.cancel(registration)
@@ -387,7 +379,7 @@ abstract class CSActivityView<ViewType : View>
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle
 
-    //TODO: Remove keyValueMap, PushId in CSNavigation could be done cleaner by interface
+    //TODO: Remove keyValueMap, PushId in CSNavigation could be done cleaner by interface !!!
     fun setValue(key: String, value: String) {
         keyValueMap[key] = value
     }

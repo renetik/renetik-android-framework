@@ -29,3 +29,20 @@ private fun SharedPreferences.Editor.loadAll(source: SharedPreferences) {
         }
     }
 }
+
+fun SharedPreferences.isEqualTo(other: SharedPreferences): Boolean {
+    for (otherEntry in other.all.entries) {
+        if (contains(otherEntry.key))
+            if (otherEntry.value == null) return false
+            else when (otherEntry.value) {
+                is String -> if (getString(otherEntry.key, null) != otherEntry.value) return false
+                is Set<*> -> if (getStringSet(otherEntry.key, null) != otherEntry.value) return false
+                is Int -> if (getInt(otherEntry.key, 0) != otherEntry.value) return false
+                is Long -> if (getLong(otherEntry.key, 0) != otherEntry.value) return false
+                is Float -> if (getFloat(otherEntry.key, 0f) != otherEntry.value) return false
+                is Boolean -> if (getBoolean(otherEntry.key, false) != otherEntry.value) return false
+                else -> error("Unknown value type: ${otherEntry.value}")
+            }
+    }
+    return true
+}

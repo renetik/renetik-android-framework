@@ -1,5 +1,7 @@
 package renetik.android.java.event
 
+import renetik.android.java.event.CSEvent.CSEventRegistration
+
 @JvmName("eventWithType")
 fun <T> event(): CSEvent<T> = CSEventImpl()
 
@@ -35,6 +37,18 @@ interface CSEvent<T> {
 
         fun event(): CSEvent<*>
     }
+}
+
+fun CSEventRegistration.pause() = apply {
+    isActive = false
+}
+
+fun CSEventRegistration.resume() = apply {
+    isActive = true
+}
+
+interface CSEventOwner {
+    fun register(registration: CSEventRegistration): CSEventRegistration
 }
 
 

@@ -1,6 +1,7 @@
 package renetik.android.framework
 
 import android.content.Context
+import renetik.android.extensions.isEqualTo
 import renetik.android.extensions.load
 import renetik.android.extensions.reload
 import renetik.android.framework.common.catchAllWarnReturnNull
@@ -43,6 +44,10 @@ interface CSValueStoreInterface {
 class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
     private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
+
+    override fun equals(other: Any?): Boolean {
+        return super<CSContextController>.equals(other)
+    }
 
     fun clear() = preferences.edit().clear().apply()
 
@@ -96,6 +101,7 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
     fun load(store: CSValueStore) = apply { preferences.load(store.preferences) }
 
     fun reload(store: CSValueStore) = apply { preferences.reload(store.preferences) }
+    fun isEqualTo(otherStore: CSValueStore) = preferences.isEqualTo(otherStore.preferences)
 }
 
 fun <T> CSValueStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {
