@@ -9,20 +9,18 @@ import androidx.core.view.children
 val ViewGroup.lastChild: View?
     get() = if (childCount > 0) getChildAt(childCount - 1) else null
 
-
-fun <ViewType : View> ViewGroup.add(view: ViewType, index: Int = -1): ViewType {
+fun <ViewType : View> ViewGroup.add(
+    view: ViewType, index: Int = -1): ViewType {
     view.removeFromSuperview()
     addView(view, index)
     return view
 }
 
 fun <ViewType : View> ViewGroup.add(
-    view: ViewType, layout: ViewGroup.LayoutParams,
-    init: ((ViewType).() -> Unit)? = null
+    view: ViewType, layout: ViewGroup.LayoutParams, index: Int = -1,
 ): ViewType {
     view.removeFromSuperview()
-    addView(view, layout)
-    init?.invoke(view)
+    addView(view, index, layout)
     return view
 }
 

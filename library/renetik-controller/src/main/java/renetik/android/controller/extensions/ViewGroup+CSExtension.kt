@@ -18,8 +18,9 @@ fun <Controller : CSView<*>> ViewGroup.add(controller: Controller, index: Int = 
 }
 
 fun <Controller : CSView<*>> ViewGroup.add(
-    controller: Controller, layout: ViewGroup.LayoutParams): Controller {
-    add(controller.view, layout)
+    controller: Controller, layout: ViewGroup.LayoutParams, index: Int = -1,
+): Controller {
+    add(controller.view, layout, index)
     controller.onAddedToParent()
     return controller
 }
