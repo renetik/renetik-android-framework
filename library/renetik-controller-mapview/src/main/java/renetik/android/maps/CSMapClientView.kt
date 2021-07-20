@@ -35,13 +35,13 @@ open class CSMapClientView<V : View>(parent: CSActivityView<V>, private val mapF
     @SuppressLint("MissingPermission")
     override fun onViewShowing() {
         super.onViewShowing()
-        whileShowing(mapController.onMapAvailable { map ->
+        mapController.onMapAvailable(this) { map ->
             frame(mapFrameId).add(mapController.view.removeFromSuperview(), layoutMatch)
             map.clear()
             map.setOnMapClickListener { latLng -> onMapClickEvent.fire(latLng) }
             map.setOnMapLongClickListener { latLng -> onMapLongClickEvent.fire(latLng) }
             onMapShowingEvent.fire(map)
-        })
+        }
         whileShowing(mapController.onCameraStopped { map ->
             lastLocation = map.cameraPosition.target
             lastZoom = map.cameraPosition.zoom

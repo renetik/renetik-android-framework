@@ -18,6 +18,8 @@ interface CSValueStoreInterface {
 
     fun save(key: String, value: Float?)
 
+    fun save(key: String, value: Double?)
+
     fun save(key: String, value: Long?)
 
     fun save(key: String, value: String?)
@@ -27,6 +29,8 @@ interface CSValueStoreInterface {
     fun getBoolean(key: String, defaultValue: Boolean = false): Boolean
 
     fun getDouble(key: String, defaultValue: Double = 0.0): Double
+
+    fun getDouble(key: String, defaultValue: Double? = null): Double?
 
     fun getLong(key: String, defaultValue: Long = 0L): Long
 
@@ -69,6 +73,8 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
     override fun save(key: String, value: Float?) = save(key, value?.toString())
 
+    override fun save(key: String, value: Double?) = save(key, value?.toString())
+
     override fun save(key: String, value: Long?) = save(key, value?.toString())
 
     override fun has(key: String) = preferences.contains(key)
@@ -78,6 +84,9 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
     override fun getDouble(key: String, defaultValue: Double) =
         getString(key)?.asDouble(defaultValue) ?: defaultValue
+
+    override fun getDouble(key: String, defaultValue: Double?) =
+        getString(key)?.asDouble() ?: defaultValue
 
     override fun getLong(key: String, defaultValue: Long) =
         getString(key)?.asLong(defaultValue) ?: defaultValue

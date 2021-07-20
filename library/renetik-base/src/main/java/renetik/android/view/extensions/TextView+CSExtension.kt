@@ -3,7 +3,7 @@ package renetik.android.view.extensions
 import android.text.Editable
 import android.widget.TextView
 import androidx.annotation.StringRes
-import renetik.android.java.event.CSEventProperty
+import renetik.android.java.event.*
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.isSet
 import renetik.android.view.adapter.CSTextWatcherAdapter
@@ -32,4 +32,16 @@ fun <T : TextView> T.onTextChange(onChange: (view: T) -> Unit) = apply {
 
 fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
     setOnFocusChangeListener { _, _ -> onChange(this) }
+}
+
+fun TextView.text(
+    parent: CSVisibleEventOwner, property: CSEventPropertyInterface<*>) =
+    text(parent, property) { it.asString }
+
+fun <T> TextView.text(
+    parent: CSVisibleEventOwner, property: CSEventPropertyInterface<T>,
+    valueToString: (T) -> String) = apply {
+    fun updateText() = text(valueToString(property.value))
+    parent.whileShowing(property.onChange { updateText() })
+    updateText()
 }

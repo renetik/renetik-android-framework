@@ -51,6 +51,10 @@ interface CSEventOwner {
     fun register(registration: CSEventRegistration): CSEventRegistration
 }
 
+interface CSVisibleEventOwner {
+    fun whileShowing(registration: CSEventRegistration): CSEventRegistration
+}
+
 
 
 

@@ -17,7 +17,7 @@ fun CSView<*>.textInput(id: Int, onClick: ((TextInputLayout) -> Unit)? = null) =
         onClick?.let { editText?.onClick { onClick(this) } }
     }
 
-fun CSView<*>.materialSwitch(id: Int) = view.materialSwitch(id)
+fun CSView<*>.switch(id: Int) = view.materialSwitch(id)
 fun CSView<*>.slider(id: Int) = view.slider(id)
 fun CSView<*>.rangeSlider(id: Int) = view.rangeSlider(id)
 fun CSView<*>.chip(id: Int) = findView<Chip>(id)!!

@@ -3,12 +3,12 @@ package renetik.android.sample.view.maps
 import android.annotation.SuppressLint
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
-import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.button
 import renetik.android.controller.extensions.floatingButton
 import renetik.android.controller.extensions.textView
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.maps.CSMapClientView
 import renetik.android.maps.CSMapView
 import renetik.android.sample.R
@@ -39,11 +39,11 @@ class SampleMapView(title: String) :
     @SuppressLint("MissingPermission")
     override fun onViewShowing() {
         super.onViewShowing()
-        whileShowing(mapController.onMapAvailable { map ->
+        mapController.onMapAvailable(this) { map ->
             mapTypeNormal(map)
             map.isMyLocationEnabled = true
             map.uiSettings.isMyLocationButtonEnabled = true
-        })
+        }
     }
 
     private fun onMapTypeClick() {

@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
-import renetik.android.java.event.CSEvent.CSEventRegistration
 import renetik.android.java.event.event
 import renetik.android.java.event.listen
 import renetik.android.logging.CSLog.logError
@@ -155,14 +154,13 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
         animatingCamera = false
     }
 
-    fun onMapAvailable(onMapReady: (GoogleMap) -> Unit): CSEventRegistration? {
+    fun onMapAvailable(parent: CSActivityView<*>, onMapReady: (GoogleMap) -> Unit) {
         map?.let { onMapReady(it) } ?: let {
-            return onMapReadyEvent.add { registration, map ->
+            parent.whileShowing(onMapReadyEvent.add { registration, map ->
                 onMapReady(map)
                 registration.cancel()
-            }
+            })
         }
-        return null
     }
 
     private fun onCameraMoveStarted() {

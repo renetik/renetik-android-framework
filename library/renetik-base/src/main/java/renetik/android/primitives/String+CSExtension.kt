@@ -2,7 +2,10 @@ package renetik.android.primitives
 
 import renetik.android.framework.common.catchWarnReturn
 import renetik.android.framework.common.catchWarnReturnNull
-import renetik.android.java.extensions.*
+import renetik.android.java.extensions.StringBuilder
+import renetik.android.java.extensions.add
+import renetik.android.java.extensions.deleteLast
+import renetik.android.java.extensions.notNull
 import java.nio.charset.StandardCharsets
 import java.text.Normalizer
 import java.util.*
@@ -42,6 +45,7 @@ fun String.ifSet(function: (String) -> Unit) = apply {
 
 fun String.asLong() = catchWarnReturnNull<Long, NumberFormatException> { toLong() }
 fun String.asFloat() = catchWarnReturnNull<Float, NumberFormatException> { toFloat() }
+fun String.asDouble() = catchWarnReturnNull<Double, NumberFormatException> { toDouble() }
 fun String.asInt() = catchWarnReturnNull<Int, NumberFormatException> { toInt() }
 fun String.asDouble(default: Double) =
     catchWarnReturn<Double, NumberFormatException>(default) { toDouble() }
@@ -97,6 +101,5 @@ fun String.toMaxBytesSize(length: Int): String {
         val bytes = ByteArray(length)
         System.arraycopy(nameBytes, 0, bytes, 0, length)
         String(bytes, StandardCharsets.UTF_8)
-    }
-    else this
+    } else this
 }

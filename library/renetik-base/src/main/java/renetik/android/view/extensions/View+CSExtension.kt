@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
 import renetik.android.java.event.CSEventProperty
 import renetik.android.java.event.CSEventPropertyFunctions.property
+import renetik.android.java.event.CSVisibleEventOwner
 import renetik.android.java.extensions.isNull
 import renetik.android.primitives.isTrue
 import renetik.android.view.adapter.CSClickAdapter
@@ -123,6 +124,25 @@ fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
 fun <T> View.model(): T? = modelProperty<T?>().value
 
 fun View.id(value: Int) = apply { id = value }
+
+fun View.visibilityPropertySet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) = apply {
+    fun updateVisibility() = shownIf(property.value != null)
+    parent.whileShowing(property.onChange { updateVisibility() })
+    updateVisibility()
+}
+
+fun View.visibilityPropertyTrue(parent: CSVisibleEventOwner, property: CSEventProperty<Boolean>) = apply {
+    fun updateVisibility() = shownIf(property.value)
+    parent.whileShowing(property.onChange { updateVisibility() })
+    updateVisibility()
+}
+
+fun <T> View.visibilityPropertyEquals(parent: CSVisibleEventOwner, property: CSEventProperty<T?>, value: T) = apply {
+    fun updateVisibility() = shownIf(property.value == value)
+    parent.whileShowing(property.onChange { updateVisibility() })
+    updateVisibility()
+}
+
 
 
 

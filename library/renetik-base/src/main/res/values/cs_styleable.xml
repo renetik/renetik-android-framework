@@ -7,4 +7,10 @@
     <declare-styleable name="CSLinearLayout">
         <attr name="maxWidth" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="RotaryKnobView">
+        <attr name="minValue" format="integer" />
+        <attr name="maxValue" format="integer" />
+        <attr name="initialValue" format="integer" />
+        <attr name="knobDrawable" format="reference" />
+    </declare-styleable>
 </resources>

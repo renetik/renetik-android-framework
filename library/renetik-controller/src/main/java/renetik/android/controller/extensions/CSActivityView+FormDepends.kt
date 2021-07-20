@@ -6,6 +6,7 @@ import renetik.android.framework.lang.CSCondition.Factory.condition
 import renetik.android.java.event.CSEventProperty
 import renetik.android.primitives.isTrue
 import renetik.android.view.extensions.shownIf
+import renetik.android.view.extensions.superview
 
 fun validate(conditions: (CSPropertyConditionList).() -> Unit, onResult: (Boolean) -> Unit) {
     val dependency = CSPropertyConditionList { onResult(falseIfAnyConditionIsFalse()) }
@@ -13,10 +14,14 @@ fun validate(conditions: (CSPropertyConditionList).() -> Unit, onResult: (Boolea
     dependency.evaluate()
 }
 
-fun <View : android.view.View> View.shownIf(conditions: (CSPropertyConditionList).() -> Unit) =
-    apply {
-        validate(conditions) { result -> shownIf(result) }
+fun <View : android.view.View> View.shownIf(
+    conditions: CSPropertyConditionList.() -> Unit, isInContainer: Boolean = false
+) = apply {
+    validate(conditions) { result ->
+        if (isInContainer) superview!!.shownIf(result)
+        else shownIf(result)
     }
+}
 
 class CSPropertyConditionList(val evaluate: (CSPropertyConditionList).() -> Unit) {
     val conditions = mutableListOf<CSCondition>()

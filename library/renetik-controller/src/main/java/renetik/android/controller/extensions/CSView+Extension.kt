@@ -40,7 +40,7 @@ fun CSView<*>.button(@IdRes id: Int,
     view.button(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSView<*>.compound(@IdRes id: Int) = view.compound(id)
-fun CSView<*>.switch(@IdRes id: Int) = view.switch(id)
+//fun CSView<*>.switch(@IdRes id: Int) = view.switch(id)
 fun CSView<*>.checkBox(@IdRes id: Int) = view.checkBox(id)
 fun CSView<*>.timePicker(@IdRes id: Int) = view.timePicker(id)
 fun CSView<*>.webView(@IdRes id: Int) = view.webView(id)

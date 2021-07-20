@@ -10,6 +10,9 @@ fun <T, ListType : MutableList<T>> ListType.putAllDistinct(other: List<T>) = app
     reload(putAll(other).distinct())
 }
 
+fun <T, ListType : MutableList<T>> ListType.putDistinct(item: T) =
+    item.apply { find { it == item } ?: add(item) }
+
 fun <T, ListType : MutableList<T>> ListType.put(item: T, index: Int) =
     item.apply { add(index, this) }
 
