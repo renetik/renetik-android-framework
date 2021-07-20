@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.R
 import renetik.android.content.attributeColor
 import renetik.android.framework.CSContextController
-import renetik.android.java.event.CSEventPropertyFunctions.property
+import renetik.android.java.event.property.CSEventPropertyFunctions.property
 import renetik.android.primitives.isSet
 
 const val GeneratedMenuItems = 7687678

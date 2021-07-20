@@ -2,7 +2,7 @@ package renetik.android.material.extensions
 
 import android.view.View
 import com.google.android.material.slider.Slider
-import renetik.android.java.event.CSEventProperty
+import renetik.android.java.event.property.CSEventProperty
 import renetik.android.view.extensions.findView
 
 fun View.slider(id: Int) = findView<Slider>(id)!!

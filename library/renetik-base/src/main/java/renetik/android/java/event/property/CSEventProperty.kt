@@ -1,18 +1,11 @@
-package renetik.android.java.event
+package renetik.android.java.event.property
 
-import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.framework.lang.CSProperty
-import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.java.event.event
+import renetik.android.java.event.listen
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.empty
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isTrue
-
-interface CSEventPropertyInterface<T> : CSProperty<T> {
-    fun onBeforeChange(value: (T) -> Unit): CSEventRegistration
-    fun onChange(value: (T) -> Unit): CSEventRegistration
-    fun value(newValue: T, fireEvents: Boolean = true)
-}
 
 open class CSEventProperty<T>(value: T, onChange: ((value: T) -> Unit)? = null) :
     CSEventPropertyInterface<T> {
@@ -80,45 +73,4 @@ inline fun CSEventProperty<Float>.ifEmpty(function: (CSEventProperty<Float>) -> 
 
 inline fun CSEventProperty<Float>.ifSet(function: (CSEventProperty<Float>) -> Unit) = apply {
     if (this.isSet) function(this)
-}
-
-
-object CSEventPropertyFunctions {
-
-    fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null) =
-        CSEventProperty(value, onApply)
-
-    fun property(key: String, default: String, onApply: ((value: String) -> Unit)? = null) =
-        application.store.property(key, default, onApply)
-
-    fun property(key: String, default: Float, onApply: ((value: Float) -> Unit)? = null) =
-        application.store.property(key, default, onApply)
-
-    fun property(key: String, default: Int, onApply: ((value: Int) -> Unit)? = null) =
-        application.store.property(key, default, onApply)
-
-    fun property(
-        key: String, default: Boolean,
-        onApply: ((value: Boolean) -> Unit)? = null
-    ) = application.store.property(key, default, onApply)
-
-    fun <T> property(
-        key: String, values: List<T>, default: T,
-        onApply: ((value: T) -> Unit)? = null
-    ) = application.store.property(key, values, default, onApply)
-
-    fun <T> property(
-        key: String, values: Array<T>, default: T,
-        onApply: ((value: T) -> Unit)? = null
-    ) = property(key, values.asList(), default, onApply)
-
-    fun <T> property(
-        key: String, values: List<T>, defaultIndex: Int = 0,
-        onApply: ((value: T) -> Unit)? = null
-    ) = property(key, values, values[defaultIndex], onApply)
-
-    fun <T> property(
-        key: String, values: Array<T>, defaultIndex: Int = 0,
-        onApply: ((value: T) -> Unit)? = null
-    ) = property(key, values.asList(), values[defaultIndex], onApply)
 }

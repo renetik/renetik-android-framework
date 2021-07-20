@@ -1,6 +1,9 @@
 package renetik.android.java.event
 
-import renetik.android.java.event.CSEventPropertyFunctions.property
+import renetik.android.java.event.property.CSEventPropertyFunctions.property
+import renetik.android.java.event.property.isTrue
+import renetik.android.java.event.property.setFalse
+import renetik.android.java.event.property.setTrue
 import renetik.android.primitives.ifTrue
 
 interface CSActionInterface {

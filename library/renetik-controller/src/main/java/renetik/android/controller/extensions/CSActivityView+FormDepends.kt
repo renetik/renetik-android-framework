@@ -3,7 +3,7 @@ package renetik.android.controller.extensions
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.framework.lang.CSCondition
 import renetik.android.framework.lang.CSCondition.Factory.condition
-import renetik.android.java.event.CSEventProperty
+import renetik.android.java.event.property.CSEventProperty
 import renetik.android.primitives.isTrue
 import renetik.android.view.extensions.shownIf
 import renetik.android.view.extensions.superview

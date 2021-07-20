@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
 import renetik.android.R
 import renetik.android.java.event.*
+import renetik.android.java.event.property.CSEventProperty
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.privateField
 import renetik.android.primitives.isSet
@@ -182,7 +183,8 @@ fun <T : TextInputLayout> T.onFocusChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onFocusChange { onChange(this) } }
 
 fun <T : Any> TextInputLayout.valueProperty(
-    parent: CSVisibleEventOwner, property: CSEventProperty<T?>) = apply {
+    parent: CSVisibleEventOwner, property: CSEventProperty<T?>
+) = apply {
     onTextChange { if (property.value.notNull) errorClear() }
     onClear { property.value = null }
     editText!!.text(parent, property)
@@ -190,7 +192,8 @@ fun <T : Any> TextInputLayout.valueProperty(
 
 @JvmName("propertyString")
 fun TextInputLayout.textProperty(
-    parent: CSVisibleEventOwner, property: CSEventProperty<String?>) = apply {
+    parent: CSVisibleEventOwner, property: CSEventProperty<String?>
+) = apply {
     onTextChange { if (property.value.isSet) errorClear() }
     onClear { property.value = null }
     editText!!.text(parent, property)

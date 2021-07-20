@@ -1,7 +1,6 @@
 package renetik.android.framework
 
 import android.content.Context
-import renetik.android.extensions.isEqualTo
 import renetik.android.extensions.load
 import renetik.android.extensions.reload
 import renetik.android.framework.common.catchAllWarnReturnNull
@@ -10,48 +9,9 @@ import renetik.android.primitives.asFloat
 import renetik.android.primitives.asInt
 import renetik.android.primitives.asLong
 
-interface CSValueStoreInterface {
-
-    fun save(key: String, value: Int?)
-
-    fun save(key: String, value: Boolean?)
-
-    fun save(key: String, value: Float?)
-
-    fun save(key: String, value: Double?)
-
-    fun save(key: String, value: Long?)
-
-    fun save(key: String, value: String?)
-
-    fun has(key: String): Boolean
-
-    fun getBoolean(key: String, defaultValue: Boolean = false): Boolean
-
-    fun getDouble(key: String, defaultValue: Double = 0.0): Double
-
-    fun getDouble(key: String, defaultValue: Double? = null): Double?
-
-    fun getLong(key: String, defaultValue: Long = 0L): Long
-
-    fun getFloat(key: String, defaultValue: Float = 0F): Float
-
-    fun getFloat(key: String, defaultValue: Float? = null): Float?
-
-    fun getInt(key: String, defaultValue: Int = 0): Int
-
-    fun getString(key: String, defaultValue: String): String
-
-    fun getString(key: String): String?
-}
-
 class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
 
     private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
-
-    override fun equals(other: Any?): Boolean {
-        return super<CSContextController>.equals(other)
-    }
 
     fun clear() = preferences.edit().clear().apply()
 
@@ -110,7 +70,6 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
     fun load(store: CSValueStore) = apply { preferences.load(store.preferences) }
 
     fun reload(store: CSValueStore) = apply { preferences.reload(store.preferences) }
-    fun isEqualTo(otherStore: CSValueStore) = preferences.isEqualTo(otherStore.preferences)
 }
 
 fun <T> CSValueStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {

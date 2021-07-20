@@ -7,7 +7,7 @@ import renetik.android.controller.R
 import renetik.android.controller.base.CSDialogView
 import renetik.android.controller.extensions.numberPicker
 import renetik.android.controller.extensions.textView
-import renetik.android.java.event.CSEventProperty
+import renetik.android.java.event.property.CSEventProperty
 import renetik.android.java.extensions.collections.index
 import renetik.android.view.extensions.circulate
 import renetik.android.view.extensions.disableTextEditing

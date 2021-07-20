@@ -4,6 +4,8 @@ import android.text.Editable
 import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.java.event.*
+import renetik.android.java.event.property.CSEventProperty
+import renetik.android.java.event.property.CSEventPropertyInterface
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.isSet
 import renetik.android.view.adapter.CSTextWatcherAdapter

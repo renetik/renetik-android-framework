@@ -1,12 +1,12 @@
-package renetik.android.java.event
+package renetik.android.java.event.property
 
 import renetik.android.framework.CSValueStoreInterface
 import renetik.android.framework.getValue
 
 class CSListStoreEventProperty<T>(
     store: CSValueStoreInterface, val key: String, val values: List<T>,
-    val default: T, onApply: ((value: T) -> Unit)? = null)
-    : CSEventProperty<T>(store.getValue(key, values, default), onApply) {
+    val default: T, onApply: ((value: T) -> Unit)? = null
+) : CSEventProperty<T>(store.getValue(key, values, default), onApply) {
 
     init {
         onChange {

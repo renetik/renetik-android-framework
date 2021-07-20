@@ -14,8 +14,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
-import renetik.android.java.event.CSEventProperty
-import renetik.android.java.event.CSEventPropertyFunctions.property
+import renetik.android.java.event.property.CSEventProperty
+import renetik.android.java.event.property.CSEventPropertyFunctions.property
 import renetik.android.java.event.CSVisibleEventOwner
 import renetik.android.java.extensions.isNull
 import renetik.android.primitives.isTrue
