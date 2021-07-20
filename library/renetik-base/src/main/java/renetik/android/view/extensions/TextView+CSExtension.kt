@@ -35,13 +35,25 @@ fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
 }
 
 fun TextView.text(
-    parent: CSVisibleEventOwner, property: CSEventPropertyInterface<*>) =
+    parent: CSVisibleEventOwner, property: CSEventPropertyInterface<*>
+) =
     text(parent, property) { it.asString }
 
 fun <T> TextView.text(
     parent: CSVisibleEventOwner, property: CSEventPropertyInterface<T>,
-    valueToString: (T) -> String) = apply {
+    valueToString: (T) -> String
+) = apply {
     fun updateText() = text(valueToString(property.value))
     parent.whileShowing(property.onChange { updateText() })
     updateText()
 }
+
+fun <T> TextView.text(
+    property: CSEventPropertyInterface<T>, valueToString: (T) -> String
+) = apply {
+    fun updateText() = text(valueToString(property.value))
+    property.onChange { updateText() }
+    updateText()
+}
+
+fun <T> TextView.text(property: CSEventPropertyInterface<T>) = text(property){it.asString }
