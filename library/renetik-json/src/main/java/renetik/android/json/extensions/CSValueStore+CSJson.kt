@@ -18,14 +18,17 @@ fun <T : CSJsonMap> CSValueStoreInterface.load(data: T, key: String): T? {
 }
 
 fun <T : CSJsonMap> CSValueStoreInterface.load(
-    type: KClass<T>, key: String): T = type.createJsonMap(loadJson(key))
+    type: KClass<T>, key: String
+): T = type.createJsonMap(loadJson(key))
 
 fun <T : CSJsonMap> CSValueStoreInterface.loadList(
-    type: KClass<T>, key: String): MutableList<T> =
+    type: KClass<T>, key: String
+): MutableList<T> =
     type.createJsonDataList(loadJson(key))
 
 fun <T : CSJsonMap> CSValueStoreInterface.loadList(
-    type: KClass<T>, key: String, default: List<T>): MutableList<T> =
+    type: KClass<T>, key: String, default: List<T>
+): MutableList<T> =
     type.createJsonDataList(loadJson(key), default)
 
 fun <T : Any> CSValueStoreInterface.loadList(key: String): MutableList<T> =
@@ -35,3 +38,7 @@ private fun <Type> CSValueStoreInterface.loadJson(key: String): Type? {
     val loadString = getString(key)
     return if (loadString.isEmpty) null else loadString!!.parseJson<Type>()
 }
+
+fun <T : CSJsonMap> CSValueStoreInterface.property(
+    key: String, type: KClass<T>, default: List<T>
+) = CSListStoreEventProperty(this, key, type, default)

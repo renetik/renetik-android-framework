@@ -18,11 +18,11 @@ open class CSEventProperty<T>(value: T, onChange: ((value: T) -> Unit)? = null) 
         get() = _value
         set(value) = value(value)
 
-    override fun value(newValue: T, fireEvents: Boolean) {
+    override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
-        if (fireEvents) eventBeforeChange.fire(_value)
+        if (fire) eventBeforeChange.fire(_value)
         _value = newValue
-        if (fireEvents) eventChange.fire(newValue)
+        if (fire) eventChange.fire(newValue)
     }
 
     override fun onBeforeChange(value: (T) -> Unit) = eventBeforeChange.listen(value)

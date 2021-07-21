@@ -1,7 +1,7 @@
 package renetik.android.framework
 
 import renetik.android.java.event.property.CSEventProperty
-import renetik.android.java.event.property.CSListStoreEventProperty
+import renetik.android.java.event.property.CSListItemStoreEventProperty
 import renetik.android.java.event.property.CSPropertyStoreInterface
 
 interface CSValueStoreInterface : CSPropertyStoreInterface {
@@ -46,7 +46,7 @@ interface CSValueStoreInterface : CSPropertyStoreInterface {
 
     override fun <T> property(
         key: String, values: List<T>, default: T, onApply: ((value: T) -> Unit)?
-    ) = CSListStoreEventProperty(this, key, values, default, onApply)
+    ) = CSListItemStoreEventProperty(this, key, values, default, onApply)
 
     override fun property(
         key: String, default: Int, onApply: ((value: Int) -> Unit)?

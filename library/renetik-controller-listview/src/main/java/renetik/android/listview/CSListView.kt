@@ -117,10 +117,10 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
     @Suppress("UNCHECKED_CAST")
     private fun asRowView(view: View) = view.tag as CSRowView<RowType>
 
-    fun load(list: List<RowType>) = apply {
+    fun load(list: Iterable<RowType>) = apply {
         data.addAll(list)
         reload()
-        onLoad.fire(list)
+        onLoad.fire(list.toList())
         return this
     }
 
@@ -129,7 +129,7 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
         reload()
     }
 
-    fun reload(list: List<RowType>) = apply {
+    fun reload(list: Iterable<RowType>) = apply {
         data.clear()
         load(list)
     }

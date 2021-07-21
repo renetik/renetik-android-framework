@@ -25,7 +25,7 @@ interface CSPropertyStoreInterface {
 
     fun <T> property(
         key: String, values: List<T>, default: T, onApply: ((value: T) -> Unit)? = null
-    ): CSListStoreEventProperty<T>
+    ): CSListItemStoreEventProperty<T>
 
     fun <T> property(
         key: String, values: Array<T>, default: T, onApply: ((value: T) -> Unit)? = null
