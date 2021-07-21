@@ -14,9 +14,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
+import renetik.android.java.event.CSVisibleEventOwner
 import renetik.android.java.event.property.CSEventProperty
 import renetik.android.java.event.property.CSEventPropertyFunctions.property
-import renetik.android.java.event.CSVisibleEventOwner
 import renetik.android.java.extensions.isNull
 import renetik.android.primitives.isTrue
 import renetik.android.view.adapter.CSClickAdapter
@@ -77,7 +77,13 @@ fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) visible(
 fun <T : View> T.invisibleIf(condition: Boolean) =
     apply { if (condition) invisible() else visible() }
 
-fun <T : View> T.shownIf(condition: Boolean?) = apply { if (condition.isTrue) show() else gone() }
+fun <T : View> T.shownIf(condition: Boolean?, fade: Boolean = false) = apply {
+    when {
+        fade -> if (condition.isTrue) fadeIn() else fadeOut()
+        condition.isTrue -> show()
+        else -> gone()
+    }
+}
 
 fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) gone() else show() }
 
@@ -125,19 +131,23 @@ fun <T> View.model(): T? = modelProperty<T?>().value
 
 fun View.id(value: Int) = apply { id = value }
 
-fun View.visibilityPropertySet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) = apply {
-    fun updateVisibility() = shownIf(property.value != null)
-    parent.whileShowing(property.onChange { updateVisibility() })
-    updateVisibility()
-}
+fun View.visibilityPropertySet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) =
+    apply {
+        fun updateVisibility() = shownIf(property.value != null)
+        parent.whileShowing(property.onChange { updateVisibility() })
+        updateVisibility()
+    }
 
-fun View.visibilityPropertyTrue(parent: CSVisibleEventOwner, property: CSEventProperty<Boolean>) = apply {
-    fun updateVisibility() = shownIf(property.value)
-    parent.whileShowing(property.onChange { updateVisibility() })
-    updateVisibility()
-}
+fun View.visibilityPropertyTrue(parent: CSVisibleEventOwner, property: CSEventProperty<Boolean>) =
+    apply {
+        fun updateVisibility() = shownIf(property.value)
+        parent.whileShowing(property.onChange { updateVisibility() })
+        updateVisibility()
+    }
 
-fun <T> View.visibilityPropertyEquals(parent: CSVisibleEventOwner, property: CSEventProperty<T?>, value: T) = apply {
+fun <T> View.visibilityPropertyEquals(parent: CSVisibleEventOwner,
+                                      property: CSEventProperty<T?>,
+                                      value: T) = apply {
     fun updateVisibility() = shownIf(property.value == value)
     parent.whileShowing(property.onChange { updateVisibility() })
     updateVisibility()

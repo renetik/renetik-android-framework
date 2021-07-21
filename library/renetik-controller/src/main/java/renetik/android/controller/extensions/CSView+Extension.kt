@@ -40,6 +40,7 @@ fun CSView<*>.button(@IdRes id: Int,
     view.button(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSView<*>.compound(@IdRes id: Int) = view.compound(id)
+
 //fun CSView<*>.switch(@IdRes id: Int) = view.switch(id)
 fun CSView<*>.checkBox(@IdRes id: Int) = view.checkBox(id)
 fun CSView<*>.timePicker(@IdRes id: Int) = view.timePicker(id)
@@ -58,6 +59,9 @@ fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 fun <Type : CSView<*>> Type.afterLayout(action: (Type) -> Unit) =
     apply { view.afterLayout { action(this) } }
 
-fun <Type : CSView<*>> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
+fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
+    view.removeFromSuperview()
+    onRemovedFromParent()
+}
 
 

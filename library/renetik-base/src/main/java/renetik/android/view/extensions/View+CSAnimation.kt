@@ -4,6 +4,7 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewPropertyAnimator
 import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.primitives.isTrue
 
 val shortAnimationDuration =
     application.resources.getInteger(android.R.integer.config_shortAnimTime)
@@ -35,14 +36,4 @@ fun <T : View> T.fadeOut(
         }
     }
 }
-
-fun <T : View> T.fadeVisible(fadeVisible: Boolean) = if (fadeVisible) fadeIn() else fadeOut()
-
-fun <T : View> T.fadeGone(fadeGone: Boolean) = if (fadeGone) fadeOut() else fadeIn()
-
-var <T : View> T.isFadeVisible
-    get() = visibility == VISIBLE
-    set(value) {
-        fadeVisible(value)
-    }
 

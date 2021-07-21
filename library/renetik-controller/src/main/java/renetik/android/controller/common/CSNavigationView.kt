@@ -38,9 +38,10 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     constructor(parent: CSActivityView<out ViewGroup>) :
             super(parent, layout(R.layout.cs_navigation))
 
+    private val actionBar get() = activity().supportActionBar
+
     init {
-        if (CSNavigationInstance.isInitialized)
-            navigation.activity?.finish()
+        if (CSNavigationInstance.isInitialized) navigation.activity?.finish()
         navigation = this
     }
 
@@ -152,8 +153,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
                 if (!isVisible) {
                     setActionBarTitle(null)
                     return
-                }
-                else item.navigationItemTitle?.let { title ->
+                } else item.navigationItemTitle?.let { title ->
                     setActionBarTitle(title)
                     return
                 }
@@ -173,8 +173,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
                 if (!isVisible) {
                     hideActionBarIcon()
                     return
-                }
-                else item.navigationItemIcon?.let { icon ->
+                } else item.navigationItemIcon?.let { icon ->
                     setActionBarIcon(icon)
                     return
                 }
@@ -213,8 +212,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         if (controllers.size > 1 && isBackButtonVisible) {
             actionBar?.setDisplayHomeAsUpEnabled(true)
             updateBackButtonIcon()
-        }
-        else actionBar?.setDisplayHomeAsUpEnabled(false)
+        } else actionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun updateBackButtonIcon() {

@@ -69,7 +69,7 @@ abstract class CSActivityView<ViewType : View>
     private var isShowing = false
     private var onViewShowingCalled = false
     private val keyValueMap = mutableMapOf<String, Any>()
-    val actionBar get() = activity().supportActionBar
+
 
     constructor(activity: CSActivity, layout: CSLayoutRes) : super(activity, layout) {
         this.activity = activity
