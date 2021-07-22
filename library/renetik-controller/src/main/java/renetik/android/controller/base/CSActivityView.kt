@@ -50,7 +50,7 @@ abstract class CSActivityView<ViewType : View>
 
     private val isVisibleEventRegistrations = CSEventRegistrations()
     private val whileShowingEventRegistrations = CSEventRegistrations()
-    protected val eventRegistrations = CSEventRegistrations()
+    private val eventRegistrations = CSEventRegistrations()
 
     var isStarted = false
     var isCreated = false
@@ -90,7 +90,7 @@ abstract class CSActivityView<ViewType : View>
         parentController = parent
         this.viewId = viewId
         parentRegistrations = initializeParent(parent)
-        lifecycleInitialize()
+        lifecycleUpdate()
     }
 
     constructor(parent: CSActivityView<out ViewGroup>, layoutRes: CSLayoutRes)
@@ -172,17 +172,16 @@ abstract class CSActivityView<ViewType : View>
         System.gc()
     }
 
-    fun lifecycleInitialize() {
-        if (isCreated) return
+    fun lifecycleUpdate() {
         parentController?.let {
-            if (it.isCreated) onCreate(it.bundle)
-            if (it.isStarted) onStart()
-            if (it.isResumed) onResume()
-            if (it.isPaused) onPause()
+            if (it.isCreated && !isCreated) onCreate(it.bundle)
+            if (it.isStarted && !isStarted) onStart()
+            if (it.isResumed && !isResumed) onResume()
+            if (it.isPaused && !isPaused) onPause()
         }
     }
 
-    fun lifecycleDeInitialize() {
+    fun lifecycleStop() {
         if (isResumed && !isPaused) onPause()
         onStop()
         onDestroy()
@@ -270,7 +269,7 @@ abstract class CSActivityView<ViewType : View>
 
     override fun onAddedToParent() {
         super.onAddedToParent()
-        lifecycleInitialize()
+        lifecycleUpdate()
         updateVisibilityChanged()
     }
 
@@ -285,7 +284,7 @@ abstract class CSActivityView<ViewType : View>
         updateVisibilityChanged()
     }
 
-    fun updateVisibilityChanged() {
+    private fun updateVisibilityChanged() {
         if (checkIfIsShowing()) {
             if (!isShowing) onViewVisibilityChanged(true)
         } else if (isShowing) onViewVisibilityChanged(false)

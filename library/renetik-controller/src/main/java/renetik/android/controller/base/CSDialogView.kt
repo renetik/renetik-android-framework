@@ -61,12 +61,12 @@ open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
             setContentView(view)
             setOnDismissListener {
                 if (!isDestroyed) {
-                    lifecycleDeInitialize()
+                    lifecycleStop()
                     eventOnDismiss.fire()
                 }
             }
             show()
-            lifecycleInitialize()
+            lifecycleUpdate()
         }
     }
 
@@ -74,11 +74,11 @@ open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
         setView(view)
         setOnDismissListener {
             if (!isDestroyed) {
-                lifecycleDeInitialize()
+                lifecycleStop()
                 eventOnDismiss.fire()
             }
         }
-        lifecycleInitialize()
+        lifecycleUpdate()
     }
 
     open fun showDialog(builder: MaterialAlertDialogBuilder) {
