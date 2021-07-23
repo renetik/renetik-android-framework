@@ -13,10 +13,10 @@ import renetik.android.content.input
 import renetik.android.controller.menu.CSMenuItem
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.framework.lang.CSProperty
 import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.CSEventRegistration
+import renetik.android.framework.lang.CSLayoutRes
+import renetik.android.framework.lang.CSProperty
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
@@ -125,7 +125,8 @@ abstract class CSActivityView<ViewType : View>
     }
 
     protected open fun onResume() {
-        if (isResumed) logWarn("already resumed", this)
+        if (isResumed)
+            logWarn("already resumed", this)
         isResumed = true
         isPaused = false
         if (!isResumeFirstTime) onResumeFirstTime()
@@ -281,7 +282,7 @@ abstract class CSActivityView<ViewType : View>
 
     override fun onRemovedFromParent() {
         super.onAddedToParent()
-        if (!isPaused) onPause()
+        if (isResumed && !isPaused) onPause()
     }
 
     fun showingInPager(isShowing: Boolean) {

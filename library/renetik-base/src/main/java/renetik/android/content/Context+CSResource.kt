@@ -57,7 +57,8 @@ fun Context.resourceInts(id: Int) = catchError<NotFoundException> {
 
 val Context.displayMetrics get():DisplayMetrics = resources.displayMetrics
 
-fun Context.toDpF(pixel: Int) = pixel / (displayMetrics.densityDpi.toFloat() / DENSITY_DEFAULT)
+fun Context.toDpF(pixel: Float) = pixel / (displayMetrics.densityDpi.toFloat() / DENSITY_DEFAULT)
+fun Context.toDpF(pixel: Int) = toDpF(pixel.toFloat())
 fun Context.toDp(pixel: Int) = toDpF(pixel).toInt()
 
 fun Context.dpToPixelF(dp: Float) = applyDimension(COMPLEX_UNIT_DIP, dp, displayMetrics)
