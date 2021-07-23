@@ -1,4 +1,4 @@
-package renetik.android.java.event
+package renetik.android.framework.event
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

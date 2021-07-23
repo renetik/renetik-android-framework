@@ -1,5 +1,6 @@
 package renetik.android.framework.lang
 
+// Can this be removed ? Looks like not so needed anymore in kotlin
 interface CSName {
     val name: String
 }

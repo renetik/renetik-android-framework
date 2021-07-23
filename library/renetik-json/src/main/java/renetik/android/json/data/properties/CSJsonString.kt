@@ -22,4 +22,8 @@ class CSJsonString(val data: CSJsonMap, private val key: String) : CharSequence 
     override fun get(index: Int) = value[index]
     override fun subSequence(startIndex: Int, endIndex: Int) =
         value.subSequence(startIndex, endIndex)
+
+    fun value(value: String) {
+        string = value
+    }
 }

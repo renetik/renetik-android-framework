@@ -10,7 +10,7 @@ import android.widget.ListView.CHOICE_MODE_SINGLE
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.findView
 import renetik.android.controller.extensions.view
-import renetik.android.java.event.event
+import renetik.android.framework.event.event
 import renetik.android.java.extensions.collections.at
 import renetik.android.java.extensions.collections.index
 import renetik.android.java.extensions.collections.list

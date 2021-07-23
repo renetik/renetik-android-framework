@@ -6,8 +6,8 @@ import okhttp3.Credentials.basic
 import okhttp3.OkHttpClient.Builder
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.lang.CSDataConstants.MB
-import renetik.android.java.event.event
-import renetik.android.java.event.listen
+import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
 import java.io.File
 import java.net.CookieManager
 import java.util.concurrent.TimeUnit.SECONDS

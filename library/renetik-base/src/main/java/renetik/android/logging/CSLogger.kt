@@ -1,6 +1,6 @@
 package renetik.android.logging
 
-import renetik.android.java.event.CSEvent
+import renetik.android.framework.event.CSEvent
 
 enum class CSLogEventType(val title: String) {
     Warn("Warn"), Info("Info"), Error("Error"), Debug("Debug")

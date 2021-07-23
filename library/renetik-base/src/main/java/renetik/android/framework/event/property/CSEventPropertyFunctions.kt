@@ -1,4 +1,4 @@
-package renetik.android.java.event.property
+package renetik.android.framework.event.property
 
 import renetik.android.framework.CSApplication.Companion.application
 
@@ -6,6 +6,9 @@ object CSEventPropertyFunctions {
 
     fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null) =
         CSEventProperty(value, onApply)
+
+    fun <T> property(onApply: ((value: T?) -> Unit)? = null) =
+        CSEventProperty<T?>(null, onApply)
 
     fun property(key: String, default: String, onApply: ((value: String) -> Unit)? = null) =
         application.store.property(key, default, onApply)

@@ -8,9 +8,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import renetik.android.controller.R
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.java.event.event
-import renetik.android.java.event.fire
-import renetik.android.java.event.listenOnce
+import renetik.android.framework.event.event
+import renetik.android.framework.event.fire
+import renetik.android.framework.event.listenOnce
 
 open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
 

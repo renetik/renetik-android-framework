@@ -3,6 +3,7 @@ package renetik.android.framework
 import android.app.Application
 import android.os.Environment.getExternalStorageDirectory
 import renetik.android.extensions.applicationLabel
+import renetik.android.framework.store.CSStore
 import renetik.android.java.extensions.exception
 import renetik.android.logging.AndroidLogger
 import renetik.android.logging.CSLog.logInfo
@@ -18,7 +19,7 @@ open class CSApplication : Application() {
 
     open val name: String by lazy { applicationLabel }
     open val logger: CSLogger by lazy { AndroidLogger() }
-    open val store: CSValueStore by lazy { CSValueStore("ApplicationSettings") }
+    open val store: CSStore by lazy { CSStore("ApplicationSettings") }
     open val externalFilesDir: File
         get() = getExternalFilesDir(null) ?: getExternalStorageDirectory()
     open val isDebugBuild: Boolean

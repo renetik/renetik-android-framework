@@ -4,8 +4,8 @@ import android.content.Intent
 import android.view.View
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.common.CSNavigationInstance.navigation
-import renetik.android.java.event.listen
-import renetik.android.java.event.listenOnce
+import renetik.android.framework.event.listen
+import renetik.android.framework.event.listenOnce
 import renetik.android.util.CSReachability
 
 val CSActivityView<*>.intent: Intent get() = activity().intent

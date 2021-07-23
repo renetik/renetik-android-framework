@@ -16,8 +16,8 @@ import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
 import renetik.android.R
-import renetik.android.java.event.*
-import renetik.android.java.event.property.CSEventProperty
+import renetik.android.framework.event.*
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.privateField
 import renetik.android.primitives.isSet

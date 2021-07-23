@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.framework.lang.CSProperty
-import renetik.android.java.event.CSEvent
+import renetik.android.framework.event.CSEvent
 
 interface CSActivityViewInterface {
     val onCreate: CSEvent<Bundle?>

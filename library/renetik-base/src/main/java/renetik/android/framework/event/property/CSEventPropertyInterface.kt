@@ -1,7 +1,7 @@
-package renetik.android.java.event.property
+package renetik.android.framework.event.property
 
 import renetik.android.framework.lang.CSProperty
-import renetik.android.java.event.CSEvent
+import renetik.android.framework.event.CSEvent
 
 interface CSEventPropertyInterface<T> : CSProperty<T> {
     fun onBeforeChange(value: (T) -> Unit): CSEvent.CSEventRegistration

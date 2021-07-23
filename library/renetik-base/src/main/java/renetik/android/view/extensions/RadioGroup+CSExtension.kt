@@ -7,8 +7,8 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.R
 import renetik.android.framework.lang.CSName
-import renetik.android.java.event.*
-import renetik.android.java.event.property.CSEventProperty
+import renetik.android.framework.event.*
+import renetik.android.framework.event.property.CSEventProperty
 
 fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
 

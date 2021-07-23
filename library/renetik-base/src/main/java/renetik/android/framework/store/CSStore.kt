@@ -1,15 +1,16 @@
-package renetik.android.framework
+package renetik.android.framework.store
 
 import android.content.Context
 import renetik.android.extensions.load
 import renetik.android.extensions.reload
+import renetik.android.framework.CSContextController
 import renetik.android.framework.common.catchAllWarnReturnNull
 import renetik.android.primitives.asDouble
 import renetik.android.primitives.asFloat
 import renetik.android.primitives.asInt
 import renetik.android.primitives.asLong
 
-class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
+class CSStore(id: String) : CSContextController(), CSStoreInterface {
 
     private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
 
@@ -65,15 +66,11 @@ class CSValueStore(id: String) : CSContextController(), CSValueStoreInterface {
     override fun getString(key: String): String? =
         catchAllWarnReturnNull { preferences.getString(key, null) }
 
-    fun clone(id: String) = CSValueStore(id).also { it.preferences.reload(preferences) }
+    fun clone(id: String) = CSStore(id).also { it.preferences.reload(preferences) }
 
-    fun load(store: CSValueStore) = apply { preferences.load(store.preferences) }
+    fun load(store: CSStore) = apply { preferences.load(store.preferences) }
 
-    fun reload(store: CSValueStore) = apply { preferences.reload(store.preferences) }
+    fun reload(store: CSStore) = apply { preferences.reload(store.preferences) }
 }
 
-fun <T> CSValueStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {
-    val savedValueHashCode = getInt(key)
-    val value = values.find { it.hashCode() == savedValueHashCode }
-    return value ?: default
-}
+

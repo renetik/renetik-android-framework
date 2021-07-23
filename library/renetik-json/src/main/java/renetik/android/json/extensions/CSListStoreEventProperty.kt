@@ -1,15 +1,15 @@
 package renetik.android.json.extensions
 
-import renetik.android.framework.CSValueStoreInterface
-import renetik.android.java.event.property.CSEventProperty
+import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.java.extensions.collections.delete
 import renetik.android.java.extensions.collections.put
 import renetik.android.json.data.CSJsonMap
 import kotlin.reflect.KClass
 
 class CSListStoreEventProperty<T : CSJsonMap>(
-    val store: CSValueStoreInterface, val key: String,
-    type: KClass<T>, default: List<T>, onApply: ((value: List<T>) -> Unit)? = null
+    val store: CSStoreInterface, val key: String,
+    type: KClass<T>, default: List<T> = emptyList(), onApply: ((value: List<T>) -> Unit)? = null
 ) : CSEventProperty<List<T>>(store.loadList(type, key, default), onApply), Iterable<T> {
 
     override fun value(newValue: List<T>, fire: Boolean) {

@@ -10,8 +10,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
-import renetik.android.java.event.event
-import renetik.android.java.event.listen
+import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
 import renetik.android.logging.CSLog.logError
 import renetik.android.maps.extensions.asLatLng
 import kotlin.system.exitProcess

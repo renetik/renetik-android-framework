@@ -1,4 +1,4 @@
-package renetik.android.java.event.property
+package renetik.android.framework.event.property
 
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.empty

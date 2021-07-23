@@ -15,3 +15,5 @@ fun Int.min(minimumValue: Int) = if (this > minimumValue) this else minimumValue
 
 fun Int.isSetIn(bitwise: Int) = bitwise and this != 0
 fun Int.isNotIn(bitwise: Int) = !this.isSetIn(bitwise)
+
+fun Int.isLastIndex(index: Int) = index == this - 1

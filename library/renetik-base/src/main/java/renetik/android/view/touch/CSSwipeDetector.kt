@@ -5,7 +5,7 @@ import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
 import android.view.View
-import renetik.android.java.event.event
+import renetik.android.framework.event.event
 import renetik.android.logging.CSLog.logInfo
 import java.lang.Math.abs
 

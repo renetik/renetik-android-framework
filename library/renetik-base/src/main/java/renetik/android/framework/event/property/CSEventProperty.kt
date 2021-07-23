@@ -1,7 +1,7 @@
-package renetik.android.java.event.property
+package renetik.android.framework.event.property
 
-import renetik.android.java.event.event
-import renetik.android.java.event.listen
+import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
 
 open class CSEventProperty<T>(value: T, onChange: ((value: T) -> Unit)? = null) :
     CSEventPropertyInterface<T> {

@@ -10,9 +10,9 @@ import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.framework.lang.CSProperty
 import renetik.android.framework.common.catchAllWarn
-import renetik.android.java.event.property.CSEventPropertyFunctions.property
-import renetik.android.java.event.event
-import renetik.android.java.event.fire
+import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.event.event
+import renetik.android.framework.event.fire
 
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {

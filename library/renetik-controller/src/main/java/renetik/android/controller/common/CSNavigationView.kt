@@ -254,7 +254,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     private fun updateBar() {
         val isBarVisible = currentNavigationItem.isBarVisible
-        if (isBarVisible.isFalse) actionBar!!.hide() else actionBar!!.show()
+        if (isBarVisible.isFalse) actionBar?.hide() else actionBar?.show()
         updateBarBackButton()
         updateBarTitle()
         updateBarIcon()

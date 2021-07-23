@@ -1,6 +1,6 @@
-package renetik.android.java.event
+package renetik.android.framework.event
 
-import renetik.android.java.event.CSEvent.CSEventRegistration
+import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.collections.delete
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.collections.list

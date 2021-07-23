@@ -7,8 +7,8 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.findView
-import renetik.android.java.event.event
-import renetik.android.java.event.listen
+import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
