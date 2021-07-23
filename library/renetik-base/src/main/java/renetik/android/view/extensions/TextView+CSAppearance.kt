@@ -12,9 +12,14 @@ import androidx.annotation.ColorRes
 import androidx.annotation.FontRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
+import renetik.android.content.color
 
 fun TextView.textColor(@ColorInt value: Int) = apply {
     setTextColor(ColorStateList.valueOf(value))
+}
+
+fun TextView.textColor(context: Context, @ColorRes value: Int) = apply {
+    textColor(context.color(value))
 }
 
 fun TextView.typeface(@FontRes font: Int) = apply {

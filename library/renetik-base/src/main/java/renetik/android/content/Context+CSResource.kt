@@ -24,7 +24,7 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 
 @ColorInt
-fun Context.resourceColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
+fun Context.color(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
 fun Context.resourceBytes(id: Int) = catchAllWarn {
     val stream = resources.openRawResource(id)

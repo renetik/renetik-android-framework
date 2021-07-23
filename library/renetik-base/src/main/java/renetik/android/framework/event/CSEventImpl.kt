@@ -22,7 +22,8 @@ class CSEventImpl<T> : CSEvent<T> {
     }
 
     override fun fire(argument: T) {
-        if (running) logError(exception("Event run while running"))
+        if (running)
+            logError(exception("Event run while running"))
         if (registrations.isEmpty()) return
         running = true
         for (registration in registrations) registration.onEvent(argument)

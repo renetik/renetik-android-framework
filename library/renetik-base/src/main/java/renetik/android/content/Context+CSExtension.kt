@@ -14,7 +14,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.res.getDrawableOrThrow
-import renetik.android.content.resourceColor
+import renetik.android.content.color
 import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.framework.common.catchWarnReturnNull
 import renetik.android.primitives.isSet
@@ -78,7 +78,7 @@ fun Context.getColorResource(name: String): Int? {
     return if (colorResource == 0) null else colorResource
 }
 
-fun Context.getColor(name: String): Int? = getColorResource(name)?.let { resourceColor(it) }
+fun Context.getColor(name: String): Int? = getColorResource(name)?.let { color(it) }
 
 
 val Context.progressDrawable: Drawable
