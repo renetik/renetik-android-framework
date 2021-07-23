@@ -9,13 +9,13 @@ import androidx.annotation.LayoutRes
 import renetik.android.content.input
 import renetik.android.controller.extensions.view
 import renetik.android.extensions.inflate
-import renetik.android.framework.CSContextController
+import renetik.android.framework.CSContext
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.inflate
 
-open class CSView<ViewType : View> : CSContextController {
+open class CSView<ViewType : View> : CSContext {
 
     private var parentGroup: ViewGroup? = null
     private var layoutRes: CSLayoutRes? = null

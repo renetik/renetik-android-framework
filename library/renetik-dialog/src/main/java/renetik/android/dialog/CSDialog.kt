@@ -16,14 +16,14 @@ import renetik.android.extensions.applicationIcon
 import renetik.android.extensions.applicationLogo
 import renetik.android.content.attributeColor
 import renetik.android.extensions.inflate
-import renetik.android.framework.CSContextController
+import renetik.android.framework.CSContext
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.notNull
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.*
 
 
-class CSDialog : CSContextController {
+class CSDialog : CSContext {
 
     companion object {
         private var initDefaultsFunction: (CSDialog.() -> Unit)? = null

@@ -5,13 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
-import renetik.android.framework.CSContextController
+import renetik.android.framework.CSContext
 import renetik.android.extensions.asString
 import renetik.android.extensions.isNetworkConnected
 import renetik.android.framework.event.event
 import renetik.android.logging.CSLog.logInfo
 
-class CSReachability : CSContextController() {
+class CSReachability : CSContext() {
 
     val eventOnConnected = event<CSReachability>()
     val eventOnDisConnected = event<CSReachability>()

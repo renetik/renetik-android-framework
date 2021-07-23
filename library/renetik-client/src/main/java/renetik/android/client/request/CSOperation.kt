@@ -1,11 +1,11 @@
 package renetik.android.client.request
 
-import renetik.android.framework.CSContextController
+import renetik.android.framework.CSContext
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.java.extensions.notNull
 
-open class CSOperation<Data : Any>() : CSContextController() {
+open class CSOperation<Data : Any>() : CSContext() {
 
     var executeProcess: (CSOperation<Data>.() -> CSProcess<Data>)? = null
 

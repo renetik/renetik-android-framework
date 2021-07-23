@@ -7,14 +7,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.R
 import renetik.android.content.attributeColor
-import renetik.android.framework.CSContextController
+import renetik.android.framework.CSContext
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.primitives.isSet
 
 const val GeneratedMenuItems = 7687678
 
 class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) :
-    CSContextController(activity) {
+    CSContext(activity) {
 
     val showMenu = property(true)
 

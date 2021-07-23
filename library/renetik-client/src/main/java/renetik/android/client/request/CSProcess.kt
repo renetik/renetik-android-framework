@@ -1,6 +1,6 @@
 package renetik.android.client.request
 
-import renetik.android.framework.CSContextController
+import renetik.android.framework.CSContext
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.java.extensions.exception
@@ -10,7 +10,7 @@ import renetik.android.logging.CSLog.logError
 import renetik.android.logging.CSLog.logInfo
 import renetik.android.util.CSSynchronizedProperty.Companion.synchronize
 
-open class CSProcess<Data : Any>(var data: Data? = null) : CSContextController() {
+open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
 
     private val eventSuccess = event<CSProcess<Data>>()
     fun onSuccess(function: (CSProcess<Data>) -> Unit) = apply { eventSuccess.listen(function) }

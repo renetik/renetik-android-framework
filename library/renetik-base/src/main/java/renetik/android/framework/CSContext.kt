@@ -19,7 +19,7 @@ private val LOW_DPI_STATUS_BAR_HEIGHT = 19
 private val MEDIUM_DPI_STATUS_BAR_HEIGHT = 25
 private val HIGH_DPI_STATUS_BAR_HEIGHT = 38
 
-abstract class CSContextController : ContextWrapper {
+abstract class CSContext : ContextWrapper {
 
     constructor() : super(application)
 
@@ -82,13 +82,13 @@ abstract class CSContextController : ContextWrapper {
     protected open fun onDestroy() = Unit
 }
 
-fun CSContextController.register(intent: IntentFilter,
-                                 receiver: (Intent, BroadcastReceiver) -> void) =
+fun CSContext.register(intent: IntentFilter,
+                       receiver: (Intent, BroadcastReceiver) -> void) =
     registerReceiver(object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) = receiver(intent, this)
     }, intent)
 
-fun CSContextController.unregister(receiver: BroadcastReceiver) {
+fun CSContext.unregister(receiver: BroadcastReceiver) {
     unregisterReceiver(receiver)
 }
 

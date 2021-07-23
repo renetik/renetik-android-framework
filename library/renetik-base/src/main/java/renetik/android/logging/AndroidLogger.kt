@@ -4,7 +4,7 @@ import android.util.Log
 import android.util.Log.getStackTraceString
 import android.widget.Toast
 import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.framework.CSContextController
+import renetik.android.framework.CSContext
 import renetik.android.framework.lang.CSDataConstants.MB
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
@@ -14,7 +14,7 @@ import java.lang.StringBuilder
 import java.text.DateFormat
 import java.util.*
 
-class AndroidLogger() : CSContextController(), CSLogger {
+class AndroidLogger() : CSContext(), CSLogger {
 
     override val eventOnLog = event<CSLogEvent>()
 

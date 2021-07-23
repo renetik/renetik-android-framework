@@ -3,14 +3,14 @@ package renetik.android.framework.store
 import android.content.Context
 import renetik.android.extensions.load
 import renetik.android.extensions.reload
-import renetik.android.framework.CSContextController
+import renetik.android.framework.CSContext
 import renetik.android.framework.common.catchAllWarnReturnNull
 import renetik.android.primitives.asDouble
 import renetik.android.primitives.asFloat
 import renetik.android.primitives.asInt
 import renetik.android.primitives.asLong
 
-class CSStore(id: String) : CSContextController(), CSStoreInterface {
+class CSStore(id: String) : CSContext(), CSStoreInterface {
 
     private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
 
