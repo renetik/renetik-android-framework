@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
 import androidx.annotation.IdRes
+import androidx.appcompat.widget.ContentFrameLayout
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -151,6 +152,29 @@ fun <T> View.visibilityPropertyEquals(parent: CSVisibleEventOwner,
     fun updateVisibility() = shownIf(property.value == value)
     parent.whileShowing(property.onChange { updateVisibility() })
     updateVisibility()
+}
+
+
+// This had be done because isShown return false in on Resume
+// for main activity view when created
+// because it has not yet attached its DecorView.class to window
+// DecorView is internal class so we cant identify it by class just className DecorView
+// Other solution is to identify ContentFrameLayout instead as top view
+// Previous simple "solution": view.parent?.parent?.parent?.parent != null
+fun View.isShowing(): Boolean {
+    if (!isVisible) return false
+    var view: View = this
+    while (true) {
+        val parent = view.parent
+        when {
+            parent == null -> return false
+            parent !is View -> return true
+            parent is ContentFrameLayout -> return true
+//            parent.className == "DecorView" -> return true
+            !parent.isVisible -> return false
+            else -> view = parent
+        }
+    }
 }
 
 

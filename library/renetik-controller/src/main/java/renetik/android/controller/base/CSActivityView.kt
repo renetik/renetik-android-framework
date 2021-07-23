@@ -24,7 +24,7 @@ import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
 abstract class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner, CSVisibleEventOwner {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner {
 
     override val onCreate = event<Bundle?>()
     override val onSaveInstanceState = event<Bundle>()
@@ -45,11 +45,8 @@ abstract class CSActivityView<ViewType : View>
     override val onKeyDown = event<CSOnKeyDownResult>()
     override val onNewIntent = event<Intent>()
     override val onRequestPermissionsResult = event<CSRequestPermissionResult>()
-    override val onViewVisibilityChanged = event<Boolean>()
     override fun activity() = activity!!
 
-    private val isVisibleEventRegistrations = CSEventRegistrations()
-    private val whileShowingEventRegistrations = CSEventRegistrations()
     private val eventRegistrations = CSEventRegistrations()
 
     var isStarted = false
@@ -66,8 +63,6 @@ abstract class CSActivityView<ViewType : View>
     private var viewId: Int? = null
     val menuItems = list<CSMenuItem>()
     private var showingInPager: Boolean? = null
-    private var isShowing = false
-    private var onViewShowingCalled = false
     private val keyValueMap = mutableMapOf<String, Any>()
 
 
@@ -132,8 +127,8 @@ abstract class CSActivityView<ViewType : View>
         if (!isResumeFirstTime) onResumeFirstTime()
         else onResumeRestore()
         isResumeFirstTime = true
-        onResume.fire()
         updateVisibilityChanged()
+        onResume.fire()
     }
 
     protected open fun onResumeFirstTime() {}
@@ -141,7 +136,7 @@ abstract class CSActivityView<ViewType : View>
     protected open fun onResumeRestore() {}
 
     open fun onPause() {
-        if (!isResumed)
+        if (!isResumed && isShowing)
             logWarn(Throwable(), "Not Resumed while paused, should be resumed first", this)
         isResumed = false
         isPaused = true
@@ -172,8 +167,6 @@ abstract class CSActivityView<ViewType : View>
         parentController = null
         activity = null
         isDestroyed = true
-        whileShowingEventRegistrations.cancel()
-        isVisibleEventRegistrations.cancel()
         eventRegistrations.cancel()
         onDestroy.fire(this)
         System.gc()
@@ -275,14 +268,13 @@ abstract class CSActivityView<ViewType : View>
     }
 
     override fun onAddedToParent() {
-        super.onAddedToParent()
         lifecycleUpdate()
-        updateVisibilityChanged()
+        super.onAddedToParent()
     }
 
     override fun onRemovedFromParent() {
-        super.onAddedToParent()
         if (isResumed && !isPaused) onPause()
+        super.onAddedToParent()
     }
 
     fun showingInPager(isShowing: Boolean) {
@@ -291,68 +283,23 @@ abstract class CSActivityView<ViewType : View>
         updateVisibilityChanged()
     }
 
-    private fun updateVisibilityChanged() {
-        if (checkIfIsShowing()) {
-            if (!isShowing) onViewVisibilityChanged(true)
-        } else if (isShowing) onViewVisibilityChanged(false)
-    }
-
-    private fun checkIfIsShowing(): Boolean {
+    override fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (showingInPager == false) return false
         if (parentController?.isShowing == false) return false
-        if (view.parent?.parent?.parent?.parent != null) return true
-        return false
+        return super.checkIfIsShowing()
     }
 
-    private fun onViewVisibilityChanged(showing: Boolean) {
-        isShowing = showing
-        onViewVisibilityChanged.fire(isShowing)
-        if (isShowing) {
-            isVisibleEventRegistrations.setActive(true)
-            invalidateOptionsMenu()
-            onViewShowing()
-        } else {
-            isVisibleEventRegistrations.setActive(false)
-            invalidateOptionsMenu()
-            onViewHiding()
-            whileShowingEventRegistrations.cancel()
-        }
+    override fun onViewVisibilityChanged() {
+        super.onViewVisibilityChanged()
+        invalidateOptionsMenu()
     }
-
-    protected open fun onViewShowing() {
-        if (!onViewShowingCalled) {
-            onViewShowingFirstTime()
-            onViewShowingCalled = true
-        } else onViewShowingAgain()
-    }
-
-    protected open fun onViewShowingFirstTime() {}
-
-    protected open fun onViewShowingAgain() {}
-
-    protected open fun onViewHiding() {
-        if (!onViewShowingCalled) {
-            onViewHidingFirstTime()
-            onViewShowingCalled = true
-        } else onViewHidingAgain()
-    }
-
-    protected open fun onViewHidingFirstTime() {}
-
-    protected open fun onViewHidingAgain() {}
-
-    fun ifVisible(registration: CSEventRegistration?) =
-        registration?.let { isVisibleEventRegistrations.add(it) }
 
     override fun register(registration: CSEventRegistration) =
         registration.let { eventRegistrations.add(it) }
 
     fun cancel(registration: CSEventRegistration) =
         eventRegistrations.cancel(registration)
-
-    override fun whileShowing(registration: CSEventRegistration) =
-        registration.let { whileShowingEventRegistrations.add(it) }
 
     protected open fun onConfigurationChanged(newConfig: Configuration) =
         onConfigurationChanged.fire(newConfig)

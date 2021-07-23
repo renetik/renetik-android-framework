@@ -10,12 +10,17 @@ import renetik.android.content.input
 import renetik.android.controller.extensions.view
 import renetik.android.extensions.inflate
 import renetik.android.framework.CSContext
+import renetik.android.framework.event.CSEvent
+import renetik.android.framework.event.CSEventRegistrations
+import renetik.android.framework.event.CSVisibleEventOwner
+import renetik.android.framework.event.event
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
 import renetik.android.view.extensions.inflate
+import renetik.android.view.extensions.isShowing
 
-open class CSView<ViewType : View> : CSContext {
+open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner {
 
     private var parentGroup: ViewGroup? = null
     private var layoutRes: CSLayoutRes? = null
@@ -91,13 +96,77 @@ open class CSView<ViewType : View> : CSContext {
 
     override fun onDestroy() {
         super.onDestroy()
+        whileShowingEventRegistrations.cancel()
+        isVisibleEventRegistrations.cancel()
         view.tag = null
     }
 
     open fun onAddedToParent() {
+        updateVisibilityChanged()
     }
 
     open fun onRemovedFromParent() {
-
+        updateVisibilityChanged()
     }
+
+    // Visibility
+    protected var isShowing = false
+    private var onViewShowingCalled = false
+    val onViewVisibilityChanged = event<Boolean>()
+    private val isVisibleEventRegistrations = CSEventRegistrations()
+    private val whileShowingEventRegistrations = CSEventRegistrations()
+
+    protected fun updateVisibilityChanged() {
+        if (checkIfIsShowing()) {
+            if (!isShowing) onViewVisibilityChanged(true)
+        } else if (isShowing) onViewVisibilityChanged(false)
+    }
+
+    protected open fun checkIfIsShowing() = view.isShowing()
+
+    private fun onViewVisibilityChanged(showing: Boolean) {
+        if (isShowing == showing) return
+        isShowing = showing
+        onViewVisibilityChanged()
+        if (isShowing) {
+            isVisibleEventRegistrations.setActive(true)
+            onViewShowing()
+        } else {
+            isVisibleEventRegistrations.setActive(false)
+            onViewHiding()
+            whileShowingEventRegistrations.cancel()
+        }
+    }
+
+    protected open fun onViewVisibilityChanged() {
+        onViewVisibilityChanged.fire(isShowing)
+    }
+
+    protected open fun onViewShowing() {
+        if (!onViewShowingCalled) {
+            onViewShowingFirstTime()
+            onViewShowingCalled = true
+        } else onViewShowingAgain()
+    }
+
+    protected open fun onViewShowingFirstTime() {}
+
+    protected open fun onViewShowingAgain() {}
+
+    protected open fun onViewHiding() {
+        if (!onViewShowingCalled) {
+            onViewHidingFirstTime()
+            onViewShowingCalled = true
+        } else onViewHidingAgain()
+    }
+
+    protected open fun onViewHidingFirstTime() {}
+
+    protected open fun onViewHidingAgain() {}
+
+    fun ifVisible(registration: CSEvent.CSEventRegistration?) =
+        registration?.let { isVisibleEventRegistrations.add(it) }
+
+    override fun whileShowing(registration: CSEvent.CSEventRegistration) =
+        registration.let { whileShowingEventRegistrations.add(it) }
 }
