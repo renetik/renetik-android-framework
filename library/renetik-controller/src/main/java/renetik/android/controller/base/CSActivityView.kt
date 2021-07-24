@@ -121,7 +121,7 @@ abstract class CSActivityView<ViewType : View>
 
     protected open fun onResume() {
         if (isResumed)
-            logWarn("already resumed", this)
+            logWarn("already resumed", this) //TODO: this is called!!!
         isResumed = true
         isPaused = false
         if (!isResumeFirstTime) onResumeFirstTime()
