@@ -1,54 +1,59 @@
 <resources>
-
+    <!-- 34sp-->
     <style name="CSTextHeadline4" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <!-- 24sp-->
     <style name="CSTextHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <!-- 20sp-->
     <style name="CSTextHeadline" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <!-- 16sp-->
     <style name="CSTextSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="CSTextSubtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textAllCaps">false</item>
-    </style>
-
+    <!-- 16sp-->
     <style name="CSTextBody1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="CSTextBody1.Bold" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="CSTextBody1.Bold" parent="CSTextBody1">
         <item name="android:textStyle">bold</item>
-        <item name="android:textAllCaps">false</item>
     </style>
 
+    <!-- 14sp-->
     <style name="CSTextBody2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <!-- 14sp-->
+    <style name="CSTextSubtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- 14sp-->
     <style name="CSTextButton" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <!--12sp-->
+    <!-- 12sp-->
     <style name="CSTextCaption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <!--10sp-->
-    <style name="CSTextOverline.Bold" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
+    <!-- 10sp-->
     <style name="CSTextOverline" parent="TextAppearance.MaterialComponents.Overline">
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CSTextOverline.Bold" parent="CSTextOverline">
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

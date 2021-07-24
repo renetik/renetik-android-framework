@@ -66,7 +66,7 @@ open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner {
         }
 
     fun setView(view: ViewType) {
-        if (_view.notNull) throw Exception("setView should be called before view was initialized")
+//        if (_view.notNull) throw Exception("setView should be called before view was initialized")
         _view = view
         _view!!.tag = this@CSView
         onViewReady()
