@@ -7,7 +7,7 @@ import renetik.android.json.data.CSJsonMap
 import renetik.android.json.data.properties.CSJsonDataList
 import renetik.android.json.data.properties.CSJsonFile
 import renetik.android.json.data.properties.CSJsonString
-import renetik.android.json.extensions.save
+import renetik.android.json.store.save
 import renetik.android.maps.json.CSJsonLocation
 import java.io.File
 import java.text.DateFormat

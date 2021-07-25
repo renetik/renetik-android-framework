@@ -1,40 +1,51 @@
 package renetik.android.framework.store
 
 import renetik.android.framework.event.property.CSPropertyStoreInterface
+import renetik.android.primitives.asDouble
+import renetik.android.primitives.asFloat
+import renetik.android.primitives.asInt
+import renetik.android.primitives.asLong
 
 interface CSStoreInterface : CSPropertyStoreInterface {
 
-    fun save(key: String, value: Int?)
-
-    fun save(key: String, value: Boolean?)
-
-    fun save(key: String, value: Float?)
-
-    fun save(key: String, value: Double?)
-
-    fun save(key: String, value: Long?)
-
     fun save(key: String, value: String?)
+
+    fun save(key: String, value: Int?) = save(key, value?.toString())
+
+    fun save(key: String, value: Boolean?) = save(key, value?.toString())
+
+    fun save(key: String, value: Float?) = save(key, value?.toString())
+
+    fun save(key: String, value: Double?) = save(key, value?.toString())
+
+    fun save(key: String, value: Long?) = save(key, value?.toString())
 
     fun has(key: String): Boolean
 
-    fun getBoolean(key: String, defaultValue: Boolean = false): Boolean
-
-    fun getDouble(key: String, defaultValue: Double = 0.0): Double
-
-    fun getDouble(key: String, defaultValue: Double? = null): Double?
-
-    fun getLong(key: String, defaultValue: Long = 0L): Long
-
-    fun getFloat(key: String, defaultValue: Float = 0F): Float
-
-    fun getFloat(key: String, defaultValue: Float? = null): Float?
-
-    fun getInt(key: String, defaultValue: Int = 0): Int
-
-    fun getString(key: String, defaultValue: String): String
-
     fun getString(key: String): String?
+
+    fun getBoolean(key: String, defaultValue: Boolean) =
+        getString(key)?.toBoolean() ?: defaultValue
+
+    fun getDouble(key: String, defaultValue: Double) =
+        getString(key)?.asDouble(defaultValue) ?: defaultValue
+
+    fun getDouble(key: String, defaultValue: Double?) =
+        getString(key)?.asDouble() ?: defaultValue
+
+    fun getLong(key: String, defaultValue: Long) =
+        getString(key)?.asLong(defaultValue) ?: defaultValue
+
+    fun getFloat(key: String, defaultValue: Float) =
+        getString(key)?.asFloat(defaultValue) ?: defaultValue
+
+    fun getFloat(key: String, defaultValue: Float?) =
+        getString(key)?.asFloat() ?: defaultValue
+
+    fun getInt(key: String, defaultValue: Int = 0) =
+        getString(key)?.asInt(defaultValue) ?: defaultValue
+
+    fun getString(key: String, defaultValue: String) = getString(key) ?: defaultValue
 
     override fun property(key: String, default: Boolean, onChange: ((value: Boolean) -> Unit)?) =
         CSStoreBooleanEventProperty(this, key, default, onChange)

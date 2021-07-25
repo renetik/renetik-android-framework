@@ -1,8 +1,10 @@
-package renetik.android.json.extensions
+package renetik.android.json.store
 
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.java.extensions.collections.list
 import renetik.android.json.data.CSJsonMap
+import renetik.android.json.extensions.createJsonDataList
+import renetik.android.json.extensions.createJsonMap
 import renetik.android.json.parseJson
 import renetik.android.json.toJsonString
 import renetik.android.primitives.isEmpty
@@ -17,6 +19,15 @@ fun <T : CSJsonMap> CSStoreInterface.load(data: T, key: String): T? {
     return data
 }
 
+@Suppress("UNCHECKED_CAST")
+fun <T : CSJsonMap> CSStoreInterface.load(
+    type: KClass<T>, key: String, default: T?
+): T? {
+    val data = loadJson<Any>(key) as? Map<String, Any?> ?: return default
+    return type.createJsonMap(data)
+}
+
+@Suppress("UNCHECKED_CAST")
 fun <T : CSJsonMap> CSStoreInterface.load(
     type: KClass<T>, key: String
 ): T = type.createJsonMap(loadJson(key))
@@ -40,5 +51,10 @@ private fun <Type> CSStoreInterface.loadJson(key: String): Type? {
 }
 
 fun <T : CSJsonMap> CSStoreInterface.property(
-    key: String, listType: KClass<T>, default: List<T> = emptyList()
-) = CSListStoreEventProperty(this, key, listType, default)
+    key: String, listType: KClass<T>, default: List<T>, onApply: ((value: List<T>) -> Unit)? = null
+) = CSListStoreEventProperty(this, key, listType, default, onApply)
+
+fun <T : CSJsonMap> CSStoreInterface.property(
+    key: String, type: KClass<T>, default: T? = null, onApply: ((value: T?) -> Unit)? = null
+) = CSItemStoreEventProperty(this, key, type, default, onApply)
+

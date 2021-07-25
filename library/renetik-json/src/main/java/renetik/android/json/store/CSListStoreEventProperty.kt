@@ -1,4 +1,4 @@
-package renetik.android.json.extensions
+package renetik.android.json.store
 
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.event.property.CSEventProperty
