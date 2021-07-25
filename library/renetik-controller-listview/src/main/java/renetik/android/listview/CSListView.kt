@@ -5,6 +5,7 @@ import android.util.SparseBooleanArray
 import android.view.View
 import android.widget.AbsListView
 import android.widget.BaseAdapter
+import android.widget.GridView
 import android.widget.ListView
 import android.widget.ListView.CHOICE_MODE_SINGLE
 import renetik.android.controller.base.CSActivityView
@@ -17,8 +18,22 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.reload
 import renetik.android.view.extensions.*
 
-//TODO: REFACTOR TO SIMPLE WRAPPER PLEASE !!!
+//TODO: REFACTOR TO SIMPLE WRAPPER PLEASE !!! :)
 open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<ViewType> {
+
+    constructor(
+        parent: CSActivityView<*>, view: ViewType,
+        createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
+    ) : super(parent, view) {
+        this.createView = createView
+    }
+
+    constructor(
+        parent: CSActivityView<*>, listViewId: Int,
+        createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
+    ) : super(parent, listViewId) {
+        this.createView = createView
+    }
 
     internal val onLoad = event<List<RowType>>()
     internal var viewTypesCount = 1
@@ -50,20 +65,6 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
                             ?.let { checkedRow -> checkedRows.add(checkedRow) }
             return checkedRows
         }
-
-    constructor(
-        parent: CSActivityView<*>, view: ViewType,
-        createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
-    ) : super(parent, view) {
-        this.createView = createView
-    }
-
-    constructor(
-        parent: CSActivityView<*>, listViewId: Int,
-        createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
-    ) : super(parent, listViewId) {
-        this.createView = createView
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -216,4 +217,18 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
             view.scrollToTop()
         }
     }
+}
+
+class CSGridView<RowType : Any> : CSListView<RowType, GridView> {
+    constructor(
+        parent: CSActivityView<*>, view: GridView,
+        createView: (CSGridView<RowType>).(Int) -> CSRowView<RowType>
+    ) : super(parent, view, createView as CSListView<RowType, GridView>.(Int) -> CSRowView<RowType>)
+
+    constructor(
+        parent: CSActivityView<*>, listViewId: Int,
+        createView: (CSGridView<RowType>).(Int) -> CSRowView<RowType>
+    ) : super(parent,
+        listViewId,
+        createView as CSListView<RowType, GridView>.(Int) -> CSRowView<RowType>)
 }
