@@ -1,18 +1,15 @@
 package renetik.android.framework.store
 
 import android.content.Context
-import renetik.android.extensions.load
-import renetik.android.extensions.reload
+import android.content.SharedPreferences
 import renetik.android.framework.CSContext
 import renetik.android.framework.common.catchAllWarnReturnNull
-import renetik.android.primitives.asDouble
-import renetik.android.primitives.asFloat
-import renetik.android.primitives.asInt
-import renetik.android.primitives.asLong
 
 class CSStore(id: String) : CSContext(), CSStoreInterface {
 
     private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
+
+    override val data: Map<String, Any?> get() = preferences.all
 
     fun clear() = preferences.edit().clear().apply()
 
@@ -33,9 +30,32 @@ class CSStore(id: String) : CSContext(), CSStoreInterface {
 
     override fun has(key: String) = preferences.contains(key)
 
-    fun load(store: CSStore) = apply { preferences.load(store.preferences) }
+    override fun load(store: CSStoreInterface): Unit = with(preferences.edit()) {
+        loadAll(store)
+        apply()
+    }
 
-    fun reload(store: CSStore) = apply { preferences.reload(store.preferences) }
+    override fun reload(store: CSStoreInterface) = with(preferences.edit()) {
+        clear()
+        loadAll(store)
+        apply()
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+private fun SharedPreferences.Editor.loadAll(store: CSStoreInterface) {
+    for (entry in store.data) {
+        val value = entry.value ?: continue
+        when (value) {
+            is String -> putString(entry.key, value)
+            is Set<*> -> putStringSet(entry.key, value as Set<String>)
+            is Int -> putInt(entry.key, value)
+            is Long -> putLong(entry.key, value)
+            is Float -> putFloat(entry.key, value)
+            is Boolean -> putBoolean(entry.key, value)
+            else -> error("Unknown value type: $value")
+        }
+    }
 }
 
 

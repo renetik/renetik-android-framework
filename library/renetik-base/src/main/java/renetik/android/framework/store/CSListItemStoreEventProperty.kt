@@ -8,7 +8,7 @@ class CSListItemStoreEventProperty<T>(
 ) : CSEventProperty<T>(store.getValue(key, values, default), onChange) {
     override fun value(newValue: T, fire: Boolean) {
         super.value(newValue, fire)
-        store.save(key, newValue.hashCode())
+        store.save(key, newValue.toString())
     }
 
     fun store(store: CSStoreInterface) = apply {
@@ -20,8 +20,8 @@ class CSListItemStoreEventProperty<T>(
 }
 
 private fun <T> CSStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {
-    val savedValueHashCode = getInt(key)
-    val value = values.find { it.hashCode() == savedValueHashCode }
+    val savedString = getString(key)
+    val value = values.find { it.toString() == savedString }
     return value ?: default
 }
 

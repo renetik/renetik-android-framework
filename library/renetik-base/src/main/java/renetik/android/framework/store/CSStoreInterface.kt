@@ -8,21 +8,18 @@ import renetik.android.primitives.asLong
 
 interface CSStoreInterface : CSPropertyStoreInterface {
 
+    val data: Map<String, Any?>
+    fun getString(key: String): String?
+    fun has(key: String): Boolean
     fun save(key: String, value: String?)
+    fun load(store: CSStoreInterface)
+    fun reload(store: CSStoreInterface)
 
     fun save(key: String, value: Int?) = save(key, value?.toString())
-
     fun save(key: String, value: Boolean?) = save(key, value?.toString())
-
     fun save(key: String, value: Float?) = save(key, value?.toString())
-
     fun save(key: String, value: Double?) = save(key, value?.toString())
-
     fun save(key: String, value: Long?) = save(key, value?.toString())
-
-    fun has(key: String): Boolean
-
-    fun getString(key: String): String?
 
     fun getBoolean(key: String, defaultValue: Boolean) =
         getString(key)?.toBoolean() ?: defaultValue

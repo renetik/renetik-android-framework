@@ -4,15 +4,18 @@ import renetik.android.framework.store.CSListItemStoreEventProperty
 
 interface CSPropertyStoreInterface {
     fun property(
-        key: String, default: String, onChange: ((value: String) -> Unit)? = null
+        key: String, default: String,
+        onChange: ((value: String) -> Unit)? = null
     ): CSEventProperty<String>
 
     fun property(
-        key: String, default: Boolean, onChange: ((value: Boolean) -> Unit)? = null
+        key: String, default: Boolean,
+        onChange: ((value: Boolean) -> Unit)? = null
     ): CSEventProperty<Boolean>
 
     fun property(
-        key: String, default: Int, onChange: ((value: Int) -> Unit)? = null
+        key: String, default: Int,
+        onChange: ((value: Int) -> Unit)? = null
     ): CSEventProperty<Int>
 
     fun property(
@@ -26,15 +29,18 @@ interface CSPropertyStoreInterface {
     ): CSEventProperty<Float>
 
     fun <T> property(
-        key: String, values: List<T>, default: T, onChange: ((value: T) -> Unit)? = null
+        key: String, values: List<T>, default: T,
+        onChange: ((value: T) -> Unit)? = null
     ): CSListItemStoreEventProperty<T>
 
     fun <T> property(
-        key: String, values: Array<T>, default: T, onChange: ((value: T) -> Unit)? = null
+        key: String, values: Array<T>, default: T,
+        onChange: ((value: T) -> Unit)? = null
     ) = property(key, values.asList(), default, onChange)
 
     fun <T : Enum<T>> property(
-        key: String, values: Array<T>, default: T, onChange: (value: T) -> Unit
+        key: String, values: Array<T>, default: T,
+        onChange: ((value: T) -> Unit)? = null
     ) = property(key, values, default.ordinal, onChange)
 
     fun <T> property(
