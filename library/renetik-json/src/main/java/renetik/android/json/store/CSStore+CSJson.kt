@@ -7,14 +7,12 @@ import renetik.android.json.extensions.createJsonDataList
 import renetik.android.json.extensions.createJsonMap
 import renetik.android.json.parseJson
 import renetik.android.json.toJsonString
-import renetik.android.primitives.isEmpty
 import kotlin.reflect.KClass
 
-fun CSStoreInterface.save(key: String, value: Any?) =
-    save(key, value?.toJsonString())
+fun CSStoreInterface.save(key: String, value: Any?) = save(key, value?.toJsonString())
 
 fun <T : CSJsonMap> CSStoreInterface.load(data: T, key: String): T? {
-    val loadString = getString(key) ?: return null
+    val loadString = get(key) ?: return null
     loadString.parseJson<MutableMap<String, Any?>>()?.let { data.load(it) }
     return data
 }
@@ -29,26 +27,18 @@ fun <T : CSJsonMap> CSStoreInterface.load(
 
 @Suppress("UNCHECKED_CAST")
 fun <T : CSJsonMap> CSStoreInterface.load(
-    type: KClass<T>, key: String
-): T = type.createJsonMap(loadJson(key))
+    type: KClass<T>, key: String) = type.createJsonMap(loadJson(key))
 
 fun <T : CSJsonMap> CSStoreInterface.loadList(
-    type: KClass<T>, key: String
-): MutableList<T> =
-    type.createJsonDataList(loadJson(key))
+    type: KClass<T>, key: String) = type.createJsonDataList(loadJson(key))
 
 fun <T : CSJsonMap> CSStoreInterface.loadList(
-    type: KClass<T>, key: String, default: List<T>
-): MutableList<T> =
+    type: KClass<T>, key: String, default: List<T>) =
     type.createJsonDataList(loadJson(key), default)
 
-fun <T : Any> CSStoreInterface.loadList(key: String): MutableList<T> =
-    loadJson<List<T>>(key) as? MutableList<T> ?: list()
+fun <T : Any> CSStoreInterface.loadList(key: String) = loadJson<MutableList<T>>(key) ?: list()
 
-private fun <Type> CSStoreInterface.loadJson(key: String): Type? {
-    val loadString = getString(key)
-    return if (loadString.isEmpty) null else loadString!!.parseJson<Type>()
-}
+private fun <Type> CSStoreInterface.loadJson(key: String) = get(key)?.parseJson<Type>()
 
 fun <T : CSJsonMap> CSStoreInterface.property(
     key: String, listType: KClass<T>, default: List<T>, onApply: ((value: List<T>) -> Unit)? = null

@@ -20,9 +20,8 @@ class CSListItemStoreEventProperty<T>(
 }
 
 private fun <T> CSStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {
-    val savedString = getString(key)
-    val value = values.find { it.toString() == savedString }
-    return value ?: default
+    val savedString = get(key) ?: return default
+    return values.find { it.toString() == savedString } ?: default
 }
 
 val <T : Enum<*>> CSListItemStoreEventProperty<T>.isLast get() = values.lastIndex == value.ordinal

@@ -38,15 +38,10 @@ interface CSPropertyStoreInterface {
         onChange: ((value: T) -> Unit)? = null
     ) = property(key, values.asList(), default, onChange)
 
-    fun <T : Enum<T>> property(
-        key: String, values: Array<T>, default: T,
-        onChange: ((value: T) -> Unit)? = null
-    ) = property(key, values, default.ordinal, onChange)
-
     fun <T> property(
-        key: String, values: List<T>, defaultIndex: Int = 0,
+        key: String, values: List<T>,
         onChange: ((value: T) -> Unit)? = null
-    ) = property(key, values, values[defaultIndex], onChange)
+    ) = property(key, values, values[0], onChange)
 
     fun <T> property(
         key: String, values: Array<T>, defaultIndex: Int = 0,

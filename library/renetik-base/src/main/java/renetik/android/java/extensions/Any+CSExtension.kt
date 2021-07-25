@@ -12,6 +12,9 @@ fun <T : Any> T.later(function: (T).() -> Unit) {
     post { function(this) }
 }
 
+fun <T : Any> T.runIf(condition: Boolean, function: (T) -> T) =
+    if (condition) function(this) else this
+
 // by observing(...
 fun <T> observing(value: T, willSet: (T) -> Unit = { }, didSet: (T) -> Unit = { }) =
     object : ObservableProperty<T>(value) {

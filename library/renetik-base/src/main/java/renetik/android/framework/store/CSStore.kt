@@ -11,7 +11,7 @@ class CSStore(id: String) : CSContext(), CSStoreInterface {
 
     override val data: Map<String, Any?> get() = preferences.all
 
-    fun clear() = preferences.edit().clear().apply()
+    override fun clear() = preferences.edit().clear().apply()
 
     fun clear(key: String) {
         val editor = preferences.edit()
@@ -25,7 +25,7 @@ class CSStore(id: String) : CSContext(), CSStoreInterface {
         editor.apply()
     } ?: clear(key)
 
-    override fun getString(key: String): String? =
+    override fun get(key: String): String? =
         catchAllWarnReturnNull { preferences.getString(key, null) }
 
     override fun has(key: String) = preferences.contains(key)

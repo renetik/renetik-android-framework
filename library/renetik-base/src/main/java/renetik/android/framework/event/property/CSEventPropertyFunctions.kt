@@ -10,13 +10,16 @@ object CSEventPropertyFunctions {
     fun <T> property(onApply: ((value: T?) -> Unit)? = null) =
         CSEventProperty<T?>(null, onApply)
 
-    fun property(key: String, default: String, onApply: ((value: String) -> Unit)? = null) =
+    fun property(key: String, default: String,
+                 onApply: ((value: String) -> Unit)? = null) =
         application.store.property(key, default, onApply)
 
-    fun property(key: String, default: Float, onApply: ((value: Float) -> Unit)? = null) =
+    fun property(key: String, default: Float,
+                 onApply: ((value: Float) -> Unit)? = null) =
         application.store.property(key, default, onApply)
 
-    fun property(key: String, default: Int, onApply: ((value: Int) -> Unit)? = null) =
+    fun property(key: String, default: Int,
+                 onApply: ((value: Int) -> Unit)? = null) =
         application.store.property(key, default, onApply)
 
     fun property(
@@ -35,9 +38,9 @@ object CSEventPropertyFunctions {
     ) = application.store.property(key, values, default, onApply)
 
     fun <T> property(
-        key: String, values: List<T>, defaultIndex: Int = 0,
+        key: String, values: List<T>,
         onApply: ((value: T) -> Unit)? = null
-    ) = application.store.property(key, values, defaultIndex, onApply)
+    ) = application.store.property(key, values, onApply)
 
     fun <T> property(
         key: String, values: Array<T>, defaultIndex: Int = 0,
