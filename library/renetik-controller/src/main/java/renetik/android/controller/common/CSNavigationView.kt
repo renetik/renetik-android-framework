@@ -70,7 +70,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
             lastController.view.startAnimation(loadAnimation(this, R.anim.abc_slide_out_top))
             lastController.showingInPager(false)
             view.remove(lastController)
-            lastController.lifecycleStop()
             currentController?.showingInPager(true)
             updateBar()
             hideKeyboard()
@@ -83,7 +82,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
             lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
             lastController.showingInPager(false)
             view.remove(lastController)
-            lastController.lifecycleStop()
             onViewControllerPop(lastController)
         }
 
@@ -107,7 +105,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
             for (lastController in controllers.reversed()) {
                 controllers.delete(lastController)
                 view.remove(lastController)
-                lastController.lifecycleStop()
                 onViewControllerPop(lastController)
                 if (lastController.getValue(PushID) == pushId) break
             }
@@ -136,7 +133,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controllers.delete(oldController).let { lastController ->
             lastController.showingInPager(false)
             view.remove(lastController)
-            lastController.lifecycleStop()
             onViewControllerPop(lastController)
         }
         controllers.put(newController, indexOfController)

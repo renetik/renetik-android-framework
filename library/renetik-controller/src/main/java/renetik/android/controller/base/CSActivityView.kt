@@ -17,9 +17,11 @@ import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
+import renetik.android.java.extensions.className
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.put
 import renetik.android.java.extensions.exception
+import renetik.android.java.extensions.unexpected
 import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.findViewRecursive
 
@@ -64,7 +66,7 @@ abstract class CSActivityView<ViewType : View>
     val menuItems = list<CSMenuItem>()
     private var showingInPager: Boolean? = null
     private val keyValueMap = mutableMapOf<String, Any>()
-
+    var lifecycleStopOnRemoveFromParent = true
 
     constructor(activity: CSActivity, layout: CSLayoutRes) : super(activity, layout) {
         this.activity = activity
@@ -162,7 +164,7 @@ abstract class CSActivityView<ViewType : View>
         onBeforeDestroy()
         super.onDestroy()
         if (isStarted) logWarn(Throwable(), "Started while destroyed, should be stopped first")
-        if (isDestroyed) throw exception("Already destroyed")
+        if (isDestroyed) throw exception("$className $this Already destroyed")
         parentRegistrations.cancel()
         parentController = null
         activity = null
@@ -208,9 +210,7 @@ abstract class CSActivityView<ViewType : View>
             parent.onConfigurationChanged.listen { argument -> onConfigurationChanged(argument) },
             parent.onOrientationChanged.listen { argument -> onOrientationChanged(argument) },
             parent.onRequestPermissionsResult.listen { argument ->
-                onRequestPermissionsResult(
-                    argument
-                )
+                onRequestPermissionsResult(argument)
             },
             parent.onSaveInstanceState.listen { argument -> onSaveInstanceState(argument) },
             parent.onViewVisibilityChanged.listen { updateVisibilityChanged() }
@@ -264,7 +264,7 @@ abstract class CSActivityView<ViewType : View>
             @Suppress("UNCHECKED_CAST")
             viewId?.let { id -> parent.view.findViewRecursive<ViewType>(id) }
                 ?: parentController!!.view as ViewType
-        } ?: throw exception("This should not happen man ;)")
+        } ?: throw unexpected
     }
 
     override fun onAddedToParent() {
@@ -273,8 +273,9 @@ abstract class CSActivityView<ViewType : View>
     }
 
     override fun onRemovedFromParent() {
-        if (isResumed && !isPaused) onPause()
-        super.onAddedToParent()
+        if (lifecycleStopOnRemoveFromParent) lifecycleStop()
+        else if (isResumed && !isPaused) onPause()
+        super.onRemovedFromParent()
     }
 
     fun showingInPager(isShowing: Boolean) {

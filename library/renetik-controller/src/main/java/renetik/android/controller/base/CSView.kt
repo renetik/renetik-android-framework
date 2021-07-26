@@ -56,6 +56,10 @@ open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner {
         setView(parent.view)
     }
 
+    constructor(view: ViewType) : super(view.context) {
+        setView(view)
+    }
+
     constructor(parent: Context) : super(parent)
 
     val view: ViewType
