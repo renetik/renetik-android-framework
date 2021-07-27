@@ -1,12 +1,12 @@
 package renetik.android.java.extensions
 
 import renetik.android.framework.common.catchAllWarnReturn
-import renetik.android.framework.lang.CSName
+import renetik.android.framework.lang.CSTitle
 import renetik.android.framework.lang.CSValue
 import renetik.android.primitives.isEmpty
 
 val Any?.asString
-    get() = (this as? CSName)?.name
+    get() = (this as? CSTitle)?.title
         ?: (this as? CSValue<*>)?.value as? String
         ?: this?.let { "$it" } ?: ""
 

@@ -1,10 +1,10 @@
 package renetik.android.json.data
 
-import renetik.android.framework.lang.CSName
+import renetik.android.framework.lang.CSTitle
 import renetik.android.json.data.extensions.getStringValue
 
 class CSNameData(val idKey: String = "id", val nameKey: String = "name",
-                 data: MutableMap<String, Any?>? = null) : CSJsonMap(), CSName {
+                 data: MutableMap<String, Any?>? = null) : CSJsonMap(), CSTitle {
     init {
         data?.let { load(it) }
     }
@@ -16,10 +16,10 @@ class CSNameData(val idKey: String = "id", val nameKey: String = "name",
 
     val id get() = getStringValue(idKey)
 
-    override val name get() = getStringValue(nameKey)
+    override val title get() = getStringValue(nameKey)
 
     override fun toString(): String {
-        return name
+        return title
     }
 }
 

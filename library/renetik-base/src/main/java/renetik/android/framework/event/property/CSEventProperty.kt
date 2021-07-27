@@ -10,9 +10,6 @@ open class CSEventProperty<T>(value: T, private val onApply: ((value: T) -> Unit
     private val eventChange = event<T>()
     private var _value: T = value
 
-    init {
-    }
-
     override var value: T
         get() = _value
         set(value) = value(value)

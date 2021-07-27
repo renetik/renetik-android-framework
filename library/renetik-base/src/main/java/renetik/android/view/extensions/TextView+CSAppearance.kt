@@ -29,8 +29,11 @@ fun TextView.typeface(@FontRes font: Int) = apply {
 fun TextView.setBottomDrawable(drawable: Drawable?) =
     setCompoundDrawables(null, null, null, drawable)
 
-fun TextView.setRightDrawable(drawable: Drawable?) =
+fun TextView.setEndDrawable(drawable: Drawable?) =
     setCompoundDrawables(null, null, drawable, null)
+
+fun TextView.setStartDrawable(drawable: Drawable?) =
+    setCompoundDrawables(drawable, null, null, null)
 
 @SuppressLint("UseCompatTextViewDrawableApis")
 @RequiresApi(Build.VERSION_CODES.M)

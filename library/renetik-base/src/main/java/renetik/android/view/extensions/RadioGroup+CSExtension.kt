@@ -6,7 +6,7 @@ import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.R
-import renetik.android.framework.lang.CSName
+import renetik.android.framework.lang.CSTitle
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
 
@@ -30,14 +30,14 @@ fun RadioGroup.propertyTrueIfChecked(property: CSEventProperty<Boolean?>, viewId
     onChange { property.value = it == viewId }
 }
 
-fun <T : CSName> RadioGroup.property(
+fun <T : CSTitle> RadioGroup.property(
     parent: CSVisibleEventOwner, property: CSEventProperty<T?>,
     list: List<T>, @LayoutRes layoutId: Int) = apply {
     val data = mutableMapOf<Int, T>()
     removeAllViews()
     list.forEach {
         val viewId = View.generateViewId()
-        add(inflate<RadioButton>(layoutId)).text(it.name).model(it).id(viewId)
+        add(inflate<RadioButton>(layoutId)).text(it.title).model(it).id(viewId)
         data[viewId] = it
     }
     property(parent, property, data)

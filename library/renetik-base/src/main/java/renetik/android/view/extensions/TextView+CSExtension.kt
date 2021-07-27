@@ -3,9 +3,11 @@ package renetik.android.view.extensions
 import android.text.Editable
 import android.widget.TextView
 import androidx.annotation.StringRes
+import renetik.android.content.drawable
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyInterface
+import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.isSet
 import renetik.android.view.adapter.CSTextWatcherAdapter
@@ -58,3 +60,10 @@ fun <T> TextView.text(
 }
 
 fun <T> TextView.text(property: CSEventPropertyInterface<T>) = text(property) { it.asString }
+
+fun <T : CSDrawableInterface> TextView.startDrawable(
+    parent: CSVisibleEventOwner, property: CSEventPropertyInterface<T>) = apply {
+    fun updateDrawable() = setStartDrawable(context.drawable(property.value.drawable))
+    parent.whileShowing(property.onChange { updateDrawable() })
+    updateDrawable()
+}
