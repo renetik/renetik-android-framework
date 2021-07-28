@@ -38,7 +38,9 @@ inline val <reified T> Array<out T>.doubled
         this[valueIndex]
     }
 
-fun <T> Array<T>.range(fromIndex: Int, toIndex: Int) = copyOfRange(fromIndex, toIndex)
+fun <T> Array<T>.range(range: IntRange) = copyOfRange(range.first, range.last + 1)
+
+fun <T> Array<T>.range(fromIndex: Int, length: Int) = range(fromIndex until fromIndex + length)
 
 inline fun <reified T> Array<T>.extract(indexes: IntArray) = Array(indexes.size) { index ->
     this[indexes[index]]
