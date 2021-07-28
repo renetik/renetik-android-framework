@@ -50,7 +50,7 @@ class CSItemPickerView<Row : Any>(
         show(R.string.cs_dialog_ok, onPositive = { onSelected(data[picker.value]) })
 
     fun showWithOkAndCancel() =
-        show(onPositive = { onSelected(data[picker.value]) }, onNegative = { hide() })
+        show(onPositive = { onSelected(data[picker.value]) }, onNegative = { dismiss() })
 }
 
 

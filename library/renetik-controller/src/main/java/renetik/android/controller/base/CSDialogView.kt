@@ -39,7 +39,7 @@ open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
         showDialog(builder)
     }
 
-    fun hide() = dialog.dismiss()
+    fun dismiss() = dialog.dismiss()
 
     fun show(
         @StringRes positiveTitle: Int = R.string.cs_dialog_ok,

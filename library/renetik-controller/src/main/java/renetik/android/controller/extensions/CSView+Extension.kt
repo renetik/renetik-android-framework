@@ -19,7 +19,9 @@ fun CSView<*>.views(@IdRes vararg ids: Int): List<View> =
 
 fun CSView<*>.simpleView(@IdRes id: Int) = view.view(id)
 fun CSView<*>.editText(@IdRes id: Int) = view.editText(id)
-fun CSView<*>.textView(@IdRes id: Int) = view.textView(id)
+fun CSView<*>.textView(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+    view.textView(id).apply { onClick?.let { this.onClick(it) } }
+
 fun CSView<*>.scrollView(@IdRes id: Int) = view.scrollView(id)
 fun CSView<*>.horizontalScroll(@IdRes id: Int) =
     view.horizontalScroll(id)
