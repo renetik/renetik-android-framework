@@ -15,6 +15,7 @@ fun SharedPreferences.reload(source: SharedPreferences) = with(edit()) {
     apply()
 }
 
+@Suppress("UNCHECKED_CAST")
 private fun SharedPreferences.Editor.loadAll(source: SharedPreferences) {
     for (entry in source.all.entries) {
         val value = entry.value ?: continue

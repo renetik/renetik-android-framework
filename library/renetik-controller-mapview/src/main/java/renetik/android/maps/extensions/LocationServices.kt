@@ -11,4 +11,4 @@ fun Context.locationClient(): FusedLocationProviderClient =
 
 @SuppressLint("MissingPermission")
 fun FusedLocationProviderClient.location(onSuccess: (Location) -> Unit) =
-        lastLocation.addOnSuccessListener { location -> location?.let { onSuccess(it) } }
+        lastLocation.addOnSuccessListener { location -> onSuccess(location) }

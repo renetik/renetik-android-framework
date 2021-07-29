@@ -219,6 +219,7 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 class CSGridView<RowType : Any> : CSListView<RowType, GridView> {
     constructor(
         parent: CSActivityView<*>, view: GridView,

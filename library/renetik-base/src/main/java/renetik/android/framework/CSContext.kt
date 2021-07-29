@@ -36,7 +36,8 @@ abstract class CSContext : ContextWrapper {
             return level / scale.toFloat()
         }
 
-    private val defaultDisplay: Display get() = service<WindowManager>(WINDOW_SERVICE).defaultDisplay
+    private val defaultDisplay: Display get() =
+        service<WindowManager>(WINDOW_SERVICE).defaultDisplay
 
     @Suppress("DEPRECATION")
     val displayWidth

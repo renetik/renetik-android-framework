@@ -5,7 +5,7 @@ import renetik.android.framework.common.catchAllWarnReturnNull
 
 const val INVOKE_FAILED = "invoke_failed"
 
-fun <T> Any.privateField(name: String): T? = catchAllWarnReturnNull {
+fun <T> Any.privateField(name: String): T? = catchAllWarnReturnNull<T> {
     val field = this::class.java.getDeclaredField(name)
     field.isAccessible = true
     @Suppress("UNCHECKED_CAST")
