@@ -13,45 +13,17 @@ import renetik.android.primitives.isSet
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
 
-class CSSearchView : CSActivityView<SearchView>, OnQueryTextListener, View.OnClickListener,
+class CSSearchView(parent: CSActivityView<*>, viewId: Int, hint: String = "",
+                   var text: String = "",
+                   private val onChange: (String) -> Unit) : CSActivityView<SearchView>(parent,
+    viewId), OnQueryTextListener, View.OnClickListener,
     SearchView.OnCloseListener {
 
-    var text = ""
     var eventOnClearButtonClick = event<CSSearchView>()
     private var searchOpened = false
     private var expanded = false
-    private var hint: String? = null
+    private var hint: String? = hint
     private val clearButton by lazy { findView<ImageView>(R.id.search_close_btn)!! }
-    private val listener: (String) -> Unit
-
-    constructor(
-        parent: CSActivityView<View>, hint: String = "", text: String = "",
-        listener: (String) -> Unit
-    ) : super(parent) {
-        this.hint = hint
-        this.text = text
-        this.listener = listener
-        setView(SearchView(this))
-    }
-
-    constructor(
-        parent: CSActivityView<*>, search: SearchView, hint: String = "", text: String = "",
-        onChange: (String) -> Unit
-    ) : super(parent) {
-        this.hint = hint
-        this.text = text
-        this.listener = onChange
-        setView(search)
-    }
-
-    constructor(
-        parent: CSActivityView<*>, viewId: Int, hint: String = "", text: String = "",
-        listener: (String) -> Unit
-    ) : super(parent, viewId) {
-        this.hint = hint
-        this.text = text
-        this.listener = listener
-    }
 
     override fun onViewReady() {
         super.onViewReady()
@@ -78,7 +50,7 @@ class CSSearchView : CSActivityView<SearchView>, OnQueryTextListener, View.OnCli
 
     override fun onQueryTextChange(newText: String): Boolean {
         text = newText
-        listener(newText)
+        onChange(newText)
         return false
     }
 

@@ -46,7 +46,7 @@ open class CSMenuItem {
     fun visible(visible: Boolean) = apply {
         if (isVisible == visible) return this
         isVisible = visible
-        if (controller.isCreated) controller.invalidateOptionsMenu()
+        controller.activity?.invalidateOptionsMenu()
     }
 
     fun onChecked(onItem: CSOnMenuItem) {
@@ -59,6 +59,6 @@ open class CSMenuItem {
     fun neverAsAction() = apply { showAsAction = SHOW_AS_ACTION_NEVER }
     fun alwaysAsAction() = apply { showAsAction = SHOW_AS_ACTION_ALWAYS }
     fun withText() = apply { showAsAction = showAsAction or SHOW_AS_ACTION_WITH_TEXT }
-    fun remove() = controller.removeMenuItem(this)
+//    fun remove() = controller.removeMenuItem(this)
 }
 

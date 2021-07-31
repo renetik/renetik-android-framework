@@ -14,7 +14,6 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
-import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.java.extensions.collections.*
 import renetik.android.java.extensions.exception
@@ -59,7 +58,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller.showingInPager(true)
         controller.lifecycleUpdate()
         updateBar()
-        invalidateOptionsMenu()
         hideKeyboard()
         onViewControllerPush(controller)
         return controller
@@ -91,7 +89,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller.showingInPager(true)
         controller.lifecycleUpdate()
         updateBar()
-        invalidateOptionsMenu()
         hideKeyboard()
         onViewControllerPush(controller)
         return controller
@@ -115,7 +112,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller.showingInPager(true)
         controller.lifecycleUpdate()
         updateBar()
-        invalidateOptionsMenu()
         hideKeyboard()
         onViewControllerPush(controller)
         return controller
@@ -231,10 +227,10 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         return true
     }
 
-    override fun onOptionsItemSelected(onItem: CSOnMenuItem) {
-        super.onOptionsItemSelected(onItem)
-        if (onItem.consume(android.R.id.home)) goBack()
-    }
+//    override fun onOptionsItemSelected(onItem: CSOnMenuItem) {
+//        super.onOptionsItemSelected(onItem)
+//        if (onItem.consume(android.R.id.home)) goBack()
+//    }
 
     open fun onViewControllerPush(controller: CSActivityView<*>) {
     }

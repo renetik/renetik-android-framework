@@ -31,13 +31,13 @@ fun CSActivityView<*>.startActivityForResult(
     intent: Intent, onCanceled: (() -> Unit)? = null, onSuccess: (Intent?) -> Unit) {
     val requestCode = Int.random(0, 9999)
     startActivityForResult(intent, requestCode)
-    onActivityResult.add { registration, result ->
+    register(activity().onActivityResult.add { registration, result ->
         if (result.requestCode == requestCode) {
             if (result.isOK()) onSuccess(result.data)
             else onCanceled?.invoke()
             registration.cancel()
         }
-    }
+    })
 }
 
 fun CSActivityView<*>.startActivityForResult(intent: Intent, requestCode: Int) =

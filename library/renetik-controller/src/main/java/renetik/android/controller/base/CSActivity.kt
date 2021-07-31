@@ -8,40 +8,40 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.android.framework.lang.CSProperty
 import renetik.android.framework.common.catchAllWarn
-import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
+import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.lang.CSProperty
 
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {
 
-    override val onCreate = event<Bundle?>()
-    override val onSaveInstanceState = event<Bundle>()
-    override val onStart = event<Unit>()
+    val onCreate = event<Bundle?>()
+    val onSaveInstanceState = event<Bundle>()
+    val onStart = event<Unit>()
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
-    override val onStop = event<Unit>()
-    override val onDestroy = event<CSActivityViewInterface>()
+    val onStop = event<Unit>()
+    override val onDestroy = event<Unit>()
     override val onBack = event<CSProperty<Boolean>>()
-    override val onConfigurationChanged = event<Configuration>()
-    override val onOrientationChanged = event<Configuration>()
-    override val onLowMemory = event<Unit>()
-    override val onUserLeaveHint = event<Unit>()
-    override val onPrepareOptionsMenu = event<CSOnMenu>()
-    override val onOptionsItemSelected = event<CSOnMenuItem>()
-    override val onCreateOptionsMenu = event<CSOnMenu>()
-    override val onActivityResult = event<CSActivityResult>()
-    override val onKeyDown = event<CSOnKeyDownResult>()
-    override val onNewIntent = event<Intent>()
-    override val onRequestPermissionsResult = event<CSRequestPermissionResult>()
+    val onConfigurationChanged = event<Configuration>()
+    val onOrientationChanged = event<Configuration>()
+    val onLowMemory = event<Unit>()
+    val onUserLeaveHint = event<Unit>()
+    val onPrepareOptionsMenu = event<CSOnMenu>()
+    val onOptionsItemSelected = event<CSOnMenuItem>()
+    val onCreateOptionsMenu = event<CSOnMenu>()
+    val onActivityResult = event<CSActivityResult>()
+    val onKeyDown = event<CSOnKeyDownResult>()
+    val onNewIntent = event<Intent>()
+    val onRequestPermissionsResult = event<CSRequestPermissionResult>()
     override val onViewVisibilityChanged = event<Boolean>()
     override fun activity() = this
-    var controller: CSActivityView<*>? = null
+    var controller: CSActivityView<out ViewGroup>? = null
     var configuration = Configuration()
 
-    abstract fun createController(): CSActivityView<*>
+    abstract fun createController(): CSActivityView<out ViewGroup>
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -73,8 +73,8 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {
 
     override fun onDestroy() {
         super.onDestroy()
-        onDestroyUnbindDrawables(controller!!.view)
-        onDestroy.fire(this)
+        onDestroy.fire()
+//        onDestroyUnbindDrawables(controller!!.view)
         controller = null
         System.gc()
     }

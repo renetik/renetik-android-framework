@@ -20,13 +20,13 @@ class CSDebugTextView(val parent: CSActivityView<out ViewGroup>,
     private val logText = textView(R.id.CSLog_LogText)
 
     init {
-        menuItem("Send to developer").onClick { onSendLogClick() }.alwaysAsAction()
-        menuItem("Scroll to bottom")
-            .onClick { scrollView(R.id.CSLog_TextScroll).scrollToBottom() }.neverAsAction()
+//        menuItem("Send to developer").onClick { onSendLogClick() }.alwaysAsAction()
+//        menuItem("Scroll to bottom")
+//            .onClick { scrollView(R.id.CSLog_TextScroll).scrollToBottom() }.neverAsAction()
     }
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onViewShowingFirstTime() {
+        super.onViewShowingFirstTime()
         textView(R.id.CSLog_Title).text(title)
         floatingButton(R.id.CSLog_Reload).gone()
         logText.text(debugText)

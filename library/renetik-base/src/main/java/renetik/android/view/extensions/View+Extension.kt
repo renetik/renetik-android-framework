@@ -16,6 +16,7 @@ import renetik.android.R
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.math.CSPoint
 import renetik.android.java.extensions.isNull
 import renetik.android.view.adapter.CSClickAdapter
 
@@ -102,10 +103,39 @@ fun View.selected(value: Boolean) {
     isSelected = value
 }
 
-fun <T> View.selectionProperty(
+fun View.activated(value: Boolean) {
+    isActivated = value
+}
+
+fun <T> View.selectedProperty(
     parent: CSVisibleEventOwner, property: CSEventProperty<T>, value: T) {
     fun update() = selected(property.value == value)
     parent.whileShowing(property.onChange { update() })
     update()
     onClick { property.value = value }
 }
+
+fun <T> View.selectedProperty(property: CSEventProperty<T>, value: T) {
+    fun update() = selected(property.value == value)
+    update()
+    onClick {
+        property.value = value
+        selected(true)
+    }
+}
+
+fun <T> View.activatedProperty(property: CSEventProperty<T>, value: T) {
+    fun update() = activated(property.value == value)
+    update()
+    onClick {
+        property.value = value
+        activated(true)
+    }
+}
+
+val View.locationOnScreen: CSPoint<Int>
+    get() {
+        val location = IntArray(2)
+        getLocationOnScreen(location)
+        return CSPoint(location[0], location[1])
+    }

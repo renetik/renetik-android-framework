@@ -7,11 +7,12 @@ import android.os.BatteryManager
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
 import android.util.DisplayMetrics
-import android.view.Display
 import android.view.WindowManager
 import renetik.android.extensions.service
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
+import renetik.android.framework.event.event
+import renetik.android.framework.event.fire
 import renetik.android.java.extensions.notNull
 import java.util.*
 
@@ -25,6 +26,10 @@ abstract class CSContext : ContextWrapper {
 
     constructor(context: Context) : super(context)
 
+    private var _isDestroyed = false
+    val isDestroyed get() = _isDestroyed
+    val onDestroy = event<Unit>()
+
     val context: Context get() = this
 
     protected val batteryPercent: Float
@@ -36,8 +41,7 @@ abstract class CSContext : ContextWrapper {
             return level / scale.toFloat()
         }
 
-    private val defaultDisplay: Display get() =
-        service<WindowManager>(WINDOW_SERVICE).defaultDisplay
+    private val defaultDisplay get() = service<WindowManager>(WINDOW_SERVICE).defaultDisplay
 
     @Suppress("DEPRECATION")
     val displayWidth
@@ -80,11 +84,13 @@ abstract class CSContext : ContextWrapper {
 
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
 
-    protected open fun onDestroy() = Unit
+    protected open fun onDestroy() {
+        onDestroy.fire().clear()
+        _isDestroyed = true
+    }
 }
 
-fun CSContext.register(intent: IntentFilter,
-                       receiver: (Intent, BroadcastReceiver) -> void) =
+fun CSContext.register(intent: IntentFilter, receiver: (Intent, BroadcastReceiver) -> void) =
     registerReceiver(object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) = receiver(intent, this)
     }, intent)

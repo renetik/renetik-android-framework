@@ -1,10 +1,11 @@
 package renetik.android.controller.extensions
 
 import android.view.View
-import renetik.android.controller.base.CSView
 import renetik.android.content.dpToPixel
+import renetik.android.controller.base.CSView
 import renetik.android.framework.math.CSPoint
 import renetik.android.primitives.isSet
+import renetik.android.view.extensions.locationOnScreen
 
 val CSView<*>.layoutWidth get() = this.view.layoutParams.width
 val CSView<*>.layoutHeight get() = this.view.layoutParams.height
@@ -13,12 +14,7 @@ val CSView<*>.top get() = this.view.top
 val CSView<*>.center get() = CSPoint(left + width / 2, top + height / 2)
 val CSView<*>.width get() = view.width
 val CSView<*>.height get() = view.height
-val CSView<*>.locationOnScreen: CSPoint
-    get() {
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
-        return CSPoint(location[0], location[1])
-    }
+val CSView<*>.locationOnScreen get() = view.locationOnScreen
 
 fun CSView<*>.setPercentAspectWidth(viewId: Int, percent: Int) =
     setPercentAspectWidth(findView<View>(viewId)!!, percent)

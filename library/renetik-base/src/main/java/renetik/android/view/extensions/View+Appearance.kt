@@ -6,12 +6,17 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import renetik.android.content.CSColorInt
 import renetik.android.content.attributeFloat
 import renetik.android.content.dpToPixel
 
 
 fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {
     setBackgroundColor(value)
+}
+
+fun <T : View> T.backgroundColor(value: CSColorInt) = apply {
+    setBackgroundColor(value.color)
 }
 
 fun <T : View> T.backgroundTint(@ColorInt value: Int) = apply {

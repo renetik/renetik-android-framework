@@ -10,74 +10,84 @@ import renetik.android.content.input
 import renetik.android.controller.extensions.view
 import renetik.android.extensions.inflate
 import renetik.android.framework.CSContext
-import renetik.android.framework.event.CSEvent
+import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.event.CSEventRegistrations
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.event
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
+import renetik.android.java.extensions.unexpected
+import renetik.android.logging.CSLog.logError
 import renetik.android.view.extensions.inflate
 import renetik.android.view.extensions.isShowing
 
 open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner {
 
-    private var parentGroup: ViewGroup? = null
-    private var layoutRes: CSLayoutRes? = null
+    private val layout: CSLayoutRes?
+    private val viewId: Int?
+
+    private var parent: CSView<*>? = null
+
+    private var _group: ViewGroup? = null
+    private val group: ViewGroup? by lazy { _group ?: parent?.view as? ViewGroup ?: parent?.group }
+
     private var _view: ViewType? = null
 
-    constructor(parent: Context, layoutRes: CSLayoutRes) : super(parent) {
-        this.layoutRes = layoutRes
+    constructor(parent: Context, layout: CSLayoutRes) : super(parent) {
+        this.layout = layout
+        this.viewId = null
     }
 
-    constructor(parent: ViewGroup, layoutRes: CSLayoutRes) : super(parent.context) {
-        this.parentGroup = parent
-        this.layoutRes = layoutRes
+    constructor(group: ViewGroup, layout: CSLayoutRes) : super(group.context) {
+        this._group = group
+        this.layout = layout
+        this.viewId = null
     }
 
-    constructor(parent: CSView<out ViewGroup>, layoutRes: CSLayoutRes) : super(parent) {
-        this.parentGroup = parent.view
-        this.layoutRes = layoutRes
+    constructor(parent: CSView<*>, layout: CSLayoutRes) : super(parent) {
+        this.parent = parent
+        this.layout = layout
+        this.viewId = null
+    }
+
+    constructor(parent: CSView<*>, viewId: Int) : super(parent) {
+        this.parent = parent
+        this.layout = null
+        this.viewId = viewId
+    }
+
+    constructor(parent: CSView<*>) : super(parent) {
+        this.parent = parent
+        this.layout = null
+        this.viewId = null
     }
 
     @Suppress("UNCHECKED_CAST")
-    constructor(parent: CSView<*>, viewId: Int) : super(parent) {
-        this.parentGroup = parent.parentGroup
-        setView(parent.view(viewId) as ViewType)
-    }
-
-    constructor(parent: CSView<*>, view: ViewType) : super(parent) {
-        this.parentGroup = parent.parentGroup
-        setView(view)
-    }
-
-    constructor(parent: CSView<out ViewType>) : super(parent) {
-        this.parentGroup = parent.parentGroup
-        setView(parent.view)
-    }
-
-    constructor(view: ViewType) : super(view.context) {
-        setView(view)
-    }
-
-    constructor(parent: Context) : super(parent)
-
     val view: ViewType
         get() {
-            if (_view != null) return _view!!
-            setView(layoutRes?.let { inflate(it.id) } ?: let { obtainView()!! })
+            when {
+                isDestroyed -> let { logError(this); throw unexpected }
+                _view != null -> return _view!!
+                layout != null -> setView(inflate(layout.id))
+                viewId != null -> setView(parent!!.view(viewId) as ViewType)
+                else -> (parent?.view as? ViewType)?.let {
+                    _view = it
+                    onViewReady()
+                } ?: setView(obtainView()!!)
+            }
             return _view!!
         }
 
-    fun setView(view: ViewType) {
-//        if (_view.notNull) throw Exception("setView should be called before view was initialized")
+
+    private fun setView(view: ViewType) {
         _view = view
         _view!!.tag = this@CSView
         onViewReady()
     }
 
     fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType =
-        parentGroup?.inflate(layoutId) ?: context.inflate(layoutId)
+        group?.inflate(layoutId) ?: context.inflate(layoutId)
 
     protected open fun obtainView(): ViewType? = null
 
@@ -99,28 +109,38 @@ open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner {
     fun showKeyboard() = input.toggleSoftInput(SHOW_FORCED, HIDE_IMPLICIT_ONLY);
 
     override fun onDestroy() {
-        super.onDestroy()
+        if (isDestroyed) let { logError(this); throw unexpected }
+        eventRegistrations.cancel()
         whileShowingEventRegistrations.cancel()
         isVisibleEventRegistrations.cancel()
-        view.tag = null
+        if (layout != null) {
+            if (_view == null) let { logError(this); throw unexpected }
+            // TODO: Should I for some reason destroy children manually ?
+            // (_view as? ViewGroup)?.children?.forEach { (it.tag as? CSView<*>)?.onDestroy() }
+            _view!!.tag = null
+        }
+        _view = null
+        super.onDestroy()
     }
 
-    open fun onAddedToParent() {
-        updateVisibilityChanged()
-    }
+    open fun onAddedToParent() = updateVisibilityChanged()
 
-    open fun onRemovedFromParent() {
-        updateVisibilityChanged()
-    }
+    open fun onRemovedFromParent() = updateVisibilityChanged()
 
-    // Visibility
+    private val eventRegistrations = CSEventRegistrations()
+    fun register(registration: CSEventRegistration) =
+        registration.let { eventRegistrations.add(it) }
+
+    fun cancel(registration: CSEventRegistration) =
+        eventRegistrations.cancel(registration)
+
     protected var isShowing = false
     private var onViewShowingCalled = false
     val onViewVisibilityChanged = event<Boolean>()
     private val isVisibleEventRegistrations = CSEventRegistrations()
     private val whileShowingEventRegistrations = CSEventRegistrations()
 
-    protected fun updateVisibilityChanged() {
+    fun updateVisibilityChanged() {
         if (checkIfIsShowing()) {
             if (!isShowing) onViewVisibilityChanged(true)
         } else if (isShowing) onViewVisibilityChanged(false)
@@ -168,9 +188,9 @@ open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner {
 
     protected open fun onViewHidingAgain() {}
 
-    fun ifVisible(registration: CSEvent.CSEventRegistration?) =
+    fun ifVisible(registration: CSEventRegistration?) =
         registration?.let { isVisibleEventRegistrations.add(it) }
 
-    override fun whileShowing(registration: CSEvent.CSEventRegistration) =
+    override fun whileShowing(registration: CSEventRegistration) =
         registration.let { whileShowingEventRegistrations.add(it) }
 }

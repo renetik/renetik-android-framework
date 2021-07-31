@@ -8,18 +8,14 @@ import renetik.android.json.data.CSJsonMap
 import renetik.android.listview.CSListView
 import renetik.android.listview.CSRowView
 
-open class CSRequestListView<RowType : CSJsonMap, ViewType : AbsListView>
-    : CSListView<RowType, ViewType> {
+open class CSRequestListView<RowType : CSJsonMap, ViewType : AbsListView>(
+    parent: CSActivityView<*>,
+    listViewId: Int,
+    createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>)
+    : CSListView<RowType, ViewType>(parent, listViewId, createView) {
 
     var onReload: ((progress: Boolean) -> CSOperation<CSListServerData<RowType>>)? = null
 
-    constructor(parent: CSActivityView<*>, view: ViewType,
-                createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>)
-            : super(parent, view, createView)
-
-    constructor(parent: CSActivityView<*>, listViewId: Int,
-                createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>)
-            : super(parent, listViewId, createView)
 
     fun reload(progress: Boolean) = onReload!!(progress).onSuccess { reload(it.list) }
 

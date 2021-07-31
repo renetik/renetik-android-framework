@@ -37,7 +37,7 @@ open class CSRowView<RowType : Any> : CSView<View> {
         onLoad(row)
     }
 
-    protected open fun onLoad(row: RowType) {
+    open fun onLoad(row: RowType) {
         onLoad?.invoke(this, row)
     }
 }

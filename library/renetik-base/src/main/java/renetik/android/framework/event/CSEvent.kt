@@ -7,7 +7,7 @@ fun <T> event(): CSEvent<T> = CSEventImpl()
 
 fun event(): CSEvent<Unit> = CSEventImpl()
 
-fun CSEvent<Unit>.fire() = fire(Unit)
+fun CSEvent<Unit>.fire() = apply { fire(Unit) }
 
 inline fun CSEvent<Unit>.listen(crossinline function: () -> Unit) =
     this.add { _, _ -> function() }

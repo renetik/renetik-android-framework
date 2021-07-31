@@ -7,10 +7,10 @@ import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import renetik.android.controller.R
 import renetik.android.controller.common.CSNavigationInstance.navigation
-import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
 import renetik.android.framework.event.listenOnce
+import renetik.android.framework.lang.CSLayoutRes
 
 open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
 
@@ -28,7 +28,9 @@ open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
         cancelableOnTouchOutside = cancelable
     }
 
-    fun show() = apply { showDialog(prepareAlertDialog()) }
+    fun show() = apply {
+        showDialog(prepareAlertDialog())
+    }
 
     fun show(
         @StringRes positiveTitle: Int = R.string.cs_dialog_ok,
@@ -51,23 +53,6 @@ open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
         builder.setPositiveButton(positiveTitle) { _, _ -> onPositive() }
         builder.setNegativeButton(negativeTitle) { _, _ -> onNegative() }
         showDialog(builder)
-    }
-
-    fun showFullScreen() = apply {
-        dialog = Dialog(context, R.style.CSFullScreenDialogStyle).apply {
-            setCancelable(true)
-            setCanceledOnTouchOutside(false)
-            window?.setBackgroundDrawableResource(R.color.cs_transparent)
-            setContentView(view)
-            setOnDismissListener {
-                if (!isDestroyed) {
-                    lifecycleStop()
-                    eventOnDismiss.fire()
-                }
-            }
-            show()
-            lifecycleUpdate()
-        }
     }
 
     private fun prepareAlertDialog() = MaterialAlertDialogBuilder(this).apply {

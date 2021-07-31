@@ -5,16 +5,19 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import renetik.android.controller.base.CSActivityView
-import renetik.android.java.extensions.collections.list
 import renetik.android.framework.math.CSMath.randomInt
+import renetik.android.java.extensions.collections.list
 import renetik.android.primitives.isSet
 
 fun CSActivityView<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {
     requestPermissions(permissions, onGranted, null)
 }
 
-fun CSActivityView<*>.requestPermissionsWithForce(permissions: List<String>, onGranted: () -> Unit) {
-    requestPermissions(permissions, onGranted, { requestPermissionsWithForce(permissions, onGranted) })
+fun CSActivityView<*>.requestPermissionsWithForce(permissions: List<String>,
+                                                  onGranted: () -> Unit) {
+    requestPermissions(permissions,
+        onGranted,
+        { requestPermissionsWithForce(permissions, onGranted) })
 }
 
 fun CSActivityView<*>.requestPermissions(
@@ -29,7 +32,7 @@ fun CSActivityView<*>.requestPermissions(
     if (deniedPermissions.isSet) {
         val requestCode = randomInt(0, 999)
         ActivityCompat.requestPermissions(activity(), deniedPermissions, requestCode)
-        onRequestPermissionsResult.add { registration, results ->
+        register(activity().onRequestPermissionsResult.add { registration, results ->
             if (results.requestCode == requestCode) {
                 registration.cancel()
                 for (status in results.statuses) if (PERMISSION_GRANTED != status) {
@@ -38,7 +41,7 @@ fun CSActivityView<*>.requestPermissions(
                 }
                 onGranted?.invoke()
             }
-        }
+        })
     } else onGranted?.invoke()
 }
 

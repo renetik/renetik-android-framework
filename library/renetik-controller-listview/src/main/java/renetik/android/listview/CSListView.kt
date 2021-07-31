@@ -1,11 +1,9 @@
 package renetik.android.listview
 
-import android.content.res.Configuration
 import android.util.SparseBooleanArray
 import android.view.View
 import android.widget.AbsListView
 import android.widget.BaseAdapter
-import android.widget.GridView
 import android.widget.ListView
 import android.widget.ListView.CHOICE_MODE_SINGLE
 import renetik.android.controller.base.CSActivityView
@@ -18,22 +16,12 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.reload
 import renetik.android.view.extensions.*
 
-//TODO: REFACTOR TO SIMPLE WRAPPER PLEASE !!! :)
-open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<ViewType> {
-
-    constructor(
-        parent: CSActivityView<*>, view: ViewType,
-        createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
-    ) : super(parent, view) {
-        this.createView = createView
-    }
-
-    constructor(
-        parent: CSActivityView<*>, listViewId: Int,
-        createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
-    ) : super(parent, listViewId) {
-        this.createView = createView
-    }
+@Deprecated("Use CSGridView")
+open class CSListView<RowType : Any, ViewType : AbsListView>(
+    parent: CSActivityView<*>,
+    listViewId: Int,
+    private val createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>) :
+    CSActivityView<ViewType>(parent, listViewId) {
 
     internal val onLoad = event<List<RowType>>()
     internal var viewTypesCount = 1
@@ -41,7 +29,6 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
     private val data = list<RowType>()
     private var dataFilter: ((data: List<RowType>) -> List<RowType>)? = null
     private var listAdapter: BaseAdapter = CSListAdapter(this)
-    private val createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>
     private var firstVisiblePosition: Int = 0
     private var emptyView: View? = null
         set(value) {
@@ -66,8 +53,8 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
             return checkedRows
         }
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onViewShowingFirstTime() {
+        super.onViewShowingFirstTime()
         view.adapter = listAdapter
         view.isFastScrollEnabled = true
         onItemClickViewId ?: onItemClick?.let {
@@ -79,10 +66,6 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
                 true
             }
         }
-    }
-
-    override fun onViewShowingFirstTime() {
-        super.onViewShowingFirstTime()
         updateEmptyView()
     }
 
@@ -195,13 +178,6 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        saveSelectionAndScrollState()
-        view.adapter = listAdapter
-        restoreSelectionAndScrollState()
-    }
-
     fun selected(index: Int) = apply {
         view.choiceMode = CHOICE_MODE_SINGLE
         view.setItemChecked(index, true)
@@ -217,19 +193,4 @@ open class CSListView<RowType : Any, ViewType : AbsListView> : CSActivityView<Vi
             view.scrollToTop()
         }
     }
-}
-
-@Suppress("UNCHECKED_CAST")
-class CSGridView<RowType : Any> : CSListView<RowType, GridView> {
-    constructor(
-        parent: CSActivityView<*>, view: GridView,
-        createView: (CSGridView<RowType>).(Int) -> CSRowView<RowType>
-    ) : super(parent, view, createView as CSListView<RowType, GridView>.(Int) -> CSRowView<RowType>)
-
-    constructor(
-        parent: CSActivityView<*>, listViewId: Int,
-        createView: (CSGridView<RowType>).(Int) -> CSRowView<RowType>
-    ) : super(parent,
-        listViewId,
-        createView as CSListView<RowType, GridView>.(Int) -> CSRowView<RowType>)
 }

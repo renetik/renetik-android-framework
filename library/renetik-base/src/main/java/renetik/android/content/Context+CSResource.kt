@@ -23,22 +23,24 @@ import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
 
-@ColorInt
-fun Context.color(@ColorRes color: Int) = ContextCompat.getColor(this, color)
+
+class CSColorInt(@ColorInt val color: Int)
+
+fun Context.color(@ColorRes color: Int) = CSColorInt(ContextCompat.getColor(this, color))
 
 fun Context.resourceBytes(id: Int) = catchAllWarn {
     val stream = resources.openRawResource(id)
     val outputStream = ByteArrayOutputStream()
     val buffer = ByteArray(4 * 1024)
     tryAndFinally({
-                      var read: Int
-                      do {
-                          read = stream.read(buffer, 0, buffer.size)
-                          if (read == -1) break
-                          outputStream.write(buffer, 0, read)
-                      } while (true)
-                      outputStream.toByteArray()
-                  }) { stream.close() }
+        var read: Int
+        do {
+            read = stream.read(buffer, 0, buffer.size)
+            if (read == -1) break
+            outputStream.write(buffer, 0, read)
+        } while (true)
+        outputStream.toByteArray()
+    }) { stream.close() }
 }
 
 fun Context.openInputStream(uri: Uri) = catchErrorReturnNull<InputStream, FileNotFoundException> {
@@ -120,4 +122,4 @@ fun Context.drawable(@DrawableRes resource: Int) =
         setBounds(0, 0, intrinsicWidth, intrinsicHeight)
     }
 
-fun transparentDrawable(bounds: Rect) =  ColorDrawable().apply { this.bounds = bounds }
+fun transparentDrawable(bounds: Rect) = ColorDrawable().apply { this.bounds = bounds }

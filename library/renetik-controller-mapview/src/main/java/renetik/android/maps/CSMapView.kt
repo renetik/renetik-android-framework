@@ -37,12 +37,12 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
 
     constructor(parent: CSActivityView<*>) : this(parent, GoogleMapOptions())
 
-    override fun onCreate(bundle: Bundle?) {
-        super.onCreate(bundle)
-        catchApiKeyNotFound {
-            view.onCreate(bundle)
-        }
-    }
+//    override fun onCreate(bundle: Bundle?) {
+//        super.onCreate(bundle)
+//        catchApiKeyNotFound {
+//            view.onCreate(bundle)
+//        }
+//    }
 
     private fun catchApiKeyNotFound(function: () -> Unit) {
         try {
@@ -57,55 +57,55 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        catchApiKeyNotFound {
-            view.onResume()
-            view.getMapAsync { onInitializeMap(it) }
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        catchApiKeyNotFound {
+//            view.onResume()
+//            view.getMapAsync { onInitializeMap(it) }
+//        }
+//    }
 
-    override fun onPause() {
-        super.onPause()
-        catchApiKeyNotFound {
-            view.onPause()
-        }
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        catchApiKeyNotFound {
+//            view.onPause()
+//        }
+//    }
 
-    override fun onStart() {
-        super.onStart()
-        catchApiKeyNotFound {
-            view.onStart()
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        catchApiKeyNotFound {
+//            view.onStart()
+//        }
+//    }
 
-    override fun onStop() {
-        super.onStop()
-        catchApiKeyNotFound {
-            view.onStop()
-        }
-    }
+//    override fun onStop() {
+//        super.onStop()
+//        catchApiKeyNotFound {
+//            view.onStop()
+//        }
+//    }
 
-    override fun onDestroy() {
-        catchApiKeyNotFound {
-            view.onDestroy()
-        }
-        super.onDestroy()
-    }
+//    override fun onDestroy() {
+//        catchApiKeyNotFound {
+//            view.onDestroy()
+//        }
+//        super.onDestroy()
+//    }
 
-    override fun onLowMemory() {
-        super.onLowMemory()
-        catchApiKeyNotFound {
-            view.onLowMemory()
-        }
-    }
+//    override fun onLowMemory() {
+//        super.onLowMemory()
+//        catchApiKeyNotFound {
+//            view.onLowMemory()
+//        }
+//    }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        catchApiKeyNotFound {
-            view.onSaveInstanceState(outState)
-        }
-    }
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        catchApiKeyNotFound {
+//            view.onSaveInstanceState(outState)
+//        }
+//    }
 
     private fun onInitializeMap(map: GoogleMap) {
         this.map = map
