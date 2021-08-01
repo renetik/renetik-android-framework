@@ -59,7 +59,7 @@ fun CSView<*>.radioGroup(@IdRes id: Int, onChange: ((buttonId: Int) -> Unit)? = 
 fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 
 fun <Type : CSView<*>> Type.afterLayout(action: (Type) -> Unit) =
-    apply { view.afterLayout { action(this) } }
+    apply { register(view.afterLayout { action(this) }) }
 
 fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
     view.removeFromSuperview()

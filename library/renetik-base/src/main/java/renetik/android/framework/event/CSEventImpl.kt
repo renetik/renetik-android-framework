@@ -59,7 +59,7 @@ class CSEventImpl<T> : CSEvent<T> {
             canceled = true
         }
 
-        override fun event() = this@CSEventImpl
+//        override fun event() = this@CSEventImpl
 
         fun onEvent(argument: T) {
             if (isActive) listener(this, argument)

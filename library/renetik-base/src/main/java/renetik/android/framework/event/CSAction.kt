@@ -64,6 +64,6 @@ class CSAction(val id: String) : CSActionInterface {
             if (observerCount == 0) eventIsObserved.fire()
         }
 
-        override fun event() = registration.event()
+//        override fun event() = registration.event()
     }
 }

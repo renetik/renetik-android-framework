@@ -35,7 +35,7 @@ interface CSEvent<T> {
 
         fun cancel()
 
-        fun event(): CSEvent<*>
+//        fun event(): CSEvent<*>
     }
 }
 

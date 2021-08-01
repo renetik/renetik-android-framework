@@ -14,7 +14,6 @@ import renetik.android.framework.event.listenOnce
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.view.extensions.*
 
-
 open class CSActivityControllerDialogView<ViewType : View>(
     parent: CSActivityView<*>, val layout: CSLayoutRes) : CSActivityView<ViewType>(parent, layout) {
 

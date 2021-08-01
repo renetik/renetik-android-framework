@@ -3,9 +3,10 @@ package renetik.android.view.extensions
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.content.toDp
 import renetik.android.content.dpToPixel
+import renetik.android.content.toDp
+import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.event.CSEvent.*
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit) = apply {
     if (width == 0 || height == 0) onLayout {
@@ -18,13 +19,21 @@ fun <T : View> T.hasSize(onHasSize: (View) -> Unit) = apply {
     else onHasSize(this)
 }
 
-fun <T : View> T.afterLayout(action: (View) -> Unit) = apply {
-    viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            viewTreeObserver.removeOnGlobalLayoutListener(this)
+fun <T : View> T.afterLayout(action: (View) -> Unit) = object : CSEventRegistration {
+    val listener = OnGlobalLayoutListener {
+        if (isActive) {
+            cancel()
             action(this@afterLayout)
         }
-    })
+    }
+    override var isActive = true
+    override fun cancel() {
+        viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    }
+
+    init {
+        viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
 }
 
 /**
