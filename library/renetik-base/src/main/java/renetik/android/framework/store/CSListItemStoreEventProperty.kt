@@ -1,11 +1,11 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.event.property.CSEventPropertyImpl
 
 class CSListItemStoreEventProperty<T>(
     private var store: CSStoreInterface, private val key: String,
     val values: List<T>, val default: T, onChange: ((value: T) -> Unit)? = null
-) : CSEventProperty<T>(store.getValue(key, values, default), onChange) {
+) : CSEventPropertyImpl<T>(store.getValue(key, values, default), onChange) {
     override fun value(newValue: T, fire: Boolean) {
         super.value(newValue, fire)
         store.save(key, newValue.toString())
@@ -19,7 +19,7 @@ class CSListItemStoreEventProperty<T>(
     fun reload() = value(store.getValue(key, values, default))
 }
 
-private fun <T> CSStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {
+fun <T> CSStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {
     val savedString = get(key) ?: return default
     return values.find { it.toString() == savedString } ?: default
 }

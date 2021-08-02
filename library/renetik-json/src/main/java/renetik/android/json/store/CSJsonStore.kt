@@ -1,30 +1,27 @@
 package renetik.android.json.store
 
-import android.content.Context
-import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.CSContext
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.java.extensions.runIf
 import renetik.android.json.CSJsonMapInterface
 import renetik.android.json.parseJsonMap
 import renetik.android.json.toJsonString
-import renetik.android.logging.CSLog.logInfo
 
-class CSJsonStore(id: String) : CSContext(), CSStoreInterface, CSJsonMapInterface {
+abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
+    : CSContext(), CSStoreInterface, CSJsonMapInterface {
 
-    private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
-    override val data = load()
+    override val data by lazy { load() }
 
-    init {
-        logInfo(data)
-    }
+    abstract fun loadJsonString(): String?
 
-    private fun load() = preferences.getString("json", "{}")!!.parseJsonMap() ?: mutableMapOf()
+    abstract fun saveJsonString(json: String)
 
-    private fun save() {
-        val json = data.runIf(application.isDebugBuild) { it.toSortedMap() }
-            .toJsonString(formatted = application.isDebugBuild)
-        preferences.edit().putString("json", json).apply()
+    private fun load() = loadJsonString()?.parseJsonMap() ?: mutableMapOf()
+
+    protected fun save() {
+        val json = data.runIf(isJsonPretty) { it.toSortedMap() }
+            .toJsonString(formatted = isJsonPretty)
+        saveJsonString(json)
     }
 
     override fun get(key: String): String? = data[key]?.toString()

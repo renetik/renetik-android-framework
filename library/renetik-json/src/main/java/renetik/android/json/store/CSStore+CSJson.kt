@@ -6,6 +6,8 @@ import renetik.android.json.data.CSJsonMap
 import renetik.android.json.extensions.createJsonDataList
 import renetik.android.json.extensions.createJsonMap
 import renetik.android.json.parseJson
+import renetik.android.json.store.property.CSItemStoreEventProperty
+import renetik.android.json.store.property.CSListStoreEventProperty
 import renetik.android.json.toJsonString
 import kotlin.reflect.KClass
 
@@ -47,4 +49,3 @@ fun <T : CSJsonMap> CSStoreInterface.property(
 fun <T : CSJsonMap> CSStoreInterface.property(
     key: String, type: KClass<T>, default: T? = null, onApply: ((value: T?) -> Unit)? = null
 ) = CSItemStoreEventProperty(this, key, type, default, onApply)
-

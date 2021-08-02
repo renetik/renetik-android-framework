@@ -2,9 +2,10 @@ package renetik.android.framework.extensions
 
 import renetik.android.client.request.CSOperation
 import renetik.android.client.request.CSProcess
+import renetik.android.content.isNetworkConnected
 import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.extensions.dialog
-import renetik.android.extensions.isNetworkConnected
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.R
 
 fun <Data : Any> CSOperation<Data>.send(
@@ -28,7 +29,7 @@ private fun <Data : Any> CSOperation<Data>.onSendFailed(
     onInternetFailed: (() -> Unit)?,
     onSuccess: ((Data) -> Unit)?) {
     process.onFailed {
-        if (!navigation.isNetworkConnected && onInternetFailed != null)
+        if (!application.isNetworkConnected && onInternetFailed != null)
             onInternetFailed()
         else navigation.dialog(title,
             getString(R.string.renetik_android_framework_operation_send_failed))
@@ -59,7 +60,7 @@ fun <Data : Any> CSOperation<Data>.sendWithProgressAndDescriptiveDialog(
     val progress = navigation.dialog().showProgress(title,
         cancelTitle = getString(R.string.renetik_android_framework_operation_send_cancel)) { cancel() }
     process.onFailed {
-        if (!navigation.isNetworkConnected && onInternetFailed != null)
+        if (!application.isNetworkConnected && onInternetFailed != null)
             onInternetFailed()
         else
             navigation.dialog(title,

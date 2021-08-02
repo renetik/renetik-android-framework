@@ -12,10 +12,10 @@ import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
-import renetik.android.extensions.applicationIcon
-import renetik.android.extensions.applicationLogo
+import renetik.android.content.applicationIcon
+import renetik.android.content.applicationLogo
 import renetik.android.content.attributeColor
-import renetik.android.extensions.inflate
+import renetik.android.content.inflate
 import renetik.android.framework.CSContext
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.notNull

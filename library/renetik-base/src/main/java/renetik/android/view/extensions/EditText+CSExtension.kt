@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
 import renetik.android.framework.event.*
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.event.property.CSEventPropertyImpl
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.isEmpty
 
@@ -39,7 +39,7 @@ fun EditText.updateClearIcon() {
 
 val EditText.asTextView: TextView get() = this
 
-fun EditText.text(parent: CSVisibleEventOwner, property: CSEventProperty<String?>) = apply {
+fun EditText.text(parent: CSVisibleEventOwner, property: CSEventPropertyImpl<String?>) = apply {
     fun updateText() = text(property.value.asString)
     val onPropertyChange = parent.whileShowing(property.onChange { updateText() })
     onTextChange {

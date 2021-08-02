@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
 import android.view.inputmethod.InputMethodManager.SHOW_FORCED
 import androidx.annotation.LayoutRes
+import renetik.android.content.inflate
 import renetik.android.content.input
 import renetik.android.controller.extensions.view
-import renetik.android.extensions.inflate
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.event.CSEventRegistrations

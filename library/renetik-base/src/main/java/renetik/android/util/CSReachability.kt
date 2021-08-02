@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
+import renetik.android.content.asString
+import renetik.android.content.isNetworkConnected
 import renetik.android.framework.CSContext
-import renetik.android.extensions.asString
-import renetik.android.extensions.isNetworkConnected
 import renetik.android.framework.event.event
 import renetik.android.logging.CSLog.logInfo
 

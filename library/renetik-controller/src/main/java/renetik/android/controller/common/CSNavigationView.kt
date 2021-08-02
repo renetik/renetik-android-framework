@@ -98,7 +98,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         pushId: String,
         controller: CSActivityView<T>
     ): CSActivityView<T> {
-        if (controllers.contains { it.getValue(PushID) == pushId })
+        if (controllers.any { it.getValue(PushID) == pushId })
             for (lastController in controllers.reversed()) {
                 controllers.delete(lastController)
                 view.remove(lastController)

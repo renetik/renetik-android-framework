@@ -24,3 +24,5 @@ fun File.createDatedFile(extension: String): File {
     mkdirs()
     return createTempFile(Date().format("yyyy-MM-dd_HH-mm-ss"), ".$extension", this)
 }
+
+fun File.readString() = if (exists()) readText() else null

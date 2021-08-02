@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import renetik.android.framework.CSContext
 import renetik.android.framework.common.catchAllWarnReturnNull
 
-class CSStore(id: String) : CSContext(), CSStoreInterface {
+class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
 
     private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
 

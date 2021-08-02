@@ -1,4 +1,4 @@
-package renetik.android.extensions
+package renetik.android.content
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,10 +16,14 @@ import android.view.View
 import androidx.core.content.res.getDrawableOrThrow
 import renetik.android.content.CSColorInt
 import renetik.android.content.color
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.framework.common.catchWarnReturnNull
 import renetik.android.primitives.isSet
 import java.security.MessageDigest
+
+val Context.isDevelopment get() = application.isDevelopmentMode
+val Context.isDebug get() = application.isDebugBuild
 
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> Context.inflate(layoutId: Int) =
@@ -80,7 +84,6 @@ fun Context.getColorResource(name: String): Int? {
 }
 
 fun Context.getColor(name: String): CSColorInt? = getColorResource(name)?.let { color(it) }
-
 
 val Context.progressDrawable: Drawable
     get() {

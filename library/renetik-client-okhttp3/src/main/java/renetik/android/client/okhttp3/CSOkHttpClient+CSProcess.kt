@@ -6,7 +6,7 @@ import org.json.JSONTokener
 import renetik.android.client.request.CSHttpProcess
 import renetik.android.client.request.CSHttpResponseData
 import renetik.android.client.request.CSOperation
-import renetik.android.extensions.isNetworkConnected
+import renetik.android.content.isNetworkConnected
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.lang.CSTimeConstants.Minute
 import renetik.android.java.extensions.notNull

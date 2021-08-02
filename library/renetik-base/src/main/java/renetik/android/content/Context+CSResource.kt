@@ -23,7 +23,6 @@ import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
 
-
 class CSColorInt(@ColorInt val color: Int)
 
 fun Context.color(@ColorRes color: Int) = CSColorInt(ContextCompat.getColor(this, color))
@@ -43,7 +42,7 @@ fun Context.resourceBytes(id: Int) = catchAllWarn {
     }) { stream.close() }
 }
 
-fun Context.openInputStream(uri: Uri) = catchErrorReturnNull<InputStream, FileNotFoundException> {
+fun Context.openInputStream(uri: Uri) = catchErrorReturnNull<FileNotFoundException, InputStream> {
     return contentResolver.openInputStream(uri)
 }
 

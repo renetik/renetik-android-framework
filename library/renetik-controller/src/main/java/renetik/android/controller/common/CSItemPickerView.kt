@@ -7,7 +7,7 @@ import renetik.android.controller.R
 import renetik.android.controller.base.CSDialogView
 import renetik.android.controller.extensions.numberPicker
 import renetik.android.controller.extensions.textView
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.event.property.CSEventPropertyImpl
 import renetik.android.java.extensions.collections.index
 import renetik.android.view.extensions.circulate
 import renetik.android.view.extensions.disableTextEditing
@@ -31,11 +31,11 @@ class CSItemPickerView<Row : Any>(
 
     constructor(
         @LayoutRes layout: Int, title: CharSequence,
-        data: List<Row>, property: CSEventProperty<in Row>
+        data: List<Row>, property: CSEventPropertyImpl<in Row>
     ) : this(layout = layout, title = title, data = data,
         selectedIndex = data.index(property.value) ?: 0, onSelected = { property.value = it })
 
-    constructor(title: CharSequence, data: List<Row>, property: CSEventProperty<in Row>)
+    constructor(title: CharSequence, data: List<Row>, property: CSEventPropertyImpl<in Row>)
             : this(R.layout.cs_chooser, title, data, property)
 
     private val picker = numberPicker(R.id.cs_chooser_picker)

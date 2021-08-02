@@ -39,18 +39,12 @@ open class CSActivityControllerDialogView<ViewType : View>(
 
     private fun dismiss() {
         if (isDialogShown) return
-//        backgroundView.removeFromSuperview()
-        activity().controller?.view?.remove(backgroundView)
+        backgroundView.removeFromSuperview()
         lifecycleStop()
         eventOnDismiss.fire()
     }
 
     private val isDialogShown get() = backgroundView.parent == null
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        dismiss()
-//    }
 
     private fun showDialog() {
         this.view.isClickable = true

@@ -1,4 +1,4 @@
-package renetik.android.extensions
+package renetik.android.content
 
 import android.content.Context
 import android.content.Intent

@@ -15,7 +15,8 @@ inline fun <ReturnType> catchReturn(
 inline fun <ReturnType> catchReturnNull(
     tryFunction: () -> ReturnType): ReturnType? = catchReturn(tryFunction, { null })
 
-inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturn(
+
+inline fun <reified ExceptionType : Throwable, ReturnType> catchWarnReturn(
     message: String? = null,
     tryFunction: () -> ReturnType, onExceptionReturn: (ExceptionType) -> ReturnType
 ): ReturnType {
@@ -25,32 +26,31 @@ inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturn(
         if (e is ExceptionType) {
             logWarn(e, message)
             onExceptionReturn(e)
-        }
-        else throw e
+        } else throw e
     }
 }
 
 inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturn(
     onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
-) = catchWarnReturn<ReturnType, ExceptionType>(message = null, tryFunction, { onExceptionReturn })
+) = catchWarnReturn<ExceptionType, ReturnType>(message = null, tryFunction, { onExceptionReturn })
 
 inline fun <reified ExceptionType : Throwable> catchWarn(tryFunction: () -> Unit) =
     catchWarnReturn<Unit, ExceptionType>(Unit, tryFunction)
 
 inline fun <ReturnType> catchAllWarnReturn(
     onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
-) = catchWarnReturn<ReturnType, Exception>(message = null, tryFunction, { onExceptionReturn })
+) = catchWarnReturn<Exception, ReturnType>(message = null, tryFunction, { onExceptionReturn })
 
 inline fun catchAllWarn(tryFunction: () -> Unit) = catchAllWarnReturn(Unit, tryFunction)
 
 inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturnNull(
     tryFunction: () -> ReturnType
-): ReturnType? = catchWarnReturn<ReturnType?, ExceptionType>(message = null, tryFunction, { null })
+): ReturnType? = catchWarnReturn<ExceptionType, ReturnType?>(message = null, tryFunction, { null })
 
 
 inline fun <ReturnType> catchAllWarnReturnNull(message: String? = null,
                                                tryFunction: () -> ReturnType)
-        : ReturnType? = catchWarnReturn<ReturnType?, Exception>(message, tryFunction, { null })
+        : ReturnType? = catchWarnReturn<Exception, ReturnType?>(message, tryFunction, { null })
 
 inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturn(
     tryFunction: () -> ReturnType, onExceptionReturn: (ExceptionType) -> ReturnType
@@ -61,27 +61,27 @@ inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturn(
         if (e is ExceptionType) {
             logError(e)
             onExceptionReturn(e)
-        }
-        else throw e
+        } else throw e
     }
 }
 
-inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturn(
-    onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
-) = catchErrorReturn<ReturnType, ExceptionType>(tryFunction, { onExceptionReturn })
+inline fun <reified ExceptionType : Throwable, ReturnType>
+        catchErrorReturn(onExceptionReturn: ReturnType, tryFunction: () -> ReturnType) =
+    catchErrorReturn<ReturnType, ExceptionType>(tryFunction, { onExceptionReturn })
 
 inline fun <reified ExceptionType : Throwable> catchError(tryFunction: () -> Unit) =
-    catchErrorReturn<Unit, ExceptionType>(Unit, tryFunction)
+    catchErrorReturn<ExceptionType, Unit>(Unit, tryFunction)
 
-inline fun <ReturnType> catchAllErrorReturn(
-    onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
-) = catchErrorReturn<ReturnType, Exception>(tryFunction, { onExceptionReturn })
+
+inline fun <ReturnType>
+        catchAllErrorReturn(onExceptionReturn: ReturnType, tryFunction: () -> ReturnType) =
+    catchErrorReturn<ReturnType, Exception>(tryFunction, { onExceptionReturn })
 
 inline fun catchAllError(tryFunction: () -> Unit) = catchAllErrorReturn(Unit, tryFunction)
 
-inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturnNull(
-    tryFunction: () -> ReturnType
-): ReturnType? = catchWarnReturn<ReturnType?, ExceptionType>(message = null, tryFunction, { null })
+inline fun <reified ExceptionType : Throwable, ReturnType>
+        catchErrorReturnNull(tryFunction: () -> ReturnType): ReturnType? =
+    catchErrorReturn<ExceptionType, ReturnType?>(null, tryFunction)
 
 inline fun <ReturnType> catchAllErrorReturnNull(tryFunction: () -> ReturnType)
         : ReturnType? = catchErrorReturn<ReturnType?, Exception>(tryFunction, { null })

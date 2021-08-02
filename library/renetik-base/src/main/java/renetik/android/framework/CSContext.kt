@@ -8,7 +8,7 @@ import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import renetik.android.extensions.service
+import renetik.android.content.service
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.event

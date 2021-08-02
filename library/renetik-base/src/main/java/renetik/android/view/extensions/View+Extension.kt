@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
 import renetik.android.framework.event.CSVisibleEventOwner
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.event.property.CSEventPropertyImpl
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.math.CSPoint
 import renetik.android.java.extensions.isNull
@@ -91,7 +91,7 @@ fun View.getRectangleOnScreen(location: IntArray, rectangle: Rect) {
     rectangle.set(location[0], location[1], location[0] + width, location[1] + height)
 }
 
-fun <T> View.modelProperty(): CSEventProperty<T?> =
+fun <T> View.modelProperty(): CSEventPropertyImpl<T?> =
     propertyWithTag(R.id.ViewModelTag) { property(null) }
 
 fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
@@ -108,14 +108,14 @@ fun View.activated(value: Boolean) {
 }
 
 fun <T> View.selectedProperty(
-    parent: CSVisibleEventOwner, property: CSEventProperty<T>, value: T) {
+    parent: CSVisibleEventOwner, property: CSEventPropertyImpl<T>, value: T) {
     fun update() = selected(property.value == value)
     parent.whileShowing(property.onChange { update() })
     update()
     onClick { property.value = value }
 }
 
-fun <T> View.selectedProperty(property: CSEventProperty<T>, value: T) {
+fun <T> View.selectedProperty(property: CSEventPropertyImpl<T>, value: T) {
     fun update() = selected(property.value == value)
     update()
     onClick {
@@ -124,7 +124,7 @@ fun <T> View.selectedProperty(property: CSEventProperty<T>, value: T) {
     }
 }
 
-fun <T> View.activatedProperty(property: CSEventProperty<T>, value: T) {
+fun <T> View.activatedProperty(property: CSEventPropertyImpl<T>, value: T) {
     fun update() = activated(property.value == value)
     update()
     onClick {

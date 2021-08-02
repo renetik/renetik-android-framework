@@ -1,16 +1,15 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.event.property.CSEventPropertyBase
 
 class CSStoreBooleanEventProperty(
     private var store: CSStoreInterface, val key: String, val default: Boolean,
     onChange: ((value: Boolean) -> Unit)?)
-    : CSEventProperty<Boolean>(store.getBoolean(key, default), onChange) {
+    : CSEventPropertyBase<Boolean>(onChange) {
 
-    override fun value(newValue: Boolean, fire: Boolean) {
-        super.value(newValue, fire)
-        store.save(key, newValue)
-    }
+    override var _value: Boolean
+        get() = store.getBoolean(key, default)
+        set(value) = store.save(key, value)
 
     fun store(store: CSStoreInterface) = apply {
         this.store = store
