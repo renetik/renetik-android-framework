@@ -12,6 +12,7 @@ import renetik.android.controller.extensions.view
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.event.CSEventRegistrations
+import renetik.android.framework.event.CSHasParent
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.event
 import renetik.android.framework.lang.CSLayoutRes
@@ -22,7 +23,7 @@ import renetik.android.logging.CSLog.logError
 import renetik.android.view.extensions.inflate
 import renetik.android.view.extensions.isShowing
 
-open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner {
+open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner, CSHasParent {
 
     private val layout: CSLayoutRes?
     private val viewId: Int?
@@ -123,9 +124,9 @@ open class CSView<ViewType : View> : CSContext, CSVisibleEventOwner {
         super.onDestroy()
     }
 
-    open fun onAddedToParent() = updateVisibilityChanged()
+    override fun onAddedToParent() = updateVisibilityChanged()
 
-    open fun onRemovedFromParent() = updateVisibilityChanged()
+    override fun onRemovedFromParent() = updateVisibilityChanged()
 
     private val eventRegistrations = CSEventRegistrations()
     fun register(registration: CSEventRegistration) =

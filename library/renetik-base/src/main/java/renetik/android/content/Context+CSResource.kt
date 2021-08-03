@@ -5,6 +5,7 @@ import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.content.res.Resources.NotFoundException
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.DisplayMetrics
 import android.util.DisplayMetrics.DENSITY_DEFAULT
@@ -121,4 +122,5 @@ fun Context.drawable(@DrawableRes resource: Int) =
         setBounds(0, 0, intrinsicWidth, intrinsicHeight)
     }
 
-fun transparentDrawable(bounds: Rect) = ColorDrawable().apply { this.bounds = bounds }
+fun clearDrawable(drawable: Drawable) = clearDrawable(drawable.bounds)
+fun clearDrawable(bounds: Rect) = ColorDrawable().apply { this.bounds = bounds }

@@ -23,6 +23,8 @@ inline fun <T> CSEvent<T>.listenOnce(crossinline listener: (argument: T) -> Unit
 
 interface CSEvent<T> {
 
+    val isListened: Boolean
+
     fun add(listener: (registration: CSEventRegistration, argument: T) -> Unit): CSEventRegistration
 
     fun fire(argument: T)
@@ -34,8 +36,6 @@ interface CSEvent<T> {
         var isActive: Boolean
 
         fun cancel()
-
-//        fun event(): CSEvent<*>
     }
 }
 
@@ -53,6 +53,11 @@ interface CSEventOwner {
 
 interface CSVisibleEventOwner {
     fun whileShowing(registration: CSEventRegistration): CSEventRegistration
+}
+
+interface CSHasParent {
+    fun onAddedToParent()
+    fun onRemovedFromParent()
 }
 
 

@@ -48,3 +48,5 @@ inline fun <reified T> Array<T>.extract(indexes: IntArray) = Array(indexes.size)
 
 inline fun <reified T> Array<out T>.toArray() = asList().toTypedArray()
 
+fun <T> Array<out T>.at(index: Int) = if (index in 0 until size) get(index) else null
+

@@ -63,7 +63,7 @@ fun <T> TextView.text(property: CSEventProperty<T>) = text(property) { it.asStri
 
 fun <T : CSDrawableInterface> TextView.startDrawable(
     parent: CSVisibleEventOwner, property: CSEventProperty<T>) = apply {
-    fun updateDrawable() = setStartDrawable(context.drawable(property.value.drawable))
+    fun updateDrawable() = startDrawable(context.drawable(property.value.drawable))
     parent.whileShowing(property.onChange { updateDrawable() })
     updateDrawable()
 }

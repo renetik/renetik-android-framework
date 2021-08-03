@@ -255,6 +255,8 @@
         <item name="android:numColumns">auto_fit</item>
         <item name="android:scrollbars">none</item>
         <item name="android:stretchMode">columnWidth</item>
+        <item name="android:choiceMode">none</item>
+        <item name="android:listSelector">@color/cs_transparent</item>
     </style>
 
     <style name="CSGridFillMatch" parent="CSGridMatch">

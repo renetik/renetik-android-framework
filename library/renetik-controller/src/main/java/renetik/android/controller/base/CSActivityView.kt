@@ -125,14 +125,6 @@ abstract class CSActivityView<ViewType : View>
 
     fun goBack(): Unit = parentController?.goBack() ?: let { activity().onBackPressed() }
 
-//    override fun obtainView(): ViewType? {
-//        return parentController?.let { parent ->
-//            @Suppress("UNCHECKED_CAST")
-//            viewId?.let { id -> parent.view.findViewRecursive<ViewType>(id) }
-//                ?: parentController!!.view as ViewType
-//        } ?: throw unexpected
-//    }
-
     override fun onAddedToParent() {
         lifecycleUpdate()
         super.onAddedToParent()

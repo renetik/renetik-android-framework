@@ -40,6 +40,8 @@ class CSEventImpl<T> : CSEvent<T> {
 
     override fun clear() = registrations.clear()
 
+    override val isListened get() = registrations.hasItems
+
     internal inner class EventRegistrationImpl(private val listener: (CSEventRegistration, T) -> Unit) :
         CSEventRegistration {
 
@@ -54,8 +56,7 @@ class CSEventImpl<T> : CSEvent<T> {
             if (index >= 0) {
                 if (running) toRemove.add(this)
                 else registrations.removeAt(index)
-            }
-            else logError("Listener not found")
+            } else logError("Listener not found")
             canceled = true
         }
 

@@ -6,7 +6,7 @@ import renetik.android.framework.lang.CSValue
 import renetik.android.primitives.isEmpty
 
 val Any?.asString
-    get() = (this as? CSTitle)?.title
+    get() = (this as? CSTitle)?.title?.toString()
         ?: (this as? CSValue<*>)?.value as? String
         ?: this?.let { "$it" } ?: ""
 

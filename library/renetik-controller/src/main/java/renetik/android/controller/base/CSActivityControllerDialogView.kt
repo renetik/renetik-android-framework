@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import androidx.core.view.updateLayoutParams
 import renetik.android.content.color
 import renetik.android.content.dpToPixel
+import renetik.android.content.dpToPixelF
 import renetik.android.controller.R
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
@@ -67,8 +68,9 @@ open class CSActivityControllerDialogView<ViewType : View>(
 
         this.view.hasSize {
             var desiredX = fromViewTopCenterX.toFloat() - (this.view.width / 2)
-            if (desiredX + this.view.width > displayWidth - dpToPixel(marginDp))
-                desiredX -= (desiredX + this.view.width) - (displayWidth - dpToPixel(marginDp))
+            if (desiredX + this.view.width > displayWidth - dpToPixelF(marginDp))
+                desiredX -= (desiredX + this.view.width) - (displayWidth - dpToPixelF(marginDp))
+            if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
             this.view.x = desiredX
             this.view.y = fromViewBottomY
         }

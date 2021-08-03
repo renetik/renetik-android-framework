@@ -19,7 +19,7 @@ class CSStoreStringEventProperty(
 
     //CharSequence
     override val length get() = value.length
-    override fun get(index: Int) = value.get(index)
+    override fun get(index: Int) = value[index]
     override fun subSequence(startIndex: Int, endIndex: Int) =
         value.subSequence(startIndex, endIndex)
 }
