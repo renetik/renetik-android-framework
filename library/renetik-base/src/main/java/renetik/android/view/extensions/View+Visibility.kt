@@ -45,9 +45,11 @@ fun View.visibilityPropertySet(parent: CSVisibleEventOwner, property: CSEventPro
         updateVisibility()
     }
 
-fun View.visibilityPropertyTrue(parent: CSVisibleEventOwner, property: CSEventPropertyImpl<Boolean>) =
+fun View.visibilityPropertyTrue(parent: CSVisibleEventOwner,
+                                property: CSEventPropertyImpl<Boolean>,
+                                fade: Boolean = true) =
     apply {
-        fun updateVisibility() = shownIf(property.value)
+        fun updateVisibility() = shownIf(property.value, fade)
         parent.whileShowing(property.onChange { updateVisibility() })
         updateVisibility()
     }

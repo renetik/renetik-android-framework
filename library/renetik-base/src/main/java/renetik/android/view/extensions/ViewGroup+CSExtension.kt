@@ -14,6 +14,7 @@ fun <ViewType : View> ViewGroup.add(
     view: ViewType, index: Int = -1): ViewType {
     view.removeFromSuperview()
     addView(view, index)
+    (view.tag as? CSHasParent)?.onAddedToParent()
     return view
 }
 
@@ -22,6 +23,7 @@ fun <ViewType : View> ViewGroup.add(
 ): ViewType {
     view.removeFromSuperview()
     addView(view, index, layout)
+    (view.tag as? CSHasParent)?.onAddedToParent()
     return view
 }
 

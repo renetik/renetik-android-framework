@@ -5,18 +5,22 @@ import java.io.File.createTempFile
 import java.util.*
 
 
-fun File.createNewFileAndDirs() {
+fun File.createFileAndDirs() = apply {
     parentFile?.mkdirs()
     createNewFile()
 }
 
 fun File.write(text: String) = apply {
-    createNewFileAndDirs()
+    createFileAndDirs()
     writeText(text)
 }
 
-fun File.recreate() = apply {
+fun File.recreateDirs() = apply {
     deleteRecursively()
+    mkdirs()
+}
+
+fun File.createDirs() = apply {
     mkdirs()
 }
 

@@ -8,13 +8,11 @@ import renetik.android.view.extensions.remove
 
 fun <Controller : CSView<*>> ViewGroup.add(controller: Controller): Controller {
     add(controller.view)
-    controller.onAddedToParent()
     return controller
 }
 
 fun <Controller : CSView<*>> ViewGroup.add(controller: Controller, index: Int = -1): Controller {
     add(controller.view, index)
-    controller.onAddedToParent()
     return controller
 }
 
@@ -22,13 +20,11 @@ fun <Controller : CSView<*>> ViewGroup.add(
     controller: Controller, layout: LayoutParams, index: Int = -1,
 ): Controller {
     add(controller.view, layout, index)
-    controller.onAddedToParent()
     return controller
 }
 
 fun <T : ViewGroup> T.remove(view: CSView<*>): T {
     remove(view.view)
-    view.onRemovedFromParent()
     return this
 }
 

@@ -63,7 +63,6 @@ fun <Type : CSView<*>> Type.afterLayout(action: (Type) -> Unit) =
 
 fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
     view.removeFromSuperview()
-    onRemovedFromParent()
 }
 
 

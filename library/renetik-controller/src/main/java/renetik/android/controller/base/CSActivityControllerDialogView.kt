@@ -48,11 +48,10 @@ open class CSActivityControllerDialogView<ViewType : View>(
     private val isDialogShown get() = backgroundView.parent == null
 
     private fun showDialog() {
+        activity().controller?.view?.add(backgroundView, layoutMatch)
         this.view.isClickable = true
         backgroundView.add(this.view)
-        activity().controller?.view?.add(backgroundView, layoutMatch)
         backgroundView.hide().fadeIn()
-        this.lifecycleUpdate()
     }
 
     fun show() = apply { showDialog() }
