@@ -7,8 +7,8 @@ class CSStoreFloatEventProperty(
     onChange: ((value: Float) -> Unit)?)
     : CSEventPropertyImpl<Float>(store.getFloat(key, default), onChange) {
 
-    override fun value(newValue: Float, fire: Boolean) {
-        super.value(newValue, fire)
+    override fun onValueChanged(newValue: Float) {
+        super.onValueChanged(newValue)
         store.save(key, newValue)
     }
 

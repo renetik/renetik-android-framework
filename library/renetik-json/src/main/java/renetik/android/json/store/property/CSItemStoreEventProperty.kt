@@ -11,8 +11,9 @@ class CSItemStoreEventProperty<T : CSJsonMap>(
     val store: CSStoreInterface, val key: String, type: KClass<T>,
     default: T? = null, onApply: ((value: T?) -> Unit)? = null
 ) : CSEventPropertyImpl<T?>(store.load(type, key, default), onApply) {
-    override fun value(newValue: T?, fire: Boolean) {
-        super.value(newValue, fire)
+
+    override fun onValueChanged(newValue: T?) {
+        super.onValueChanged(newValue)
         save()
     }
 

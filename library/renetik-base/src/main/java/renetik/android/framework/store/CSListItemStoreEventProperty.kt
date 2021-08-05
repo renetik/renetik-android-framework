@@ -6,17 +6,16 @@ class CSListItemStoreEventProperty<T>(
     private var store: CSStoreInterface, private val key: String,
     val values: List<T>, val default: T, onChange: ((value: T) -> Unit)? = null
 ) : CSEventPropertyImpl<T>(store.getValue(key, values, default), onChange) {
-    override fun value(newValue: T, fire: Boolean) {
-        super.value(newValue, fire)
-        store.save(key, newValue.toString())
-    }
-
+    override fun onValueChanged(newValue: T) = setValue(store, newValue)
     fun store(store: CSStoreInterface) = apply {
         this.store = store
         reload()
     }
+    fun reload() = value(getValue(store))
 
-    fun reload() = value(store.getValue(key, values, default))
+    // CSStoreEventPropertyInterface
+    fun setValue(store: CSStoreInterface, value: T) = store.save(key, value.toString())
+    fun getValue(store: CSStoreInterface) = store.getValue(key, values, default)
 }
 
 fun <T> CSStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {

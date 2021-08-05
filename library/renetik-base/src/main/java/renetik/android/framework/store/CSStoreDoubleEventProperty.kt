@@ -7,8 +7,7 @@ class CSStoreDoubleEventProperty(
     onChange: ((value: Double) -> Unit)?)
     : CSEventPropertyImpl<Double>(store.getDouble(key, default), onChange) {
 
-    override fun value(newValue: Double, fire: Boolean) {
-        super.value(newValue, fire)
+    override fun onValueChanged(newValue: Double) {
         store.save(key, newValue)
     }
 

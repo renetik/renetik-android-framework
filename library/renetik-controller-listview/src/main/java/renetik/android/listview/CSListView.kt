@@ -18,8 +18,7 @@ import renetik.android.view.extensions.*
 
 @Deprecated("Use CSGridView")
 open class CSListView<RowType : Any, ViewType : AbsListView>(
-    parent: CSActivityView<*>,
-    listViewId: Int,
+    parent: CSActivityView<*>, listViewId: Int,
     private val createView: (CSListView<RowType, ViewType>).(Int) -> CSRowView<RowType>) :
     CSActivityView<ViewType>(parent, listViewId) {
 

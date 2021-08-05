@@ -15,7 +15,7 @@ import renetik.android.framework.event.listenOnce
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.view.extensions.*
 
-open class CSActivityControllerDialogView<ViewType : View>(
+open class CSMainControllerDialogView<ViewType : View>(
     parent: CSActivityView<*>, val layout: CSLayoutRes) : CSActivityView<ViewType>(parent, layout) {
 
     val marginDp = 15
@@ -54,7 +54,7 @@ open class CSActivityControllerDialogView<ViewType : View>(
         backgroundView.hide().fadeIn()
     }
 
-    fun show() = apply { showDialog() }
+    open fun show() = apply { showDialog() }
 
     fun from(fromView: View) = apply {
         view.updateLayoutParams<FrameLayout.LayoutParams> {

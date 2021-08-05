@@ -10,8 +10,7 @@ import renetik.android.view.extensions.*
 
 fun <T : View> CSView<*>.findView(@IdRes id: Int): T? = view.findView(id)
 
-fun CSView<*>.view(
-    @IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+fun CSView<*>.view(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
     view.view(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSView<*>.views(@IdRes vararg ids: Int): List<View> =

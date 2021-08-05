@@ -1,12 +1,6 @@
 package renetik.android.java.extensions.collections
 
-val <T> List<T>.length get() = size
-
-val <T> List<T>.hasItems get() = size > 0
-
-val <T> List<T>.isEmpty get() = size == 0
-
-val <T> List<T>.lastIndex get() = size - 1
+import renetik.android.framework.lang.CSList
 
 val <T> List<T>.first get() = at(0)
 
@@ -47,8 +41,8 @@ fun <T> List<T>.range(fromIndex: Int, toIndex: Int) =
 
 fun <T> List<T>.has(item: T) = contains(item)
 
-fun <T> list(block: (MutableList<T>.() -> Unit)? = null): MutableList<T> =
-    ArrayList<T>().apply { block?.invoke(this) }
+fun <T> list(block: (MutableList<T>.() -> Unit)? = null): CSList<T> =
+    CSList<T>().apply { block?.invoke(this) }
 
 fun <T> list(size: Int): MutableList<T> = ArrayList(size)
 fun <T> listOfNulls(size: Int) = list<T?>(size, null)

@@ -58,7 +58,17 @@ interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String
     override fun property(key: String, default: String, onChange: ((value: String) -> Unit)?) =
         CSStoreStringEventProperty(this, key, default, onChange)
 
+    fun storedString(key: String, onChange: ((value: String) -> Unit)? = null) =
+        CSStoredStringEventProperty(this, key, onChange)
+
     override fun property(key: String, default: Boolean, onChange: ((value: Boolean) -> Unit)?) =
         CSStoreBooleanEventProperty(this, key, default, onChange)
+
+    fun storedBoolean(key: String, default: Boolean? = null,
+                      onChange: ((value: Boolean?) -> Unit)?) =
+        CSStoreNullableBooleanEventProperty(this, key, default, onChange)
+
+    fun storedBoolean(key: String, onChange: ((value: Boolean) -> Unit)? = null) =
+        CSStoredBooleanEventProperty(this, key, onChange)
 }
 

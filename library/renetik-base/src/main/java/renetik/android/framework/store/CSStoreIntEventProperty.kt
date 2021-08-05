@@ -7,8 +7,8 @@ class CSStoreIntEventProperty(
     onChange: ((value: Int) -> Unit)?)
     : CSEventPropertyImpl<Int>(store.getInt(key, default), onChange) {
 
-    override fun value(newValue: Int, fire: Boolean) {
-        super.value(newValue, fire)
+    override fun onValueChanged(newValue: Int) {
+        super.onValueChanged(newValue)
         store.save(key, newValue)
     }
 

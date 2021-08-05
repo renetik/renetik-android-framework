@@ -2,14 +2,15 @@ package renetik.android.json.store
 
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.java.extensions.collections.list
+import renetik.android.java.extensions.collections.putAll
 import renetik.android.json.data.CSJsonMap
-import renetik.android.json.extensions.createJsonDataList
 import renetik.android.json.extensions.createJsonMap
 import renetik.android.json.parseJson
 import renetik.android.json.store.property.CSItemStoreEventProperty
 import renetik.android.json.store.property.CSListStoreEventProperty
 import renetik.android.json.toJsonString
 import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 
 fun CSStoreInterface.save(key: String, value: Any?) = save(key, value?.toJsonString())
 
@@ -32,11 +33,21 @@ fun <T : CSJsonMap> CSStoreInterface.load(
     type: KClass<T>, key: String) = type.createJsonMap(loadJson(key))
 
 fun <T : CSJsonMap> CSStoreInterface.loadList(
-    type: KClass<T>, key: String) = type.createJsonDataList(loadJson(key))
+    type: KClass<T>, key: String, default: List<T>? = null) =
+    loadList({ type.createInstance() }, key, default)
 
 fun <T : CSJsonMap> CSStoreInterface.loadList(
-    type: KClass<T>, key: String, default: List<T>) =
-    type.createJsonDataList(loadJson(key), default)
+    createInstance: () -> T, key: String, default: List<T>? = null): MutableList<T> {
+    val list = list<T>()
+    val data = loadJson<List<MutableMap<String, Any?>>?>(key)
+    data?.withIndex()?.forEach { (index, itemData) ->
+        val itemInstance = createInstance()
+        itemInstance.load(itemData)
+        itemInstance.index = index
+        list.put(itemInstance)
+    } ?: default?.let { list.putAll(default) }
+    return list
+}
 
 fun <T : Any> CSStoreInterface.loadList(key: String) = loadJson<MutableList<T>>(key) ?: list()
 
@@ -45,6 +56,11 @@ private fun <Type> CSStoreInterface.loadJson(key: String) = get(key)?.parseJson<
 fun <T : CSJsonMap> CSStoreInterface.property(
     key: String, listType: KClass<T>, default: List<T>, onApply: ((value: List<T>) -> Unit)? = null
 ) = CSListStoreEventProperty(this, key, listType, default, onApply)
+
+fun <T : CSJsonMap> CSStoreInterface.property(
+    key: String, createInstance: () -> T, default: List<T>,
+    onApply: ((value: List<T>) -> Unit)? = null
+) = CSListStoreEventProperty(this, key, createInstance, default, onApply)
 
 fun <T : CSJsonMap> CSStoreInterface.property(
     key: String, type: KClass<T>, default: T? = null, onApply: ((value: T?) -> Unit)? = null
