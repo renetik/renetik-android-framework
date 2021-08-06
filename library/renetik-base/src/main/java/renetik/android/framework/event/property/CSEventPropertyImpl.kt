@@ -24,6 +24,8 @@ abstract class CSStoreEventPropertyBase<T>(
 
     abstract fun getValue(store: CSStoreInterface): T
     abstract fun setValue(store: CSStoreInterface, value: T)
+
+    fun save() = setValue(store, value)
 }
 
 abstract class CSEventPropertyBase<T>(protected val onApply: ((value: T) -> Unit)? = null) :

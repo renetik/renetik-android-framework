@@ -1,6 +1,5 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.event.property.CSStoreEventPropertyBase
 
 class CSStoreStringEventProperty(

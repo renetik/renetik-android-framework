@@ -1,21 +1,25 @@
 package renetik.android.json.store.property
 
-import renetik.android.framework.event.property.CSEventPropertyImpl
+import renetik.android.framework.event.property.CSStoreEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.json.data.CSJsonMap
-import renetik.android.json.store.load
-import renetik.android.json.store.save
+import renetik.android.json.extensions.createJsonMap
+import renetik.android.json.parseJsonMap
+import renetik.android.json.toJsonString
 import kotlin.reflect.KClass
 
 class CSItemStoreEventProperty<T : CSJsonMap>(
-    val store: CSStoreInterface, val key: String, type: KClass<T>,
-    default: T? = null, onApply: ((value: T?) -> Unit)? = null
-) : CSEventPropertyImpl<T?>(store.load(type, key, default), onApply) {
+    store: CSStoreInterface, val key: String, val type: KClass<T>,
+    val default: T? = null, onApply: ((value: T?) -> Unit)? = null
+) : CSStoreEventPropertyBase<T?>(store, onApply) {
+    override var _value: T? = getValue(store)
 
-    override fun onValueChanged(newValue: T?) {
-        super.onValueChanged(newValue)
-        save()
+    @Suppress("UNCHECKED_CAST")
+    override fun getValue(store: CSStoreInterface): T? {
+        val data = store.get(key)?.parseJsonMap() ?: return default
+        return type.createJsonMap(data)
     }
 
-    fun save() = store.save(key, value)
+    override fun setValue(store: CSStoreInterface, value: T?) =
+        store.save(key, value?.toJsonString())
 }

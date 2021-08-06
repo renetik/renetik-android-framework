@@ -6,7 +6,6 @@ import androidx.annotation.StringRes
 import renetik.android.content.drawable
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.property.CSEventPropertyImpl
 import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.isSet
