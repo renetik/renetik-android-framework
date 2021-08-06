@@ -20,7 +20,7 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
 
     protected fun save() {
         val json = data
-//            .runIf(isJsonPretty) { it.toSortedMap() }
+            .runIf(isJsonPretty) { it.toSortedMap() }
             .toJsonString(formatted = isJsonPretty)
         saveJsonString(json)
     }
