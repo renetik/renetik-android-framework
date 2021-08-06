@@ -132,10 +132,3 @@ fun <T> View.activatedProperty(property: CSEventPropertyImpl<T>, value: T) {
         activated(true)
     }
 }
-
-val View.locationOnScreen: CSPoint<Int>
-    get() {
-        val location = IntArray(2)
-        getLocationOnScreen(location)
-        return CSPoint(location[0], location[1])
-    }

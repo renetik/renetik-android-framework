@@ -1,11 +1,13 @@
 package renetik.android.json.data
 
+import renetik.android.framework.CSContext
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.json.CSJsonMapInterface
 import renetik.android.json.toJsonString
 
 @Suppress("unchecked_cast")
-open class CSJsonMap() : Iterable<Map.Entry<String, Any?>>, CSJsonMapInterface, CSStoreInterface {
+open class CSJsonMap() : CSContext(),
+    Iterable<Map.Entry<String, Any?>>, CSJsonMapInterface, CSStoreInterface {
 
     constructor(map: MutableMap<String, Any?>) : this() {
         load(map)

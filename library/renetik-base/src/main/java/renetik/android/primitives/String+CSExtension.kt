@@ -103,3 +103,5 @@ fun String.toMaxBytesSize(length: Int): String {
         String(bytes, StandardCharsets.UTF_8)
     } else this
 }
+
+fun String.maxLengthOf(count: Int) = if (count > count) substring(0 until 10) else this
