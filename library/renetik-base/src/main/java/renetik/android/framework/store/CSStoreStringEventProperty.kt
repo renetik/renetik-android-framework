@@ -1,37 +1,22 @@
 package renetik.android.framework.store
 
 import renetik.android.framework.event.property.CSEventPropertyBase
+import renetik.android.framework.event.property.CSStoreEventPropertyBase
 
 class CSStoreStringEventProperty(
-    private var store: CSStoreInterface, val key: String, val default: String,
-    onChange: ((value: String) -> Unit)?) : CSEventPropertyBase<String>(onChange), CharSequence {
-
-    override var _value: String
-        get() = store.getString(key, default)
-        set(value) = store.save(key, value)
-
-    fun store(store: CSStoreInterface) = apply {
-        this.store = store
-        reload()
-    }
-
-    fun reload() = value(store.getString(key, default))
-
-    //CharSequence
-    override val length get() = value.length
-    override fun get(index: Int) = value[index]
-    override fun subSequence(startIndex: Int, endIndex: Int) =
-        value.subSequence(startIndex, endIndex)
+    store: CSStoreInterface, val key: String, val default: String,
+    onChange: ((value: String) -> Unit)?) : CSStoreEventPropertyBase<String>(store, onChange) {
+    override var _value = getValue(store)
+    override fun getValue(store: CSStoreInterface) = store.getString(key, default)
+    override fun setValue(store: CSStoreInterface, value: String) = store.save(key, value)
 }
 
-
 class CSStoredStringEventProperty(
-    private var store: CSStoreInterface, val key: String,
-    onChange: ((value: String) -> Unit)?) : CSEventPropertyBase<String>(onChange), CharSequence {
-
+    store: CSStoreInterface, val key: String, onChange: ((value: String) -> Unit)?)
+    : CSStoreEventPropertyBase<String>(store, onChange) {
     override var _value: String
-        get() = store.getString(key)!!
-        set(value) = store.save(key, value)
+        get() = getValue(store)
+        set(value) = setValue(store, value)
 
     override fun value(newValue: String, fire: Boolean) {
         val current = store.getString(key)
@@ -45,16 +30,6 @@ class CSStoredStringEventProperty(
         if (fire) eventChange.fire(newValue)
     }
 
-    fun store(store: CSStoreInterface) = apply {
-        this.store = store
-        reload()
-    }
-
-    fun reload() = value(store.getString(key)!!)
-
-    //CharSequence
-    override val length get() = value.length
-    override fun get(index: Int) = value[index]
-    override fun subSequence(startIndex: Int, endIndex: Int) =
-        value.subSequence(startIndex, endIndex)
+    override fun getValue(store: CSStoreInterface) = store.getString(key)!!
+    override fun setValue(store: CSStoreInterface, value: String) = store.save(key, value)
 }

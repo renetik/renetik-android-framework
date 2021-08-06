@@ -1,20 +1,12 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.property.CSEventPropertyImpl
+import renetik.android.framework.event.property.CSStoreEventPropertyBase
 
 class CSStoreDoubleEventProperty(
-    private var store: CSStoreInterface, val key: String, val default: Double,
+    store: CSStoreInterface, val key: String, val default: Double,
     onChange: ((value: Double) -> Unit)?)
-    : CSEventPropertyImpl<Double>(store.getDouble(key, default), onChange) {
-
-    override fun onValueChanged(newValue: Double) {
-        store.save(key, newValue)
-    }
-
-    fun store(store: CSStoreInterface) = apply {
-        this.store = store
-        reload()
-    }
-
-    fun reload() = value(store.getDouble(key, default))
+    : CSStoreEventPropertyBase<Double>(store, onChange) {
+    override var _value = getValue(store)
+    override fun getValue(store: CSStoreInterface) = store.getDouble(key, default)
+    override fun setValue(store: CSStoreInterface, value: Double) = store.save(key, value)
 }

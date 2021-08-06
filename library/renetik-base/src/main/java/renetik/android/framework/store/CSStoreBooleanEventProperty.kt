@@ -1,49 +1,32 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.property.CSEventPropertyBase
+import renetik.android.framework.event.property.CSStoreEventPropertyBase
 
 class CSStoreBooleanEventProperty(
-    private var store: CSStoreInterface, val key: String, val default: Boolean,
+    store: CSStoreInterface, val key: String, val default: Boolean,
     onChange: ((value: Boolean) -> Unit)?)
-    : CSEventPropertyBase<Boolean>(onChange) {
-
-    override var _value: Boolean
-        get() = store.getBoolean(key, default)
-        set(value) = store.save(key, value)
-
-    fun store(store: CSStoreInterface) = apply {
-        this.store = store
-        reload()
-    }
-
-    fun reload() = value(store.getBoolean(key, default))
+    : CSStoreEventPropertyBase<Boolean>(store, onChange) {
+    override var _value = getValue(store)
+    override fun getValue(store: CSStoreInterface) = store.getBoolean(key, default)
+    override fun setValue(store: CSStoreInterface, value: Boolean) = store.save(key, value)
 }
 
-open class CSStoreNullableBooleanEventProperty(
-    private var store: CSStoreInterface, val key: String, val default: Boolean?,
+class CSStoreNullableBooleanEventProperty(
+    store: CSStoreInterface, val key: String, val default: Boolean?,
     onChange: ((value: Boolean?) -> Unit)?)
-    : CSEventPropertyBase<Boolean?>(onChange) {
-
-    override var _value: Boolean?
-        get() = store.getBoolean(key, default)
-        set(value) = store.save(key, value)
-
-    fun store(store: CSStoreInterface) = apply {
-        this.store = store
-        reload()
-    }
-
-    fun reload() = value(store.getBoolean(key, default))
+    : CSStoreEventPropertyBase<Boolean?>(store, onChange) {
+    override var _value = getValue(store)
+    override fun getValue(store: CSStoreInterface) = store.getBoolean(key, default)
+    override fun setValue(store: CSStoreInterface, value: Boolean?) = store.save(key, value)
 }
 
 class CSStoredBooleanEventProperty(
-    private var store: CSStoreInterface, val key: String,
+    store: CSStoreInterface, val key: String,
     onChange: ((value: Boolean) -> Unit)?)
-    : CSEventPropertyBase<Boolean>(onChange) {
-
+    : CSStoreEventPropertyBase<Boolean>(store, onChange) {
     override var _value: Boolean
-        get() = store.getBoolean(key)!!
-        set(value) = store.save(key, value)
+        get() = getValue(store)
+        set(value) = setValue(store, value)
 
     override fun value(newValue: Boolean, fire: Boolean) {
         val current = store.getBoolean(key)
@@ -57,10 +40,6 @@ class CSStoredBooleanEventProperty(
         if (fire) eventChange.fire(newValue)
     }
 
-    fun store(store: CSStoreInterface) = apply {
-        this.store = store
-        reload()
-    }
-
-    fun reload() = value(store.getBoolean(key)!!)
+    override fun getValue(store: CSStoreInterface) = store.getBoolean(key)!!
+    override fun setValue(store: CSStoreInterface, value: Boolean) = store.save(key, value)
 }

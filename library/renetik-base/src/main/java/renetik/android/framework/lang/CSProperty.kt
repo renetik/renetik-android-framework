@@ -1,7 +1,6 @@
 package renetik.android.framework.lang
 
 import renetik.android.java.extensions.asString
-import renetik.android.primitives.empty
 
 interface CSProperty<T> : CSValue<T> {
     override var value: T
@@ -22,6 +21,13 @@ inline var CSProperty<Boolean>.isFalse
     set(newValue) {
         value = !newValue
     }
+
+
+val CSProperty<String>.isEmpty get() = value.isEmpty()
+fun CSProperty<String>.contains(value: String, ignoreCase: Boolean = false) =
+    this.value.contains(value, ignoreCase)
+fun CSProperty<String>.contains(property: CSProperty<String>, ignoreCase: Boolean = false) =
+    this.contains(property.value, ignoreCase)
 
 inline var CSProperty<String?>.string
     get() = value.asString

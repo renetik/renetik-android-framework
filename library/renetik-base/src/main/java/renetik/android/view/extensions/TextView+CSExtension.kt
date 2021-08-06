@@ -5,8 +5,8 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.content.drawable
 import renetik.android.framework.event.*
-import renetik.android.framework.event.property.CSEventPropertyImpl
 import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.event.property.CSEventPropertyImpl
 import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.isSet
@@ -15,7 +15,7 @@ import renetik.android.view.adapter.CSTextWatcherAdapter
 fun <T : TextView> T.text(@StringRes resourceId: Int) = apply { setText(resourceId) }
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
 fun <T : TextView> T.textAppend(string: CharSequence?) = text("$title$string")
-fun <T : TextView> T.text(property: CSEventPropertyImpl<*>) = text(property.value.asString)
+fun <T : TextView> T.text(property: CSEventProperty<*>) = text(property.value.asString)
 fun <T : TextView> T.text(value: Any?) = text(value.asString)
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text() = text.asString
@@ -51,15 +51,15 @@ fun <T> TextView.text(
     updateText()
 }
 
-fun <T> TextView.text(
-    property: CSEventProperty<T>, valueToString: (T) -> String
-) = apply {
-    fun updateText() = text(valueToString(property.value))
-    property.onChange { updateText() }
-    updateText()
-}
+//fun <T> TextView.text(
+//    property: CSEventProperty<T>, valueToString: (T) -> String
+//) = apply {
+//    fun updateText() = text(valueToString(property.value))
+//    property.onChange { updateText() }
+//    updateText()
+//}
 
-fun <T> TextView.text(property: CSEventProperty<T>) = text(property) { it.asString }
+//fun <T> TextView.text(property: CSEventProperty<T>) = text(property) { it.asString }
 
 fun <T : CSDrawableInterface> TextView.startDrawable(
     parent: CSVisibleEventOwner, property: CSEventProperty<T>) = apply {

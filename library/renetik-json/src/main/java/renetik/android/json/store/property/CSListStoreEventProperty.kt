@@ -33,12 +33,12 @@ class CSListStoreEventProperty<T : CSJsonMap>(
 
     override val size get() = value.size
 
-    override fun put(element: T) = (value as MutableList<T>).put(element).apply { save() }
+    override fun put(item: T) = (value as MutableList<T>).put(item).apply { save() }
 
-    override fun delete(element: T): T {
-        (value as MutableList<T>).delete(element)
+    override fun delete(item: T): T {
+        (value as MutableList<T>).delete(item)
         save()
-        return element
+        return item
     }
 
     override fun removeAll() = apply { (value as MutableList<T>).clear() }

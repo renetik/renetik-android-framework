@@ -6,9 +6,9 @@ import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.R
-import renetik.android.framework.lang.CSTitle
 import renetik.android.framework.event.*
-import renetik.android.framework.event.property.CSEventPropertyImpl
+import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.lang.CSTitle
 
 fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
 
@@ -26,12 +26,12 @@ var RadioGroup.checkedId: Int?
 
 val RadioGroup.isChecked get() = checkedId != null
 
-fun RadioGroup.propertyTrueIfChecked(property: CSEventPropertyImpl<Boolean?>, viewId: Int) = apply {
+fun RadioGroup.propertyTrueIfChecked(property: CSEventProperty<Boolean?>, viewId: Int) = apply {
     onChange { property.value = it == viewId }
 }
 
 fun <T : CSTitle> RadioGroup.property(
-    parent: CSVisibleEventOwner, property: CSEventPropertyImpl<T?>,
+    parent: CSVisibleEventOwner, property: CSEventProperty<T?>,
     list: List<T>, @LayoutRes layoutId: Int) = apply {
     val data = mutableMapOf<Int, T>()
     removeAllViews()
@@ -44,7 +44,7 @@ fun <T : CSTitle> RadioGroup.property(
 }
 
 fun <T : Any> RadioGroup.property(
-    parent: CSVisibleEventOwner, property: CSEventPropertyImpl<T?>, data: Map<Int, T>) = apply {
+    parent: CSVisibleEventOwner, property: CSEventProperty<T?>, data: Map<Int, T>) = apply {
     fun updateChecked() {
         checkedId = data.filterValues { it == property.value }.keys.firstOrNull()
     }

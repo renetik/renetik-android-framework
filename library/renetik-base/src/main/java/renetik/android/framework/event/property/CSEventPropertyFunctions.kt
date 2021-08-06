@@ -4,10 +4,10 @@ import renetik.android.framework.CSApplication.Companion.application
 
 object CSEventPropertyFunctions {
 
-    fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null) =
+    fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null): CSEventProperty<T> =
         CSEventPropertyImpl(value, onApply)
 
-    fun <T> property(onApply: ((value: T?) -> Unit)? = null) =
+    fun <T> property(onApply: ((value: T?) -> Unit)? = null): CSEventProperty<T?> =
         CSEventPropertyImpl<T?>(null, onApply)
 
     fun property(key: String, default: String,

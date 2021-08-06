@@ -4,7 +4,7 @@ import android.view.View
 import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
 import renetik.android.framework.event.CSVisibleEventOwner
-import renetik.android.framework.event.property.CSEventPropertyImpl
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.primitives.isTrue
 
 val <T : View> T.isVisible get() = visibility == VISIBLE
@@ -38,7 +38,7 @@ fun <T : View> T.shownIf(condition: Boolean?, fade: Boolean = false) = apply {
 
 fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) gone() else show() }
 
-fun View.visibilityPropertySet(parent: CSVisibleEventOwner, property: CSEventPropertyImpl<Any?>) =
+fun View.visibilityPropertySet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) =
     apply {
         fun updateVisibility() = shownIf(property.value != null)
         parent.whileShowing(property.onChange { updateVisibility() })
@@ -46,7 +46,7 @@ fun View.visibilityPropertySet(parent: CSVisibleEventOwner, property: CSEventPro
     }
 
 fun View.visibilityPropertyTrue(parent: CSVisibleEventOwner,
-                                property: CSEventPropertyImpl<Boolean>,
+                                property: CSEventProperty<Boolean>,
                                 fade: Boolean = true) =
     apply {
         fun updateVisibility() = shownIf(property.value, fade)
@@ -55,7 +55,7 @@ fun View.visibilityPropertyTrue(parent: CSVisibleEventOwner,
     }
 
 fun <T> View.visibilityPropertyEquals(parent: CSVisibleEventOwner,
-                                      property: CSEventPropertyImpl<T?>,
+                                      property: CSEventProperty<T?>,
                                       value: T) = apply {
     fun updateVisibility() = shownIf(property.value == value)
     parent.whileShowing(property.onChange { updateVisibility() })
