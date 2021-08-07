@@ -18,7 +18,7 @@ import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logWarn
 
 abstract class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner {
 
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
@@ -30,7 +30,6 @@ abstract class CSActivityView<ViewType : View>
     var parentController: CSActivityView<*>? = null
     var activity: CSActivity? = null
 
-    //    private var viewId: Int? = null
     private var showingInPager: Boolean? = null
     private val keyValueMap = mutableMapOf<String, Any>()
     var lifecycleStopOnRemoveFromParent = true
@@ -47,7 +46,6 @@ abstract class CSActivityView<ViewType : View>
 
     constructor(parent: CSActivityView<*>, @IdRes viewId: Int) : super(parent, viewId) {
         parentController = parent
-//        this.viewId = viewId
         initializeParent(parent)
     }
 

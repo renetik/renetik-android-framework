@@ -8,26 +8,29 @@ import renetik.android.content.toDp
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.event.CSEvent.*
 
-fun <T : View> T.hasSize(onHasSize: (View) -> Unit) = apply {
-    if (width == 0 || height == 0) onLayout {
+fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSEventRegistration? {
+    if (width == 0 || height == 0) return onLayout {
         if (width != 0 && height != 0) {
             onHasSize(this@hasSize)
             return@onLayout true
         }
         return@onLayout false
     }
-    else onHasSize(this)
+    else {
+        onHasSize(this)
+        return null
+    }
 }
 
 fun <T : View> T.afterLayout(action: (View) -> Unit) = object : CSEventRegistration {
     val listener = OnGlobalLayoutListener {
         if (isActive) {
-            cancel()
-            action(this@afterLayout)
+            cancel(); action(this@afterLayout)
         }
     }
     override var isActive = true
     override fun cancel() {
+        isActive = false
         viewTreeObserver.removeOnGlobalLayoutListener(listener)
     }
 
@@ -39,13 +42,31 @@ fun <T : View> T.afterLayout(action: (View) -> Unit) = object : CSEventRegistrat
 /**
  * @return true to remove listener
  **/
-fun <T : View> T.onLayout(action: (View) -> Boolean) = apply {
-    viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            if (action(this@onLayout)) viewTreeObserver.removeOnGlobalLayoutListener(this)
-        }
-    })
+fun <T : View> T.onLayout(action: (View) -> Boolean) = object : CSEventRegistration {
+    val listener = OnGlobalLayoutListener {
+        if (isActive && action(this@onLayout)) cancel()
+    }
+    override var isActive = true
+    override fun cancel() {
+        isActive = false
+        viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    }
+
+    init {
+        viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
 }
+
+///**
+// * @return true to remove listener
+// **/
+//fun <T : View> T.onLayout(action: (View) -> Boolean) = apply {
+//    viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+//        override fun onGlobalLayout() {
+//            if (action(this@onLayout)) viewTreeObserver.removeOnGlobalLayoutListener(this)
+//        }
+//    })
+//}
 
 fun <T : View> T.width(function: (Int) -> Unit) = hasSize { function(width) }
 

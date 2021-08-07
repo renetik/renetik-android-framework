@@ -8,11 +8,8 @@ import android.view.inputmethod.InputMethodManager.SHOW_FORCED
 import androidx.annotation.LayoutRes
 import renetik.android.content.inflate
 import renetik.android.content.input
+import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.CSEventRegistration
-import renetik.android.framework.event.CSEventRegistrations
-import renetik.android.framework.event.CSHasParent
-import renetik.android.framework.event.CSVisibleEventOwner
-import renetik.android.framework.event.event
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
@@ -22,7 +19,7 @@ import renetik.android.view.extensions.inflate
 import renetik.android.view.extensions.isShowing
 
 open class CSView<ViewType : View> : CSContext,
-    CSVisibleEventOwner, CSHasParent {
+    CSVisibleEventOwner, CSHasParent, CSEventOwner {
 
     private val layout: CSLayoutRes?
     private val viewId: Int?
@@ -128,8 +125,8 @@ open class CSView<ViewType : View> : CSContext,
     override fun onRemovedFromParent() = updateVisibilityChanged()
 
     private val eventRegistrations = CSEventRegistrations()
-    fun register(registration: CSEventRegistration) =
-        registration.let { eventRegistrations.add(it) }
+    override fun register(registration: CSEventRegistration) =
+        registration.also { eventRegistrations.add(it) }
 
     fun cancel(registration: CSEventRegistration) =
         eventRegistrations.cancel(registration)

@@ -5,10 +5,8 @@ import android.widget.ScrollView
 import renetik.android.framework.CSView
 
 fun ScrollView.scrollToChild(child: View, centered: Boolean = true) {
-    afterLayout {
-        smoothScrollTo(0, child.y.toInt() -
-                if (centered) ((height / 2) - (child.height / 2)) else 0)
-    }
+    smoothScrollTo(0, child.y.toInt() -
+            if (centered) ((height / 2) - (child.height / 2)) else 0)
 }
 
 fun ScrollView.scrollTo(view: CSView<View>, centered: Boolean = true) {

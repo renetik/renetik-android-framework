@@ -7,8 +7,6 @@ import android.widget.Adapter
 import android.widget.AdapterView
 
 fun <T : Adapter> AdapterView<T>.scrollToTop() {
-    afterLayout {
-        setSelection(0)
-        dispatchTouchEvent(obtain(uptimeMillis(), uptimeMillis(), ACTION_CANCEL, 0f, 0f, 0))
-    }
+    setSelection(0)
+    dispatchTouchEvent(obtain(uptimeMillis(), uptimeMillis(), ACTION_CANCEL, 0f, 0f, 0))
 }

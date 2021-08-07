@@ -50,6 +50,7 @@ fun CSEventRegistration.resume() = apply {
 interface CSEventOwner {
     fun register(registration: CSEventRegistration): CSEventRegistration
 }
+fun CSEventOwner.register(registration: CSEventRegistration?) = registration?.let { register(it) }
 
 interface CSVisibleEventOwner {
     fun whileShowing(registration: CSEventRegistration): CSEventRegistration

@@ -7,6 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.ListView.CHOICE_MODE_SINGLE
 import renetik.android.controller.base.CSActivityView
+import renetik.android.framework.afterLayout
 import renetik.android.framework.event.event
 import renetik.android.framework.findView
 import renetik.android.framework.view
@@ -189,7 +190,7 @@ open class CSListView<RowType : Any, ViewType : AbsListView>(
             selected(it)
         } ?: let {
             view.clearChoices()
-            view.scrollToTop()
+            afterLayout { view.scrollToTop() }
         }
     }
 }
