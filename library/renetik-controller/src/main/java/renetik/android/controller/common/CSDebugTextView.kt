@@ -8,7 +8,10 @@ import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.extensions.*
+import renetik.android.controller.extensions.dialog
+import renetik.android.controller.extensions.floatingButton
+import renetik.android.controller.extensions.sendMail
+import renetik.android.framework.*
 import renetik.android.view.extensions.gone
 import renetik.android.view.extensions.text
 

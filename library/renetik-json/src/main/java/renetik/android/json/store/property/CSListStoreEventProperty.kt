@@ -25,12 +25,12 @@ class CSListStoreEventProperty<T : CSJsonMap>(
         type: KClass<T>, default: List<T> = emptyList(), onApply: ((value: List<T>) -> Unit)? = null
     ) : this(store, key, { type.createInstance() }, default, onApply)
 
-    override var _value = getValue(store)
+    override var _value = load(store)
 
-    override fun getValue(store: CSStoreInterface): List<T> =
+    override fun load(store: CSStoreInterface): List<T> =
         store.loadList(createInstance, key, default)
 
-    override fun setValue(store: CSStoreInterface, value: List<T>) =
+    override fun save(store: CSStoreInterface, value: List<T>) =
         store.save(key, value.toJsonString())
 
     override fun iterator() = value.iterator()
@@ -46,6 +46,8 @@ class CSListStoreEventProperty<T : CSJsonMap>(
     }
 
     override fun removeAll() = apply { (value as MutableList<T>).clear() }
+
+    fun save() = save(store, value)
 }
 
 private fun <T : CSJsonMap> CSStoreInterface.loadList(

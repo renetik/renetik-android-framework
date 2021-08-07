@@ -2,7 +2,7 @@ package renetik.android.controller.extensions
 
 import android.view.View
 import renetik.android.content.dpToPixel
-import renetik.android.controller.base.CSView
+import renetik.android.framework.CSView
 import renetik.android.framework.math.CSPoint
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.locationOnScreen
@@ -16,8 +16,8 @@ val CSView<*>.width get() = view.width
 val CSView<*>.height get() = view.height
 val CSView<*>.locationOnScreen get() = view.locationOnScreen
 
-fun CSView<*>.setPercentAspectWidth(viewId: Int, percent: Int) =
-    setPercentAspectWidth(findView<View>(viewId)!!, percent)
+//fun CSView<*>.setPercentAspectWidth(viewId: Int, percent: Int) =
+//    setPercentAspectWidth(findView<View>(viewId)!!, percent)
 
 fun CSView<*>.setPercentAspectWidth(view: View, percent: Int) {
     val onePercent = displayWidth / 100.toFloat()
@@ -33,8 +33,8 @@ fun CSView<*>.setPercentAspectWidth(view: View, percent: Int) {
     view.layoutParams = layoutParams
 }
 
-fun CSView<*>.setPercentWidth(viewId: Int, percent: Int, minimal: Int, maximal: Int) =
-    setPercentWidth(findView<View>(viewId)!!, percent, minimal, maximal)
+//fun CSView<*>.setPercentWidth(viewId: Int, percent: Int, minimal: Int, maximal: Int) =
+//    setPercentWidth(findView<View>(viewId)!!, percent, minimal, maximal)
 
 fun CSView<*>.setPercentWidth(view: View, percent: Int, minimal: Int = 0, maximal: Int = 0) {
     val onePercent = (displayWidth / 100).toDouble()

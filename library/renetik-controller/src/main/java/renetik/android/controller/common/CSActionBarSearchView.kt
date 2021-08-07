@@ -6,26 +6,30 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
+import renetik.android.framework.findView
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
-import renetik.android.framework.findView
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
 
-class CSSearchView(parent: CSActivityView<*>, viewId: Int, hint: String = "",
-                   var text: String = "",
-                   private val onChange: (String) -> Unit) : CSActivityView<SearchView>(parent,
+class CSActionBarSearchView(parent: CSActivityView<*>, viewId: Int, hint: String = "",
+                            var text: String = "",
+                            private val onChange: (String) -> Unit) : CSActivityView<SearchView>(parent,
     viewId), OnQueryTextListener, View.OnClickListener,
     SearchView.OnCloseListener {
 
-    var eventOnClearButtonClick = event<CSSearchView>()
+    var eventOnClearButtonClick = event<CSActionBarSearchView>()
     private var searchOpened = false
+    private var expanded = false
     private var hint: String? = hint
     private val clearButton by lazy { findView<ImageView>(R.id.search_close_btn)!! }
 
     override fun onViewReady() {
         super.onViewReady()
+        view.onActionViewExpanded()
+        view.setIconifiedByDefault(!expanded)
+        view.isIconified = if (text.isSet) false else !expanded
         hint?.let { view.queryHint = it }
         if (!view.isFocused) view.clearFocus()
         if (text.isSet) view.setQuery(text, false)
@@ -62,11 +66,15 @@ class CSSearchView(parent: CSActivityView<*>, viewId: Int, hint: String = "",
     fun clear() {
         view.setQuery("", false)
         view.clearFocus()
+        view.isIconified = !expanded
     }
 
-    fun onClearButtonClick(listener: (CSSearchView) -> Unit) = apply {
+    fun expanded(value: Boolean) = apply { expanded = value }
+
+    fun onClearButtonClick(listener: (CSActionBarSearchView) -> Unit) = apply {
         eventOnClearButtonClick.listen(listener)
     }
+
 }
 
 

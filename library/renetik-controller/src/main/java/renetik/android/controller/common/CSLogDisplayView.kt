@@ -3,11 +3,12 @@ package renetik.android.controller.common
 import android.view.View
 import android.widget.ScrollView
 import android.widget.TextView
-import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.*
+import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.lang.CSLayoutRes.Companion.layout
+import renetik.android.framework.textView
 import renetik.android.view.extensions.onClick
 import renetik.android.view.extensions.text
 

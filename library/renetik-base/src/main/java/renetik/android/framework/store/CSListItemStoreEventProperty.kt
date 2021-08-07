@@ -6,9 +6,9 @@ class CSListItemStoreEventProperty<T>(
     store: CSStoreInterface, private val key: String,
     val values: List<T>, val default: T, onChange: ((value: T) -> Unit)? = null
 ) : CSStoreEventPropertyBase<T>(store, onChange) {
-    override var _value = getValue(store)
-    override fun getValue(store: CSStoreInterface) = store.getValue(key, values, default)
-    override fun setValue(store: CSStoreInterface, value: T) = store.save(key, value.toString())
+    override var _value = load(store)
+    override fun load(store: CSStoreInterface) = store.getValue(key, values, default)
+    override fun save(store: CSStoreInterface, value: T) = store.save(key, value.toString())
 }
 
 //TODO!!! Can be inlined ?

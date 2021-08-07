@@ -3,7 +3,7 @@ package renetik.android.listview
 import android.view.View
 import android.view.ViewGroup
 import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.controller.base.CSView
+import renetik.android.framework.CSView
 import renetik.android.controller.base.CSActivityView
 
 open class CSRowView<RowType : Any> : CSView<View> {

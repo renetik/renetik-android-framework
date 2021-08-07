@@ -5,7 +5,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
-import renetik.android.controller.base.CSView
+import renetik.android.framework.CSView
+import renetik.android.framework.findView
 import renetik.android.material.extensions.materialSwitch
 import renetik.android.material.extensions.rangeSlider
 import renetik.android.material.extensions.slider

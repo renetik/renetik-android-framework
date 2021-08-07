@@ -6,27 +6,26 @@ class CSStoreBooleanEventProperty(
     store: CSStoreInterface, val key: String, val default: Boolean,
     onChange: ((value: Boolean) -> Unit)?)
     : CSStoreEventPropertyBase<Boolean>(store, onChange) {
-    override var _value = getValue(store)
-    override fun getValue(store: CSStoreInterface) = store.getBoolean(key, default)
-    override fun setValue(store: CSStoreInterface, value: Boolean) = store.save(key, value)
+    override var _value = load(store)
+    override fun load(store: CSStoreInterface) = store.getBoolean(key, default)
+    override fun save(store: CSStoreInterface, value: Boolean) = store.save(key, value)
 }
 
 class CSStoreNullableBooleanEventProperty(
     store: CSStoreInterface, val key: String, val default: Boolean?,
     onChange: ((value: Boolean?) -> Unit)?)
     : CSStoreEventPropertyBase<Boolean?>(store, onChange) {
-    override var _value = getValue(store)
-    override fun getValue(store: CSStoreInterface) = store.getBoolean(key, default)
-    override fun setValue(store: CSStoreInterface, value: Boolean?) = store.save(key, value)
+    override var _value = load(store)
+    override fun load(store: CSStoreInterface) = store.getBoolean(key, default)
+    override fun save(store: CSStoreInterface, value: Boolean?) = store.save(key, value)
 }
 
 class CSStoredBooleanEventProperty(
     store: CSStoreInterface, val key: String,
     onChange: ((value: Boolean) -> Unit)?)
     : CSStoreEventPropertyBase<Boolean>(store, onChange) {
-    override var _value: Boolean
-        get() = getValue(store)
-        set(value) = setValue(store, value)
+
+    override var _value = load(store)
 
     override fun value(newValue: Boolean, fire: Boolean) {
         val current = store.getBoolean(key)
@@ -35,11 +34,11 @@ class CSStoredBooleanEventProperty(
             if (fire) eventBeforeChange.fire(current)
         }
         _value = newValue
-        onValueChanged(newValue)
+        save(store, newValue)
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
     }
 
-    override fun getValue(store: CSStoreInterface) = store.getBoolean(key)!!
-    override fun setValue(store: CSStoreInterface, value: Boolean) = store.save(key, value)
+    override fun load(store: CSStoreInterface) = store.getBoolean(key)!!
+    override fun save(store: CSStoreInterface, value: Boolean) = store.save(key, value)
 }

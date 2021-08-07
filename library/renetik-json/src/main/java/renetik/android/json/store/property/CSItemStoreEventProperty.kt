@@ -12,14 +12,14 @@ class CSItemStoreEventProperty<T : CSJsonMap>(
     store: CSStoreInterface, val key: String, val type: KClass<T>,
     val default: T? = null, onApply: ((value: T?) -> Unit)? = null
 ) : CSStoreEventPropertyBase<T?>(store, onApply) {
-    override var _value: T? = getValue(store)
+    override var _value: T? = load(store)
 
     @Suppress("UNCHECKED_CAST")
-    override fun getValue(store: CSStoreInterface): T? {
+    override fun load(store: CSStoreInterface): T? {
         val data = store.get(key)?.parseJsonMap() ?: return default
         return type.createJsonMap(data)
     }
 
-    override fun setValue(store: CSStoreInterface, value: T?) =
+    override fun save(store: CSStoreInterface, value: T?) =
         store.save(key, value?.toJsonString())
 }

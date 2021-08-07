@@ -6,6 +6,7 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
+import renetik.android.framework.CSView
 import renetik.android.framework.event.CSEventOwner
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
