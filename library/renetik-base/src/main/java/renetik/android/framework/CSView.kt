@@ -19,24 +19,23 @@ import renetik.android.view.extensions.inflate
 import renetik.android.view.extensions.isShowing
 
 open class CSView<ViewType : View> : CSContext,
-    CSVisibleEventOwner, CSHasParent, CSEventOwner {
+    CSVisibleEventOwner, CSHasParent {
 
     private val layout: CSLayoutRes?
     private val viewId: Int?
-
     private var parent: CSView<*>? = null
-
     private var _group: ViewGroup? = null
     private val group: ViewGroup? by lazy { _group ?: parent?.view as? ViewGroup ?: parent?.group }
 
     private var _view: ViewType? = null
 
-    constructor(parent: Context, layout: CSLayoutRes) : super(parent) {
+    protected constructor(parent: Context, layout: CSLayoutRes) : super(parent) {
         this.layout = layout
         this.viewId = null
     }
 
-    constructor(group: ViewGroup, layout: CSLayoutRes) : super(group.context) {
+    constructor(parent: CSView<*>, group: ViewGroup, layout: CSLayoutRes) : super(group.context) {
+        this.parent = parent
         this._group = group
         this.layout = layout
         this.viewId = null
@@ -107,7 +106,6 @@ open class CSView<ViewType : View> : CSContext,
 
     override fun onDestroy() {
         if (isDestroyed) let { logError(this); throw unexpected }
-        eventRegistrations.cancel()
         whileShowingEventRegistrations.cancel()
         isVisibleEventRegistrations.cancel()
         if (layout != null) {
@@ -123,13 +121,6 @@ open class CSView<ViewType : View> : CSContext,
     override fun onAddedToParent() = updateVisibilityChanged()
 
     override fun onRemovedFromParent() = updateVisibilityChanged()
-
-    private val eventRegistrations = CSEventRegistrations()
-    override fun register(registration: CSEventRegistration) =
-        registration.also { eventRegistrations.add(it) }
-
-    fun cancel(registration: CSEventRegistration) =
-        eventRegistrations.cancel(registration)
 
     protected var isShowing = false
     private var onViewShowingCalled = false
@@ -191,3 +182,4 @@ open class CSView<ViewType : View> : CSContext,
     override fun whileShowing(registration: CSEventRegistration) =
         registration.let { whileShowingEventRegistrations.add(it) }
 }
+

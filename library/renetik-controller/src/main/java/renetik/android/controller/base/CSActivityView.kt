@@ -7,10 +7,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
 import renetik.android.framework.CSView
-import renetik.android.framework.event.CSEventOwner
-import renetik.android.framework.event.event
-import renetik.android.framework.event.fire
-import renetik.android.framework.event.listen
+import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
 import renetik.android.java.extensions.className
@@ -18,12 +16,12 @@ import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logWarn
 
 abstract class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner {
 
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
     override val onBack = event<CSProperty<Boolean>>()
-    override fun activity() = activity!!
+    override fun activity():CSActivity = activity!!
     var isResumed = false
     var isResumeFirstTime = false
     val isPaused get() = !isResumed
@@ -55,7 +53,7 @@ abstract class CSActivityView<ViewType : View>
     }
 
     constructor(parent: CSActivityView<*>, group: ViewGroup, layout: CSLayoutRes)
-            : super(group, layout) {
+            : super(parent, group, layout) {
         parentController = parent
         initializeParent(parent)
     }
@@ -85,6 +83,7 @@ abstract class CSActivityView<ViewType : View>
 
     override fun onDestroy() {
         if (isDestroyed) throw exception("$className $this Already destroyed")
+        eventRegistrations.cancel()
         parentController = null
         activity = null
         super.onDestroy()
@@ -162,5 +161,13 @@ abstract class CSActivityView<ViewType : View>
     }
 
     fun getValue(key: String) = keyValueMap[key]
+
+    private val eventRegistrations = CSEventRegistrations()
+
+    override fun register(registration: CSEventRegistration) =
+        registration.also { eventRegistrations.add(it) }
+
+    fun cancel(registration: CSEventRegistration) =
+        eventRegistrations.cancel(registration)
 }
 

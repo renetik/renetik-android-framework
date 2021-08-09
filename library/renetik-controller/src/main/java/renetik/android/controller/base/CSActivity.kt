@@ -37,7 +37,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {
     val onNewIntent = event<Intent>()
     val onRequestPermissionsResult = event<CSRequestPermissionResult>()
     override val onViewVisibilityChanged = event<Boolean>()
-    override fun activity() = this
+    override fun activity(): CSActivity = this
     var controller: CSActivityView<out ViewGroup>? = null
     var configuration = Configuration()
 

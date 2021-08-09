@@ -2,31 +2,14 @@ package renetik.android.listview
 
 import android.view.View
 import android.view.ViewGroup
-import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.CSView
-import renetik.android.controller.base.CSActivityView
+import renetik.android.framework.lang.CSLayoutRes
 
-open class CSRowView<RowType : Any> : CSView<View> {
-
-    var onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null
-
-    constructor(parent: CSView<out ViewGroup>, layout: CSLayoutRes,
-                onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null)
-            : super(parent, layout) {
-        this.onLoad = onLoad
-    }
-
-    constructor(parent: ViewGroup, layout: CSLayoutRes,
-                onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null)
-            : super(parent, layout) {
-        this.onLoad = onLoad
-    }
-
-    constructor(parent: CSActivityView<*>,
-                onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null)
-            : super(parent) {
-        this.onLoad = onLoad
-    }
+open class CSRowView<RowType : Any>(
+    parent: CSView<out ViewGroup>,
+    layout: CSLayoutRes,
+    var onLoad: ((CSRowView<RowType>).(RowType) -> Unit)? = null)
+    : CSView<View>(parent, layout) {
 
     lateinit var row: RowType
     var index = -1

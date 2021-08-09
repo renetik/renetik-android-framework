@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RadioGroup
 import androidx.annotation.IdRes
+import renetik.android.framework.event.CSEventOwner
 import renetik.android.view.extensions.*
 
 fun <T : View> CSView<*>.findView(@IdRes id: Int): T? = view.findView(id)
@@ -56,11 +57,12 @@ fun CSView<*>.radioGroup(@IdRes id: Int, onChange: ((buttonId: Int) -> Unit)? = 
 
 fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 
-fun <Type : CSView<*>> Type.afterLayout(action: (Type) -> Unit) =
-    apply { register(view.afterLayout { action(this) }) }
-
 fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
     view.removeFromSuperview()
 }
+
+fun <Type> Type.afterLayout(action: (Type) -> Unit)
+        where  Type : CSView<*>, Type : CSEventOwner =
+    apply { register(view.afterLayout { action(this) }) }
 
 
