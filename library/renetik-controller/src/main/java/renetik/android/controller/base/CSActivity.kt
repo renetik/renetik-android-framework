@@ -1,5 +1,6 @@
 package renetik.android.controller.base
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -9,6 +10,8 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.framework.common.catchAllWarn
+import renetik.android.framework.event.CSEvent
+import renetik.android.framework.event.CSEventRegistrations
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
@@ -40,6 +43,8 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {
     override fun activity(): CSActivity = this
     var controller: CSActivityView<out ViewGroup>? = null
     var configuration = Configuration()
+    override val view: View get() = window.decorView
+    override val context: Context get() = this
 
     abstract fun createController(): CSActivityView<out ViewGroup>
 
@@ -160,5 +165,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {
         super.onLowMemory()
     }
 
-
+    private val eventRegistrations = CSEventRegistrations()
+    override fun register(registration: CSEvent.CSEventRegistration) =
+        registration.also { eventRegistrations.add(it) }
 }

@@ -46,7 +46,7 @@ open class CSMenuItem {
     fun visible(visible: Boolean) = apply {
         if (isVisible == visible) return this
         isVisible = visible
-        controller.activity?.invalidateOptionsMenu()
+        controller.activity().invalidateOptionsMenu()
     }
 
     fun onChecked(onItem: CSOnMenuItem) {

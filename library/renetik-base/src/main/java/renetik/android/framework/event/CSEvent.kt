@@ -1,5 +1,7 @@
 package renetik.android.framework.event
 
+import android.content.Context
+import android.view.View
 import renetik.android.framework.event.CSEvent.CSEventRegistration
 
 @JvmName("eventWithType")
@@ -50,18 +52,31 @@ fun CSEventRegistration.resume() = apply {
 interface CSEventOwner {
     fun register(registration: CSEventRegistration): CSEventRegistration
 }
-fun CSEventOwner.register(registration: CSEventRegistration?) = registration?.let { register(it) }
+
+fun CSEventOwner.register(registration: CSEventRegistration?) =
+    registration?.let { register(it) }
 
 interface CSVisibleEventOwner {
     fun whileShowing(registration: CSEventRegistration): CSEventRegistration
 }
+
+fun CSVisibleEventOwner.whileShowing(registration: CSEventRegistration?) =
+    registration?.let { whileShowing(it) }
+
 
 interface CSHasParent {
     fun onAddedToParent()
     fun onRemovedFromParent()
 }
 
+interface CSViewInterface : CSContextInterface, CSHasDestroy, CSEventOwner {
+    val view: View
+}
 
+interface CSContextInterface {
+    val context: Context
+}
 
-
-
+interface CSHasDestroy {
+    val onDestroy: CSEvent<Unit>
+}

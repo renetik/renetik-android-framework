@@ -24,6 +24,13 @@ fun <T> List<T>.index(predicate: (T) -> Boolean): Int? {
     return if (indexOf == -1) null else indexOf
 }
 
+fun <T> List<T>.has(item: T) = contains(item)
+fun <T> List<T>.hasAll(items: List<T>): Boolean = containsAll(items)
+fun <T> List<T>.hasAll(items: Array<out T>): Boolean = containsAll(items.asList())
+fun <T> List<T>.hasAll(items: Iterable<T>): Boolean = containsAll(items.toList())
+
+
+
 fun <T> List<T>.second() = this[1]
 
 fun <T> List<T>.third() = this[2]
@@ -39,7 +46,6 @@ fun <T> List<T>.range(fromIndex: Int) = range(fromIndex, size)
 fun <T> List<T>.range(fromIndex: Int, toIndex: Int) =
     list(subList(fromIndex, toIndex))
 
-fun <T> List<T>.has(item: T) = contains(item)
 
 fun <T> list(block: (MutableList<T>.() -> Unit)? = null): CSList<T> =
     CSList<T>().apply { block?.invoke(this) }
@@ -53,9 +59,6 @@ fun <T> list(items: Iterable<T>): MutableList<T> = list<T>().putAll(items)
 fun <T> list(vararg items: Iterable<T>): MutableList<T> = list<T>().also {
     for (iterable in items) it.addAll(iterable)
 }
-
-fun <T> List<T>.contains(items: List<T>): Boolean = containsAll(items)
-fun <T> List<T>.contains(items: Array<out T>): Boolean = containsAll(items.asList())
 
 
 fun <T, A, B> List<T>.combine(

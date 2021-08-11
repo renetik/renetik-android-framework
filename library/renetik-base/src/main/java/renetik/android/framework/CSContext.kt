@@ -11,6 +11,7 @@ import android.view.WindowManager
 import renetik.android.content.service
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
+import renetik.android.framework.event.CSContextInterface
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
 import renetik.android.java.extensions.notNull
@@ -20,17 +21,19 @@ private val LOW_DPI_STATUS_BAR_HEIGHT = 19
 private val MEDIUM_DPI_STATUS_BAR_HEIGHT = 25
 private val HIGH_DPI_STATUS_BAR_HEIGHT = 38
 
-abstract class CSContext : ContextWrapper {
+abstract class CSContext : ContextWrapper, CSContextInterface {
 
     constructor() : super(application)
 
     constructor(context: Context) : super(context)
 
+    constructor(context: CSContextInterface) : super(context.context)
+
     private var _isDestroyed = false
     val isDestroyed get() = _isDestroyed
     val onDestroy = event<Unit>()
 
-    val context: Context get() = this
+    override val context: Context get() = this
 
     protected val batteryPercent: Float
         get() {
@@ -84,7 +87,7 @@ abstract class CSContext : ContextWrapper {
 
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
 
-    protected open fun onDestroy() {
+    open fun onDestroy() {
         onDestroy.fire().clear()
         _isDestroyed = true
     }

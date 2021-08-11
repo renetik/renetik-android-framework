@@ -10,7 +10,7 @@ inline val Collection<*>.isEmpty get() = size == 0
 
 inline val Collection<*>.lastIndex get() = size - 1
 
-fun <T> Collection<T>.contains(vararg elements: T): Boolean {
+fun <T> Collection<T>.hasAll(vararg elements: T): Boolean {
     for (element in elements) if (!contains(element)) return false
     return true
 }

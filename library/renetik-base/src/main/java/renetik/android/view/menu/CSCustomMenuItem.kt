@@ -1,6 +1,6 @@
 //package renetik.android.view.menu
 //
-//import renetik.android.framework.CSView
+//import renetik.android.controller.base.CSView
 //
 //class CSCustomMenuItem(val index: Int, var title: String? = null) {
 //    var iconResource: Int = 0

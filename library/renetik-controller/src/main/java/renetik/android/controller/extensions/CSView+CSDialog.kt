@@ -1,6 +1,6 @@
 package renetik.android.controller.extensions
 
-import renetik.android.framework.CSView
+import renetik.android.controller.base.CSView
 import renetik.android.dialog.CSDialog
 
 fun CSView<*>.dialog() = CSDialog(this.view)

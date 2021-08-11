@@ -6,31 +6,31 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
-import renetik.android.framework.CSView
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
 import renetik.android.java.extensions.className
 import renetik.android.java.extensions.exception
 import renetik.android.logging.CSLog.logWarn
+import renetik.android.view.extensions.isShowing
 
 abstract class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner {
+    : CSView<ViewType>, CSActivityViewInterface, CSVisibleEventOwner,
+    LifecycleOwner, CSEventOwner {
 
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
     override val onBack = event<CSProperty<Boolean>>()
-    override fun activity():CSActivity = activity!!
-    var isResumed = false
-    var isResumeFirstTime = false
-    val isPaused get() = !isResumed
-    var parentController: CSActivityView<*>? = null
+    override fun activity(): CSActivity = activity!!
+    private var isResumed = false
+    private var isResumeFirstTime = false
+    private val isPaused get() = !isResumed
+    var parentController: CSActivityView<*>? = null // remove CSListView make private
     var activity: CSActivity? = null
 
     private var showingInPager: Boolean? = null
     private val keyValueMap = mutableMapOf<String, Any>()
-    var lifecycleStopOnRemoveFromParent = true
+
 
     constructor(parent: CSActivityView<*>) : super(parent) {
         parentController = parent
@@ -59,7 +59,7 @@ abstract class CSActivityView<ViewType : View>
     }
 
     protected open fun onResume() {
-        if (isResumed) logWarn("already resumed", this)
+        if (isResumed) return
         isResumed = true
         if (!isResumeFirstTime) {
             onResumeFirstTime()
@@ -74,8 +74,10 @@ abstract class CSActivityView<ViewType : View>
     protected open fun onResumeRestore() {}
 
     open fun onPause() {
-        if (!isResumed && isShowing)
+        if (isPaused && isShowing) {
             logWarn(Throwable(), "Not Resumed while paused, should be resumed first", this)
+            return
+        }
         isResumed = false
         updateVisibilityChanged()
         onPause.fire()
@@ -83,17 +85,18 @@ abstract class CSActivityView<ViewType : View>
 
     override fun onDestroy() {
         if (isDestroyed) throw exception("$className $this Already destroyed")
-        eventRegistrations.cancel()
         parentController = null
         activity = null
+        whileShowingEventRegistrations.cancel()
+        isVisibleEventRegistrations.cancel()
         super.onDestroy()
     }
 
     fun lifecycleUpdate() {
         parentController?.let {
             if (it.isResumed) {
-                if (!isResumed) onResume()
-            } else if (!isPaused) onPause()
+                if (isPaused) onResume()
+            } else if (isResumed) onPause()
         }
     }
 
@@ -106,7 +109,6 @@ abstract class CSActivityView<ViewType : View>
         activity = parent.activity()
         register(parent.onResume.listen(::onResume))
         register(parent.onPause.listen(::onPause))
-        register(parent.onDestroy.listen(::onDestroy))
         register(parent.onBack.listen(::onBack))
         register(parent.onViewVisibilityChanged.listen { updateVisibilityChanged() })
     }
@@ -125,12 +127,13 @@ abstract class CSActivityView<ViewType : View>
 
     override fun onAddedToParent() {
         lifecycleUpdate()
+        updateVisibilityChanged()
         super.onAddedToParent()
     }
 
     override fun onRemovedFromParent() {
-        if (lifecycleStopOnRemoveFromParent) lifecycleStop()
-        else if (isResumed && !isPaused) onPause()
+        if (isResumed) onPause()
+        updateVisibilityChanged()
         super.onRemovedFromParent()
     }
 
@@ -138,13 +141,6 @@ abstract class CSActivityView<ViewType : View>
         if (showingInPager == isShowing) return
         showingInPager = isShowing
         updateVisibilityChanged()
-    }
-
-    override fun checkIfIsShowing(): Boolean {
-        if (!isResumed) return false
-        if (showingInPager == false) return false
-        if (parentController?.isShowing == false) return false
-        return super.checkIfIsShowing()
     }
 
     override fun hideKeyboardImpl() {
@@ -162,12 +158,72 @@ abstract class CSActivityView<ViewType : View>
 
     fun getValue(key: String) = keyValueMap[key]
 
-    private val eventRegistrations = CSEventRegistrations()
 
-    override fun register(registration: CSEventRegistration) =
-        registration.also { eventRegistrations.add(it) }
+    protected var isShowing = false
+    private var onViewShowingCalled = false
+    override val onViewVisibilityChanged = event<Boolean>()
 
-    fun cancel(registration: CSEventRegistration) =
-        eventRegistrations.cancel(registration)
+    fun checkIfIsShowing(): Boolean {
+        if (!isResumed) return false
+        if (showingInPager == false) return false
+        if (parentController?.isShowing == false) return false
+        return view.isShowing()
+    }
+
+    fun updateVisibilityChanged() {
+        if (checkIfIsShowing()) {
+            if (!isShowing) onViewVisibilityChanged(true)
+        } else if (isShowing) onViewVisibilityChanged(false)
+    }
+
+//    protected open fun checkIfIsShowing() = view.isShowing()
+
+    private fun onViewVisibilityChanged(showing: Boolean) {
+        if (isShowing == showing) return
+        isShowing = showing
+        onViewVisibilityChanged()
+        if (isShowing) {
+            isVisibleEventRegistrations.setActive(true)
+            onViewShowing()
+        } else {
+            isVisibleEventRegistrations.setActive(false)
+            onViewHiding()
+            whileShowingEventRegistrations.cancel()
+        }
+    }
+
+    protected open fun onViewVisibilityChanged() {
+        onViewVisibilityChanged.fire(isShowing)
+    }
+
+    protected open fun onViewShowing() {
+        if (!onViewShowingCalled) {
+            onViewShowingFirstTime()
+            onViewShowingCalled = true
+        } else onViewShowingAgain()
+    }
+
+    protected open fun onViewShowingFirstTime() {}
+
+    protected open fun onViewShowingAgain() {}
+
+    protected open fun onViewHiding() {
+        if (!onViewShowingCalled) {
+            onViewHidingFirstTime()
+            onViewShowingCalled = true
+        } else onViewHidingAgain()
+    }
+
+    protected open fun onViewHidingFirstTime() {}
+
+    protected open fun onViewHidingAgain() {}
+
+    private val isVisibleEventRegistrations = CSEventRegistrations()
+    fun ifVisible(registration: CSEvent.CSEventRegistration?) =
+        registration?.let { isVisibleEventRegistrations.add(it) }
+
+    private val whileShowingEventRegistrations = CSEventRegistrations()
+    override fun whileShowing(registration: CSEvent.CSEventRegistration) =
+        registration.let { whileShowingEventRegistrations.add(it) }
 }
 

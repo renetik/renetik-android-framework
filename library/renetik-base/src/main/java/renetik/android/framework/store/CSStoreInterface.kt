@@ -1,6 +1,7 @@
 package renetik.android.framework.store
 
 import renetik.android.framework.event.property.CSPropertyStoreInterface
+import renetik.android.framework.lang.CSId
 import renetik.android.primitives.asDouble
 import renetik.android.primitives.asFloat
 import renetik.android.primitives.asInt
@@ -45,6 +46,10 @@ interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String
     override fun <T> property(
         key: String, values: List<T>, default: T, onChange: ((value: T) -> Unit)?) =
         CSListItemStoreEventProperty(this, key, values, default, onChange)
+
+    override fun <T : CSId> property(
+        key: String, values: Iterable<T>, default: List<T>, onChange: ((value: List<T>) -> Unit)?) =
+        CSListItemsStoreEventProperty(this, key, values, default, onChange)
 
     override fun property(key: String, default: Int, onChange: ((value: Int) -> Unit)?) =
         CSStoreIntEventProperty(this, key, default, onChange)

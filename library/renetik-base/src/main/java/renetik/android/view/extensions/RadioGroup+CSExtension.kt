@@ -34,7 +34,7 @@ fun <T : CSTitle> RadioGroup.property(
     parent: CSVisibleEventOwner, property: CSEventProperty<T?>,
     list: List<T>, @LayoutRes layoutId: Int) = apply {
     val data = mutableMapOf<Int, T>()
-    removeAllViews()
+    clear()
     list.forEach {
         val viewId = View.generateViewId()
         add(inflate<RadioButton>(layoutId)).text(it.title).model(it).id(viewId)

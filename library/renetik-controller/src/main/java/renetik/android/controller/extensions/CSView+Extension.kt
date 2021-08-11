@@ -5,7 +5,7 @@ package renetik.android.controller.extensions
 //import android.widget.ImageView
 //import android.widget.RadioGroup
 //import androidx.annotation.IdRes
-//import renetik.android.framework.CSView
+//import renetik.android.controller.base.CSView
 //import renetik.android.view.extensions.*
 //
 //fun <T : View> CSView<*>.findView(@IdRes id: Int): T? = view.findView(id)

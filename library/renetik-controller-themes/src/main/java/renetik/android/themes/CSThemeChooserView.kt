@@ -8,8 +8,8 @@ import renetik.android.controller.common.CSNavigationView
 import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.snackBarInfo
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.framework.textView
-import renetik.android.framework.view
+import renetik.android.controller.base.textView
+import renetik.android.controller.base.view
 import renetik.android.listview.CSListView
 import renetik.android.listview.CSRowView
 import renetik.android.themes.CSThemes.Companion.applyTheme

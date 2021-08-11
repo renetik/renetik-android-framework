@@ -78,7 +78,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
         controllers.deleteLast().notNull { lastController ->
             lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
-            lastController.showingInPager(false)
             view.remove(lastController)
             onViewControllerPop(lastController)
         }

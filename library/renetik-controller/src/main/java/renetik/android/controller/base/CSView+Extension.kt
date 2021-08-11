@@ -1,0 +1,70 @@
+package renetik.android.controller.base
+
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RadioGroup
+import androidx.annotation.IdRes
+import renetik.android.framework.event.CSEventOwner
+import renetik.android.framework.event.CSViewInterface
+import renetik.android.view.extensions.*
+
+fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
+
+fun CSViewInterface.view(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+    view.view(id).apply { onClick?.let { this.onClick(it) } }
+
+fun CSViewInterface.views(@IdRes vararg ids: Int): List<View> =
+    mutableListOf<View>().apply { for (id in ids) add(view(id)) }
+
+fun CSViewInterface.simpleView(@IdRes id: Int) = view.view(id)
+fun CSViewInterface.editText(@IdRes id: Int) = view.editText(id)
+fun CSViewInterface.textView(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+    view.textView(id).apply { onClick?.let { this.onClick(it) } }
+
+fun CSViewInterface.scrollView(@IdRes id: Int) = view.scrollView(id)
+fun CSViewInterface.horizontalScroll(@IdRes id: Int) =
+    view.horizontalScroll(id)
+
+fun CSViewInterface.listView(@IdRes id: Int) = view.listView(id)
+fun CSViewInterface.radio(@IdRes id: Int) = view.radio(id)
+
+fun CSViewInterface.datePicker(@IdRes id: Int) = view.datePicker(id)
+fun CSViewInterface.numberPicker(@IdRes id: Int) = view.numberPicker(id)
+fun CSViewInterface.viewGroup(@IdRes id: Int) = view.viewGroup(id)
+fun CSViewInterface.frame(@IdRes id: Int) = view.frame(id)
+fun CSViewInterface.linearLayout(@IdRes id: Int) = view.linearLayout(id)
+fun CSViewInterface.group(@IdRes id: Int) = view.group(id)
+fun CSViewInterface.spinner(@IdRes id: Int) = view.spinner(id)
+fun CSViewInterface.search(@IdRes id: Int) = view.search(id)
+fun CSViewInterface.button(@IdRes id: Int,
+                           onClick: ((view: Button) -> Unit)? = null) =
+    view.button(id).apply { onClick?.let { this.onClick(it) } }
+
+fun CSViewInterface.compound(@IdRes id: Int) = view.compound(id)
+
+//fun CSView<*>.switch(@IdRes id: Int) = view.switch(id)
+fun CSViewInterface.checkBox(@IdRes id: Int) = view.checkBox(id)
+fun CSViewInterface.timePicker(@IdRes id: Int) = view.timePicker(id)
+fun CSViewInterface.webView(@IdRes id: Int) = view.webView(id)
+fun CSViewInterface.imageView(@IdRes id: Int,
+                              onClick: ((view: ImageView) -> Unit)? = null) =
+    view.imageView(id).apply { onClick?.let { this.onClick(it) } }
+
+fun CSViewInterface.swipeRefresh(@IdRes id: Int) = view.swipeRefresh(id)
+fun CSViewInterface.seekBar(@IdRes id: Int) = view.seekBar(id)
+fun CSViewInterface.radioGroup(@IdRes id: Int,
+                               onChange: ((buttonId: Int) -> Unit)? = null): RadioGroup =
+    view.radioGroup(id).apply { onChange?.let { this.onChange(it) } }
+
+fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
+
+fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
+    view.removeFromSuperview()
+}
+
+fun <Type> Type.afterLayout(action: (Type) -> Unit)
+        where  Type : CSView<*>, Type : CSEventOwner =
+    apply { register(view.afterLayout { action(this) }) }
+
+

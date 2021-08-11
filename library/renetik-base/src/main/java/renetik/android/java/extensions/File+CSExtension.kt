@@ -31,4 +31,4 @@ fun File.createDatedFile(extension: String): File {
 
 fun File.readString() = if (exists()) readText() else null
 
-val File.isDirEmpty get() = list()?.isEmpty() ?: false
+val File.isDirEmpty get() = list()?.isEmpty() ?: !exists()

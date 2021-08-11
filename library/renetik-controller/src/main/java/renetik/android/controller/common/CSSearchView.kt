@@ -8,7 +8,7 @@ import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
-import renetik.android.framework.findView
+import renetik.android.controller.base.findView
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
