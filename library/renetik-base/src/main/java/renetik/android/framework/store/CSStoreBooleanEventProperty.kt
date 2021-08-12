@@ -3,27 +3,27 @@ package renetik.android.framework.store
 import renetik.android.framework.event.property.CSStoreEventPropertyBase
 
 class CSStoreBooleanEventProperty(
-    store: CSStoreInterface, val key: String, val default: Boolean,
+    store: CSStoreInterface, key: String, val default: Boolean,
     onChange: ((value: Boolean) -> Unit)?)
-    : CSStoreEventPropertyBase<Boolean>(store, onChange) {
+    : CSStoreEventPropertyBase<Boolean>(store, key, onChange) {
     override var _value = load(store)
     override fun load(store: CSStoreInterface) = store.getBoolean(key, default)
     override fun save(store: CSStoreInterface, value: Boolean) = store.save(key, value)
 }
 
 class CSStoreNullableBooleanEventProperty(
-    store: CSStoreInterface, val key: String, val default: Boolean?,
+    store: CSStoreInterface, key: String, val default: Boolean?,
     onChange: ((value: Boolean?) -> Unit)?)
-    : CSStoreEventPropertyBase<Boolean?>(store, onChange) {
+    : CSStoreEventPropertyBase<Boolean?>(store, key, onChange) {
     override var _value = load(store)
     override fun load(store: CSStoreInterface) = store.getBoolean(key, default)
     override fun save(store: CSStoreInterface, value: Boolean?) = store.save(key, value)
 }
 
 class CSStoredBooleanEventProperty(
-    store: CSStoreInterface, val key: String,
+    store: CSStoreInterface, key: String,
     onChange: ((value: Boolean) -> Unit)?)
-    : CSStoreEventPropertyBase<Boolean>(store, onChange) {
+    : CSStoreEventPropertyBase<Boolean>(store, key, onChange) {
 
     override var _value = load(store)
 

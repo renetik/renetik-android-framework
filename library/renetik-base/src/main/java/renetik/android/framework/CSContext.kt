@@ -1,5 +1,6 @@
 package renetik.android.framework
 
+import android.app.Activity
 import android.app.ActivityManager
 import android.app.Service
 import android.content.*
@@ -7,13 +8,12 @@ import android.os.BatteryManager
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
 import android.util.DisplayMetrics
+import android.view.View
 import android.view.WindowManager
 import renetik.android.content.service
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
-import renetik.android.framework.event.CSContextInterface
-import renetik.android.framework.event.event
-import renetik.android.framework.event.fire
+import renetik.android.framework.event.*
 import renetik.android.java.extensions.notNull
 import java.util.*
 
@@ -21,17 +21,16 @@ private val LOW_DPI_STATUS_BAR_HEIGHT = 19
 private val MEDIUM_DPI_STATUS_BAR_HEIGHT = 25
 private val HIGH_DPI_STATUS_BAR_HEIGHT = 38
 
-abstract class CSContext : ContextWrapper, CSContextInterface {
-
+abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
     constructor() : super(application)
-
+    constructor(context: CSContextInterface) : super(context.context) {
+        eventRegistrations.add(context.onDestroy.listenOnce { onDestroy() })
+    }
     constructor(context: Context) : super(context)
-
-    constructor(context: CSContextInterface) : super(context.context)
 
     private var _isDestroyed = false
     val isDestroyed get() = _isDestroyed
-    val onDestroy = event<Unit>()
+    override val onDestroy = event<Unit>()
 
     override val context: Context get() = this
 
@@ -88,9 +87,14 @@ abstract class CSContext : ContextWrapper, CSContextInterface {
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
 
     open fun onDestroy() {
+        eventRegistrations.cancel()
         onDestroy.fire().clear()
         _isDestroyed = true
     }
+
+    private val eventRegistrations = CSEventRegistrations()
+    override fun register(registration: CSEvent.CSEventRegistration) =
+        registration.also { eventRegistrations.add(it) }
 }
 
 fun CSContext.register(intent: IntentFilter, receiver: (Intent, BroadcastReceiver) -> void) =

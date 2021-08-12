@@ -18,7 +18,7 @@ class CSEventPropertyImpl<T>(value: T, onApply: ((value: T) -> Unit)? = null) :
 }
 
 abstract class CSStoreEventPropertyBase<T>(
-    var store: CSStoreInterface, onApply: ((value: T) -> Unit)? = null) :
+    var store: CSStoreInterface,val key: String, onApply: ((value: T) -> Unit)? = null) :
     CSEventPropertyBase<T>(onApply) {
 
     fun store(store: CSStoreInterface) = apply {
@@ -52,7 +52,7 @@ abstract class CSStoreEventPropertyBase<T>(
 abstract class CSEventPropertyBase<T>(
     protected val onApply: ((value: T) -> Unit)? = null) : CSEventProperty<T> {
     protected val eventBeforeChange = event<T>()
-    protected val eventChange = event<T>()
+     val eventChange = event<T>() // Temporary public for debugging
     protected abstract var _value: T
 
     override var value: T

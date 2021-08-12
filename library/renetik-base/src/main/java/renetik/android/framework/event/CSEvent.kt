@@ -29,6 +29,10 @@ interface CSEvent<T> {
 
     fun add(listener: (registration: CSEventRegistration, argument: T) -> Unit): CSEventRegistration
 
+    fun add(listener: CSEventListener<T>): CSEventRegistration
+
+    fun cancel(listener: CSEventListener<T>)
+
     fun fire(argument: T)
 
     fun clear()
@@ -39,6 +43,13 @@ interface CSEvent<T> {
 
         fun cancel()
     }
+
+    @Deprecated("Just for debugging")
+    val registrations: List<CSEventRegistration>
+}
+
+interface CSEventListener<T> : CSEventRegistration {
+    fun onEvent(argument: T)
 }
 
 fun CSEventRegistration.pause() = apply {
@@ -69,11 +80,11 @@ interface CSHasParent {
     fun onRemovedFromParent()
 }
 
-interface CSViewInterface : CSContextInterface, CSHasDestroy, CSEventOwner {
+interface CSViewInterface : CSContextInterface {
     val view: View
 }
 
-interface CSContextInterface {
+interface CSContextInterface : CSHasDestroy, CSEventOwner {
     val context: Context
 }
 

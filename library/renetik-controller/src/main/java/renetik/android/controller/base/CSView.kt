@@ -107,7 +107,6 @@ open class CSView<ViewType : View> : CSContext,
 
     override fun onDestroy() {
         if (isDestroyed) let { logError(this); throw unexpected }
-        eventRegistrations.cancel()
         if (layout != null) {
             if (_view == null) let { logError(this); throw unexpected }
             // TODO: Should I for some reason destroy children manually ?
@@ -123,12 +122,5 @@ open class CSView<ViewType : View> : CSContext,
     override fun onRemovedFromParent() {
         if (lifecycleStopOnRemoveFromParent) onDestroy()
     }
-
-    private val eventRegistrations = CSEventRegistrations()
-    override fun register(registration: CSEventRegistration) =
-        registration.also { eventRegistrations.add(it) }
-
-    fun cancel(registration: CSEventRegistration) =
-        eventRegistrations.cancel(registration)
 }
 

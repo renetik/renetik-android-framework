@@ -1,7 +1,6 @@
 package renetik.android.framework.event
 
 import renetik.android.framework.event.CSEvent.CSEventRegistration
-import renetik.android.java.extensions.collections.delete
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.exception
@@ -9,62 +8,63 @@ import renetik.android.logging.CSLog.logError
 
 class CSEventImpl<T> : CSEvent<T> {
 
-    private var registrations = list<EventRegistrationImpl>()
-    private var toRemove = list<EventRegistrationImpl>()
-    private var toAdd = list<EventRegistrationImpl>()
+    private val listeners = list<CSEventListener<T>>()
+    private var toRemove = list<CSEventListener<T>>()
+    private var toAdd = list<CSEventListener<T>>()
     private var running = false
 
-    override fun add(listener: (CSEventRegistration, T) -> Unit): CSEventRegistration {
-        val registration = EventRegistrationImpl(listener)
-        if (running) toAdd.add(registration)
-        else registrations.add(registration)
-        return registration
+    override fun add(listener: (CSEventRegistration, T) -> Unit) = add(EventListenerImpl(listener))
+
+    override fun add(listener: CSEventListener<T>): CSEventRegistration {
+        if (running) toAdd.add(listener)
+        else listeners.add(listener)
+        return listener
     }
 
     override fun fire(argument: T) {
         if (running)
             logError(exception("Event run while running"))
-        if (registrations.isEmpty()) return
+        if (listeners.isEmpty()) return
         running = true
-        for (registration in registrations) registration.onEvent(argument)
+        for (listener in listeners) listener.onEvent(argument)
         if (toRemove.hasItems) {
-            for (registration in toRemove) registrations.delete(registration)
+            for (listener in toRemove) listeners.delete(listener)
             toRemove.clear()
         }
         if (toAdd.hasItems) {
-            registrations.addAll(toAdd)
+            listeners.addAll(toAdd)
             toAdd.clear()
         }
         running = false
     }
 
-    override fun clear() = registrations.clear()
+    override fun clear() = listeners.clear()
+    override val isListened get() = listeners.hasItems
 
-    override val isListened get() = registrations.hasItems
-
-    internal inner class EventRegistrationImpl(private val listener: (CSEventRegistration, T) -> Unit) :
-        CSEventRegistration {
-
+    internal inner class EventListenerImpl(
+        private val listener: (CSEventRegistration, T) -> Unit) :
+        CSEventListener<T> {
         override var isActive = true
-
         private var canceled = false
-
         override fun cancel() {
             if (canceled) return
             isActive = false
-            val index = registrations.indexOf(this)
-            if (index >= 0) {
-                if (running) toRemove.add(this)
-                else registrations.removeAt(index)
-            } else logError("Listener not found")
+            cancel(this)
             canceled = true
         }
 
-//        override fun event() = this@CSEventImpl
-
-        fun onEvent(argument: T) {
+        override fun onEvent(argument: T) {
             if (isActive) listener(this, argument)
         }
     }
 
+    override fun cancel(listener: CSEventListener<T>) {
+        val index = listeners.indexOf(listener)
+        if (index >= 0) {
+            if (running) toRemove.add(listener)
+            else listeners.removeAt(index)
+        } else logError("Listener not found")
+    }
+
+    override val registrations get() = listeners
 }

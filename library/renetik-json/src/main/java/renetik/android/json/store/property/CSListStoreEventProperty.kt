@@ -15,9 +15,9 @@ import kotlin.reflect.full.createInstance
 
 class CSListStoreEventProperty<T : CSJsonMap>(
     store: CSStoreInterface,
-    val key: String, private val createInstance: () -> T,
+    key: String, private val createInstance: () -> T,
     val default: List<T> = emptyList(), onApply: ((value: List<T>) -> Unit)? = null
-) : CSStoreEventPropertyBase<List<T>>(store, onApply),
+) : CSStoreEventPropertyBase<List<T>>(store, key, onApply),
     CSListInterface<T> {
 
     constructor(

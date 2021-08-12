@@ -9,9 +9,9 @@ import renetik.android.json.toJsonString
 import kotlin.reflect.KClass
 
 class CSItemStoreEventProperty<T : CSJsonMap>(
-    store: CSStoreInterface, val key: String, val type: KClass<T>,
+    store: CSStoreInterface, key: String, val type: KClass<T>,
     val default: T? = null, onApply: ((value: T?) -> Unit)? = null
-) : CSStoreEventPropertyBase<T?>(store, onApply) {
+) : CSStoreEventPropertyBase<T?>(store, key, onApply) {
     override var _value: T? = load(store)
 
     @Suppress("UNCHECKED_CAST")

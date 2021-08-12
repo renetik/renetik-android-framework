@@ -4,9 +4,9 @@ import renetik.android.framework.event.property.CSStoreEventPropertyBase
 import renetik.android.framework.lang.CSId
 
 class CSListItemStoreEventProperty<T>(
-    store: CSStoreInterface, private val key: String,
+    store: CSStoreInterface, key: String,
     val values: List<T>, val default: T, onChange: ((value: T) -> Unit)? = null
-) : CSStoreEventPropertyBase<T>(store, onChange) {
+) : CSStoreEventPropertyBase<T>(store, key, onChange) {
     override var _value = load(store)
     override fun load(store: CSStoreInterface) = store.getValue(key, values, default)
     override fun save(store: CSStoreInterface, value: T) = store.save(key, value.toId())
@@ -25,9 +25,9 @@ fun <T : Enum<*>> CSListItemStoreEventProperty<T>.previous(): T = values[value.o
 
 
 class CSListItemsStoreEventProperty<T : CSId>(
-    store: CSStoreInterface, private val key: String,
+    store: CSStoreInterface, key: String,
     val values: Iterable<T>, val default: List<T>, onChange: ((value: List<T>) -> Unit)? = null
-) : CSStoreEventPropertyBase<List<T>>(store, onChange) {
+) : CSStoreEventPropertyBase<List<T>>(store, key, onChange) {
 
     override var _value = load(store)
 
