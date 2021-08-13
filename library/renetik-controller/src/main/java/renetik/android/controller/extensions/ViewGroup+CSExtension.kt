@@ -6,21 +6,19 @@ import renetik.android.controller.base.CSView
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.remove
 
-fun <Controller : CSView<*>> ViewGroup.add(controller: Controller): Controller {
-    add(controller.view)
-    return controller
+fun <View : CSView<*>> ViewGroup.add(view: View): View {
+    add(view.view)
+    return view
 }
 
-fun <Controller : CSView<*>> ViewGroup.add(controller: Controller, index: Int = -1): Controller {
-    add(controller.view, index)
-    return controller
+fun <View : CSView<*>> ViewGroup.add(view: View, index: Int = -1): View {
+    add(view.view, index)
+    return view
 }
 
-fun <Controller : CSView<*>> ViewGroup.add(
-    controller: Controller, layout: LayoutParams, index: Int = -1,
-): Controller {
-    add(controller.view, layout, index)
-    return controller
+fun <View : CSView<*>> ViewGroup.add(view: View, layout: LayoutParams, index: Int = -1): View {
+    add(view.view, layout, index)
+    return view
 }
 
 fun <T : ViewGroup> T.remove(view: CSView<*>): T {
