@@ -1,7 +1,5 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.property.CSStoreEventPropertyBase
-
 class CSStoreFloatEventProperty(
     store: CSStoreInterface, key: String, val default: Float,
     onChange: ((value: Float) -> Unit)?)

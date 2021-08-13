@@ -1,6 +1,6 @@
 package renetik.android.json.store.property
 
-import renetik.android.framework.event.property.CSStoreEventPropertyBase
+import renetik.android.framework.store.CSStoreEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.json.data.CSJsonMap
 import renetik.android.json.extensions.createJsonMap

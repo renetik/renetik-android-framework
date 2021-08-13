@@ -1,7 +1,5 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.property.CSStoreEventPropertyBase
-
 class CSStoreDoubleEventProperty(
     store: CSStoreInterface, key: String, val default: Double,
     onChange: ((value: Double) -> Unit)?)

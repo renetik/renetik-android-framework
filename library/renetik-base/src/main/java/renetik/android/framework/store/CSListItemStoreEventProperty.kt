@@ -1,6 +1,5 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.property.CSStoreEventPropertyBase
 import renetik.android.framework.lang.CSId
 
 class CSListItemStoreEventProperty<T>(
