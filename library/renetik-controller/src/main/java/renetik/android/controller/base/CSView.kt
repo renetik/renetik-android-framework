@@ -2,8 +2,7 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
-import android.view.inputmethod.InputMethodManager.SHOW_FORCED
+import android.view.inputmethod.InputMethodManager.*
 import androidx.annotation.LayoutRes
 import renetik.android.content.inflate
 import renetik.android.content.input
@@ -103,7 +102,7 @@ open class CSView<ViewType : View> : CSContext,
 
     fun showKeyboard(view: View, flag: Int) = input.showSoftInput(view, flag)
 
-    fun showKeyboard() = input.toggleSoftInput(SHOW_FORCED, HIDE_IMPLICIT_ONLY);
+    fun showKeyboard() = input.toggleSoftInput(SHOW_IMPLICIT, HIDE_IMPLICIT_ONLY);
 
     override fun onDestroy() {
         if (isDestroyed) let { logError(this); throw unexpected }

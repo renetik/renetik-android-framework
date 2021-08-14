@@ -2,6 +2,7 @@ package renetik.android.view.extensions
 
 import android.annotation.SuppressLint
 import android.view.KeyEvent.ACTION_UP
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
@@ -48,4 +49,13 @@ fun EditText.text(parent: CSVisibleEventOwner, property: CSEventProperty<String?
         onPropertyChange.resume()
     }
     updateText()
+}
+
+fun EditText.withKeyboardDone(function: () -> Unit) = apply {
+    imeOptions = EditorInfo.IME_ACTION_DONE
+    setOnEditorActionListener { _, actionId, _ ->
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            function(); true
+        } else false
+    }
 }

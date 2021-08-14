@@ -33,6 +33,11 @@ object CSEventPropertyFunctions {
     ) = application.store.property(key, values, default, onApply)
 
     fun <T> property(
+        key: String, values: List<T>, defaultIndex: Int,
+        onApply: ((value: T) -> Unit)? = null
+    ) = property(key, values, values[defaultIndex], onApply)
+
+    fun <T> property(
         key: String, values: Array<T>, default: T,
         onApply: ((value: T) -> Unit)? = null
     ) = application.store.property(key, values, default, onApply)
