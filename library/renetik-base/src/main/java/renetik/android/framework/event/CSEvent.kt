@@ -3,6 +3,7 @@ package renetik.android.framework.event
 import android.content.Context
 import android.view.View
 import renetik.android.framework.event.CSEvent.CSEventRegistration
+import java.io.Closeable
 
 @JvmName("eventWithType")
 fun <T> event(): CSEvent<T> = CSEventImpl()
@@ -52,8 +53,9 @@ interface CSEventListener<T> : CSEventRegistration {
     fun onEvent(argument: T)
 }
 
-fun CSEventRegistration.pause() = apply {
+fun CSEventRegistration.pause(): Closeable {
     isActive = false
+    return Closeable { resume() }
 }
 
 fun CSEventRegistration.resume() = apply {

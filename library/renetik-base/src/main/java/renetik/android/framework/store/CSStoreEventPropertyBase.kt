@@ -1,10 +1,21 @@
 package renetik.android.framework.store
 
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyBase
+
+interface CSStoreEventProperty<T> : CSEventProperty<T> {
+    val isSet: Boolean
+
+    fun load(store: CSStoreInterface): T
+
+    fun save(store: CSStoreInterface, value: T)
+}
 
 abstract class CSStoreEventPropertyBase<T>(
     var store: CSStoreInterface, val key: String, onApply: ((value: T) -> Unit)? = null) :
-    CSEventPropertyBase<T>(onApply) {
+    CSEventPropertyBase<T>(onApply), CSStoreEventProperty<T> {
+
+    override val isSet get() = store.has(key)
 
     fun reload() {
         val newValue = load(store)
@@ -23,10 +34,6 @@ abstract class CSStoreEventPropertyBase<T>(
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
     }
-
-    abstract fun load(store: CSStoreInterface): T
-
-    abstract fun save(store: CSStoreInterface, value: T)
 }
 
 fun <T> CSStoreEventPropertyBase<T>.save(store: CSStoreInterface) = save(store, value)

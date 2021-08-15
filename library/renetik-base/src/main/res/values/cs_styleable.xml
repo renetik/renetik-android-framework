@@ -6,6 +6,7 @@
     </declare-styleable>
     <declare-styleable name="CSLinearLayout">
         <attr name="maxWidth" format="dimension" />
+        <attr name="dispatchState" format="boolean" />
     </declare-styleable>
     <declare-styleable name="RotaryKnobView">
         <attr name="minValue" format="integer" />

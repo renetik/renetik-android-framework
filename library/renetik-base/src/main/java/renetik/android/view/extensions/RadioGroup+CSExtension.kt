@@ -6,7 +6,10 @@ import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.R
-import renetik.android.framework.event.*
+import renetik.android.framework.event.CSVisibleEventOwner
+import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
+import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSTitle
 
@@ -50,10 +53,6 @@ fun <T : Any> RadioGroup.property(
     }
 
     val onPropertyChange = parent.whileShowing(property.onChange { updateChecked() })
-    onChange {
-        onPropertyChange.pause()
-        property.value = data[it]
-        onPropertyChange.resume()
-    }
+    onChange { buttonId -> onPropertyChange.pause().use { property.value = data[buttonId] } }
     updateChecked()
 }

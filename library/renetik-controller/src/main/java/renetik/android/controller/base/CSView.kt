@@ -8,7 +8,6 @@ import renetik.android.content.inflate
 import renetik.android.content.input
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.java.extensions.later
 import renetik.android.java.extensions.notNull
@@ -121,5 +120,17 @@ open class CSView<ViewType : View> : CSContext,
     override fun onRemovedFromParent() {
         if (lifecycleStopOnRemoveFromParent) onDestroy()
     }
+
+    open var isActivated
+        get() = view.isActivated
+        set(value) {
+            view.isActivated = value
+        }
+
+    open var isSelected
+        get() = view.isSelected
+        set(value) {
+            view.isSelected = value
+        }
 }
 

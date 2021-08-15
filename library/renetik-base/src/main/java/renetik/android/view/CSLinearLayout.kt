@@ -2,7 +2,8 @@ package renetik.android.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View.MeasureSpec.*
+import android.view.View.MeasureSpec.EXACTLY
+import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
 import renetik.android.R
 
@@ -13,21 +14,35 @@ class CSLinearLayout @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val maxWidth: Int
+    private val dispatchState: Boolean
 
     init {
-        val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.CSLinearLayout, 0, 0)
+        val attributes =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLinearLayout, 0, 0)
         try {
-            maxWidth = typedArray.getDimensionPixelSize(R.styleable.CSLinearLayout_maxWidth, 0)
+            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLinearLayout_maxWidth, -1)
+            dispatchState = attributes.getBoolean(R.styleable.CSLinearLayout_dispatchState, true)
         } finally {
-            typedArray.recycle()
+            attributes.recycle()
         }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (measuredWidth > maxWidth) {
+        if (maxWidth != -1 && measuredWidth > maxWidth) {
             super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
         }
     }
 
+    override fun dispatchSetActivated(activated: Boolean) {
+        if (dispatchState) super.dispatchSetActivated(activated)
+    }
+
+    override fun dispatchSetSelected(selected: Boolean) {
+        if (dispatchState) super.dispatchSetSelected(selected)
+    }
+
+    override fun dispatchSetPressed(pressed: Boolean) {
+        if (dispatchState) super.dispatchSetPressed(pressed)
+    }
 }

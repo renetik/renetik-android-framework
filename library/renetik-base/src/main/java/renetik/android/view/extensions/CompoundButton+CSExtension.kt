@@ -6,7 +6,6 @@ import androidx.annotation.ColorInt
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.resume
 import renetik.android.framework.lang.isTrue
 
 fun CompoundButton.onChecked(function: (CompoundButton) -> Unit) = apply {
@@ -22,11 +21,7 @@ fun CompoundButton.isCheckedIf(parent: CSVisibleEventOwner, property: CSEventPro
         val onChangeRegistration = parent.whileShowing(property.onChange {
             isChecked = it
         })
-        onChecked {
-            onChangeRegistration.pause()
-            property.value(it.isChecked)
-            onChangeRegistration.resume()
-        }
+        onChecked { onChangeRegistration.pause().use { property.value(isChecked) } }
         isChecked = property.isTrue
     }
 
