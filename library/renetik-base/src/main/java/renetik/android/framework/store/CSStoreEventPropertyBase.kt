@@ -6,11 +6,6 @@ abstract class CSStoreEventPropertyBase<T>(
     var store: CSStoreInterface, val key: String, onApply: ((value: T) -> Unit)? = null) :
     CSEventPropertyBase<T>(onApply) {
 
-    fun store(store: CSStoreInterface) = apply {
-        this.store = store
-        reload()
-    }
-
     fun reload() {
         val newValue = load(store)
         if (_value == newValue) return
@@ -35,3 +30,5 @@ abstract class CSStoreEventPropertyBase<T>(
 }
 
 fun <T> CSStoreEventPropertyBase<T>.save(store: CSStoreInterface) = save(store, value)
+
+fun <T> CSStoreEventPropertyBase<T>.save() = save(store, value)

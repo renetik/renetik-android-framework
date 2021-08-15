@@ -102,7 +102,7 @@ open class CSView<ViewType : View> : CSContext,
 
     fun showKeyboard(view: View, flag: Int) = input.showSoftInput(view, flag)
 
-    fun showKeyboard() = input.toggleSoftInput(SHOW_IMPLICIT, HIDE_IMPLICIT_ONLY);
+    fun showKeyboard() = input.toggleSoftInput(SHOW_IMPLICIT, 0);
 
     override fun onDestroy() {
         if (isDestroyed) let { logError(this); throw unexpected }

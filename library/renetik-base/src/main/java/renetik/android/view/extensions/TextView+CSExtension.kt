@@ -41,6 +41,11 @@ fun TextView.text(
     parent: CSVisibleEventOwner, property: CSEventProperty<*>
 ) = text(parent, property) { it.asString }
 
+@JvmName("TextViewTextStringProperty")
+fun TextView.text(
+    parent: CSVisibleEventOwner, property: CSEventProperty<String>
+) = text(parent, property) { it }
+
 fun <T> TextView.text(
     parent: CSVisibleEventOwner, property: CSEventProperty<T>,
     valueToString: (T) -> CharSequence
