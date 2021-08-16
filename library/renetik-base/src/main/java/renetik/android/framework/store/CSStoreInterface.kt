@@ -75,5 +75,8 @@ interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String
 
     fun storedBoolean(key: String, onChange: ((value: Boolean) -> Unit)? = null) =
         CSStoredBooleanEventProperty(this, key, onChange)
+
+    fun storedInt(key: String, onChange: ((value: String) -> Unit)? = null) =
+        CSStoredStringEventProperty(this, key, onChange)
 }
 

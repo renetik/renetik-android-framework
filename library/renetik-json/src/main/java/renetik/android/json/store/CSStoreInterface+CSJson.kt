@@ -3,6 +3,7 @@ package renetik.android.json.store
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.json.data.CSJsonMap
 import renetik.android.json.store.property.CSItemStoreEventProperty
+import renetik.android.json.store.property.CSItemStoreNullableEventProperty
 import renetik.android.json.store.property.CSListStoreEventProperty
 import kotlin.reflect.KClass
 
@@ -17,4 +18,8 @@ fun <T : CSJsonMap> CSStoreInterface.property(
 
 fun <T : CSJsonMap> CSStoreInterface.property(
     key: String, type: KClass<T>, default: T? = null, onApply: ((value: T?) -> Unit)? = null
+) = CSItemStoreNullableEventProperty(this, key, type, default, onApply)
+
+fun <T : CSJsonMap> CSStoreInterface.property(
+    key: String, type: KClass<T>, default: T, onApply: ((value: T) -> Unit)? = null
 ) = CSItemStoreEventProperty(this, key, type, default, onApply)

@@ -28,7 +28,7 @@ fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) visible(
 fun <T : View> T.invisibleIf(condition: Boolean) =
     apply { if (condition) invisible() else visible() }
 
-fun <T : View> T.shownIf(condition: Boolean?, fade: Boolean = false) = apply {
+fun <T : View> T.shownIf(condition: Boolean, fade: Boolean = false) = apply {
     when {
         fade -> if (condition.isTrue) fadeIn() else fadeOut()
         condition.isTrue -> show()
@@ -36,27 +36,32 @@ fun <T : View> T.shownIf(condition: Boolean?, fade: Boolean = false) = apply {
     }
 }
 
-fun <T : View> T.hiddenIf(condition: Boolean?) = apply { if (condition.isTrue) gone() else show() }
+fun <T : View> T.goneIf(condition: Boolean, fade: Boolean = false) = shownIf(!condition, fade)
 
-fun View.visibilityPropertySet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) =
+fun View.shownIfSet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) =
     apply {
         fun updateVisibility() = shownIf(property.value != null)
         parent.whileShowing(property.onChange { updateVisibility() })
         updateVisibility()
     }
 
-fun View.visibilityPropertyTrue(parent: CSVisibleEventOwner,
-                                property: CSEventProperty<Boolean>,
-                                fade: Boolean = true) =
-    apply {
-        fun updateVisibility() = shownIf(property.value, fade)
-        parent.whileShowing(property.onChange { updateVisibility() })
-        updateVisibility()
-    }
+fun View.shownIfTrue(parent: CSVisibleEventOwner, property: CSEventProperty<Boolean>,
+                     fade: Boolean = true) = apply {
+    fun updateVisibility() = shownIf(property.value, fade)
+    parent.whileShowing(property.onChange { updateVisibility() })
+    updateVisibility()
+}
 
-fun <T> View.visibilityPropertyEquals(parent: CSVisibleEventOwner,
-                                      property: CSEventProperty<T?>,
-                                      value: T) = apply {
+fun View.goneIfTrue(parent: CSVisibleEventOwner, property: CSEventProperty<Boolean>,
+                    fade: Boolean = true) = apply {
+    fun updateVisibility() = goneIf(property.value, fade)
+    parent.whileShowing(property.onChange { updateVisibility() })
+    updateVisibility()
+}
+
+fun <T> View.shownIfEquals(parent: CSVisibleEventOwner,
+                           property: CSEventProperty<T?>,
+                           value: T) = apply {
     fun updateVisibility() = shownIf(property.value == value)
     parent.whileShowing(property.onChange { updateVisibility() })
     updateVisibility()

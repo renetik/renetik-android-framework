@@ -49,7 +49,7 @@ class CSGetPictureView<T : View>(
 
     fun show() {
         requestPermissions(list(CAMERA, WRITE_EXTERNAL_STORAGE), { showAfterPermissionsGranted() },
-            onNotGranted = { snackBarWarn("Some permissions not granted for taking photos") })
+            notGranted = { snackBarWarn("Some permissions not granted for taking photos") })
     }
 
     private fun showAfterPermissionsGranted() {
