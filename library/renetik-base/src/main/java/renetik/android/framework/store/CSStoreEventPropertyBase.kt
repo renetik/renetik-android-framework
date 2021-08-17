@@ -5,10 +5,9 @@ import renetik.android.framework.event.property.CSEventPropertyBase
 
 interface CSStoreEventProperty<T> : CSEventProperty<T> {
     val isSet: Boolean
-
     fun load(store: CSStoreInterface): T
-
     fun save(store: CSStoreInterface, value: T)
+    fun reload()
 }
 
 abstract class CSStoreEventPropertyBase<T>(
@@ -17,7 +16,7 @@ abstract class CSStoreEventPropertyBase<T>(
 
     override val isSet get() = store.has(key)
 
-    fun reload() {
+    override fun reload() {
         val newValue = load(store)
         if (_value == newValue) return
         eventBeforeChange.fire(_value)

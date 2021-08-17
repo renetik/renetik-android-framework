@@ -47,14 +47,12 @@ open class CSMainControllerDialogView<ViewType : View>(
 
     private val isDialogShown get() = backgroundView.parent == null
 
-    private fun showDialog() {
+    open fun show() = apply {
         activity().controller?.view?.add(backgroundView, layoutMatch)
-        this.view.isClickable = true
-        backgroundView.add(this.view)
+        view.isClickable = true
+        backgroundView.add(view)
         backgroundView.hide().fadeIn()
     }
-
-    open fun show() = apply { showDialog() }
 
     fun from(fromView: View) = apply {
         view.updateLayoutParams<FrameLayout.LayoutParams> {
@@ -91,7 +89,7 @@ open class CSMainControllerDialogView<ViewType : View>(
         }
     }
 
-    fun fullScreen() = apply {
+    open fun fullScreen() = apply {
         view.updateLayoutParams<FrameLayout.LayoutParams> {
             width = MATCH_PARENT
             height = MATCH_PARENT

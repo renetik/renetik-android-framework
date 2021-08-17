@@ -31,6 +31,7 @@ fun Any.toJsonString(formatted: Boolean = false): String {
 private fun Any?.toJsonType(): Any? {
     if (this is Number || this is String || this is Boolean) return this
     return (this as? Map<String, *>)?.toJSONObject()
+        ?: (this as? Array<*>)?.toJSONArray()
         ?: (this as? List<*>)?.toJSONArray()
         ?: (this as? CSJsonMapInterface)?.asStringMap()?.toJSONObject()
         ?: (this as? CSJsonListInterface)?.asList()?.toJSONArray()
@@ -38,6 +39,12 @@ private fun Any?.toJsonType(): Any? {
 }
 
 fun List<*>.toJSONArray(): JSONArray {
+    val jsonArray = JSONArray()
+    for (entry in this) jsonArray.put(entry.toJsonType())
+    return jsonArray
+}
+
+fun Array<*>.toJSONArray(): JSONArray {
     val jsonArray = JSONArray()
     for (entry in this) jsonArray.put(entry.toJsonType())
     return jsonArray

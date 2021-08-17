@@ -18,10 +18,10 @@ class CSLinearLayout @JvmOverloads constructor(
 
     init {
         val attributes =
-            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLinearLayout, 0, 0)
+            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
         try {
-            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLinearLayout_maxWidth, -1)
-            dispatchState = attributes.getBoolean(R.styleable.CSLinearLayout_dispatchState, true)
+            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
+            dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
         } finally {
             attributes.recycle()
         }

@@ -4,7 +4,7 @@
         <attr name="title" />
         <attr name="icon" />
     </declare-styleable>
-    <declare-styleable name="CSLinearLayout">
+    <declare-styleable name="CSLayout">
         <attr name="maxWidth" format="dimension" />
         <attr name="dispatchState" format="boolean" />
     </declare-styleable>

@@ -2,9 +2,9 @@ package renetik.android.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View.MeasureSpec.*
+import android.view.View.MeasureSpec.EXACTLY
+import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import renetik.android.R
 
 
@@ -13,27 +13,36 @@ class CSFrameLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-//    private val maxWidth: Int
-//
-//    init {
-//        val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.CSLinearLayout, 0, 0)
-//        try {
-//            maxWidth = typedArray.getDimensionPixelSize(R.styleable.CSLinearLayout_maxWidth, 0)
-//        } finally {
-//            typedArray.recycle()
-//        }
-//    }
-//
+    private val maxWidth: Int
+    private val dispatchState: Boolean
+
+    init {
+        val attributes =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
+        try {
+            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
+            dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
+        } finally {
+            attributes.recycle()
+        }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        if (maxWidth != -1 && measuredWidth > maxWidth) {
+            super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
+        }
+    }
 
     override fun dispatchSetActivated(activated: Boolean) {
-//        super.dispatchSetActivated(activated)
+        if (dispatchState) super.dispatchSetActivated(activated)
     }
 
     override fun dispatchSetSelected(selected: Boolean) {
-//        super.dispatchSetSelected(selected)
+        if (dispatchState) super.dispatchSetSelected(selected)
     }
 
     override fun dispatchSetPressed(pressed: Boolean) {
-//        super.dispatchSetPressed(pressed)
+        if (dispatchState) super.dispatchSetPressed(pressed)
     }
 }
