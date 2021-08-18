@@ -36,7 +36,7 @@ interface CSPropertyStoreInterface {
     ): CSListItemStoreEventProperty<T>
 
     fun <T> property(
-        key: String, values: List<T>, defaultIndex: Int = 0,
+        key: String, values: List<T>, defaultIndex: Int,
         onChange: ((value: T) -> Unit)? = null
     ) = property(key, values, values[defaultIndex], onChange)
 
