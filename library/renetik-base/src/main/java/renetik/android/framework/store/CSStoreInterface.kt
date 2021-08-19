@@ -42,7 +42,6 @@ interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String
     fun getString(key: String, default: String) = get(key) ?: default
     fun getString(key: String) = get(key)
 
-
     override fun <T> property(
         key: String, values: List<T>, default: T, onChange: ((value: T) -> Unit)?) =
         CSListItemStoreEventProperty(this, key, values, default, onChange)

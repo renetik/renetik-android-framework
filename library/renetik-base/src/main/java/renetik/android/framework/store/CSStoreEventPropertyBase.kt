@@ -35,6 +35,7 @@ abstract class CSStoreEventPropertyBase<T>(
     }
 }
 
-fun <T> CSStoreEventPropertyBase<T>.save(store: CSStoreInterface) = save(store, value)
+fun <T> CSStoreEventProperty<T>.save(store: CSStoreInterface) = save(store, value)
 
+fun <T> CSStoreEventPropertyBase2<T>.save() = save(store, value)
 fun <T> CSStoreEventPropertyBase<T>.save() = save(store, value)

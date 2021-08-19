@@ -4,16 +4,30 @@ import renetik.android.framework.lang.CSId
 
 class CSListItemStoreEventProperty<T>(
     store: CSStoreInterface, key: String,
-    val values: List<T>, val default: T, onChange: ((value: T) -> Unit)? = null
-) : CSStoreEventPropertyBase<T>(store, key, onChange) {
-    override var _value = load(store)
-    override fun load(store: CSStoreInterface) = store.getValue(key, values, default)
+    val values: List<T>, default: T, onChange: ((value: T) -> Unit)? = null
+) : CSStoreEventPropertyBase2<T>(store, key, default, onChange) {
+    override var _value = firstLoad()
+    override fun loadNullable(store: CSStoreInterface) = store.getValue(key, values)
     override fun save(store: CSStoreInterface, value: T) = store.save(key, value.toId())
 }
+
+//class CSListItemStoreEventProperty<T>(
+//    store: CSStoreInterface, key: String,
+//    val values: List<T>, val default: T, onChange: ((value: T) -> Unit)? = null
+//) : CSStoreEventPropertyBase<T>(store, key, onChange) {
+//    override var _value = load(store)
+//    override fun load(store: CSStoreInterface) = store.getValue(key, values, default)
+//    override fun save(store: CSStoreInterface, value: T) = store.save(key, value.toId())
+//}
 
 fun <T> CSStoreInterface.getValue(key: String, values: Iterable<T>, default: T): T {
     val savedString = get(key) ?: return default
     return values.find { it.toId() == savedString } ?: default
+}
+
+fun <T> CSStoreInterface.getValue(key: String, values: Iterable<T>): T? {
+    val savedString = get(key) ?: return null
+    return values.find { it.toId() == savedString }
 }
 
 private fun Any?.toId() = (this as? CSId)?.id ?: this.toString()

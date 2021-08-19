@@ -13,11 +13,6 @@ abstract class CSStoreEventPropertyBase2<T>(
 
     override fun load(store: CSStoreInterface) = loadNullable(store) ?: default
 
-    override var _value = loadNullable(store) ?: run {
-        save(store, default)
-        default
-    }
-
     override val isSet get() = store.has(key)
 
     override fun reload() {
@@ -41,5 +36,10 @@ abstract class CSStoreEventPropertyBase2<T>(
         save(store, value)
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
+    }
+
+    protected fun firstLoad() = loadNullable(store) ?: run {
+        save(store, default)
+        default
     }
 }
