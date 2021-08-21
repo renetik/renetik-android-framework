@@ -2,13 +2,7 @@ package renetik.android.framework.event
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import renetik.android.CSApplicationMock
 
-@RunWith(RobolectricTestRunner::class)
-@Config(manifest = "AndroidManifest.xml", application = CSApplicationMock::class)
 class CSEventTest {
 
     private var eventOneCounter = 0

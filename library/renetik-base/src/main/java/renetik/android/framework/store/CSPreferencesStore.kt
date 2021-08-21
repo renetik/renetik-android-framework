@@ -13,7 +13,7 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
 
     override fun clear() = preferences.edit().clear().apply()
 
-    fun clear(key: String) {
+    override fun clear(key: String) {
         val editor = preferences.edit()
         editor.remove(key)
         editor.apply()

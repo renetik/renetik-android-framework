@@ -26,6 +26,14 @@ abstract class CSEventPropertyBase<T>(
         get() = _value
         set(value) = value(value)
 
+    override fun value(newValue: T, fire: Boolean) {
+        if (value == newValue) return
+        if (fire) eventBeforeChange.fire(value)
+        _value = newValue
+        onApply?.invoke(newValue)
+        if (fire) eventChange.fire(newValue)
+    }
+
     override fun onBeforeChange(value: (T) -> Unit) = eventBeforeChange.listen(value)
     override fun onChange(value: (T) -> Unit) = eventChange.listen(value)
 
