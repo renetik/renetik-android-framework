@@ -1,6 +1,7 @@
 package renetik.android.view.extensions
 
 import android.os.Build
+import android.view.View
 import android.widget.HorizontalScrollView
 import androidx.annotation.RequiresApi
 import renetik.android.R
@@ -20,3 +21,4 @@ val HorizontalScrollView.eventChange
         }
     }
 
+val HorizontalScrollView.content get() = getChildAt(0)

@@ -7,6 +7,7 @@ import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import renetik.android.framework.event.CSEventOwner
 import renetik.android.framework.event.CSViewInterface
+import renetik.android.framework.event.register
 import renetik.android.view.extensions.*
 
 fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
@@ -66,5 +67,9 @@ fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
 fun <Type> Type.afterLayout(action: (Type) -> Unit)
         where  Type : CSView<*>, Type : CSEventOwner =
     apply { register(view.afterLayout { action(this) }) }
+
+fun <Type> Type.hasSize(onHasSize: (Type) -> Unit)
+        where  Type : CSView<*>, Type : CSEventOwner =
+    apply { register(view.hasSize { onHasSize(this) }) }
 
 

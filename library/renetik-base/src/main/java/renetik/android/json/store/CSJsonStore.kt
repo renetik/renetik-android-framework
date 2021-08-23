@@ -15,7 +15,7 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
 
     abstract fun saveJsonString(json: String)
 
-    private fun load() = loadJsonString()?.parseJsonMap() ?: mutableMapOf()
+    protected fun load() = loadJsonString()?.parseJsonMap() ?: mutableMapOf()
 
     protected fun save() {
         val json = data

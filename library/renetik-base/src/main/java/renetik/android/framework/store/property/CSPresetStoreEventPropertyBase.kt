@@ -10,6 +10,7 @@ interface CSPresetStoreEventProperty<T> : CSStoreEventProperty<T> {
 
     override fun load(): T = load(store)
     override fun save(value: T) = save(store, value)
+    fun save(store: CSStoreInterface) = save(store, value)
 }
 
 abstract class CSPresetStoreEventPropertyBase<T>(
