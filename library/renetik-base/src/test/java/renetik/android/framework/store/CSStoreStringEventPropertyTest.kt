@@ -13,7 +13,7 @@ class CSCSStoreInterfaceTest {
 
     @Test
     fun testStringProperty() {
-        val property = store.property("property", value = "value")
+        val property = store.property("property", default = "value")
         assertEquals("value", property.value)
         property.value = "value2"
         assertEquals("value2", property.value)
@@ -28,7 +28,7 @@ class CSCSStoreInterfaceTest {
 
     @Test
     fun testIntProperty() {
-        val property = store.property("property", value = 2)
+        val property = store.property("property", default = 2)
         assertEquals(2, property.value)
         property.value = 3
         assertEquals(3, property.value)

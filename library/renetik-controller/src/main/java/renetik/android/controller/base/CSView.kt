@@ -90,10 +90,7 @@ open class CSView<ViewType : View> : CSContext,
 
     val hasParent get() = view.parent.notNull
 
-    fun hideKeyboard() {
-        hideKeyboardImpl()
-        later { hideKeyboardImpl() }
-    }
+    fun hideKeyboard() = hideKeyboardImpl()
 
     open fun hideKeyboardImpl() {
         input.hideSoftInputFromWindow(view.rootView.windowToken, 0)

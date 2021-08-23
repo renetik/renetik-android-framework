@@ -51,37 +51,37 @@ interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String
     fun getString(key: String) = get(key)
 
     override fun <T> property(
-        key: String, values: List<T>, value: T, onChange: ((value: T) -> Unit)?) =
-        CSListItemStoreEventProperty(this, key, values, value, onChange)
+        key: String, values: List<T>, default: T, onChange: ((value: T) -> Unit)?) =
+        CSListItemStoreEventProperty(this, key, values, default, onChange)
 
     override fun <T> nullableProperty(
         key: String, values: List<T>, default: T?, onChange: ((value: T?) -> Unit)?) =
         CSListItemNullableStoreEventProperty(this, key, values, default, onChange)
 
     override fun <T : CSId> property(
-        key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =
-        CSListItemsStoreEventProperty(this, key, values, value, onChange)
+        key: String, values: Iterable<T>, default: List<T>, onChange: ((value: List<T>) -> Unit)?) =
+        CSListItemsStoreEventProperty(this, key, values, default, onChange)
 
-    override fun property(key: String, value: Int, onChange: ((value: Int) -> Unit)?) =
-        CSIntValueStoreEventProperty(this, key, value, onChange)
+    override fun property(key: String, default: Int, onChange: ((value: Int) -> Unit)?) =
+        CSIntValueStoreEventProperty(this, key, default, onChange)
 
     override fun nullableProperty(key: String, default: Int?, onChange: ((value: Int?) -> Unit)?) =
         CSIntNullableStoreEventProperty(this, key, default, onChange)
 
-    override fun property(key: String, value: Float, onChange: ((value: Float) -> Unit)?) =
-        CSFloatValueStoreEventProperty(this, key, value, onChange)
+    override fun property(key: String, default: Float, onChange: ((value: Float) -> Unit)?) =
+        CSFloatValueStoreEventProperty(this, key, default, onChange)
 
-    override fun property(key: String, value: Double, onChange: ((value: Double) -> Unit)?) =
-        CSDoubleValueStoreEventProperty(this, key, value, onChange)
+    override fun property(key: String, default: Double, onChange: ((value: Double) -> Unit)?) =
+        CSDoubleValueStoreEventProperty(this, key, default, onChange)
 
-    override fun property(key: String, value: String, onChange: ((value: String) -> Unit)?) =
-        CSStringValueStoreEventProperty(this, key, value, onChange)
+    override fun property(key: String, default: String, onChange: ((value: String) -> Unit)?) =
+        CSStringValueStoreEventProperty(this, key, default, onChange)
 
     fun stringProperty(key: String, onChange: ((value: String) -> Unit)? = null) =
         CSStringLateStoreEventProperty(this, key, onChange)
 
-    override fun property(key: String, value: Boolean, onChange: ((value: Boolean) -> Unit)?) =
-        CSBooleanValueStoreEventProperty(this, key, value, onChange)
+    override fun property(key: String, default: Boolean, onChange: ((value: Boolean) -> Unit)?) =
+        CSBooleanValueStoreEventProperty(this, key, default, onChange)
 
     override fun property(key: String, default: Boolean?,
                           onChange: ((value: Boolean?) -> Unit)?) =
