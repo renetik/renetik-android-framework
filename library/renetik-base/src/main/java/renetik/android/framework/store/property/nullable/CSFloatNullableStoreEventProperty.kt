@@ -9,5 +9,7 @@ class CSFloatNullableStoreEventProperty(
     : CSNullableStoreEventProperty<Float?>(store, key, default, onChange) {
     override var _value = firstLoad()
     override fun load(store: CSStoreInterface): Float? = store.getFloat(key)
-    override fun save(store: CSStoreInterface, value: Float?) = store.save(key, value)
+    override fun save(store: CSStoreInterface, value: Float?) {
+        if (value == null) store.clear(key) else store.save(key, value)
+    }
 }

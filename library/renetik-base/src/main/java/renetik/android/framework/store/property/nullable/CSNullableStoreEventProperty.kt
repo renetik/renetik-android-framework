@@ -32,8 +32,7 @@ abstract class CSNullableStoreEventProperty<T>(
         if (_value == newValue) return
         if (fire) eventBeforeChange.fire(_value)
         _value = newValue
-        if (_value == null) store.clear(key)
-        else save(store, value)
+        save(store, value)
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
     }

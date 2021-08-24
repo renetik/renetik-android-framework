@@ -9,5 +9,7 @@ class CSIntNullableStoreEventProperty(
     : CSNullableStoreEventProperty<Int?>(store, key, default, onChange) {
     override var _value = firstLoad()
     override fun load(store: CSStoreInterface): Int? = store.getInt(key)
-    override fun save(store: CSStoreInterface, value: Int?) = store.save(key, value)
+    override fun save(store: CSStoreInterface, value: Int?) {
+        if (value == null) store.clear(key) else store.save(key, value)
+    }
 }

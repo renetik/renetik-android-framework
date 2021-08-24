@@ -10,5 +10,7 @@ class CSListItemNullableStoreEventProperty<T>(
 ) : CSNullableStoreEventProperty<T?>(store, key, default, onChange) {
     override var _value = firstLoad()
     override fun load(store: CSStoreInterface) = store.getValue(key, values)
-    override fun save(store: CSStoreInterface, value: T?) = store.save(key, value.toId())
+    override fun save(store: CSStoreInterface, value: T?) {
+        if (value == null) store.clear(key) else store.save(key, value.toId())
+    }
 }
