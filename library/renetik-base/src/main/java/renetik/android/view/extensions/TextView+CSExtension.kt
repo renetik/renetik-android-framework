@@ -51,7 +51,7 @@ fun <T> TextView.text(
     valueToString: (T) -> CharSequence
 ) = apply {
     fun updateText() = text(valueToString(property.value))
-    parent.whileShowing(property.onChange { updateText() })
+    parent.whileVisible(property.onChange { updateText() })
     updateText()
 }
 
@@ -68,6 +68,6 @@ fun <T> TextView.text(
 fun <T : CSDrawableInterface> TextView.startDrawable(
     parent: CSVisibleEventOwner, property: CSEventProperty<T>) = apply {
     fun updateDrawable() = startDrawable(context.drawable(property.value.drawable))
-    parent.whileShowing(property.onChange { updateDrawable() })
+    parent.whileVisible(property.onChange { updateDrawable() })
     updateDrawable()
 }

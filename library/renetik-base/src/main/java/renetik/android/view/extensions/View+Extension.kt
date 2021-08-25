@@ -109,7 +109,7 @@ fun View.activated(value: Boolean) {
 fun <T> View.selectedProperty(
     parent: CSVisibleEventOwner, property: CSEventProperty<T>, value: T) {
     fun update() = selected(property.value == value)
-    parent.whileShowing(property.onChange { update() })
+    parent.whileVisible(property.onChange { update() })
     update()
     onClick { property.value = value }
 }

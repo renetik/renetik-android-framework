@@ -70,11 +70,11 @@ fun CSEventOwner.register(registration: CSEventRegistration?) =
     registration?.let { register(it) }
 
 interface CSVisibleEventOwner {
-    fun whileShowing(registration: CSEventRegistration): CSEventRegistration
+    fun whileVisible(registration: CSEventRegistration): CSEventRegistration
 }
 
 fun CSVisibleEventOwner.whileShowing(registration: CSEventRegistration?) =
-    registration?.let { whileShowing(it) }
+    registration?.let { whileVisible(it) }
 
 
 interface CSHasParent {
@@ -89,6 +89,14 @@ interface CSViewInterface : CSContextInterface {
 interface CSVisibility {
     fun updateVisibility()
     val isVisible: Boolean
+    val onViewVisibilityChanged: CSEvent<Boolean>
+}
+
+fun CSVisibility.whileShowingTrue(function: (Boolean) -> Unit) {
+    if (isVisible) function(true)
+    onViewVisibilityChanged.listen { visible ->
+        if (visible) function(true) else function(false)
+    }
 }
 
 interface CSContextInterface : CSHasDestroy, CSEventOwner {

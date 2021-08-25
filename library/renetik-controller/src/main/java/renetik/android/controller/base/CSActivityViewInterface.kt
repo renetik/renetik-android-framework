@@ -10,6 +10,5 @@ interface CSActivityViewInterface : CSViewInterface {
     val onResume: CSEvent<Unit>
     val onPause: CSEvent<Unit>
     val onBack: CSEvent<CSProperty<Boolean>>
-    val onViewVisibilityChanged: CSEvent<Boolean>
     fun activity(): CSActivity
 }

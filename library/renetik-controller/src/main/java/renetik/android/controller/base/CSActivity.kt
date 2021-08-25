@@ -10,15 +10,12 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.framework.common.catchAllWarn
-import renetik.android.framework.event.CSEvent
-import renetik.android.framework.event.CSEventRegistrations
-import renetik.android.framework.event.event
-import renetik.android.framework.event.fire
+import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSProperty
 
 
-abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {
+abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
 
     val onCreate = event<Bundle?>()
     val onSaveInstanceState = event<Bundle>()
@@ -39,7 +36,12 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface {
     val onKeyDown = event<CSOnKeyDownResult>()
     val onNewIntent = event<Intent>()
     val onRequestPermissionsResult = event<CSRequestPermissionResult>()
+
+    //CSVisibility
+    override val isVisible: Boolean get() = true
     override val onViewVisibilityChanged = event<Boolean>()
+    override fun updateVisibility() = Unit
+
     override fun activity(): CSActivity = this
     var controller: CSActivityView<out ViewGroup>? = null
     var configuration = Configuration()

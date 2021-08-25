@@ -44,7 +44,7 @@ fun <T : View> T.goneIf(condition: Boolean, fade: Boolean = false) =
 fun View.shownIfSet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) =
     apply {
         fun updateVisibility() = shownIf(property.value != null)
-        parent.whileShowing(property.onChange { updateVisibility() })
+        parent.whileVisible(property.onChange { updateVisibility() })
         updateVisibility()
     }
 
@@ -69,7 +69,7 @@ fun <T> View.shownIfEquals(parent: CSVisibleEventOwner,
                            property: CSEventProperty<T?>,
                            value: T) = apply {
     fun updateVisibility() = shownIf(property.value == value)
-    parent.whileShowing(property.onChange { updateVisibility() })
+    parent.whileVisible(property.onChange { updateVisibility() })
     updateVisibility()
 }
 

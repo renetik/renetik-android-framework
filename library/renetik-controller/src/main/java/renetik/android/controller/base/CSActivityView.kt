@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
 import renetik.android.java.extensions.className
@@ -86,7 +87,7 @@ abstract class CSActivityView<ViewType : View>
         if (isDestroyed) throw exception("$className $this Already destroyed")
         parentController = null
         activity = null
-        whileShowingEventRegistrations.cancel()
+        whileVisibleEventRegistrations.cancel()
         isVisibleEventRegistrations.cancel()
         super.onDestroy()
     }
@@ -104,7 +105,8 @@ abstract class CSActivityView<ViewType : View>
         onDestroy()
     }
 
-    private fun initializeParent(parent: CSActivityViewInterface) {
+    private fun <Parent> initializeParent(parent: Parent)
+            where Parent : CSActivityViewInterface, Parent : CSVisibility {
         activity = parent.activity()
         register(parent.onResume.listen(::onResume))
         register(parent.onPause.listen(::onPause))
@@ -187,7 +189,7 @@ abstract class CSActivityView<ViewType : View>
         } else {
             isVisibleEventRegistrations.setActive(false)
             onViewHiding()
-            whileShowingEventRegistrations.cancel()
+            whileVisibleEventRegistrations.cancel()
         }
     }
 
@@ -218,11 +220,13 @@ abstract class CSActivityView<ViewType : View>
     protected open fun onViewHidingAgain() {}
 
     private val isVisibleEventRegistrations = CSEventRegistrations()
-    fun ifVisible(registration: CSEvent.CSEventRegistration?) =
+    fun ifVisible(registration: CSEventRegistration?) =
         registration?.let { isVisibleEventRegistrations.add(it) }
 
-    private val whileShowingEventRegistrations = CSEventRegistrations()
-    override fun whileShowing(registration: CSEvent.CSEventRegistration) =
-        registration.let { whileShowingEventRegistrations.add(it) }
+    private val whileVisibleEventRegistrations = CSEventRegistrations()
+    override fun whileVisible(registration: CSEventRegistration) =
+        registration.let { whileVisibleEventRegistrations.add(it) }
 }
+
+
 

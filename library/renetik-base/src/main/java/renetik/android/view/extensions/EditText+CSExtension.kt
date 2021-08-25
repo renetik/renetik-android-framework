@@ -42,7 +42,7 @@ val EditText.asTextView: TextView get() = this
 
 fun EditText.text(parent: CSVisibleEventOwner, property: CSEventProperty<String?>) = apply {
     fun updateText() = text(property.value.asString)
-    val propertyOnChange = parent.whileShowing(property.onChange { updateText() })
+    val propertyOnChange = parent.whileVisible(property.onChange { updateText() })
     onTextChange {
         propertyOnChange.pause().use { property.value = if (text().isEmpty) null else text() }
     }

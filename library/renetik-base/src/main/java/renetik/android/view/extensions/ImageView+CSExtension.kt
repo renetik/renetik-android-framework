@@ -30,6 +30,6 @@ fun <T> ImageView.image(
     valueToImage: (T) -> File
 ) = apply {
     fun updateImage() = image(valueToImage(property.value))
-    parent.whileShowing(property.onChange { updateImage() })
+    parent.whileVisible(property.onChange { updateImage() })
     updateImage()
 }

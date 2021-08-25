@@ -1,7 +1,6 @@
 package renetik.android.maps
 
 import android.location.Location
-import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMapOptions
@@ -156,7 +155,7 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
 
     fun onMapAvailable(parent: CSActivityView<*>, onMapReady: (GoogleMap) -> Unit) {
         map?.let { onMapReady(it) } ?: let {
-            parent.whileShowing(onMapReadyEvent.add { registration, map ->
+            parent.whileVisible(onMapReadyEvent.add { registration, map ->
                 onMapReady(map)
                 registration.cancel()
             })

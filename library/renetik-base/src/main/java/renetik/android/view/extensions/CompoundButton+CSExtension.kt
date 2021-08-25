@@ -18,7 +18,7 @@ fun CompoundButton.buttonTint(@ColorInt value: Int?) = apply {
 
 fun CompoundButton.isCheckedIf(parent: CSVisibleEventOwner, property: CSEventProperty<Boolean>) =
     apply {
-        val onChangeRegistration = parent.whileShowing(property.onChange {
+        val onChangeRegistration = parent.whileVisible(property.onChange {
             isChecked = it
         })
         onChecked { onChangeRegistration.pause().use { property.value(isChecked) } }
