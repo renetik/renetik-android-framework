@@ -49,17 +49,17 @@ fun View.shownIfSet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>
     }
 
 fun View.shownIf(property: CSEventProperty<Boolean>,
-                 fade: Boolean = true): CSEventRegistration {
+                 fade: Boolean = false): CSEventRegistration {
     fun updateVisibility() = shownIf(property.value, fade)
     updateVisibility()
     return property.onChange { updateVisibility() }
 }
 
 fun View.shownIfFalse(property: CSEventProperty<Boolean>,
-                      fade: Boolean = true) = goneIfTrue(property, fade)
+                      fade: Boolean = false) = goneIfTrue(property, fade)
 
 fun View.goneIfTrue(property: CSEventProperty<Boolean>,
-                    fade: Boolean = true): CSEventRegistration {
+                    fade: Boolean = false): CSEventRegistration {
     fun updateVisibility() = goneIf(property.value, fade)
     updateVisibility()
     return property.onChange { updateVisibility() }
