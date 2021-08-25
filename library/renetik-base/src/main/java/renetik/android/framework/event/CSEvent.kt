@@ -86,6 +86,11 @@ interface CSViewInterface : CSContextInterface {
     val view: View
 }
 
+interface CSVisibility {
+    fun updateVisibility()
+    val isVisible: Boolean
+}
+
 interface CSContextInterface : CSHasDestroy, CSEventOwner {
     val context: Context
 }

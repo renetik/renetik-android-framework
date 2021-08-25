@@ -16,7 +16,7 @@ import renetik.android.view.extensions.isShowing
 
 abstract class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, CSVisibleEventOwner,
-    LifecycleOwner, CSEventOwner {
+    LifecycleOwner, CSEventOwner, CSVisibility {
 
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
@@ -30,7 +30,6 @@ abstract class CSActivityView<ViewType : View>
 
     private var showingInPager: Boolean? = null
     private val keyValueMap = mutableMapOf<String, Any>()
-
 
     constructor(parent: CSActivityView<*>) : super(parent) {
         parentController = parent
@@ -65,7 +64,7 @@ abstract class CSActivityView<ViewType : View>
             onResumeFirstTime()
             isResumeFirstTime = true
         } else onResumeRestore()
-        updateVisibilityChanged()
+        updateVisibility()
         onResume.fire()
     }
 
@@ -74,12 +73,12 @@ abstract class CSActivityView<ViewType : View>
     protected open fun onResumeRestore() {}
 
     open fun onPause() {
-        if (isPaused && isShowing) {
+        if (isPaused && isVisible) {
             logWarn(Throwable(), "Not Resumed while paused, should be resumed first", this)
             return
         }
         isResumed = false
-        updateVisibilityChanged()
+        updateVisibility()
         onPause.fire()
     }
 
@@ -110,12 +109,12 @@ abstract class CSActivityView<ViewType : View>
         register(parent.onResume.listen(::onResume))
         register(parent.onPause.listen(::onPause))
         register(parent.onBack.listen(::onBack))
-        register(parent.onViewVisibilityChanged.listen { updateVisibilityChanged() })
+        register(parent.onViewVisibilityChanged.listen { updateVisibility() })
     }
 
     protected open fun onBack(goBack: CSProperty<Boolean>) {
         onBack.fire(goBack)
-        if (goBack.value && isShowing) {
+        if (goBack.value && isVisible) {
             hideKeyboard()
             goBack.value = onGoBack()
         }
@@ -127,20 +126,20 @@ abstract class CSActivityView<ViewType : View>
 
     override fun onAddedToParent() {
         lifecycleUpdate()
-        updateVisibilityChanged()
+        updateVisibility()
         super.onAddedToParent()
     }
 
     override fun onRemovedFromParent() {
         if (isResumed) onPause()
-        updateVisibilityChanged()
+        updateVisibility()
         super.onRemovedFromParent()
     }
 
     fun showingInPager(isShowing: Boolean) {
         if (showingInPager == isShowing) return
         showingInPager = isShowing
-        updateVisibilityChanged()
+        updateVisibility()
     }
 
     override fun hideKeyboardImpl() {
@@ -159,30 +158,30 @@ abstract class CSActivityView<ViewType : View>
     fun getValue(key: String) = keyValueMap[key]
 
 
-    protected var isShowing = false
+    override var isVisible = false
     private var onViewShowingCalled = false
     override val onViewVisibilityChanged = event<Boolean>()
+
+    override fun updateVisibility() {
+        if (checkIfIsShowing()) {
+            if (!isVisible) onViewVisibilityChanged(true)
+        } else if (isVisible) onViewVisibilityChanged(false)
+    }
 
     fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (showingInPager == false) return false
-        if (parentController?.isShowing == false) return false
+        if (parentController?.isVisible == false) return false
         return view.isShowing()
-    }
-
-    fun updateVisibilityChanged() {
-        if (checkIfIsShowing()) {
-            if (!isShowing) onViewVisibilityChanged(true)
-        } else if (isShowing) onViewVisibilityChanged(false)
     }
 
 //    protected open fun checkIfIsShowing() = view.isShowing()
 
     private fun onViewVisibilityChanged(showing: Boolean) {
-        if (isShowing == showing) return
-        isShowing = showing
+        if (isVisible == showing) return
+        isVisible = showing
         onViewVisibilityChanged()
-        if (isShowing) {
+        if (isVisible) {
             isVisibleEventRegistrations.setActive(true)
             onViewShowing()
         } else {
@@ -193,7 +192,7 @@ abstract class CSActivityView<ViewType : View>
     }
 
     protected open fun onViewVisibilityChanged() {
-        onViewVisibilityChanged.fire(isShowing)
+        onViewVisibilityChanged.fire(isVisible)
     }
 
     protected open fun onViewShowing() {
