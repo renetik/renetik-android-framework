@@ -1,6 +1,5 @@
 package renetik.android.framework.event.property
 
-import renetik.android.framework.event.CSEvent
 import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.lang.CSProperty
 
