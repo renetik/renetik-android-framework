@@ -4,25 +4,23 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
-import android.widget.FrameLayout
 import renetik.android.R
 
 
-class CSFrameLayout @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0, defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+class CSTextView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : androidx.appcompat.widget.AppCompatTextView(context, attrs, defStyleAttr) {
 
-    private val minWidth: Int
-    private val maxWidth: Int
+    //    private val minWidth: Int
+//    private val maxWidth: Int
     private val dispatchState: Boolean
 
     init {
         val attributes =
             context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
         try {
-            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, -1)
-            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
+//            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, -1)
+//            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
             dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
         } finally {
             attributes.recycle()

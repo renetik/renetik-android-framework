@@ -18,11 +18,15 @@ import androidx.annotation.ColorInt
 import renetik.android.framework.Func
 import renetik.android.java.extensions.asStringArray
 import renetik.android.java.extensions.collections.hasItems
+import renetik.android.java.extensions.collections.index
 import renetik.android.java.extensions.privateField
 import renetik.android.java.extensions.setPrivateField2
 
 
-fun <Row : Any> NumberPicker.loadData(data: List<Row>, selected: Int = 0) = apply {
+fun <Row : Any> NumberPicker.loadData(data: List<Row>, selected: Row? = null) =
+    loadData(data, selectedIndex = data.index(selected) ?: 0)
+
+fun <Row : Any> NumberPicker.loadData(data: List<Row>, selectedIndex: Int = 0) = apply {
     if (data.hasItems) {
         minValue = 0
         value = 0
@@ -34,7 +38,7 @@ fun <Row : Any> NumberPicker.loadData(data: List<Row>, selected: Int = 0) = appl
             maxValue = newMaxValue
             displayedValues = data.asStringArray
         }
-        value = selected
+        value = selectedIndex
     }
 }
 

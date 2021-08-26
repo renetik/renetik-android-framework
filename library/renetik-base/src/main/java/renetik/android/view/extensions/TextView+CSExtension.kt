@@ -5,8 +5,10 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.content.drawable
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSDrawableInterface
+import renetik.android.framework.lang.CSValue
 import renetik.android.java.extensions.asString
 import renetik.android.primitives.isSet
 import renetik.android.view.adapter.CSTextWatcherAdapter
@@ -14,7 +16,7 @@ import renetik.android.view.adapter.CSTextWatcherAdapter
 fun <T : TextView> T.text(@StringRes resourceId: Int) = apply { setText(resourceId) }
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
 fun <T : TextView> T.textAppend(string: CharSequence?) = text("$title$string")
-fun <T : TextView> T.text(property: CSEventProperty<*>) = text(property.value.asString)
+fun <T : TextView> T.text(value: CSValue<*>) = text(value.value.asString)
 fun <T : TextView> T.text(value: Any?) = text(value.asString)
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text() = text.asString
@@ -55,6 +57,20 @@ fun <T> TextView.text(
     updateText()
 }
 
+fun TextView.text(property: CSEventProperty<*>) = text(property) { it.asString }
+
+@JvmName("TextViewTextStringProperty")
+fun TextView.text(property: CSEventProperty<String>
+) = text(property) { it }
+
+fun <T> TextView.text(property: CSEventProperty<T>,
+                      valueToString: (T) -> CharSequence)
+        : CSEventRegistration {
+    fun updateText() = text(valueToString(property.value))
+    updateText()
+    return property.onChange { updateText() }
+}
+
 //fun <T> TextView.text(
 //    property: CSEventProperty<T>, valueToString: (T) -> String
 //) = apply {
@@ -65,9 +81,9 @@ fun <T> TextView.text(
 
 //fun <T> TextView.text(property: CSEventProperty<T>) = text(property) { it.asString }
 
-fun <T : CSDrawableInterface> TextView.startDrawable(
-    parent: CSVisibleEventOwner, property: CSEventProperty<T>) = apply {
+fun <T : CSDrawableInterface> TextView.startDrawable(property: CSEventProperty<T>)
+        : CSEventRegistration {
     fun updateDrawable() = startDrawable(context.drawable(property.value.drawable))
-    parent.whileVisible(property.onChange { updateDrawable() })
     updateDrawable()
+    return property.onChange { updateDrawable() }
 }

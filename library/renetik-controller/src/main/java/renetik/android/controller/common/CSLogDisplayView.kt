@@ -26,8 +26,8 @@ class CSLogDisplayView(val navigation: CSNavigationView,
 //            .onClick { scrollView(R.id.CSLog_TextScroll).scrollToBottom() }.neverAsAction()
     }
 
-    override fun onViewShowingFirstTime() {
-        super.onViewShowingFirstTime()
+    override fun onViewVisibleFirstTime() {
+        super.onViewVisibleFirstTime()
         textView(R.id.CSLog_Title).text(title)
         floatingButton(R.id.CSLog_Reload).onClick { loadText() }
         loadText()

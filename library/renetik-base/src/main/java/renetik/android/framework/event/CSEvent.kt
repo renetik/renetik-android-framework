@@ -73,7 +73,7 @@ interface CSVisibleEventOwner {
     fun whileVisible(registration: CSEventRegistration): CSEventRegistration
 }
 
-fun CSVisibleEventOwner.whileShowing(registration: CSEventRegistration?) =
+fun CSVisibleEventOwner.whileVisible(registration: CSEventRegistration?) =
     registration?.let { whileVisible(it) }
 
 

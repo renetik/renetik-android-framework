@@ -47,8 +47,8 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
         updateView()
     }
 
-    override fun onViewShowingFirstTime() {
-        super.onViewShowingFirstTime()
+    override fun onViewVisibleFirstTime() {
+        super.onViewVisibleFirstTime()
         CSOnPagerPageChange(this)
             .onDragged { index -> controllers[index].showingInPager(true) }
             .onReleased { index ->

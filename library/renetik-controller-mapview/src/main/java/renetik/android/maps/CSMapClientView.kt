@@ -33,8 +33,8 @@ open class CSMapClientView<V : View>(parent: CSActivityView<V>, private val mapF
 
 
     @SuppressLint("MissingPermission")
-    override fun onViewShowing() {
-        super.onViewShowing()
+    override fun onViewVisible() {
+        super.onViewVisible()
         mapController.onMapAvailable(this) { map ->
             frame(mapFrameId).add(mapController.view.removeFromSuperview(), layoutMatch)
             map.clear()

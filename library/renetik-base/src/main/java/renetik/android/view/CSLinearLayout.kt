@@ -13,6 +13,7 @@ class CSLinearLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
+    private val minWidth: Int
     private val maxWidth: Int
     private val dispatchState: Boolean
 
@@ -20,6 +21,7 @@ class CSLinearLayout @JvmOverloads constructor(
         val attributes =
             context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
         try {
+            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, -1)
             maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
             dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
         } finally {
@@ -29,7 +31,9 @@ class CSLinearLayout @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (maxWidth != -1 && measuredWidth > maxWidth) {
+        if (minWidth != -1 && measuredWidth < minWidth) {
+            super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
+        } else if (maxWidth != -1 && measuredWidth > maxWidth) {
             super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
         }
     }
