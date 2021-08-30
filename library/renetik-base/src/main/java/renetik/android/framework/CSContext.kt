@@ -27,6 +27,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
         eventRegistrations.add(context.onDestroy.listenOnce { onDestroy() })
     }
     constructor(context: Context) : super(context)
+    constructor(context: CSContext) : super(context)
 
     private var _isDestroyed = false
     val isDestroyed get() = _isDestroyed

@@ -6,11 +6,11 @@ fun <T, ListType : MutableList<T>> ListType.put(item: T) = item.apply { add(item
 fun <T, ListType : MutableList<T>> ListType.putAll(items: Iterable<T>) = apply { addAll(items) }
 
 fun <T, ListType : MutableList<T>> ListType.putAll(vararg items: T) = apply { addAll(items) }
-fun <T, ListType : MutableList<T>> ListType.putAllDistinct(other: List<T>) = apply {
-    reload(putAll(other).distinct())
-}
 
-fun <T, ListType : MutableList<T>> ListType.putDistinct(item: T) =
+fun <T, ListType : MutableList<T>> ListType.putAllDistinct(items: List<T>) =
+    apply { items.forEach { putIfDistinct(it) } }
+
+fun <T, ListType : MutableList<T>> ListType.putIfDistinct(item: T) =
     item.apply { find { it == item } ?: add(item) }
 
 fun <T, ListType : MutableList<T>> ListType.put(item: T, index: Int) =
