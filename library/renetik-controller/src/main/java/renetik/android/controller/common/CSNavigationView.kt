@@ -11,26 +11,29 @@ import androidx.appcompat.widget.Toolbar
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.java.extensions.collections.*
+import renetik.android.java.extensions.collections.deleteLast
+import renetik.android.java.extensions.collections.hasKey
 import renetik.android.java.extensions.exception
 import renetik.android.java.extensions.notNull
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isSet
 
 object CSNavigationInstance {
-    lateinit var navigation: CSNavigationView
-    val isInitialized get() = ::navigation.isInitialized
+    val navigation get() = CSNavigationView.navigation
+    val isInitialized get() = CSNavigationView.isInitialized
 }
 
-const val PushID = "push_key"
-
 @Suppress("LeakingThis")
-@SuppressLint("UseCompatLoadingForDrawables")
 open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        lateinit var navigation: CSNavigationView
+        val isInitialized get() = Companion::navigation.isInitialized
+    }
 
     constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
 
@@ -39,21 +42,23 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     private val actionBar get() = activity().supportActionBar
 
+
     init {
         if (CSNavigationInstance.isInitialized) navigation.activity?.finish()
         navigation = this
     }
 
-    open var controllers = list<CSActivityView<*>>()
+    private val _controllers = linkedMapOf<String, CSActivityView<*>>()
+    val controllers get() = _controllers.values
 
     fun <T : View> push(
         controller: CSActivityView<T>,
         pushId: String? = null
     ): CSActivityView<T> {
-        currentController?.showingInPager(false)
-        pushId?.let { controller.setValue(PushID, it) }
-        controllers.put(controller)
-        controller.view.startAnimation(loadAnimation(this, R.anim.abc_slide_in_top))
+        current?.showingInPager(false)
+//        pushId?.let { controller.setValue(PushID, it) }
+        _controllers[pushId ?: controller.toString()] = controller
+        pushAnimation(this, controller)
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
@@ -64,26 +69,26 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     fun pop() {
-        controllers.deleteLast().notNull { lastController ->
-            lastController.view.startAnimation(loadAnimation(this, R.anim.abc_slide_out_top))
-            lastController.showingInPager(false)
-            view.remove(lastController)
-            currentController?.showingInPager(true)
+        _controllers.deleteLast().notNull { controller ->
+            popAnimation(this, controller)
+            controller.showingInPager(false)
+            view.remove(controller)
+            current?.showingInPager(true)
             updateBar()
             hideKeyboard()
-            onViewControllerPop(lastController)
+            onViewControllerPop(controller)
         }
     }
 
     fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
-        controllers.deleteLast().notNull { lastController ->
-            lastController.view.startAnimation(loadAnimation(this, R.anim.abc_fade_out))
+        _controllers.deleteLast().notNull { lastController ->
+            popAnimation(this, controller)
             view.remove(lastController)
             onViewControllerPop(lastController)
         }
 
-        controllers.put(controller)
-        controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
+        _controllers[controller.toString()] = controller
+        pushAnimation(this, controller)
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
@@ -97,16 +102,15 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         pushId: String,
         controller: CSActivityView<T>
     ): CSActivityView<T> {
-        if (controllers.any { it.getValue(PushID) == pushId })
-            for (lastController in controllers.reversed()) {
-                controllers.delete(lastController)
-                view.remove(lastController)
-                onViewControllerPop(lastController)
-                if (lastController.getValue(PushID) == pushId) break
+        if (_controllers.hasKey(pushId))
+            for (lastEntry in _controllers.entries.reversed()) {
+                _controllers.remove(lastEntry.key)
+                view.remove(lastEntry.value)
+                onViewControllerPop(lastEntry.value)
+                if (lastEntry.key == pushId) break
             }
-        controller.setValue(PushID, pushId)
-        controllers.put(controller)
-        controller.view.startAnimation(loadAnimation(this, R.anim.abc_fade_in))
+        _controllers[pushId] = controller
+        pushAnimation(this, controller)
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
@@ -120,18 +124,18 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         oldController: CSActivityView<T>,
         newController: CSActivityView<T>
     ): CSActivityView<T> {
-        if (currentController == oldController) return pushAsLast(newController)
+        if (current == oldController) return pushAsLast(newController)
 
-        val indexOfController = controllers.indexOf(oldController)
-        if (indexOfController == -1) throw exception("oldController not found in navigation")
+        val entryOfController = _controllers.entries.find { it.value == oldController }
+            ?: throw exception("oldController not found in navigation")
 
-        controllers.delete(oldController).let { lastController ->
-            lastController.showingInPager(false)
-            view.remove(lastController)
-            onViewControllerPop(lastController)
-        }
-        controllers.put(newController, indexOfController)
-        view.addView(newController.view, indexOfController)
+        oldController.showingInPager(false)
+        view.remove(oldController)
+        onViewControllerPop(oldController)
+
+        _controllers[entryOfController.key] = newController
+        val indexIfController = _controllers.entries.indexOf(entryOfController)
+        view.addView(newController.view, indexIfController)
         newController.showingInPager(false)
         newController.lifecycleUpdate()
         onViewControllerPush(newController)
@@ -139,7 +143,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     private fun updateBarTitle() {
-        (currentController as? CSNavigationItem)?.let { item ->
+        (current as? CSNavigationItem)?.let { item ->
             item.isNavigationTitleVisible?.let { isVisible ->
                 if (!isVisible) {
                     setActionBarTitle(null)
@@ -159,7 +163,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     private fun updateBarIcon() {
-        (currentController as? CSNavigationItem)?.let { item ->
+        (current as? CSNavigationItem)?.let { item ->
             item.isNavigationIconVisible?.let { isVisible ->
                 if (!isVisible) {
                     hideActionBarIcon()
@@ -216,7 +220,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         } ?: actionBar?.setHomeAsUpIndicator(null)
     }
 
-    val currentController get() = controllers.last
+    private val current get() = _controllers.values.lastOrNull()
 
     override fun onGoBack(): Boolean {
         if (controllers.size > 1) {
@@ -226,16 +230,10 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         return true
     }
 
-//    override fun onOptionsItemSelected(onItem: CSOnMenuItem) {
-//        super.onOptionsItemSelected(onItem)
-//        if (onItem.consume(android.R.id.home)) goBack()
-//    }
-
     open fun onViewControllerPush(controller: CSActivityView<*>) {
     }
 
     open fun onViewControllerPop(controller: CSActivityView<*>) {
-
     }
 
     fun setSupportActionBar(toolbar: Toolbar) {
@@ -251,16 +249,17 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         updateBarIcon()
     }
 
-    val currentNavigationItem get() = (currentController as? CSNavigationItem) ?: this
+    private val currentNavigationItem get() = (current as? CSNavigationItem) ?: this
 }
 
-interface CSNavigationItem {
-    val isBarVisible: Boolean? get() = null
-    val isNavigationIconVisible: Boolean? get() = null
-    val navigationItemIcon: Int? get() = null
-    val isNavigationTitleVisible: Boolean? get() = null
-    val navigationItemTitle: String? get() = null
-    val isNavigationBackButtonVisible get() = true
-    val navigationBackButtonIcon: Int? get() = null
-    val navigationBackButtonIconTint: Int? get() = null
+private fun pushAnimation(navigation: CSNavigationView, controller: CSActivityView<*>) {
+    val animation = ((controller as? CSNavigationItem)?.pushAnimation ?: navigation.pushAnimation)
+    if (animation != CSNavigationAnimation.None)
+        controller.view.startAnimation(loadAnimation(navigation, animation.resource))
+}
+
+private fun popAnimation(navigation: CSNavigationView, controller: CSActivityView<*>) {
+    val animation = ((controller as? CSNavigationItem)?.popAnimation ?: navigation.popAnimation)
+    if (animation != CSNavigationAnimation.None)
+        controller.view.startAnimation(loadAnimation(navigation, animation.resource))
 }

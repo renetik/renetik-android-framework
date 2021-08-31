@@ -27,19 +27,19 @@ val <T : View> T.isVisible get() = visibility == VISIBLE
 val <T : View> T.isInvisible get() = visibility == INVISIBLE
 val <T : View> T.isGone get() = visibility == GONE
 
-fun <T : View> T.show() = visible()
-fun <T : View> T.hide() = gone()
+fun <T : View> T.show(animated: Boolean = false) = apply { if (animated) fadeIn() else visible() }
+fun <T : View> T.hide(animated: Boolean = false) = apply { if (animated) fadeOut() else gone() }
 
-fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) show() else invisible() }
-fun <T : View> T.invisibleIf(condition: Boolean) = apply { if (condition) invisible() else show() }
+fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) visible() else invisible() }
+fun <T : View> T.invisibleIf(condition: Boolean) =
+    apply { if (condition) invisible() else visible() }
 
-fun <T : View> T.shownIf(condition: Boolean, fade: Boolean = false) = apply {
-    if (fade) if (condition) fadeIn() else fadeOut()
-    else if (condition) show() else gone()
+fun <T : View> T.shownIf(condition: Boolean, animated: Boolean = false) = apply {
+    if (condition) show(animated) else hide(animated)
 }
 
-fun <T : View> T.goneIf(condition: Boolean, fade: Boolean = false) =
-    shownIf(!condition, fade)
+fun <T : View> T.goneIf(condition: Boolean, animated: Boolean = false) =
+    shownIf(!condition, animated)
 
 fun View.shownIfSet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) =
     apply {
@@ -49,18 +49,18 @@ fun View.shownIfSet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>
     }
 
 fun View.shownIf(property: CSEventProperty<Boolean>,
-                 fade: Boolean = false): CSEventRegistration {
-    fun updateVisibility() = shownIf(property.value, fade)
+                 animated: Boolean = false): CSEventRegistration {
+    fun updateVisibility() = shownIf(property.value, animated)
     updateVisibility()
     return property.onChange { updateVisibility() }
 }
 
 fun View.shownIfFalse(property: CSEventProperty<Boolean>,
-                      fade: Boolean = false) = goneIfTrue(property, fade)
+                      animated: Boolean = false) = goneIfTrue(property, animated)
 
 fun View.goneIfTrue(property: CSEventProperty<Boolean>,
-                    fade: Boolean = false): CSEventRegistration {
-    fun updateVisibility() = goneIf(property.value, fade)
+                    animated: Boolean = false): CSEventRegistration {
+    fun updateVisibility() = goneIf(property.value, animated)
     updateVisibility()
     return property.onChange { updateVisibility() }
 }

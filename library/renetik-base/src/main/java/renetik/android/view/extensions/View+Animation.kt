@@ -25,13 +25,13 @@ fun <T : View> T.fadeOut(
         onDone?.invoke(); null
     }
     alpha == 0f -> {
-        hide(); null
+        gone(); null
     }
     else -> {
         isClickable = false
         val originalAlpha = alpha
         animate().alpha(0f).setDuration(duration.toLong()).onAnimationEnd {
-            isClickable = true; hide(); alpha = originalAlpha
+            isClickable = true; gone(); alpha = originalAlpha
             onDone?.invoke()
         }
     }

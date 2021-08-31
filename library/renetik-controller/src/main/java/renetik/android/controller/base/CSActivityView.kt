@@ -30,7 +30,7 @@ abstract class CSActivityView<ViewType : View>
     var activity: CSActivity? = null
 
     private var showingInPager: Boolean? = null
-    private val keyValueMap = mutableMapOf<String, Any>()
+//    private val keyValueMap = mutableMapOf<String, Any>()
 
     constructor(parent: CSActivityView<*>) : super(parent) {
         parentController = parent
@@ -57,6 +57,11 @@ abstract class CSActivityView<ViewType : View>
         parentController = parent
         initializeParent(parent)
     }
+
+//    constructor(parent: CSActivityView<*>, view: ViewType) : super(parent, view) {
+//        parentController = parent
+//        initializeParent(parent)
+//    }
 
     protected open fun onResume() {
         if (isResumed) return
@@ -153,12 +158,12 @@ abstract class CSActivityView<ViewType : View>
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle
 
-    //TODO: Remove keyValueMap, PushId in CSNavigation could be done cleaner by interface !!!
-    fun setValue(key: String, value: String) {
-        keyValueMap[key] = value
-    }
+//    Remove keyValueMap, PushId in CSNavigation could be done cleaner by interface !!!
+//    fun setValue(key: String, value: String) {
+//        keyValueMap[key] = value
+//    }
 
-    fun getValue(key: String) = keyValueMap[key]
+//    fun getValue(key: String) = keyValueMap[key]
 
 
     override var isVisible = false

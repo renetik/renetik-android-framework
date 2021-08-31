@@ -81,18 +81,8 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override fun onDestroy() {
         super.onDestroy()
         onDestroy.fire()
-//        onDestroyUnbindDrawables(controller!!.view)
         controller = null
         System.gc()
-    }
-
-    private fun onDestroyUnbindDrawables(view: View) {
-        view.background?.callback = null
-        if (view is ViewGroup) {
-            for (index in 0 until view.childCount)
-                onDestroyUnbindDrawables(view.getChildAt(index))
-            catchAllWarn { view.removeAllViews() }
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
