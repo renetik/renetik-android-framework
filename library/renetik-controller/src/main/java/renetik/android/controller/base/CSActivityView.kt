@@ -84,7 +84,8 @@ abstract class CSActivityView<ViewType : View>
     }
 
     override fun onDestroy() {
-        if (isDestroyed) throw exception("$className $this Already destroyed")
+        if (isDestroyed)
+            throw exception("$className $this Already destroyed")
         parentController = null
         activity = null
         whileVisibleEventRegistrations.cancel()
