@@ -27,8 +27,7 @@ enum class DialogAnimation {
     None, Slide, Fade
 }
 
-open class CSNavigationDialogView<ViewType : View>(
-    parent: CSActivityView<*>, val layout: CSLayoutRes)
+open class CSNavigationDialogView<ViewType : View>(val layout: CSLayoutRes)
     : CSActivityView<ViewType>(navigation, layout) {
 
     private var animation = Slide
@@ -69,19 +68,11 @@ open class CSNavigationDialogView<ViewType : View>(
             }
     }
 
-//    private val backgroundView = FrameLayout(context)
-//        .backgroundColor(color(R.color.cs_dialog_background)).onClick {
-//            if (cancelOnTouchOut) dismiss(animated = true)
-//        }
-
     override fun obtainView(): ViewType = backgroundView.inflate(layout.id)
 
     fun dismiss() {
 //        if (isDialogShown) return
-        navigation.pop()
-//        backgroundView.removeFromSuperview()
-//        lifecycleStop()
-//        eventOnDismiss.fire()
+        navigation.pop(backgroundView)
     }
 
     private val isDialogShown get() = backgroundView.view.isShowing()
@@ -89,8 +80,6 @@ open class CSNavigationDialogView<ViewType : View>(
     fun show(animation: DialogAnimation? = null) = apply {
         animation?.let { this.animation = it }
         view.isClickable = true
-//        navigation.view.add(backgroundView, layoutMatch)
-//        backgroundView.hide().show(animated)
         navigation.push(backgroundView)
         backgroundView.view.add(view)
         updateVisibility()

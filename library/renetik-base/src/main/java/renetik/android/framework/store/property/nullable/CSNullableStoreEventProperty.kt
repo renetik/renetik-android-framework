@@ -28,8 +28,8 @@ abstract class CSNullableStoreEventProperty<T>(
         }
     }
 
-    override fun value(newValue: T?, fire: Boolean) {
-        if (_value == newValue) return
+    override fun value(newValue: T?, fire: Boolean) = apply {
+        if (_value == newValue) return this
         if (fire) eventBeforeChange.fire(_value)
         _value = newValue
         save(store, value)

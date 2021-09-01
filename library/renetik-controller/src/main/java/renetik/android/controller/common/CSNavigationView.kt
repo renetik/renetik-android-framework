@@ -68,16 +68,22 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         return controller
     }
 
+    fun pop(controller: CSActivityView<*>) {
+        _controllers.remove(controller.toString()).notNull { popController(controller) }
+    }
+
     fun pop() {
-        _controllers.deleteLast().notNull { controller ->
-            popAnimation(this, controller)
-            controller.showingInPager(false)
-            view.remove(controller)
-            current?.showingInPager(true)
-            updateBar()
-            hideKeyboard()
-            onViewControllerPop(controller)
-        }
+        _controllers.deleteLast().notNull { popController(it) }
+    }
+
+    private fun popController(controller: CSActivityView<*>) {
+        popAnimation(this, controller)
+        controller.showingInPager(false)
+        view.remove(controller)
+        current?.showingInPager(true)
+        updateBar()
+        hideKeyboard()
+        onViewControllerPop(controller)
     }
 
     fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
@@ -251,6 +257,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     private val currentNavigationItem get() = (current as? CSNavigationItem) ?: this
 }
+
 
 private fun pushAnimation(navigation: CSNavigationView, controller: CSActivityView<*>) {
     val animation = ((controller as? CSNavigationItem)?.pushAnimation ?: navigation.pushAnimation)

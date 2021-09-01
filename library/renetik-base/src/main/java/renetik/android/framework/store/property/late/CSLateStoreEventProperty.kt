@@ -12,8 +12,8 @@ abstract class CSLateStoreEventProperty<T>(
         get() = load()
         set(value) = save(value)
 
-    override fun value(newValue: T, fire: Boolean) {
-        if (store.has(key) && value == newValue) return
+    override fun value(newValue: T, fire: Boolean) = apply {
+        if (store.has(key) && value == newValue) return this
         if (store.has(key) && fire) eventBeforeChange.fire(value)
         _value = newValue
         onApply?.invoke(newValue)

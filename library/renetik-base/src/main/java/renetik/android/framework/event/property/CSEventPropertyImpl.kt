@@ -7,8 +7,8 @@ class CSEventPropertyImpl<T>(value: T, onApply: ((value: T) -> Unit)? = null) :
     CSEventPropertyBase<T>(onApply) {
     override var _value: T = value
 
-    override fun value(newValue: T, fire: Boolean) {
-        if (_value == newValue) return
+    override fun value(newValue: T, fire: Boolean) = apply {
+        if (_value == newValue) return this
         if (fire) eventBeforeChange.fire(_value)
         _value = newValue
         onApply?.invoke(newValue)
@@ -24,10 +24,12 @@ abstract class CSEventPropertyBase<T>(
 
     override var value: T
         get() = _value
-        set(value) = value(value)
+        set(value) {
+            value(value)
+        }
 
-    override fun value(newValue: T, fire: Boolean) {
-        if (value == newValue) return
+    override fun value(newValue: T, fire: Boolean) = apply {
+        if (value == newValue) return this
         if (fire) eventBeforeChange.fire(value)
         _value = newValue
         onApply?.invoke(newValue)
