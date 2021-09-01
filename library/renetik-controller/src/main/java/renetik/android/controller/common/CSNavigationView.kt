@@ -56,7 +56,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         pushId: String? = null
     ): CSActivityView<T> {
         current?.showingInPager(false)
-//        pushId?.let { controller.setValue(PushID, it) }
         _controllers[pushId ?: controller.toString()] = controller
         pushAnimation(this, controller)
         view.add(controller)

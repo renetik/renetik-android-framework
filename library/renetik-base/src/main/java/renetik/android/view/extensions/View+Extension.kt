@@ -14,7 +14,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
 import renetik.android.framework.event.CSEvent.CSEventRegistration
-import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.java.extensions.isNull
@@ -62,10 +61,10 @@ val <T : View> T.parentView get() = parent as? View
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
 
 fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
-        ?: parentView?.findViewRecursive(id)
+    ?: parentView?.findViewRecursive(id)
 
 fun <T : View> T.onClick(onClick: (view: T) -> Unit) =
-        apply { setOnClickListener(CSClickAdapter { onClick(this) }) }
+    apply { setOnClickListener(CSClickAdapter { onClick(this) }) }
 
 fun <T : View> T.createBitmap(): Bitmap {
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -92,7 +91,7 @@ fun View.getRectangleOnScreen(location: IntArray, rectangle: Rect) {
 }
 
 fun <T> View.modelProperty(): CSEventProperty<T?> =
-        propertyWithTag(R.id.ViewModelTag) { property(null) }
+    propertyWithTag(R.id.ViewModelTag) { property(null) }
 
 fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
 fun <T> View.model(): T? = modelProperty<T?>().value

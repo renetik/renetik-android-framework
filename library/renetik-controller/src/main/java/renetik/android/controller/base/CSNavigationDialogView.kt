@@ -89,7 +89,7 @@ open class CSNavigationDialogView<ViewType : View>(val layout: CSLayoutRes)
         animation = Fade
         view.updateLayoutParams<FrameLayout.LayoutParams> { gravity = START or TOP }
         val fromViewLocation = fromView.locationOnScreen
-        val statusBarHeight = activity().controller!!.view.locationOnScreen.y
+        val statusBarHeight = activity().activityView!!.view.locationOnScreen.y
         val fromViewBottomY = fromViewLocation.y.toFloat() + fromView.height - statusBarHeight
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
 

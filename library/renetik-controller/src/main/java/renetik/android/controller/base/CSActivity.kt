@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSProperty
@@ -43,18 +42,18 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override fun updateVisibility() = Unit
 
     override fun activity(): CSActivity = this
-    var controller: CSActivityView<out ViewGroup>? = null
+    var activityView: CSActivityView<out ViewGroup>? = null
     var configuration = Configuration()
     override val view: View get() = window.decorView
     override val context: Context get() = this
 
-    abstract fun createController(): CSActivityView<out ViewGroup>
+    abstract fun createView(): CSActivityView<out ViewGroup>
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         configuration.updateFrom(resources.configuration)
-        controller = createController()
-        setContentView(controller!!.view)
+        activityView = createView()
+        setContentView(activityView!!.view)
         onCreate.fire(state)
     }
 
@@ -81,7 +80,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override fun onDestroy() {
         super.onDestroy()
         onDestroy.fire()
-        controller = null
+        activityView = null
         System.gc()
     }
 
