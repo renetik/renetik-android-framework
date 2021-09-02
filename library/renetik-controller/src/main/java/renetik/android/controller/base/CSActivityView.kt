@@ -158,14 +158,6 @@ abstract class CSActivityView<ViewType : View>
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle
 
-//    Remove keyValueMap, PushId in CSNavigation could be done cleaner by interface !!!
-//    fun setValue(key: String, value: String) {
-//        keyValueMap[key] = value
-//    }
-
-//    fun getValue(key: String) = keyValueMap[key]
-
-
     override var isVisible = false
     private var onViewShowingCalled = false
     override val onViewVisibilityChanged = event<Boolean>()
@@ -182,8 +174,6 @@ abstract class CSActivityView<ViewType : View>
         if (parentController?.isVisible == false) return false
         return view.isShowing()
     }
-
-//    protected open fun checkIfIsShowing() = view.isShowing()
 
     private fun onViewVisibilityChanged(showing: Boolean) {
         if (isVisible == showing) return
