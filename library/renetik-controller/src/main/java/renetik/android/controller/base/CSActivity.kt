@@ -10,6 +10,7 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSProperty
 
@@ -157,6 +158,6 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     }
 
     private val eventRegistrations = CSEventRegistrations()
-    override fun register(registration: CSEvent.CSEventRegistration) =
+    override fun register(registration: CSEventRegistration) =
         registration.also { eventRegistrations.add(it) }
 }

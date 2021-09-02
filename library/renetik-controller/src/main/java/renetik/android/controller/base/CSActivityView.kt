@@ -28,9 +28,7 @@ abstract class CSActivityView<ViewType : View>
     private val isPaused get() = !isResumed
     var parentController: CSActivityView<*>? = null // remove CSListView make private
     var activity: CSActivity? = null
-
     private var showingInPager: Boolean? = null
-//    private val keyValueMap = mutableMapOf<String, Any>()
 
     constructor(parent: CSActivityView<*>) : super(parent) {
         parentController = parent
@@ -91,11 +89,11 @@ abstract class CSActivityView<ViewType : View>
     override fun onDestroy() {
         if (isDestroyed)
             throw exception("$className $this Already destroyed")
-        parentController = null
-        activity = null
         whileVisibleEventRegistrations.cancel()
         isVisibleEventRegistrations.cancel()
         super.onDestroy()
+        parentController = null
+        activity = null
     }
 
     fun lifecycleUpdate() {

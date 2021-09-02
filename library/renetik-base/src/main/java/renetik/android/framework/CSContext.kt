@@ -14,6 +14,7 @@ import renetik.android.content.service
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.java.extensions.notNull
 import java.util.*
 
@@ -94,7 +95,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
     }
 
     private val eventRegistrations = CSEventRegistrations()
-    override fun register(registration: CSEvent.CSEventRegistration) =
+    override fun register(registration: CSEventRegistration) =
         registration.also { eventRegistrations.add(it) }
 }
 

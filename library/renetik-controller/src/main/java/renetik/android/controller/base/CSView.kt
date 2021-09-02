@@ -9,9 +9,7 @@ import renetik.android.content.input
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.java.extensions.later
-import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.unexpected
+import renetik.android.java.extensions.*
 import renetik.android.logging.CSLog.logError
 import renetik.android.view.extensions.inflate
 
@@ -108,15 +106,16 @@ open class CSView<ViewType : View> : CSContext,
     fun showKeyboard() = input.toggleSoftInput(SHOW_IMPLICIT, 0);
 
     override fun onDestroy() {
-        if (isDestroyed) let { logError(this); throw unexpected }
+        if (isDestroyed)
+            throw exception("$className $this Already destroyed")
+         // We need live view instance when calling onDestroy,
+        // because it can be used by clients
+        super.onDestroy()
         if (layout != null) {
             if (_view == null) let { logError(this); throw unexpected }
-            // TODO: Should I for some reason destroy children manually ?
-            // (_view as? ViewGroup)?.children?.forEach { (it.tag as? CSView<*>)?.onDestroy() }
-            _view!!.tag = null
+            _view!!.tag = "tag instance of $className removed, onDestroy called"
         }
         _view = null
-        super.onDestroy()
     }
 
     override fun onAddedToParent() = Unit
