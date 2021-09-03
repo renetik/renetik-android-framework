@@ -1,6 +1,6 @@
 package renetik.android.controller.extensions
 
-import renetik.android.controller.common.CSNavigationInstance.navigation
+import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSCondition
 import renetik.android.framework.lang.CSCondition.Factory.condition
@@ -26,9 +26,9 @@ fun <View : android.view.View> View.shownIf(
 class CSPropertyConditionList(val evaluate: (CSPropertyConditionList).() -> Unit) {
     val conditions = mutableListOf<CSCondition>()
 
-    fun <T> on(property: CSEventProperty<T>, condition: (T?) -> Boolean?) {
+    fun <T> on(property: CSEventProperty<T>, condition: (T?) -> Boolean?): CSEventRegistration {
         conditions.add(CSPropertyCondition(property, condition))
-        navigation.register(property.onChange { evaluate() })
+        return property.onChange { evaluate() }
     }
 
     fun on(condition: () -> Boolean?) {

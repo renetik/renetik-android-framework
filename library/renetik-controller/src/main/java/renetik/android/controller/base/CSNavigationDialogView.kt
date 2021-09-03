@@ -2,6 +2,7 @@ package renetik.android.controller.base
 
 import android.view.Gravity.*
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
@@ -13,7 +14,6 @@ import renetik.android.controller.R
 import renetik.android.controller.base.DialogAnimation.Fade
 import renetik.android.controller.base.DialogAnimation.Slide
 import renetik.android.controller.common.CSNavigationAnimation.*
-import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
@@ -26,8 +26,9 @@ enum class DialogAnimation {
     None, Slide, Fade
 }
 
-open class CSNavigationDialogView<ViewType : View>(val layout: CSLayoutRes)
-    : CSActivityView<FrameLayout>(navigation,
+open class CSNavigationDialogView<ViewType : View>(
+    parent: CSActivityView<out ViewGroup>, val layout: CSLayoutRes)
+    : CSActivityView<FrameLayout>(parent.navigation!!,
     layout(R.layout.cs_frame_match)), CSNavigationItem {
 
     private var animation = Slide
@@ -71,12 +72,12 @@ open class CSNavigationDialogView<ViewType : View>(val layout: CSLayoutRes)
         }
 
     fun dismiss() {
-        navigation.pop(this)
+        navigation!!.pop(this)
     }
 
     fun show(animation: DialogAnimation? = null) = apply {
         animation?.let { this.animation = it }
-        navigation.push(this)
+        navigation!!.push(this)
         updateVisibility()
     }
 

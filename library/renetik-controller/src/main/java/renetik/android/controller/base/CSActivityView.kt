@@ -6,6 +6,7 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
+import renetik.android.controller.common.CSNavigationView
 import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
@@ -26,7 +27,7 @@ abstract class CSActivityView<ViewType : View>
     private var isResumed = false
     private var isResumeFirstTime = false
     private val isPaused get() = !isResumed
-    var parentController: CSActivityView<*>? = null // remove CSListView make private
+    private var parentController: CSActivityView<*>? = null
     var activity: CSActivity? = null
     private var showingInPager: Boolean? = null
 
@@ -128,8 +129,6 @@ abstract class CSActivityView<ViewType : View>
 
     protected open fun onGoBack() = true
 
-    fun goBack(): Unit = parentController?.goBack() ?: let { activity().onBackPressed() }
-
     override fun onAddedToParent() {
         lifecycleUpdate()
         updateVisibility()
@@ -166,7 +165,7 @@ abstract class CSActivityView<ViewType : View>
         } else if (isVisible) onViewVisibilityChanged(false)
     }
 
-    fun checkIfIsShowing(): Boolean {
+    private fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (showingInPager == false) return false
         if (parentController?.isVisible == false) return false
@@ -220,7 +219,18 @@ abstract class CSActivityView<ViewType : View>
     private val whileVisibleEventRegistrations = CSEventRegistrations()
     override fun whileVisible(registration: CSEventRegistration) =
         registration.let { whileVisibleEventRegistrations.add(it) }
+
+    val navigation: CSNavigationView? by lazy {
+        var controller: CSActivityView<*>? = this
+        do {
+            if (controller is CSNavigationView) return@lazy controller
+            controller = controller?.parentController
+        } while (controller != null)
+        controller
+    }
 }
+
+
 
 
 

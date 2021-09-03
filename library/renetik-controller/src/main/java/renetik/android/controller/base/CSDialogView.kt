@@ -6,23 +6,19 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import renetik.android.controller.R
-import renetik.android.controller.common.CSNavigationInstance.navigation
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
 import renetik.android.framework.event.listenOnce
 import renetik.android.framework.lang.CSLayoutRes
 
-open class CSDialogView<ViewType : View> : CSActivityView<ViewType> {
+open class CSDialogView<ViewType : View>(parent: CSActivityView<out ViewGroup>,
+                                         layoutRes: CSLayoutRes) :
+    CSActivityView<ViewType>(parent, layoutRes) {
 
     protected lateinit var dialog: Dialog
     private var cancelableOnTouchOutside = true
     private val eventOnDismiss = event<Unit>()
     fun onDismiss(function: () -> Unit) = eventOnDismiss.listenOnce { function() }
-
-    constructor(parent: CSActivityView<out ViewGroup>, layoutRes: CSLayoutRes) :
-            super(parent, layoutRes)
-
-    constructor(layoutRes: CSLayoutRes) : this(navigation, layoutRes)
 
     fun cancelOnTouchOutside(cancelable: Boolean = true) = apply {
         cancelableOnTouchOutside = cancelable

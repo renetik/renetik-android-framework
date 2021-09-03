@@ -10,7 +10,6 @@ import renetik.android.framework.CSContext
 import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.java.extensions.*
-import renetik.android.logging.CSLog.logError
 import renetik.android.view.extensions.inflate
 
 open class CSView<ViewType : View> : CSContext,
@@ -67,7 +66,8 @@ open class CSView<ViewType : View> : CSContext,
     override val view: ViewType
         get() {
             when {
-                isDestroyed -> let { logError(this); throw unexpected }
+                isDestroyed ->
+                    throw exception("$className $this Already destroyed")
                 _view != null -> return _view!!
                 layout != null -> setView(inflate(layout.id))
                 viewId != null -> setView(parent!!.view(viewId) as ViewType)
@@ -108,11 +108,11 @@ open class CSView<ViewType : View> : CSContext,
     override fun onDestroy() {
         if (isDestroyed)
             throw exception("$className $this Already destroyed")
-         // We need live view instance when calling onDestroy,
+        // We need live view instance when calling onDestroy,
         // because it can be used by clients
         super.onDestroy()
         if (layout != null) {
-            if (_view == null) let { logError(this); throw unexpected }
+            if (_view == null) throw exception("$className $this _view shouldn't be null")
             _view!!.tag = "tag instance of $className removed, onDestroy called"
         }
         _view = null

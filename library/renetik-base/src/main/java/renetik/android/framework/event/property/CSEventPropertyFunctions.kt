@@ -8,7 +8,7 @@ object CSEventPropertyFunctions {
         CSEventPropertyImpl(value, onApply)
 
     fun <T> property(onApply: ((value: T?) -> Unit)? = null): CSEventProperty<T?> =
-        CSEventPropertyImpl<T?>(null, onApply)
+        CSEventPropertyImpl(null, onApply)
 
     fun property(key: String, default: String,
                  onApply: ((value: String) -> Unit)? = null) =

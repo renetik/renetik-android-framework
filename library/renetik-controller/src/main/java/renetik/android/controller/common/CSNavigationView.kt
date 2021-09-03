@@ -1,6 +1,5 @@
 package renetik.android.controller.common
 
-import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
@@ -21,19 +20,7 @@ import renetik.android.java.extensions.notNull
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isSet
 
-object CSNavigationInstance {
-    val navigation get() = CSNavigationView.navigation
-    val isInitialized get() = CSNavigationView.isInitialized
-}
-
-@Suppress("LeakingThis")
 open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
-
-    companion object {
-        @SuppressLint("StaticFieldLeak")
-        lateinit var navigation: CSNavigationView
-        val isInitialized get() = Companion::navigation.isInitialized
-    }
 
     constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
 
@@ -41,12 +28,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
             super(parent, layout(R.layout.cs_navigation))
 
     private val actionBar get() = activity().supportActionBar
-
-
-    init {
-        if (CSNavigationInstance.isInitialized) navigation.activity?.finish()
-        navigation = this
-    }
 
     private val _controllers = linkedMapOf<String, CSActivityView<*>>()
     val controllers get() = _controllers.values
@@ -255,6 +236,10 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     private val currentNavigationItem get() = (current as? CSNavigationItem) ?: this
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 }
 
 
