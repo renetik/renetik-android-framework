@@ -1,6 +1,5 @@
 package renetik.android.framework
 
-import android.app.Activity
 import android.app.ActivityManager
 import android.app.Service
 import android.content.*
@@ -8,7 +7,6 @@ import android.os.BatteryManager
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
 import android.util.DisplayMetrics
-import android.view.View
 import android.view.WindowManager
 import renetik.android.content.service
 import renetik.android.framework.CSApplication.Companion.application
@@ -27,6 +25,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
     constructor(context: CSContextInterface) : super(context.context) {
         eventRegistrations.add(context.onDestroy.listenOnce { onDestroy() })
     }
+
     constructor(context: Context) : super(context)
     constructor(context: CSContext) : super(context)
 

@@ -121,7 +121,7 @@ open class CSView<ViewType : View> : CSContext,
     override fun onAddedToParent() = Unit
 
     override fun onRemovedFromParent() {
-        if (lifecycleStopOnRemoveFromParent) onDestroy()
+        if (lifecycleStopOnRemoveFromParent && !isDestroyed) onDestroy()
     }
 
     open var isActivated
