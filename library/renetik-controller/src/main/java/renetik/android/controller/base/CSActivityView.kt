@@ -220,7 +220,7 @@ abstract class CSActivityView<ViewType : View>
     override fun whileVisible(registration: CSEventRegistration) =
         registration.let { whileVisibleEventRegistrations.add(it) }
 
-    val navigation: CSNavigationView? by lazy {
+    open val navigation: CSNavigationView? by lazy {
         var controller: CSActivityView<*>? = this
         do {
             if (controller is CSNavigationView) return@lazy controller
