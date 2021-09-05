@@ -1,9 +1,9 @@
 package renetik.android.framework.event.property
 
 import renetik.android.framework.lang.CSId
-import renetik.android.framework.store.property.CSListItemsStoreEventProperty
-import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
-import renetik.android.framework.store.property.value.CSListItemStoreEventProperty
+import renetik.android.framework.store.property.CSListStoreEventProperty
+import renetik.android.framework.store.property.nullable.CSItemNullableStoreEventProperty
+import renetik.android.framework.store.property.value.CSItemStoreEventProperty
 
 interface CSPropertyStoreInterface {
     fun property(
@@ -15,11 +15,11 @@ interface CSPropertyStoreInterface {
                  onChange: ((value: Boolean) -> Unit)? = null)
             : CSEventProperty<Boolean>
 
-    fun property(key: String, default: Boolean?,
-                 onChange: ((value: Boolean?) -> Unit)? = null)
+    fun nullableProperty(key: String, default: Boolean?,
+                         onChange: ((value: Boolean?) -> Unit)? = null)
             : CSEventProperty<Boolean?>
 
-    fun storedBoolean(key: String, onChange: ((value: Boolean) -> Unit)? = null)
+    fun lateBooleanProperty(key: String, onChange: ((value: Boolean) -> Unit)? = null)
             : CSEventProperty<Boolean>
 
     fun property(
@@ -45,12 +45,12 @@ interface CSPropertyStoreInterface {
     fun <T> property(
         key: String, values: List<T>, value: T,
         onChange: ((value: T) -> Unit)? = null
-    ): CSListItemStoreEventProperty<T>
+    ): CSItemStoreEventProperty<T>
 
     fun <T> nullableProperty(
         key: String, values: List<T>, default: T?,
         onChange: ((value: T?) -> Unit)? = null
-    ): CSListItemNullableStoreEventProperty<T>
+    ): CSItemNullableStoreEventProperty<T>
 
     fun <T> property(
         key: String, values: List<T>, defaultIndex: Int,
@@ -70,7 +70,7 @@ interface CSPropertyStoreInterface {
     fun <T : CSId> property(
         key: String, values: Iterable<T>, value: List<T>,
         onChange: ((value: List<T>) -> Unit)? = null
-    ): CSListItemsStoreEventProperty<T>
+    ): CSListStoreEventProperty<T>
 
     fun <T : CSId> property(
         key: String, values: Array<T>, value: List<T>,

@@ -4,7 +4,7 @@ import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.getValue
 import renetik.android.java.extensions.toId
 
-class CSListItemNullableStoreEventProperty<T>(
+class CSItemNullableStoreEventProperty<T>(
     store: CSStoreInterface, key: String,
     val values: List<T?>, default: T?, onChange: ((value: T?) -> Unit)? = null
 ) : CSNullableStoreEventProperty<T?>(store, key, default, onChange) {

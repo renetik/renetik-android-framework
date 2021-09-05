@@ -10,3 +10,4 @@ class CSStringLateStoreEventProperty(
     override fun save(value: String) = save(store, value)
     fun save(store: CSStoreInterface, value: String) = store.save(key, value)
 }
+

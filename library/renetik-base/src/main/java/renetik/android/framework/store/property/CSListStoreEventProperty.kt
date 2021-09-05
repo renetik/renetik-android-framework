@@ -4,7 +4,7 @@ import renetik.android.framework.lang.CSId
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.java.extensions.toId
 
-class CSListItemsStoreEventProperty<T : CSId>(
+class CSListStoreEventProperty<T : CSId>(
     store: CSStoreInterface, key: String,
     val values: Iterable<T>, val default: List<T>, onChange: ((value: List<T>) -> Unit)? = null
 ) : CSPresetStoreEventPropertyBase<List<T>>(store, key, onChange) {
