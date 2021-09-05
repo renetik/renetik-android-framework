@@ -8,31 +8,40 @@ import renetik.android.framework.event.CSVisibility
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
 
-fun <T : View> T.visible() = apply {
-    visibility = VISIBLE
-    (tag as? CSVisibility)?.updateVisibility()
+fun <T : View> T.visible(animated: Boolean = false) = apply {
+    if (animated) fadeIn() else {
+        visibility = VISIBLE
+        (tag as? CSVisibility)?.updateVisibility()
+    }
 }
 
-fun <T : View> T.invisible() = apply {
-    visibility = INVISIBLE
-    (tag as? CSVisibility)?.updateVisibility()
+fun <T : View> T.invisible(animated: Boolean = false) = apply {
+    if (animated) fadeOut(invisible = true) else {
+        visibility = INVISIBLE
+        (tag as? CSVisibility)?.updateVisibility()
+    }
 }
 
-fun <T : View> T.gone() = apply {
-    visibility = GONE
-    (tag as? CSVisibility)?.updateVisibility()
+fun <T : View> T.gone(animated: Boolean = false) = apply {
+    if (animated) fadeOut() else {
+        visibility = GONE
+        (tag as? CSVisibility)?.updateVisibility()
+    }
 }
 
 val <T : View> T.isVisible get() = visibility == VISIBLE
 val <T : View> T.isInvisible get() = visibility == INVISIBLE
 val <T : View> T.isGone get() = visibility == GONE
 
-fun <T : View> T.show(animated: Boolean = false) = apply { if (animated) fadeIn() else visible() }
-fun <T : View> T.hide(animated: Boolean = false) = apply { if (animated) fadeOut() else gone() }
+fun <T : View> T.show(animated: Boolean = false) = apply { visible(animated) }
+fun <T : View> T.hide(animated: Boolean = false) = apply { gone(animated) }
 
-fun <T : View> T.visibleIf(condition: Boolean) = apply { if (condition) visible() else invisible() }
-fun <T : View> T.invisibleIf(condition: Boolean) =
-    apply { if (condition) invisible() else visible() }
+fun <T : View> T.visibleIf(condition: Boolean, animated: Boolean = false) = apply {
+    if (condition) visible(animated) else invisible(animated)
+}
+
+fun <T : View> T.invisibleIf(condition: Boolean, animated: Boolean = false) =
+    visibleIf(!condition, animated)
 
 fun <T : View> T.shownIf(condition: Boolean, animated: Boolean = false) = apply {
     if (condition) show(animated) else hide(animated)
@@ -67,10 +76,17 @@ fun View.goneIfTrue(property: CSEventProperty<Boolean>,
 
 fun <T> View.shownIfEquals(parent: CSVisibleEventOwner,
                            property: CSEventProperty<T?>,
-                           value: T) = apply {
+                           value: T): CSEventRegistration {
     fun updateVisibility() = shownIf(property.value == value)
-    parent.whileVisible(property.onChange { updateVisibility() })
     updateVisibility()
+    return property.onChange { updateVisibility() }
+}
+
+fun View.visibleIf(property: CSEventProperty<Boolean>,
+                   animated: Boolean = false): CSEventRegistration {
+    fun updateVisibility() = visibleIf(property.value, animated)
+    updateVisibility()
+    return property.onChange { updateVisibility() }
 }
 
 // This had be done because isShown return false in on Resume

@@ -1,10 +1,8 @@
 package renetik.android.view.extensions
 
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewPropertyAnimator
 import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.primitives.isTrue
 
 val shortAnimationDuration =
     application.resources.getInteger(android.R.integer.config_shortAnimTime)
@@ -20,18 +18,22 @@ fun <T : View> T.fadeIn(duration: Int = shortAnimationDuration): ViewPropertyAni
 
 fun <T : View> T.fadeOut(
     duration: Int = shortAnimationDuration,
+    invisible: Boolean = false,
     onDone: (() -> Unit)? = null): ViewPropertyAnimator? = when {
     isGone -> {
         onDone?.invoke(); null
     }
     alpha == 0f -> {
-        gone(); null
+        if (invisible) invisible() else gone()
+        null
     }
     else -> {
         isClickable = false
         val originalAlpha = alpha
         animate().alpha(0f).setDuration(duration.toLong()).onAnimationEnd {
-            isClickable = true; gone(); alpha = originalAlpha
+            isClickable = true
+            if (invisible) invisible() else gone()
+            alpha = originalAlpha
             onDone?.invoke()
         }
     }
