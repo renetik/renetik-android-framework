@@ -10,6 +10,7 @@ interface CSValue<T> {
             override val value: T = value
         }
     }
+
 }
 
 inline val CSValue<Float>.isEmpty get() = value == Float.empty
