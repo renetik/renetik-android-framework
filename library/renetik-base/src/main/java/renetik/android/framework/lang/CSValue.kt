@@ -4,6 +4,12 @@ import renetik.android.primitives.empty
 
 interface CSValue<T> {
     val value: T
+
+    companion object {
+        fun <T> value(value: T) = object : CSValue<T> {
+            override val value: T = value
+        }
+    }
 }
 
 inline val CSValue<Float>.isEmpty get() = value == Float.empty

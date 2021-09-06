@@ -57,11 +57,6 @@ abstract class CSActivityView<ViewType : View>
         initializeParent(parent)
     }
 
-//    constructor(parent: CSActivityView<*>, view: ViewType) : super(parent, view) {
-//        parentController = parent
-//        initializeParent(parent)
-//    }
-
     protected open fun onResume() {
         if (isResumed) return
         isResumed = true
