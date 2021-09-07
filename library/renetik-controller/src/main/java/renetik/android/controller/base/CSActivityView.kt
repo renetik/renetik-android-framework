@@ -8,7 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
 import renetik.android.controller.common.CSNavigationView
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.CSEventRegistration
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
 import renetik.android.java.extensions.className
@@ -17,8 +17,7 @@ import renetik.android.logging.CSLog.logWarn
 import renetik.android.view.extensions.isShowing
 
 abstract class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, CSVisibleEventOwner,
-    LifecycleOwner, CSEventOwner, CSVisibility {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner,CSVisibleEventOwner {
 
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
@@ -111,7 +110,7 @@ abstract class CSActivityView<ViewType : View>
         register(parent.onResume.listen(::onResume))
         register(parent.onPause.listen(::onPause))
         register(parent.onBack.listen(::onBack))
-        register(parent.onViewVisibilityChanged.listen { updateVisibility() })
+        register(parent.eventViewVisibilityChanged.listen { updateVisibility() })
     }
 
     protected open fun onBack(goBack: CSProperty<Boolean>) {
@@ -152,7 +151,7 @@ abstract class CSActivityView<ViewType : View>
 
     override var isVisible = false
     private var onViewShowingCalled = false
-    override val onViewVisibilityChanged = event<Boolean>()
+    override val eventViewVisibilityChanged = event<Boolean>()
 
     override fun updateVisibility() {
         if (checkIfIsShowing()) {
@@ -182,7 +181,7 @@ abstract class CSActivityView<ViewType : View>
     }
 
     protected open fun onViewVisibilityChanged() {
-        onViewVisibilityChanged.fire(isVisible)
+        eventViewVisibilityChanged.fire(isVisible)
     }
 
     protected open fun onViewVisible() {

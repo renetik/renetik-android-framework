@@ -31,6 +31,6 @@ var <T : View> CSActivityView<T>.requestedOrientation
 fun CSActivityView<*>.onInternetConnected(function: () -> Unit): CSReachability {
     val reachability = CSReachability().start()
     reachability.eventOnConnected.listenOnce { function() }
-    onDestroy.listen { reachability.stop() }
+    eventDestroy.listen { reachability.stop() }
     return reachability
 }

@@ -22,13 +22,6 @@ inline var CSProperty<Boolean>.isFalse
         value = !newValue
     }
 
-
-val CSProperty<String>.isEmpty get() = value.isEmpty()
-fun CSProperty<String>.contains(value: String, ignoreCase: Boolean = false) =
-    this.value.contains(value, ignoreCase)
-fun CSProperty<String>.contains(property: CSProperty<String>, ignoreCase: Boolean = false) =
-    this.contains(property.value, ignoreCase)
-
 inline var CSProperty<String?>.string
     get() = value.asString
     set(newValue) {

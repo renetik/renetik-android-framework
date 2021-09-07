@@ -7,6 +7,7 @@ import renetik.android.content.dpToPixel
 import renetik.android.content.toDp
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.event.CSEvent.*
+import renetik.android.framework.event.CSEventRegistration
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSEventRegistration? {
     if (width == 0 || height == 0) return onLayout {

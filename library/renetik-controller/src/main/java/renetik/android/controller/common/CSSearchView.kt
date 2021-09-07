@@ -6,9 +6,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
+import renetik.android.controller.base.findView
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
-import renetik.android.controller.base.findView
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.imageView
 import renetik.android.view.extensions.onClick
@@ -18,6 +19,10 @@ class CSSearchView(parent: CSActivityView<*>, viewId: Int, hint: String = "",
                    private val onChange: (String) -> Unit) : CSActivityView<SearchView>(parent,
     viewId), OnQueryTextListener, View.OnClickListener,
     SearchView.OnCloseListener {
+
+    constructor(parent: CSActivityView<*>, viewId: Int,
+                property: CSEventProperty<String>, hint: String = "")
+            : this(parent, viewId, hint, property.value, { property.value = it })
 
     var eventOnClearButtonClick = event<CSSearchView>()
     private var searchOpened = false

@@ -8,9 +8,9 @@ import renetik.android.primitives.ifTrue
 
 interface CSActionInterface {
     val isObserved: Boolean
-    fun onObserveChange(function: (CSActionInterface) -> Unit): CSEvent.CSEventRegistration
+    fun onObserveChange(function: (CSActionInterface) -> Unit): CSEventRegistration
     val isRunning: Boolean
-    fun onChange(function: (CSActionInterface) -> Unit): CSEvent.CSEventRegistration
+    fun onChange(function: (CSActionInterface) -> Unit): CSEventRegistration
     fun start()
     fun stop()
 }
@@ -36,7 +36,7 @@ class CSAction(val id: String) : CSActionInterface {
 
     override val isRunning get() = property.isTrue
 
-    override fun onChange(function: (CSActionInterface) -> Unit): CSEvent.CSEventRegistration {
+    override fun onChange(function: (CSActionInterface) -> Unit): CSEventRegistration {
         observerCount++
         if (observerCount == 1) eventIsObserved.fire()
         return CSActionOnChangeEventRegistration(property.onChange { function(this) })
@@ -51,7 +51,7 @@ class CSAction(val id: String) : CSActionInterface {
     }
 
     inner class CSActionOnChangeEventRegistration(
-        private val registration: CSEvent.CSEventRegistration) : CSEvent.CSEventRegistration {
+        private val registration: CSEventRegistration) : CSEventRegistration {
         override var isActive
             get() = registration.isActive
             set(value) {

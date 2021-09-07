@@ -13,7 +13,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
-import renetik.android.framework.event.CSEvent.CSEventRegistration
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.java.extensions.isNull

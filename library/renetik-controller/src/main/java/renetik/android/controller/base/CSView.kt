@@ -20,7 +20,7 @@ open class CSView<ViewType : View> : CSContext,
     private var parent: CSViewInterface? = null
         set(value) {
             field = value
-            register(field?.onDestroy?.listenOnce { onDestroy() })
+            register(field?.eventDestroy?.listenOnce { onDestroy() })
         }
     var lifecycleStopOnRemoveFromParent = true
     private var _group: ViewGroup? = null

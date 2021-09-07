@@ -1,6 +1,6 @@
 package renetik.android.controller.extensions
 
-import renetik.android.framework.event.CSEvent.CSEventRegistration
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSCondition
 import renetik.android.framework.lang.CSCondition.Factory.condition

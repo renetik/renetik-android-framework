@@ -3,7 +3,7 @@ package renetik.android.view.extensions
 import android.content.res.ColorStateList
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
-import renetik.android.framework.event.CSEvent.CSEventRegistration
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.isTrue

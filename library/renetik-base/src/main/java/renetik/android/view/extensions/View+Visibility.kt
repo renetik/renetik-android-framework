@@ -3,7 +3,7 @@ package renetik.android.view.extensions
 import android.view.View
 import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
-import renetik.android.framework.event.CSEvent.CSEventRegistration
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.CSVisibility
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty

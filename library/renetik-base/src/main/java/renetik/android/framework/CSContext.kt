@@ -12,7 +12,7 @@ import renetik.android.content.service
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.CSEventRegistration
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.java.extensions.notNull
 import java.util.*
 
@@ -23,7 +23,7 @@ private val HIGH_DPI_STATUS_BAR_HEIGHT = 38
 abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
     constructor() : super(application)
     constructor(context: CSContextInterface) : super(context.context) {
-        eventRegistrations.add(context.onDestroy.listenOnce { onDestroy() })
+        eventRegistrations.add(context.eventDestroy.listenOnce { onDestroy() })
     }
 
     constructor(context: Context) : super(context)
@@ -31,7 +31,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
 
     private var _isDestroyed = false
     val isDestroyed get() = _isDestroyed
-    override val onDestroy = event<Unit>()
+    override val eventDestroy = event<Unit>()
 
     override val context: Context get() = this
 
@@ -87,9 +87,9 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
 
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
 
-    open fun onDestroy() {
+    override fun onDestroy() {
         eventRegistrations.cancel()
-        onDestroy.fire().clear()
+        eventDestroy.fire().clear()
         _isDestroyed = true
     }
 

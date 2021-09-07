@@ -10,7 +10,7 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.CSEventRegistration
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSProperty
 
@@ -23,7 +23,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
     val onStop = event<Unit>()
-    override val onDestroy = event<Unit>()
+    override val eventDestroy = event<Unit>()
     override val onBack = event<CSProperty<Boolean>>()
     val onConfigurationChanged = event<Configuration>()
     val onOrientationChanged = event<Configuration>()
@@ -39,7 +39,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     //CSVisibility
     override val isVisible: Boolean get() = true
-    override val onViewVisibilityChanged = event<Boolean>()
+    override val eventViewVisibilityChanged = event<Boolean>()
     override fun updateVisibility() = Unit
 
     override fun activity(): CSActivity = this
@@ -80,7 +80,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     override fun onDestroy() {
         super.onDestroy()
-        onDestroy.fire()
+        eventDestroy.fire()
         activityView = null
         System.gc()
     }
