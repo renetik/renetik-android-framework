@@ -7,6 +7,7 @@ import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.view.extensions.activated
 import renetik.android.view.extensions.selected
 
+// Requires item to be wrapped in empty frame layout for now...
 open class CSGridItemView<RowType : Any>(
     parent: CSView<out ViewGroup>,
     layout: CSLayoutRes,
