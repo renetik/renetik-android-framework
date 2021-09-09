@@ -11,6 +11,7 @@ import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.java.extensions.*
 import renetik.android.view.extensions.inflate
+import renetik.kotlin.exception
 
 open class CSView<ViewType : View> : CSContext,
     CSHasParent, CSViewInterface {

@@ -20,7 +20,12 @@ import renetik.android.framework.CSContext
 import renetik.android.java.extensions.asString
 import renetik.android.java.extensions.notNull
 import renetik.android.primitives.isSet
+import renetik.android.view.button
 import renetik.android.view.extensions.*
+import renetik.android.view.onClick
+import renetik.android.view.textView
+import renetik.android.widget.text
+import renetik.android.widget.withClear
 
 
 class CSDialog : CSContext {

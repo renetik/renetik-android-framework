@@ -19,9 +19,9 @@ import renetik.android.controller.extensions.startActivityForResult
 import renetik.android.imaging.extensions.resizeImage
 import renetik.android.framework.common.catchAllError
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.createDatedFile
+import renetik.java.io.createDatedFile
 import renetik.android.java.extensions.later
-import renetik.android.task.CSBackground.background
+import renetik.android.framework.task.CSBackground.background
 import java.io.File
 
 class CSGetPictureView<T : View>(

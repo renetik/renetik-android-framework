@@ -13,7 +13,7 @@ import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.floatingButton
 import renetik.android.controller.extensions.sendMail
 import renetik.android.view.extensions.gone
-import renetik.android.view.extensions.text
+import renetik.android.widget.text
 
 class CSDebugTextView(val parent: CSActivityView<out ViewGroup>,
                       val title: String = "Application Log",

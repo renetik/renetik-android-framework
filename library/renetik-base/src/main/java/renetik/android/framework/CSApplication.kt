@@ -4,11 +4,11 @@ import android.app.Application
 import android.os.Environment.getExternalStorageDirectory
 import renetik.android.content.applicationLabel
 import renetik.android.framework.store.CSPreferencesStore
-import renetik.android.java.extensions.exception
-import renetik.android.logging.AndroidLogger
-import renetik.android.logging.CSLog.logInfo
-import renetik.android.logging.CSLog.logWarn
-import renetik.android.logging.CSLogger
+import renetik.kotlin.exception
+import renetik.android.framework.logging.AndroidLogger
+import renetik.android.framework.logging.CSLog.logInfo
+import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.framework.logging.CSLogger
 import java.io.File
 
 open class CSApplication : Application() {

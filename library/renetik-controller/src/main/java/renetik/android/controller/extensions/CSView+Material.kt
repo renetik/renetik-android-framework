@@ -1,6 +1,5 @@
 package renetik.android.controller.extensions
 
-import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -10,8 +9,8 @@ import renetik.android.controller.base.findView
 import renetik.android.material.extensions.materialSwitch
 import renetik.android.material.extensions.rangeSlider
 import renetik.android.material.extensions.slider
-import renetik.android.view.extensions.findView
-import renetik.android.view.extensions.onClick
+import renetik.android.view.findView
+import renetik.android.view.onClick
 
 fun CSView<*>.textInput(id: Int, onClick: ((TextInputLayout) -> Unit)? = null) =
     view.findView<TextInputLayout>(id)!!.apply {

@@ -22,6 +22,8 @@ import renetik.android.java.extensions.notNull
 import renetik.android.java.extensions.privateField
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.*
+import renetik.android.view.propertyWithTag
+import renetik.android.widget.*
 
 val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")

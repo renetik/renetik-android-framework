@@ -2,7 +2,7 @@ package renetik.android.framework.store.property.late
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import renetik.android.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonMapStore
 
 class CSStringLateStoreEventPropertyTest {
     private val store = CSJsonMapStore()

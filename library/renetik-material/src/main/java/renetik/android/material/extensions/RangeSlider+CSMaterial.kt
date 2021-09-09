@@ -2,8 +2,7 @@ package renetik.android.material.extensions
 
 import android.view.View
 import com.google.android.material.slider.RangeSlider
-import com.google.android.material.slider.Slider
-import renetik.android.view.extensions.findView
+import renetik.android.view.findView
 
 fun View.rangeSlider(id: Int) = findView<RangeSlider>(id)!!
 

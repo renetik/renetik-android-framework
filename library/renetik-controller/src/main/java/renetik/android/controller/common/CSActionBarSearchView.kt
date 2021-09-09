@@ -10,8 +10,8 @@ import renetik.android.controller.base.findView
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.primitives.isSet
-import renetik.android.view.extensions.imageView
-import renetik.android.view.extensions.onClick
+import renetik.android.view.imageView
+import renetik.android.view.onClick
 
 class CSActionBarSearchView(parent: CSActivityView<*>, viewId: Int, hint: String = "",
                             var text: String = "",

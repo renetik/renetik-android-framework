@@ -8,7 +8,7 @@ import renetik.android.client.request.CSHttpProcess
 import renetik.android.client.request.CSHttpResponseData
 import renetik.android.framework.common.catchError
 import renetik.android.framework.common.catchErrorReturn
-import renetik.android.logging.CSLog.logInfo
+import renetik.android.framework.logging.CSLog.logInfo
 import java.io.IOException
 
 const val APPLICATION_ERROR = "Application error or invalid data"

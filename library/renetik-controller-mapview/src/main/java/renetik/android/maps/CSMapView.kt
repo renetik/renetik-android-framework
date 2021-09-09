@@ -11,7 +11,7 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
-import renetik.android.logging.CSLog.logError
+import renetik.android.framework.logging.CSLog.logError
 import renetik.android.maps.extensions.asLatLng
 import kotlin.system.exitProcess
 

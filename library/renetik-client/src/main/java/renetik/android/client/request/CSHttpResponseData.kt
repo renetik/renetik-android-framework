@@ -1,15 +1,15 @@
 package renetik.android.client.request
 
 import renetik.android.framework.store.getMap
-import renetik.android.json.data.CSJsonList
-import renetik.android.json.data.CSJsonMapStore
-import renetik.android.json.data.properties.CSJsonBoolean
-import renetik.android.json.data.properties.CSJsonDataList
-import renetik.android.json.data.properties.CSJsonInt
-import renetik.android.json.data.properties.CSJsonString
-import renetik.android.json.extensions.createJsonMap
-import renetik.android.json.parseJsonList
-import renetik.android.json.parseJsonMap
+import renetik.android.framework.json.data.CSJsonList
+import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.properties.CSJsonBoolean
+import renetik.android.framework.json.data.properties.CSJsonDataList
+import renetik.android.framework.json.data.properties.CSJsonInt
+import renetik.android.framework.json.data.properties.CSJsonString
+import renetik.android.framework.json.extensions.createJsonMap
+import renetik.android.framework.json.parseJsonList
+import renetik.android.framework.json.parseJsonMap
 import kotlin.reflect.KClass
 
 interface CSHttpResponseData {

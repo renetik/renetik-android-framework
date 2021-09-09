@@ -1,8 +1,8 @@
 package renetik.android.content.res
 
 import android.content.res.AssetManager
-import renetik.android.java.extensions.copy
-import renetik.android.java.extensions.createFileAndDirs
+import renetik.java.io.copy
+import renetik.java.io.createFileAndDirs
 import renetik.android.primitives.iterator
 import java.io.File
 

@@ -3,8 +3,8 @@ package renetik.android.framework.store.property.late
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
-import renetik.android.json.data.CSJsonMapStore
-import renetik.android.json.data.extensions.getListOfList
+import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.extensions.getListOfList
 import kotlin.reflect.KClass
 
 class CSJsonListListLateStoreEventProperty<T : CSJsonMapStore>(

@@ -3,7 +3,7 @@ package renetik.android.framework.store.property.nullable
 import org.junit.Assert.*
 import org.junit.Test
 import renetik.android.framework.store.property.nullable.TestEnum.*
-import renetik.android.json.store.CSStringJsonStore
+import renetik.android.framework.json.store.CSStringJsonStore
 
 private enum class TestEnum {
     First, Second, Third

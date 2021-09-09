@@ -2,8 +2,8 @@ package renetik.android.framework.event
 
 import renetik.android.java.extensions.collections.hasItems
 import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.exception
-import renetik.android.logging.CSLog.logError
+import renetik.kotlin.exception
+import renetik.android.framework.logging.CSLog.logError
 
 class CSEventImpl<T> : CSEvent<T> {
 

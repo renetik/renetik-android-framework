@@ -1,6 +1,6 @@
 package renetik.android.java.util
 
-import renetik.android.os.CSHandler.post
+import renetik.android.framework.util.CSHandler.post
 import java.util.*
 
 object CSTimer {

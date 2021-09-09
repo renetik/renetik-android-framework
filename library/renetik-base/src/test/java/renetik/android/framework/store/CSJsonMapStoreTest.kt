@@ -3,7 +3,7 @@ package renetik.android.framework.store
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import renetik.android.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonMapStore
 
 class CSJsonMapStoreTest {
 

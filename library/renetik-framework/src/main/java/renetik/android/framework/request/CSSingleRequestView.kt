@@ -5,10 +5,10 @@ import renetik.android.client.request.CSOperation
 import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.lang.CSTimeConstants.Second
 import renetik.android.controller.extensions.snackBarInfo
-import renetik.android.task.CSDoLater
-import renetik.android.task.CSDoLaterObject.later
+import renetik.android.framework.task.CSDoLater
+import renetik.android.framework.task.CSDoLaterObject.later
 import renetik.android.view.extensions.hide
-import renetik.android.view.extensions.onClick
+import renetik.android.view.onClick
 import renetik.android.view.extensions.show
 
 open class CSSingleRequestView(parent: CSActivityView<*>, viewId: Int)

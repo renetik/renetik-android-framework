@@ -10,8 +10,8 @@ import renetik.android.framework.store.property.nullable.CSBooleanNullableStoreE
 import renetik.android.framework.store.property.nullable.CSIntNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
 import renetik.android.framework.store.property.value.*
-import renetik.android.json.CSJsonListInterface
-import renetik.android.json.CSJsonMapInterface
+import renetik.android.framework.json.CSJsonListInterface
+import renetik.android.framework.json.CSJsonMapInterface
 import renetik.android.primitives.asDouble
 import renetik.android.primitives.asFloat
 import renetik.android.primitives.asInt

@@ -3,8 +3,8 @@ package renetik.android.imaging.extensions
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri.fromFile
-import renetik.android.java.extensions.createFileAndDirs
-import renetik.android.logging.CSLog.logInfo
+import renetik.java.io.createFileAndDirs
+import renetik.android.framework.logging.CSLog.logInfo
 import java.io.File
 import java.io.FileOutputStream
 

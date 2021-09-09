@@ -3,7 +3,7 @@ package renetik.android.framework.store.property.value
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import renetik.android.json.store.CSStringJsonStore
+import renetik.android.framework.json.store.CSStringJsonStore
 
 class CSStringValueStoreEventPropertyTest {
     private val store = CSStringJsonStore("{}")

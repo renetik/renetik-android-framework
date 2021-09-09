@@ -8,7 +8,10 @@ import androidx.annotation.IdRes
 import renetik.android.framework.event.CSEventOwner
 import renetik.android.framework.event.CSViewInterface
 import renetik.android.framework.event.register
+import renetik.android.view.*
 import renetik.android.view.extensions.*
+import renetik.android.widget.onChange
+import renetik.android.widget.radioGroup
 
 fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
 

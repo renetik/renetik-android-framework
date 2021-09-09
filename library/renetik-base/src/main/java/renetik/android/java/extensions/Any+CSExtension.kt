@@ -1,7 +1,7 @@
 package renetik.android.java.extensions
 
 import renetik.android.framework.lang.CSId
-import renetik.android.os.CSHandler.post
+import renetik.android.framework.util.CSHandler.post
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 

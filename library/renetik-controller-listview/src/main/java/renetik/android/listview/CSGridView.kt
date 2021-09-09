@@ -16,8 +16,8 @@ import renetik.android.framework.event.resume
 import renetik.android.java.extensions.collections.list
 import renetik.android.view.extensions.fadeIn
 import renetik.android.view.extensions.fadeOut
-import renetik.android.view.extensions.onClick
-import renetik.android.view.extensions.scrollToIndex
+import renetik.android.view.onClick
+import renetik.android.widget.scrollToIndex
 
 @Suppress("UNCHECKED_CAST")
 class CSGridView<ItemType : Any>(

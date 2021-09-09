@@ -4,7 +4,7 @@ import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.framework.store.getList
 import renetik.android.java.extensions.collections.list
-import renetik.android.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonMapStore
 import renetik.android.maps.extensions.asLatLng
 
 @Suppress("unchecked_cast")

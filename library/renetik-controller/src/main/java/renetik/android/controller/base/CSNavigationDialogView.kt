@@ -21,6 +21,7 @@ import renetik.android.framework.event.listenOnce
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.view.extensions.*
+import renetik.android.view.onClick
 
 enum class DialogAnimation {
     None, Slide, Fade

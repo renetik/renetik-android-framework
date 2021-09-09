@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import renetik.android.framework.CSContext
 import renetik.android.framework.common.catchAllWarnReturnNull
-import renetik.android.json.CSJsonListInterface
-import renetik.android.json.CSJsonMapInterface
-import renetik.android.json.toJsonString
+import renetik.android.framework.json.CSJsonListInterface
+import renetik.android.framework.json.CSJsonMapInterface
+import renetik.android.framework.json.toJsonString
 
 class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
 

@@ -12,8 +12,8 @@ import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
 import renetik.android.java.extensions.className
-import renetik.android.java.extensions.exception
-import renetik.android.logging.CSLog.logWarn
+import renetik.kotlin.exception
+import renetik.android.framework.logging.CSLog.logWarn
 import renetik.android.view.extensions.isShowing
 
 abstract class CSActivityView<ViewType : View>

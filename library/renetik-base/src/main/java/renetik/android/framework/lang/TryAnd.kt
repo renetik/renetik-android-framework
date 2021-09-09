@@ -1,8 +1,8 @@
 package renetik.android.framework.common
 
 import renetik.android.framework.Func
-import renetik.android.logging.CSLog.logError
-import renetik.android.logging.CSLog.logWarn
+import renetik.android.framework.logging.CSLog.logError
+import renetik.android.framework.logging.CSLog.logWarn
 
 inline fun <ReturnType> catchReturn(
     tryFunction: () -> ReturnType, onExceptionReturn: (Throwable) -> ReturnType

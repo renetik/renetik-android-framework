@@ -8,8 +8,8 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.event.event
 import renetik.android.controller.base.frame
 import renetik.android.view.extensions.add
-import renetik.android.view.extensions.layoutMatch
-import renetik.android.view.extensions.removeFromSuperview
+import renetik.android.widget.layoutMatch
+import renetik.android.view.removeFromSuperview
 
 open class CSMapClientView<V : View>(parent: CSActivityView<V>, private val mapFrameId: Int,
                                      open val mapController: CSMapView)

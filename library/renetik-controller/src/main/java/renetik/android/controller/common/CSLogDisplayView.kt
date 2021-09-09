@@ -12,8 +12,8 @@ import renetik.android.controller.extensions.floatingButton
 import renetik.android.controller.extensions.sendMail
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.view.extensions.onClick
-import renetik.android.view.extensions.text
+import renetik.android.view.onClick
+import renetik.android.widget.text
 
 const val sendLogMailKey = "send_log_mail"
 

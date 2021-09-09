@@ -1,7 +1,7 @@
 package renetik.android.maps.json
 
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonMapStore
 
 class CSLocationJsonData() : CSJsonMapStore() {
 
