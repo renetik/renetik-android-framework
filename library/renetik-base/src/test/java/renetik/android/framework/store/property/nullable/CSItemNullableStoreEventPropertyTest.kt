@@ -12,7 +12,7 @@ private enum class TestEnum {
 class CSItemNullableStoreEventPropertyTest {
     private val store = CSStringJsonStore("{}")
     private var _value: TestEnum? = null
-    private val property = CSItemNullableStoreEventProperty(store, "key",
+    private val property = CSListItemNullableStoreEventProperty(store, "key",
         TestEnum.values().toList(), First) {
         _value = it
     }

@@ -2,7 +2,7 @@ package renetik.android.framework.store.property.nullable
 
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
-import renetik.android.framework.store.property.CSPresetStoreEventProperty
+import renetik.android.framework.store.property.preset.CSPresetStoreEventProperty
 
 abstract class CSNullableStoreEventProperty<T>(
     override var store: CSStoreInterface,
@@ -10,6 +10,14 @@ abstract class CSNullableStoreEventProperty<T>(
     private val initialValue: T?,
     onApply: ((value: T?) -> Unit)? = null)
     : CSEventPropertyBase<T?>(onApply), CSPresetStoreEventProperty<T?> {
+
+    protected abstract var _value: T?
+
+    override var value: T?
+        get() = _value
+        set(value) {
+            value(value)
+        }
 
     protected fun firstLoad() = if (store.has(key)) load() else run {
         initialValue?.let { save(it) }

@@ -2,12 +2,14 @@ package renetik.android.json.store
 
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.java.extensions.runIf
+import renetik.android.json.CSJsonListInterface
 import renetik.android.json.CSJsonMapInterface
+import renetik.android.json.data.CSJsonMapStore
 import renetik.android.json.parseJsonMap
 import renetik.android.json.toJsonString
 
 abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
-    : CSStoreInterface, CSJsonMapInterface {
+    : CSJsonMapStore() {
 
     override val data by lazy { load() }
 
@@ -24,31 +26,43 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
         saveJsonString(json)
     }
 
-    override fun get(key: String): String? = data[key]?.toString()
-
     override fun save(key: String, value: String?) {
-        data[key] = value
+        super.save(key, value)
         save()
     }
 
-    override fun has(key: String): Boolean = data.contains(key)
+    override fun save(key: String, value: Map<String, *>) {
+        super.save(key, value)
+        save()
+    }
+
+    override fun save(key: String, value: Array<*>) {
+        super.save(key, value)
+        save()
+    }
+
+    override fun save(key: String, value: List<*>) {
+        super.save(key, value)
+        save()
+    }
+
+    override fun save(key: String, value: CSJsonMapInterface) {
+        super.save(key, value)
+        save()
+    }
+
+    override fun save(key: String, value: CSJsonListInterface) {
+        super.save(key, value)
+        save()
+    }
 
     override fun load(store: CSStoreInterface) {
-        data.putAll(store.data)
+        super.load(store)
         save()
     }
 
-    override fun reload(store: CSStoreInterface) {
-        data.clear()
-        load(store)
-    }
-
-    override fun asStringMap(): Map<String, *> = data
-
-    override fun clear() = data.clear()
-
     override fun clear(key: String) {
-        data.remove(key)
+        super.clear(key)
         save()
     }
 }

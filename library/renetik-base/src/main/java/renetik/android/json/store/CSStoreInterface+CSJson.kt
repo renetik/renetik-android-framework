@@ -1,25 +1,25 @@
 package renetik.android.json.store
 
 import renetik.android.framework.store.CSStoreInterface
-import renetik.android.json.data.CSJsonMap
-import renetik.android.json.store.property.CSItemStoreEventProperty
-import renetik.android.json.store.property.CSItemStoreNullableEventProperty
-import renetik.android.json.store.property.CSListStoreEventProperty
+import renetik.android.json.data.CSJsonMapStore
+import renetik.android.json.store.property.CSJsonListStoreEventProperty
+import renetik.android.json.store.property.CSJsonStoreEventProperty
+import renetik.android.json.store.property.CSJsonStoreNullableEventProperty
 import kotlin.reflect.KClass
 
-fun <T : CSJsonMap> CSStoreInterface.property(
+fun <T : CSJsonMapStore> CSStoreInterface.property(
     key: String, listType: KClass<T>, default: List<T>, onApply: ((value: List<T>) -> Unit)? = null
-) = CSListStoreEventProperty(this, key, listType, default, onApply)
+) = CSJsonListStoreEventProperty(this, key, listType, default, onApply)
 
-fun <T : CSJsonMap> CSStoreInterface.property(
+fun <T : CSJsonMapStore> CSStoreInterface.property(
     key: String, createInstance: () -> T, default: List<T>,
     onApply: ((value: List<T>) -> Unit)? = null
-) = CSListStoreEventProperty(this, key, createInstance, default, onApply)
+) = CSJsonListStoreEventProperty(this, key, createInstance, default, onApply)
 
-fun <T : CSJsonMap> CSStoreInterface.property(
+fun <T : CSJsonMapStore> CSStoreInterface.property(
     key: String, type: KClass<T>, default: T? = null, onApply: ((value: T?) -> Unit)? = null
-) = CSItemStoreNullableEventProperty(this, key, type, default, onApply)
+) = CSJsonStoreNullableEventProperty(this, key, type, default, onApply)
 
-fun <T : CSJsonMap> CSStoreInterface.property(
+fun <T : CSJsonMapStore> CSStoreInterface.property(
     key: String, type: KClass<T>, default: T, onApply: ((value: T) -> Unit)? = null
-) = CSItemStoreEventProperty(this, key, type, default, onApply)
+) = CSJsonStoreEventProperty(this, key, type, default, onApply)

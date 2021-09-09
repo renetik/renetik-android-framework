@@ -3,10 +3,11 @@ package renetik.android.framework.store
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import renetik.android.json.data.CSJsonMapStore
 
-class CSCSStoreInterfaceTest {
+class CSJsonMapStoreTest {
 
-    private val store = CSMapStore()
+    private val store = CSJsonMapStore()
 
     @Before
     fun before() = store.clear()
@@ -36,11 +37,9 @@ class CSCSStoreInterfaceTest {
 
     @Test
     fun testNullableIntProperty() {
-        val property = store.nullableProperty("property", null)
+        val property = store.propertyNullInt("property", null)
         assertEquals(null, property.value)
         property.value = 5
         assertEquals(5, property.value)
     }
-
-
 }

@@ -1,4 +1,4 @@
-package renetik.android.framework.store.property
+package renetik.android.framework.store.property.preset
 
 import renetik.android.framework.lang.CSId
 import renetik.android.framework.store.CSStoreInterface

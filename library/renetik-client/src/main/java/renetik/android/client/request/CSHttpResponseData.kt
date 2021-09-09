@@ -1,11 +1,8 @@
 package renetik.android.client.request
 
+import renetik.android.framework.store.getMap
 import renetik.android.json.data.CSJsonList
-import renetik.android.json.data.CSJsonMap
-import renetik.android.json.data.extensions.getBoolean
-import renetik.android.json.data.extensions.getMap
-import renetik.android.json.data.extensions.getString
-import renetik.android.json.data.extensions.put
+import renetik.android.json.data.CSJsonMapStore
 import renetik.android.json.data.properties.CSJsonBoolean
 import renetik.android.json.data.properties.CSJsonDataList
 import renetik.android.json.data.properties.CSJsonInt
@@ -23,13 +20,13 @@ interface CSHttpResponseData {
 
 const val PARSING_FAILED = "Parsing data as json failed"
 
-open class CSServerMapData : CSJsonMap(), CSHttpResponseData {
+open class CSServerMapData : CSJsonMapStore(), CSHttpResponseData {
     var code: Int? = null
 
     override fun onHttpResponse(code: Int, message: String, content: String?) {
         content?.parseJsonMap()?.let {
             load(it)
-        } ?: put("message", PARSING_FAILED)
+        } ?: save("message", PARSING_FAILED)
     }
 
     override val success: Boolean get() = getBoolean("success") ?: false
@@ -52,14 +49,14 @@ open class CSServerListData : CSJsonList(), CSHttpResponseData {
     override val message: String? get() = _message
 }
 
-class CSValueServerData<ValueType : CSJsonMap>(key: String, kClass: KClass<ValueType>) :
+class CSValueServerData<ValueType : CSJsonMapStore>(key: String, kClass: KClass<ValueType>) :
     CSServerMapData() {
     constructor(kClass: KClass<ValueType>) : this("value", kClass)
 
     val value: ValueType by lazy { kClass.createJsonMap(getMap(key)) }
 }
 
-class CSListServerData<ListItem : CSJsonMap>(key: String, kClass: KClass<ListItem>) :
+class CSListServerData<ListItem : CSJsonMapStore>(key: String, kClass: KClass<ListItem>) :
     CSServerMapData() {
     constructor(kClass: KClass<ListItem>) : this("list", kClass)
 

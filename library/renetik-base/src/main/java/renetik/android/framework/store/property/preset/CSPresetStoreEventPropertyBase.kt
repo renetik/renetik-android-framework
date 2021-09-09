@@ -1,22 +1,20 @@
-package renetik.android.framework.store.property
+package renetik.android.framework.store.property.preset
 
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
-
-interface CSPresetStoreEventProperty<T> : CSStoreEventProperty<T> {
-    fun load(store: CSStoreInterface): T
-    fun save(store: CSStoreInterface, value: T)
-    fun reload()
-
-    override fun load(): T = load(store)
-    override fun save(value: T) = save(store, value)
-    fun save(store: CSStoreInterface) = save(store, value)
-}
 
 abstract class CSPresetStoreEventPropertyBase<T>(
     override var store: CSStoreInterface,
     override val key: String, onApply: ((value: T) -> Unit)? = null) :
     CSEventPropertyBase<T>(onApply), CSPresetStoreEventProperty<T> {
+
+    protected abstract var _value: T
+
+    override var value: T
+        get() = _value
+        set(value) {
+            value(value)
+        }
 
     override fun reload() {
         val newValue = load(store)

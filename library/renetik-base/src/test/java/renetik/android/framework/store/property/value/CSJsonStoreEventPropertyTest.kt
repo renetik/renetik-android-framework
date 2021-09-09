@@ -8,11 +8,11 @@ private enum class TestEnum {
     First, Second, Third
 }
 
-class CSItemStoreEventPropertyTest {
+class CSJsonStoreEventPropertyTest {
 
     private val store = CSStringJsonStore("{}")
     private var _value: TestEnum? = null
-    private val property = CSItemStoreEventProperty(store, "key",
+    private val property = CSListItemValueStoreEventProperty(store, "key",
         TestEnum.values().toList(), TestEnum.First) {
         _value = it
     }

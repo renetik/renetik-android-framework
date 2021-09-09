@@ -4,17 +4,17 @@ import renetik.android.java.extensions.collections.list
 import renetik.android.java.extensions.collections.putAll
 import renetik.android.java.extensions.notNull
 import renetik.android.json.data.CSJsonList
-import renetik.android.json.data.CSJsonMap
+import renetik.android.json.data.CSJsonMapStore
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
-fun <T : CSJsonMap> KClass<T>.createJsonMap(map: Map<String, Any?>?) =
+fun <T : CSJsonMapStore> KClass<T>.createJsonMap(map: Map<String, Any?>?) =
     createInstance().apply { map.notNull { load(it) } }
 
 fun <T : CSJsonList> KClass<T>.createJsonList(list: List<Any?>?) =
     createInstance().apply { list.notNull { load(it) } }
 
-fun <T : CSJsonMap> KClass<T>.createJsonDataList(
+fun <T : CSJsonMapStore> KClass<T>.createJsonDataList(
     data: List<MutableMap<String, Any?>>?,
     defaultDataList: (List<T>)? = null
 ): MutableList<T> = list<T>().also { dataList ->

@@ -1,9 +1,12 @@
 package renetik.android.framework.store
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import renetik.android.framework.CSContext
 import renetik.android.framework.common.catchAllWarnReturnNull
+import renetik.android.json.CSJsonListInterface
+import renetik.android.json.CSJsonMapInterface
+import renetik.android.json.toJsonString
 
 class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
 
@@ -11,6 +14,7 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
 
     override val data: Map<String, Any?> get() = preferences.all
 
+    @SuppressLint("CommitPrefEdits")
     override fun clear() = preferences.edit().clear().apply()
 
     override fun clear(key: String) {
@@ -24,6 +28,12 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
         editor.putString(key, it)
         editor.apply()
     } ?: clear(key)
+
+    override fun save(key: String, value: Map<String, *>) = save(key, value.toJsonString())
+    override fun save(key: String, value: Array<*>) = save(key, value.toJsonString())
+    override fun save(key: String, value: List<*>) = save(key, value.toJsonString())
+    override fun save(key: String, value: CSJsonMapInterface) = save(key, value.toJsonString())
+    override fun save(key: String, value: CSJsonListInterface) = save(key, value.toJsonString())
 
     override fun get(key: String): String? =
         catchAllWarnReturnNull { preferences.getString(key, null) }
@@ -41,21 +51,4 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
         apply()
     }
 }
-
-@Suppress("UNCHECKED_CAST")
-private fun SharedPreferences.Editor.loadAll(store: CSStoreInterface) {
-    for (entry in store.data) {
-        val value = entry.value ?: continue
-        when (value) {
-            is String -> putString(entry.key, value)
-            is Set<*> -> putStringSet(entry.key, value as Set<String>)
-            is Int -> putInt(entry.key, value)
-            is Long -> putLong(entry.key, value)
-            is Float -> putFloat(entry.key, value)
-            is Boolean -> putBoolean(entry.key, value)
-            else -> error("Unknown value type: $value")
-        }
-    }
-}
-
 

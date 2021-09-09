@@ -1,15 +1,13 @@
 package renetik.android.json.data.properties
 
 import renetik.android.framework.lang.CSProperty
-import renetik.android.json.data.CSJsonMap
-import renetik.android.json.data.extensions.getBoolean
-import renetik.android.json.data.extensions.put
+import renetik.android.json.data.CSJsonMapStore
 
-class CSJsonBoolean(val data: CSJsonMap, private val key: String) : CSProperty<Boolean> {
+class CSJsonBoolean(val data: CSJsonMapStore, private val key: String) : CSProperty<Boolean> {
     var bool: Boolean?
         get() = data.getBoolean(key)
         set(value) {
-            data.put(key, value)
+            data.save(key, value)
         }
 
     override var value

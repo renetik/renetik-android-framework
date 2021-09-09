@@ -6,15 +6,18 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
+import renetik.android.controller.base.findView
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions
 import renetik.android.framework.event.resume
-import renetik.android.controller.base.findView
 import renetik.android.java.extensions.collections.list
-import renetik.android.view.extensions.*
+import renetik.android.view.extensions.fadeIn
+import renetik.android.view.extensions.fadeOut
+import renetik.android.view.extensions.onClick
+import renetik.android.view.extensions.scrollToIndex
 
 @Suppress("UNCHECKED_CAST")
 class CSGridView<ItemType : Any>(
@@ -113,6 +116,8 @@ class CSGridView<ItemType : Any>(
     private fun updateEmptyView() {
         emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
     }
+
+    fun scrollToActive() = view.scrollToIndex(data.indexOf(property.value))
 
     inner class Adapter : BaseAdapter() {
         override fun getCount() = data.size

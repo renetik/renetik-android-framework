@@ -10,7 +10,6 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSProperty
 
@@ -85,6 +84,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         System.gc()
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         onActivityResult.fire(CSActivityResult(requestCode, resultCode, data))
         super.onActivityResult(requestCode, resultCode, data)

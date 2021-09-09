@@ -8,9 +8,13 @@ abstract class CSLateStoreEventProperty<T>(
     override val store: CSStoreInterface,
     override val key: String, onChange: ((value: T) -> Unit)?)
     : CSEventPropertyBase<T>(onChange), CSStoreEventProperty<T> {
-    override var _value: T
+
+    protected open var _value: T
         get() = load()
         set(value) = save(value)
+
+    abstract fun load(): T
+    abstract fun save(value: T)
 
     override fun value(newValue: T, fire: Boolean) = apply {
         if (store.has(key) && value == newValue) return this
@@ -19,4 +23,10 @@ abstract class CSLateStoreEventProperty<T>(
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
     }
+
+    override var value: T
+        get() = _value
+        set(value) {
+            value(value)
+        }
 }

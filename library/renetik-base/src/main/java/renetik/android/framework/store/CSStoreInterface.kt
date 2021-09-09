@@ -2,25 +2,37 @@ package renetik.android.framework.store
 
 import renetik.android.framework.event.property.CSPropertyStoreInterface
 import renetik.android.framework.lang.CSId
-import renetik.android.framework.store.property.CSListStoreEventProperty
+import renetik.android.framework.store.property.preset.CSListStoreEventProperty
 import renetik.android.framework.store.property.late.CSBooleanLateStoreEventProperty
 import renetik.android.framework.store.property.late.CSItemLateStoreEventProperty
 import renetik.android.framework.store.property.late.CSStringLateStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSBooleanNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSIntNullableStoreEventProperty
-import renetik.android.framework.store.property.nullable.CSItemNullableStoreEventProperty
+import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
 import renetik.android.framework.store.property.value.*
+import renetik.android.json.CSJsonListInterface
+import renetik.android.json.CSJsonMapInterface
 import renetik.android.primitives.asDouble
 import renetik.android.primitives.asFloat
 import renetik.android.primitives.asInt
 import renetik.android.primitives.asLong
 
-interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String, Any?>> {
+interface CSStoreInterface : CSPropertyStoreInterface,
+    Iterable<Map.Entry<String, Any?>>, CSJsonMapInterface {
 
     val data: Map<String, Any?>
+
+    override fun asStringMap(): Map<String, *> = data // TODO: remove
+
     override fun iterator(): Iterator<Map.Entry<String, Any?>> = data.iterator()
 
     fun save(key: String, value: String?)
+    fun save(key: String, value: Map<String, *>)
+    fun save(key: String, value: Array<*>)
+    fun save(key: String, value: List<*>)
+    fun save(key: String, value: CSJsonMapInterface)
+    fun save(key: String, value: CSJsonListInterface)
+
     fun load(store: CSStoreInterface)
     fun clear()
     fun clear(key: String)
@@ -51,7 +63,6 @@ interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String
     fun getString(key: String, default: String) = get(key) ?: default
     fun getString(key: String) = get(key)
 
-
     override fun property(key: String, value: String, onChange: ((value: String) -> Unit)?) =
         CSStringValueStoreEventProperty(this, key, value, onChange)
 
@@ -69,7 +80,7 @@ interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String
 
     override fun <T> property(
         key: String, values: List<T>, value: T, onChange: ((value: T) -> Unit)?) =
-        CSItemStoreEventProperty(this, key, values, value, onChange)
+        CSListItemValueStoreEventProperty(this, key, values, value, onChange)
 
     override fun <T : CSId> property(
         key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =
@@ -85,15 +96,15 @@ interface CSStoreInterface : CSPropertyStoreInterface, Iterable<Map.Entry<String
                              onChange: ((value: T) -> Unit)? = null) =
         CSItemLateStoreEventProperty(this, key, values, onChange)
 
-    override fun nullableProperty(key: String, default: Boolean?,
+    override fun propertyNullBool(key: String, default: Boolean?,
                                   onChange: ((value: Boolean?) -> Unit)?) =
         CSBooleanNullableStoreEventProperty(this, key, default, onChange)
 
-    override fun nullableProperty(key: String, default: Int?, onChange: ((value: Int?) -> Unit)?) =
+    override fun propertyNullInt(key: String, default: Int?, onChange: ((value: Int?) -> Unit)?) =
         CSIntNullableStoreEventProperty(this, key, default, onChange)
 
-    override fun <T> nullableProperty(
+    override fun <T> propertyNullListItem(
         key: String, values: List<T>, default: T?, onChange: ((value: T?) -> Unit)?) =
-        CSItemNullableStoreEventProperty(this, key, values, default, onChange)
+        CSListItemNullableStoreEventProperty(this, key, values, default, onChange)
 }
 

@@ -1,16 +1,16 @@
 package renetik.android.json.data.properties
 
 import renetik.android.framework.lang.CSSizeInterface
+import renetik.android.framework.store.getList
 import renetik.android.java.extensions.collections.*
-import renetik.android.json.data.CSJsonMap
+import renetik.android.json.data.CSJsonMapStore
 import renetik.android.json.data.extensions.getList
-import renetik.android.json.data.extensions.put
 import renetik.android.json.extensions.createJsonDataList
 import kotlin.reflect.KClass
 
 @Suppress("unchecked_cast")
-class CSJsonDataList<T : CSJsonMap>(
-    val data: CSJsonMap, private val type: KClass<T>,
+class CSJsonDataList<T : CSJsonMapStore>(
+    val data: CSJsonMapStore, private val type: KClass<T>,
     private val key: String
 ) : Iterable<T>, CSSizeInterface {
     override fun iterator() = list.iterator()
@@ -28,7 +28,7 @@ class CSJsonDataList<T : CSJsonMap>(
 
     fun add(item: T): T {
         data.getList(key)?.add(item.asStringMap())
-            ?: data.put(key, list(item.asStringMap()))
+            ?: data.save(key, list(item.asStringMap()))
         return item
     }
 

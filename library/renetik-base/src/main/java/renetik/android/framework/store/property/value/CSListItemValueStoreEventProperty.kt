@@ -4,7 +4,7 @@ import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.getValue
 import renetik.android.java.extensions.toId
 
-class CSItemStoreEventProperty<T>(
+class CSListItemValueStoreEventProperty<T>(
     store: CSStoreInterface, key: String,
     val values: List<T>, default: T, onChange: ((value: T) -> Unit)? = null
 ) : CSValueStoreEventProperty<T>(store, key, default, onChange) {
@@ -12,7 +12,3 @@ class CSItemStoreEventProperty<T>(
     override fun loadNullable(store: CSStoreInterface) = store.getValue(key, values)
     override fun save(store: CSStoreInterface, value: T) = store.save(key, value.toId())
 }
-
-val <T : Enum<*>> CSItemStoreEventProperty<T>.isLast get() = values.lastIndex == value.ordinal
-fun <T : Enum<*>> CSItemStoreEventProperty<T>.next(): T = values[value.ordinal + 1]
-fun <T : Enum<*>> CSItemStoreEventProperty<T>.previous(): T = values[value.ordinal - 1]

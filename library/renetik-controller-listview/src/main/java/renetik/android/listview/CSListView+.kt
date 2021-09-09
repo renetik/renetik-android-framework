@@ -10,7 +10,7 @@ fun <RowType : Any> CSGridView<RowType>.reload(values: Array<out RowType>) =
 fun <T : CSTitle> CSGridView<T>.reload(values: Array<T>, searchText: CSValue<String>) =
     reload(values.asIterable(), searchText)
 
-fun <T : CSTitle> CSGridView<T>.reload(values: Iterable<T>, searchText: CSValue<String>) {
+fun <T : CSTitle> CSGridView<T>.reload(values: Iterable<T>, searchText: CSValue<String>) = apply {
     val data = if (searchText.isEmpty) values
     else values.filter { it.title.contains(searchText.value, ignoreCase = true) }
     reload(data)
