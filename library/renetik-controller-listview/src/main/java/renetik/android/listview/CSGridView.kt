@@ -13,7 +13,7 @@ import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions
 import renetik.android.framework.event.resume
-import renetik.android.java.extensions.collections.list
+import renetik.kotlin.collections.list
 import renetik.android.view.extensions.fadeIn
 import renetik.android.view.extensions.fadeOut
 import renetik.android.view.onClick

@@ -9,9 +9,10 @@ import renetik.android.content.input
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.java.extensions.*
 import renetik.android.view.extensions.inflate
+import renetik.kotlin.className
 import renetik.kotlin.exception
+import renetik.kotlin.notNull
 
 open class CSView<ViewType : View> : CSContext,
     CSHasParent, CSViewInterface {

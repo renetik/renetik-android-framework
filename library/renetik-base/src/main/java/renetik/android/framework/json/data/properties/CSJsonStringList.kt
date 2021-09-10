@@ -1,18 +1,19 @@
 package renetik.android.framework.json.data.properties
 
-import renetik.android.framework.store.getList
-import renetik.android.java.extensions.collections.delete
-import renetik.android.java.extensions.collections.deleteLast
-import renetik.android.java.extensions.collections.last
-import renetik.android.java.extensions.collections.list
-import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonObject
+import renetik.kotlin.collections.delete
+import renetik.kotlin.collections.deleteLast
+import renetik.kotlin.collections.last
+import renetik.kotlin.collections.list
 
 @Suppress("unchecked_cast")
-class CSJsonStringList(val data: CSJsonMapStore, val key: String) : Iterable<String> {
+class CSJsonStringList(val data: CSJsonObject, val key: String) : Iterable<String> {
     override fun iterator() = list.iterator()
 
+    private val dataList get() = data.getList(key) as? MutableList<String>
+
     var list: List<String>
-        get() = data.getList(key) as List<String>
+        get() = dataList!!
         set(list) {
             data.save(key, list)
         }
@@ -20,10 +21,10 @@ class CSJsonStringList(val data: CSJsonMapStore, val key: String) : Iterable<Str
     val last: String? get() = list.last
     val empty get() = size() == 0
 
-    fun add(item: String) = data.getList(key)?.add(item)
+    fun add(item: String) = dataList?.add(item)
         ?: data.save(key, list(item))
 
-    fun remove(item: String) = data.getList(key)?.delete(item)
-    fun removeLast() = data.getList(key)?.deleteLast()
+    fun remove(item: String) = dataList?.delete(item)
+    fun removeLast() = dataList?.deleteLast()
     fun size() = data.getList(key)?.size ?: let { 0 }
 }

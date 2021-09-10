@@ -1,6 +1,6 @@
 package renetik.kotlin.text
 
-import renetik.android.java.extensions.collections.list
+import renetik.kotlin.collections.list
 import renetik.android.primitives.NewLine
 import renetik.android.primitives.lowerCased
 import renetik.android.primitives.upperCased

@@ -11,7 +11,7 @@ import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
-import renetik.android.java.extensions.className
+import renetik.kotlin.className
 import renetik.kotlin.exception
 import renetik.android.framework.logging.CSLog.logWarn
 import renetik.android.view.extensions.isShowing

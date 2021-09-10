@@ -1,9 +1,9 @@
 package renetik.android.framework.json.data.properties
 
 import renetik.android.framework.lang.CSProperty
-import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonObject
 
-class CSJsonString(val data: CSJsonMapStore, private val key: String)
+class CSJsonString(val data: CSJsonObject, private val key: String)
     : CSProperty<String>, CharSequence {
     var string: String?
         get() = data.getString(key)

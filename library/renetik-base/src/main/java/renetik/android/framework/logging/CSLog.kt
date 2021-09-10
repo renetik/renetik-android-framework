@@ -2,8 +2,8 @@ package renetik.android.framework.logging
 
 import renetik.android.content.CSToast.toast
 import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.collections.putAll
+import renetik.kotlin.collections.list
+import renetik.kotlin.collections.putAll
 import renetik.android.primitives.separateToString
 
 object CSLog {

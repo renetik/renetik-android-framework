@@ -16,7 +16,7 @@ import renetik.android.R
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.java.extensions.isNull
+import renetik.kotlin.isNull
 import renetik.android.framework.view.adapter.CSClickAdapter
 import renetik.android.view.extensions.remove
 

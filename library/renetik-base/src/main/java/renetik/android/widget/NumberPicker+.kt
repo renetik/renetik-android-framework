@@ -16,11 +16,11 @@ import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
 import androidx.annotation.ColorInt
 import renetik.android.framework.Func
-import renetik.android.java.extensions.asStringArray
-import renetik.android.java.extensions.collections.hasItems
-import renetik.android.java.extensions.collections.index
-import renetik.android.java.extensions.privateField
-import renetik.android.java.extensions.setPrivateField2
+import renetik.kotlin.asStringArray
+import renetik.kotlin.collections.hasItems
+import renetik.kotlin.collections.index
+import renetik.kotlin.privateField
+import renetik.kotlin.setPrivateField2
 
 
 fun <Row : Any> NumberPicker.loadData(data: List<Row>, selected: Row? = null) =

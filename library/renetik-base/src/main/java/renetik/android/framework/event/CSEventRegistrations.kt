@@ -1,7 +1,7 @@
 package renetik.android.framework.event
 
-import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.collections.putAll
+import renetik.kotlin.collections.list
+import renetik.kotlin.collections.putAll
 
 class CSEventRegistrations() {
 

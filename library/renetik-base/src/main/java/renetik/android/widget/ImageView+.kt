@@ -8,7 +8,7 @@ import androidx.annotation.DrawableRes
 import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.java.extensions.later
+import renetik.kotlin.later
 import renetik.android.framework.task.CSBackground.background
 import java.io.File
 

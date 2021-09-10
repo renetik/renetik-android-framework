@@ -10,7 +10,7 @@ import renetik.android.controller.base.numberPicker
 import renetik.android.controller.base.textView
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.java.extensions.collections.index
+import renetik.kotlin.collections.index
 import renetik.android.widget.circulate
 import renetik.android.widget.disableTextEditing
 import renetik.android.widget.loadData

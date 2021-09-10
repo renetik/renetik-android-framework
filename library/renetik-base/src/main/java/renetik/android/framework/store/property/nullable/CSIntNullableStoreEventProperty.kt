@@ -1,7 +1,6 @@
 package renetik.android.framework.store.property.nullable
 
 import renetik.android.framework.store.CSStoreInterface
-import renetik.android.framework.store.property.value.CSValueStoreEventProperty
 
 class CSIntNullableStoreEventProperty(
     store: CSStoreInterface, key: String, default: Int?,

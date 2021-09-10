@@ -2,7 +2,7 @@ package renetik.android.framework.store.property.preset
 
 import renetik.android.framework.lang.CSId
 import renetik.android.framework.store.CSStoreInterface
-import renetik.android.java.extensions.toId
+import renetik.kotlin.toId
 
 class CSListStoreEventProperty<T : CSId>(
     store: CSStoreInterface, key: String,

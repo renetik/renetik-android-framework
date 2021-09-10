@@ -5,9 +5,9 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.json.JSONTokener
 import renetik.android.framework.common.catchWarnReturnNull
-import renetik.android.java.extensions.asString
-import renetik.android.java.extensions.collections.linkedMap
-import renetik.android.java.extensions.collections.list
+import renetik.kotlin.asString
+import renetik.kotlin.collections.linkedMap
+import renetik.kotlin.collections.list
 
 fun String.parseJsonMap() = parseJson<MutableMap<String, Any?>>()
 

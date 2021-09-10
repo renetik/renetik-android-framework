@@ -9,7 +9,7 @@ import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.framework.lang.CSValue
-import renetik.android.java.extensions.asString
+import renetik.kotlin.asString
 import renetik.android.primitives.isSet
 import renetik.android.framework.view.adapter.CSTextWatcherAdapter
 import renetik.android.view.extensions.shownIf

@@ -17,8 +17,8 @@ import renetik.android.content.applicationLogo
 import renetik.android.content.attributeColor
 import renetik.android.content.inflate
 import renetik.android.framework.CSContext
-import renetik.android.java.extensions.asString
-import renetik.android.java.extensions.notNull
+import renetik.kotlin.asString
+import renetik.kotlin.notNull
 import renetik.android.primitives.isSet
 import renetik.android.view.button
 import renetik.android.view.extensions.*

@@ -1,8 +1,8 @@
 package renetik.android.framework.task
 
-import renetik.android.java.extensions.collections.deleteLast
-import renetik.android.java.extensions.collections.hasItems
-import renetik.android.java.extensions.collections.list
+import renetik.kotlin.collections.deleteLast
+import renetik.kotlin.collections.hasItems
+import renetik.kotlin.collections.list
 import renetik.android.framework.task.CSDoLaterObject.later
 
 class CSRunConsolidator(private val miliseconds: Int) {

@@ -13,7 +13,7 @@ import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEventRegistration
-import renetik.android.java.extensions.notNull
+import renetik.kotlin.notNull
 import java.util.*
 
 private val LOW_DPI_STATUS_BAR_HEIGHT = 19

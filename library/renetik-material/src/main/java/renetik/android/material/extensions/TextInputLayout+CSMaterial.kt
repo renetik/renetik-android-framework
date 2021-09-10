@@ -18,8 +18,8 @@ import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
 import renetik.android.R
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.java.extensions.notNull
-import renetik.android.java.extensions.privateField
+import renetik.kotlin.notNull
+import renetik.kotlin.privateField
 import renetik.android.primitives.isSet
 import renetik.android.view.extensions.*
 import renetik.android.view.propertyWithTag

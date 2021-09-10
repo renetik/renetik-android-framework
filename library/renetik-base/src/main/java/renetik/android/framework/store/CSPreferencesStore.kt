@@ -4,9 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import renetik.android.framework.CSContext
 import renetik.android.framework.common.catchAllWarnReturnNull
-import renetik.android.framework.json.CSJsonListInterface
-import renetik.android.framework.json.CSJsonMapInterface
+import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.extensions.createJsonObject
+import renetik.android.framework.json.extensions.createJsonObjectList
+import renetik.android.framework.json.parseJson
+import renetik.android.framework.json.parseJsonList
+import renetik.android.framework.json.parseJsonMap
 import renetik.android.framework.json.toJsonString
+import kotlin.reflect.KClass
 
 class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
 
@@ -23,22 +28,37 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
         editor.apply()
     }
 
+    override fun has(key: String) = preferences.contains(key)
+
     override fun save(key: String, value: String?) = value?.let {
         val editor = preferences.edit()
         editor.putString(key, it)
         editor.apply()
     } ?: clear(key)
 
-    override fun save(key: String, value: Map<String, *>) = save(key, value.toJsonString())
-    override fun save(key: String, value: Array<*>) = save(key, value.toJsonString())
-    override fun save(key: String, value: List<*>) = save(key, value.toJsonString())
-    override fun save(key: String, value: CSJsonMapInterface) = save(key, value.toJsonString())
-    override fun save(key: String, value: CSJsonListInterface) = save(key, value.toJsonString())
-
     override fun get(key: String): String? =
         catchAllWarnReturnNull { preferences.getString(key, null) }
 
-    override fun has(key: String) = preferences.contains(key)
+    override fun save(key: String, value: Map<String, *>?) = save(key, value?.toJsonString())
+    override fun getMap(key: String): Map<String, *>? = get(key)?.parseJson<Map<String, *>>()
+
+    // TODO Array can be retrieved and save by using list functions in extensions
+    override fun save(key: String, value: Array<*>?) = save(key, value?.toJsonString())
+    override fun getArray(key: String): Array<*>? = get(key)?.parseJson<List<*>>()?.toTypedArray()
+
+    override fun save(key: String, value: List<*>?) = save(key, value?.toJsonString())
+    override fun getList(key: String): List<*>? = get(key)?.parseJson<List<*>>()
+
+    @Suppress("unchecked_cast")
+    override fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>) =
+        (get(key)?.parseJsonList() as? List<MutableMap<String, Any?>>)
+            ?.let { type.createJsonObjectList(it) }
+
+    override fun <T : CSJsonObject> save(key: String, jsonObject: T?) =
+        save(key, jsonObject?.toJsonString())
+
+    override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>) =
+        get(key)?.parseJsonMap()?.let { type.createJsonObject(it) }
 
     override fun load(store: CSStoreInterface): Unit = with(preferences.edit()) {
         loadAll(store)

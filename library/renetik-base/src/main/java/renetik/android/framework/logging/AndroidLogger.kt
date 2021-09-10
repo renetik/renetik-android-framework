@@ -8,8 +8,8 @@ import renetik.android.framework.CSContext
 import renetik.android.framework.lang.CSDataConstants.MB
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
-import renetik.android.java.extensions.*
 import renetik.android.framework.logging.CSLogEventType.*
+import renetik.kotlin.notNull
 import renetik.kotlin.text.add
 import renetik.kotlin.text.addLine
 import renetik.kotlin.text.addSpace

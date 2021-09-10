@@ -18,9 +18,9 @@ import renetik.android.controller.extensions.snackBarWarn
 import renetik.android.controller.extensions.startActivityForResult
 import renetik.android.imaging.extensions.resizeImage
 import renetik.android.framework.common.catchAllError
-import renetik.android.java.extensions.collections.list
+import renetik.kotlin.collections.list
 import renetik.java.io.createDatedFile
-import renetik.android.java.extensions.later
+import renetik.kotlin.later
 import renetik.android.framework.task.CSBackground.background
 import java.io.File
 

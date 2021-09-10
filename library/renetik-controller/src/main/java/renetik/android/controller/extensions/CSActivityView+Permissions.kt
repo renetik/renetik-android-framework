@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.math.CSMath.randomInt
-import renetik.android.java.extensions.collections.list
+import renetik.kotlin.collections.list
 import renetik.android.primitives.isSet
 
 fun CSActivityView<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {

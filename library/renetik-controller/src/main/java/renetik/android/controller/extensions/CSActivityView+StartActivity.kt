@@ -7,7 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSActivityView
-import renetik.android.java.extensions.later
+import renetik.kotlin.later
 import renetik.android.framework.logging.CSLog.logWarn
 import renetik.android.primitives.random
 

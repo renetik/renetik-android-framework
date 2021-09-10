@@ -1,6 +1,5 @@
 package renetik.android.framework.view.touch
 
-
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
@@ -9,9 +8,12 @@ import renetik.android.framework.event.event
 import renetik.android.framework.logging.CSLog.logInfo
 import java.lang.Math.abs
 
-const val MIN_DISTANCE = 70
-
 class CSSwipeDetector() : View.OnTouchListener {
+
+    companion object {
+        const val MIN_DISTANCE = 70
+    }
+
     private var downX = 0F
     private var downY = 0F
     private var upX = 0F

@@ -13,10 +13,10 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.java.extensions.collections.deleteLast
-import renetik.android.java.extensions.collections.hasKey
+import renetik.kotlin.collections.deleteLast
+import renetik.kotlin.collections.hasKey
 import renetik.kotlin.exception
-import renetik.android.java.extensions.notNull
+import renetik.kotlin.notNull
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isSet
 

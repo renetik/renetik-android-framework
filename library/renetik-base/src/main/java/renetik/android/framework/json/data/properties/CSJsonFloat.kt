@@ -1,9 +1,9 @@
 package renetik.android.framework.json.data.properties
 
 import renetik.android.framework.lang.CSProperty
-import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonObject
 
-class CSJsonFloat(val data: CSJsonMapStore, private val key: String) : CSProperty<Float> {
+class CSJsonFloat(val data: CSJsonObject, private val key: String) : CSProperty<Float> {
     var float: Float?
         get() = data.getDouble(key)?.toFloat()
         set(value) {

@@ -1,15 +1,13 @@
 package renetik.android.framework.json.store
 
-import renetik.android.framework.store.CSStoreInterface
-import renetik.android.java.extensions.runIf
-import renetik.android.framework.json.CSJsonListInterface
-import renetik.android.framework.json.CSJsonMapInterface
-import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.parseJsonMap
 import renetik.android.framework.json.toJsonString
+import renetik.android.framework.store.CSStoreInterface
+import renetik.kotlin.runIf
 
 abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
-    : CSJsonMapStore() {
+    : CSJsonObject() {
 
     override val data by lazy { load() }
 
@@ -31,28 +29,23 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
         save()
     }
 
-    override fun save(key: String, value: Map<String, *>) {
+    override fun save(key: String, value: Map<String, *>?) {
         super.save(key, value)
         save()
     }
 
-    override fun save(key: String, value: Array<*>) {
+    override fun save(key: String, value: Array<*>?) {
         super.save(key, value)
         save()
     }
 
-    override fun save(key: String, value: List<*>) {
+    override fun save(key: String, value: List<*>?) {
         super.save(key, value)
         save()
     }
 
-    override fun save(key: String, value: CSJsonMapInterface) {
-        super.save(key, value)
-        save()
-    }
-
-    override fun save(key: String, value: CSJsonListInterface) {
-        super.save(key, value)
+    override fun <T : CSJsonObject> save(key: String, jsonObject: T?) {
+        super.save(key, jsonObject)
         save()
     }
 

@@ -1,6 +1,6 @@
 package renetik.android.framework.lang
 
-import renetik.android.java.extensions.asString
+import renetik.kotlin.asString
 
 interface CSProperty<T> : CSValue<T> {
     override var value: T

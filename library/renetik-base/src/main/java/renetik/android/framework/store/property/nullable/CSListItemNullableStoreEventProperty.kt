@@ -2,7 +2,7 @@ package renetik.android.framework.store.property.nullable
 
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.getValue
-import renetik.android.java.extensions.toId
+import renetik.kotlin.toId
 
 class CSListItemNullableStoreEventProperty<T>(
     store: CSStoreInterface, key: String,

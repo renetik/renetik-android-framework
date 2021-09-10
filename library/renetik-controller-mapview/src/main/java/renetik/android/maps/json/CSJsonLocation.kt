@@ -2,13 +2,12 @@ package renetik.android.maps.json
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.framework.store.getList
-import renetik.android.java.extensions.collections.list
-import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.kotlin.collections.list
+import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.maps.extensions.asLatLng
 
 @Suppress("unchecked_cast")
-class CSJsonLocation(val data: CSJsonMapStore, private val key: String) {
+class CSJsonLocation(val data: CSJsonObject, private val key: String) {
     var latLng: LatLng?
         get() = (data.getList(key) as? List<Double>)?.let { LatLng(it[0], it[1]) }
         set(latLng) {

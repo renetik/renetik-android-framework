@@ -1,26 +1,21 @@
 package  renetik.android.framework.json.extensions
 
-import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.collections.putAll
-import renetik.android.java.extensions.notNull
 import renetik.android.framework.json.data.CSJsonList
-import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonObject
+import renetik.kotlin.collections.list
+import renetik.kotlin.notNull
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
-fun <T : CSJsonMapStore> KClass<T>.createJsonMap(map: Map<String, Any?>?) =
+fun <T : CSJsonObject> KClass<T>.createJsonObject(map: Map<String, Any?>?) =
     createInstance().apply { map.notNull { load(it) } }
 
 fun <T : CSJsonList> KClass<T>.createJsonList(list: List<Any?>?) =
     createInstance().apply { list.notNull { load(it) } }
 
-fun <T : CSJsonMapStore> KClass<T>.createJsonDataList(
-    data: List<MutableMap<String, Any?>>?,
-    defaultDataList: (List<T>)? = null
-): MutableList<T> = list<T>().also { dataList ->
-    if (data != null)
-        data.withIndex().forEach { (index, map) ->
-            dataList.put(createJsonMap(map)).index = index
-        }
-    else defaultDataList?.let { dataList.putAll(defaultDataList) }
+fun <T : CSJsonObject> KClass<T>.createJsonObjectList(data: List<Map<String, Any?>>?)
+        : MutableList<T> = list<T>().also { dataList ->
+    data?.withIndex()?.forEach { (index, map) ->
+        dataList.put(createJsonObject(map)).index = index
+    }
 }

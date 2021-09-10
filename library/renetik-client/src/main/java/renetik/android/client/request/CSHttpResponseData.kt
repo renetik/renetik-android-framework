@@ -1,13 +1,11 @@
 package renetik.android.client.request
 
-import renetik.android.framework.store.getMap
 import renetik.android.framework.json.data.CSJsonList
-import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.data.properties.CSJsonBoolean
-import renetik.android.framework.json.data.properties.CSJsonDataList
 import renetik.android.framework.json.data.properties.CSJsonInt
 import renetik.android.framework.json.data.properties.CSJsonString
-import renetik.android.framework.json.extensions.createJsonMap
+import renetik.android.framework.json.extensions.createJsonObject
 import renetik.android.framework.json.parseJsonList
 import renetik.android.framework.json.parseJsonMap
 import kotlin.reflect.KClass
@@ -20,7 +18,7 @@ interface CSHttpResponseData {
 
 const val PARSING_FAILED = "Parsing data as json failed"
 
-open class CSServerMapData : CSJsonMapStore(), CSHttpResponseData {
+open class CSServerMapData : CSJsonObject(), CSHttpResponseData {
     var code: Int? = null
 
     override fun onHttpResponse(code: Int, message: String, content: String?) {
@@ -49,19 +47,11 @@ open class CSServerListData : CSJsonList(), CSHttpResponseData {
     override val message: String? get() = _message
 }
 
-class CSValueServerData<ValueType : CSJsonMapStore>(key: String, kClass: KClass<ValueType>) :
+class CSValueServerData<ValueType : CSJsonObject>(key: String, kClass: KClass<ValueType>) :
     CSServerMapData() {
     constructor(kClass: KClass<ValueType>) : this("value", kClass)
 
-    val value: ValueType by lazy { kClass.createJsonMap(getMap(key)) }
-}
-
-class CSListServerData<ListItem : CSJsonMapStore>(key: String, kClass: KClass<ListItem>) :
-    CSServerMapData() {
-    constructor(kClass: KClass<ListItem>) : this("list", kClass)
-
-    private val property = CSJsonDataList(this, kClass, key)
-    val list get() = property.list
+    val value: ValueType by lazy { kClass.createJsonObject(getMap(key)) }
 }
 
 class CSStringServerData(key: String) : CSServerMapData() {

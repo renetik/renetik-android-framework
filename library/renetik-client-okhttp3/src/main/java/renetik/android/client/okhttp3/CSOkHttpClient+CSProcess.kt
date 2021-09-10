@@ -9,8 +9,8 @@ import renetik.android.client.request.CSOperation
 import renetik.android.content.isNetworkConnected
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.lang.CSTimeConstants.Minute
-import renetik.android.java.extensions.notNull
-import renetik.android.framework.json.data.CSJsonMapStore
+import renetik.kotlin.notNull
+import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.data.toJsonObject
 import renetik.android.framework.json.toJSONArray
 import renetik.android.framework.json.toJSONObject
@@ -93,7 +93,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.postJson(
 }
 
 fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
-    url: String, data: CSJsonMapStore, responseData: ResponseData
+    url: String, data: CSJsonObject, responseData: ResponseData
 ) = CSHttpProcess("${this.url}/$url", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONObjectBody(data.toJsonObject()).build()
     logInfo("post ${request.url}")

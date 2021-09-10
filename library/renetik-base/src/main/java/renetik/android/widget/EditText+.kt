@@ -9,7 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.java.extensions.asString
+import renetik.kotlin.asString
 import renetik.android.primitives.isEmpty
 import renetik.android.view.propertyWithTag
 

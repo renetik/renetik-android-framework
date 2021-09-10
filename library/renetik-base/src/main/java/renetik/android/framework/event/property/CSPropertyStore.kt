@@ -3,7 +3,7 @@ package renetik.android.framework.event.property
 import renetik.android.framework.lang.CSId
 import renetik.android.framework.store.property.preset.CSListStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
-import renetik.android.framework.store.property.value.CSListItemValueStoreEventProperty
+import renetik.android.framework.store.property.preset.CSListItemValueStoreEventProperty
 
 interface CSPropertyStoreInterface {
     fun property(

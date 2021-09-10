@@ -1,7 +1,7 @@
 package renetik.android.widget
 
 import android.widget.AbsListView
-import renetik.android.java.extensions.later
+import renetik.kotlin.later
 
 fun AbsListView.scrollToIndex(index: Int, duration: Int = 100) {
     smoothScrollToPositionFromTop(index, 0, duration)

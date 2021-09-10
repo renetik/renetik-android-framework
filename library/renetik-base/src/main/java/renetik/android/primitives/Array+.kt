@@ -1,6 +1,6 @@
 package renetik.android.primitives
 
-import renetik.android.java.extensions.asString
+import renetik.kotlin.asString
 
 inline fun <reified T> array(size: Int, default: T) = array(size) { _ -> default }
 inline fun <reified T> array(size: Int, noinline create: (index: Int) -> T) = Array(size, create)

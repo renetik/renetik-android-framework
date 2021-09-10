@@ -5,7 +5,7 @@ import renetik.android.framework.common.catchWarnReturnNull
 import renetik.kotlin.text.StringBuilder
 import renetik.kotlin.text.add
 import renetik.kotlin.text.deleteLast
-import renetik.android.java.extensions.notNull
+import renetik.kotlin.notNull
 import java.nio.charset.StandardCharsets
 import java.text.Normalizer
 import java.util.*

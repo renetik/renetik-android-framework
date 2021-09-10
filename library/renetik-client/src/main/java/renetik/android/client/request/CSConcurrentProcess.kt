@@ -1,9 +1,9 @@
 package renetik.android.client.request
 
-import renetik.android.java.extensions.collections.isEmpty
-import renetik.android.java.extensions.collections.list
-import renetik.android.java.extensions.collections.put
-import renetik.android.java.extensions.collections.putAll
+import renetik.kotlin.collections.isEmpty
+import renetik.kotlin.collections.list
+import renetik.kotlin.collections.put
+import renetik.kotlin.collections.putAll
 
 open class CSConcurrentProcess<T : Any>(data: MutableList<T>) : CSProcess<List<T>>(data) {
 

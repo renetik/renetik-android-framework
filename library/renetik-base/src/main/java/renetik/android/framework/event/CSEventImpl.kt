@@ -1,7 +1,7 @@
 package renetik.android.framework.event
 
-import renetik.android.java.extensions.collections.hasItems
-import renetik.android.java.extensions.collections.list
+import renetik.kotlin.collections.hasItems
+import renetik.kotlin.collections.list
 import renetik.kotlin.exception
 import renetik.android.framework.logging.CSLog.logError
 
