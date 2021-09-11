@@ -30,7 +30,6 @@ fun <T> List<T>.hasAll(items: Array<out T>): Boolean = containsAll(items.asList(
 fun <T> List<T>.hasAll(items: Iterable<T>): Boolean = containsAll(items.toList())
 
 
-
 fun <T> List<T>.second() = this[1]
 
 fun <T> List<T>.third() = this[2]
@@ -52,12 +51,18 @@ fun <T> list(block: (MutableList<T>.() -> Unit)? = null): CSList<T> =
 
 fun <T> list(size: Int): MutableList<T> = ArrayList(size)
 fun <T> listOfNulls(size: Int) = list<T?>(size, null)
-fun <T> list(size: Int, default: T) = list(size) { default }
+fun <T> list(size: Int, default: T) = MutableList(size) { default }
 fun <T> list(size: Int, init: (index: Int) -> T) = MutableList(size, init)
 fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
 fun <T> list(items: Iterable<T>): MutableList<T> = list<T>().putAll(items)
 fun <T> list(vararg items: Iterable<T>): MutableList<T> = list<T>().also {
     for (iterable in items) it.addAll(iterable)
+}
+
+inline fun <reified T> list(
+    size: Int, create: (index: Int, previous: T?, size: Int) -> T): List<T> {
+    var previous: T? = null
+    return List(size) { index -> create(index, previous, size).apply { previous = this } }
 }
 
 
