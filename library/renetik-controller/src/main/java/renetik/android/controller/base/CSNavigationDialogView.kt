@@ -20,7 +20,10 @@ import renetik.android.framework.event.fire
 import renetik.android.framework.event.listenOnce
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.view.extensions.*
+import renetik.android.view.extensions.add
+import renetik.android.view.extensions.backgroundColor
+import renetik.android.view.extensions.hasSize
+import renetik.android.view.extensions.locationOnScreen
 import renetik.android.view.onClick
 
 enum class DialogAnimation {
@@ -32,6 +35,7 @@ open class CSNavigationDialogView<ViewType : View>(
     : CSActivityView<FrameLayout>(parent.navigation!!,
     layout(R.layout.cs_frame_match)), CSNavigationItem {
 
+    private var isFullscreen = false
     private var animation = Slide
     private val marginDp = 15
 
@@ -83,6 +87,7 @@ open class CSNavigationDialogView<ViewType : View>(
     }
 
     fun from(fromView: View) = apply {
+        isFullscreen = false
         animation = Fade
         content.updateLayoutParams<LayoutParams> { gravity = START or TOP }
         val fromViewLocation = fromView.locationOnScreen
@@ -102,10 +107,12 @@ open class CSNavigationDialogView<ViewType : View>(
     }
 
     fun center() = apply {
+        isFullscreen = false
         animation = Fade
         content.updateLayoutParams<LayoutParams> { gravity = CENTER }
     }
 
+    // TODO not used .. useful ? not ? remove.
     fun margin(margin: Int) = apply {
         content.updateLayoutParams<LayoutParams> {
             topMargin = dpToPixel(margin)
@@ -116,6 +123,7 @@ open class CSNavigationDialogView<ViewType : View>(
     }
 
     open fun fullScreen() = apply {
+        isFullscreen = true
         animation = Slide
         content.updateLayoutParams<LayoutParams> {
             width = MATCH_PARENT
