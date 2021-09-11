@@ -5,14 +5,13 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.content.drawable
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.framework.lang.CSValue
-import renetik.kotlin.asString
-import renetik.android.primitives.isSet
 import renetik.android.framework.view.adapter.CSTextWatcherAdapter
+import renetik.android.primitives.isSet
 import renetik.android.view.extensions.shownIf
+import renetik.kotlin.asString
 
 fun <T : TextView> T.text(@StringRes resourceId: Int) = apply { setText(resourceId) }
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
@@ -61,11 +60,10 @@ fun <T> TextView.text(
 fun TextView.text(property: CSEventProperty<*>) = text(property) { it.asString }
 
 @JvmName("TextViewTextStringProperty")
-fun TextView.text(property: CSEventProperty<String>
-) = text(property) { it }
+fun TextView.text(property: CSEventProperty<String>) = text(property) { it }
 
 fun <T> TextView.text(property: CSEventProperty<T>,
-                      valueToString: (T) -> CharSequence)
+                      valueToString: (T) -> Any)
         : CSEventRegistration {
     fun updateText() = text(valueToString(property.value))
     updateText()

@@ -47,4 +47,6 @@ abstract class CSValueStoreEventProperty<T>(
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
     }
+
+    override fun toString() = value.toString()
 }

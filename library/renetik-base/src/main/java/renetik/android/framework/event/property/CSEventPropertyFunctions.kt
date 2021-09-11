@@ -2,10 +2,14 @@ package renetik.android.framework.event.property
 
 import renetik.android.framework.CSApplication.Companion.application
 
+//TODO move to CSEventProperty Companion
 object CSEventPropertyFunctions {
 
-    fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null): CSEventProperty<T> =
+    fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null) =
         CSEventPropertyImpl(value, onApply)
+
+    fun <T> lateProperty(onApply: ((value: T) -> Unit)? = null) =
+        CSLateEventProperty(onApply)
 
     fun <T> property(onApply: ((value: T?) -> Unit)? = null): CSEventProperty<T?> =
         CSEventPropertyImpl(null, onApply)
