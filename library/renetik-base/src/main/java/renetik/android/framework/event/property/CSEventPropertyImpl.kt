@@ -1,6 +1,7 @@
 package renetik.android.framework.event.property
 
-class CSEventPropertyImpl<T>(value: T, onApply: ((value: T) -> Unit)? = null) :
+class CSEventPropertyImpl<T>(
+    value: T, onApply: ((value: T) -> Unit)? = null) :
     CSEventPropertyBase<T>(onApply) {
 
     private var _value: T = value
@@ -19,3 +20,4 @@ class CSEventPropertyImpl<T>(value: T, onApply: ((value: T) -> Unit)? = null) :
             value(value)
         }
 }
+

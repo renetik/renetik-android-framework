@@ -8,10 +8,13 @@ object CSEventPropertyFunctions {
     fun <T> property(value: T, onApply: ((value: T) -> Unit)? = null) =
         CSEventPropertyImpl(value, onApply)
 
+    fun <T> synchronizedProperty(value: T, onApply: ((value: T) -> Unit)? = null) =
+        CSSynchronizedEventPropertyImpl(value, onApply)
+
     fun <T> lateProperty(onApply: ((value: T) -> Unit)? = null) =
         CSLateEventProperty(onApply)
 
-    fun <T> property(onApply: ((value: T?) -> Unit)? = null): CSEventProperty<T?> =
+    fun <T> nullableProperty(onApply: ((value: T?) -> Unit)? = null): CSEventProperty<T?> =
         CSEventPropertyImpl(null, onApply)
 
     fun property(key: String, default: String,
