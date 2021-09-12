@@ -1,10 +1,12 @@
 package renetik.java.util
 
+import renetik.android.framework.common.catchAllError
 import renetik.android.framework.util.CSHandler.post
 import java.util.*
+import kotlin.concurrent.timerTask
 
 object CSTimer {
-    private var timer = Timer()
+    private val timer = Timer()
 
     fun scheduleAtFixedRateRunOnUI(delay: Long = 0, period: Long, function: () -> Unit) =
         scheduleAtFixedRate(delay, period) { post(function) }
@@ -12,37 +14,26 @@ object CSTimer {
     fun scheduleAtFixedRate(delay: Long = 0, period: Long, function: () -> Unit) =
         timer.scheduleAtFixedRate(delay, period, function)
 
-    fun scheduleRunOnUI(delay: Long, function: () -> Unit) =
+    fun scheduleRunOnUI(delay: Long = 0, function: () -> Unit) =
         schedule(delay) { post(function) }
 
-    fun schedule(delay: Long, function: () -> Unit) =
+    fun schedule(delay: Long = 0, function: () -> Unit) =
         timer.schedule(delay, function)
-
-    fun cancel() {
-        timer.cancel()
-        timer = Timer()
-    }
 }
 
 fun Timer.scheduleAtFixedRateRunOnUI(delay: Long = 0, period: Long, function: () -> Unit) =
     scheduleAtFixedRate(delay, period) { post(function) }
 
-fun Timer.scheduleAtFixedRate(delay: Long = 0, period: Long, function: () -> Unit): TimerTask {
-    val task = object : TimerTask() {
-        override fun run() {
-            function()
-        }
-    }
+inline fun Timer.scheduleAtFixedRate(delay: Long = 0, period: Long,
+                                     crossinline function: () -> Unit): TimerTask {
+    val task = timerTask { catchAllError { function() } }
     scheduleAtFixedRate(task, delay, period)
     return task
 }
 
-fun Timer.schedule(delay: Long = 0, function: () -> Unit): TimerTask {
-    val task = object : TimerTask() {
-        override fun run() {
-            function()
-        }
-    }
+inline fun Timer.schedule(delay: Long = 0,
+                          crossinline function: () -> Unit): TimerTask {
+    val task = timerTask { catchAllError { function() } }
     schedule(task, delay)
     return task
 }

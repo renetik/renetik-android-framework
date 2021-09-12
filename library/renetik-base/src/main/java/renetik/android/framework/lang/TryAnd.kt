@@ -75,7 +75,7 @@ inline fun <reified ExceptionType : Throwable> catchError(tryFunction: () -> Uni
 
 inline fun <ReturnType>
         catchAllErrorReturn(onExceptionReturn: ReturnType, tryFunction: () -> ReturnType) =
-    catchErrorReturn<ReturnType, Exception>(tryFunction, { onExceptionReturn })
+    catchErrorReturn<ReturnType, Throwable>(tryFunction, { onExceptionReturn })
 
 inline fun catchAllError(tryFunction: () -> Unit) = catchAllErrorReturn(Unit, tryFunction)
 
