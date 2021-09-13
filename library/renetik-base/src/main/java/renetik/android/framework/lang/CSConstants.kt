@@ -19,6 +19,6 @@ object CSTimeConstants {
     const val Minute = 60 * Second
     const val Hour = 60 * Minute
     const val Day = 24 * Hour
-//    const val Nanosecond = 1000000
-    fun Int.toNanosecond() = this * 1000000
+    const val MilliToNanoSecondMultiplier = 1000000
+    fun Int.toNanosecond() = this * MilliToNanoSecondMultiplier
 }

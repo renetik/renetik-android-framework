@@ -17,7 +17,9 @@ interface CSListInterface<T> : Iterable<T>, CSSize, Collection<T> {
     }
 }
 
-class CSList<T> : ArrayList<T>(), CSListInterface<T>, MutableCollection<T>, MutableList<T> {
+class CSList<T> : ArrayList<T>, CSListInterface<T>, MutableCollection<T>, MutableList<T> {
+    constructor() : super()
+    constructor(collection: Collection<T>) : super(collection)
 
     override fun put(item: T): T {
         add(item); return item
