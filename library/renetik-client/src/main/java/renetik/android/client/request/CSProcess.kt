@@ -8,7 +8,7 @@ import renetik.kotlin.rootCauseMessage
 import renetik.android.framework.logging.CSLog.logDebug
 import renetik.android.framework.logging.CSLog.logError
 import renetik.android.framework.logging.CSLog.logInfo
-import renetik.android.framework.util.CSSynchronizedProperty.Companion.synchronize
+import renetik.android.framework.util.CSSynchronizedProperty.Companion.synchronized
 
 open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
 
@@ -34,7 +34,7 @@ open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
     var isSuccess = false
     var isFailed = false
     var isDone = false
-    var isCanceled by synchronize(false)
+    var isCanceled by synchronized(false)
     var title: String? = null
     var failedMessage: String? = null
     var failedProcess: CSProcess<*>? = null

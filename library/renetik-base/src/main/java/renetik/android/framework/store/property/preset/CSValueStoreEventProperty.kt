@@ -2,6 +2,7 @@ package renetik.android.framework.store.property.preset
 
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.property.save
 
 abstract class CSValueStoreEventProperty<T>(
     override var store: CSStoreInterface,

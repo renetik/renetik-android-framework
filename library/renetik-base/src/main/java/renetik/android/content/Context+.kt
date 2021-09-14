@@ -14,8 +14,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.res.getDrawableOrThrow
-import renetik.android.content.CSColorInt
-import renetik.android.content.color
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.framework.common.catchWarnReturnNull
@@ -39,12 +37,9 @@ val Context.applicationLogo: Drawable? get() = applicationInfo.loadLogo(packageM
  */
 val Context.applicationIcon: Drawable get() = applicationInfo.loadIcon(packageManager)
 
-@Suppress("UNCHECKED_CAST")
-fun <Type : Any> Context.service(serviceName: String) = getSystemService(serviceName) as Type
-
 val Context.isNetworkConnected
     @SuppressLint("MissingPermission")
-    get() = service<ConnectivityManager>(ContextWrapper.CONNECTIVITY_SERVICE)
+    get() = (getSystemService(ContextWrapper.CONNECTIVITY_SERVICE) as ConnectivityManager)
         .activeNetworkInfo?.isConnected ?: false
 
 @Suppress("DEPRECATION")

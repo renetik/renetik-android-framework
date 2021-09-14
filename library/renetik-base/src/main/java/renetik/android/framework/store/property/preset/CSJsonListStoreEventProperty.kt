@@ -2,6 +2,7 @@ package renetik.android.framework.store.property.preset
 
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.property.save
 import kotlin.reflect.KClass
 
 class CSJsonListStoreEventProperty<T : CSJsonObject>(

@@ -5,8 +5,8 @@ import renetik.android.framework.json.CSJsonMapInterface
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.lang.CSId
 import renetik.android.framework.store.property.late.CSBooleanLateStoreEventProperty
-import renetik.android.framework.store.property.late.CSValuesItemLateStoreEventProperty
 import renetik.android.framework.store.property.late.CSStringLateStoreEventProperty
+import renetik.android.framework.store.property.late.CSValuesItemLateStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSBooleanNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSIntNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
@@ -116,7 +116,5 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     override fun <T> propertyNullListItem(
         key: String, values: List<T>, default: T?, onChange: ((value: T?) -> Unit)?) =
         CSListItemNullableStoreEventProperty(this, key, values, default, onChange)
-
-
 }
 

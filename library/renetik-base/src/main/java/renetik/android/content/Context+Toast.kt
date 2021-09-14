@@ -13,5 +13,5 @@ enum class CSToastLength(val value: Int) {
     LongTime(Toast.LENGTH_LONG), ShortTime(LENGTH_SHORT)
 }
 
-fun Context.toast(text: String, time: CSToastLength = CSToastLength.LongTime) =
+fun Context.toast(text: String, time: CSToastLength = CSToastLength.ShortTime) =
     Toast.makeText(this, text, time.value).show()

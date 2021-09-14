@@ -2,10 +2,14 @@ package renetik.kotlin.collections
 
 import renetik.android.framework.common.catchAllWarnReturnNull
 
-fun <T, ListType : MutableList<T>> ListType.put(item: T) = item.apply { add(item) }
-fun <T, ListType : MutableList<T>> ListType.putAll(items: Iterable<T>) = apply { addAll(items) }
+fun <T, ListType : MutableList<T>> ListType.put(item: T) =
+    item.apply { add(item) }
 
-fun <T, ListType : MutableList<T>> ListType.putAll(vararg items: T) = apply { addAll(items) }
+fun <T, ListType : MutableList<T>> ListType.putAll(items: Iterable<T>) =
+    apply { addAll(items) }
+
+fun <T, ListType : MutableList<T>> ListType.putAll(vararg items: T) =
+    apply { addAll(items) }
 
 fun <T, ListType : MutableList<T>> ListType.putAllDistinct(items: List<T>) =
     apply { items.forEach { putIfDistinct(it) } }
@@ -19,7 +23,9 @@ fun <T, ListType : MutableList<T>> ListType.put(item: T, index: Int) =
 fun <T, ListType : MutableList<T>> ListType.replace(item: T, index: Int) =
     item.apply { set(index, item) }
 
-fun <T, ListType : MutableList<T>> ListType.reload(values: Iterable<T>) = deleteAll().putAll(values)
+fun <T, ListType : MutableList<T>> ListType.reload(values: Iterable<T>) =
+    deleteAll().putAll(values)
+
 fun <T, ListType : MutableList<T>> ListType.delete(item: T) = item.also { remove(it) }
 
 fun <T, ListType : MutableList<T>> ListType.delete(index: Int): T? =

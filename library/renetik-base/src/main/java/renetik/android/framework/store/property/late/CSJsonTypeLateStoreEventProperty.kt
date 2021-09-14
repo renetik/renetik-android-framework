@@ -8,7 +8,7 @@ class CSJsonTypeLateStoreEventProperty<T : CSJsonObject>(
     override val store: CSStoreInterface,
     override val key: String, val type: KClass<T>,
     onChange: ((value: T) -> Unit)? = null)
-    : CSLateStoreEventProperty2<T>(store, key, onChange) {
+    : CSLateStoreEventProperty<T>(store, key, onChange) {
     override fun load(): T? = store.getJsonObject(key, type)
-    override fun save(value: T) = store.save(key, value)
+    override fun save(store: CSStoreInterface, value: T) = store.save(key, value)
 }

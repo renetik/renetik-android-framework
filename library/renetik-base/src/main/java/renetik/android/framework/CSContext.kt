@@ -8,7 +8,6 @@ import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import renetik.android.content.service
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.*
@@ -44,7 +43,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
             return level / scale.toFloat()
         }
 
-    private val defaultDisplay get() = service<WindowManager>(WINDOW_SERVICE).defaultDisplay
+    private val defaultDisplay get() = (getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay
 
     @Suppress("DEPRECATION")
     val displayWidth
@@ -76,7 +75,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
 
     fun isServiceRunning(serviceClass: Class<out Service>): Boolean {
         @Suppress("DEPRECATION")
-        for (running in service<ActivityManager>(Context.ACTIVITY_SERVICE).getRunningServices(
+        for (running in (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).getRunningServices(
             Integer.MAX_VALUE))
             if (serviceClass.name == running.service.className) return true
         return false

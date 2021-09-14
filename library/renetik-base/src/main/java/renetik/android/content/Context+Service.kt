@@ -9,8 +9,8 @@ import android.os.Build
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 
-val Context.bluetooth: BluetoothManager get() = service(BLUETOOTH_SERVICE)
-val Context.input: InputMethodManager get() = service(Context.INPUT_METHOD_SERVICE)
+val Context.bluetooth: BluetoothManager get() = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
+val Context.input: InputMethodManager get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 val Context.midi: MidiManager
-    @RequiresApi(Build.VERSION_CODES.M) get() = service(MIDI_SERVICE)
+    @RequiresApi(Build.VERSION_CODES.M) get() = getSystemService(MIDI_SERVICE) as MidiManager
 

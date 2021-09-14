@@ -3,6 +3,7 @@ package renetik.android.framework.store.property.nullable
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.preset.CSPresetStoreEventProperty
+import renetik.android.framework.store.property.save
 
 abstract class CSNullableStoreEventProperty<T>(
     override var store: CSStoreInterface,
