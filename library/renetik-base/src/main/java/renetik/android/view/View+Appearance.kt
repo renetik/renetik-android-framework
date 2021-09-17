@@ -68,6 +68,8 @@ fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
     setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
 }
 
+fun View.enabledByAlphaIf(condition: Boolean) = disabledByAlphaIf(!condition)
+
 fun View.disabledByAlphaIf(condition: Boolean) {
     disabledIf(condition)
     alpha = if (condition) context.attributeFloat(android.R.attr.disabledAlpha) else 1F
