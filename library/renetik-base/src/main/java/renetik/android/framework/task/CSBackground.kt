@@ -22,7 +22,7 @@ object CSBackground {
         scheduleAtFixedRate(delay = delay, period = period, function = function)
 
     fun backgroundRepeat(period: Long, function: () -> Unit) =
-        scheduleAtFixedRate(delay = 0, period = period, function = function)
+        scheduleAtFixedRate(delay = period, period = period, function = function)
 
 
 //    val backgroundHandler: Handler by lazy { Handler(backgroundThread.looper) }
