@@ -3,7 +3,7 @@ package renetik.android.framework.event
 import renetik.kotlin.collections.hasItems
 import renetik.kotlin.collections.list
 import renetik.kotlin.exception
-import renetik.android.framework.logging.CSLog.logError
+import renetik.android.framework.logging.CSLog.error
 
 class CSEventImpl<T> : CSEvent<T> {
 
@@ -22,7 +22,7 @@ class CSEventImpl<T> : CSEvent<T> {
 
     override fun fire(argument: T) {
         if (running)
-            logError(exception("Event run while running"))
+            error(exception("Event run while running"))
         if (listeners.isEmpty()) return
         running = true
         for (listener in listeners) listener.onEvent(argument)
@@ -62,7 +62,7 @@ class CSEventImpl<T> : CSEvent<T> {
         if (index >= 0) {
             if (running) toRemove.add(listener)
             else listeners.removeAt(index)
-        } else logError("Listener not found")
+        } else error("Listener not found")
     }
 
     override val registrations get() = listeners

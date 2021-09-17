@@ -8,7 +8,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSActivityView
 import renetik.kotlin.later
-import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.framework.logging.CSLog.warn
 import renetik.android.primitives.random
 
 fun CSActivityView<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
@@ -114,7 +114,7 @@ fun <T : CSActivityView<*>> T.startActivityForUriAndType(
     try {
         startActivity(intent)
     } catch (exception: ActivityNotFoundException) {
-        logWarn(exception)
+        warn(exception)
         onActivityNotFound?.invoke(exception)
     }
 }

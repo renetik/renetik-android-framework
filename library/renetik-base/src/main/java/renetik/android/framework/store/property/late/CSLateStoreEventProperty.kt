@@ -36,4 +36,6 @@ abstract class CSLateStoreEventProperty<T>(
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
     }
+
+    val isNotInitialized get() = _value == null
 }

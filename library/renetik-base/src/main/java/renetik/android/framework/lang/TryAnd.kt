@@ -1,8 +1,8 @@
 package renetik.android.framework.common
 
 import renetik.android.framework.Func
-import renetik.android.framework.logging.CSLog.logError
-import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.framework.logging.CSLog.error
+import renetik.android.framework.logging.CSLog.warn
 
 inline fun <ReturnType> catchReturn(
     tryFunction: () -> ReturnType, onExceptionReturn: (Throwable) -> ReturnType
@@ -24,7 +24,7 @@ inline fun <reified ExceptionType : Throwable, ReturnType> catchWarnReturn(
         tryFunction()
     } catch (e: Throwable) {
         if (e is ExceptionType) {
-            logWarn(e, message)
+            warn(e, message)
             onExceptionReturn(e)
         } else throw e
     }
@@ -59,7 +59,7 @@ inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturn(
         tryFunction()
     } catch (e: Throwable) {
         if (e is ExceptionType) {
-            logError(e)
+            error(e)
             onExceptionReturn(e)
         } else throw e
     }

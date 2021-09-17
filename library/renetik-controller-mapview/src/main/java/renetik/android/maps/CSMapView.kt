@@ -11,7 +11,7 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.dialog
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
-import renetik.android.framework.logging.CSLog.logError
+import renetik.android.framework.logging.CSLog.error
 import renetik.android.maps.extensions.asLatLng
 import kotlin.system.exitProcess
 
@@ -47,7 +47,7 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
         try {
             function()
         } catch (ex: RuntimeException) {
-            logError(ex)
+            error(ex)
             if (ex.message?.contains("API key not found") == true)
                 dialog("Error", ex.message!!).cancelable(false).show {
                     exitProcess(1)

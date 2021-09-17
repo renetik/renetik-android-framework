@@ -9,13 +9,13 @@ class CSSynchronizedProperty<T>(defaultValue: T) : ReadWriteProperty<Any, T> {
         fun <T> synchronized(defaultValue: T) = CSSynchronizedProperty(defaultValue)
     }
 
-    private var backingField = defaultValue
+    private var field = defaultValue
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T {
-        return synchronized(this) { backingField }
+        return synchronized(this) { field }
     }
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
-        synchronized(this) { backingField = value }
+        synchronized(this) { field = value }
     }
 }

@@ -6,8 +6,8 @@ import renetik.android.content.applicationLabel
 import renetik.android.framework.store.CSPreferencesStore
 import renetik.kotlin.exception
 import renetik.android.framework.logging.AndroidLogger
-import renetik.android.framework.logging.CSLog.logInfo
-import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.framework.logging.CSLog.info
+import renetik.android.framework.logging.CSLog.warn
 import renetik.android.framework.logging.CSLogger
 import java.io.File
 
@@ -17,7 +17,7 @@ open class CSApplication : Application() {
     }
 
     open val name: String by lazy { applicationLabel }
-    open val logger: CSLogger by lazy { AndroidLogger() }
+    open val log: CSLogger by lazy { AndroidLogger() }
     open val store: CSPreferencesStore by lazy { CSPreferencesStore("ApplicationSettings") }
     open val externalFilesDir: File
         get() = getExternalFilesDir(null) ?: getExternalStorageDirectory()
@@ -35,12 +35,11 @@ open class CSApplication : Application() {
 
     override fun onLowMemory() {
         super.onLowMemory()
-        logWarn("onLowMemory")
-        logger.onLowMemory()
+        warn("onLowMemory")
     }
 
     override fun onTerminate() {
         super.onTerminate()
-        logInfo("onTerminate")
+        info("onTerminate")
     }
 }

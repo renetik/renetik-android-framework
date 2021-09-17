@@ -3,22 +3,29 @@ package renetik.java.util
 import renetik.android.framework.common.catchAllError
 import renetik.android.framework.util.CSHandler.post
 import java.util.*
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.timerTask
 
 object CSTimer {
-    private val timer = Timer()
+    val executor = Executors.newSingleThreadScheduledExecutor()
+
+//    private val timer = Timer()
 
     fun scheduleAtFixedRateRunOnUI(delay: Long = 0, period: Long, function: () -> Unit) =
         scheduleAtFixedRate(delay, period) { post(function) }
 
     fun scheduleAtFixedRate(delay: Long = 0, period: Long, function: () -> Unit) =
-        timer.scheduleAtFixedRate(delay, period, function)
+        executor.scheduleAtFixedRate(function, period, delay, TimeUnit.MILLISECONDS)
+//    timer.scheduleAtFixedRate(delay, period, function)
 
     fun scheduleRunOnUI(delay: Long = 0, function: () -> Unit) =
         schedule(delay) { post(function) }
 
     fun schedule(delay: Long = 0, function: () -> Unit) =
-        timer.schedule(delay, function)
+        executor.schedule(function, delay, TimeUnit.MILLISECONDS)
+//        executor.scheduleAtFixedRate(function, period, delay, TimeUnit.MILLISECONDS)
+//        timer.schedule(delay, function)
 }
 
 fun Timer.scheduleAtFixedRateRunOnUI(delay: Long = 0, period: Long, function: () -> Unit) =

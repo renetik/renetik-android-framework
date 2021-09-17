@@ -5,7 +5,7 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import renetik.android.framework.event.event
-import renetik.android.framework.logging.CSLog.logInfo
+import renetik.android.framework.logging.CSLog.info
 import java.lang.Math.abs
 
 class CSSwipeDetector() : View.OnTouchListener {
@@ -31,22 +31,22 @@ class CSSwipeDetector() : View.OnTouchListener {
 
     fun onBottomToTopSwipe() {
         eventSwipe.fire(CSSwipeType.BottomToTop)
-        logInfo("SwipeDetector onBottomToTopSwipe!")
+        info("SwipeDetector onBottomToTopSwipe!")
     }
 
     fun onLeftToRightSwipe() {
         eventSwipe.fire(CSSwipeType.LeftToRight)
-        logInfo("SwipeDetector LeftToRightSwipe!")
+        info("SwipeDetector LeftToRightSwipe!")
     }
 
     fun onRightToLeftSwipe() {
         eventSwipe.fire(CSSwipeType.RightToLeft)
-        logInfo("SwipeDetector RightToLeftSwipe!")
+        info("SwipeDetector RightToLeftSwipe!")
     }
 
     fun onTopToBottomSwipe() {
         eventSwipe.fire(CSSwipeType.TopToBottom)
-        logInfo("SwipeDetector onTopToBottomSwipe!")
+        info("SwipeDetector onTopToBottomSwipe!")
     }
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
@@ -75,7 +75,7 @@ class CSSwipeDetector() : View.OnTouchListener {
                         return true
                     }
                 } else
-                    logInfo(
+                    info(
                         "SwipeDetector Swipe was only " + abs(deltaX) + " long, need at least "
                                 + MIN_DISTANCE
                     )
@@ -92,7 +92,7 @@ class CSSwipeDetector() : View.OnTouchListener {
                         return true
                     }
                 } else {
-                    logInfo("Swipe was only " + abs(deltaX) + " long, need at least " + MIN_DISTANCE)
+                    info("Swipe was only " + abs(deltaX) + " long, need at least " + MIN_DISTANCE)
                     view.performClick()
                 }
             }

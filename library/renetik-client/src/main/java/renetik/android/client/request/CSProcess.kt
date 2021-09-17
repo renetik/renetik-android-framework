@@ -5,9 +5,9 @@ import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.kotlin.exception
 import renetik.kotlin.rootCauseMessage
-import renetik.android.framework.logging.CSLog.logDebug
-import renetik.android.framework.logging.CSLog.logError
-import renetik.android.framework.logging.CSLog.logInfo
+import renetik.android.framework.logging.CSLog.debug
+import renetik.android.framework.logging.CSLog.error
+import renetik.android.framework.logging.CSLog.info
 import renetik.android.framework.util.CSSynchronizedProperty.Companion.synchronized
 
 open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
@@ -54,10 +54,10 @@ open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
     }
 
     private fun onSuccessImpl() {
-        logInfo("Response onSuccessImpl", this)
-        if (isFailed) logError(exception("already failed"))
-        if (isSuccess) logError(exception("already success"))
-        if (isDone) logError(exception("already done"))
+        info("Response onSuccessImpl", this)
+        if (isFailed) error(exception("already failed"))
+        if (isSuccess) error(exception("already success"))
+        if (isDone) error(exception("already done"))
         isSuccess = true
         eventSuccess.fire(this)
     }
@@ -83,19 +83,19 @@ open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
     }
 
     private fun onFailedImpl(process: CSProcess<*>) {
-        if (isDone) logError(exception("already done"))
-        if (isFailed) logError(exception("already failed"))
+        if (isDone) error(exception("already done"))
+        if (isFailed) error(exception("already failed"))
         failedProcess = process
         isFailed = true
         failedMessage = (process.failedMessage?.let { "$it, " } ?: "") +
                 process.throwable?.rootCauseMessage
         throwable = process.throwable ?: Throwable()
-        logError(throwable!!, failedMessage)
+        error(throwable!!, failedMessage)
         eventFailed.fire(process)
     }
 
     open fun cancel() {
-        logDebug(
+        debug(
             "Response cancel", this, "isCanceled", isCanceled,
             "isDone", isDone, "isSuccess", isSuccess, "isFailed", isFailed
         )
@@ -106,9 +106,9 @@ open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
     }
 
     private fun onDoneImpl() {
-        logDebug("Response onDone", this)
+        debug("Response onDone", this)
         if (isDone) {
-            logError(exception("already done"))
+            error(exception("already done"))
             return
         }
         isDone = true

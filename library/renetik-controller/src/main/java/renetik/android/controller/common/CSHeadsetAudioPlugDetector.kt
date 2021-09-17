@@ -6,8 +6,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.view.View
 import renetik.android.controller.base.CSActivityView
-import renetik.android.framework.logging.CSLog.logInfo
-import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.framework.logging.CSLog.info
+import renetik.android.framework.logging.CSLog.warn
 
 class CSHeadsetAudioPlugDetector(
     parent: CSActivityView<*>, val onHeadsetPlugChanged: (isPlugged: Boolean) -> Unit)
@@ -29,18 +29,18 @@ class CSHeadsetAudioPlugDetector(
 
     fun onReceive(intent: Intent) {
         if (intent.action == Intent.ACTION_HEADSET_PLUG) {
-            logInfo("ACTION_HEADSET_PLUG isInitialStickyBroadcast",
+            info("ACTION_HEADSET_PLUG isInitialStickyBroadcast",
                     receiver.isInitialStickyBroadcast)
             when (intent.getIntExtra("state", -1)) {
                 0 -> {
-                    logInfo("ACTION_HEADSET_PLUG isUnplugged")
+                    info("ACTION_HEADSET_PLUG isUnplugged")
                     onHeadsetPlugChanged(false)
                 }
                 1 -> {
-                    logInfo("ACTION_HEADSET_PLUG isPlugged")
+                    info("ACTION_HEADSET_PLUG isPlugged")
                     onHeadsetPlugChanged(true)
                 }
-                else -> logWarn("ACTION_HEADSET_PLUG unknown")
+                else -> warn("ACTION_HEADSET_PLUG unknown")
             }
         }
     }
