@@ -3,19 +3,23 @@ package renetik.android.framework.util
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class CSSynchronizedProperty<T>(defaultValue: T) : ReadWriteProperty<Any, T> {
+class CSSynchronizedProperty<T>(value: T, private val didSet: ((T) -> Unit)? = null)
+    : ReadWriteProperty<Any, T> {
 
     companion object {
-        fun <T> synchronized(defaultValue: T) = CSSynchronizedProperty(defaultValue)
+        fun <T> synchronized(value: T, didSet: ((T) -> Unit)? = null) =
+            CSSynchronizedProperty(value, didSet)
     }
 
-    private var field = defaultValue
+    private var field = value
 
-    override fun getValue(thisRef: Any, property: KProperty<*>): T {
-        return synchronized(this) { field }
-    }
+    override fun getValue(thisRef: Any, property: KProperty<*>): T =
+        kotlin.synchronized(this) { field }
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
-        synchronized(this) { field = value }
+        kotlin.synchronized(this) {
+            field = value
+            didSet?.invoke(value)
+        }
     }
 }
