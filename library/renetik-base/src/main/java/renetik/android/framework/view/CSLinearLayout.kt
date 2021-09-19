@@ -8,14 +8,14 @@ import android.widget.LinearLayout
 import renetik.android.R
 
 
-class CSLinearLayout @JvmOverloads constructor(
+open class CSLinearLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val minWidth: Int
     private val maxWidth: Int
-    private val dispatchState: Boolean
+    var dispatchState: Boolean
 
     init {
         val attributes =

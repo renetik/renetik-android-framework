@@ -107,20 +107,28 @@ fun View.activated(value: Boolean) {
     isActivated = value
 }
 
-fun <T> View.selectedIf(property: CSEventProperty<T>, value: T)
+fun <T> View.selectIf(property: CSEventProperty<T>, value: T)
         : CSEventRegistration {
-    fun update() = selected(property.value == value)
-    update()
     onClick { property.value = value }
-    return property.onChange { update() }
+    return selectedIf(property) { it == value }
 }
 
-fun <T> View.activatedIf(property: CSEventProperty<T>, value: T)
+fun <T> View.selectedIf(property: CSEventProperty<T>,
+                        condition: (T) -> Boolean): CSEventRegistration {
+    selected(condition(property.value))
+    return property.onChange { selected(condition(property.value)) }
+}
+
+fun <T> View.activateIf(property: CSEventProperty<T>, value: T)
         : CSEventRegistration {
-    fun update() = activated(property.value == value)
-    update()
     onClick { property.value = value }
-    return property.onChange { update() }
+    return activatedIf(property) { it == value }
+}
+
+fun <T> View.activatedIf(property: CSEventProperty<T>,
+                         condition: (T) -> Boolean): CSEventRegistration {
+    activated(condition(property.value))
+    return property.onChange { activated(condition(property.value)) }
 }
 
 @Suppress("DEPRECATION")

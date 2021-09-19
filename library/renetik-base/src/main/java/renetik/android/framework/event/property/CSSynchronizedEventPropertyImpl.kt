@@ -14,7 +14,7 @@ class CSSynchronizedEventPropertyImpl<T>(
             if (_value == newValue) return this
             if (fire) later { eventBeforeChange.fire(_value) }
             _value = newValue
-            onApply?.invoke(newValue)
+            later { onApply?.invoke(newValue) }
             if (fire) later { eventChange.fire(newValue) }
         }
     }
