@@ -16,9 +16,9 @@ import renetik.android.R
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.kotlin.isNull
 import renetik.android.framework.view.adapter.CSClickAdapter
 import renetik.android.view.extensions.remove
+import renetik.kotlin.isNull
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
@@ -121,4 +121,10 @@ fun <T> View.activatedIf(property: CSEventProperty<T>, value: T)
     update()
     onClick { property.value = value }
     return property.onChange { update() }
+}
+
+@Suppress("DEPRECATION")
+fun View.toFullScreen() {
+    systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or
+            View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }

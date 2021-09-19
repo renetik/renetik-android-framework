@@ -88,8 +88,10 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
 
     override fun onDestroy() {
         eventRegistrations.cancel()
-        eventDestroy.fire().clear()
+        // _isDestroyed should be set before event so we now we should not
+        // destroy again in some actions as remove from superview
         _isDestroyed = true
+        eventDestroy.fire().clear()
     }
 
     private val eventRegistrations = CSEventRegistrations()

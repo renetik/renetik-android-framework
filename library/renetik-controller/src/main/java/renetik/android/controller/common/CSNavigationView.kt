@@ -13,12 +13,12 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
+import renetik.android.primitives.isFalse
+import renetik.android.primitives.isSet
 import renetik.kotlin.collections.deleteLast
 import renetik.kotlin.collections.hasKey
 import renetik.kotlin.exception
 import renetik.kotlin.notNull
-import renetik.android.primitives.isFalse
-import renetik.android.primitives.isSet
 
 open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
@@ -236,10 +236,6 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     private val currentNavigationItem get() = (current as? CSNavigationItem) ?: this
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }
 
 

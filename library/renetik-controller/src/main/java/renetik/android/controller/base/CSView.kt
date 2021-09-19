@@ -68,9 +68,9 @@ open class CSView<ViewType : View> : CSContext,
     override val view: ViewType
         get() {
             when {
+                _view != null -> return _view!!
                 isDestroyed ->
                     throw exception("$className $this Already destroyed")
-                _view != null -> return _view!!
                 layout != null -> setView(inflate(layout.id))
                 viewId != null -> setView(parent!!.view(viewId) as ViewType)
                 else -> (parent?.view as? ViewType)?.let {

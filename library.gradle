@@ -5,13 +5,13 @@ group = 'com.github.rene-dohan'
 
 android {
     compileSdkVersion project.properties.sdk_version
-    testOptions.unitTests.includeAndroidResources = true
+//    testOptions.unitTests.includeAndroidResources = true
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion project.properties.sdk_version
     }
     lintOptions {
-        tasks.lint.enabled = false
+//        tasks.lint.enabled = false
 //         checkReleaseBuilds false
 //         abortOnError false
     }
@@ -21,6 +21,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.robolectric:robolectric:4.3.1'
+    testImplementation "junit:junit:$junit_version"
+//    testImplementation 'org.robolectric:robolectric:4.5.1'
 }
