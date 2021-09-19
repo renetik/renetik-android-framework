@@ -10,6 +10,8 @@ import androidx.annotation.RequiresApi
 import renetik.android.content.CSColorInt
 import renetik.android.content.attributeFloat
 import renetik.android.content.dpToPixel
+import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.view.disabledIf
 
 
@@ -73,4 +75,16 @@ fun View.enabledByAlphaIf(condition: Boolean) = disabledByAlphaIf(!condition)
 fun View.disabledByAlphaIf(condition: Boolean) {
     disabledIf(condition)
     alpha = if (condition) context.attributeFloat(android.R.attr.disabledAlpha) else 1F
+}
+
+fun <T> View.enabledByAlphaIf(property: CSEventProperty<T>,
+                              condition: (T) -> Boolean): CSEventRegistration {
+    enabledByAlphaIf(condition(property.value))
+    return property.onChange { enabledByAlphaIf(condition(property.value)) }
+}
+
+fun <T> View.disabledByAlphaIf(property: CSEventProperty<T>,
+                               condition: (T) -> Boolean): CSEventRegistration {
+    disabledByAlphaIf(condition(property.value))
+    return property.onChange { disabledByAlphaIf(condition(property.value)) }
 }

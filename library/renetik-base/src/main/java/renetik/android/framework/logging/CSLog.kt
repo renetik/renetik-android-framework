@@ -36,8 +36,7 @@ object CSLog {
 
     private fun createLogMessage(values: Array<out Any?>): Array<Any?> {
         val element = currentThread().stackTrace[4]
-        val trace = "${element.className}(${element.fileName}:${element.lineNumber})"
+        val trace = "${element.className}$${element.methodName}(${element.fileName}:${element.lineNumber})"
         return Array(values.size + 1) { index -> if (index == 0) trace else values[index - 1] }
     }
 }
-

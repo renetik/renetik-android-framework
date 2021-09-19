@@ -14,8 +14,8 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions
 import renetik.android.framework.event.resume
 import renetik.kotlin.collections.list
-import renetik.android.view.extensions.fadeIn
-import renetik.android.view.extensions.fadeOut
+import renetik.android.view.fadeIn
+import renetik.android.view.fadeOut
 import renetik.android.view.onClick
 import renetik.android.widget.scrollToIndex
 

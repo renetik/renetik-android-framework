@@ -1,8 +1,9 @@
-package renetik.android.view.extensions
+package renetik.android.view
 
 import android.view.View
 import android.view.ViewPropertyAnimator
 import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.view.extensions.*
 
 val shortAnimationDuration =
     application.resources.getInteger(android.R.integer.config_shortAnimTime)
@@ -10,7 +11,7 @@ val shortAnimationDuration =
 val mediumAnimationDuration =
     application.resources.getInteger(android.R.integer.config_mediumAnimTime)
 
-fun <T : View> T.fadeIn(duration: Int = shortAnimationDuration): ViewPropertyAnimator? {
+fun <T : View> T.fadeIn(duration: Int = mediumAnimationDuration): ViewPropertyAnimator? {
     if (isVisible) return null
     val originalAlpha = alpha; visible(); alpha = 0f
     return animate().alpha(originalAlpha).setDuration(duration.toLong())

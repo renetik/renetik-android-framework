@@ -2,6 +2,7 @@ package renetik.android.framework.task
 
 import renetik.java.util.CSTimer.schedule
 import renetik.java.util.CSTimer.scheduleAtFixedRate
+import renetik.java.util.CSTimer.scheduleNano
 
 object CSBackground {
 
@@ -14,6 +15,9 @@ object CSBackground {
 
     fun background(delay: Long = 0, function: () -> Unit) =
         schedule(delay = delay, function = function)
+
+    fun backgroundNano(delay: Long = 0, function: () -> Unit) =
+        scheduleNano(delay = delay, function = function)
 
     fun background(delay: Int = 0, function: () -> Unit) =
         schedule(delay = delay.toLong(), function = function)

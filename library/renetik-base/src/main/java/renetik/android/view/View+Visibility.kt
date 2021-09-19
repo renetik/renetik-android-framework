@@ -7,6 +7,8 @@ import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.CSVisibility
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.view.fadeIn
+import renetik.android.view.fadeOut
 
 fun <T : View> T.visible(animated: Boolean = false) = apply {
     if (animated) fadeIn() else {
@@ -65,14 +67,16 @@ fun View.shownIf(property: CSEventProperty<Boolean>,
 }
 
 fun View.shownIfFalse(property: CSEventProperty<Boolean>,
-                      animated: Boolean = false) = goneIfTrue(property, animated)
+                      animated: Boolean = false) = goneIf(property, animated)
 
-fun View.goneIfTrue(property: CSEventProperty<Boolean>,
-                    animated: Boolean = false): CSEventRegistration {
-    fun updateVisibility() = goneIf(property.value, animated)
-    updateVisibility()
-    return property.onChange { updateVisibility() }
+fun <T> View.goneIf(property: CSEventProperty<T>,
+                    animated: Boolean = false, condition: (T) -> Boolean): CSEventRegistration {
+    goneIf(condition(property.value))
+    return property.onChange { goneIf(condition(property.value), animated) }
 }
+
+fun View.goneIf(property: CSEventProperty<Boolean>,
+                animated: Boolean = false) = goneIf(property, animated) { it }
 
 fun <T> View.shownIfEquals(parent: CSVisibleEventOwner,
                            property: CSEventProperty<T?>,
@@ -82,12 +86,14 @@ fun <T> View.shownIfEquals(parent: CSVisibleEventOwner,
     return property.onChange { updateVisibility() }
 }
 
-fun View.visibleIf(property: CSEventProperty<Boolean>,
-                   animated: Boolean = false): CSEventRegistration {
-    fun updateVisibility() = visibleIf(property.value, animated)
-    updateVisibility()
-    return property.onChange { updateVisibility() }
+fun <T> View.visibleIf(property: CSEventProperty<T>,
+                       animated: Boolean = false, condition: (T) -> Boolean): CSEventRegistration {
+    visibleIf(condition(property.value))
+    return property.onChange { visibleIf(condition(property.value), animated) }
 }
+
+fun View.visibleIf(property: CSEventProperty<Boolean>,
+                   animated: Boolean = false) = visibleIf(property, animated) { it }
 
 // This had be done because isShown return false in on Resume
 // for main activity view when created
