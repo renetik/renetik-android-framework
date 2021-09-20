@@ -4,9 +4,9 @@ inline val Collection<*>.length get() = size
 
 inline val Collection<*>.count get() = size
 
-inline val Collection<*>.hasItems get() = size > 0
+inline val Collection<*>.hasItems get() = isNotEmpty()
 
-inline val Collection<*>.isEmpty get() = size == 0
+inline val Collection<*>.isEmpty get() = isEmpty()
 
 inline val Collection<*>.lastIndex get() = size - 1
 
