@@ -86,6 +86,27 @@ fun <T> View.shownIfEquals(parent: CSVisibleEventOwner,
     return property.onChange { updateVisibility() }
 }
 
+fun <T> View.visibleIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
+                       animated: Boolean = false, condition: (T) -> Boolean) =
+    visibleIf(property1, property2, animated) { first, _ -> condition(first) }
+
+fun <T, V> View.visibleIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+                          animated: Boolean = false,
+                          condition: (T, V) -> Boolean): CSEventRegistration {
+    fun update() = visibleIf(condition(property1.value, property2.value), animated)
+    update()
+    val registration = property1.onChange { update() }
+    val otherRegistration = property2.onChange { update() }
+    return object : CSEventRegistration {
+        override var isActive = true
+        override fun cancel() {
+            isActive = false
+            registration.cancel()
+            otherRegistration.cancel()
+        }
+    }
+}
+
 fun <T> View.visibleIf(property: CSEventProperty<T>,
                        animated: Boolean = false, condition: (T) -> Boolean): CSEventRegistration {
     visibleIf(condition(property.value))
