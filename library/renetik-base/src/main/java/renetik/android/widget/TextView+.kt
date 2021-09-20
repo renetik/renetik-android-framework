@@ -62,23 +62,12 @@ fun TextView.text(property: CSEventProperty<*>) = text(property) { it.asString }
 @JvmName("TextViewTextStringProperty")
 fun TextView.text(property: CSEventProperty<String>) = text(property) { it }
 
-fun <T> TextView.text(property: CSEventProperty<T>,
-                      valueToString: (T) -> Any)
+fun <T> TextView.text(property: CSEventProperty<T>, valueToString: (T) -> Any)
         : CSEventRegistration {
     fun updateText() = text(valueToString(property.value))
     updateText()
     return property.onChange { updateText() }
 }
-
-//fun <T> TextView.text(
-//    property: CSEventProperty<T>, valueToString: (T) -> String
-//) = apply {
-//    fun updateText() = text(valueToString(property.value))
-//    property.onChange { updateText() }
-//    updateText()
-//}
-
-//fun <T> TextView.text(property: CSEventProperty<T>) = text(property) { it.asString }
 
 fun <T : CSDrawableInterface> TextView.startDrawable(property: CSEventProperty<T>)
         : CSEventRegistration {
