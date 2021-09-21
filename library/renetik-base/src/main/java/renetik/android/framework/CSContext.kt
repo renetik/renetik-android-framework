@@ -97,6 +97,8 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
     private val eventRegistrations = CSEventRegistrations()
     override fun register(registration: CSEventRegistration) =
         registration.also { eventRegistrations.add(it) }
+    override fun cancel(registration: CSEventRegistration) =
+        registration.also { eventRegistrations.cancel(it) }
 }
 
 fun CSContext.register(intent: IntentFilter, receiver: (Intent, BroadcastReceiver) -> void) =
