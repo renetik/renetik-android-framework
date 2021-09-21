@@ -157,7 +157,5 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onLowMemory()
     }
 
-    private val eventRegistrations = CSEventRegistrations()
-    override fun register(registration: CSEventRegistration) =
-        registration.also { eventRegistrations.add(it) }
+     override val eventRegistrations = CSEventRegistrations()
 }

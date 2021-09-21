@@ -1,6 +1,9 @@
 package renetik.android.framework.event
 
 interface CSEventOwner {
-    fun register(registration: CSEventRegistration): CSEventRegistration
-    fun cancel(registration: CSEventRegistration): CSEventRegistration
+    val eventRegistrations: CSEventRegistrations
+    fun register(registration: CSEventRegistration) =
+        registration.also { eventRegistrations.add(it) }
+    fun cancel(registration: CSEventRegistration) =
+        registration.also { eventRegistrations.cancel(it) }
 }

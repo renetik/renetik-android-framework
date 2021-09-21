@@ -36,3 +36,7 @@ fun CSValue<String>.contains(value: String, ignoreCase: Boolean = false) =
 
 fun CSValue<String>.contains(property: CSProperty<String>, ignoreCase: Boolean = false) =
     this.contains(property.value, ignoreCase)
+
+inline val CSValue<Int>.number get() = value
+inline val CSValue<Float>.number get() = value
+inline val CSValue<Double>.number get() = value

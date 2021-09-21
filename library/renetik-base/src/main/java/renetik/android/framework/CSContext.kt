@@ -11,7 +11,6 @@ import android.view.WindowManager
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEventRegistration
 import renetik.kotlin.notNull
 import java.util.*
 
@@ -94,11 +93,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
         eventDestroy.fire().clear()
     }
 
-    private val eventRegistrations = CSEventRegistrations()
-    override fun register(registration: CSEventRegistration) =
-        registration.also { eventRegistrations.add(it) }
-    override fun cancel(registration: CSEventRegistration) =
-        registration.also { eventRegistrations.cancel(it) }
+    override val eventRegistrations = CSEventRegistrations()
 }
 
 fun CSContext.register(intent: IntentFilter, receiver: (Intent, BroadcastReceiver) -> void) =
