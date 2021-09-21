@@ -2,35 +2,30 @@ package renetik.java.util
 
 import renetik.android.framework.common.catchAllError
 import renetik.android.framework.util.CSHandler.post
+import renetik.java.util.concurrent.*
 import java.util.*
 import java.util.concurrent.Executors.newSingleThreadScheduledExecutor
-import java.util.concurrent.TimeUnit.MILLISECONDS
-import java.util.concurrent.TimeUnit.NANOSECONDS
+import java.util.concurrent.ScheduledExecutorService
 import kotlin.concurrent.timerTask
 
 object CSTimer {
 
-    val executor = newSingleThreadScheduledExecutor()
-//    private val timer = Timer()
+    val executor: ScheduledExecutorService = newSingleThreadScheduledExecutor()
 
     fun scheduleAtFixedRateRunOnUI(delay: Long = 0, period: Long, function: () -> Unit) =
-        scheduleAtFixedRate(delay, period) { post(function) }
+        executor.backgroundRepeatRunOnUI(delay, period, function)
 
     fun scheduleAtFixedRate(delay: Long = 0, period: Long, function: () -> Unit) =
-        executor.scheduleAtFixedRate({ catchAllError { function() } },
-            delay, period, MILLISECONDS)
-//    timer.scheduleAtFixedRate(delay, period, function)
+        executor.backgroundRepeat(delay, period, function)
 
     fun scheduleRunOnUI(delay: Long = 0, function: () -> Unit) =
-        schedule(delay) { post(function) }
+        executor.backgroundRunOnUi(delay, function)
 
     fun schedule(delay: Long = 0, function: () -> Unit) =
-        executor.schedule({ catchAllError { function() } }, delay, MILLISECONDS)
+        executor.background(delay, function)
 
     fun scheduleNano(delay: Long = 0, function: () -> Unit) =
-        executor.schedule({ catchAllError { function() } }, delay, NANOSECONDS)
-//        executor.scheduleAtFixedRate(function, period, delay, TimeUnit.MILLISECONDS)
-//        timer.schedule(delay, function)
+        executor.backgroundNano(delay, function)
 }
 
 fun Timer.scheduleAtFixedRateRunOnUI(delay: Long = 0, period: Long, function: () -> Unit) =
@@ -49,3 +44,4 @@ inline fun Timer.schedule(delay: Long = 0,
     schedule(task, delay)
     return task
 }
+

@@ -16,9 +16,6 @@ val CSView<*>.width get() = view.width
 val CSView<*>.height get() = view.height
 val CSView<*>.locationOnScreen get() = view.locationOnScreen
 
-//fun CSView<*>.setPercentAspectWidth(viewId: Int, percent: Int) =
-//    setPercentAspectWidth(findView<View>(viewId)!!, percent)
-
 fun CSView<*>.setPercentAspectWidth(view: View, percent: Int) {
     val onePercent = displayWidth / 100.toFloat()
     val wantedWidth = onePercent * percent
@@ -32,9 +29,6 @@ fun CSView<*>.setPercentAspectWidth(view: View, percent: Int) {
 
     view.layoutParams = layoutParams
 }
-
-//fun CSView<*>.setPercentWidth(viewId: Int, percent: Int, minimal: Int, maximal: Int) =
-//    setPercentWidth(findView<View>(viewId)!!, percent, minimal, maximal)
 
 fun CSView<*>.setPercentWidth(view: View, percent: Int, minimal: Int = 0, maximal: Int = 0) {
     val onePercent = (displayWidth / 100).toDouble()

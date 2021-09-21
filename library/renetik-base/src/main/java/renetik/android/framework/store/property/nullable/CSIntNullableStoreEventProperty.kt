@@ -3,8 +3,8 @@ package renetik.android.framework.store.property.nullable
 import renetik.android.framework.store.CSStoreInterface
 
 class CSIntNullableStoreEventProperty(
-    store: CSStoreInterface, key: String, default: Int?,
-    onChange: ((value: Int?) -> Unit)?)
+    store: CSStoreInterface, key: String, default: Int? = null,
+    onChange: ((value: Int?) -> Unit)? = null)
     : CSNullableStoreEventProperty<Int?>(store, key, default, onChange) {
     override var _value = firstLoad()
     override fun load(store: CSStoreInterface): Int? = store.getInt(key)
