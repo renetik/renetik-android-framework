@@ -6,7 +6,7 @@ import renetik.java.util.concurrent.backgroundRepeat
 import java.util.concurrent.Executors.newSingleThreadScheduledExecutor
 
 object CSBackground {
-    val executor = newSingleThreadScheduledExecutor()
+    private val executor = newSingleThreadScheduledExecutor()
 
     fun background(function: () -> Unit) =
         executor.background(function = function)
