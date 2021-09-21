@@ -5,8 +5,8 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout.LayoutParams
-import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.content.dpToPixel
+import renetik.android.framework.CSApplication.Companion.application
 
 val layoutMatch get() = LayoutParams(MATCH_PARENT, MATCH_PARENT)
 val layoutMatchCenter get() = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT, CENTER)
@@ -20,12 +20,13 @@ val layoutFillMatch get() = LayoutParams(0, MATCH_PARENT, 1f)
 fun layoutWrapHeight(dpHeight: Float) = LayoutParams(WRAP_CONTENT, application.dpToPixel(dpHeight))
 fun layoutWrapHeight(dpHeight: Int) = layoutWrapHeight(dpHeight.toFloat())
 fun layoutMatchHeight(dpHeight: Float) = LayoutParams(MATCH_PARENT, application.dpToPixel(dpHeight))
+fun layoutMatchHeightPx(pixelHeight: Int) = LayoutParams(MATCH_PARENT, pixelHeight)
 fun layoutMatchHeight(dpHeight: Int) = layoutMatchHeight(dpHeight.toFloat())
 fun layoutWidthHeight(dpWidth: Int, dpHeight: Int) =
     layoutWidthHeight(dpWidth.toFloat(), dpHeight.toFloat())
 
-fun layoutWidthHeight(dpWidth: Float, dpHeight: Float) = LayoutParams(application.dpToPixel(dpWidth)
-    , application.dpToPixel(dpHeight))
+fun layoutWidthHeight(dpWidth: Float, dpHeight: Float) =
+    LayoutParams(application.dpToPixel(dpWidth), application.dpToPixel(dpHeight))
 
 fun LayoutParams.margin(left: Int, top: Int, right: Int, bottom: Int) =
     apply { setMargins(left, top, right, bottom) }
