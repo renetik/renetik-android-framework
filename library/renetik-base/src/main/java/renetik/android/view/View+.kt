@@ -107,6 +107,8 @@ fun View.activated(value: Boolean) {
     isActivated = value
 }
 
+fun  View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
+
 fun <T> View.selectIf(property: CSEventProperty<T>, value: T)
         : CSEventRegistration {
     onClick { property.value = value }
