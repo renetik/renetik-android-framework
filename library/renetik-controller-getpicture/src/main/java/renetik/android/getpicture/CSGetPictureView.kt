@@ -10,18 +10,18 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
-import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.extensions.dialog
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.snackBarWarn
 import renetik.android.controller.extensions.startActivityForResult
-import renetik.android.imaging.extensions.resizeImage
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllError
-import renetik.kotlin.collections.list
-import renetik.java.io.createDatedFile
-import renetik.kotlin.later
 import renetik.android.framework.task.CSBackground.background
+import renetik.android.imaging.extensions.resizeImage
+import renetik.java.io.createDatedFile
+import renetik.kotlin.collections.list
+import renetik.kotlin.later
+import renetik.kotlin.unfinished
 import java.io.File
 
 class CSGetPictureView<T : View>(
@@ -55,7 +55,8 @@ class CSGetPictureView<T : View>(
     private fun showAfterPermissionsGranted() {
         if (!selectPhoto) onTakePhoto()
         else if (!takePhoto) onSelectPhoto()
-        else dialog(title).showChoice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
+        throw unfinished
+//    TODO!!!  else dialog(title).showChoice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
     }
 
     private fun onImageSelected(input: Uri, onDone: (() -> Unit)? = null) = catchAllError {

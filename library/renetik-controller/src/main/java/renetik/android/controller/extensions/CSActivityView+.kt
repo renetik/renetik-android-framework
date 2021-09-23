@@ -2,6 +2,7 @@ package renetik.android.controller.extensions
 
 import android.content.Intent
 import android.view.View
+import android.view.ViewParent
 import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.listenOnce
@@ -34,3 +35,6 @@ fun CSActivityView<*>.onInternetConnected(function: () -> Unit): CSReachability 
     eventDestroy.listen { reachability.stop() }
     return reachability
 }
+
+fun ViewParent.asActivityView() = ((this as? View)?.tag as? CSActivityView<*>)
+fun View.asActivityView() = ((this as? View)?.tag as? CSActivityView<*>)

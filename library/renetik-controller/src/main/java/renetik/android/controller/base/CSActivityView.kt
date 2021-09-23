@@ -8,16 +8,15 @@ import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
 import renetik.android.controller.common.CSNavigationView
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSProperty
-import renetik.kotlin.className
-import renetik.kotlin.exception
 import renetik.android.framework.logging.CSLog.warn
 import renetik.android.view.extensions.isShowing
+import renetik.kotlin.className
+import renetik.kotlin.exception
 
 abstract class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner,CSVisibleEventOwner {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner, CSVisibleEventOwner {
 
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
@@ -26,12 +25,12 @@ abstract class CSActivityView<ViewType : View>
     private var isResumed = false
     private var isResumeFirstTime = false
     private val isPaused get() = !isResumed
-    private var parentController: CSActivityView<*>? = null
+    private var parentActivityView: CSActivityView<*>? = null
     var activity: CSActivity? = null
     private var showingInPager: Boolean? = null
 
     constructor(parent: CSActivityView<*>) : super(parent) {
-        parentController = parent
+        parentActivityView = parent
         initializeParent(parent)
     }
 
@@ -41,18 +40,18 @@ abstract class CSActivityView<ViewType : View>
     }
 
     constructor(parent: CSActivityView<*>, @IdRes viewId: Int) : super(parent, viewId) {
-        parentController = parent
+        parentActivityView = parent
         initializeParent(parent)
     }
 
     constructor(parent: CSActivityView<*>, layout: CSLayoutRes) : super(parent, layout) {
-        parentController = parent
+        parentActivityView = parent
         initializeParent(parent)
     }
 
     constructor(parent: CSActivityView<*>, group: ViewGroup, layout: CSLayoutRes)
             : super(parent, group, layout) {
-        parentController = parent
+        parentActivityView = parent
         initializeParent(parent)
     }
 
@@ -87,12 +86,12 @@ abstract class CSActivityView<ViewType : View>
         whileVisibleEventRegistrations.cancel()
         isVisibleEventRegistrations.cancel()
         super.onDestroy()
-        parentController = null
+        parentActivityView = null
         activity = null
     }
 
     fun lifecycleUpdate() {
-        parentController?.let {
+        parentActivityView?.let {
             if (it.isResumed) {
                 if (isPaused) onResume()
             } else if (isResumed) onPause()
@@ -162,7 +161,7 @@ abstract class CSActivityView<ViewType : View>
     private fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (showingInPager == false) return false
-        if (parentController?.isVisible == false) return false
+        if (parentActivityView?.isVisible == false) return false
         return view.isShowing()
     }
 
@@ -214,14 +213,18 @@ abstract class CSActivityView<ViewType : View>
     override fun whileVisible(registration: CSEventRegistration) =
         registration.let { whileVisibleEventRegistrations.add(it) }
 
-    open val navigation: CSNavigationView? by lazy {
+  open  val navigation: CSNavigationView? by lazy {
         var controller: CSActivityView<*>? = this
         do {
             if (controller is CSNavigationView) return@lazy controller
-            controller = controller?.parentController
+            controller = controller?.parentActivityView
         } while (controller != null)
-        controller
+        null
     }
+
+//    override val parentActivityView: CSActivityView<*>? by lazy {
+//        _parentActivityView ?: super.parentActivityView
+//}
 }
 
 

@@ -1,5 +1,6 @@
 package renetik.kotlin
 
+val unfinished get() = unexpected("This code is unfinished, contact developer")
 val unexpected get() = CSUnexpectedException.unexpected()
 fun unexpected(message: String? = "") = CSUnexpectedException.unexpected(message)
 class CSUnexpectedException(message: String? = "") : CSException(message) {

@@ -1,10 +1,16 @@
 package renetik.android.controller.extensions
 
 import renetik.android.controller.base.CSView
+import renetik.android.framework.lang.CSUserAction
 import renetik.android.material.extensions.snackBarError
 import renetik.android.material.extensions.snackBarInfo
 import renetik.android.material.extensions.snackBarWarn
 
-fun CSView<*>.snackBarWarn(text: String) = view.snackBarWarn(text)
-fun CSView<*>.snackBarError(text: String) = view.snackBarError(text)
-fun CSView<*>.snackBarInfo(text: String) = view.snackBarInfo(text)
+fun CSView<*>.snackBarWarn(text: String, action: CSUserAction? = null) =
+    view.snackBarWarn(text, action)
+
+fun CSView<*>.snackBarError(text: String, action: CSUserAction? = null) =
+    view.snackBarError(text, action)
+
+fun CSView<*>.snackBarInfo(text: String, action: CSUserAction? = null) =
+    view.snackBarInfo(text, action)
