@@ -73,17 +73,16 @@ class CSDialog : CSContext {
         message?.let { message(text = it) }
         if (isShowAppIcon) icon?.let { icon -> icon(drawable = icon) }
             ?: icon(drawable = applicationLogo ?: applicationIcon)
-        onCancel {
-            isCanceled = true
-            onDialogCancel?.invoke(this@CSDialog)
-        }
         cancelable(isCancelable)
     }
 
     fun show(positiveText: String, onPositive: (CSDialog) -> Unit) = apply {
         materialDialog = MaterialDialog(this).show {
             positiveButton(text = positiveText) { onPositive(this@CSDialog) }
-            if (isCancelable) negativeButton(R.string.cs_dialog_cancel)
+            if (isCancelable) negativeButton(R.string.cs_dialog_cancel){
+                isCanceled = true
+                onDialogCancel?.invoke(this@CSDialog)
+            }
             initialize()
         }
     }
