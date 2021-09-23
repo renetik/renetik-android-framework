@@ -9,7 +9,7 @@ abstract class CSEventPropertyBase<T>(
     protected val eventChange = event<T>()
 
     override fun onBeforeChange(value: (T) -> Unit) = eventBeforeChange.listen(value)
-    override fun onChange(value: (T) -> Unit) = eventChange.listen(value)
+    override fun onChange(function: (T) -> Unit) = eventChange.listen(function)
 
     override fun apply() = apply {
         val value = this.value
