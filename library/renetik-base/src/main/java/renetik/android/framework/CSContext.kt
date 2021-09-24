@@ -18,7 +18,7 @@ private val LOW_DPI_STATUS_BAR_HEIGHT = 19
 private val MEDIUM_DPI_STATUS_BAR_HEIGHT = 25
 private val HIGH_DPI_STATUS_BAR_HEIGHT = 38
 
-abstract class CSContext : ContextWrapper, CSContextInterface, CSEventOwner {
+abstract class CSContext : ContextWrapper, CSContextInterface {
     constructor() : super(application)
     constructor(context: CSContextInterface) : super(context.context) {
         eventRegistrations.add(context.eventDestroy.listenOnce { onDestroy() })

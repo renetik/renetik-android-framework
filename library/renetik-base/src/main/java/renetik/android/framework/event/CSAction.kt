@@ -39,14 +39,8 @@ class CSAction(val id: String) : CSActionInterface {
 
     override val isRunning get() = property.isTrue
 
-    override fun onChange(function: (Boolean) -> Unit): CSEventRegistration {
-        observerCount++
-        if (observerCount == 1) eventIsObserved.fire()
-        return CSActionOnChangeEventRegistration(property.onChange(function))
-    }
-
     override fun value(newValue: Boolean, fire: Boolean) = property.value(newValue, fire)
-    override fun apply() = property.apply()
+
     override var value: Boolean
         get() = property.value
         set(value) {
@@ -61,8 +55,11 @@ class CSAction(val id: String) : CSActionInterface {
         property.setFalse()
     }
 
-    override fun onChanged(function: (before: Boolean, after: Boolean) -> Unit) =
-        property.onChanged(function)
+    override fun onChanged(function: (before: Boolean, after: Boolean) -> Unit): CSEventRegistration {
+        observerCount++
+        if (observerCount == 1) eventIsObserved.fire()
+        return CSActionOnChangeEventRegistration(property.onChanged(function))
+    }
 
     inner class CSActionOnChangeEventRegistration(
         private val registration: CSEventRegistration) : CSEventRegistration {

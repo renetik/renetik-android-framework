@@ -5,8 +5,8 @@ class CSLateEventProperty<T>(onApply: ((value: T) -> Unit)? = null) :
 
     private var _value: T? = null
 
-    override fun value(newValue: T, fire: Boolean) = apply {
-        if (_value == newValue) return this
+    override fun value(newValue: T, fire: Boolean) {
+        if (_value == newValue) return
         val before = _value
         _value = newValue
         onApply?.invoke(newValue)
