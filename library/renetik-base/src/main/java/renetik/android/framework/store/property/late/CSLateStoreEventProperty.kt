@@ -31,10 +31,10 @@ abstract class CSLateStoreEventProperty<T>(
 
     override fun value(newValue: T, fire: Boolean) = apply {
         if (_value == newValue) return this
-        if (store.has(key) && fire) eventBeforeChange.fire(value)
+        val before = if (store.has(key)) _value else null
         _value = newValue
         onApply?.invoke(newValue)
-        if (fire) eventChange.fire(newValue)
+        if (fire && before != null) fireChange(before, newValue)
     }
 
     val isNotInitialized get() = _value == null

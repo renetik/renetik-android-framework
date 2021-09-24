@@ -30,19 +30,19 @@ abstract class CSNullableStoreEventProperty<T>(
         else {
             val newValue = load(store)
             if (_value == newValue) return
-            eventBeforeChange.fire(_value)
+            val before = _value
             _value = newValue
             onApply?.invoke(newValue)
-            eventChange.fire(newValue)
+            fireChange(before, newValue)
         }
     }
 
     override fun value(newValue: T?, fire: Boolean) = apply {
         if (_value == newValue) return this
-        if (fire) eventBeforeChange.fire(_value)
+        val before = _value
         _value = newValue
         save(store, value)
         onApply?.invoke(newValue)
-        if (fire) eventChange.fire(newValue)
+        if (fire) fireChange(before, newValue)
     }
 }

@@ -7,10 +7,10 @@ class CSLateEventProperty<T>(onApply: ((value: T) -> Unit)? = null) :
 
     override fun value(newValue: T, fire: Boolean) = apply {
         if (_value == newValue) return this
-        if (fire && _value != null) eventBeforeChange.fire(_value!!)
+        val before = _value
         _value = newValue
         onApply?.invoke(newValue)
-        if (fire) eventChange.fire(newValue)
+        if (fire && before != null) fireChange(before, newValue)
     }
 
     override var value: T
