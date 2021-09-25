@@ -140,15 +140,4 @@ open class CSView<ViewType : View> : CSContext,
         set(value) {
             view.isSelected = value
         }
-
-//    open val parentActivityView: CSActivityView<*>? by lazy {
-//        var parent: ViewParent? = view.parent
-//        do {
-//            parent?.asActivityView()?.let { return@lazy it }
-//            parent = parent?.parent
-//        } while (parent != null)
-//        null
-//    }
-//
-//    open val navigation: CSNavigationView? by lazy { parentActivityView?.navigation }
 }

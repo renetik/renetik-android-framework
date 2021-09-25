@@ -52,6 +52,8 @@ fun CSView<*>.width(value: Int) = apply {
     view.layoutParams = params
 }
 
+fun CSView<*>.width(value: Float) = width(value.toInt())
+
 fun CSView<*>.widthDp(value: Int) = apply {
     val params = view.layoutParams
     params.width = dpToPixel(value)

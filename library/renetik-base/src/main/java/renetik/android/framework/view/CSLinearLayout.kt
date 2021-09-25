@@ -52,20 +52,9 @@ open class CSLinearLayout @JvmOverloads constructor(
         if (dispatchState) super.dispatchSetPressed(pressed)
     }
 
-
-
-//    @SuppressLint("ClickableViewAccessibility")
-//    override fun onTouchEvent(event: MotionEvent): Boolean {
-//        touchListener?.let { return it.invoke(event) }
-//        return true
-//    }
-
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        super.dispatchTouchEvent(event)
+        val response = super.dispatchTouchEvent(event)
         onTouchEvent?.let { return it.invoke(event) }
-//        mScaleDetector.onTouchEvent(event)
-//        gestureDetector.onTouchEvent(event)
-//        return gestureDetector.onTouchEvent(event)
-        return true
+        return response
     }
 }
