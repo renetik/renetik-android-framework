@@ -46,7 +46,7 @@ open class CSNavigationDialogView<ViewType : View>(
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
 
     val content by lazy {
-        inflate<View>(layout.id).also { it.isClickable = true }
+        inflate<ViewType>(layout.id).also { it.isClickable = true }
     }
 
     override fun onViewReady() {

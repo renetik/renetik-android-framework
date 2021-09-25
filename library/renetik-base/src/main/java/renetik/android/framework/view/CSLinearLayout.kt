@@ -2,6 +2,7 @@ package renetik.android.framework.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
@@ -16,6 +17,7 @@ open class CSLinearLayout @JvmOverloads constructor(
     private val minWidth: Int
     private val maxWidth: Int
     var dispatchState: Boolean
+    var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
     init {
         val attributes =
@@ -48,5 +50,22 @@ open class CSLinearLayout @JvmOverloads constructor(
 
     override fun dispatchSetPressed(pressed: Boolean) {
         if (dispatchState) super.dispatchSetPressed(pressed)
+    }
+
+
+
+//    @SuppressLint("ClickableViewAccessibility")
+//    override fun onTouchEvent(event: MotionEvent): Boolean {
+//        touchListener?.let { return it.invoke(event) }
+//        return true
+//    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        super.dispatchTouchEvent(event)
+        onTouchEvent?.let { return it.invoke(event) }
+//        mScaleDetector.onTouchEvent(event)
+//        gestureDetector.onTouchEvent(event)
+//        return gestureDetector.onTouchEvent(event)
+        return true
     }
 }
