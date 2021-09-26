@@ -4,16 +4,21 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
+import android.os.Build
 import android.view.View
+import android.view.View.OnLayoutChangeListener
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
 import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
 import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.view.adapter.CSClickAdapter
@@ -138,3 +143,21 @@ fun View.toFullScreen() {
     systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or
             View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }
+
+ fun View.onLayoutChange(function: () -> Unit): CSEventRegistration {
+    val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
+    addOnLayoutChangeListener(listener)
+    return object : CSEventRegistration {
+        override var isActive = true
+        override fun cancel() = removeOnLayoutChangeListener(listener)
+    }
+}
+
+fun View.onScrollChange(function: (view: View) -> Unit) =
+    eventScrollChange.listen(function)
+
+val View.eventScrollChange
+    @RequiresApi(Build.VERSION_CODES.M)
+    get() = propertyWithTag(R.id.ViewEventOnScrollChangeTag) {
+        event<View>().also { setOnScrollChangeListener { _, _, _, _, _ -> it.fire(this) } }
+    }

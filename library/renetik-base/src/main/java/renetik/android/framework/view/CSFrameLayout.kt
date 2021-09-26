@@ -8,6 +8,7 @@ import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
 import renetik.android.R
+import renetik.android.framework.event.event
 
 
 class CSFrameLayout @JvmOverloads constructor(
@@ -18,7 +19,8 @@ class CSFrameLayout @JvmOverloads constructor(
     private val minWidth: Int
     private val maxWidth: Int
     private val dispatchState: Boolean
-    var onDrawEvent: ((canvas: Canvas) -> Unit)? = null
+    val eventOnDraw = event<Canvas>()
+//    var onDrawEvent: ((canvas: Canvas) -> Unit)? = null
     var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
     init {
@@ -56,12 +58,13 @@ class CSFrameLayout @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        onDrawEvent?.invoke(canvas)
+        eventOnDraw.fire(canvas)
+//        onDrawEvent?.invoke(canvas)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        val response = super.dispatchTouchEvent(event)
-        onTouchEvent?.let { return it.invoke(event) }
-        return response
+        val handled = super.dispatchTouchEvent(event)
+        if (!handled) onTouchEvent?.let { return it.invoke(event) }
+        return handled
     }
 }

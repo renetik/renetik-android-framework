@@ -76,6 +76,8 @@ fun <Type> Type.hasSize(onHasSize: (Type) -> Unit)
         where  Type : CSView<*>, Type : CSEventOwner =
     apply { register(view.hasSize { onHasSize(this) }) }
 
-fun View.asView() = ((this as? View)?.tag as? CSView<*>)
+fun View.asCSView() = asCS<CSView<*>>()
+fun View.asCSActivityView() = asCS<CSActivityView<*>>()
+fun <CSViewType : CSView<*>> View.asCS() = ((this as? View)?.tag as? CSViewType)
 
 

@@ -40,13 +40,13 @@ abstract class CSValueStoreEventProperty<T>(
         }
     }
 
-    override fun value(newValue: T, fire: Boolean)  {
+    override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         val before = _value
         _value = newValue
         save(store, value)
         onApply?.invoke(newValue)
-        fireChange(before, newValue)
+        if (fire) fireChange(before, newValue)
     }
 
     override fun toString() = value.toString()
