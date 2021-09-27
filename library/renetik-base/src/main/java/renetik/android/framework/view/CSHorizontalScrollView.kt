@@ -12,10 +12,16 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
 ) : HorizontalScrollView(context, attrs, defStyleAttr, defStyleRes) {
 
     var isScrollEnabled = true
+    var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
 //    init {
 //        setOnTouchListener { _, _ -> !isScrollEnabled }
 //    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val handled = onTouchEvent?.invoke(event) ?: false
+        return if (!handled) super.dispatchTouchEvent(event) else true
+    }
 
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         return isScrollEnabled && super.onTouchEvent(ev)

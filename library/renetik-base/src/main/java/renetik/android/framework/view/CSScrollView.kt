@@ -12,21 +12,14 @@ class CSScrollView @JvmOverloads constructor(
 ) : ScrollView(context, attrs, defStyleAttr, defStyleRes) {
 
     var isScrollEnabled = true
+    var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
-    init {
-//        setOnTouchListener { _, _ -> !isScrollEnabled }
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val handled = onDispatchTouchEvent?.invoke(event) ?: false
+        return if (!handled) super.dispatchTouchEvent(event) else true
     }
 
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         return isScrollEnabled && super.onTouchEvent(ev)
     }
-
-//    override fun onTouchEvent(ev: MotionEvent) = when (ev.action) {
-//        ACTION_DOWN -> isScrollEnabled && super.onTouchEvent(ev)
-//        else -> super.onTouchEvent(ev)
-//    }
-
-    override fun onInterceptTouchEvent(ev: MotionEvent) =
-        isScrollEnabled && super.onInterceptTouchEvent(ev)
-
 }

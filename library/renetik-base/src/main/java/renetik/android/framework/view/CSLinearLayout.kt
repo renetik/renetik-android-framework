@@ -17,6 +17,7 @@ open class CSLinearLayout @JvmOverloads constructor(
     private val minWidth: Int
     private val maxWidth: Int
     var dispatchState: Boolean
+    var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
     init {
@@ -53,8 +54,12 @@ open class CSLinearLayout @JvmOverloads constructor(
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        val response = super.dispatchTouchEvent(event)
-        onTouchEvent?.let { return it.invoke(event) }
-        return response
+        val handled = onDispatchTouchEvent?.invoke(event) ?: false
+        return if (!handled) super.dispatchTouchEvent(event) else true
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val handled = onTouchEvent?.invoke(event) ?: false
+        return if (!handled) super.onTouchEvent(event) else true
     }
 }
