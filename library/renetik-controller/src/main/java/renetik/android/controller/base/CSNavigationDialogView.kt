@@ -45,7 +45,7 @@ open class CSNavigationDialogView<ViewType : View>(
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
 
-    val content by lazy {
+    val dialogContent by lazy {
         inflate<ViewType>(layout.id).also { it.isClickable = true }
     }
 
@@ -54,7 +54,7 @@ open class CSNavigationDialogView<ViewType : View>(
         view.backgroundColor(color(R.color.cs_dialog_background)).onClick {
             if (cancelOnTouchOut) dismiss()
         }
-        view.add(content)
+        view.add(dialogContent)
     }
 
     override fun onRemovedFromParent() {
@@ -89,19 +89,19 @@ open class CSNavigationDialogView<ViewType : View>(
     fun from(fromView: View) = apply {
         isFullscreen = false
         animation = Fade
-        content.updateLayoutParams<LayoutParams> { gravity = START or TOP }
+        dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
         val fromViewLocation = fromView.locationOnScreen
         val statusBarHeight = activity().activityView!!.view.locationOnScreen.y
         val fromViewBottomY = fromViewLocation.y.toFloat() + fromView.height - statusBarHeight
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
 
-        this.content.hasSize {
-            var desiredX = fromViewTopCenterX.toFloat() - (this.content.width / 2)
-            if (desiredX + this.content.width > displayWidth - dpToPixelF(marginDp))
-                desiredX -= (desiredX + this.content.width) - (displayWidth - dpToPixelF(marginDp))
+        this.dialogContent.hasSize {
+            var desiredX = fromViewTopCenterX.toFloat() - (this.dialogContent.width / 2)
+            if (desiredX + this.dialogContent.width > displayWidth - dpToPixelF(marginDp))
+                desiredX -= (desiredX + this.dialogContent.width) - (displayWidth - dpToPixelF(marginDp))
             if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
-            this.content.x = desiredX
-            this.content.y = fromViewBottomY
+            this.dialogContent.x = desiredX
+            this.dialogContent.y = fromViewBottomY
         }
         view.backgroundColor(color(R.color.cs_dialog_popup_background))
     }
@@ -109,12 +109,12 @@ open class CSNavigationDialogView<ViewType : View>(
     fun center() = apply {
         isFullscreen = false
         animation = Fade
-        content.updateLayoutParams<LayoutParams> { gravity = CENTER }
+        dialogContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
     }
 
     // TODO not used .. useful ? not ? remove.
     fun margin(margin: Int) = apply {
-        content.updateLayoutParams<LayoutParams> {
+        dialogContent.updateLayoutParams<LayoutParams> {
             topMargin = dpToPixel(margin)
             bottomMargin = dpToPixel(margin)
             leftMargin = dpToPixel(margin)
@@ -125,7 +125,7 @@ open class CSNavigationDialogView<ViewType : View>(
     open fun fullScreen() = apply {
         isFullscreen = true
         animation = Slide
-        content.updateLayoutParams<LayoutParams> {
+        dialogContent.updateLayoutParams<LayoutParams> {
             width = MATCH_PARENT
             height = MATCH_PARENT
         }

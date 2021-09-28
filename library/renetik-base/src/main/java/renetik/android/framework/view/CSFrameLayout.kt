@@ -21,6 +21,7 @@ class CSFrameLayout @JvmOverloads constructor(
     private val maxWidth: Int
     private val dispatchState: Boolean
     val eventOnDraw = event<Canvas>()
+    var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var eventOnLayout = event()
 
@@ -60,6 +61,11 @@ class CSFrameLayout @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         eventOnDraw.fire(canvas)
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val handled = onDispatchTouchEvent?.invoke(event) ?: false
+        return if (!handled) super.dispatchTouchEvent(event) else true
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

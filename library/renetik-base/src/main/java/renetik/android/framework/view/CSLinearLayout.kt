@@ -1,12 +1,14 @@
 package renetik.android.framework.view
 
 import android.content.Context
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
 import renetik.android.R
+import renetik.android.framework.event.event
 
 
 open class CSLinearLayout @JvmOverloads constructor(
@@ -19,6 +21,7 @@ open class CSLinearLayout @JvmOverloads constructor(
     var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    val eventOnDraw = event<Canvas>()
 
     init {
         val attributes =
@@ -34,11 +37,10 @@ open class CSLinearLayout @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (minWidth != -1 && measuredWidth < minWidth) {
+        if (minWidth != -1 && measuredWidth < minWidth)
             super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
-        } else if (maxWidth != -1 && measuredWidth > maxWidth) {
+        else if (maxWidth != -1 && measuredWidth > maxWidth)
             super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
-        }
     }
 
     override fun dispatchSetActivated(activated: Boolean) {
@@ -61,5 +63,10 @@ open class CSLinearLayout @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val handled = onTouchEvent?.invoke(event) ?: false
         return if (!handled) super.onTouchEvent(event) else true
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        eventOnDraw.fire(canvas)
     }
 }
