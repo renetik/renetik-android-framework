@@ -30,7 +30,7 @@ enum class DialogAnimation {
     None, Slide, Fade
 }
 
-open class CSNavigationDialogView<ViewType : View>(
+open class CSNavigationWindow<ViewType : View>(
     parent: CSActivityView<out ViewGroup>, val layout: CSLayoutRes)
     : CSActivityView<FrameLayout>(parent.navigation!!,
     layout(R.layout.cs_frame_match)), CSNavigationItem {
@@ -45,7 +45,7 @@ open class CSNavigationDialogView<ViewType : View>(
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
 
-    val dialogContent by lazy {
+    private val dialogContent by lazy {
         inflate<ViewType>(layout.id).also { it.isClickable = true }
     }
 
@@ -76,9 +76,7 @@ open class CSNavigationDialogView<ViewType : View>(
             DialogAnimation.None -> None
         }
 
-    fun dismiss() {
-        navigation!!.pop(this)
-    }
+    fun dismiss() = navigation!!.pop(this)
 
     fun show(animation: DialogAnimation? = null) = apply {
         animation?.let { this.animation = it }
@@ -98,7 +96,8 @@ open class CSNavigationDialogView<ViewType : View>(
         this.dialogContent.hasSize {
             var desiredX = fromViewTopCenterX.toFloat() - (this.dialogContent.width / 2)
             if (desiredX + this.dialogContent.width > displayWidth - dpToPixelF(marginDp))
-                desiredX -= (desiredX + this.dialogContent.width) - (displayWidth - dpToPixelF(marginDp))
+                desiredX -= (desiredX + this.dialogContent.width) - (displayWidth - dpToPixelF(
+                    marginDp))
             if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
             this.dialogContent.x = desiredX
             this.dialogContent.y = fromViewBottomY
