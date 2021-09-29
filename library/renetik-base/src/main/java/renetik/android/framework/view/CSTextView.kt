@@ -2,6 +2,7 @@ package renetik.android.framework.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import renetik.android.R
@@ -14,6 +15,7 @@ class CSTextView @JvmOverloads constructor(
     //    private val minWidth: Int
 //    private val maxWidth: Int
     private val dispatchState: Boolean
+    var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
     init {
         val attributes =
@@ -46,5 +48,10 @@ class CSTextView @JvmOverloads constructor(
 
     override fun dispatchSetPressed(pressed: Boolean) {
         if (dispatchState) super.dispatchSetPressed(pressed)
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val handled = onTouchEvent?.invoke(event) ?: false
+        return if (!handled) super.onTouchEvent(event) else true
     }
 }
