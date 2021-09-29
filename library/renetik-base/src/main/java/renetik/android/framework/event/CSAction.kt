@@ -11,8 +11,6 @@ interface CSActionInterface : CSEventProperty<Boolean> {
     val isObserved: Boolean
     fun onObserveChange(function: (CSActionInterface) -> Unit): CSEventRegistration
     val isRunning: Boolean
-
-    //    fun onChange(function: (CSActionInterface) -> Unit): CSEventRegistration
     fun start()
     fun stop()
 }
