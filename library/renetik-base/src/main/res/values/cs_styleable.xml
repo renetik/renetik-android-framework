@@ -5,6 +5,7 @@
         <attr name="icon" />
     </declare-styleable>
     <declare-styleable name="CSLayout">
+        <attr name="clipToOutline" format="boolean" />
         <attr name="minWidth" format="dimension" />
         <attr name="maxWidth" format="dimension" />
         <attr name="dispatchState" format="boolean" />

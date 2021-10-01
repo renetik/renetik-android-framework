@@ -27,6 +27,7 @@ open class CSLinearLayout @JvmOverloads constructor(
         val attributes =
             context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
         try {
+            clipToOutline = attributes.getBoolean(R.styleable.CSLayout_clipToOutline, false)
             minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, -1)
             maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
             dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
