@@ -16,13 +16,35 @@ fun CompoundButton.buttonTint(@ColorInt value: Int?) = apply {
     buttonTintList = if (value != null) ColorStateList.valueOf(value) else null
 }
 
+fun CompoundButton.isCheckedIf(condition: Boolean) = apply {
+    isChecked = condition
+}
+
 fun CompoundButton.isCheckedIf(property: CSEventProperty<Boolean>): CSEventRegistration {
-    val onChangeRegistration = property.onChange {
-        isChecked = it
-    }
+    val onChangeRegistration = property.onChange(this::isCheckedIf)
     onChecked { onChangeRegistration.pause().use { property.value(isChecked) } }
-    isChecked = property.isTrue
+    isCheckedIf(property.isTrue)
     return onChangeRegistration
+}
+
+fun <T> CompoundButton.isCheckedIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
+                                   condition: (T) -> Boolean) =
+    isCheckedIf(property1, property2) { first, _ -> condition(first) }
+
+fun <T, V> CompoundButton.isCheckedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+                                      condition: (T, V) -> Boolean): CSEventRegistration {
+    fun update() = isCheckedIf(condition(property1.value, property2.value))
+    update()
+    val registration = property1.onChange { update() }
+    val otherRegistration = property2.onChange { update() }
+    return object : CSEventRegistration {
+        override var isActive = true
+        override fun cancel() {
+            isActive = false
+            registration.cancel()
+            otherRegistration.cancel()
+        }
+    }
 }
 
 fun CompoundButton.setOn() {
