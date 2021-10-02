@@ -8,6 +8,8 @@
         <attr name="clipToOutline" format="boolean" />
         <attr name="minWidth" format="dimension" />
         <attr name="maxWidth" format="dimension" />
+        <attr name="minHeight" format="dimension" />
+        <attr name="maxHeight" format="dimension" />
         <attr name="dispatchState" format="boolean" />
     </declare-styleable>
     <declare-styleable name="RotaryKnobView">
