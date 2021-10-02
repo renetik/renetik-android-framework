@@ -17,17 +17,12 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface 
     override val data = mutableMapOf<String, Any?>()
 
     var index: Int? = null
-    private var isLoaded = false
+    var isLoaded = false
 
     fun load(data: Map<String, Any?>) {
         this.data.putAll(data)
-        if (!isLoaded) {
-            isLoaded = true
-            onLoadedFirstTime()
-        }
+        if (!isLoaded) isLoaded = true
     }
-
-    protected open fun onLoadedFirstTime() = Unit
 
     override fun save(key: String, value: String?) = data.set(key, value)
     override fun save(key: String, value: Map<String, *>?) = data.set(key, value)

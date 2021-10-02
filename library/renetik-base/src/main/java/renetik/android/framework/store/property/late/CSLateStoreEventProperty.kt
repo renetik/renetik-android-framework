@@ -37,5 +37,6 @@ abstract class CSLateStoreEventProperty<T>(
         if (fire && before != null) fireChange(before, newValue)
     }
 
-    val isNotInitialized get() = _value == null
+    val isNotLoaded get() = _value == null
+    val isLoaded get() = _value != null
 }
