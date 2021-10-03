@@ -221,10 +221,6 @@ abstract class CSActivityView<ViewType : View>
         } while (controller != null)
         null
     }
-
-//    override val parentActivityView: CSActivityView<*>? by lazy {
-//        _parentActivityView ?: super.parentActivityView
-//}
 }
 
 
