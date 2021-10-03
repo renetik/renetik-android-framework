@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.content.drawable
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEventRegistration.Companion.registration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.framework.lang.CSValue
@@ -62,11 +63,26 @@ fun TextView.text(property: CSEventProperty<*>) = text(property) { it.asString }
 @JvmName("TextViewTextStringProperty")
 fun TextView.text(property: CSEventProperty<String>) = text(property) { it }
 
+fun <T, V> TextView.text(parent: CSEventProperty<T>,
+                         child: (T) -> CSEventProperty<V>,
+                         valueToString: (V) -> Any): CSEventRegistration {
+    var childRegistration = text(child(parent.value), valueToString)
+    val parentRegistration = parent.onChange {
+        childRegistration.cancel()
+        childRegistration = text(child(parent.value), valueToString)
+    }
+    return registration {
+        parentRegistration.cancel()
+        childRegistration.cancel()
+    }
+}
+
+
 fun <T> TextView.text(property: CSEventProperty<T>, valueToString: (T) -> Any)
         : CSEventRegistration {
-    fun updateText() = text(valueToString(property.value))
-    updateText()
-    return property.onChange { updateText() }
+    fun update() = text(valueToString(property.value))
+    update()
+    return property.onChange { update() }
 }
 
 fun <T : CSDrawableInterface> TextView.startDrawable(property: CSEventProperty<T>)

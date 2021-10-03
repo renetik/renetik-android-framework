@@ -12,14 +12,14 @@ import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
 
 
-class CSFrameLayout @JvmOverloads constructor(
+open class CSFrameLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val minWidth: Int
     private val maxWidth: Int
-    private val dispatchState: Boolean
+    var dispatchState: Boolean
     val eventOnDraw = event<Canvas>()
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null

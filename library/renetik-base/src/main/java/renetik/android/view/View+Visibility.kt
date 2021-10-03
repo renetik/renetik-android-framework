@@ -4,6 +4,7 @@ import android.view.View
 import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
 import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.CSVisibility
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
@@ -95,16 +96,9 @@ fun <T, V> View.visibleIf(property1: CSEventProperty<T>, property2: CSEventPrope
                           condition: (T, V) -> Boolean): CSEventRegistration {
     fun update() = visibleIf(condition(property1.value, property2.value), animated)
     update()
-    val registration = property1.onChange { update() }
-    val otherRegistration = property2.onChange { update() }
-    return object : CSEventRegistration {
-        override var isActive = true
-        override fun cancel() {
-            isActive = false
-            registration.cancel()
-            otherRegistration.cancel()
-        }
-    }
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() })
 }
 
 fun <T> View.visibleIf(property: CSEventProperty<T>,

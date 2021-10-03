@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
 import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.isTrue
@@ -35,16 +36,9 @@ fun <T, V> CompoundButton.isCheckedIf(property1: CSEventProperty<T>, property2: 
                                       condition: (T, V) -> Boolean): CSEventRegistration {
     fun update() = isCheckedIf(condition(property1.value, property2.value))
     update()
-    val registration = property1.onChange { update() }
-    val otherRegistration = property2.onChange { update() }
-    return object : CSEventRegistration {
-        override var isActive = true
-        override fun cancel() {
-            isActive = false
-            registration.cancel()
-            otherRegistration.cancel()
-        }
-    }
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() })
 }
 
 fun CompoundButton.setOn() {
