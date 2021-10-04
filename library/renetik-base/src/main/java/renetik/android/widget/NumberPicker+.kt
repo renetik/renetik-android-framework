@@ -45,8 +45,6 @@ fun <Row : Any> NumberPicker.loadData(data: List<Row>, selectedIndex: Int = 0) =
     }
 }
 
-val NumberPicker.index: Int get() = value
-
 fun NumberPicker.onValueChange(function: Func) = apply {
     setOnValueChangedListener { _, _, _ -> function() }
 }
