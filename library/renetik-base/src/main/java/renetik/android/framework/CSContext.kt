@@ -20,12 +20,12 @@ private val HIGH_DPI_STATUS_BAR_HEIGHT = 38
 
 abstract class CSContext : ContextWrapper, CSContextInterface {
     constructor() : super(application)
+    constructor(context: CSContext) : this(context as CSContextInterface)
     constructor(context: CSContextInterface) : super(context.context) {
         eventRegistrations.add(context.eventDestroy.listenOnce { onDestroy() })
     }
-
     constructor(context: Context) : super(context)
-    constructor(context: CSContext) : super(context)
+
 
     private var _isDestroyed = false
     val isDestroyed get() = _isDestroyed

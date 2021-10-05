@@ -4,6 +4,7 @@ import renetik.android.framework.event.property.CSPropertyStoreInterface
 import renetik.android.framework.json.CSJsonMapInterface
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.lang.CSId
+import renetik.android.framework.logging.CSLog.warn
 import renetik.android.framework.store.property.late.CSBooleanLateStoreEventProperty
 import renetik.android.framework.store.property.late.CSStringLateStoreEventProperty
 import renetik.android.framework.store.property.late.CSValuesItemLateStoreEventProperty
@@ -15,6 +16,7 @@ import renetik.android.primitives.asDouble
 import renetik.android.primitives.asFloat
 import renetik.android.primitives.asInt
 import renetik.android.primitives.asLong
+import java.io.Closeable
 import kotlin.reflect.KClass
 
 interface CSStoreInterface : CSPropertyStoreInterface,
@@ -28,6 +30,7 @@ interface CSStoreInterface : CSPropertyStoreInterface,
 
     fun has(key: String): Boolean = data.containsKey(key)
 
+    fun bulkSave(): Closeable = Closeable { warn("Bulk save not implemented") }
     fun save(key: String, value: String?)
     fun get(key: String): String? = data[key]?.toString()
 

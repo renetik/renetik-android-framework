@@ -5,9 +5,10 @@ import renetik.android.framework.json.parseJsonMap
 import renetik.android.framework.json.toJsonString
 import renetik.android.framework.store.CSStoreInterface
 import renetik.kotlin.runIf
+import java.io.Closeable
 
 abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
-    : CSJsonObject() {
+    : CSJsonObject(), Closeable {
 
     override val data by lazy { load() }
 
@@ -17,7 +18,8 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
 
     protected fun load() = loadJsonString()?.parseJsonMap() ?: mutableMapOf()
 
-    protected fun save() {
+    fun save() {
+        if (isBulkSave) return
         val json = data
             .runIf(isJsonPretty) { it.toSortedMap() }
             .toJsonString(formatted = isJsonPretty)
@@ -56,6 +58,17 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
 
     override fun clear(key: String) {
         super.clear(key)
+        save()
+    }
+
+    private var isBulkSave = false
+
+    override fun bulkSave() = apply {
+        isBulkSave = true
+        return this
+    }
+    override fun close() {
+        isBulkSave = false
         save()
     }
 }

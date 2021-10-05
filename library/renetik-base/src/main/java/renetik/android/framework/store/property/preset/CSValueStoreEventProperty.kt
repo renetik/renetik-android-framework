@@ -49,7 +49,7 @@ abstract class CSValueStoreEventProperty<T>(
         if (fire) fireChange(before, newValue)
     }
 
-    override fun toString() = value.toString()
+    override fun toString() = "$key $value"
 
     fun apply() = apply {
         val before = value

@@ -6,10 +6,10 @@ import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import renetik.android.framework.common.catchAllErrorReturnNull
-import renetik.android.framework.event.CSVisibleEventOwner
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.kotlin.later
 import renetik.android.framework.task.CSBackground.background
+import renetik.kotlin.later
 import java.io.File
 
 fun <T : ImageView> T.iconTint(@ColorInt color: Int) =
@@ -25,11 +25,10 @@ fun <T : ImageView> T.image(file: File) = apply {
     }
 }
 
-fun <T> ImageView.image(
-    parent: CSVisibleEventOwner, property: CSEventProperty<T>,
-    valueToImage: (T) -> File
-) = apply {
+fun <T> ImageView.image(property: CSEventProperty<T>,
+                        valueToImage: (T) -> File
+): CSEventRegistration {
     fun updateImage() = image(valueToImage(property.value))
-    parent.whileVisible(property.onChange { updateImage() })
     updateImage()
+    return property.onChange { updateImage() }
 }
