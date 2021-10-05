@@ -21,6 +21,7 @@ import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.lang.toggle
 import renetik.android.framework.view.adapter.CSClickAdapter
 import renetik.android.view.extensions.remove
 import renetik.kotlin.isNull
@@ -113,6 +114,18 @@ fun View.activated(value: Boolean) {
 }
 
 fun  View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
+
+fun  View.toggleAsTrue(property: CSEventProperty<Boolean>)
+        : CSEventRegistration {
+    onClick { property.toggle()}
+    return selectedIf(property) { it }
+}
+
+fun  View.toggleAsFalse(property: CSEventProperty<Boolean>)
+        : CSEventRegistration {
+    onClick { property.toggle()}
+    return selectedIf(property) { !it }
+}
 
 fun <T> View.selectIf(property: CSEventProperty<T>, value: T)
         : CSEventRegistration {
