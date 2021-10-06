@@ -24,18 +24,6 @@
     </style>
 
 
-    <style name="CSVerticalLine">
-        <item name="background">?attr/colorSecondaryVariant</item>
-        <item name="android:layout_width">0.5dp</item>
-        <item name="android:layout_height">match_parent</item>
-    </style>
-
-    <style name="CSHorizontalLine">
-        <item name="background">?attr/colorSecondaryVariant</item>
-        <item name="android:layout_height">0.5dp</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
     <style name="CSWrap" parent="CSLayout">
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_width">wrap_content</item>

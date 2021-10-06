@@ -85,6 +85,8 @@ open class CSNavigationWindow<ViewType : View>(
     }
 
     fun from(fromView: View) = apply {
+        fromView.isSelected = true
+        eventOnDismiss.listenOnce { fromView.isSelected = false }
         isFullscreen = false
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
