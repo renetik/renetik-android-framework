@@ -12,10 +12,18 @@ abstract class CSNullableStoreEventProperty<T>(
     onApply: ((value: T?) -> Unit)? = null)
     : CSEventPropertyBase<T?>(onApply), CSPresetStoreEventProperty<T?> {
 
-    protected abstract var _value: T?
+    var isLoaded = false
+
+    protected var _value: T? = null
 
     override var value: T?
-        get() = _value
+        get() {
+            if (!isLoaded) {
+                _value = firstLoad()
+                isLoaded = true
+            }
+            return _value
+        }
         set(value) {
             value(value)
         }
@@ -29,8 +37,8 @@ abstract class CSNullableStoreEventProperty<T>(
         if (!store.has(key)) initialValue?.let { value(it) }
         else {
             val newValue = load(store)
-            if (_value == newValue) return
-            val before = _value
+            if (value == newValue) return
+            val before = value
             _value = newValue
             onApply?.invoke(newValue)
             fireChange(before, newValue)
@@ -38,8 +46,8 @@ abstract class CSNullableStoreEventProperty<T>(
     }
 
     override fun value(newValue: T?, fire: Boolean) {
-        if (_value == newValue) return
-        val before = _value
+        if (value == newValue) return
+        val before = value
         _value = newValue
         save(store, value)
         onApply?.invoke(newValue)

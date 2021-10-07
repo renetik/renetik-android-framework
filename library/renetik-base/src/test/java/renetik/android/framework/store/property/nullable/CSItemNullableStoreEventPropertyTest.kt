@@ -41,6 +41,7 @@ class CSItemNullableStoreEventPropertyTest {
 
     @Test
     fun reload() {
+        assertEquals(First, property.value)
         property.save(store, Third)
         assertEquals("""{"key":"Third"}""", store.jsonString)
         assertEquals(First, property.value)
