@@ -24,9 +24,7 @@ abstract class CSNullableStoreEventProperty<T>(
             }
             return _value
         }
-        set(value) {
-            value(value)
-        }
+        set(value) = value(value)
 
     protected fun firstLoad() = if (store.has(key)) load() else run {
         initialValue?.let { save(it) }
