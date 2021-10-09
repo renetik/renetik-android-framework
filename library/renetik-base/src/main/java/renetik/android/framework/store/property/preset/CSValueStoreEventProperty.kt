@@ -6,10 +6,14 @@ import renetik.android.framework.store.property.save
 
 abstract class CSValueStoreEventProperty<T>(
     override var store: CSStoreInterface,
-    override val key: String,
-    private val default: T,
-    onApply: ((value: T) -> Unit)? = null)
-    : CSEventPropertyBase<T>(onApply), CSPresetStoreEventProperty<T> {
+    final override val key: String,
+    private val getDefault: () -> T,
+    onChange: ((value: T) -> Unit)? = null)
+    : CSEventPropertyBase<T>(onChange), CSPresetStoreEventProperty<T> {
+
+    constructor(store: CSStoreInterface, key: String, default: T,
+                onChange: ((value: T) -> Unit)? = null) :
+            this(store, key, getDefault = { default }, onChange)
 
     protected abstract var _value: T
 
@@ -19,17 +23,14 @@ abstract class CSValueStoreEventProperty<T>(
             value(value)
         }
 
-    protected fun firstLoad() = if (store.has(key)) load() else run {
-        save(default)
-        default
-    }
+    protected fun firstLoad() = if (store.has(key)) load() else getDefault().also { save(it) }
 
     abstract fun loadNullable(store: CSStoreInterface): T?
 
-    override fun load(store: CSStoreInterface) = loadNullable(store) ?: default
+    override fun load(store: CSStoreInterface) = loadNullable(store) ?: getDefault()
 
     override fun reload() {
-        if (!store.has(key)) value(default)
+        if (!store.has(key)) value(getDefault())
         else {
             val newValue = load(store)
             if (_value == newValue) return

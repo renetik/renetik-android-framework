@@ -1,9 +1,9 @@
 package renetik.android.framework.event.property
 
 import renetik.android.framework.lang.CSId
-import renetik.android.framework.store.property.preset.CSListStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
 import renetik.android.framework.store.property.preset.CSListItemValueStoreEventProperty
+import renetik.android.framework.store.property.preset.CSListStoreEventProperty
 
 interface CSPropertyStoreInterface {
     fun property(
@@ -44,6 +44,11 @@ interface CSPropertyStoreInterface {
 
     fun <T> property(
         key: String, values: List<T>, value: T,
+        onChange: ((value: T) -> Unit)? = null
+    ): CSListItemValueStoreEventProperty<T>
+
+    fun <T> property(
+        key: String, values: List<T>, getDefault: () -> T,
         onChange: ((value: T) -> Unit)? = null
     ): CSListItemValueStoreEventProperty<T>
 
