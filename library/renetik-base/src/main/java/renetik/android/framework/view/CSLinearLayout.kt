@@ -8,7 +8,8 @@ import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
 import renetik.android.R
-import renetik.android.framework.event.event
+import renetik.android.primitives.Empty
+import renetik.android.primitives.isSet
 
 
 open class CSLinearLayout @JvmOverloads constructor(
@@ -16,20 +17,20 @@ open class CSLinearLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private val minWidth: Int
-    private val maxWidth: Int
+    var minWidth: Int
+    var maxWidth: Int
     var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-    val eventOnDraw = event<Canvas>()
+    var onDraw: ((event: Canvas) -> Unit)? = null
 
     init {
         val attributes =
             context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
         try {
             clipToOutline = attributes.getBoolean(R.styleable.CSLayout_clipToOutline, false)
-            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, -1)
-            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
+            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, Int.Empty)
+            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, Int.Empty)
             dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
         } finally {
             attributes.recycle()
@@ -38,9 +39,9 @@ open class CSLinearLayout @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (minWidth != -1 && measuredWidth < minWidth)
+        if (minWidth.isSet && measuredWidth < minWidth)
             super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
-        else if (maxWidth != -1 && measuredWidth > maxWidth)
+        else if (maxWidth.isSet && measuredWidth > maxWidth)
             super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
     }
 
@@ -68,6 +69,6 @@ open class CSLinearLayout @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        eventOnDraw.fire(canvas)
+        onDraw?.invoke(canvas)
     }
 }

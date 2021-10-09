@@ -1,6 +1,6 @@
 package renetik.android.framework.lang
 
-import renetik.android.primitives.empty
+import renetik.android.primitives.Empty
 import renetik.android.primitives.isFalse
 
 interface CSValue<T> {
@@ -25,8 +25,8 @@ inline fun CSValue<Float>.ifSet(function: (CSValue<Float>) -> Unit) = apply {
 val CSValue<*>.isEmpty
     get() = when (val value = value) {
         is CharSequence -> value.isEmpty()
-        is Int -> value == Int.empty
-        is Float -> value == Float.empty
+        is Int -> value == Int.Empty
+        is Float -> value == Float.Empty
         is Boolean -> value.isFalse
         else -> value == null
     }

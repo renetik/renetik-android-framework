@@ -1,7 +1,7 @@
 package renetik.android.primitives
 
-val Float.Companion.empty get() = MAX_VALUE
-val Float.isEmpty get() = this == Float.empty
+val Float.Companion.Empty get() = MAX_VALUE
+val Float.isEmpty get() = this == Float.Empty
 val Float.isSet get() = !this.isEmpty
 fun Float.ifEmpty(function: (Float) -> Unit) = apply {
     if (this.isEmpty) function(this)
