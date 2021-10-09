@@ -2,6 +2,7 @@ package renetik.android.framework.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.ImageView
@@ -14,6 +15,7 @@ open class CSImageView @JvmOverloads constructor(
 ) : ImageView(context, attrs, defStyleAttr, defStyleRes) {
 
     private val _maxHeight: Int
+    var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
     init {
         val attributes =
@@ -29,5 +31,10 @@ open class CSImageView @JvmOverloads constructor(
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         if (_maxHeight != -1 && measuredHeight > _maxHeight)
             super.onMeasure(widthMeasureSpec, makeMeasureSpec(_maxHeight, EXACTLY))
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val handled = onTouchEvent?.invoke(event) ?: false
+        return if (!handled) super.onTouchEvent(event) else true
     }
 }

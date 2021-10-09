@@ -54,7 +54,7 @@ open class CSLinearLayout @JvmOverloads constructor(
     }
 
     override fun dispatchSetPressed(pressed: Boolean) {
-        if (dispatchState) super.dispatchSetPressed(pressed)
+        if (dispatchState) if (!isSelected) super.dispatchSetPressed(pressed)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

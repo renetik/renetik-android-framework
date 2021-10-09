@@ -11,13 +11,13 @@ import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.property.CSEventPropertyFunctions
+import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.event.resume
-import renetik.kotlin.collections.list
 import renetik.android.view.fadeIn
 import renetik.android.view.fadeOut
 import renetik.android.view.onClick
 import renetik.android.widget.scrollToIndex
+import renetik.kotlin.collections.list
 
 @Suppress("UNCHECKED_CAST")
 class CSGridView<ItemType : Any>(
@@ -25,7 +25,7 @@ class CSGridView<ItemType : Any>(
     val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>)
     : CSView<GridView>(parent, viewId) {
 
-    private val property: CSEventProperty<ItemType?> = CSEventPropertyFunctions.property(null)
+    val property: CSEventProperty<ItemType?> = property(null)
     private var listAdapter = Adapter()
     private val data = list<ItemType>()
 

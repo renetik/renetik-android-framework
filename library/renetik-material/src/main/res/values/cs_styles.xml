@@ -509,6 +509,16 @@
         <item name="android:layout_height">0dp</item>
     </style>
 
+    <style name="CSSpaceHorizontal7dp">
+        <item name="android:layout_width">7dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="CSSpaceHorizontal15dp">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
     <style name="CSSpaceVertical5dp">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">5dp</item>
