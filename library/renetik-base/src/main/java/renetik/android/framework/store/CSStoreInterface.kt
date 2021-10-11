@@ -11,7 +11,7 @@ import renetik.android.framework.store.property.late.CSValuesItemLateStoreEventP
 import renetik.android.framework.store.property.nullable.CSBooleanNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSIntNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
-import renetik.android.framework.store.property.preset.*
+import renetik.android.framework.store.property.value.*
 import renetik.android.primitives.asDouble
 import renetik.android.primitives.asFloat
 import renetik.android.primitives.asInt
@@ -101,7 +101,7 @@ interface CSStoreInterface : CSPropertyStoreInterface,
 
     override fun <T : CSId> property(
         key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =
-        CSListStoreEventProperty(this, key, values, value, onChange)
+        CSListValueStoreEventProperty(this, key, values, value, onChange)
 
     fun lateStringProperty(key: String, onChange: ((value: String) -> Unit)? = null) =
         CSStringLateStoreEventProperty(this, key, onChange)

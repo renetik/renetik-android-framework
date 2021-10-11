@@ -14,4 +14,6 @@ abstract class CSEventPropertyBase<T>(
         eventChange.fire(CSPropertyChange<T>(before, after))
 
     override fun toString() = value.toString()
+
+    open fun apply() = apply { onApply?.invoke(value) }
 }

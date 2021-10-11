@@ -1,10 +1,6 @@
-package renetik.android.framework.lang
+package renetik.android.framework.lang.property
 
 import renetik.kotlin.asString
-
-interface CSProperty<T> : CSValue<T> {
-    override var value: T
-}
 
 fun <T> CSProperty<T>.value(value: T) = apply { this.value = value }
 

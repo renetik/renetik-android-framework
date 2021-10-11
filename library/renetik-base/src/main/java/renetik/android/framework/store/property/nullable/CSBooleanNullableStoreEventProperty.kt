@@ -7,7 +7,7 @@ class CSBooleanNullableStoreEventProperty(
     onChange: ((value: Boolean?) -> Unit)? = null)
     : CSNullableStoreEventProperty<Boolean>(store, key, value, onChange) {
     override fun load(store: CSStoreInterface) = store.getBoolean(key)
-    override fun save(store: CSStoreInterface, value: Boolean?) {
+    override fun save(store: CSStoreInterface,value: Boolean?) {
         if (value == null) store.clear(key) else store.save(key, value)
     }
 }

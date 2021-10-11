@@ -3,7 +3,6 @@ package renetik.android.framework.store.property.late
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
-import renetik.android.framework.store.property.save
 import renetik.kotlin.CSUnexpectedException.Companion.unexpected
 
 abstract class CSLateStoreEventProperty<T>(
@@ -14,7 +13,7 @@ abstract class CSLateStoreEventProperty<T>(
     var _value: T? = null
         set(value) {
             field = value
-            save(value!!)
+            save(store, value!!)
         }
 
     override var value: T

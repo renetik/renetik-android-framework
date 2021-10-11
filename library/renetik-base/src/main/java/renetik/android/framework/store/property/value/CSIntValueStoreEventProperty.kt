@@ -1,4 +1,4 @@
-package renetik.android.framework.store.property.preset
+package renetik.android.framework.store.property.value
 
 import renetik.android.framework.store.CSStoreInterface
 
@@ -7,7 +7,7 @@ class CSIntValueStoreEventProperty(
     onChange: ((value: Int) -> Unit)? = null)
     : CSValueStoreEventProperty<Int>(store, key, default, onChange) {
     override var _value = firstLoad()
-    override fun loadNullable(store: CSStoreInterface): Int? = store.getInt(key)
-    override fun save(store: CSStoreInterface, value: Int) = store.save(key, value)
+    override fun load(store: CSStoreInterface) = store.getInt(key)
+    override fun save(store: CSStoreInterface,value: Int) = store.save(key, value)
 }
 

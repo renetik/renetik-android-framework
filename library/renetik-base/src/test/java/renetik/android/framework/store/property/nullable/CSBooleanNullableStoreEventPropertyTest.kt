@@ -33,16 +33,16 @@ class CSBooleanNullableStoreEventPropertyTest {
         assertEquals("{}", store.jsonString)
     }
 
-    @Test
-    fun testReload() {
-        assertEquals(true, property.value)
-        property.save(store, false)
-        property.reload()
-        assertEquals(false, property.value)
-
-        assertEquals("""{"key":"false"}""", store.jsonString)
-        assertEquals(false, property.value)
-        assertEquals(false, _value)
-    }
+//    @Test
+//    fun testReload() {
+//        assertEquals(true, property.value)
+//        property.save(store, false)
+//        property.reload()
+//        assertEquals(false, property.value)
+//
+//        assertEquals("""{"key":"false"}""", store.jsonString)
+//        assertEquals(false, property.value)
+//        assertEquals(false, _value)
+//    }
 
 }

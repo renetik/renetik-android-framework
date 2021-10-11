@@ -1,5 +1,7 @@
 package renetik.android.framework.lang
 
+import renetik.android.framework.lang.property.CSProperty
+
 interface CSValidator {
     fun validate(): Boolean?
 }

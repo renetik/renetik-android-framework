@@ -21,7 +21,7 @@ import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.lang.toggle
+import renetik.android.framework.lang.property.toggle
 import renetik.android.framework.view.adapter.CSClickAdapter
 import renetik.android.view.extensions.remove
 import renetik.kotlin.isNull

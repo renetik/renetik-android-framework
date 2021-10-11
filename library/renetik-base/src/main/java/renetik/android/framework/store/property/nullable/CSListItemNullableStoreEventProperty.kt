@@ -7,10 +7,9 @@ import renetik.kotlin.toId
 class CSListItemNullableStoreEventProperty<T>(
     store: CSStoreInterface, key: String,
     val values: List<T>, default: T? = null, onChange: ((value: T?) -> Unit)? = null
-) : CSNullableStoreEventProperty<T?>(store, key, default, onChange) {
-//    override var _value = firstLoad()
+) : CSNullableStoreEventProperty<T>(store, key, default, onChange) {
     override fun load(store: CSStoreInterface) = store.getValue(key, values)
-    override fun save(store: CSStoreInterface, value: T?) {
+    override fun save(store: CSStoreInterface,value: T?) {
         if (value == null) store.clear(key) else store.save(key, value.toId())
     }
 }

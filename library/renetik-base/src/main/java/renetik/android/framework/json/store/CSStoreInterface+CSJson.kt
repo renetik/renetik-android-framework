@@ -1,8 +1,8 @@
 package renetik.android.framework.json.store
 
 import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.store.property.preset.CSJsonListStoreEventProperty
-import renetik.android.framework.store.property.preset.CSJsonTypeStoreEventProperty
+import renetik.android.framework.store.property.value.CSJsonListValueStoreEventProperty
+import renetik.android.framework.store.property.value.CSJsonTypeValueStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSJsonTypeNullableStoreEventProperty
 import renetik.android.framework.store.CSStoreInterface
 import kotlin.reflect.KClass
@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 fun <T : CSJsonObject> CSStoreInterface.property(
     key: String, listType: KClass<T>, default: List<T>,
     onApply: ((value: List<T>) -> Unit)? = null
-) = CSJsonListStoreEventProperty(this, key, listType, default, onApply)
+) = CSJsonListValueStoreEventProperty(this, key, listType, default, onApply)
 
 //fun <T : CSJsonObject> CSStoreInterface.property(
 //    key: String, createInstance: () -> T, default: List<T>,
@@ -25,4 +25,4 @@ fun <T : CSJsonObject> CSStoreInterface.property(
 fun <T : CSJsonObject> CSStoreInterface.property(
     key: String, type: KClass<T>, default: T,
     onApply: ((value: T) -> Unit)? = null
-) = CSJsonTypeStoreEventProperty(this, key, type, default, onApply)
+) = CSJsonTypeValueStoreEventProperty(this, key, type, default, onApply)

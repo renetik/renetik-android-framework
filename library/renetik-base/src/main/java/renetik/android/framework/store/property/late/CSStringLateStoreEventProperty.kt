@@ -7,6 +7,6 @@ class CSStringLateStoreEventProperty(
     store: CSStoreInterface, key: String, onChange: ((value: String) -> Unit)?)
     : CSLateStoreEventProperty<String>(store, key, onChange), CSStoreEventProperty<String> {
     override fun load() = store.getString(key)
-    override fun save(store: CSStoreInterface, value: String) = store.save(key, value)
+    override fun save(store: CSStoreInterface,value: String) = store.save(key, value)
 }
 

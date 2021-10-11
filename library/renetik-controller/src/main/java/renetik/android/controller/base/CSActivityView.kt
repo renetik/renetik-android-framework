@@ -9,7 +9,7 @@ import renetik.android.content.input
 import renetik.android.controller.common.CSNavigationView
 import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.framework.lang.CSProperty
+import renetik.android.framework.lang.property.CSProperty
 import renetik.android.framework.logging.CSLog.warn
 import renetik.android.view.extensions.isShowing
 import renetik.kotlin.className

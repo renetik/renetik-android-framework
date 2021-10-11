@@ -1,13 +1,14 @@
-package renetik.android.framework.store.property.preset
+package renetik.android.framework.store.property.value
 
+import renetik.android.framework.lang.property.CSListValuesProperty
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.getValue
 import renetik.kotlin.toId
 
 class CSListItemValueStoreEventProperty<T>(
     store: CSStoreInterface, key: String,
-    val values: List<T>, getDefault: () -> T, onChange: ((value: T) -> Unit)? = null
-) : CSValueStoreEventProperty<T>(store, key, getDefault, onChange) {
+    override val values: List<T>, getDefault: () -> T, onChange: ((value: T) -> Unit)? = null
+) : CSValueStoreEventProperty<T>(store, key, getDefault, onChange), CSListValuesProperty<T> {
 
     constructor(
         store: CSStoreInterface, key: String,
@@ -15,6 +16,6 @@ class CSListItemValueStoreEventProperty<T>(
     ) : this(store, key, values, getDefault = { default }, onChange)
 
     override var _value = firstLoad()
-    override fun loadNullable(store: CSStoreInterface) = store.getValue(key, values)
+    override fun load(store: CSStoreInterface) = store.getValue(key, values)
     override fun save(store: CSStoreInterface, value: T) = store.save(key, value.toId())
 }

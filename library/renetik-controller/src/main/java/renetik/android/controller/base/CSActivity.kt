@@ -11,7 +11,7 @@ import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.lang.CSProperty
+import renetik.android.framework.lang.property.CSProperty
 
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {

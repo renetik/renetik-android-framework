@@ -7,7 +7,7 @@ import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.lang.isTrue
+import renetik.android.framework.lang.property.isTrue
 
 fun CompoundButton.onChecked(function: (CompoundButton) -> Unit) = apply {
     setOnCheckedChangeListener { buttonView, _ -> function(buttonView) }

@@ -25,7 +25,8 @@ class CSSynchronizedEventPropertyImpl<T>(
             value(value)
         }
 
-    fun apply() = apply {
+    @Deprecated("This is wrong")
+    override fun apply() = apply {
         val before = value
         val value = this.value
         onApply?.invoke(value)

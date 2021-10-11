@@ -8,7 +8,6 @@ class CSValuesItemLateStoreEventProperty<T>(
     store: CSStoreInterface, key: String,
     val values: Iterable<T>, onChange: ((value: T) -> Unit)? = null
 ) : CSLateStoreEventProperty<T>(store, key, onChange) {
-
     constructor(store: CSStoreInterface, key: String,
                 values: Array<T>, onChange: ((value: T) -> Unit)? = null)
             : this(store, key, values.asIterable(), onChange)

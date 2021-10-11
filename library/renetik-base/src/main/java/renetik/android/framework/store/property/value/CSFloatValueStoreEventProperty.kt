@@ -1,4 +1,4 @@
-package renetik.android.framework.store.property.preset
+package renetik.android.framework.store.property.value
 
 import renetik.android.framework.store.CSStoreInterface
 
@@ -7,6 +7,6 @@ class CSFloatValueStoreEventProperty(
     onChange: ((value: Float) -> Unit)?)
     : CSValueStoreEventProperty<Float>(store, key, default, onChange) {
     override var _value = firstLoad()
-    override fun loadNullable(store: CSStoreInterface) = store.getFloat(key)
+    override fun load(store: CSStoreInterface) = store.getFloat(key)
     override fun save(store: CSStoreInterface, value: Float) = store.save(key, value)
 }
