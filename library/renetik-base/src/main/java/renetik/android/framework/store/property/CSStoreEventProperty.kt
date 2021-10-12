@@ -8,4 +8,6 @@ interface CSStoreEventProperty<T> : CSEventProperty<T> {
     val key: String
     fun save(store: CSStoreInterface, value: T)
     fun save(store: CSStoreInterface) = save(store, value)
+    fun save(value: T) = save(store, value)
+    fun save() = save(store, value)
 }

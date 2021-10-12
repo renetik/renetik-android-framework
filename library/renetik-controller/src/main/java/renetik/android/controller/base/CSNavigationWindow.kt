@@ -35,7 +35,7 @@ open class CSNavigationWindow<ViewType : View>(
     : CSActivityView<FrameLayout>(parent.navigation!!,
     layout(R.layout.cs_frame_match)), CSNavigationItem {
 
-    private var isFullscreen = false
+    override var isFullscreen = false
     private var animation = Slide
     private val marginDp = 15
 

@@ -36,7 +36,8 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller: CSActivityView<T>,
         pushId: String? = null
     ): CSActivityView<T> {
-        current?.showingInPager(false)
+        val isFullScreen = (controller as? CSNavigationItem)?.isFullscreen ?: true
+        current?.showingInPager(!isFullScreen)
         _controllers[pushId ?: controller.toString()] = controller
         pushAnimation(this, controller)
         view.add(controller)
@@ -122,7 +123,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         _controllers[entryOfController.key] = newController
         val indexIfController = _controllers.entries.indexOf(entryOfController)
         view.addView(newController.view, indexIfController)
-        newController.showingInPager(false)
+        newController.showingInPager(true)
         newController.lifecycleUpdate()
         onViewControllerPush(newController)
         return newController

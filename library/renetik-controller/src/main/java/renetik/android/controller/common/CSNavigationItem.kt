@@ -1,6 +1,7 @@
 package renetik.android.controller.common
 
 interface CSNavigationItem {
+    val isFullscreen get() = true
     val isBarVisible: Boolean? get() = null
     val isNavigationIconVisible: Boolean? get() = null
     val navigationItemIcon: Int? get() = null

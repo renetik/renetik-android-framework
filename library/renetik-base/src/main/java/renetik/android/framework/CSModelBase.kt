@@ -4,7 +4,7 @@ import renetik.android.framework.event.*
 
 open class CSModelBase(parent: CSHasDestroy? = null) : CSEventOwnerHasDestroy {
     override val eventRegistrations = CSEventRegistrations()
-    private var isDestroyed = false
+    var isDestroyed = false
     override val eventDestroy = event<Unit>()
 
     init {
