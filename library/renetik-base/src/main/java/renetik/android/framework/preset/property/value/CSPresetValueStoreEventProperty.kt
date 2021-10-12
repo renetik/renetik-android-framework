@@ -36,7 +36,10 @@ abstract class CSPresetValueStoreEventProperty<T>(
     fun apply() = apply { property.apply() }
 
     init {
-        preset.store.onChange { reload() }
+        preset.store.onChange {
+            property.store = it
+            reload()
+        }
 //        preset.eventReload.listen(::reload)
     }
 }

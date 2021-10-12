@@ -54,7 +54,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     private var isReload = false
     fun reload(item: PresetItem) {
         isReload = true
-        store.value = item.store
+        store.value = CSJsonObject().also { it.load(item.store) }
         isReload = false
     }
 

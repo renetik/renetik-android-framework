@@ -19,7 +19,7 @@ abstract class CSPresetNullableStoreEventProperty<T>(
     private fun load(store: CSStoreInterface) = property.load(store) ?: getDefault()
     override fun reload() = value(load(store))
 
-    override fun isModified(): Boolean = store.has(key) &&
+    override fun isModified(): Boolean =
             value != load(preset.current.value.store)
 
     override fun save(store: CSStoreInterface, value: T?) = property.save(store, value)
@@ -35,7 +35,10 @@ abstract class CSPresetNullableStoreEventProperty<T>(
         set(value) = property.value(value)
 
     init {
-        preset.store.onChange { reload() }
+        preset.store.onChange {
+            property.store = it
+            reload()
+        }
 //        preset.eventReload.listen(::reload)
     }
 }
