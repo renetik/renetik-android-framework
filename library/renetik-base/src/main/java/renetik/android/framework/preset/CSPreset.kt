@@ -28,14 +28,14 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     override val id = "$parentId preset"
 
-    val store: CSStoreEventProperty<CSJsonObject> = {
-        parentPreset?.property(this, "$id store", CSJsonObject::class, CSJsonObject())
-            ?: application.store.property("$id store", CSJsonObject::class, CSJsonObject())
-    }()
-
     val current: CSEventProperty<PresetItem> = {
         parentPreset?.property(this, "$id current", list.items, defaultIndex = 0)
             ?: application.store.property("$id current", list.items, defaultIndex = 0)
+    }()
+
+    val store: CSStoreEventProperty<CSJsonObject> = {
+        parentPreset?.property(this, "$id store", CSJsonObject::class, CSJsonObject())
+            ?: application.store.property("$id store", CSJsonObject::class, CSJsonObject())
     }()
 
     init {
