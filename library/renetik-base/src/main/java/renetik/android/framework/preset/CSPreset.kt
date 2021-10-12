@@ -4,7 +4,6 @@ import renetik.android.framework.CSEventOwnerHasDestroy
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.event.CSHasDestroy
 import renetik.android.framework.event.listenOnce
-import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.store.property
@@ -36,13 +35,13 @@ class CSPreset<PresetItem : CSPresetItem,
 
     override val id = "$parentId preset"
 
-    val current: CSEventProperty<PresetItem> =
-        parentPreset?.property(this, "$id current", list.items, defaultIndex = 0)
-            ?: parentStore!!.property("$id current", list.items, defaultIndex = 0)
+    val current: CSStoreEventProperty<PresetItem> =
+        parentPreset?.property(this, "$id current", list.items, default = 0)
+            ?: parentStore!!.property("$id current", list.items, default = 0)
 
     val store: CSStoreEventProperty<CSJsonObject> =
         parentPreset?.property(this, "$id store", CSJsonObject::class)
-            ?: parentStore!!.property("$id store", CSJsonObject::class, CSJsonObject())
+            ?: parentStore!!.property("$id store", CSJsonObject::class)
 
     init {
         if (store.value.data.isEmpty())

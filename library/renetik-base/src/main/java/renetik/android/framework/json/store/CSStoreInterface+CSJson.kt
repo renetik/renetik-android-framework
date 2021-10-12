@@ -12,17 +12,11 @@ fun <T : CSJsonObject> CSStoreInterface.property(
     onApply: ((value: List<T>) -> Unit)? = null
 ) = CSJsonListValueStoreEventProperty(this, key, listType, default, onApply)
 
-//fun <T : CSJsonObject> CSStoreInterface.property(
-//    key: String, createInstance: () -> T, default: List<T>,
-//    onApply: ((value: List<T>) -> Unit)? = null
-//) = CSJsonListStoreEventProperty(this, key, createInstance, default, onApply)
-
 fun <T : CSJsonObject> CSStoreInterface.property(
     key: String, type: KClass<T>, default: T? = null,
     onApply: ((value: T?) -> Unit)? = null
 ) = CSJsonTypeNullableStoreEventProperty(this, key, type, default, onApply)
 
 fun <T : CSJsonObject> CSStoreInterface.property(
-    key: String, type: KClass<T>, default: T,
-    onApply: ((value: T) -> Unit)? = null
+    key: String, type: KClass<T>, onApply: ((value: T) -> Unit)? = null
 ) = CSJsonTypeValueStoreEventProperty(this, key, type, onApply)

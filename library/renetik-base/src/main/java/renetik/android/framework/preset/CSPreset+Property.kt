@@ -47,9 +47,9 @@ fun <T> CSPreset<*, *>.property(
     CSListItemPresetValueStoreEventProperty(this, key, values, getDefault, onChange))
 
 fun <T> CSPreset<*, *>.property(
-    parent: CSEventOwnerHasDestroy, key: String, values: List<T>, defaultIndex: Int,
+    parent: CSEventOwnerHasDestroy, key: String, values: List<T>, default: Int,
     onChange: ((value: T) -> Unit)? = null
-) = property(parent, key, values, values[defaultIndex], onChange)
+) = property(parent, key, values, values[default], onChange)
 
 fun <T> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, values: Array<T>, default: T,
