@@ -15,15 +15,10 @@ abstract class CSPresetNullableStoreEventProperty<T>(
 
     abstract val property: CSNullableStoreEventProperty<T>
     override val store get() = preset.store.value
-
     private fun load(store: CSStoreInterface) = property.load(store) ?: getDefault()
     override fun reload() = value(load(store))
-
-    override fun isModified(): Boolean =
-            value != load(preset.current.value.store)
-
+    override fun isModified(): Boolean = value != load(preset.current.value.store)
     override fun save(store: CSStoreInterface, value: T?) = property.save(store, value)
-
     override fun value(newValue: T?, fire: Boolean) =
         property.value(newValue, fire)
 
