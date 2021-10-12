@@ -10,7 +10,7 @@ class CSJsonListListLateStoreEventProperty<T : CSJsonObject>(
     override val key: String, val type: KClass<T>,
     onChange: ((value: List<List<T>>) -> Unit)? = null)
     : CSLateStoreEventProperty<List<List<T>>>(store, key, onChange) {
-    override fun load(): List<List<T>>? = store.getJsonListList(key, type)
-    override fun save(store: CSStoreInterface,value: List<List<T>>) = store.save(key, value)
+    override fun get(): List<List<T>>? = store.getJsonListList(key, type)
+    override fun set(store: CSStoreInterface, value: List<List<T>>) = store.set(key, value)
 }
 

@@ -1,7 +1,5 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.preset.property.CSPresetStoreEventProperty
-import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.CSEventOwnerHasDestroy
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.event.CSHasDestroy
@@ -13,30 +11,38 @@ import renetik.android.framework.json.store.property
 import renetik.android.framework.lang.CSId
 import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.lang.property.setFalse
-import renetik.android.framework.logging.CSLog.info
+import renetik.android.framework.preset.property.CSPresetStoreEventProperty
+import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
 
 
-class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
+class CSPreset<PresetItem : CSPresetItem,
+        PresetList : CSPresetItemList<PresetItem>> private constructor(
     parent: CSHasDestroy,
     parentPreset: CSPreset<*, *>? = null,
+    parentStore: CSStoreInterface? = null,
     val parentId: String,
     val list: PresetList) : CSModelBase(parent), CSId {
 
-    constructor(parent: CSHasDestroy, parentId: String, list: PresetList)
-            : this(parent, null, parentId, list)
+    constructor(parent: CSHasDestroy, parentStore: CSStoreInterface,
+                parentId: String, list: PresetList)
+            : this(parent, parentPreset = null, parentStore = parentStore,
+        parentId = parentId, list = list)
+
+    constructor(parent: CSHasDestroy, parentPreset: CSPreset<*, *>,
+                parentId: String, list: PresetList)
+            : this(parent, parentPreset = parentPreset, parentStore = null,
+        parentId = parentId, list = list)
 
     override val id = "$parentId preset"
 
-    val current: CSEventProperty<PresetItem> = {
+    val current: CSEventProperty<PresetItem> =
         parentPreset?.property(this, "$id current", list.items, defaultIndex = 0)
-            ?: application.store.property("$id current", list.items, defaultIndex = 0)
-    }()
+            ?: parentStore!!.property("$id current", list.items, defaultIndex = 0)
 
-    val store: CSStoreEventProperty<CSJsonObject> = {
-        parentPreset?.property(this, "$id store", CSJsonObject::class, CSJsonObject())
-            ?: application.store.property("$id store", CSJsonObject::class, CSJsonObject())
-    }()
+    val store: CSStoreEventProperty<CSJsonObject> =
+        parentPreset?.property(this, "$id store", CSJsonObject::class)
+            ?: parentStore!!.property("$id store", CSJsonObject::class, CSJsonObject())
 
     init {
         if (store.value.data.isEmpty())
@@ -45,7 +51,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
             reload(it)
         }
         store.onChange {
-            info(it)
+//            info(it)
         }
     }
 
@@ -71,25 +77,22 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     }
 
     fun saveAsNew(preset: PresetItem) {
-        for (property in properties) property.save(preset.store)
+        preset.save(properties)
+//        for (property in properties) property.save(preset.store)
         list.put(preset)
         current.value(preset)
         isModified.setFalse()
     }
 
     fun saveAsCurrent(): PresetItem {
-        current.value.store.bulkSave().use {
-            it.clear()
-            for (property in current.value.properties) property.save(it)
-            for (property in properties) property.save(it)
-        }
+        current.value.save(properties)
         isModified.setFalse()
         return current.value
     }
 
     fun delete(preset: PresetItem) {
         preset.delete()
-        list.delete(preset)
+        list.remove(preset)
         if (current.value == preset) current.value = list.items.first()
     }
 
@@ -100,6 +103,9 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
             updateIsModified(property)
         }
         current.onChange {
+            updateIsModified(property)
+        }
+        store.onChange {
             updateIsModified(property)
         }
         updateIsModified(property)

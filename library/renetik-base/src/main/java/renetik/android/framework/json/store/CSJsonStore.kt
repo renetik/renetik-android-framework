@@ -26,28 +26,28 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
         saveJsonString(json)
     }
 
-    override fun save(key: String, value: String?) {
-        super.save(key, value)
+    override fun set(key: String, value: String?) {
+        super.set(key, value)
         save()
     }
 
-    override fun save(key: String, value: Map<String, *>?) {
-        super.save(key, value)
+    override fun set(key: String, value: Map<String, *>?) {
+        super.set(key, value)
         save()
     }
 
-    override fun save(key: String, value: Array<*>?) {
-        super.save(key, value)
+    override fun set(key: String, value: Array<*>?) {
+        super.set(key, value)
         save()
     }
 
-    override fun save(key: String, value: List<*>?) {
-        super.save(key, value)
+    override fun set(key: String, value: List<*>?) {
+        super.set(key, value)
         save()
     }
 
-    override fun <T : CSJsonObject> save(key: String, jsonObject: T?) {
-        super.save(key, jsonObject)
+    override fun <T : CSJsonObject> set(key: String, jsonObject: T?) {
+        super.set(key, jsonObject)
         save()
     }
 

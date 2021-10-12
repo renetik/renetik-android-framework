@@ -8,6 +8,6 @@ class CSFloatPresetValueStoreEventProperty(
     key: String,
     default: Float,
     onChange: ((value: Float) -> Unit)?)
-    : CSPresetValueStoreEventProperty<Float>(preset, key, default) {
+    : CSPresetValueStoreEventProperty<Float>(preset, key) {
     override val property = CSFloatValueStoreEventProperty(store, key, default, onChange)
 }

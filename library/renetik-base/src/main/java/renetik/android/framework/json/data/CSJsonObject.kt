@@ -24,12 +24,12 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface 
         if (!isLoaded) isLoaded = true
     }
 
-    override fun save(key: String, value: String?) = data.set(key, value)
-    override fun save(key: String, value: Map<String, *>?) = data.set(key, value)
+    override fun set(key: String, value: String?) = data.set(key, value)
+    override fun set(key: String, value: Map<String, *>?) = data.set(key, value)
     override fun getMap(key: String) = data[key] as? MutableMap<String, Any?>
-    override fun save(key: String, value: Array<*>?) = data.set(key, value)
+    override fun set(key: String, value: Array<*>?) = data.set(key, value)
     override fun getArray(key: String): Array<*>? = getList(key)?.toTypedArray()
-    override fun save(key: String, value: List<*>?) = data.set(key, value)
+    override fun set(key: String, value: List<*>?) = data.set(key, value)
     override fun getList(key: String): List<*>? = data[key] as? MutableList<Any?>
 
     override fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>): List<T>? {
@@ -38,7 +38,7 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface 
             (data[key] as? List<MutableMap<String, Any?>>)?.let { type.createJsonObjectList(it) }
     }
 
-    override fun <T : CSJsonObject> save(key: String, jsonObject: T?) = data.set(key, jsonObject)
+    override fun <T : CSJsonObject> set(key: String, jsonObject: T?) = data.set(key, jsonObject)
     override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T? {
         return data[key] as? T
             ?: (data[key] as? MutableMap<String, Any?>)?.let { type.createJsonObject(it) }

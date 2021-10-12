@@ -8,14 +8,14 @@ class CSListValueStoreEventProperty<T : CSId>(
     store: CSStoreInterface, key: String,
     val values: Iterable<T>, val default: List<T>,
     onChange: ((value: List<T>) -> Unit)? = null
-) : CSValueStoreEventProperty<List<T>>(store, key, default, onChange) {
+) : CSValueStoreEventProperty<List<T>>(store, key, onChange) {
 
-    override var _value = firstLoad()
-    override fun load(store: CSStoreInterface): List<T> {
-        return store.get(key)?.split(",")
-            ?.mapNotNull { categoryId -> values.find { it.id == categoryId } } ?: default
-    }
+    override val defaultValue = default
+    override var _value = load()
 
-    override fun save(store: CSStoreInterface, value: List<T>) =
-        store.save(key, value.joinToString(",") { it.toId() })
+    override fun get(store: CSStoreInterface) = store.get(key)?.split(",")
+        ?.mapNotNull { categoryId -> values.find { it.id == categoryId } } ?: default
+
+    override fun set(store: CSStoreInterface, value: List<T>) =
+        store.set(key, value.joinToString(",") { it.toId() })
 }

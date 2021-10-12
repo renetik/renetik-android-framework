@@ -1,11 +1,11 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.json.store.CSJsonStore
 import renetik.android.framework.lang.CSId
-import renetik.android.framework.store.property.CSStoreEventProperty
+import renetik.android.framework.preset.property.CSPresetStoreEventProperty
+import renetik.android.framework.store.CSStoreInterface
 
 interface CSPresetItem : CSId {
-    val store: CSJsonStore
+    val store: CSStoreInterface
     fun delete()
-    val properties: List<CSStoreEventProperty<*>>
+    fun save(properties: Iterable<CSPresetStoreEventProperty<*>>)
 }

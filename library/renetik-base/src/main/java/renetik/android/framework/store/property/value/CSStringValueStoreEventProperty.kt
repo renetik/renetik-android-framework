@@ -5,9 +5,10 @@ import renetik.android.framework.store.CSStoreInterface
 class CSStringValueStoreEventProperty(
     store: CSStoreInterface, key: String, default: String,
     onChange: ((value: String) -> Unit)?)
-    : CSValueStoreEventProperty<String>(store, key, default, onChange) {
-    override var _value = firstLoad()
-    override fun load(store: CSStoreInterface) = store.getString(key)
-    override fun save(store: CSStoreInterface, value: String) = store.save(key, value)
+    : CSValueStoreEventProperty<String>(store, key, onChange) {
+    override val defaultValue = default
+    override var _value = load()
+    override fun get(store: CSStoreInterface) = store.getString(key)
+    override fun set(store: CSStoreInterface, value: String) = store.set(key, value)
 }
 

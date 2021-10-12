@@ -8,7 +8,7 @@ class CSJsonString(val data: CSJsonObject, private val key: String)
     var string: String?
         get() = data.getString(key)
         set(value) {
-            data.save(key, value)
+            data.set(key, value)
         }
 
     override var value

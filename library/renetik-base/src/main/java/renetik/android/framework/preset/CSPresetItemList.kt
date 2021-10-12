@@ -4,5 +4,5 @@ interface CSPresetItemList<PresetItem : CSPresetItem> {
     val path: String
     val items: List<PresetItem>
     fun put(preset: PresetItem)
-    fun delete(preset: PresetItem)
+    fun remove(preset: PresetItem)
 }

@@ -8,7 +8,7 @@ class CSIntPresetNullableStoreEventProperty(
     key: String,
     default: Int?,
     onChange: ((value: Int?) -> Unit)?)
-    : CSPresetNullableStoreEventProperty<Int>(preset, key, default) {
+    : CSPresetNullableStoreEventProperty<Int>(preset, key) {
     override val property = CSIntNullableStoreEventProperty(store, key, default, onChange)
 }
 

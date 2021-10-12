@@ -7,7 +7,7 @@ class CSJsonFloat(val data: CSJsonObject, private val key: String) : CSProperty<
     var float: Float?
         get() = data.getDouble(key)?.toFloat()
         set(value) {
-            data.save(key, value)
+            data.set(key, value)
         }
 
     override var value: Float

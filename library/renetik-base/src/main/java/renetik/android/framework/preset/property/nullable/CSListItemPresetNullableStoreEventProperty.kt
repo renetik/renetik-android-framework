@@ -10,7 +10,7 @@ class CSListItemPresetNullableStoreEventProperty<T>(
     override val values: List<T>,
     default: T?,
     onChange: ((value: T?) -> Unit)?)
-    : CSPresetNullableStoreEventProperty<T>(preset, key, default), CSListValuesProperty<T?> {
+    : CSPresetNullableStoreEventProperty<T>(preset, key), CSListValuesProperty<T?> {
     override val property =
         CSListItemNullableStoreEventProperty(store, key, values, default, onChange)
 }

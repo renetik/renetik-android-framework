@@ -8,6 +8,6 @@ class CSBooleanPresetValueStoreEventProperty(
     key: String,
     default: Boolean,
     onChange: ((value: Boolean) -> Unit)?)
-    : CSPresetValueStoreEventProperty<Boolean>(preset, key, default) {
+    : CSPresetValueStoreEventProperty<Boolean>(preset, key) {
     override val property = CSBooleanValueStoreEventProperty(store, key, default, onChange)
 }

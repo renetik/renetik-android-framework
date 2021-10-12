@@ -11,7 +11,7 @@ class CSJsonLocation(val data: CSJsonObject, private val key: String) {
     var latLng: LatLng?
         get() = (data.getList(key) as? List<Double>)?.let { LatLng(it[0], it[1]) }
         set(latLng) {
-            data.save(key, list(latLng?.latitude, latLng?.longitude))
+            data.set(key, list(latLng?.latitude, latLng?.longitude))
         }
 
     fun set(location: Location) {

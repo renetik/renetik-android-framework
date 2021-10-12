@@ -15,14 +15,14 @@ class CSJsonStringList(val data: CSJsonObject, val key: String) : Iterable<Strin
     var list: List<String>
         get() = dataList!!
         set(list) {
-            data.save(key, list)
+            data.set(key, list)
         }
 
     val last: String? get() = list.last
     val empty get() = size() == 0
 
     fun add(item: String) = dataList?.add(item)
-        ?: data.save(key, list(item))
+        ?: data.set(key, list(item))
 
     fun remove(item: String) = dataList?.delete(item)
     fun removeLast() = dataList?.deleteLast()

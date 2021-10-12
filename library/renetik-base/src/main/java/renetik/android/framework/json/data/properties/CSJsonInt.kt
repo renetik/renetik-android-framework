@@ -11,7 +11,7 @@ class CSJsonInt(
     var integer: Int?
         get() = data.getInt(key)
         set(value) {
-            data.save(key, value)
+            data.set(key, value)
         }
 
     override var value

@@ -25,4 +25,4 @@ fun <T : CSJsonObject> CSStoreInterface.property(
 fun <T : CSJsonObject> CSStoreInterface.property(
     key: String, type: KClass<T>, default: T,
     onApply: ((value: T) -> Unit)? = null
-) = CSJsonTypeValueStoreEventProperty(this, key, type, default, onApply)
+) = CSJsonTypeValueStoreEventProperty(this, key, type, onApply)

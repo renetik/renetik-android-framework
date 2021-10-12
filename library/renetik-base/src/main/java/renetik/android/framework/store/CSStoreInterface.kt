@@ -31,21 +31,21 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     fun has(key: String): Boolean = data.containsKey(key)
 
     fun bulkSave(): Closeable = Closeable { warn("Bulk save not implemented") }
-    fun save(key: String, value: String?)
+    fun set(key: String, value: String?)
     fun get(key: String): String? = data[key]?.toString()
 
-    fun save(key: String, value: Map<String, *>?)
+    fun set(key: String, value: Map<String, *>?)
     fun getMap(key: String): Map<String, *>?
 
-    fun save(key: String, value: Array<*>?)
+    fun set(key: String, value: Array<*>?)
     fun getArray(key: String): Array<*>?
 
-    fun save(key: String, value: List<*>?)
+    fun set(key: String, value: List<*>?)
     fun getList(key: String): List<*>?
 
     fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>): List<T>?
 
-    fun <T : CSJsonObject> save(key: String, jsonObject: T?)
+    fun <T : CSJsonObject> set(key: String, jsonObject: T?)
     fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T?
 
     fun load(store: CSStoreInterface)
@@ -57,11 +57,11 @@ interface CSStoreInterface : CSPropertyStoreInterface,
         load(store)
     }
 
-    fun save(key: String, value: Int?) = save(key, value?.toString())
-    fun save(key: String, value: Boolean?) = save(key, value?.toString())
-    fun save(key: String, value: Float?) = save(key, value?.toString())
-    fun save(key: String, value: Double?) = save(key, value?.toString())
-    fun save(key: String, value: Long?) = save(key, value?.toString())
+    fun set(key: String, value: Int?) = set(key, value?.toString())
+    fun set(key: String, value: Boolean?) = set(key, value?.toString())
+    fun set(key: String, value: Float?) = set(key, value?.toString())
+    fun set(key: String, value: Double?) = set(key, value?.toString())
+    fun set(key: String, value: Long?) = set(key, value?.toString())
 
     fun getBoolean(key: String, default: Boolean) = get(key)?.toBoolean() ?: default
     fun getBoolean(key: String, default: Boolean? = null) = get(key)?.toBoolean() ?: default

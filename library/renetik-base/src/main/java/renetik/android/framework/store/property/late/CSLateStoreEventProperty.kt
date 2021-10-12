@@ -13,12 +13,12 @@ abstract class CSLateStoreEventProperty<T>(
     var _value: T? = null
         set(value) {
             field = value
-            save(store, value!!)
+            set(store, value!!)
         }
 
     override var value: T
         get() {
-            if (_value == null) _value = load()
+            if (_value == null) _value = get()
                 ?: throw unexpected
             return _value!!
         }
@@ -26,7 +26,7 @@ abstract class CSLateStoreEventProperty<T>(
             value(value)
         }
 
-    abstract fun load(): T?
+    abstract fun get(): T?
 
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return

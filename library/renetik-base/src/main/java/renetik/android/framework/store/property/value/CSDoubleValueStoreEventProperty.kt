@@ -5,8 +5,9 @@ import renetik.android.framework.store.CSStoreInterface
 class CSDoubleValueStoreEventProperty(
     store: CSStoreInterface, key: String, default: Double,
     onChange: ((value: Double) -> Unit)?)
-    : CSValueStoreEventProperty<Double>(store, key, default, onChange) {
-    override var _value = firstLoad()
-    override fun load(store: CSStoreInterface) = store.getDouble(key)
-    override fun save(store: CSStoreInterface,value: Double) = store.save(key, value)
+    : CSValueStoreEventProperty<Double>(store, key, onChange) {
+    override val defaultValue = default
+    override var _value = load()
+    override fun get(store: CSStoreInterface) = store.getDouble(key)
+    override fun set(store: CSStoreInterface, value: Double) = store.set(key, value)
 }

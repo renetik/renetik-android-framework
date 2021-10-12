@@ -24,7 +24,7 @@ open class CSServerMapData : CSJsonObject(), CSHttpResponseData {
     override fun onHttpResponse(code: Int, message: String, content: String?) {
         content?.parseJsonMap()?.let {
             load(it)
-        } ?: save("message", PARSING_FAILED)
+        } ?: set("message", PARSING_FAILED)
     }
 
     override val success: Boolean get() = getBoolean("success") ?: false

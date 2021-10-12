@@ -7,29 +7,26 @@ import renetik.android.framework.store.property.CSStoreEventProperty
 abstract class CSValueStoreEventProperty<T>(
     override var store: CSStoreInterface,
     final override val key: String,
-    private val getDefault: () -> T,
     onChange: ((value: T) -> Unit)? = null)
     : CSEventPropertyBase<T>(onChange), CSStoreEventProperty<T> {
 
-    constructor(store: CSStoreInterface, key: String, default: T,
-                onChange: ((value: T) -> Unit)? = null) :
-            this(store, key, getDefault = { default }, onChange)
+    abstract val defaultValue: T
 
     protected abstract var _value: T
 
-    override var value: T
+    final override var value: T
         get() = _value
         set(value) = value(value)
 
-    protected fun firstLoad() = load(store) ?: getDefault().also { save(store, it) }
+    fun load() = get(store) ?: defaultValue.also { set(store, it) }
 
-    abstract fun load(store: CSStoreInterface): T?
+    abstract fun get(store: CSStoreInterface): T?
 
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         val before = _value
         _value = newValue
-        save(store, value)
+        set(store, value)
         onApply?.invoke(newValue)
         if (fire) fireChange(before, newValue)
     }

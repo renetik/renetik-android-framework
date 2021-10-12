@@ -8,8 +8,8 @@ class CSStringPresetValueStoreEventProperty(
     key: String,
     default: String,
     onChange: ((value: String) -> Unit)?)
-    : CSPresetValueStoreEventProperty<String>(preset, key, default) {
-    override val property =
-        CSStringValueStoreEventProperty(store, key, default, onChange)
+    : CSPresetValueStoreEventProperty<String>(preset, key) {
+    override val property = CSStringValueStoreEventProperty(store, key, default, onChange)
+
 }
 

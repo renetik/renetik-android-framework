@@ -10,14 +10,9 @@ class CSJsonListValueStoreEventProperty<T : CSJsonObject>(
     val type: KClass<T>,
     val default: List<T> = emptyList(),
     onApply: ((value: List<T>) -> Unit)? = null
-) : CSValueStoreEventProperty<List<T>>(store, key, default, onApply) {
-
-    override var _value = firstLoad()
-    override fun load(store: CSStoreInterface) = store.getJsonList(key, type) ?: default
-    override fun save(store: CSStoreInterface, value: List<T>) = store.save(key, value)
-
-    fun edit(function: (MutableList<T>) -> Unit) {
-        function((value as MutableList<T>))
-        save(store, value)
-    }
+) : CSValueStoreEventProperty<List<T>>(store, key, onApply) {
+    override val defaultValue = default
+    override var _value = load()
+    override fun get(store: CSStoreInterface) = store.getJsonList(key, type) ?: default
+    override fun set(store: CSStoreInterface, value: List<T>) = store.set(key, value)
 }

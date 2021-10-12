@@ -7,7 +7,7 @@ class CSJsonBoolean(val data: CSJsonObject, private val key: String) : CSPropert
     var bool: Boolean?
         get() = data.getBoolean(key)
         set(value) {
-            data.save(key, value)
+            data.set(key, value)
         }
 
     override var value

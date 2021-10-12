@@ -8,7 +8,7 @@ class CSIntPresetValueStoreEventProperty(
     key: String,
     default: Int,
     onChange: ((value: Int) -> Unit)?)
-    : CSPresetValueStoreEventProperty<Int>(preset, key, default) {
+    : CSPresetValueStoreEventProperty<Int>(preset, key) {
     override val property = CSIntValueStoreEventProperty(store, key, default, onChange)
 }
 

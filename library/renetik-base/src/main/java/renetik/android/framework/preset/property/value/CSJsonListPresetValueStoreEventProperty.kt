@@ -11,6 +11,6 @@ class CSJsonListPresetValueStoreEventProperty<T : CSJsonObject>(
     type: KClass<T>,
     default: List<T> = emptyList(),
     onChange: ((value: List<T>) -> Unit)?)
-    : CSPresetValueStoreEventProperty<List<T>>(preset, key, default) {
+    : CSPresetValueStoreEventProperty<List<T>>(preset, key) {
     override val property = CSJsonListValueStoreEventProperty(store, key, type, default, onChange)
 }

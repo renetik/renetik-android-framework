@@ -8,6 +8,6 @@ class CSFloatPresetNullableStoreEventProperty(
     key: String,
     default: Float?,
     onChange: ((value: Float?) -> Unit)?)
-    : CSPresetNullableStoreEventProperty<Float>(preset, key, default) {
+    : CSPresetNullableStoreEventProperty<Float>(preset, key) {
     override val property = CSFloatNullableStoreEventProperty(store, key, default, onChange)
 }

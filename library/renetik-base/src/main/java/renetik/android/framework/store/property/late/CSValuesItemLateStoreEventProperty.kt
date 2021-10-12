@@ -12,6 +12,6 @@ class CSValuesItemLateStoreEventProperty<T>(
                 values: Array<T>, onChange: ((value: T) -> Unit)? = null)
             : this(store, key, values.asIterable(), onChange)
 
-    override fun load(): T? = store.getValue(key, values)
-    override fun save(store: CSStoreInterface, value: T) = store.save(key, value.toId())
+    override fun get(): T? = store.getValue(key, values)
+    override fun set(store: CSStoreInterface, value: T) = store.set(key, value.toId())
 }

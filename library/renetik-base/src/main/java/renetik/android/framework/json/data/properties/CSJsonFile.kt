@@ -7,7 +7,7 @@ class CSJsonFile(val data: CSJsonObject, private val key: String) {
     var file: File?
         get() = data.getString(key)?.let { File(it) }
         set(file) {
-            data.save(key, file?.toString())
+            data.set(key, file?.toString())
         }
 
     val value: File get() = file!!

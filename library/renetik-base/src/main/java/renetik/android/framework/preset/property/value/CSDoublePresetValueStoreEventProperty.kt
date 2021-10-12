@@ -8,6 +8,6 @@ class CSDoublePresetValueStoreEventProperty(
     key: String,
     default: Double,
     onChange: ((value: Double) -> Unit)?)
-    : CSPresetValueStoreEventProperty<Double>(preset, key, default) {
+    : CSPresetValueStoreEventProperty<Double>(preset, key) {
     override val property = CSDoubleValueStoreEventProperty(store, key, default, onChange)
 }
