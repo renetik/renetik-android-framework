@@ -1,14 +1,33 @@
 package renetik.android.framework.store.property.value
 
+import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.listen
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
 
 abstract class CSValueStoreEventProperty<T>(
-    override var store: CSStoreInterface,
+    store: CSStoreInterface,
     final override val key: String,
     onChange: ((value: T) -> Unit)? = null)
     : CSEventPropertyBase<T>(onChange), CSStoreEventProperty<T> {
+
+    var storeEventLoadedRegistration: CSEventRegistration
+
+    init {
+        storeEventLoadedRegistration = store.eventLoaded.listen(::reload)
+    }
+
+    override var store: CSStoreInterface = store
+        set(value) {
+            storeEventLoadedRegistration.cancel()
+            field = value
+            storeEventLoadedRegistration = store.eventLoaded.listen(::reload)
+            reload()
+        }
+
+    fun reload() = value(load())
+    fun load() = get(store) ?: defaultValue.also { set(store, it) }
 
     abstract val defaultValue: T
 
@@ -17,8 +36,6 @@ abstract class CSValueStoreEventProperty<T>(
     final override var value: T
         get() = _value
         set(value) = value(value)
-
-    fun load() = get(store) ?: defaultValue.also { set(store, it) }
 
     abstract fun get(store: CSStoreInterface): T?
 

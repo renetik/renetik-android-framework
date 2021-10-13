@@ -12,13 +12,19 @@ abstract class CSPresetValueStoreEventProperty<T>(
 
     abstract val property: CSValueStoreEventProperty<T>
     override val store get() = preset.store.value
-    override fun isModified() =
-        value != (property.get(preset.current.value.store) ?: property.defaultValue)
+    override fun isModified(): Boolean {
+        val itemStore = preset.current.value.store
+        if (key.endsWith("preset store")) {
+            return itemStore.has(key) &&
+                    value != (property.get(itemStore) ?: property.defaultValue)
+        }
+        return value != (property.get(itemStore) ?: property.defaultValue)
+    }
 
     init {
+        preset.store.save()
         preset.store.onChange {
             property.store = it
-            value(property.load())
         }
     }
 
@@ -27,11 +33,15 @@ abstract class CSPresetValueStoreEventProperty<T>(
         property.value(newValue, fire)
 
     override fun onChanged(function: (before: T, after: T) -> Unit) =
-        property.onChanged(function)
+        property.onChanged { before: T, after: T ->
+            function(before, after)
+            preset.store.save()
+        }
 
     override var value
         get() = property.value
         set(value) = property.value(value)
 
+    @Deprecated("")
     fun apply() = apply { property.apply() }
 }

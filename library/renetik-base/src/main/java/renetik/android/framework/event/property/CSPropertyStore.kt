@@ -58,9 +58,9 @@ interface CSPropertyStoreInterface {
     ): CSListItemNullableStoreEventProperty<T>
 
     fun <T> property(
-        key: String, values: List<T>, default: Int,
+        key: String, values: List<T>, defaultIndex: Int,
         onChange: ((value: T) -> Unit)? = null
-    ) = property(key, values, values[default], onChange)
+    ) = property(key, values, values[defaultIndex], onChange)
 
     fun <T> property(
         key: String, values: Array<T>, value: T,

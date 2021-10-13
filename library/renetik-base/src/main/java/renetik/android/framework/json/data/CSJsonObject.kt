@@ -1,5 +1,7 @@
 package renetik.android.framework.json.data
 
+import renetik.android.framework.event.event
+import renetik.android.framework.event.fire
 import renetik.android.framework.json.extensions.createJsonObject
 import renetik.android.framework.json.extensions.createJsonObjectList
 import renetik.android.framework.json.toJsonString
@@ -14,15 +16,25 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface 
         load(map)
     }
 
-    override val data = mutableMapOf<String, Any?>()
+    constructor(data: CSStoreInterface) : this() {
+        load(data)
+    }
 
+    constructor(data: String) : this() {
+        load(data)
+    }
+
+    override val data = mutableMapOf<String, Any?>()
     var index: Int? = null
-    var isLoaded = false
+    override val eventLoaded = event()
 
     fun load(data: Map<String, Any?>) {
         this.data.putAll(data)
-        if (!isLoaded) isLoaded = true
+        eventLoaded.fire()
+        onLoaded()
     }
+
+    open fun onLoaded() {}
 
     override fun set(key: String, value: String?) = data.set(key, value)
     override fun set(key: String, value: Map<String, *>?) = data.set(key, value)
@@ -56,6 +68,8 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface 
 
     override fun equals(other: Any?) =
         (other as? CSJsonObject)?.let { it.data == data } ?: super.equals(other)
+
+    override fun hashCode() = data.hashCode()
 }
 
 

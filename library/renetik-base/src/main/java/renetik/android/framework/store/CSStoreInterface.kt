@@ -1,5 +1,6 @@
 package renetik.android.framework.store
 
+import renetik.android.framework.event.CSEvent
 import renetik.android.framework.event.property.CSPropertyStoreInterface
 import renetik.android.framework.json.CSJsonMapInterface
 import renetik.android.framework.json.data.CSJsonObject
@@ -21,6 +22,8 @@ import kotlin.reflect.KClass
 
 interface CSStoreInterface : CSPropertyStoreInterface,
     Iterable<Map.Entry<String, Any?>>, CSJsonMapInterface {
+
+    val eventLoaded: CSEvent<Unit>
 
     val data: Map<String, Any?>
 

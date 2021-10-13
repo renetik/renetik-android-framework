@@ -4,10 +4,12 @@ import junit.framework.Assert.*
 import org.junit.Test
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.lang.property.isFalse
 import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.preset.property.CSPresetStoreEventProperty
 import renetik.android.framework.store.CSStoreInterface
 import renetik.kotlin.collections.second
+import renetik.kotlin.collections.third
 
 class CSPresetTest {
 
@@ -16,32 +18,37 @@ class CSPresetTest {
 
     @Test
     fun test() {
-        assertEquals("parent preset item 1", parent.parentPreset.current.value.id)
-//        assertTrue("parent initial", parent.parentPreset.store.value.data.isEmpty())
+        assertEquals("Clear Parent", parent.parentPreset.current.value.id)
         assertEquals("parent initial", parent.property.value)
         assertFalse(parent.parentPreset.isModified.isTrue)
-        assertEquals("preset item 1", parent.child.childPreset.current.value.id)
-        assertEquals("initial", parent.child.property.value)
+        assertEquals("Clear Child", parent.child.childPreset.current.value.id)
+        assertEquals("child initial", parent.child.property.value)
         assertFalse(parent.child.childPreset.isModified.isTrue)
+
+        assertTrue(parent.parentPreset.store.value.has("parentClass childClass child preset store"))
+        assertEquals(CSJsonObject(""" {"property":"child initial"} """),
+            parent.child.childPreset.store.value)
     }
 
     @Test
     fun test2() {
-        parent.property.value = "new value"
-        assertEquals("new value", parent.property.value)
+        parent.property.value = "parent.property.value 1"
+        assertEquals("parent.property.value 1", parent.property.value)
         assertTrue(parent.parentPreset.isModified.isTrue)
-        assertFalse(parent.child.childPreset.isModified.isTrue)
+        assertTrue(parent.child.childPreset.isModified.isFalse)
 
-        parent.parentPreset.saveAsCurrent()
-        parent.parentPreset.current.value = parent.parentPreset.list.items.second()
-        assertEquals("parent initial", parent.property.value)
-        assertFalse(parent.parentPreset.isModified.isTrue)
-        assertFalse(parent.child.childPreset.isModified.isTrue)
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem("Parent Item 1"))
+        assertTrue(parent.parentPreset.isModified.isFalse)
+        assertTrue(parent.child.childPreset.isModified.isFalse)
+
+        parent.property.value = "parent.property.value 2"
+        assertTrue(parent.parentPreset.isModified.isTrue)
+        assertTrue(parent.child.childPreset.isModified.isFalse)
 
         parent.parentPreset.current.value = parent.parentPreset.list.items.first()
-        assertEquals("new value", parent.property.value)
-        assertFalse(parent.parentPreset.isModified.isTrue)
-        assertFalse(parent.child.childPreset.isModified.isTrue)
+        assertEquals("parent initial", parent.property.value)
+        assertTrue(parent.parentPreset.isModified.isFalse)
+        assertTrue(parent.child.childPreset.isModified.isFalse)
     }
 
     @Test
@@ -49,15 +56,21 @@ class CSPresetTest {
         parent.child.property.value = "new value"
         assertEquals("new value", parent.child.property.value)
         assertTrue(parent.child.childPreset.isModified.isTrue)
+        assertTrue(parent.parentPreset.isModified.isFalse)
 
-        parent.child.childPreset.saveAsCurrent()
-        parent.child.childPreset.current.value = parent.child.childPreset.list.items.second()
-        assertEquals("initial", parent.child.property.value)
-        assertFalse(parent.child.childPreset.isModified.isTrue)
-
-        parent.child.childPreset.current.value = parent.child.childPreset.list.items.first()
+        parent.child.childPreset.saveAsNew(CSPresetTestPresetItem("Parent Item 1"))
         assertEquals("new value", parent.child.property.value)
-        assertFalse(parent.child.childPreset.isModified.isTrue)
+        assertTrue(parent.child.childPreset.isModified.isFalse)
+        assertTrue(parent.parentPreset.isModified.isTrue)
+
+        parent.child.property.value = "new value"
+        parent.child.childPreset.saveAsCurrent()
+        assertEquals("new value", parent.child.property.value)
+        parent.parentPreset.reload()
+
+        assertEquals("child initial", parent.child.property.value)
+        assertTrue(parent.parentPreset.isModified.isFalse)
+        assertTrue(parent.child.childPreset.isModified.isFalse)
     }
 
     @Test
@@ -67,13 +80,34 @@ class CSPresetTest {
         assertFalse(parent.parentPreset.isModified.isTrue)
         assertTrue(parent.child.childPreset.isModified.isTrue)
 
-        parent.parentPreset.saveAsCurrent()
-        parent.parentPreset.current.value = parent.parentPreset.list.items.second()
-        assertEquals("initial", parent.child.property.value)
-        assertFalse(parent.parentPreset.isModified.isTrue)
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem("Parent Item 1"))
+        assertTrue(parent.parentPreset.isModified.isFalse)
+        assertTrue(parent.child.childPreset.isModified.isTrue)
+        assertEquals("new value", parent.child.property.value)
 
         parent.parentPreset.current.value = parent.parentPreset.list.items.first()
-        assertEquals("new value", parent.child.property.value)
+        assertEquals("child initial", parent.child.property.value)
+    }
+
+    @Test
+    fun test5() {
+        parent.child.property.value = "Parent Item 1 child.property.value"
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem("Parent Item 1"))
+
+        parent.child.property.value = "Parent Item 2 child.property.value"
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem("Parent Item 2"))
+        assertTrue(parent.child.childPreset.isModified.isTrue)
+        assertTrue(parent.parentPreset.isModified.isFalse)
+
+        parent.parentPreset.current.value = parent.parentPreset.list.items.first()
+        assertEquals("child initial", parent.child.property.value)
+
+        parent.parentPreset.current.value = parent.parentPreset.list.items.third()
+        assertEquals("Parent Item 2 child.property.value", parent.child.property.value)
+        assertTrue(parent.parentPreset.isModified.isFalse)
+
+        parent.parentPreset.current.value = parent.parentPreset.list.items.second()
+        assertEquals("Parent Item 1 child.property.value", parent.child.property.value)
     }
 }
 
@@ -100,9 +134,7 @@ class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {
-        presetList.put(CSPresetTestPresetItem("parent preset item 1"))
-        presetList.put(CSPresetTestPresetItem("parent preset item 2"))
-        presetList.put(CSPresetTestPresetItem("parent preset item 3"))
+        presetList.put(CSPresetTestPresetItem("Clear Parent"))
     }
 
     val id = "parentClass"
@@ -117,12 +149,10 @@ class CSPresetTestChildClass(parent: CSPresetTestParentClass, preset: CSPreset<*
     private val presetList = CSPresetTestPresetItemList()
 
     init {
-        presetList.put(CSPresetTestPresetItem("preset item 1"))
-        presetList.put(CSPresetTestPresetItem("preset item 2"))
-        presetList.put(CSPresetTestPresetItem("preset item 3"))
+        presetList.put(CSPresetTestPresetItem("Clear Child"))
     }
 
     val id = "${parent.id} childClass"
     val childPreset = CSPreset(this, preset, "$id child", presetList)
-    val property = childPreset.property(this, "property", "initial")
+    val property = childPreset.property(this, "property", "child initial")
 }

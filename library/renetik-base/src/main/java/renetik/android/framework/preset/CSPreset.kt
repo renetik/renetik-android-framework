@@ -14,7 +14,6 @@ import renetik.android.framework.preset.property.CSPresetStoreEventProperty
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
 
-
 class CSPreset<PresetItem : CSPresetItem,
         PresetList : CSPresetItemList<PresetItem>> private constructor(
     parent: CSHasDestroy,
@@ -36,57 +35,42 @@ class CSPreset<PresetItem : CSPresetItem,
     override val id = "$parentId preset"
 
     val current: CSStoreEventProperty<PresetItem> =
-        parentPreset?.property(this, "$id current", list.items, default = 0)
-            ?: parentStore!!.property("$id current", list.items, default = 0)
+        parentPreset?.property(this, "$id current", list.items, defaultIndex = 0)
+            ?: parentStore!!.property("$id current", list.items, defaultIndex = 0)
 
     val store: CSStoreEventProperty<CSJsonObject> =
         parentPreset?.property(this, "$id store", CSJsonObject::class)
             ?: parentStore!!.property("$id store", CSJsonObject::class)
 
     init {
-        if (store.value.data.isEmpty())
-            reload(current.value)
-        current.onChange {
-            reload(it)
-        }
-        store.onChange {
-//            info(it)
-        }
+        if (store.value.data.isEmpty()) reload(current.value)
+        current.onChange(this::reload)
     }
 
     fun reload() = reload(current.value)
-
-    private var isReload = false
-    fun reload(item: PresetItem) {
-        isReload = true
-        store.value = CSJsonObject().also { it.load(item.store) }
-        isReload = false
-    }
+    fun reload(item: PresetItem) = store.value(CSJsonObject(item.store))
 
     val isModified = property(false)
-
     private val properties = mutableSetOf<CSPresetStoreEventProperty<*>>()
     private val modifiedProperties = mutableSetOf<CSPresetStoreEventProperty<*>>()
     private fun updateIsModified(property: CSPresetStoreEventProperty<*>) {
-        if (property.isModified()) {
+        if (property.isModified())
             modifiedProperties.add(property)
-        } else
+        else
             modifiedProperties.remove(property)
         isModified.isTrue = modifiedProperties.size > 0
     }
 
     fun saveAsNew(preset: PresetItem) {
         preset.save(properties)
-//        for (property in properties) property.save(preset.store)
         list.put(preset)
         current.value(preset)
-        isModified.setFalse()
     }
 
-    fun saveAsCurrent(): PresetItem {
+    fun saveAsCurrent() {
         current.value.save(properties)
+        modifiedProperties.clear()
         isModified.setFalse()
-        return current.value
     }
 
     fun delete(preset: PresetItem) {
