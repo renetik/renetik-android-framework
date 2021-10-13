@@ -29,3 +29,6 @@ fun ScheduledExecutorService.backgroundRepeatRunOnUI(delay: Long = 0,
 
 fun ScheduledExecutorService.backgroundRepeat(period: Long, function: () -> Unit) =
     backgroundRepeat(delay = period, period = period, function = function)
+
+fun ScheduledExecutorService.backgroundRepeatNano(period: Long, function: () -> Unit) =
+    backgroundRepeatNano(delay = period, period = period, function = function)
