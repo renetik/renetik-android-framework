@@ -12,50 +12,49 @@ import kotlin.reflect.KClass
 fun CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, default: String,
     onChange: ((value: String) -> Unit)? = null
-) = setupProperty(parent, CSStringValuePresetEventProperty(this, key, default, onChange))
+) = add(CSStringValuePresetEventProperty(parent, this, key, default, onChange))
 
 fun CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, default: Boolean,
     onChange: ((value: Boolean) -> Unit)? = null
-) = setupProperty(parent, CSBooleanValuePresetEventProperty(this, key, default, onChange))
+) = add(CSBooleanValuePresetEventProperty(parent, this, key, default, onChange))
 
 fun CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, default: Int,
     onChange: ((value: Int) -> Unit)? = null
-) = setupProperty(parent, CSIntValuePresetEventProperty(this, key, default, onChange))
+) = add(CSIntValuePresetEventProperty(parent, this, key, default, onChange))
 
 fun CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, default: Float,
     onChange: ((value: Float) -> Unit)? = null
-) = setupProperty(parent, CSFloatValuePresetEventProperty(this, key, default, onChange))
+) = add(CSFloatValuePresetEventProperty(parent, this, key, default, onChange))
 
 fun CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, default: Double,
     onChange: ((value: Double) -> Unit)? = null
-) = setupProperty(parent, CSDoubleValuePresetEventProperty(this, key, default, onChange))
+) = add(CSDoubleValuePresetEventProperty(parent, this, key, default, onChange))
 
 fun <T> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, values: List<T>, default: T,
     onChange: ((value: T) -> Unit)? = null
-) = setupProperty(parent,
-    CSListItemValuePresetEventProperty(this, key, values, default, onChange))
+) = add(CSListItemValuePresetEventProperty(parent, this, key, values, default, onChange))
 
 fun <T> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, values: List<T>, getDefault: () -> T,
     onChange: ((value: T) -> Unit)? = null
-) = setupProperty(parent,
-    CSListItemValuePresetEventProperty(this, key, { values }, getDefault, onChange))
+) = add(CSListItemValuePresetEventProperty(parent, this, key,
+    { values }, getDefault, onChange))
 
 fun <T> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, getValues: () -> List<T>,
     getDefault: () -> T, onChange: ((value: T) -> Unit)? = null
-) = setupProperty(parent,
-    CSListItemValuePresetEventProperty(this, key, getValues, getDefault, onChange))
+) = CSListItemValuePresetEventProperty(parent, this, key,
+    getValues, getDefault, onChange)
 
 fun <T> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, getValues: () -> List<T>,
     defaultIndex: Int, onChange: ((value: T) -> Unit)? = null
-) = setupProperty(parent, CSListItemValuePresetEventProperty(this, key, getValues,
+) = add(CSListItemValuePresetEventProperty(parent, this, key, getValues,
     { getValues()[defaultIndex] }, onChange))
 
 fun <T> CSPreset<*, *>.property(
@@ -76,7 +75,7 @@ fun <T> CSPreset<*, *>.property(
 fun <T : CSId> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, values: List<T>, default: List<T>,
     onChange: ((value: List<T>) -> Unit)? = null
-) = setupProperty(parent, CSListValuePresetEventProperty(this, key, values, default, onChange))
+) = add(CSListValuePresetEventProperty(parent, this, key, values, default, onChange))
 
 fun <T : CSId> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, values: Array<T>, default: List<T>,
@@ -87,30 +86,30 @@ fun <T : CSJsonObject> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, listType: KClass<T>,
     default: List<T> = emptyList(),
     onApply: ((value: List<T>) -> Unit)? = null
-) = setupProperty(parent,
-    CSJsonListValuePresetEventProperty(this, key, listType, default, onApply))
+) =
+    add(CSJsonListValuePresetEventProperty(parent, this,
+        key, listType, default, onApply))
 
 fun <T : CSJsonObject> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, type: KClass<T>,
     onApply: ((value: T) -> Unit)? = null
-) = setupProperty(parent,
-    CSJsonTypeValuePresetEventProperty(this, key, type, onApply))
+) = add(CSJsonTypeValuePresetEventProperty(parent, this, key, type, onApply))
 
 fun CSPreset<*, *>.propertyNullInt(
     parent: CSEventOwnerHasDestroy, key: String, default: Int? = null,
     onChange: ((value: Int?) -> Unit)? = null
-) = setupProperty(parent, CSIntNullablePresetEventProperty(this, key, default, onChange))
+) = add(CSIntNullablePresetEventProperty(parent, this, key, default, onChange))
 
 fun CSPreset<*, *>.propertyNullFloat(
     parent: CSEventOwnerHasDestroy, key: String, default: Float? = null,
     onChange: ((value: Float?) -> Unit)? = null
-) = setupProperty(parent, CSFloatNullablePresetEventProperty(this, key, default, onChange))
+) = add(CSFloatNullablePresetEventProperty(parent, this, key, default, onChange))
 
 fun <T> CSPreset<*, *>.propertyNullListItem(
     parent: CSEventOwnerHasDestroy, key: String, values: List<T>, default: T? = null,
     onChange: ((value: T?) -> Unit)? = null
-) = setupProperty(parent,
-    CSListItemNullablePresetEventProperty(this, key, values, default, onChange))
+) = add(CSListItemNullablePresetEventProperty(parent, this,
+    key, values, default, onChange))
 
 fun <T> CSPreset<*, *>.propertyNullArrayItem(
     parent: CSEventOwnerHasDestroy, key: String, values: Array<T>, default: T? = null,

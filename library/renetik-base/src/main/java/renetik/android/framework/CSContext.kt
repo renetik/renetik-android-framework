@@ -24,6 +24,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface {
     constructor(context: CSContextInterface) : super(context.context) {
         eventRegistrations.add(context.eventDestroy.listenOnce { onDestroy() })
     }
+
     constructor(context: Context) : super(context)
 
 
@@ -45,7 +46,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface {
     private val defaultDisplay get() = (getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay
 
     @Suppress("DEPRECATION")
-    val displayWidth
+    val displayWidth: Int
         get() = defaultDisplay.width
 
     @Suppress("DEPRECATION")

@@ -1,8 +1,8 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.CSEventOwnerHasDestroy
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.event.CSHasDestroy
+import renetik.android.framework.event.event
 import renetik.android.framework.event.listenOnce
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
@@ -34,55 +34,66 @@ class CSPreset<PresetItem : CSPresetItem,
 
     override val id = "$parentId preset"
 
-    val current: CSEventProperty<PresetItem> =
+    val item: CSEventProperty<PresetItem> =
         parentPreset?.property(this, "$id current", { list.items }, defaultIndex = 0)
             ?: parentStore!!.property("$id current", { list.items }, defaultIndex = 0)
 
     val store: CSEventProperty<CSJsonObject> =
-        parentPreset?.let {
-            it.setupProperty(this, CSStoreJsonTypePresetValueStoreEventProperty(this, it))
-        } ?: parentStore!!.property("$id store", CSJsonObject::class)
+        parentPreset?.let { it.add(CSStoreJsonTypePresetValueStoreEventProperty(this, it)) }
+            ?: parentStore!!.property("$id store", CSJsonObject::class)
 
-    private val properties = mutableSetOf<CSPresetEventProperty<*>>()
+    var isReload = false
+    val eventReload = event<CSJsonObject>()
 
     init {
         if (store.value.data.isEmpty()) {
-            reload(current.value)
+            reload(item.value)
         }
-        current.onChange {
+        item.onChange {
             reload(it)
         }
     }
 
-    fun reload() = reload(current.value)
+    fun reload() = reload(item.value)
 
-    var isReload = false
     fun reload(item: PresetItem) {
         isReload = true
         val storeValue = CSJsonObject(item.store)
-        properties.forEach { it.reload(storeValue) }
-        store.value = CSJsonObject(item.store)
+        eventReload.fire(storeValue)
+        store.value = storeValue
         isReload = false
     }
 
     val isModified = property(false)
+
+    private val properties = mutableSetOf<CSPresetEventProperty<*>>()
     private val modifiedProperties = mutableSetOf<CSPresetEventProperty<*>>()
     private fun updateIsModified(property: CSPresetEventProperty<*>) {
-        if (property.isModified())
+        if (property.isModified.isTrue)
             modifiedProperties.add(property)
         else
             modifiedProperties.remove(property)
         isModified.isTrue = modifiedProperties.size > 0
     }
 
+    fun <T : CSPresetEventProperty<*>> add(property: T): T {
+        properties.add(property)
+        property.isModified.onChange { updateIsModified(property) }
+        property.eventDestroy.listenOnce {
+            properties.remove(property)
+            modifiedProperties.remove(property)
+        }
+        return property
+    }
+
     fun saveAsNew(preset: PresetItem) {
         preset.save(properties)
         list.put(preset)
-        current.value(preset)
+        item.value(preset)
     }
 
     fun saveAsCurrent() {
-        current.value.save(properties)
+        item.value.save(properties)
         modifiedProperties.clear()
         isModified.setFalse()
     }
@@ -90,27 +101,7 @@ class CSPreset<PresetItem : CSPresetItem,
     fun delete(preset: PresetItem) {
         preset.delete()
         list.remove(preset)
-        if (current.value == preset) current.value = list.items.first()
-    }
-
-    fun <T, Property : CSPresetEventProperty<T>>
-            setupProperty(parent: CSEventOwnerHasDestroy, property: Property): Property {
-        properties.add(property)
-        property.onChange {
-            updateIsModified(property)
-        }
-        current.onChange {
-            updateIsModified(property)
-        }
-        store.onChange {
-            updateIsModified(property)
-        }
-        updateIsModified(property)
-        parent.eventDestroy.listenOnce {
-            properties.remove(property)
-            modifiedProperties.remove(property)
-        }
-        return property
+        if (item.value == preset) item.value = list.items.first()
     }
 
     override fun toString() = "$id ${super.toString()}"
