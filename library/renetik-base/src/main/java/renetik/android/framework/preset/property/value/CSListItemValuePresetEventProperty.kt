@@ -9,7 +9,7 @@ import renetik.kotlin.toId
 class CSListItemValuePresetEventProperty<T>(
     preset: CSPreset<*, *>,
     key: String,
-    override val values: List<T>,
+    val getValues: () -> List<T>,
     val getDefault: () -> T,
     onChange: ((value: T) -> Unit)?)
     : CSValuePresetEventProperty<T>(preset, key, onChange), CSListValuesProperty<T> {
@@ -17,10 +17,11 @@ class CSListItemValuePresetEventProperty<T>(
     constructor(
         preset: CSPreset<*, *>, key: String,
         values: List<T>, default: T, onChange: ((value: T) -> Unit)? = null
-    ) : this(preset, key, values, getDefault = { default }, onChange)
+    ) : this(preset, key, getValues = { values }, getDefault = { default }, onChange)
 
-    override val default get() = getDefault()
-    override var _value = load()
-    override fun get(store: CSStoreInterface) = store.getValue(key, values)
+    override val values: List<T> get() = getValues()
+    override val default: T get() = getDefault()
+    override var _value: T = load()
+    override fun get(store: CSStoreInterface): T? = store.getValue(key, values)
     override fun set(store: CSStoreInterface, value: T) = store.set(key, value.toId())
 }

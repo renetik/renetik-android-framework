@@ -35,8 +35,8 @@ class CSPreset<PresetItem : CSPresetItem,
     override val id = "$parentId preset"
 
     val current: CSEventProperty<PresetItem> =
-        parentPreset?.property(this, "$id current", list.items, defaultIndex = 0)
-            ?: parentStore!!.property("$id current", list.items, defaultIndex = 0)
+        parentPreset?.property(this, "$id current", { list.items }, defaultIndex = 0)
+            ?: parentStore!!.property("$id current", { list.items }, defaultIndex = 0)
 
     val store: CSEventProperty<CSJsonObject> =
         parentPreset?.let {

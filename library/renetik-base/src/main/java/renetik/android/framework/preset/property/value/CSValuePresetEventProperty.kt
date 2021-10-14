@@ -1,5 +1,6 @@
 package renetik.android.framework.preset.property.value
 
+import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.preset.CSPreset
@@ -12,8 +13,6 @@ abstract class CSValuePresetEventProperty<T>(
     onChange: ((value: T) -> Unit)? = null
 ) : CSEventPropertyBase<T>(onChange), CSPresetEventProperty<T> {
 
-    protected val store get() = preset.store.value
-
     protected abstract val default: T
     protected abstract var _value: T
     protected abstract fun get(store: CSStoreInterface): T?
@@ -21,8 +20,9 @@ abstract class CSValuePresetEventProperty<T>(
 
     override fun isModified() = value != (get(preset.current.value.store) ?: default)
 
-    fun load(): T = load(store)
+    fun load(): T = load(preset.store.value)
     fun load(store: CSStoreInterface): T = get(store) ?: default.also { set(store, it) }
+
     override fun reload(store: CSJsonObject) {
         val newValue = load(store)
         if (_value == newValue) return
@@ -34,10 +34,8 @@ abstract class CSValuePresetEventProperty<T>(
 
     override fun save(store: CSJsonObject) = set(store, value)
 
-    init {
-        preset.store.onChange {
-            if (!preset.isReload) reload(store)
-        }
+    private val presetStoreInChange = preset.store.onChange {
+        if (!preset.isReload) reload(it)
     }
 
     override var value: T
@@ -52,9 +50,9 @@ abstract class CSValuePresetEventProperty<T>(
     }
 
     protected open fun onValueChanged(newValue: T, fire: Boolean, before: T) {
-        val newStore = CSJsonObject(store)
+        val newStore = CSJsonObject(preset.store.value)
         set(newStore, newValue)
-        preset.store.value = newStore
+        presetStoreInChange.pause().use { preset.store.value = newStore }
         onApply?.invoke(newValue)
         if (fire) fireChange(before, newValue)
     }

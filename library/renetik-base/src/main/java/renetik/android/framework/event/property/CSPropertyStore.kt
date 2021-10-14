@@ -63,6 +63,11 @@ interface CSPropertyStoreInterface {
     ) = property(key, values, values[defaultIndex], onChange)
 
     fun <T> property(
+        key: String, getValues: () -> List<T>,
+        defaultIndex: Int, onChange: ((value: T) -> Unit)? = null
+    ): CSListItemValueStoreEventProperty<T>
+
+    fun <T> property(
         key: String, values: Array<T>, value: T,
         onChange: ((value: T) -> Unit)? = null
     ) = property(key, values.asList(), value, onChange)

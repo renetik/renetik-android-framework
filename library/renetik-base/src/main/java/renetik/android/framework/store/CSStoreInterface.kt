@@ -102,7 +102,13 @@ interface CSStoreInterface : CSPropertyStoreInterface,
 
     override fun <T> property(
         key: String, values: List<T>, getDefault: () -> T, onChange: ((value: T) -> Unit)?) =
-        CSListItemValueStoreEventProperty(this, key, values, getDefault, onChange)
+        CSListItemValueStoreEventProperty(this, key, { values }, getDefault, onChange)
+
+    override fun <T> property(
+        key: String, getValues: () -> List<T>,
+        defaultIndex: Int, onChange: ((value: T) -> Unit)?
+    ) = CSListItemValueStoreEventProperty(this, key, getValues,
+        { getValues()[defaultIndex] }, onChange)
 
     override fun <T : CSId> property(
         key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =
