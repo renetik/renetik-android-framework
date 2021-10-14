@@ -15,7 +15,6 @@ class CSBooleanNullableStoreEventPropertyTest {
     fun testInit() {
         assertEquals(true, property.value)
         assertEquals(null, _value)
-        assertTrue(store.has(property.key))
     }
 
     @Test

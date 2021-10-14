@@ -1,16 +1,15 @@
-package renetik.android.framework.store.property.value
+package renetik.android.framework.preset.property.value
 
 import renetik.android.framework.lang.CSId
+import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStoreInterface
 import renetik.kotlin.toId
 
- class CSListValueStoreEventProperty<T : CSId>(
-    store: CSStoreInterface, key: String,
-    val values: Iterable<T>, val default: List<T>,
-    onChange: ((value: List<T>) -> Unit)? = null
-) : CSValueStoreEventProperty<List<T>>(store, key, onChange) {
+class CSListValuePresetEventProperty<T : CSId>(
+    preset: CSPreset<*, *>, key: String, val values: Iterable<T>,
+    override val default: List<T>, onChange: ((value: List<T>) -> Unit)?)
+    : CSValuePresetEventProperty<List<T>>(preset, key, onChange) {
 
-    override val defaultValue = default
     override var _value = load()
 
     override fun get(store: CSStoreInterface) = store.get(key)?.split(",")

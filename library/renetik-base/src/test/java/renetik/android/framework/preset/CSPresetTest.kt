@@ -6,7 +6,7 @@ import renetik.android.framework.CSModelBase
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.lang.property.isFalse
 import renetik.android.framework.lang.property.isTrue
-import renetik.android.framework.preset.property.CSPresetStoreEventProperty
+import renetik.android.framework.preset.property.CSPresetEventProperty
 import renetik.android.framework.store.CSStoreInterface
 import renetik.kotlin.collections.second
 import renetik.kotlin.collections.third
@@ -114,7 +114,7 @@ class CSPresetTest {
 class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
     override val store = CSJsonObject()
     override fun delete() = Unit
-    override fun save(properties: Iterable<CSPresetStoreEventProperty<*>>) =
+    override fun save(properties: Iterable<CSPresetEventProperty<*>>) =
         properties.forEach { it.save(store) }
 }
 

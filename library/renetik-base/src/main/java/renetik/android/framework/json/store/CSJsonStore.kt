@@ -61,15 +61,8 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
         save()
     }
 
-    private var isBulkSave = false
-
-    override fun bulkSave() = apply {
-        isBulkSave = true
-        return this
-    }
-
     override fun close() {
-        isBulkSave = false
+        super.close()
         save()
     }
 }

@@ -2,7 +2,7 @@ package renetik.android.framework.store.property.value
 
 import renetik.android.framework.store.CSStoreInterface
 
-class CSIntValueStoreEventProperty(
+ class CSIntValueStoreEventProperty(
     store: CSStoreInterface, key: String, default: Int,
     onChange: ((value: Int) -> Unit)? = null)
     : CSValueStoreEventProperty<Int>(store, key, onChange) {

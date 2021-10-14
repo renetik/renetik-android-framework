@@ -21,7 +21,6 @@ class CSItemNullableStoreEventPropertyTest {
     fun firstLoad() {
         assertEquals(First, property.value)
         assertEquals(null, _value)
-        assertTrue(store.has(property.key))
     }
 
     @Test

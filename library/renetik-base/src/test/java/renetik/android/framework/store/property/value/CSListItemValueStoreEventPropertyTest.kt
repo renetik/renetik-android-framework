@@ -9,7 +9,7 @@ private enum class TestEnum {
     First, Second, Third
 }
 
-class CSJsonStoreEventPropertyTest {
+class CSListItemValueStoreEventPropertyTest {
 
     private val store = CSStringJsonStore("{}")
     private var _value: TestEnum? = null
@@ -22,7 +22,6 @@ class CSJsonStoreEventPropertyTest {
     fun firstLoad() {
         Assert.assertEquals(TestEnum.First, property.value)
         Assert.assertEquals(null, _value)
-        Assert.assertTrue(store.has(property.key))
     }
 
     @Test

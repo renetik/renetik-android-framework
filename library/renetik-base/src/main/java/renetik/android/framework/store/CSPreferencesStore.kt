@@ -21,7 +21,7 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
 
     override val data: Map<String, Any?> get() = preferences.all
 
-    override val eventLoaded = event()
+    override val eventChanged = event<CSStoreInterface>()
 
     @SuppressLint("CommitPrefEdits")
     override fun clear() = preferences.edit().clear().apply()
@@ -37,6 +37,7 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
     override fun set(key: String, value: String?) = value?.let {
         val editor = preferences.edit()
         editor.putString(key, it)
+        eventChanged.fire(this@CSPreferencesStore)
         editor.apply()
     } ?: clear(key)
 
@@ -66,14 +67,14 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
 
     override fun load(store: CSStoreInterface) = with(preferences.edit()) {
         loadAll(store)
-        eventLoaded.fire()
+        eventChanged.fire(this@CSPreferencesStore)
         apply()
     }
 
     override fun reload(store: CSStoreInterface) = with(preferences.edit()) {
         clear()
         loadAll(store)
-        eventLoaded.fire()
+        eventChanged.fire(this@CSPreferencesStore)
         apply()
     }
 }

@@ -17,7 +17,6 @@ class CSStringValueStoreEventPropertyTest {
     fun testInit() {
         assertEquals("", property.value)
         assertEquals(null, _value)
-        assertTrue(store.has(property.key))
     }
 
     @Test

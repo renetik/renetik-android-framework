@@ -23,7 +23,7 @@ import kotlin.reflect.KClass
 interface CSStoreInterface : CSPropertyStoreInterface,
     Iterable<Map.Entry<String, Any?>>, CSJsonMapInterface {
 
-    val eventLoaded: CSEvent<Unit>
+    val eventChanged: CSEvent<CSStoreInterface>
 
     val data: Map<String, Any?>
 
@@ -56,8 +56,10 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     fun clear(key: String)
 
     fun reload(store: CSStoreInterface) {
-        clear()
-        load(store)
+        bulkSave().use {
+            clear()
+            load(store)
+        }
     }
 
     fun set(key: String, value: Int?) = set(key, value?.toString())
