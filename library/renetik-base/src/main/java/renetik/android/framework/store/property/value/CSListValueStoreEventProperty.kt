@@ -1,10 +1,10 @@
 package renetik.android.framework.store.property.value
 
-import renetik.android.framework.lang.CSId
+import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.store.CSStoreInterface
 import renetik.kotlin.toId
 
- class CSListValueStoreEventProperty<T : CSId>(
+ class CSListValueStoreEventProperty<T : CSHasId>(
     store: CSStoreInterface, key: String,
     val values: Iterable<T>, val default: List<T>,
     onChange: ((value: List<T>) -> Unit)? = null

@@ -9,8 +9,8 @@ import renetik.android.framework.event.CSEventOwner
 import renetik.android.framework.event.CSViewInterface
 import renetik.android.framework.event.register
 import renetik.android.view.*
-import renetik.android.view.extensions.afterLayout
-import renetik.android.view.extensions.hasSize
+import renetik.android.view.afterLayout
+import renetik.android.view.hasSize
 import renetik.android.widget.onChange
 import renetik.android.widget.radioGroup
 

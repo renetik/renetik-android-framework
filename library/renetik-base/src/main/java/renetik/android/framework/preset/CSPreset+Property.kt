@@ -2,7 +2,7 @@ package renetik.android.framework.preset
 
 import renetik.android.framework.CSEventOwnerHasDestroy
 import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.lang.CSId
+import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.preset.property.nullable.CSFloatNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSIntNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSListItemNullablePresetEventProperty
@@ -72,12 +72,12 @@ fun <T> CSPreset<*, *>.property(
     onChange: ((value: T) -> Unit)? = null
 ) = property(parent, key, values.asList(), values[defaultIndex], onChange)
 
-fun <T : CSId> CSPreset<*, *>.property(
+fun <T : CSHasId> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, values: List<T>, default: List<T>,
     onChange: ((value: List<T>) -> Unit)? = null
 ) = add(CSListValuePresetEventProperty(parent, this, key, values, default, onChange))
 
-fun <T : CSId> CSPreset<*, *>.property(
+fun <T : CSHasId> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, values: Array<T>, default: List<T>,
     onChange: ((value: List<T>) -> Unit)? = null
 ) = property(parent, key, values.asList(), default, onChange)

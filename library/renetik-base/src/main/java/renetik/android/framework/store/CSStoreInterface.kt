@@ -4,7 +4,7 @@ import renetik.android.framework.event.CSEvent
 import renetik.android.framework.event.property.CSPropertyStoreInterface
 import renetik.android.framework.json.CSJsonMapInterface
 import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.lang.CSId
+import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.logging.CSLog.warn
 import renetik.android.framework.store.property.late.CSBooleanLateStoreEventProperty
 import renetik.android.framework.store.property.late.CSStringLateStoreEventProperty
@@ -110,7 +110,7 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     ) = CSListItemValueStoreEventProperty(this, key, getValues,
         { getValues()[defaultIndex] }, onChange)
 
-    override fun <T : CSId> property(
+    override fun <T : CSHasId> property(
         key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =
         CSListValueStoreEventProperty(this, key, values, value, onChange)
 

@@ -8,7 +8,7 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.store.property
-import renetik.android.framework.lang.CSId
+import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.preset.property.CSPresetEventProperty
@@ -20,7 +20,7 @@ class CSPreset<PresetItem : CSPresetItem,
     parentPreset: CSPreset<*, *>? = null,
     parentStore: CSStoreInterface? = null,
     val parentId: String,
-    val list: PresetList) : CSModelBase(parent), CSId {
+    val list: PresetList) : CSModelBase(parent), CSHasId {
 
     constructor(parent: CSHasDestroy, parentStore: CSStoreInterface,
                 parentId: String, list: PresetList)

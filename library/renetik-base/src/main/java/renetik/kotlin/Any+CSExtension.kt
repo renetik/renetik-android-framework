@@ -1,6 +1,6 @@
 package renetik.kotlin
 
-import renetik.android.framework.lang.CSId
+import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.util.CSHandler.post
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
@@ -29,4 +29,4 @@ fun <T> observing(value: T, willSet: (T) -> Unit = { }, didSet: (T) -> Unit = { 
 
 val <T : Any> T.className get() = this::class.simpleName
 
-fun Any?.toId() = (this as? CSId)?.id ?: toString()
+fun Any?.toId() = (this as? CSHasId)?.id ?: toString()

@@ -1,11 +1,10 @@
-package renetik.android.view.extensions
+package renetik.android.view
 
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.content.dpToPixel
 import renetik.android.content.toDp
-import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.event.CSEvent.*
 import renetik.android.framework.event.CSEventRegistration
 
@@ -135,6 +134,12 @@ fun <T : View> T.width(value: Int) = apply {
     layoutParams = params
 }
 
+fun <T : View> T.widthDp(value: Float) = apply {
+    val params = layoutParams
+    params.width = context.dpToPixel(value)
+    layoutParams = params
+}
+
 fun <T : View> T.height(value: Int) = apply {
     val params = layoutParams
     params.height = value
@@ -154,14 +159,14 @@ var View.layoutHeight: Int
     }
 
 var View.widthDp: Int
-    get() = application.toDp(width)
+    get() = context.toDp(width)
     set(value) {
-        width(application.dpToPixel(value))
+        width(context.dpToPixel(value))
     }
 
 var View.heightDp: Int
-    get() = application.toDp(height)
+    get() = context.toDp(height)
     set(value) {
-        height(application.dpToPixel(value))
+        height(context.dpToPixel(value))
     }
 

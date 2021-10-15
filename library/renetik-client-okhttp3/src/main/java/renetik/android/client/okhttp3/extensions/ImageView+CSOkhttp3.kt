@@ -3,7 +3,7 @@ package renetik.android.client.okhttp3.extensions
 import android.widget.ImageView
 import com.androidnetworking.error.ANError
 import com.androidnetworking.internal.ANImageLoader
-import renetik.android.view.extensions.hasSize
+import renetik.android.view.hasSize
 
 fun <T : ImageView> T.image(url: String, defaultImageId: Int? = null) = apply {
     hasSize {

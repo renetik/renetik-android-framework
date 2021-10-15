@@ -22,7 +22,7 @@ import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.backgroundColor
-import renetik.android.view.extensions.hasSize
+import renetik.android.view.hasSize
 import renetik.android.view.extensions.locationOnScreen
 import renetik.android.view.onClick
 

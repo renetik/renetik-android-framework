@@ -1,6 +1,6 @@
 package renetik.android.framework.event.property
 
-import renetik.android.framework.lang.CSId
+import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
 import renetik.android.framework.store.property.value.CSListItemValueStoreEventProperty
 import renetik.android.framework.store.property.value.CSListValueStoreEventProperty
@@ -77,12 +77,12 @@ interface CSPropertyStoreInterface {
         onChange: ((value: T) -> Unit)? = null
     ) = property(key, values.asList(), values[valueIndex], onChange)
 
-    fun <T : CSId> property(
+    fun <T : CSHasId> property(
         key: String, values: Iterable<T>, value: List<T>,
         onChange: ((value: List<T>) -> Unit)? = null
     ): CSListValueStoreEventProperty<T>
 
-    fun <T : CSId> property(
+    fun <T : CSHasId> property(
         key: String, values: Array<T>, value: List<T>,
         onChange: ((value: List<T>) -> Unit)? = null
     ) = property(key, values.asList(), value, onChange)
