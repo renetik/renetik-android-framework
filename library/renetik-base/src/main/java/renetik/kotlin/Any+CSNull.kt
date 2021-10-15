@@ -1,5 +1,7 @@
 package renetik.kotlin
 
+import renetik.android.framework.lang.property.CSProperty
+
 fun isAnyNotNull(vararg items: Any?) = !isAllNull(*items)
 
 fun isAllNotNull(vararg items: Any?): Boolean {
@@ -20,4 +22,7 @@ val <T : Any> T?.notNull get() = this != null
 
 fun <T : Any, R> T?.isNull(block: () -> R): R? = if (this == null) block() else null
 
-val <T : Any> T?.isNull get() = this == null
+val Any?.isNull get() = this == null
+
+//Has to be here otherwise calls go to Any?.isNull
+val CSProperty<out Any?>.isNull get() = value == null

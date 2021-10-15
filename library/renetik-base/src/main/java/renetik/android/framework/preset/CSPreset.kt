@@ -12,6 +12,7 @@ import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.preset.property.CSPresetEventProperty
+import renetik.android.framework.preset.property.CSPresetEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
 
 class CSPreset<PresetItem : CSPresetItem,
@@ -44,6 +45,7 @@ class CSPreset<PresetItem : CSPresetItem,
 
     var isReload = false
     val eventReload = event<CSJsonObject>()
+    private val properties = mutableSetOf<CSPresetEventPropertyBase<*>>()
 
     init {
         if (store.value.data.isEmpty()) {
@@ -59,14 +61,14 @@ class CSPreset<PresetItem : CSPresetItem,
     fun reload(item: PresetItem) {
         isReload = true
         val storeValue = CSJsonObject(item.store)
+        properties.forEach { it.reloadLoad(storeValue) }
         eventReload.fire(storeValue)
-        store.value = storeValue
         isReload = false
+        store.value = storeValue
     }
 
     val isModified = property(false)
 
-    private val properties = mutableSetOf<CSPresetEventProperty<*>>()
     private val modifiedProperties = mutableSetOf<CSPresetEventProperty<*>>()
     private fun updateIsModified(property: CSPresetEventProperty<*>) {
         if (property.isModified.isTrue)
@@ -76,7 +78,7 @@ class CSPreset<PresetItem : CSPresetItem,
         isModified.isTrue = modifiedProperties.size > 0
     }
 
-    fun <T : CSPresetEventProperty<*>> add(property: T): T {
+    fun <T : CSPresetEventPropertyBase<*>> add(property: T): T {
         properties.add(property)
         property.isModified.onChange { updateIsModified(property) }
         property.eventDestroy.listenOnce {

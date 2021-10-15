@@ -30,24 +30,15 @@ abstract class CSValueStoreEventProperty<T>(
 
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
-        val before = _value
         _value = newValue
-        onValueChanged(newValue, fire, before)
+        onValueChanged(newValue, fire)
     }
 
-    protected open fun onValueChanged(newValue: T, fire: Boolean, before: T) {
+    protected open fun onValueChanged(newValue: T, fire: Boolean) {
         storeEventChangedRegistration.pause().use { set(store, newValue) }
         onApply?.invoke(newValue)
-        if (fire) fireChange(before, newValue)
+        if (fire) eventChange.fire(newValue)
     }
 
     override fun toString() = "$key $value"
-
-    @Deprecated("This is wrong")
-    override fun apply() = apply {
-        val before = value
-        val value = this.value
-        onApply?.invoke(value)
-        fireChange(before, value)
-    }
 }

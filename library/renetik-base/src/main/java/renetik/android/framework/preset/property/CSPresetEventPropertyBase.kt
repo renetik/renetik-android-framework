@@ -31,36 +31,50 @@ abstract class CSPresetEventPropertyBase<T>(
     protected open fun updateIsModified() =
         isModified.value(value != (get(preset.item.value.store) ?: default))
 
+    var isNewValue = false
+
+    fun reloadLoad(store: CSJsonObject) {
+        val newValue = load(store)
+        if (_value == newValue) return
+        _value = newValue
+        isNewValue = true
+    }
+
+    private fun reloadUpdate() {
+        if (!isNewValue) return
+        updateIsModified()
+        onApply?.invoke(_value)
+        eventChange.fire(_value)
+        isNewValue = false
+    }
+
+    private val presetStoreInChange = register(preset.store.onChange {
+        if (!preset.isReload) reload(it)
+    })
+
     fun reload(store: CSJsonObject) {
         val newValue = load(store)
         if (_value == newValue) return
-        val before = _value
         _value = newValue
         updateIsModified()
         onApply?.invoke(newValue)
-        fireChange(before, newValue)
+        eventChange.fire(newValue)
     }
 
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
-        val before = _value
         _value = newValue
         val newStore = CSJsonObject(preset.store.value)
         set(newStore, newValue)
         presetStoreInChange.pause().use { preset.store.value = newStore }
         updateIsModified()
         onApply?.invoke(newValue)
-        if (fire) fireChange(before, newValue)
+        if (fire) eventChange.fire(newValue)
     }
-
-    private val presetStoreInChange = register(preset.store.onChange {
-        if (!preset.isReload)
-            reload(preset.store.value)
-    })
 
     init {
         register(preset.eventReload.listen {
-            reload(it)
+            reloadUpdate()
         })
         register(preset.item.onChange {
             updateIsModified()
@@ -72,12 +86,4 @@ abstract class CSPresetEventPropertyBase<T>(
         set(value) = value(value)
 
     override fun toString() = "$key $value"
-
-    @Deprecated("This is wrong")
-    override fun apply() = apply {
-        val before = value
-        val value = this.value
-        onApply?.invoke(value)
-        fireChange(before, value)
-    }
 }

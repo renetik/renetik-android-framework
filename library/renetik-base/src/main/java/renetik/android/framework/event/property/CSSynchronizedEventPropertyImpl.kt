@@ -12,10 +12,9 @@ class CSSynchronizedEventPropertyImpl<T>(
     override fun value(newValue: T, fire: Boolean) {
         synchronized(this) {
             if (_value == newValue) return
-            val before = _value
             _value = newValue
             later { onApply?.invoke(newValue) }
-            if (fire) later { fireChange(before, newValue) }
+            if (fire) later { eventChange.fire(newValue) }
         }
     }
 
@@ -24,12 +23,4 @@ class CSSynchronizedEventPropertyImpl<T>(
         set(value) {
             value(value)
         }
-
-    @Deprecated("This is wrong")
-    override fun apply() = apply {
-        val before = value
-        val value = this.value
-        onApply?.invoke(value)
-        fireChange(before, value)
-    }
 }

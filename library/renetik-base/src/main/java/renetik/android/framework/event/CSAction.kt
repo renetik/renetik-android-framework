@@ -53,10 +53,10 @@ class CSAction(val id: String) : CSActionInterface {
         property.setFalse()
     }
 
-    override fun onChanged(function: (before: Boolean, after: Boolean) -> Unit): CSEventRegistration {
+    override fun onChange(function: (Boolean) -> Unit): CSEventRegistration {
         observerCount++
         if (observerCount == 1) eventIsObserved.fire()
-        return CSActionOnChangeEventRegistration(property.onChanged(function))
+        return CSActionOnChangeEventRegistration(property.onChange(function))
     }
 
     inner class CSActionOnChangeEventRegistration(

@@ -33,7 +33,7 @@ abstract class CSLateStoreEventProperty<T>(
         val before = if (store.has(key)) _value else null
         _value = newValue
         onApply?.invoke(newValue)
-        if (fire && before != null) fireChange(before, newValue)
+        if (fire && before != null) eventChange.fire(newValue)
     }
 
     val isNotLoaded get() = _value == null

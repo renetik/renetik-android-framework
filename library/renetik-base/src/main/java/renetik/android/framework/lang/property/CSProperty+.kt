@@ -28,3 +28,4 @@ fun CSProperty<Int>.increment() = apply { value++ }
 fun CSProperty<Int>.decrement() = apply { value-- }
 fun CSProperty<Int>.next() = value + 1
 fun CSProperty<Int>.previous() = value - 1
+
