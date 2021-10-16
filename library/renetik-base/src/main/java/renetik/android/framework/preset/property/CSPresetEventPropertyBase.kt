@@ -16,7 +16,7 @@ abstract class CSPresetEventPropertyBase<T>(
     onChange: ((value: T) -> Unit)? = null
 ) : CSEventPropertyBase<T>(parent, onChange), CSPresetEventProperty<T> {
 
-    override val isModified = property(false)
+    final override val isModified = property(false)
 
     protected abstract val default: T
     protected abstract var _value: T
@@ -33,14 +33,14 @@ abstract class CSPresetEventPropertyBase<T>(
 
     var isNewValue = false
 
-    fun reloadLoad(store: CSJsonObject) {
+    open fun reloadLoad(store: CSJsonObject) {
         val newValue = load(store)
         if (_value == newValue) return
         _value = newValue
         isNewValue = true
     }
 
-    private fun reloadUpdate() {
+    protected open fun reloadUpdate() {
         if (!isNewValue) return
         updateIsModified()
         onApply?.invoke(_value)
@@ -48,11 +48,11 @@ abstract class CSPresetEventPropertyBase<T>(
         isNewValue = false
     }
 
-    private val presetStoreInChange = register(preset.store.onChange {
+    protected val presetStoreInChange = register(preset.store.onChange {
         if (!preset.isReload) reload(it)
     })
 
-    fun reload(store: CSJsonObject) {
+    protected open fun reload(store: CSJsonObject) {
         val newValue = load(store)
         if (_value == newValue) return
         _value = newValue
@@ -64,6 +64,7 @@ abstract class CSPresetEventPropertyBase<T>(
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
+//        save(preset.store.value)
         val newStore = CSJsonObject(preset.store.value)
         set(newStore, newValue)
         presetStoreInChange.pause().use { preset.store.value = newStore }

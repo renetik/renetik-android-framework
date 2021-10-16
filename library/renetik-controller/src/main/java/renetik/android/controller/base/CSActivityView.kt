@@ -21,7 +21,7 @@ abstract class CSActivityView<ViewType : View>
     override val onResume = event<Unit>()
     override val onPause = event<Unit>()
     override val onBack = event<CSProperty<Boolean>>()
-    override fun activity(): CSActivity = activity!!
+    final override fun activity(): CSActivity = activity!!
     private var isResumed = false
     private var isResumeFirstTime = false
     private val isPaused get() = !isResumed

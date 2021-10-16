@@ -13,6 +13,8 @@ import renetik.android.content.dpToPixelF
 import renetik.android.controller.R
 import renetik.android.controller.base.DialogAnimation.Fade
 import renetik.android.controller.base.DialogAnimation.Slide
+import renetik.android.controller.base.DialogPopupSide.Bottom
+import renetik.android.controller.base.DialogPopupSide.Right
 import renetik.android.controller.common.CSNavigationAnimation.*
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.framework.event.event
@@ -22,22 +24,26 @@ import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.backgroundColor
-import renetik.android.view.hasSize
 import renetik.android.view.extensions.locationOnScreen
+import renetik.android.view.hasSize
 import renetik.android.view.onClick
 
 enum class DialogAnimation {
     None, Slide, Fade
 }
 
-open class CSNavigationWindow<ViewType : View>(
+enum class DialogPopupSide {
+    Bottom, Right
+}
+
+open class CSNavigationDialogWindow<ViewType : View>(
     parent: CSActivityView<out ViewGroup>, val layout: CSLayoutRes)
     : CSActivityView<FrameLayout>(parent.navigation!!,
     layout(R.layout.cs_frame_match)), CSNavigationItem {
 
     override var isFullscreen = false
     private var animation = Slide
-    private val marginDp = 15
+    private val marginDp = 7
 
     private val eventOnDismiss = event<Unit>()
     fun onDismiss(function: () -> Unit) = eventOnDismiss.listenOnce { function() }
@@ -84,27 +90,45 @@ open class CSNavigationWindow<ViewType : View>(
         updateVisibility()
     }
 
-    fun from(fromView: View) = apply {
+    fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
         fromView.isSelected = true
         eventOnDismiss.listenOnce { fromView.isSelected = false }
         isFullscreen = false
         animation = Fade
-        dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
-        val fromViewLocation = fromView.locationOnScreen
-        val statusBarHeight = activity().activityView!!.view.locationOnScreen.y
-        val fromViewBottomY = fromViewLocation.y.toFloat() + fromView.height - statusBarHeight
-        val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
 
-        this.dialogContent.hasSize {
-            var desiredX = fromViewTopCenterX.toFloat() - (this.dialogContent.width / 2)
-            if (desiredX + this.dialogContent.width > displayWidth - dpToPixelF(marginDp))
-                desiredX -= (desiredX + this.dialogContent.width) - (displayWidth - dpToPixelF(
-                    marginDp))
-            if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
-            this.dialogContent.x = desiredX
-            this.dialogContent.y = fromViewBottomY
+        dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
+        dialogContent.hasSize {
+            if (side == Bottom) positionDialogContentFromViewBottom(fromView)
+            else if (side == Right) positionDialogContentFromViewRight(fromView)
         }
+
         view.backgroundColor(color(R.color.cs_dialog_popup_background))
+    }
+
+    override val statusBarHeight = activity().activityView!!.view.locationOnScreen.y
+
+    private fun positionDialogContentFromViewBottom(fromView: View) {
+        val fromViewLocation = fromView.locationOnScreen
+        val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
+        var desiredX = fromViewTopCenterX.toFloat() - (dialogContent.width / 2)
+        if (desiredX + dialogContent.width > displayWidth - dpToPixelF(marginDp))
+            desiredX -= (desiredX + dialogContent.width) -
+                    (displayWidth - dpToPixelF(marginDp))
+        if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
+        dialogContent.x = desiredX
+        dialogContent.y = fromViewLocation.y.toFloat() + fromView.height - statusBarHeight
+    }
+
+    private fun positionDialogContentFromViewRight(fromView: View) {
+        val fromViewLocation = fromView.locationOnScreen
+        val fromViewLeftCenterY = fromViewLocation.y + (fromView.height / 2)
+        var desiredY = fromViewLeftCenterY.toFloat() - (dialogContent.height / 2)
+        if (desiredY + dialogContent.height > displayHeight - dpToPixelF(marginDp))
+            desiredY -= (desiredY + dialogContent.height) -
+                    (displayHeight - dpToPixelF(marginDp) - statusBarHeight)
+        if (desiredY < dpToPixelF(marginDp)) desiredY = dpToPixelF(marginDp)
+        dialogContent.x = fromViewLocation.x.toFloat() + fromView.width
+        dialogContent.y = desiredY
     }
 
     fun center() = apply {

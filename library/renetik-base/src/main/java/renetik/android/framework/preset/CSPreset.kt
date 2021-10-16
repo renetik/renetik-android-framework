@@ -3,6 +3,7 @@ package renetik.android.framework.preset
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.event.CSHasDestroy
 import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
 import renetik.android.framework.event.listenOnce
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
@@ -62,9 +63,9 @@ class CSPreset<PresetItem : CSPresetItem,
         isReload = true
         val storeValue = CSJsonObject(item.store)
         properties.forEach { it.reloadLoad(storeValue) }
+        store.value = storeValue
         eventReload.fire(storeValue)
         isReload = false
-        store.value = storeValue
     }
 
     val isModified = property(false)

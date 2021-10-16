@@ -91,11 +91,11 @@ class CSPresetTest {
 
     @Test
     fun test5() {
-        parent.child.property.value = "Parent Item 1 child.property.value"
-        parent.parentPreset.saveAsNew(CSPresetTestPresetItem("Parent Item 1"))
-
         parent.child.property.value = "Parent Item 2 child.property.value"
         parent.parentPreset.saveAsNew(CSPresetTestPresetItem("Parent Item 2"))
+
+        parent.child.property.value = "Parent Item 3 child.property.value"
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem("Parent Item 3"))
         assertTrue(parent.child.childPreset.isModified.isTrue)
         assertTrue(parent.parentPreset.isModified.isFalse)
 
@@ -103,11 +103,11 @@ class CSPresetTest {
         assertEquals("child initial", parent.child.property.value)
 
         parent.parentPreset.item.value = parent.parentPreset.list.items.third()
-        assertEquals("Parent Item 2 child.property.value", parent.child.property.value)
+        assertEquals("Parent Item 3 child.property.value", parent.child.property.value)
         assertTrue(parent.parentPreset.isModified.isFalse)
 
         parent.parentPreset.item.value = parent.parentPreset.list.items.second()
-        assertEquals("Parent Item 1 child.property.value", parent.child.property.value)
+        assertEquals("Parent Item 2 child.property.value", parent.child.property.value)
     }
 }
 

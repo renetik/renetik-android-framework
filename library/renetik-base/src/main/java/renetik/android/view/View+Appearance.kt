@@ -86,6 +86,9 @@ fun <T> View.enabledByAlphaIf(property: CSEventProperty<T>,
 fun View.enabledByAlphaIf(property: CSEventProperty<Boolean>) =
     enabledByAlphaIf(property) { it }
 
+fun View.disabledByAlphaIf(property: CSEventProperty<Boolean>) =
+    disabledByAlphaIf(property) { it }
+
 fun <T> View.disabledByAlphaIf(property: CSEventProperty<T>,
                                condition: (T) -> Boolean): CSEventRegistration {
     disabledByAlphaIf(condition(property.value))

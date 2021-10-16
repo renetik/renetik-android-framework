@@ -23,8 +23,11 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.property.toggle
 import renetik.android.framework.view.adapter.CSClickAdapter
+import renetik.android.primitives.isFalse
+import renetik.android.primitives.isTrue
 import renetik.android.view.extensions.remove
 import renetik.kotlin.isNull
+import renetik.kotlin.isTrue
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
@@ -56,6 +59,12 @@ fun View.toolbar(@IdRes id: Int) = findView<Toolbar>(id)!!
 fun <T : View> T.enabledIf(condition: Boolean) = apply { isEnabled = condition }
 
 fun <T : View> T.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
+fun View.disabledIf(property: CSEventProperty<Boolean>) = disabledIf(property) { it }
+fun <T> View.disabledIf(property: CSEventProperty<T>,
+                        condition: (T) -> Boolean): CSEventRegistration {
+    disabledIf(condition(property.value))
+    return property.onChange { disabledIf(condition(property.value)) }
+}
 
 fun <T : View> T.enabled() = apply { isEnabled = true }
 
@@ -113,18 +122,18 @@ fun View.activated(value: Boolean) {
     isActivated = value
 }
 
-fun  View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
+fun View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
 
-fun  View.toggleAsTrue(property: CSEventProperty<Boolean>)
+fun View.toggleAsTrue(property: CSEventProperty<Boolean>)
         : CSEventRegistration {
-    onClick { property.toggle()}
-    return selectedIf(property) { it }
+    onClick { property.toggle() }
+    return selectedIf(property) { it.isTrue }
 }
 
-fun  View.toggleAsFalse(property: CSEventProperty<Boolean>)
+fun View.toggleAsFalse(property: CSEventProperty<Boolean>)
         : CSEventRegistration {
-    onClick { property.toggle()}
-    return selectedIf(property) { !it }
+    onClick { property.toggle() }
+    return selectedIf(property) { it.isFalse }
 }
 
 fun <T> View.selectIf(property: CSEventProperty<T>, value: T)
@@ -137,6 +146,10 @@ fun <T> View.selectedIf(property: CSEventProperty<T>,
                         condition: (T) -> Boolean): CSEventRegistration {
     selected(condition(property.value))
     return property.onChange { selected(condition(property.value)) }
+}
+
+fun  View.selectedIf(property: CSEventProperty<Boolean>): CSEventRegistration {
+    return selectedIf(property) { it.isTrue }
 }
 
 fun <T> View.activateIf(property: CSEventProperty<T>, value: T)
@@ -157,7 +170,7 @@ fun View.toFullScreen() {
             View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }
 
- fun View.onLayoutChange(function: () -> Unit): CSEventRegistration {
+fun View.onLayoutChange(function: () -> Unit): CSEventRegistration {
     val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
     addOnLayoutChangeListener(listener)
     return object : CSEventRegistration {

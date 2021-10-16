@@ -7,7 +7,7 @@ import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.getValue
 import renetik.kotlin.toId
 
-class CSListItemValuePresetEventProperty<T>(
+open class CSListItemValuePresetEventProperty<T>(
     parent: CSEventOwnerHasDestroy,
     preset: CSPreset<*, *>,
     key: String,

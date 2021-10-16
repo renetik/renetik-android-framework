@@ -57,7 +57,7 @@ abstract class CSContext : ContextWrapper, CSContextInterface {
 
     val realDisplayMetrics get() = DisplayMetrics().apply { defaultDisplay.getRealMetrics(this) }
 
-    val statusBarHeight
+    open val statusBarHeight
         get() = when (displayMetrics.densityDpi) {
             DisplayMetrics.DENSITY_HIGH -> HIGH_DPI_STATUS_BAR_HEIGHT
             DisplayMetrics.DENSITY_MEDIUM -> MEDIUM_DPI_STATUS_BAR_HEIGHT
