@@ -20,8 +20,12 @@ import renetik.android.controller.common.CSNavigationItem
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
 import renetik.android.framework.event.listenOnce
+import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
+import renetik.android.framework.lang.property.setFalse
+import renetik.android.framework.lang.property.setTrue
 import renetik.android.view.extensions.add
 import renetik.android.view.extensions.backgroundColor
 import renetik.android.view.extensions.locationOnScreen
@@ -41,7 +45,7 @@ open class CSNavigationDialogWindow<ViewType : View>(
     : CSActivityView<FrameLayout>(parent.navigation!!,
     layout(R.layout.cs_frame_match)), CSNavigationItem {
 
-    override var isFullscreen = false
+    override var isFullscreen: CSEventProperty<Boolean> = property(false)
     private var animation = Slide
     private val marginDp = 7
 
@@ -93,7 +97,7 @@ open class CSNavigationDialogWindow<ViewType : View>(
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
         fromView.isSelected = true
         eventOnDismiss.listenOnce { fromView.isSelected = false }
-        isFullscreen = false
+        isFullscreen.setFalse()
         animation = Fade
 
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
@@ -132,7 +136,7 @@ open class CSNavigationDialogWindow<ViewType : View>(
     }
 
     fun center() = apply {
-        isFullscreen = false
+        isFullscreen.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
     }
@@ -148,7 +152,7 @@ open class CSNavigationDialogWindow<ViewType : View>(
     }
 
     open fun fullScreen() = apply {
-        isFullscreen = true
+        isFullscreen.setTrue()
         animation = Slide
         dialogContent.updateLayoutParams<LayoutParams> {
             width = MATCH_PARENT

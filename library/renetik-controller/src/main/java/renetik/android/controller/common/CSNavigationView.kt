@@ -36,7 +36,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller: CSActivityView<T>,
         pushId: String? = null
     ): CSActivityView<T> {
-        val isFullScreen = (controller as? CSNavigationItem)?.isFullscreen ?: true
+        val isFullScreen = (controller as? CSNavigationItem)?.isFullscreen?.value ?: true
         current?.showingInPager(!isFullScreen)
         _controllers[pushId ?: controller.toString()] = controller
         pushAnimation(this, controller)

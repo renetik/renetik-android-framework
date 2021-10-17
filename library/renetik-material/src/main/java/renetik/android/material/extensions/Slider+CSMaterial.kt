@@ -31,7 +31,13 @@ fun <T : Slider> T.valueTo(value: Int) = apply { this.valueTo = value.toFloat() 
 fun <T : Slider> T.stepSize(value: Float) = apply { this.stepSize = value }
 fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat() }
 
+@JvmName("valuePropertyDouble")
 fun Slider.value(property: CSEventProperty<Double>) = apply {
     value = property.value.toFloat()
     onChange { property.value = it.value.toDouble() }
+}
+
+@JvmName("valuePropertyInt")
+fun Slider.value(property: CSEventProperty<Int>) = apply {
+    value(property.value).onChange { property.value = it.value.toInt() }
 }

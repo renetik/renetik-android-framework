@@ -21,6 +21,7 @@ open class CSImageView @JvmOverloads constructor(
         val attributes =
             context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
         try {
+            clipToOutline = attributes.getBoolean(R.styleable.CSLayout_clipToOutline, false)
             _maxHeight = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxHeight, -1)
         } finally {
             attributes.recycle()

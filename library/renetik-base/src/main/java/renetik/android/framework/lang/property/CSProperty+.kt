@@ -1,5 +1,6 @@
 package renetik.android.framework.lang.property
 
+import renetik.android.framework.lang.CSValue
 import renetik.kotlin.asString
 
 fun <T> CSProperty<T>.value(value: T) = apply { this.value = value }
@@ -18,6 +19,7 @@ inline var CSProperty<Boolean>.isFalse
         value = !newValue
     }
 
+
 inline var CSProperty<String?>.string
     get() = value.asString
     set(newValue) {
@@ -26,6 +28,4 @@ inline var CSProperty<String?>.string
 
 fun CSProperty<Int>.increment() = apply { value++ }
 fun CSProperty<Int>.decrement() = apply { value-- }
-fun CSProperty<Int>.next() = value + 1
-fun CSProperty<Int>.previous() = value - 1
 

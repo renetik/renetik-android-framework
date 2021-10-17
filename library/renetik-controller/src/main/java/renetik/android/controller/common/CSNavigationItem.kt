@@ -1,7 +1,10 @@
 package renetik.android.controller.common
 
+import renetik.android.framework.lang.CSValue
+import renetik.android.framework.lang.CSValue.Companion.value
+
 interface CSNavigationItem {
-    val isFullscreen get() = true
+    val isFullscreen: CSValue<Boolean> get() = value(true)
     val isBarVisible: Boolean? get() = null
     val isNavigationIconVisible: Boolean? get() = null
     val navigationItemIcon: Int? get() = null
