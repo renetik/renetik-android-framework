@@ -121,12 +121,12 @@ class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
 private class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
     override val path: String = "path"
     override val items = mutableListOf<CSPresetTestPresetItem>()
-    override fun put(preset: CSPresetTestPresetItem) {
-        items.add(preset)
+    override fun put(item: CSPresetTestPresetItem) {
+        items.add(item)
     }
 
-    override fun remove(preset: CSPresetTestPresetItem) {
-        items.remove(preset)
+    override fun remove(item: CSPresetTestPresetItem) {
+        items.remove(item)
     }
 }
 
