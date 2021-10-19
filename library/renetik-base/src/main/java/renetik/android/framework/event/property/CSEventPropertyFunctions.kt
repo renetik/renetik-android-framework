@@ -31,8 +31,8 @@ object CSEventPropertyFunctions {
 
     fun property(
         key: String, default: Boolean,
-        onApply: ((value: Boolean) -> Unit)? = null
-    ) = application.store.property(key, default, onApply)
+        onChange: ((value: Boolean) -> Unit)? = null
+    ) = application.store.property(key, default, onChange)
 
     fun <T> property(
         key: String, values: List<T>, default: T,

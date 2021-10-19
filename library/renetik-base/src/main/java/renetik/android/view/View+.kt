@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
 import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.property.CSEventProperty
@@ -26,6 +27,7 @@ import renetik.android.framework.view.adapter.CSClickAdapter
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isTrue
 import renetik.android.view.extensions.remove
+import renetik.android.widget.isCheckedIf
 import renetik.kotlin.isNull
 import renetik.kotlin.isTrue
 
@@ -162,6 +164,32 @@ fun <T> View.activatedIf(property: CSEventProperty<T>,
                          condition: (T) -> Boolean): CSEventRegistration {
     activated(condition(property.value))
     return property.onChange { activated(condition(property.value)) }
+}
+
+fun <T> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
+                                   condition: (T) -> Boolean) =
+    activatedIf(property1, property2) { first, _ -> condition(first) }
+
+fun <T, V> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+                                      condition: (T, V) -> Boolean): CSEventRegistration {
+    fun update() = activated(condition(property1.value, property2.value))
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() })
+}
+
+fun <T> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
+                         condition: (T) -> Boolean) =
+    selectedIf(property1, property2) { first, _ -> condition(first) }
+
+fun <T, V> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+                            condition: (T, V) -> Boolean): CSEventRegistration {
+    fun update() = selected(condition(property1.value, property2.value))
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() })
 }
 
 @Suppress("DEPRECATION")

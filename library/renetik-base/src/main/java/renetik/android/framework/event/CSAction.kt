@@ -2,7 +2,7 @@ package renetik.android.framework.event
 
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.lang.property.isTrue
+import renetik.android.framework.lang.isTrue
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
 import renetik.android.primitives.ifTrue
@@ -20,13 +20,14 @@ val CSActionInterface.isStopped get() = !isRunning
 fun CSActionInterface.runIf(condition: Boolean) = condition.ifTrue { start() } ?: stop()
 
 //TODO: Refactor to something simple please
-class CSAction(val id: String) : CSActionInterface {
+class CSAction(val id: String, onChange: ((Boolean) -> Unit)? = null) : CSActionInterface {
 
     companion object {
-        fun action(id: String): CSActionInterface = CSAction(id)
+        fun action(id: String, function: ((Boolean) -> Unit)? = null):
+                CSActionInterface = CSAction(id, function)
     }
 
-    private val property = property(id, default = false)
+    private val property = property(id, default = false, onChange)
     private val eventIsObserved = event()
     private var observerCount = 0
 

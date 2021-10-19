@@ -3,7 +3,6 @@ package renetik.android.framework.preset
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.event.CSHasDestroy
 import renetik.android.framework.event.event
-import renetik.android.framework.event.listen
 import renetik.android.framework.event.listenOnce
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
@@ -11,7 +10,6 @@ import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.store.property
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.lang.property.isTrue
-import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.preset.property.CSPresetEventProperty
 import renetik.android.framework.preset.property.CSPresetEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
@@ -70,13 +68,13 @@ class CSPreset<PresetItem : CSPresetItem,
 
     val isModified = property(false)
 
-    private val modifiedProperties = mutableSetOf<CSPresetEventProperty<*>>()
+//    private val modifiedProperties = mutableSetOf<CSPresetEventProperty<*>>()
     private fun updateIsModified(property: CSPresetEventProperty<*>) {
-        if (property.isModified.isTrue)
-            modifiedProperties.add(property)
-        else
-            modifiedProperties.remove(property)
-        isModified.isTrue = modifiedProperties.size > 0
+//        if (property.isModified.isTrue)
+//            modifiedProperties.add(property)
+//        else
+//            modifiedProperties.remove(property)
+//        isModified.isTrue = modifiedProperties.size > 0 //Temporary disabled
     }
 
     fun <T : CSPresetEventPropertyBase<*>> add(property: T): T {
@@ -84,7 +82,7 @@ class CSPreset<PresetItem : CSPresetItem,
         property.isModified.onChange { updateIsModified(property) }
         property.eventDestroy.listenOnce {
             properties.remove(property)
-            modifiedProperties.remove(property)
+//            modifiedProperties.remove(property)
         }
         return property
     }
@@ -97,8 +95,8 @@ class CSPreset<PresetItem : CSPresetItem,
 
     fun saveAsCurrent() {
         item.value.save(properties)
-        modifiedProperties.clear()
-        isModified.setFalse()
+//        modifiedProperties.clear()
+//        isModified.setFalse() //Temporary disabled
     }
 
     fun delete(preset: PresetItem) {
