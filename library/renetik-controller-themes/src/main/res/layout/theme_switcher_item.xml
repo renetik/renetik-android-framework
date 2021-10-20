@@ -9,7 +9,7 @@
         android:layout_height="220dp"
         android:clickable="true">
 
-        <LinearLayout style="@style/CSHorizontalLayoutMatchWrap">
+        <LinearLayout style="@style/CSHorizontalMatchWrap">
 
             <LinearLayout
                 style="@style/CSFillMatch"

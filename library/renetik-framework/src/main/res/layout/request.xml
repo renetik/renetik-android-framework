@@ -3,7 +3,7 @@
     style="@style/CSMatch"
     android:background="@color/cs_progress_background">
 
-    <LinearLayout style="@style/CSVerticalLayoutWrap">
+    <LinearLayout style="@style/CSVerticalWrap">
 
         <ProgressBar
             android:id="@+id/Request_Progress"

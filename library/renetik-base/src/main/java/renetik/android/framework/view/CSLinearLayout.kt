@@ -58,6 +58,7 @@ open class CSLinearLayout @JvmOverloads constructor(
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (!isEnabled) return true
         val handled = onDispatchTouchEvent?.invoke(event) ?: false
         return if (!handled) super.dispatchTouchEvent(event) else true
     }
