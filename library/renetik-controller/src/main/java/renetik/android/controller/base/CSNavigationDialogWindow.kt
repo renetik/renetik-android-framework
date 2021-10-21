@@ -55,7 +55,7 @@ open class CSNavigationDialogWindow<ViewType : View>(
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
 
-    private val dialogContent by lazy {
+    val dialogContent by lazy {
         inflate<ViewType>(layout.id).also { it.isClickable = true }
     }
 
