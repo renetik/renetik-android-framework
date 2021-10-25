@@ -3,7 +3,7 @@ package renetik.android.framework.task
 import renetik.android.framework.util.CSHandler.post
 import renetik.android.framework.util.CSHandler.removePosted
 
-fun repeat(interval: Int, runnable: (CSWork) -> Unit) = CSWork(interval, runnable).start()
+fun repeat(interval: Int, runnable: (CSWork) -> Unit) = CSWork(interval, runnable)
 
 class CSWork(private var interval: Int, private val function: (CSWork) -> Unit) {
 

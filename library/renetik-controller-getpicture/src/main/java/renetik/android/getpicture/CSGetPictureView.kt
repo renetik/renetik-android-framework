@@ -28,14 +28,10 @@ class CSGetPictureView<T : View>(
     parent: CSActivityView<T>, val title: String, private val folder: File,
     private val onImageReady: (File) -> Unit) : CSActivityView<T>(parent) {
 
-    constructor(parent: CSActivityView<T>,
-                title: String,
-                imagesDirName: String,
-                onImageReady: (File) -> Unit) :
-            this(parent,
-                title,
-                File(File(application.externalFilesDir, "Pictures"), imagesDirName),
-                onImageReady)
+    constructor(parent: CSActivityView<T>, title: String,
+                imagesDirName: String, onImageReady: (File) -> Unit) :
+            this(parent, title, File(File(application.externalFilesDir, "Pictures"),
+                imagesDirName), onImageReady)
 
     //TODO: Migrate to Context#getExternalFilesDir(String)
     private val cacheImagesDir = File(getExternalStorageDirectory(),
