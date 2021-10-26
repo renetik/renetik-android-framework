@@ -67,9 +67,6 @@ fun View.shownIf(property: CSEventProperty<Boolean>,
     return property.onChange { updateVisibility() }
 }
 
-fun View.shownIfFalse(property: CSEventProperty<Boolean>,
-                      animated: Boolean = false) = goneIf(property, animated)
-
 fun <T> View.goneIf(property: CSEventProperty<T>,
                     animated: Boolean = false, condition: (T) -> Boolean): CSEventRegistration {
     goneIf(condition(property.value))
