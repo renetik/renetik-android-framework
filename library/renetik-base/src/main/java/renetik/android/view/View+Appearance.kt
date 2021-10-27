@@ -108,3 +108,12 @@ fun <T, V> View.enabledByAlphaIf(property1: CSEventProperty<T>, property2: CSEve
         property1.onChange { update() },
         property2.onChange { update() })
 }
+
+fun <T, V> View.disabledByAlphaIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+                                 condition: (T, V) -> Boolean): CSEventRegistration {
+    fun update() = disabledByAlphaIf(condition(property1.value, property2.value))
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() })
+}

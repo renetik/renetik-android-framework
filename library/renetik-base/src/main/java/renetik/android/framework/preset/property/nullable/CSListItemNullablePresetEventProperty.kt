@@ -1,6 +1,7 @@
 package renetik.android.framework.preset.property.nullable
 
 import renetik.android.framework.CSEventOwnerHasDestroy
+import renetik.android.framework.lang.property.CSListValuesEventProperty
 import renetik.android.framework.lang.property.CSListValuesProperty
 import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStoreInterface
@@ -14,7 +15,8 @@ class CSListItemNullablePresetEventProperty<T>(
     override val values: List<T>,
     override val default: T?,
     onChange: ((value: T?) -> Unit)?)
-    : CSNullablePresetEventProperty<T>(parent, preset, key, onChange), CSListValuesProperty<T?> {
+    : CSNullablePresetEventProperty<T>(parent, preset, key, onChange),
+    CSListValuesEventProperty<T?> {
     override var _value = load()
     override fun get(store: CSStoreInterface) = store.getValue(key, values)
     override fun set(store: CSStoreInterface, value: T?) {

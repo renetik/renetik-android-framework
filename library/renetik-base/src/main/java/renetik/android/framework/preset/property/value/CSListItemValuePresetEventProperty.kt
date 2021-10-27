@@ -1,6 +1,7 @@
 package renetik.android.framework.preset.property.value
 
 import renetik.android.framework.CSEventOwnerHasDestroy
+import renetik.android.framework.lang.property.CSListValuesEventProperty
 import renetik.android.framework.lang.property.CSListValuesProperty
 import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStoreInterface
@@ -14,7 +15,7 @@ open class CSListItemValuePresetEventProperty<T>(
     val getValues: () -> List<T>,
     val getDefault: () -> T,
     onChange: ((value: T) -> Unit)?)
-    : CSValuePresetEventProperty<T>(parent, preset, key, onChange), CSListValuesProperty<T> {
+    : CSValuePresetEventProperty<T>(parent, preset, key, onChange), CSListValuesEventProperty<T> {
 
     constructor(
         parent: CSEventOwnerHasDestroy,

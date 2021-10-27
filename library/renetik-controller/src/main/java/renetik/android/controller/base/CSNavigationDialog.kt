@@ -40,7 +40,7 @@ enum class DialogPopupSide {
     Bottom, Right
 }
 
-open class CSNavigationDialogWindow<ViewType : View>(
+open class CSNavigationDialog<ViewType : View>(
     parent: CSActivityView<out ViewGroup>, val layout: CSLayoutRes)
     : CSActivityView<FrameLayout>(parent.navigation!!,
     layout(R.layout.cs_frame_match)), CSNavigationItem {
@@ -55,9 +55,7 @@ open class CSNavigationDialogWindow<ViewType : View>(
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
 
-    val dialogContent by lazy {
-        inflate<ViewType>(layout.id).also { it.isClickable = true }
-    }
+    val dialogContent by lazy { inflate<ViewType>(layout.id).also { it.isClickable = true } }
 
     override fun onViewReady() {
         super.onViewReady()

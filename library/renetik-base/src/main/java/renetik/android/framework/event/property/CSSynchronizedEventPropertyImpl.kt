@@ -6,7 +6,7 @@ import renetik.kotlin.later
 
 class CSSynchronizedEventPropertyImpl<T>(
     value: T, onApply: ((value: T) -> Unit)? = null)
-    : CSEventPropertyBase<T>(onApply) {
+    : CSEventPropertyBase<T>(onApply), CSSynchronizedProperty<T> {
 
     @get:Synchronized
     private var _value: T = value

@@ -1,5 +1,353 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="CSLayout">
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="CSMatchWrap" parent="CSLayout">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSWrapMatch" parent="CSLayout">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="CSMatch" parent="CSLayout">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <style name="CSWrap" parent="CSLayout">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSWrapFill" parent="CSWrap">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSMatchFill" parent="CSLayout">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSFillMatch" parent="CSLayout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSFillWrap" parent="CSLayout">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSFill">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSFillShort" parent="CSFill">
+        <item name="android:layout_weight">0.1</item>
+    </style>
+
+    <style name="CSFillMedium" parent="CSFill">
+        <item name="android:layout_weight">0.3</item>
+    </style>
+
+    <style name="CSFillLarge" parent="CSFill">
+        <item name="android:layout_weight">0.5</item>
+    </style>
+
+    <style name="CSScrollMatch" parent="CSMatch">
+        <item name="android:fillViewport">true</item>
+    </style>
+
+    <style name="CSScrollMatchWrap" parent="CSScrollMatch">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSScrollMatchFill" parent="CSMatchFill">
+        <item name="android:fillViewport">true</item>
+    </style>
+
+    <style name="CSContainer">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="CSNavigationContainer">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+
+
+    <style name="CSVerticalMatchWrap">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSVerticalMatchFill">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSVerticalWrapFill" parent="CSVerticalMatchFill">
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="CSVerticalFillWrap">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSVerticalFillMatch" parent="CSVerticalFillWrap">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="CSVerticalWrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSVerticalWrapMatch" parent="CSVerticalWrap">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="CSVerticalMatch">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSHorizontalWrap">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSHorizontalMatch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSHorizontalMatchWrap">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSHorizontalWrapMatch">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="CSHorizontalFillWrap" parent="CSHorizontalMatchWrap">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSHorizontalFillMatch" parent="CSHorizontalMatchWrap">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="CSHorizontalMatchFill" parent="CSHorizontalMatch">
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+
+
+    <style name="CSContentMain" parent="CSMatchFill" />
+
+    <style name="CSGridMatch" parent="android:Widget.Material.GridView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:horizontalSpacing">0dp</item>
+        <item name="android:verticalSpacing">0dp</item>
+        <item name="android:numColumns">auto_fit</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:stretchMode">columnWidth</item>
+        <item name="android:choiceMode">none</item>
+        <item name="android:listSelector">@color/cs_transparent</item>
+    </style>
+
+    <style name="CSGridFillMatch" parent="CSGridMatch">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSGridMatchFill" parent="CSGridMatch">
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSGridMatchWrap" parent="CSGridMatch">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CSListMatch" parent="android:Widget.Material.ListView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="CSListMatchFill" parent="CSListMatch">
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="CSListPullMatch" parent="CSMatch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/cs_transparent</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+    <style name="CSListItem" parent="CSHorizontalMatchWrap">
+        <item name="android:padding">3dp</item>
+        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+        <item name="android:layout_marginEnd">3dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+    </style>
+
+
+
+    <style name="CSGridItemMatchWrap" parent="CSMatchWrap">
+        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style name="CSImageViewButtonWrap">
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="CSImageViewButtonFillWrap" parent="CSImageViewButtonWrap">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+
+
+
+
+
+    <style name="CSActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:contentInsetStart">0dp</item>
+        <item name="android:contentInsetLeft">0dp</item>
+        <item name="android:contentInsetEnd">0dp</item>
+        <item name="android:contentInsetRight">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+        <item name="contentInsetLeft">0dp</item>
+        <item name="contentInsetRight">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+
+    <style name="CSSpaceHorizontal3dp">
+        <item name="android:layout_width">3dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="CSSpaceVertical3dp">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">3dp</item>
+    </style>
+
+    <style name="CSSpaceHorizontal5dp">
+        <item name="android:layout_width">5dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="CSSpaceHorizontal7dp">
+        <item name="android:layout_width">7dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="CSSpaceHorizontal15dp">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="CSSpaceVertical5dp">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">5dp</item>
+    </style>
+
+    <style name="CSSpaceVertical7dp">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">7dp</item>
+    </style>
+
 
 
 </resources>
