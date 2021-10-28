@@ -6,12 +6,10 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.widget.TextView
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.FontRes
-import androidx.annotation.RequiresApi
+import androidx.annotation.*
 import androidx.core.content.res.ResourcesCompat
 import renetik.android.content.CSColorInt
+import renetik.android.content.attributeColor
 import renetik.android.content.color
 import renetik.android.content.drawable
 import renetik.android.primitives.at
@@ -24,15 +22,20 @@ fun TextView.textColor(@ColorRes value: Int) = apply {
     textColor(context.color(value))
 }
 
+fun TextView.textColorAttr(value: Int) = apply {
+    setTextColor(ColorStateList.valueOf(context.attributeColor(value)))
+}
+
 fun TextView.typeface(@FontRes font: Int) = apply {
     typeface = ResourcesCompat.getFont(context, font)
 }
 
-fun TextView.startDrawable(drawable: Drawable?) =
+fun <T : TextView> T.startDrawable(drawable: Drawable?) = apply {
     setCompoundDrawables(drawable, compoundDrawables.at(1),
         compoundDrawables.at(2), compoundDrawables.at(3))
+}
 
-fun TextView.startDrawable(@DrawableRes drawable: Int?) =
+fun <T : TextView> T.startDrawable(@DrawableRes drawable: Int?) =
     startDrawable(drawable?.let { context.drawable(it) })
 
 fun TextView.topDrawable(@DrawableRes drawable: Int?) =
@@ -54,4 +57,10 @@ fun TextView.bottomDrawable(@DrawableRes drawable: Int?) =
 @RequiresApi(Build.VERSION_CODES.M)
 fun TextView.setDrawableTint(context: ContextWrapper, @ColorRes iconColor: Int) {
     compoundDrawableTintList = context.getColorStateList(iconColor)
+}
+
+@SuppressLint("UseCompatTextViewDrawableApis")
+@RequiresApi(Build.VERSION_CODES.M)
+fun TextView.setDrawableTint(@ColorInt colorInt: Int) {
+    compoundDrawableTintList = ColorStateList.valueOf(colorInt)
 }

@@ -192,11 +192,11 @@ fun <T : Any> TextInputLayout.valueProperty(
     editText!!.text(parent, property)
 }
 
-@JvmName("propertyString")
-fun TextInputLayout.textProperty(
-    parent: CSVisibleEventOwner, property: CSEventProperty<String?>
-) = apply {
-    onTextChange { if (property.value.isSet) errorClear() }
-    onClear { property.value = null }
-    editText!!.text(parent, property)
-}
+//@JvmName("propertyString")
+//fun TextInputLayout.textProperty(
+//    parent: CSVisibleEventOwner, property: CSEventProperty<String?>
+//) = apply {
+//    onTextChange { if (property.value.isSet) errorClear() }
+//    onClear { property.value = null }
+//    editText!!.textProperty(parent, property)
+//}

@@ -1,7 +1,7 @@
 package renetik.android.widget
 
 import android.annotation.SuppressLint
-import android.view.KeyEvent.ACTION_UP
+import android.view.MotionEvent.ACTION_UP
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -9,45 +9,42 @@ import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.kotlin.asString
 import renetik.android.primitives.isEmpty
 import renetik.android.view.propertyWithTag
+import renetik.kotlin.asString
 
-val EditText.eventClear get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<Unit>() }
+val EditText.eventClear get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<EditText>() }
 
-fun <T : EditText> T.onClear(listener: () -> Unit): T = apply { eventClear.listen(listener) }
+fun <T : EditText> T.onClear(listener: (EditText) -> Unit): T =
+    apply { eventClear.listen(listener) }
 
 @SuppressLint("ClickableViewAccessibility")
-fun <T : EditText> T.withClear(): T {
+fun <T : EditText> T.withClear(showOnFocus: Boolean = false) = apply {
+    fun updateClearIcon() {
+        endDrawable(if (editableText.isNotEmpty() || (showOnFocus && isFocused))
+            R.drawable.abc_ic_clear_material else null)
+    }
     updateClearIcon()
+    if (showOnFocus) onFocusChange { updateClearIcon() }
     doAfterTextChanged { updateClearIcon() }
     setOnTouchListener { _, event ->
-        if (event.action == ACTION_UP && event.x >= (right - this.compoundPaddingRight)) {
+        if (event.action == ACTION_UP && event.x >= (width - this.compoundPaddingRight)) {
             setText("")
-            eventClear.fire()
+            eventClear.fire(this)
             return@setOnTouchListener true
         }
         false
     }
-    return this
 }
 
-@SuppressLint("PrivateResource")
-fun EditText.updateClearIcon() {
-    setCompoundDrawablesWithIntrinsicBounds(
-        0, 0, if (editableText.isNotEmpty()) R.drawable.abc_ic_clear_material else 0, 0
-    )
-}
-
-val EditText.asTextView: TextView get() = this
-
-fun EditText.text(parent: CSVisibleEventOwner, property: CSEventProperty<String?>) = apply {
+fun EditText.textProperty(property: CSEventProperty<String>): CSEventRegistration {
     fun updateText() = text(property.value.asString)
-    val propertyOnChange = parent.whileVisible(property.onChange { updateText() })
+    val propertyOnChange = property.onChange { updateText() }
     onTextChange {
-        propertyOnChange.pause().use { property.value = if (text().isEmpty) null else text() }
+        propertyOnChange.pause().use { property.value = if (text().isEmpty) "" else text() }
     }
     updateText()
+    return propertyOnChange
 }
 
 fun EditText.withKeyboardDone(function: () -> Unit) = apply {
