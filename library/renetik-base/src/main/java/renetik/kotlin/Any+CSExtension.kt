@@ -1,16 +1,22 @@
 package renetik.kotlin
 
 import renetik.android.framework.lang.CSHasId
-import renetik.android.framework.util.CSHandler.post
+import renetik.android.framework.util.CSMainHandler.postOnMain
+import renetik.java.lang.isMain
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 
 fun <T : Any> T.later(delayMilliseconds: Int = 0, function: (T).() -> Unit) {
-    post(delayMilliseconds) { function(this) }
+    postOnMain(delayMilliseconds) { function(this) }
 }
 
 fun <T : Any> T.later(function: (T).() -> Unit) {
-    post { function(this) }
+    postOnMain { function(this) }
+}
+
+fun <T : Any> T.onMainThread(function: (T).() -> Unit) {
+    if (Thread.currentThread().isMain) function()
+    else postOnMain { function(this) }
 }
 
 fun <T : Any> T.runIf(condition: Boolean, function: (T) -> T) =

@@ -1,7 +1,7 @@
 package renetik.android.framework.task
 
-import renetik.android.framework.util.CSHandler.post
-import renetik.android.framework.util.CSHandler.removePosted
+import renetik.android.framework.util.CSMainHandler.postOnMain
+import renetik.android.framework.util.CSMainHandler.removePosted
 
 fun repeat(interval: Int, runnable: (CSWork) -> Unit) = CSWork(interval, runnable)
 
@@ -14,7 +14,7 @@ class CSWork(private var interval: Int, private val function: (CSWork) -> Unit) 
     fun start() = apply {
         if (!isStarted) {
             isStarted = true
-            post(interval, ::runFunction)
+            postOnMain(interval, ::runFunction)
         }
     }
 
@@ -26,7 +26,7 @@ class CSWork(private var interval: Int, private val function: (CSWork) -> Unit) 
     private fun runFunction() {
         if (this.isStarted) {
             function(this)
-            post(interval, ::runFunction)
+            postOnMain(interval, ::runFunction)
         }
     }
 

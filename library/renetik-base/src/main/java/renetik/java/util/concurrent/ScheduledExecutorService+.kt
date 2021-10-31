@@ -1,7 +1,7 @@
 package renetik.java.util.concurrent
 
 import renetik.android.framework.common.catchAllError
-import renetik.android.framework.util.CSHandler.post
+import renetik.android.framework.util.CSMainHandler.postOnMain
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.NANOSECONDS
@@ -13,7 +13,7 @@ fun ScheduledExecutorService.backgroundNano(delay: Long = 0, function: () -> Uni
     schedule({ catchAllError { function() } }, delay, NANOSECONDS)
 
 fun ScheduledExecutorService.backgroundRunOnUi(delay: Long = 0, function: () -> Unit) =
-    background(delay) { post(function) }
+    background(delay) { postOnMain(function) }
 
 fun ScheduledExecutorService.backgroundRepeat(delay: Long = 0,
                                               period: Long, function: () -> Unit) =
@@ -25,7 +25,7 @@ fun ScheduledExecutorService.backgroundRepeatNano(delay: Long = 0,
 
 fun ScheduledExecutorService.backgroundRepeatRunOnUI(delay: Long = 0,
                                                      period: Long, function: () -> Unit) =
-    backgroundRepeat(delay, period) { post(function) }
+    backgroundRepeat(delay, period) { postOnMain(function) }
 
 fun ScheduledExecutorService.backgroundRepeat(period: Long, function: () -> Unit) =
     backgroundRepeat(delay = period, period = period, function = function)

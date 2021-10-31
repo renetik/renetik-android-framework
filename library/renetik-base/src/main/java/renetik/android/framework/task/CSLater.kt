@@ -1,7 +1,7 @@
 package renetik.android.framework.task
 
-import renetik.android.framework.util.CSHandler.post
-import renetik.android.framework.util.CSHandler.removePosted
+import renetik.android.framework.util.CSMainHandler.postOnMain
+import renetik.android.framework.util.CSMainHandler.removePosted
 
 object CSDoLaterObject {
 
@@ -16,12 +16,12 @@ class CSDoLater {
 
     constructor(function: () -> Unit, delayMilliseconds: Int) {
         this.function = function
-        post(delayMilliseconds, function)
+        postOnMain(delayMilliseconds, function)
     }
 
     constructor(function: () -> Unit) {
         this.function = function
-        post(function)
+        postOnMain(function)
     }
 
     fun stop() = removePosted(function)

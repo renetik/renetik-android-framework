@@ -57,6 +57,14 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         onCreate.fire(state)
     }
 
+    fun recreateView(){
+        activityView!!.onDestroy()
+        configuration.updateFrom(resources.configuration)
+        activityView = createView()
+        setContentView(activityView!!.view)
+        activityView!!.onResume()
+    }
+
     override fun onStart() {
         onStart.fire()
         super.onStart()

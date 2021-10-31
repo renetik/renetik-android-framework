@@ -55,7 +55,7 @@ abstract class CSActivityView<ViewType : View>
         initializeParent(parent)
     }
 
-    protected open fun onResume() {
+    open fun onResume() {
         if (isResumed) return
         isResumed = true
         if (!isResumeFirstTime) {
@@ -81,6 +81,7 @@ abstract class CSActivityView<ViewType : View>
     }
 
     override fun onDestroy() {
+        if (isResumed) onPause()
         if (isDestroyed)
             throw exception("$className $this Already destroyed")
         whileVisibleEventRegistrations.cancel()
@@ -213,7 +214,7 @@ abstract class CSActivityView<ViewType : View>
     override fun whileVisible(registration: CSEventRegistration) =
         registration.let { whileVisibleEventRegistrations.add(it) }
 
-  open  val navigation: CSNavigationView? by lazy {
+    open val navigation: CSNavigationView? by lazy {
         var controller: CSActivityView<*>? = this
         do {
             if (controller is CSNavigationView) return@lazy controller

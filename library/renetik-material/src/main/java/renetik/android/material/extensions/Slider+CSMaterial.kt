@@ -51,6 +51,7 @@ fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSEventRegistration {
     }
 }
 
+fun <T : Slider> T.value(value: Double) = apply { this.value = value.toFloat() }
 fun <T : Slider> T.value(value: Float) = apply { this.value = value }
 fun <T : Slider> T.value(value: Int) = apply { this.value = value.toFloat() }
 fun <T : Slider> T.valueFrom(value: Float) = apply { this.valueFrom = value }
@@ -62,11 +63,12 @@ fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat(
 
 @JvmName("valuePropertyDouble")
 fun Slider.value(property: CSEventProperty<Double>) = apply {
-    value = property.value.toFloat()
+    value(property.value)
     onChange { property.value = it.value.toDouble() }
 }
 
 @JvmName("valuePropertyInt")
 fun Slider.value(property: CSEventProperty<Int>) = apply {
-    value(property.value).onChange { property.value = it.value.toInt() }
+    value(property.value)
+    onChange { property.value = it.value.toInt() }
 }

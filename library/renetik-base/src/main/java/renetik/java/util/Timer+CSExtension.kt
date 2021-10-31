@@ -1,7 +1,7 @@
 package renetik.java.util
 
 import renetik.android.framework.common.catchAllError
-import renetik.android.framework.util.CSHandler.post
+import renetik.android.framework.util.CSMainHandler.postOnMain
 import renetik.java.util.concurrent.*
 import java.util.*
 import java.util.concurrent.Executors.newSingleThreadScheduledExecutor
@@ -29,7 +29,7 @@ object CSTimer {
 }
 
 fun Timer.scheduleAtFixedRateRunOnUI(delay: Long = 0, period: Long, function: () -> Unit) =
-    scheduleAtFixedRate(delay, period) { post(function) }
+    scheduleAtFixedRate(delay, period) { postOnMain(function) }
 
 inline fun Timer.scheduleAtFixedRate(delay: Long = 0, period: Long,
                                      crossinline function: () -> Unit): TimerTask {

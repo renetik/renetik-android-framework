@@ -12,6 +12,8 @@ import renetik.android.content.CSColorInt
 import renetik.android.content.attributeColor
 import renetik.android.content.color
 import renetik.android.content.drawable
+import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.primitives.at
 
 fun TextView.textColor(value: CSColorInt) = apply {
@@ -26,6 +28,11 @@ fun TextView.textColorAttr(value: Int) = apply {
     setTextColor(ColorStateList.valueOf(context.attributeColor(value)))
 }
 
+@RequiresApi(Build.VERSION_CODES.M)
+fun TextView.drawableTintAttr(value: Int) = apply {
+    setDrawableTint(context.attributeColor(value))
+}
+
 fun TextView.typeface(@FontRes font: Int) = apply {
     typeface = ResourcesCompat.getFont(context, font)
 }
@@ -37,6 +44,13 @@ fun <T : TextView> T.startDrawable(drawable: Drawable?) = apply {
 
 fun <T : TextView> T.startDrawable(@DrawableRes drawable: Int?) =
     startDrawable(drawable?.let { context.drawable(it) })
+
+fun <T : TextView> T.startDrawable(property: CSEventProperty<Boolean>,
+                                   function: (Boolean) -> Int): CSEventRegistration {
+    fun update(value: Boolean) = startDrawable(function(value))
+    update(property.value)
+    return property.onChange { update(it) }
+}
 
 fun TextView.topDrawable(@DrawableRes drawable: Int?) =
     setCompoundDrawables(compoundDrawables.at(0), drawable?.let { context.drawable(it) },

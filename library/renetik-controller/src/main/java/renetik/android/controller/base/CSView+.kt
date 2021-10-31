@@ -35,7 +35,7 @@ fun CSViewInterface.listView(@IdRes id: Int) = view.listView(id)
 fun CSViewInterface.radio(@IdRes id: Int) = view.radio(id)
 
 fun CSViewInterface.datePicker(@IdRes id: Int) = view.datePicker(id)
-fun CSViewInterface.numberPicker(@IdRes id: Int) = view.numberPicker(id)
+//fun CSViewInterface.numberPicker(@IdRes id: Int) = view.numberPicker(id)
 fun CSViewInterface.viewGroup(@IdRes id: Int) = view.viewGroup(id)
 fun CSViewInterface.frame(@IdRes id: Int) = view.frame(id)
 fun CSViewInterface.linear(@IdRes id: Int) = view.linear(id)
