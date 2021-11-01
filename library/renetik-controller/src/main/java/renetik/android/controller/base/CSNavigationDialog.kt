@@ -22,6 +22,7 @@ import renetik.android.framework.event.fire
 import renetik.android.framework.event.listenOnce
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.framework.lang.property.setFalse
@@ -99,10 +100,10 @@ open class CSNavigationDialog<ViewType : View>(
         animation = Fade
 
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
-        dialogContent.hasSize {
+        register(dialogContent.hasSize {
             if (side == Bottom) positionDialogContentFromViewBottom(fromView)
             else if (side == Right) positionDialogContentFromViewRight(fromView)
-        }
+        })
 
         view.backgroundColor(color(R.color.cs_dialog_popup_background))
     }

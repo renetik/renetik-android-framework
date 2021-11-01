@@ -57,21 +57,6 @@ fun <T : View> T.onLayout(action: (View) -> Boolean) = object : CSEventRegistrat
     }
 }
 
-///**
-// * @return true to remove listener
-// **/
-//fun <T : View> T.onLayout(action: (View) -> Boolean) = apply {
-//    viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-//        override fun onGlobalLayout() {
-//            if (action(this@onLayout)) viewTreeObserver.removeOnGlobalLayoutListener(this)
-//        }
-//    })
-//}
-
-fun <T : View> T.width(function: (Int) -> Unit) = hasSize { function(width) }
-
-fun <T : View> T.height(function: (Int) -> Unit) = hasSize { function(height) }
-
 fun <T : View> T.margins(left: Int, top: Int, right: Int, bottom: Int) = apply {
     layoutParams = (layoutParams as MarginLayoutParams).apply {
         setMargins(left, top, right, bottom)
