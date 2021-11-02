@@ -44,7 +44,8 @@ class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
 }
 
 class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
-    override val path: String = "path"
+    override val default = mutableListOf<CSPresetTestPresetItem>()
+    override val user = mutableListOf<CSPresetTestPresetItem>()
     override val items = mutableListOf<CSPresetTestPresetItem>()
     override fun put(item: CSPresetTestPresetItem) {
         items.add(item)
@@ -53,6 +54,9 @@ class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
     override fun remove(item: CSPresetTestPresetItem) {
         items.remove(item)
     }
+
+    override fun createPresetItem(title: String, isDefault: Boolean) =
+        CSPresetTestPresetItem(title)
 }
 
 class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase() {

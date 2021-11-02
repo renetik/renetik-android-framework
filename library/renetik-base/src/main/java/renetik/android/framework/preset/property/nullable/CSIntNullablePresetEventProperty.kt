@@ -11,7 +11,6 @@ class CSIntNullablePresetEventProperty(
     override val default: Int?,
     onChange: ((value: Int?) -> Unit)?)
     : CSNullablePresetEventProperty<Int>(parent, preset, key, onChange) {
-    //    override var _value: Int? = load()
     override var _value = load()
     override fun get(store: CSStoreInterface): Int? = store.getInt(key)
     override fun set(store: CSStoreInterface, value: Int?) {

@@ -9,38 +9,23 @@ import renetik.android.framework.event.property.CSEventPropertyFunctions.propert
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.store.property
 import renetik.android.framework.lang.CSHasId
-import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.preset.property.CSPresetEventProperty
 import renetik.android.framework.preset.property.CSPresetEventPropertyBase
 import renetik.android.framework.store.CSStoreInterface
 
-class CSPreset<PresetItem : CSPresetItem,
-        PresetList : CSPresetItemList<PresetItem>> private constructor(
+class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
     parent: CSHasDestroy,
-    parentPreset: CSPreset<*, *>? = null,
-    parentStore: CSStoreInterface? = null,
-    val parentId: String,
+    parentStore: CSStoreInterface,
+    parentId: String,
     val list: PresetList) : CSModelBase(parent), CSHasId {
-
-    constructor(parent: CSHasDestroy, parentStore: CSStoreInterface,
-                parentId: String, list: PresetList)
-            : this(parent, parentPreset = null, parentStore = parentStore,
-        parentId = parentId, list = list)
-
-    constructor(parent: CSHasDestroy, parentPreset: CSPreset<*, *>,
-                parentId: String, list: PresetList)
-            : this(parent, parentPreset = parentPreset, parentStore = null,
-        parentId = parentId, list = list)
 
     override val id = "$parentId preset"
 
     val item: CSEventProperty<PresetItem> =
-        parentPreset?.property(this, "$id current", { list.items }, defaultIndex = 0)
-            ?: parentStore!!.property("$id current", { list.items }, defaultIndex = 0)
+        parentStore.property("$id current", { list.items }, defaultIndex = 0)
 
     val store: CSEventProperty<CSJsonObject> =
-        parentPreset?.let { it.add(CSStoreJsonTypePresetValueStoreEventProperty(this, it)) }
-            ?: parentStore!!.property("$id store", CSJsonObject::class)
+        parentStore.property("$id store", CSJsonObject::class)
 
     var isReload = false
     val eventReload = event<CSJsonObject>()
@@ -68,7 +53,7 @@ class CSPreset<PresetItem : CSPresetItem,
 
     val isModified = property(false)
 
-//    private val modifiedProperties = mutableSetOf<CSPresetEventProperty<*>>()
+    //    private val modifiedProperties = mutableSetOf<CSPresetEventProperty<*>>()
     private fun updateIsModified(property: CSPresetEventProperty<*>) {
 //        if (property.isModified.isTrue)
 //            modifiedProperties.add(property)

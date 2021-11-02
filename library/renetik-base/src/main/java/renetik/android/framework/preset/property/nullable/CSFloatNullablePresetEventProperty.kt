@@ -11,7 +11,6 @@ class CSFloatNullablePresetEventProperty(
     override val default: Float?,
     onChange: ((value: Float?) -> Unit)?)
     : CSNullablePresetEventProperty<Float>(parent, preset, key, onChange) {
-    //    override var _value: Float? = load()
     override var _value = load()
     override fun get(store: CSStoreInterface): Float? = store.getFloat(key)
     override fun set(store: CSStoreInterface, value: Float?) {
