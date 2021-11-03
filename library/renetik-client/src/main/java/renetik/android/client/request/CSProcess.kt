@@ -3,12 +3,13 @@ package renetik.android.client.request
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
-import renetik.kotlin.exception
-import renetik.kotlin.rootCauseMessage
 import renetik.android.framework.logging.CSLog.debug
 import renetik.android.framework.logging.CSLog.error
 import renetik.android.framework.logging.CSLog.info
+import renetik.android.framework.logging.CSLog.warn
 import renetik.android.framework.util.CSSynchronizedProperty.Companion.synchronized
+import renetik.kotlin.exception
+import renetik.kotlin.rootCauseMessage
 
 open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
 
@@ -85,10 +86,10 @@ open class CSProcess<Data : Any>(var data: Data? = null) : CSContext() {
     private fun onFailedImpl(process: CSProcess<*>) {
         if (isDone) error(exception("already done"))
         if (isFailed) error(exception("already failed"))
+        else isFailed = true
         failedProcess = process
-        isFailed = true
-        failedMessage = (process.failedMessage?.let { "$it, " } ?: "") +
-                process.throwable?.rootCauseMessage
+        failedMessage = process.failedMessage
+        process.throwable?.rootCauseMessage?.let { warn(it) }
         throwable = process.throwable ?: Throwable()
         error(throwable!!, failedMessage)
         eventFailed.fire(process)

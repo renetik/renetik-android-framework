@@ -11,28 +11,32 @@ class CSJsonTypeValueStoreEventProperty<T : CSJsonObject>(
     store: CSStoreInterface, key: String, val type: KClass<T>,
     onApply: ((value: T) -> Unit)? = null
 ) : CSValueStoreEventProperty<T>(store, key, onApply) {
-    override val defaultValue get() = type.createInstance()!!
-    override var _value = load()
-    override fun get(store: CSStoreInterface) = store.getJsonObject(key, type)
-    override fun set(store: CSStoreInterface, value: T) = store.set(key, value)
 
-//    init {
-//        registerValueDataChange()
-//    }
-//
-//    override fun onValueChanged(newValue: T, fire: Boolean, before: T) {
-//        super.onValueChanged(newValue, fire, before)
-//        registerValueDataChange()
-//    }
+    override val defaultValue
+        get() =
+            type.createInstance()!!
 
-    //TODO!!!! needed ?
-//    var storeDataChangeRegistration: CSEventRegistration? = null
-//    private fun registerValueDataChange() {
-//        storeDataChangeRegistration?.cancel()
-//        storeDataChangeRegistration = value.eventChanged.listen { data ->
-//            save(store)
-//            onApply?.invoke(value)
-//            fireChange(value, value) //TODO Wrong...
-//        }
-//    }
+    override var _value =
+        load()
+        set(value) {
+            field = value
+            updateOnChanged()
+        }
+
+    init {
+        updateOnChanged()
+    }
+
+    var valueEventChanged: CSEventRegistration? = null
+
+    private fun updateOnChanged() {
+        valueEventChanged?.cancel()
+        valueEventChanged = _value.eventChanged.listen { save() }
+    }
+
+    override fun get(store: CSStoreInterface) =
+        store.getJsonObject(key, type)
+
+    override fun set(store: CSStoreInterface, value: T) =
+        store.set(key, value)
 }

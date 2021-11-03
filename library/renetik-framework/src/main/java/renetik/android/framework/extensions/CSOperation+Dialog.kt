@@ -9,23 +9,23 @@ import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.R
 import renetik.kotlin.unfinished
 
-fun <Data : Any> CSOperation<Data>.send(
-    parent: CSActivityView<out ViewGroup>,
-    title: String, isProgress: Boolean = true, isFailedDialog: Boolean = true,
-    onInternetFailed: (() -> Unit)? = null,
-    onSuccess: ((Data) -> Unit)? = null) = apply {
-    val process = send()
-    if (isProgress) {
-        throw unfinished // TODO!!!
+//fun <Data : Any> CSOperation<Data>.send(
+//    parent: CSActivityView<out ViewGroup>,
+//    title: String, isProgress: Boolean = true, isFailedDialog: Boolean = true,
+//    onInternetFailed: (() -> Unit)? = null,
+//    onSuccess: ((Data) -> Unit)? = null) = apply {
+//    val process = send()
+//    if (isProgress) {
+//        throw unfinished // TODO!!!
 //        val progress = parent.dialog().showProgress(title,
 //            cancelTitle = getString(R.string.renetik_android_framework_operation_send_cancel)) { cancel() }
 //        process.onDone { progress.hide() }
-    }
-    if (isFailedDialog) onSendFailed(parent, process, title, isProgress,
-        onInternetFailed, onSuccess)
-    else process.onFailed { cancel() }
-    onSuccess?.let { this.onSuccess(it) }
-}
+//    }
+//    if (isFailedDialog) onSendFailed(parent, process, title, isProgress,
+//        onInternetFailed, onSuccess)
+//    else process.onFailed { cancel() }
+//    onSuccess?.let { this.onSuccess(it) }
+//}
 
 private fun <Data : Any> CSOperation<Data>.onSendFailed(
     parent: CSActivityView<out ViewGroup>,
@@ -46,29 +46,29 @@ private fun <Data : Any> CSOperation<Data>.onSendFailed(
     }
 }
 
-fun <Data : Any> CSOperation<Data>.sendSilently(
-    parent: CSActivityView<out ViewGroup>,
-    onInternetFailed: (() -> Unit)? = null,
-    onSuccess: ((Data) -> Unit)? = null) =
-    send(parent, "", isProgress = false, isFailedDialog = false,
-        onInternetFailed, onSuccess)
+//fun <Data : Any> CSOperation<Data>.sendSilently(
+//    parent: CSActivityView<out ViewGroup>,
+//    onInternetFailed: (() -> Unit)? = null,
+//    onSuccess: ((Data) -> Unit)? = null) =
+//    send(parent, "", isProgress = false, isFailedDialog = false,
+//        onInternetFailed, onSuccess)
 
-fun <Data : Any> CSOperation<Data>.sendProgress(
-    parent: CSActivityView<out ViewGroup>,
-    title: String, onInternetFailed: (() -> Unit)? = null,
-    onSuccess: ((Data) -> Unit)? = null) =
-    send(parent, title, isProgress = true, isFailedDialog = false,
-        onInternetFailed, onSuccess)
+//fun <Data : Any> CSOperation<Data>.sendProgress(
+//    parent: CSActivityView<out ViewGroup>,
+//    title: String, onInternetFailed: (() -> Unit)? = null,
+//    onSuccess: ((Data) -> Unit)? = null) =
+//    send(parent, title, isProgress = true, isFailedDialog = false,
+//        onInternetFailed, onSuccess)
 
-fun <Data : Any> CSOperation<Data>.sendWithProgressAndDescriptiveDialog(
-    parent: CSActivityView<out ViewGroup>,
-    title: String, onInternetFailed: (() -> Unit)? = null,
-    onSuccess: ((Data) -> Unit)? = null): CSOperation<Data> = apply {
-    val process = send()
-    throw unfinished // TODO!!!
+//fun <Data : Any> CSOperation<Data>.sendWithProgressAndDescriptiveDialog(
+//    parent: CSActivityView<out ViewGroup>,
+//    title: String, onInternetFailed: (() -> Unit)? = null,
+//    onSuccess: ((Data) -> Unit)? = null): CSOperation<Data> = apply {
+//    val process = send()
+//    throw unfinished // TODO!!!
 //    val progress = parent.dialog().showProgress(title,
 //        cancelTitle = getString(R.string.renetik_android_framework_operation_send_cancel)) { cancel() }
-    process.onFailed {
+//    process.onFailed {
 //        if (!application.isNetworkConnected && onInternetFailed != null)
 //            onInternetFailed()
 //        else
@@ -85,5 +85,5 @@ fun <Data : Any> CSOperation<Data>.sendWithProgressAndDescriptiveDialog(
 //                    })
 //    }.onDone { progress.hide() }
 //    onSuccess?.let { this.onSuccess(it) }
-    }
-}
+//    }
+//}

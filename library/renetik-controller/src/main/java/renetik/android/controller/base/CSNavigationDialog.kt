@@ -47,7 +47,7 @@ open class CSNavigationDialog<ViewType : View>(
     layout(R.layout.cs_frame_match)), CSNavigationItem {
 
     override var isFullscreen: CSEventProperty<Boolean> = property(false)
-    private var animation = Slide
+    var animation = Slide
     private val marginDp = 7
 
     private val eventOnDismiss = event<Unit>()

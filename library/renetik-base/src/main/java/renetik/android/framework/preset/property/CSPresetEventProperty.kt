@@ -7,7 +7,6 @@ import renetik.android.framework.preset.CSPreset
 
 interface CSPresetEventProperty<T> : CSEventProperty<T>, CSHasDestroy {
     val preset: CSPreset<*, *>
-    val isModified: CSEventProperty<Boolean>
     val key: String
     fun save(store: CSJsonObject)
 }
