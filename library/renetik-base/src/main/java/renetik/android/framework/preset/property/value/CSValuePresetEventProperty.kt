@@ -14,5 +14,5 @@ abstract class CSValuePresetEventProperty<T>(
 ) : CSPresetEventPropertyBase<T>(parent, preset, key, onChange), CSPresetEventProperty<T> {
 
     override fun loadFrom(store: CSStoreInterface): T =
-        get(store) ?: default.also { set(store, it) }
+        get(store) ?: default
 }

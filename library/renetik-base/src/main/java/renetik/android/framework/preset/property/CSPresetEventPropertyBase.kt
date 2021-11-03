@@ -10,11 +10,12 @@ import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStoreInterface
 
 abstract class CSPresetEventPropertyBase<T>(
-    parent: CSEventOwnerHasDestroy,
+    val parent: CSEventOwnerHasDestroy,
     final override val preset: CSPreset<*, *>,
     override val key: String,
     onChange: ((value: T) -> Unit)? = null
 ) : CSEventPropertyBase<T>(parent, onChange), CSPresetEventProperty<T> {
+    val store get() = preset.store.value
 
     protected abstract val default: T
     protected abstract var _value: T
@@ -22,23 +23,23 @@ abstract class CSPresetEventPropertyBase<T>(
     protected abstract fun set(store: CSStoreInterface, value: T)
 
     abstract fun loadFrom(store: CSStoreInterface): T
-    fun load(): T = loadFrom(preset.store.value)
-
     override fun saveTo(store: CSJsonObject) = set(store, value)
 
-    lateinit var presetStoreValueEventChanged: CSEventRegistration
+    fun load(): T = loadFrom(store)
+
+    private var presetStoreValueEventChanged: CSEventRegistration? = null
 
     init {
-        registerOnStoreChange(parent)
+        registerOnStoreChange()
         parent.register(preset.store.onChange {
             onStoreChange()
-            registerOnStoreChange(parent)
+            registerOnStoreChange()
         })
     }
 
-    private fun registerOnStoreChange(parent: CSEventOwnerHasDestroy) {
-        presetStoreValueEventChanged =
-            parent.register(preset.store.value.eventChanged.listen {
+    private fun registerOnStoreChange() {
+        presetStoreValueEventChanged?.cancel()
+        presetStoreValueEventChanged = parent.register(store.eventChanged.listen {
             onStoreChange()
         })
     }
@@ -54,7 +55,7 @@ abstract class CSPresetEventPropertyBase<T>(
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        presetStoreValueEventChanged.pause().use { saveTo(preset.store.value) }
+        presetStoreValueEventChanged!!.pause().use { saveTo(store) }
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
     }
