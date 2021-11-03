@@ -38,4 +38,6 @@ abstract class CSLateStoreEventProperty<T>(
 
     val isNotLoaded get() = _value == null
     val isLoaded get() = _value != null
+
+    override fun toString() = "$key $value"
 }

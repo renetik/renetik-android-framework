@@ -1,10 +1,10 @@
 package renetik.android.framework.store.property.value
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
+import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.store.CSStringJsonStore
-import renetik.android.framework.store.property.value.CSStringValueStoreEventProperty
+import renetik.android.framework.json.store.property
 
 class CSStringValueStoreEventPropertyTest {
     private val store = CSStringJsonStore("{}")
@@ -32,14 +32,19 @@ class CSStringValueStoreEventPropertyTest {
         assertEquals("""{"key":""}""", store.jsonString)
     }
 
-//    @Test
-//    fun testReload() {
-//        property.save(store, "test")
-//        assertEquals("", property.value)
-//        assertEquals("""{"key":"test"}""", store.jsonString)
-//
-//        property.reload()
-//        assertEquals("test", property.value)
-//        assertEquals("test", _value)
-//    }
+    @Test
+    fun testReload() {
+        val property: CSJsonTypeValueStoreEventProperty<CSJsonObjectData> =
+            store.property("key", CSJsonObjectData::class)
+        property.value.string.value = "tralala"
+
+        assertEquals("""{"key":{"key":"tralala"}}""", store.jsonString)
+
+        val property2 = store.property("key", CSJsonObjectData::class)
+        assertEquals("tralala", property2.value.string.value)
+    }
+}
+
+class CSJsonObjectData : CSJsonObject() {
+    val string = CSStringValueStoreEventProperty(this, "key", "")
 }

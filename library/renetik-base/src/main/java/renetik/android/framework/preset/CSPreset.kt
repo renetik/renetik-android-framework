@@ -21,7 +21,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     val store: CSJsonTypeValueStoreEventProperty<CSJsonObject> =
         parentStore.property("$id store", CSJsonObject::class)
 
-    private val properties = mutableSetOf<CSPresetEventPropertyBase<*>>()
+//    private val properties = mutableSetOf<CSPresetEventPropertyBase<*>>()
 
     init {
         if (store.value.data.isEmpty())
@@ -32,23 +32,28 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     fun reload() = reload(item.value)
 
     fun reload(item: PresetItem) {
-        store.value(CSJsonObject(item.store))
-        store.save()
+        store.value.reload(item.store)
+//        store.value(CSJsonObject(item.store))
+//        store.save()
     }
 
     fun <T : CSPresetEventPropertyBase<*>> add(property: T): T {
-        properties.add(property)
-        property.eventDestroy.listenOnce { properties.remove(property) }
+//        properties.add(property)
+//        property.eventDestroy.listenOnce { properties.remove(property) }
         return property
     }
 
-    fun saveAsNew(preset: PresetItem) {
-        preset.save(properties)
-        list.put(preset)
-        item.value(preset)
+    fun saveAsNew(item: PresetItem) {
+        item.store.reload(store.value)
+//        item.save(properties) //TODO...
+        list.put(item)
+        this.item.value(item)
     }
 
-    fun saveAsCurrent() = item.value.save(properties)
+    fun saveAsCurrent() {
+//        item.value.save(properties)//TODO...
+        item.value.store.reload(store.value)
+    }
 
     fun delete(preset: PresetItem) {
         preset.delete()

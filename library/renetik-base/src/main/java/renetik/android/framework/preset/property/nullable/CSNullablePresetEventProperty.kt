@@ -12,6 +12,6 @@ abstract class CSNullablePresetEventProperty<T>(
     override val key: String,
     onChange: ((value: T?) -> Unit)?)
     : CSPresetEventPropertyBase<T?>(parent, preset, key, onChange), CSPresetEventProperty<T?> {
-    override fun load(store: CSStoreInterface): T? =
+    override fun loadFrom(store: CSStoreInterface): T? =
         if (store.has(key)) get(store) else default.also { set(store, it) }
 }

@@ -12,12 +12,9 @@ class CSJsonTypeValueStoreEventProperty<T : CSJsonObject>(
     onApply: ((value: T) -> Unit)? = null
 ) : CSValueStoreEventProperty<T>(store, key, onApply) {
 
-    override val defaultValue
-        get() =
-            type.createInstance()!!
+    override val defaultValue get() = type.createInstance()!!
 
-    override var _value =
-        load()
+    override var _value = load()
         set(value) {
             field = value
             updateOnChanged()

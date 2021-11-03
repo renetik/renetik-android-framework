@@ -9,5 +9,4 @@ class CSStoreJsonTypePresetValueStoreEventProperty(
     onChange: ((value: CSJsonObject) -> Unit)? = null)
     : CSJsonTypeValuePresetEventProperty<CSJsonObject>(
     preset, parentPreset, "${preset.id} store", CSJsonObject::class, onChange) {
-
 }

@@ -1,11 +1,10 @@
 package renetik.android.framework.preset
 
-import junit.framework.Assert.*
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import org.junit.Test
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.lang.property.isFalse
-import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.preset.property.CSPresetEventProperty
 import renetik.android.framework.store.CSStoreInterface
 import renetik.kotlin.collections.second
@@ -17,7 +16,7 @@ class CSPresetTest {
     private val parent = CSPresetTestParentClass(store)
 
     @Test
-    fun test() {
+    fun test1() {
         assertEquals("Clear Parent", parent.parentPreset.item.value.id)
         assertEquals("parent initial", parent.property.value)
 //        assertFalse(parent.parentPreset.isModified.isTrue)
@@ -115,7 +114,7 @@ class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
     override val store = CSJsonObject()
     override fun delete() = Unit
     override fun save(properties: Iterable<CSPresetEventProperty<*>>) =
-        properties.forEach { it.save(store) }
+        properties.forEach { it.saveTo(store) }
 }
 
 private class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
@@ -157,6 +156,6 @@ private class CSPresetTestChildClass(parent: CSPresetTestParentClass, preset: CS
     }
 
     val id = "${parent.id} childClass"
-    val childPreset = CSPreset(this, preset, "$id child", presetList)
+    val childPreset = CSPreset(this, preset.store.value, "$id child", presetList)
     val property = childPreset.property(this, "property", "child initial")
 }
