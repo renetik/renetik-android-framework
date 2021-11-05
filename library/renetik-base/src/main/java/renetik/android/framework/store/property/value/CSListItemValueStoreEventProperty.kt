@@ -10,7 +10,7 @@ class CSListItemValueStoreEventProperty<T>(
     val getValues: () -> List<T>,
     val getDefault: () -> T,
     onChange: ((value: T) -> Unit)? = null
-) : CSValueStoreEventProperty<T>(store, key, onChange), CSListValuesProperty<T> {
+) : CSValueStoreEventProperty<T>(store, key, listenStoreChanged = false,onChange), CSListValuesProperty<T> {
 
     constructor(
         store: CSStoreInterface, key: String,

@@ -31,6 +31,7 @@ import renetik.android.view.extensions.add
 import renetik.android.view.extensions.backgroundColor
 import renetik.android.view.extensions.locationOnScreen
 import renetik.android.view.hasSize
+import renetik.android.view.height
 import renetik.android.view.onClick
 
 enum class DialogAnimation {
@@ -103,6 +104,7 @@ open class CSNavigationDialog<ViewType : View>(
         register(dialogContent.hasSize {
             if (side == Bottom) positionDialogContentFromViewBottom(fromView)
             else if (side == Right) positionDialogContentFromViewRight(fromView)
+            correctHeight()
         })
 
         view.backgroundColor(color(R.color.cs_dialog_popup_background))
@@ -115,11 +117,16 @@ open class CSNavigationDialog<ViewType : View>(
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
         var desiredX = fromViewTopCenterX.toFloat() - (dialogContent.width / 2)
         if (desiredX + dialogContent.width > displayWidth - dpToPixelF(marginDp))
-            desiredX -= (desiredX + dialogContent.width) -
-                    (displayWidth - dpToPixelF(marginDp))
+            desiredX -= (desiredX + dialogContent.width) - (displayWidth - dpToPixelF(marginDp))
         if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
         dialogContent.x = desiredX
+
         dialogContent.y = fromViewLocation.y.toFloat() + fromView.height - statusBarHeight
+    }
+
+    private fun correctHeight() {
+        if (dialogContent.y + dialogContent.height > displayHeight - dpToPixelF(marginDp))
+            dialogContent.height(displayHeight - statusBarHeight - dpToPixelF(marginDp) - dialogContent.y)
     }
 
     private fun positionDialogContentFromViewRight(fromView: View) {

@@ -9,8 +9,9 @@ import kotlin.reflect.KClass
 
 class CSJsonTypeValueStoreEventProperty<T : CSJsonObject>(
     store: CSStoreInterface, key: String, val type: KClass<T>,
+    listenStoreChanged: Boolean = false,
     onApply: ((value: T) -> Unit)? = null
-) : CSValueStoreEventProperty<T>(store, key, onApply) {
+) : CSValueStoreEventProperty<T>(store, key, listenStoreChanged, onApply) {
 
     override val defaultValue get() = type.createInstance()!!
 

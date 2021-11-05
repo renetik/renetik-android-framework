@@ -9,6 +9,7 @@ import renetik.android.framework.store.property.CSStoreEventProperty
 abstract class CSValueStoreEventProperty<T>(
     final override val store: CSStoreInterface,
     final override val key: String,
+    val listenStoreChanged: Boolean = false,
     onChange: ((value: T) -> Unit)? = null)
     : CSEventPropertyBase<T>(onChange), CSStoreEventProperty<T> {
 
@@ -19,13 +20,13 @@ abstract class CSValueStoreEventProperty<T>(
     fun load(store: CSStoreInterface): T = get(store) ?: defaultValue
     fun load(): T = load(store)
 
-    private val storeEventChangedRegistration = store.eventChanged.listen {
+    private val storeEventChangedRegistration = if (listenStoreChanged) store.eventChanged.listen {
         val newValue = load()
         if (_value == newValue) return@listen
         _value = newValue
         onApply?.invoke(newValue)
         eventChange.fire(newValue)
-    }
+    } else null
 
     final override var value: T
         get() = _value
@@ -35,10 +36,13 @@ abstract class CSValueStoreEventProperty<T>(
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        storeEventChangedRegistration.pause().use { set(store, newValue) }
+        storeEventChangedRegistration?.pause()?.use { set(store, newValue) }
+            ?: set(store, newValue)
         onApply?.invoke(newValue)
         if (fire) eventChange.fire(newValue)
     }
 
     override fun toString() = "$key $value"
+
+    fun stopListeningStoreChanged() = storeEventChangedRegistration?.cancel()
 }

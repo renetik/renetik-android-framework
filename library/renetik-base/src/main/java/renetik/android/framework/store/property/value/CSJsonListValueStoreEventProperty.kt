@@ -9,8 +9,9 @@ class CSJsonListValueStoreEventProperty<T : CSJsonObject>(
     key: String,
     val type: KClass<T>,
     val default: List<T> = emptyList(),
+    listenStoreChanged: Boolean = false,
     onApply: ((value: List<T>) -> Unit)? = null
-) : CSValueStoreEventProperty<List<T>>(store, key, onApply) {
+) : CSValueStoreEventProperty<List<T>>(store, key, listenStoreChanged, onApply) {
     override val defaultValue = default
     override var _value = load()
     override fun get(store: CSStoreInterface) = store.getJsonList(key, type) ?: default

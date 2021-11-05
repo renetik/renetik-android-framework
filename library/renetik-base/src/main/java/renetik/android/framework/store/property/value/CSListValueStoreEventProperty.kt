@@ -8,7 +8,7 @@ import renetik.kotlin.toId
     store: CSStoreInterface, key: String,
     val values: Iterable<T>, val default: List<T>,
     onChange: ((value: List<T>) -> Unit)? = null
-) : CSValueStoreEventProperty<List<T>>(store, key, onChange) {
+) : CSValueStoreEventProperty<List<T>>(store, key, listenStoreChanged = false,onChange) {
 
     override val defaultValue = default
     override var _value = load()

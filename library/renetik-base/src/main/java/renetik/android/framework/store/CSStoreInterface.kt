@@ -88,7 +88,7 @@ interface CSStoreInterface : CSPropertyStoreInterface,
         CSBooleanValueStoreEventProperty(this, key, value, onChange)
 
     override fun property(key: String, value: Int, onChange: ((value: Int) -> Unit)?) =
-        CSIntValueStoreEventProperty(this, key, value, onChange)
+        CSIntValueStoreEventProperty(this, key, value, onChange = onChange)
 
     override fun property(key: String, value: Double, onChange: ((value: Double) -> Unit)?) =
         CSDoubleValueStoreEventProperty(this, key, value, onChange)

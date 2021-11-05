@@ -131,6 +131,8 @@ fun <T : View> T.height(value: Int) = apply {
     layoutParams = params
 }
 
+fun <T : View> T.height(value: Float) = height(value.toInt())
+
 var View.layoutWidth: Int
     get() = layoutParams.width
     set(value) {
