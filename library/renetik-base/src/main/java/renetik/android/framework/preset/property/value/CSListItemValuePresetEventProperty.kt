@@ -14,7 +14,7 @@ open class CSListItemValuePresetEventProperty<T>(
     key: String,
     val getValues: () -> List<T>,
     val getDefault: () -> T,
-    onChange: ((value: T) -> Unit)?)
+    onChange: ((value: T) -> Unit)? = null)
     : CSValuePresetEventProperty<T>(parent, preset, key, onChange), CSListValuesEventProperty<T> {
 
     constructor(

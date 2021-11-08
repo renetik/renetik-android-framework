@@ -82,7 +82,7 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     fun getString(key: String) = get(key)
 
     override fun property(key: String, value: String, onChange: ((value: String) -> Unit)?) =
-        CSStringValueStoreEventProperty(this, key, value, onChange)
+        CSStringValueStoreEventProperty(this, key, value, listenStoreChanged = false, onChange)
 
     override fun property(key: String, value: Boolean, onChange: ((value: Boolean) -> Unit)?) =
         CSBooleanValueStoreEventProperty(this, key, value, onChange)
@@ -98,17 +98,17 @@ interface CSStoreInterface : CSPropertyStoreInterface,
 
     override fun <T> property(
         key: String, values: List<T>, value: T, onChange: ((value: T) -> Unit)?) =
-        CSListItemValueStoreEventProperty(this, key, values, value, onChange)
+        CSListItemValueStoreEventProperty(this, key, values, value, false, onChange)
 
     override fun <T> property(
         key: String, values: List<T>, getDefault: () -> T, onChange: ((value: T) -> Unit)?) =
-        CSListItemValueStoreEventProperty(this, key, { values }, getDefault, onChange)
+        CSListItemValueStoreEventProperty(this, key, { values }, getDefault, false, onChange)
 
     override fun <T> property(
         key: String, getValues: () -> List<T>,
         defaultIndex: Int, onChange: ((value: T) -> Unit)?
     ) = CSListItemValueStoreEventProperty(this, key, getValues,
-        { getValues()[defaultIndex] }, onChange)
+        { getValues()[defaultIndex] }, listenStoreChanged = false, onChange)
 
     override fun <T : CSHasId> property(
         key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =

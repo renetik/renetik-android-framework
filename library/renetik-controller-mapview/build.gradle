@@ -5,9 +5,7 @@ apply plugin: 'kotlin-android'
 dependencies {
     implementation project(':renetik-library-base')
     implementation project(':renetik-library-imaging')
-    implementation project(':renetik-library-json')
     implementation project(':renetik-library-controller')
-    implementation project(':renetik-library-dialog')
     implementation "com.google.android.gms:play-services-location:18.0.0"
     implementation "com.google.android.gms:play-services-maps:17.0.1"
     implementation "androidx.core:core-ktx:$ktx_version"

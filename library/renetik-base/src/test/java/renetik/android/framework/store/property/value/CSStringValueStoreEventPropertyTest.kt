@@ -46,5 +46,5 @@ class CSStringValueStoreEventPropertyTest {
 }
 
 class CSJsonObjectData : CSJsonObject() {
-    val string = CSStringValueStoreEventProperty(this, "key", "")
+    val string = CSStringValueStoreEventProperty(this, "key", "", listenStoreChanged = true)
 }

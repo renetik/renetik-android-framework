@@ -32,48 +32,63 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
 
     fun load(data: Map<String, Any?>) {
         this.data.putAll(data)
-        eventChanged.fire(this)
-        onLoaded()
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
-    open fun onLoaded() {}
+    open fun onChanged() {
+        eventChanged.fire(this)
+    }
 
     override fun set(key: String, value: String?) {
+        if (data[key] == value) return
         data[key] = value
-        if (!isBulkSave) eventChanged.fire(this)
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
     override fun set(key: String, value: Map<String, *>?) {
+        if (data[key] == value) return
         data[key] = value
-        if (!isBulkSave) eventChanged.fire(this)
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
     override fun set(key: String, value: Array<*>?) {
+        if (data[key] == value) return
         data[key] = value
-        if (!isBulkSave) eventChanged.fire(this)
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
     override fun set(key: String, value: List<*>?) {
+        if (data[key] == value) return
         data[key] = value
-        if (!isBulkSave) eventChanged.fire(this)
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
-    override fun <T : CSJsonObject> set(key: String, jsonObject: T?) {
-        data[key] = jsonObject
-        if (!isBulkSave) eventChanged.fire(this)
+    override fun <T : CSJsonObject> set(key: String, value: T?) {
+        if (data[key] == value) return
+        data[key] = value
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
     override fun clear() {
         data.clear()
-        if (!isBulkSave) eventChanged.fire(this)
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
     override fun clear(key: String) {
-        data.remove(key)
-        if (!isBulkSave) eventChanged.fire(this)
+        if (data.remove(key) == null) return
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
     protected var isBulkSave = false
+    protected var isBulkSaveDirty = false
 
     override fun bulkSave() = apply {
         isBulkSave = true
@@ -82,7 +97,8 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
 
     override fun close() {
         isBulkSave = false
-        eventChanged.fire(this)
+        if (isBulkSaveDirty) onChanged()
+        isBulkSaveDirty = false
     }
 
     override fun getMap(key: String) = data[key] as? MutableMap<String, Any?>
@@ -99,7 +115,7 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
             ?: (data[key] as? MutableMap<String, Any?>)?.let { type.createJsonObject(it) }
     }
 
-    override fun toString() = toJsonString(formatted = true)
+    override fun toString() = super.toString() + toJsonString(formatted = true)
 
     override fun equals(other: Any?) =
         (other as? CSJsonObject)?.let { it.data == data } ?: super.equals(other)

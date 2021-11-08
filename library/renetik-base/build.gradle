@@ -2,6 +2,7 @@ ext.publish_module_name = 'base'
 apply from: '../../library.gradle'
 apply plugin: 'kotlin-android'
 
+
 dependencies {
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

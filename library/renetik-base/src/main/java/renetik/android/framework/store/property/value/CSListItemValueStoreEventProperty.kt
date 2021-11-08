@@ -9,13 +9,19 @@ class CSListItemValueStoreEventProperty<T>(
     store: CSStoreInterface, key: String,
     val getValues: () -> List<T>,
     val getDefault: () -> T,
+    listenStoreChanged: Boolean = false,
     onChange: ((value: T) -> Unit)? = null
-) : CSValueStoreEventProperty<T>(store, key, listenStoreChanged = false,onChange), CSListValuesProperty<T> {
+) : CSValueStoreEventProperty<T>(store, key,
+    listenStoreChanged, onChange), CSListValuesProperty<T> {
 
     constructor(
         store: CSStoreInterface, key: String,
-        values: List<T>, default: T, onChange: ((value: T) -> Unit)? = null
-    ) : this(store, key, { values }, getDefault = { default }, onChange)
+        values: List<T>, default: T,
+        listenStoreChanged: Boolean = false,
+        onChange: ((value: T) -> Unit)? = null
+    ) : this(store, key, { values },
+        getDefault = { default },
+        listenStoreChanged, onChange)
 
     override val values: List<T> get() = getValues()
     override val defaultValue: T get() = getDefault()

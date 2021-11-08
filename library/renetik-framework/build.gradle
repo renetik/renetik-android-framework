@@ -5,16 +5,12 @@ apply plugin: 'kotlin-android'
 dependencies {
     api project(':renetik-library-base')
     api project(':renetik-library-material')
-    api project(':renetik-library-json')
     api project(':renetik-library-client')
     api project(':renetik-library-client-okhttp3')
-    api project(':renetik-library-dialog')
     api project(':renetik-library-imaging')
     api project(':renetik-library-controller')
     api project(':renetik-library-controller-getpicture')
-    api project(':renetik-library-controller-list')
     api project(':renetik-library-controller-maps')
-    api project(':renetik-library-controller-themes')
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

@@ -10,7 +10,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     
     implementation project(':renetik-library-base')
-    implementation project(':renetik-library-dialog')
     implementation project(':renetik-library-material') //using snackbar and floating button
 }
 repositories {

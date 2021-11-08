@@ -5,7 +5,6 @@ apply plugin: 'kotlin-android'
 dependencies {
     implementation project(':renetik-library-base')
     implementation project(':renetik-library-material')
-    implementation project(':renetik-library-dialog')
     implementation project(':renetik-library-imaging')
     implementation project(':renetik-library-controller')
     implementation "androidx.core:core-ktx:$ktx_version"

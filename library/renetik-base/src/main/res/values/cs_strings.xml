@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="cs_dialog_ok">OK</string>
+    <string name="cs_dialog_cancel">Cancel</string>
     <string name="cs_base_yes">Yes</string>
     <string name="cs_base_no">No</string>
     <string name="cs_base_dummy_short">Lorem ipsum</string>

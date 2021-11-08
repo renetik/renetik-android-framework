@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':renetik-library-base')
-    implementation project(':renetik-library-json')
     implementation project(':renetik-library-client')
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'

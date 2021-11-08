@@ -24,22 +24,32 @@ abstract class CSValueStoreEventProperty<T>(
         val newValue = load()
         if (_value == newValue) return@listen
         _value = newValue
-        onApply?.invoke(newValue)
-        eventChange.fire(newValue)
+        onStoreChangeValueChange(newValue)
     } else null
+
+    private fun onStoreChangeValueChange(newValue: T) {
+        storeEventChangedRegistration?.pause()?.use {
+            onApply?.invoke(newValue)
+            eventChange.fire(newValue)
+        }
+    }
 
     final override var value: T
         get() = _value
         set(value) = value(value)
 
-
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        storeEventChangedRegistration?.pause()?.use { set(store, newValue) }
-            ?: set(store, newValue)
-        onApply?.invoke(newValue)
-        if (fire) eventChange.fire(newValue)
+        storeEventChangedRegistration?.pause()?.use {
+            set(store, newValue)
+            onApply?.invoke(newValue)
+            if (fire) eventChange.fire(newValue)
+        } ?: run {
+            set(store, newValue)
+            onApply?.invoke(newValue)
+            if (fire) eventChange.fire(newValue)
+        }
     }
 
     override fun toString() = "$key $value"
