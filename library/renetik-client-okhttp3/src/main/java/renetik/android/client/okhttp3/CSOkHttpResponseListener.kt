@@ -18,8 +18,8 @@ class CSOkHttpResponseListener<Data : CSHttpResponseData>(
     : OkHttpResponseAndStringRequestListener {
 
     override fun onResponse(http: Response, content: String) {
-        info("${process.url} ${http.code()}, ${http.message()}, $content")
-        process.data!!.onHttpResponse(http.code(), http.message(), content)
+        info("${process.url} ${http.code}, ${http.message}, $content")
+        process.data!!.onHttpResponse(http.code, http.message, content)
         catchErrorReturn<Unit, Exception>({
             if (process.data!!.success) process.success()
             else onResponseError(process.data!!.message, null)
@@ -27,7 +27,7 @@ class CSOkHttpResponseListener<Data : CSHttpResponseData>(
     }
 
     override fun onError(error: ANError) {
-        process.data!!.onHttpResponse(error.errorCode, error.errorBody ?: error.errorDetail , null)
+        process.data!!.onHttpResponse(error.errorCode, error.errorBody ?: error.errorDetail, null)
         onResponseError(error.errorBody ?: error.errorDetail, error)
     }
 
@@ -37,7 +37,7 @@ class CSOkHttpResponseListener<Data : CSHttpResponseData>(
     }
 
     private fun invalidate(url: String) = catchError<IOException> {
-        client.cache().urls().apply {
+        client.cache?.urls()?.apply {
             while (this.hasNext()) if (this.next().contains(url)) this.remove()
         }
     }

@@ -3,12 +3,12 @@ apply from: '../../library.gradle'
 apply plugin: 'kotlin-android'
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$ktx_version"
     implementation project(':renetik-library-base')
     implementation project(':renetik-library-client')
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
-    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'
-    implementation "androidx.core:core-ktx:$ktx_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.10.0-RC1'
 }
 repositories {
     mavenCentral()

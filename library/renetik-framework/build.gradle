@@ -3,6 +3,9 @@ apply from: '../../library.gradle'
 apply plugin: 'kotlin-android'
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$ktx_version"
+    
     api project(':renetik-library-base')
     api project(':renetik-library-material')
     api project(':renetik-library-client')
@@ -11,8 +14,6 @@ dependencies {
     api project(':renetik-library-controller')
     api project(':renetik-library-controller-getpicture')
     api project(':renetik-library-controller-maps')
-    implementation "androidx.core:core-ktx:$ktx_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()

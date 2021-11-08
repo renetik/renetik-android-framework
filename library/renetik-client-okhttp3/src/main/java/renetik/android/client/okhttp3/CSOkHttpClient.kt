@@ -20,16 +20,9 @@ private class Timeouts(val connection: Long, val read: Long, val write: Long)
 class CSOkHttpClient(val url: String) {
 
     var hostNameVerifier: HostnameVerifier? = null
-    var sslSocketFactory: SSLSocketFactory? = null
+//    var sslSocketFactory: SSLSocketFactory? = null
     private var timeouts: Timeouts? = null
     val eventCookiesReceived = event<List<Cookie>>()
-//    val cookies: MutableList<Cookie> = mutableListOf()
-//    private var cookieJar: CookieJar = object : CookieJar {
-//        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) =
-//            eventCookiesReceived.fire(cookies)
-//
-//        override fun loadForRequest(url: HttpUrl): List<Cookie>? = cookies
-//    }
 
     fun onCookiesReceived(function: (List<Cookie>) -> Unit) =
         eventCookiesReceived.listen(function)
@@ -61,12 +54,12 @@ class CSOkHttpClient(val url: String) {
         }
         basicAuthHeader?.let {
             builder.authenticator { _, response ->
-                response.request().newBuilder().header(it.name, basic(it.username, it.password))
+                response.request.newBuilder().header(it.name, basic(it.username, it.password))
                     .build()
             }
         }
         networkInterceptor?.let { builder.addNetworkInterceptor(it).addInterceptor(it) }
-        sslSocketFactory?.let { builder.sslSocketFactory(it) }
+//        sslSocketFactory?.let { builder.sslSocketFactory(it) }
         hostNameVerifier?.let { builder.hostnameVerifier(it) }
         builder.build().apply { AndroidNetworking.initialize(application, this) }
     }

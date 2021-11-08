@@ -4,10 +4,11 @@ apply plugin: 'kotlin-android'
 
 
 dependencies {
-    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "androidx.core:core-ktx:$ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$ktx_version"
+
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     // https://github.com/ShawnLin013/NumberPicker
     api 'com.shawnlin:number-picker:2.4.12'
