@@ -7,9 +7,12 @@ import android.widget.GridView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
 import renetik.android.controller.base.findView
-import renetik.android.framework.event.*
+import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
+import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.event.resume
 import renetik.android.view.fadeIn
 import renetik.android.view.fadeOut
 import renetik.android.view.onClick
@@ -19,8 +22,8 @@ import renetik.kotlin.collections.list
 @Suppress("UNCHECKED_CAST")
 class CSGridView<ItemType : Any>(
     val parent: CSActivityView<*>, viewId: Int,
-    val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>)
-    : CSView<GridView>(parent, viewId) {
+    val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>
+) : CSView<GridView>(parent, viewId) {
 
     val property: CSEventProperty<ItemType?> = property(null)
     private var listAdapter = Adapter()
@@ -72,11 +75,13 @@ class CSGridView<ItemType : Any>(
         updateEmptyView()
     }
 
-    private val onItemSelected = event<ItemType>()
-    fun onSelected(function: (ItemType) -> Unit) = apply { onItemSelected.listen { function(it) } }
+    val onItemSelected = event<CSGridItemView<ItemType>>()
+    fun onSelected(function: (CSGridItemView<ItemType>) -> Unit) =
+        apply { onItemSelected.listen { function(it) } }
 
-    val onReSelected = event<ItemType>()
-    fun onReSelected(function: (ItemType) -> Unit) = apply { onReSelected.listen { function(it) } }
+    val onReSelected = event<CSGridItemView<ItemType>>()
+    fun onReSelected(function: (CSGridItemView<ItemType>) -> Unit) =
+        apply { onReSelected.listen { function(it) } }
 
     val onItemActivated = event<CSGridItemView<ItemType>>()
     fun onActive(function: (CSGridItemView<ItemType>) -> Unit) =
@@ -97,9 +102,9 @@ class CSGridView<ItemType : Any>(
             rowView.view.onClick {
                 if (property.value != rowView.row) {
                     property.value = rowView.row
-                    onItemSelected.fire(rowView.row)
+                    onItemSelected.fire(rowView)
                 } else {
-                    onReSelected.fire(rowView.row)
+                    onReSelected.fire(rowView)
                 }
             }
         }
