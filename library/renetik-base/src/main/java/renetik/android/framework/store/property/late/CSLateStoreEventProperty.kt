@@ -19,7 +19,8 @@ abstract class CSLateStoreEventProperty<T>(
     override var value: T
         get() {
             if (_value == null) _value = get()
-                ?: throw unexpected
+            if (_value == null)
+                throw unexpected
             return _value!!
         }
         set(value) {

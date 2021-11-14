@@ -96,9 +96,9 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
     }
 
     override fun close() {
-        isBulkSave = false
         if (isBulkSaveDirty) onChanged()
         isBulkSaveDirty = false
+        isBulkSave = false
     }
 
     override fun getMap(key: String) = data[key] as? MutableMap<String, Any?>

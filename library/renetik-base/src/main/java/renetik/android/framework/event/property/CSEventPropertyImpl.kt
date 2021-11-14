@@ -15,9 +15,7 @@ class CSEventPropertyImpl<T>(
 
     override var value: T
         get() = _value
-        set(value) {
-            value(value)
-        }
+        set(value) = value(value)
 }
 
 
