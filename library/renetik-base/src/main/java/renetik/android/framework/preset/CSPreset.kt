@@ -10,10 +10,10 @@ import renetik.android.framework.store.CSStoreInterface
 class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
     parent: CSEventOwnerHasDestroy,
     parentStore: CSStoreInterface,
-    parentId: String,
+    key: String,
     val list: PresetList) : CSModelBase(parent), CSHasId {
 
-    override val id = "$parentId preset"
+    override val id = "$key preset"
     val item = CSPresetStoreItem(this, parentStore)
     val store = CSPresetStore(this, parentStore)
     private val properties = mutableSetOf<CSPresetKeyData>()
@@ -23,6 +23,12 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
             : this(parent, parentPreset.store, parentId, list) {
         parentPreset.add(item)
         parentPreset.add(store)
+    }
+
+    constructor(parent: CSHasPreset, key: String, list: PresetList)
+            : this(parent, parent.preset.store, "${parent.presetId} $key", list) {
+        parent.preset.add(item)
+        parent.preset.add(store)
     }
 
     init {

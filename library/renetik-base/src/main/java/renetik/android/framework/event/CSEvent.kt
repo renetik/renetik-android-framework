@@ -1,5 +1,7 @@
 package renetik.android.framework.event
 
+import java.io.Closeable
+
 @JvmName("eventWithType")
 fun <T> event(): CSEvent<T> = CSEventImpl()
 
@@ -8,9 +10,9 @@ fun event(): CSEvent<Unit> = CSEventImpl()
 //TODO:  Move event func to CSEvent companion object
 interface CSEvent<T> {
 
-    companion object {
+    fun pause(): Closeable
 
-    }
+    fun resume()
 
     val isListened: Boolean
 

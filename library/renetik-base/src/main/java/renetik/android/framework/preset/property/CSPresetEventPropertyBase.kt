@@ -25,7 +25,7 @@ abstract class CSPresetEventPropertyBase<T>(
 
     fun load(): T = loadFrom(store)
 
-    private var presetStoreValueEventChanged = parent.register(store.eventChanged.listen {
+    var presetStoreValueEventChanged = parent.register(store.eventChanged.listen {
         onStoreChange()
     })
 

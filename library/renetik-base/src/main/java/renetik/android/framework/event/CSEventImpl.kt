@@ -1,9 +1,10 @@
 package renetik.android.framework.event
 
+import renetik.android.framework.logging.CSLog.error
 import renetik.kotlin.collections.hasItems
 import renetik.kotlin.collections.list
 import renetik.kotlin.exception
-import renetik.android.framework.logging.CSLog.error
+import java.io.Closeable
 
 class CSEventImpl<T> : CSEvent<T> {
 
@@ -11,6 +12,7 @@ class CSEventImpl<T> : CSEvent<T> {
     private var toRemove = list<CSEventListener<T>>()
     private var toAdd = list<CSEventListener<T>>()
     private var running = false
+    private var paused = false
 
     override fun add(listener: (CSEventRegistration, T) -> Unit) = add(EventListenerImpl(listener))
 
@@ -21,6 +23,7 @@ class CSEventImpl<T> : CSEvent<T> {
     }
 
     override fun fire(argument: T) {
+        if (paused) return
         if (running)
             error(exception("Event run while running"))
         if (listeners.isEmpty()) return
@@ -66,4 +69,13 @@ class CSEventImpl<T> : CSEvent<T> {
     }
 
     override val registrations get() = listeners
+
+    override fun pause(): Closeable {
+        paused = true
+        return Closeable { paused = false }
+    }
+
+    override fun resume() {
+        paused = false
+    }
 }

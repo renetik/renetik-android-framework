@@ -136,10 +136,10 @@ private class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase
     val property = parentPreset.property(this, "property", ParentPropertyInitialValue)
 }
 
-private class CSPresetTestChildClass(parent: CSPresetTestParentClass, preset: CSPreset<*, *>) :
+private class CSPresetTestChildClass(
+    parent: CSPresetTestParentClass,
+    preset: CSPreset<*, *>) :
     CSModelBase() {
-
-
     private val presetList = CSPresetTestPresetItemList()
 
     init {
