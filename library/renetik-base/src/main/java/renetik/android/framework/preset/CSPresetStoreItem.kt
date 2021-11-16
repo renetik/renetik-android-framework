@@ -18,14 +18,10 @@ class CSPresetStoreItem<PresetItem : CSPresetItem,
 
     override val key = "${preset.id} current"
     override fun saveTo(store: CSStoreInterface) = store.set(key, value.toId())
-
-    val values get() = preset.list.items
-
-    var _value: PresetItem = loadValue()
-
-    private fun loadValue(): PresetItem {
-        return parentStore.getValue(key, values) ?: values[0]
-    }
+    private var _value: PresetItem = loadValue()
+    private val values: List<PresetItem> get() = preset.list.items
+    private fun loadValue(): PresetItem =
+        parentStore.getValue(key, values) ?: values[0]
 
     private val eventChange = event<PresetItem>()
 

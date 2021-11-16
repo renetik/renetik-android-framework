@@ -120,7 +120,7 @@ private class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetIt
         items.remove(item)
     }
 
-    override fun createPresetItem(title: String, isDefault: Boolean) =
+    override fun createPresetItem(title: String, isDefault: Boolean, id: String) =
         CSPresetTestPresetItem(title)
 }
 

@@ -24,7 +24,11 @@ class CSPresetStore(
         parentStoreEventChanged.pause().use {
             this.data.clear()
             this.data.putAll(data)
-            eventChanged.fire(this)
+            bulkSave().use {
+                if (data.isEmpty())
+                    preset.reload()
+                else eventChanged.fire(this)
+            }
         }
     }
 

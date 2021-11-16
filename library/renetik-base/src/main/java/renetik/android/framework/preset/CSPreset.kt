@@ -18,6 +18,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     val store = CSPresetStore(this, parentStore)
     private val properties = mutableSetOf<CSPresetKeyData>()
 
+    @Deprecated("Used just in test now")
     constructor(parent: CSEventOwnerHasDestroy, parentPreset: CSPreset<*, *>,
                 parentId: String, list: PresetList)
             : this(parent, parentPreset.store, parentId, list) {
@@ -37,9 +38,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     fun reload() = reload(item.value)
 
-    fun reload(item: PresetItem) {
-        store.reload(item.store)
-    }
+    fun reload(item: PresetItem) = store.reload(item.store)
 
     fun <T : CSPresetKeyData> add(property: T): T {
         properties.add(property)
