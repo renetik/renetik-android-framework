@@ -22,12 +22,12 @@ class CSPresetStore(
     private fun onParentStoreChanged(data: Map<String, *>) {
         if (this.data == data) return
         parentStoreEventChanged.pause().use {
-            this.data.clear()
-            this.data.putAll(data)
-            bulkSave().use {
-                if (data.isEmpty())
-                    preset.reload()
-                else eventChanged.fire(this)
+            if (data.isEmpty())
+                reload(preset.item.value.store)
+            else bulkSave().use {
+                this.data.clear()
+                this.data.putAll(data)
+                eventChanged.fire(this)
             }
         }
     }

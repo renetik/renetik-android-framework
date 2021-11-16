@@ -21,8 +21,8 @@ fun <Type> String.parseJson(): Type? = catchWarnReturnNull<Any, JSONException> {
 fun Any.toJsonString(formatted: Boolean = false): String {
     val jsonType = toJsonType()
     if (formatted) {
-        if (jsonType is JSONArray) return jsonType.toString(4)
-        if (jsonType is JSONObject) return jsonType.toString(4)
+        if (jsonType is JSONArray) return jsonType.toString(2)
+        if (jsonType is JSONObject) return jsonType.toString(2)
     }
     return java.lang.String.valueOf(jsonType)
 }

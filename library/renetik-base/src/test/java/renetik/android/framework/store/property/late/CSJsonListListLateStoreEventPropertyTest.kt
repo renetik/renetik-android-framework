@@ -37,7 +37,7 @@ class CSJsonListListLateStoreEventPropertyTest {
             listOf(TestData("title21"), TestData("title22")),
             listOf(TestData("title31"), TestData("title32")))
 
-        val json = store.toJsonString(true)
+        val json = store.toJsonString(formatted = true)
 
         val store2 = CSJsonObject()
         val property2 = CSJsonListListLateStoreEventProperty(store2, "property", TestData::class)

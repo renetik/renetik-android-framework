@@ -5,7 +5,6 @@ import android.content.Context
 import renetik.android.framework.CSContext
 import renetik.android.framework.common.catchAllWarnReturnNull
 import renetik.android.framework.event.event
-import renetik.android.framework.event.fire
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.extensions.createJsonObject
 import renetik.android.framework.json.extensions.createJsonObjectList
@@ -44,15 +43,24 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
     override fun get(key: String): String? =
         catchAllWarnReturnNull { preferences.getString(key, null) }
 
-    override fun set(key: String, value: Map<String, *>?) = set(key, value?.toJsonString())
-    override fun getMap(key: String): Map<String, *>? = get(key)?.parseJson<Map<String, *>>()
+    override fun set(key: String, value: Map<String, *>?) =
+        set(key, value?.toJsonString(formatted = true))
+
+    override fun getMap(key: String): Map<String, *>? =
+        get(key)?.parseJson<Map<String, *>>()
 
     // TODO Array can be retrieved and save by using list functions in extensions
-    override fun set(key: String, value: Array<*>?) = set(key, value?.toJsonString())
-    override fun getArray(key: String): Array<*>? = get(key)?.parseJson<List<*>>()?.toTypedArray()
+    override fun set(key: String, value: Array<*>?) =
+        set(key, value?.toJsonString(formatted = true))
 
-    override fun set(key: String, value: List<*>?) = set(key, value?.toJsonString())
-    override fun getList(key: String): List<*>? = get(key)?.parseJson<List<*>>()
+    override fun getArray(key: String): Array<*>? =
+        get(key)?.parseJson<List<*>>()?.toTypedArray()
+
+    override fun set(key: String, value: List<*>?) =
+        set(key, value?.toJsonString(formatted = true))
+
+    override fun getList(key: String): List<*>? =
+        get(key)?.parseJson<List<*>>()
 
     @Suppress("unchecked_cast")
     override fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>) =
@@ -60,7 +68,7 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
             ?.let { type.createJsonObjectList(it) }
 
     override fun <T : CSJsonObject> set(key: String, jsonObject: T?) =
-        set(key, jsonObject?.toJsonString())
+        set(key, jsonObject?.toJsonString(formatted = true))
 
     override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>) =
         get(key)?.parseJsonMap()?.let { type.createJsonObject(it) }

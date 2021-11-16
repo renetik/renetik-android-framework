@@ -16,7 +16,7 @@ open class CSJsonList() : Iterable<Any?>, CSJsonListInterface {
 
     fun load(list: List<Any?>) = apply { data.addAll(list) }
 
-    override fun toString() = toJsonString(formatted = true)
+    override fun toString() = super.toString() + toJsonString(formatted = true)
 
     override fun asList(): List<*> = data
 
