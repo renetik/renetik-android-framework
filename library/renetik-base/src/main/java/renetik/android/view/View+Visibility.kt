@@ -6,7 +6,6 @@ import androidx.appcompat.widget.ContentFrameLayout
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.CSVisibility
-import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.view.fadeIn
 import renetik.android.view.fadeOut
@@ -53,18 +52,27 @@ fun <T : View> T.shownIf(condition: Boolean, animated: Boolean = false) = apply 
 fun <T : View> T.goneIf(condition: Boolean, animated: Boolean = false) =
     shownIf(!condition, animated)
 
-fun View.shownIfSet(parent: CSVisibleEventOwner, property: CSEventProperty<Any?>) =
-    apply {
-        fun updateVisibility() = shownIf(property.value != null)
-        parent.whileVisible(property.onChange { updateVisibility() })
-        updateVisibility()
-    }
+fun <T> View.shownIf(property: CSEventProperty<T>,
+                     animated: Boolean = false, condition: (T) -> Boolean): CSEventRegistration {
+    shownIf(condition(property.value))
+    return property.onChange { shownIf(condition(property.value), animated) }
+}
 
 fun View.shownIf(property: CSEventProperty<Boolean>,
-                 animated: Boolean = false): CSEventRegistration {
-    fun updateVisibility() = shownIf(property.value, animated)
-    updateVisibility()
-    return property.onChange { updateVisibility() }
+                 animated: Boolean = false) = shownIf(property, animated) { it }
+
+fun <T> View.shownIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
+                       animated: Boolean = false, condition: (T) -> Boolean) =
+    shownIf(property1, property2, animated) { first, _ -> condition(first) }
+
+fun <T, V> View.shownIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+                          animated: Boolean = false,
+                          condition: (T, V) -> Boolean): CSEventRegistration {
+    fun update() = shownIf(condition(property1.value, property2.value), animated)
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() })
 }
 
 fun <T> View.goneIf(property: CSEventProperty<T>,
@@ -75,14 +83,6 @@ fun <T> View.goneIf(property: CSEventProperty<T>,
 
 fun View.goneIf(property: CSEventProperty<Boolean>,
                 animated: Boolean = false) = goneIf(property, animated) { it }
-
-fun <T> View.shownIfEquals(parent: CSVisibleEventOwner,
-                           property: CSEventProperty<T?>,
-                           value: T): CSEventRegistration {
-    fun updateVisibility() = shownIf(property.value == value)
-    updateVisibility()
-    return property.onChange { updateVisibility() }
-}
 
 fun <T> View.visibleIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
                        animated: Boolean = false, condition: (T) -> Boolean) =
