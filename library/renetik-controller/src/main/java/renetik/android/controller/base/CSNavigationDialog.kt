@@ -33,6 +33,7 @@ import renetik.android.view.extensions.locationOnScreen
 import renetik.android.view.hasSize
 import renetik.android.view.height
 import renetik.android.view.onClick
+import renetik.kotlin.later
 
 enum class DialogAnimation {
     None, Slide, Fade
@@ -95,8 +96,8 @@ open class CSNavigationDialog<ViewType : View>(
     }
 
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
-        fromView.isSelected = true
-        eventOnDismiss.listenOnce { fromView.isSelected = false }
+        later {  fromView.isPressed = true }
+        eventOnDismiss.listenOnce { fromView.isPressed = false }
         isFullscreen.setFalse()
         animation = Fade
 

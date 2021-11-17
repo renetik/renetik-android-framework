@@ -10,7 +10,6 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.framework.lang.CSValue
 import renetik.android.framework.view.adapter.CSTextWatcherAdapter
-import renetik.android.primitives.isSet
 import renetik.android.view.extensions.shownIf
 import renetik.kotlin.asString
 
@@ -51,9 +50,9 @@ fun TextView.text(
 
 fun <T> TextView.text(
     parent: CSVisibleEventOwner, property: CSEventProperty<T>,
-    valueToString: (T) -> CharSequence
+    getText: (T) -> CharSequence
 ) = apply {
-    fun updateText() = text(valueToString(property.value))
+    fun updateText() = text(getText(property.value))
     parent.whileVisible(property.onChange { updateText() })
     updateText()
 }
@@ -65,11 +64,11 @@ fun TextView.text(property: CSEventProperty<String>) = text(property) { it }
 
 fun <T, V> TextView.text(parent: CSEventProperty<T>,
                          child: (T) -> CSEventProperty<V>,
-                         valueToString: (V) -> Any): CSEventRegistration {
-    var childRegistration = text(child(parent.value), valueToString)
+                         getText: (V) -> Any): CSEventRegistration {
+    var childRegistration = text(child(parent.value), getText)
     val parentRegistration = parent.onChange {
         childRegistration.cancel()
-        childRegistration = text(child(parent.value), valueToString)
+        childRegistration = text(child(parent.value), getText)
     }
     return registration {
         parentRegistration.cancel()
@@ -78,11 +77,21 @@ fun <T, V> TextView.text(parent: CSEventProperty<T>,
 }
 
 
-fun <T> TextView.text(property: CSEventProperty<T>, valueToString: (T) -> Any)
+fun <T> TextView.text(property: CSEventProperty<T>, getText: (T) -> Any)
         : CSEventRegistration {
-    fun update() = text(valueToString(property.value))
+    fun update() = text(getText(property.value))
     update()
     return property.onChange { update() }
+}
+
+
+fun <T, V> TextView.text(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+                         getText: (T, V) -> String): CSEventRegistration {
+    fun update() = text(getText(property1.value, property2.value))
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() })
 }
 
 fun <T : CSDrawableInterface> TextView.startDrawable(property: CSEventProperty<T>)
