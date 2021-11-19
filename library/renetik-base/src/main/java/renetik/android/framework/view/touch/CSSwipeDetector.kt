@@ -1,51 +1,53 @@
 package renetik.android.framework.view.touch
 
 import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_DOWN
-import android.view.MotionEvent.ACTION_UP
+import android.view.MotionEvent.*
 import android.view.View
+import renetik.android.content.dpToPixel
+import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.event.event
+import renetik.android.framework.event.listen
 import renetik.android.framework.logging.CSLog.info
-import java.lang.Math.abs
+import renetik.android.framework.view.touch.CSSwipeDetector.CSSwipeType.*
+import kotlin.math.abs
 
-class CSSwipeDetector() : View.OnTouchListener {
-
-    companion object {
-        const val MIN_DISTANCE = 70
-    }
+class CSSwipeDetector(
+    view: View,
+    val minDistance: Int = application.dpToPixel(30),
+    function: (CSSwipeType) -> Unit) : View.OnTouchListener {
 
     private var downX = 0F
     private var downY = 0F
     private var upX = 0F
     private var upY = 0F
+    private val eventSwipe = event<CSSwipeType>()
 
-    val eventSwipe = event<CSSwipeType>()
-
-    constructor(view: View) : this() {
+    init {
         view.setOnTouchListener(this)
+        eventSwipe.listen(function)
     }
 
     enum class CSSwipeType {
         BottomToTop, LeftToRight, RightToLeft, TopToBottom
     }
 
-    fun onBottomToTopSwipe() {
-        eventSwipe.fire(CSSwipeType.BottomToTop)
+    private fun onBottomToTopSwipe() {
+        eventSwipe.fire(BottomToTop)
         info("SwipeDetector onBottomToTopSwipe!")
     }
 
-    fun onLeftToRightSwipe() {
-        eventSwipe.fire(CSSwipeType.LeftToRight)
+    private fun onLeftToRightSwipe() {
+        eventSwipe.fire(LeftToRight)
         info("SwipeDetector LeftToRightSwipe!")
     }
 
-    fun onRightToLeftSwipe() {
-        eventSwipe.fire(CSSwipeType.RightToLeft)
+    private fun onRightToLeftSwipe() {
+        eventSwipe.fire(RightToLeft)
         info("SwipeDetector RightToLeftSwipe!")
     }
 
-    fun onTopToBottomSwipe() {
-        eventSwipe.fire(CSSwipeType.TopToBottom)
+    private fun onTopToBottomSwipe() {
+        eventSwipe.fire(TopToBottom)
         info("SwipeDetector onTopToBottomSwipe!")
     }
 
@@ -56,7 +58,7 @@ class CSSwipeDetector() : View.OnTouchListener {
                 downY = event.y
                 return true
             }
-            ACTION_UP -> {
+            ACTION_MOVE -> {
                 upX = event.x
                 upY = event.y
 
@@ -64,7 +66,7 @@ class CSSwipeDetector() : View.OnTouchListener {
                 val deltaY = downY - upY
 
                 // swipe horizontal?
-                if (abs(deltaX) > MIN_DISTANCE) {
+                if (abs(deltaX) > minDistance) {
                     // left or right
                     if (deltaX < 0) {
                         onLeftToRightSwipe()
@@ -75,13 +77,11 @@ class CSSwipeDetector() : View.OnTouchListener {
                         return true
                     }
                 } else
-                    info(
-                        "SwipeDetector Swipe was only " + abs(deltaX) + " long, need at least "
-                                + MIN_DISTANCE
-                    )
+                    info("SwipeDetector Swipe was only " + abs(deltaX) +
+                            " long, need at least " + minDistance)
 
                 // swipe vertical?
-                if (abs(deltaY) > MIN_DISTANCE) {
+                if (abs(deltaY) > minDistance) {
                     // top or down
                     if (deltaY < 0) {
                         onTopToBottomSwipe()
@@ -92,7 +92,7 @@ class CSSwipeDetector() : View.OnTouchListener {
                         return true
                     }
                 } else {
-                    info("Swipe was only " + abs(deltaX) + " long, need at least " + MIN_DISTANCE)
+                    info("Swipe was only " + abs(deltaX) + " long, need at least " + minDistance)
                     view.performClick()
                 }
             }

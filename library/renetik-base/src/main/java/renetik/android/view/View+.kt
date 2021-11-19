@@ -1,5 +1,6 @@
 package renetik.android.view
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -14,6 +15,8 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
 import renetik.android.framework.event.CSEventRegistration
@@ -202,9 +205,15 @@ fun <T, V> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProp
 }
 
 @Suppress("DEPRECATION")
-fun View.toFullScreen() {
+fun View.enterFullScreen() {
     systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or
             View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+}
+
+
+@Suppress("DEPRECATION")
+fun View.exitFullscreen() {
+    systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
 }
 
 fun View.onLayoutChange(function: () -> Unit): CSEventRegistration {

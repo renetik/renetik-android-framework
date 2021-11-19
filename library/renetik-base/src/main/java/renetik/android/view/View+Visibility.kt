@@ -107,6 +107,15 @@ fun <T> View.visibleIf(property: CSEventProperty<T>,
 fun View.visibleIf(property: CSEventProperty<Boolean>,
                    animated: Boolean = false) = visibleIf(property, animated) { it }
 
+fun <T> View.invisibleIf(property: CSEventProperty<T>,
+                       animated: Boolean = false, condition: (T) -> Boolean): CSEventRegistration {
+    invisibleIf(condition(property.value))
+    return property.onChange { invisibleIf(condition(property.value), animated) }
+}
+
+fun View.invisibleIf(property: CSEventProperty<Boolean>,
+                   animated: Boolean = false) = invisibleIf(property, animated) { it }
+
 // This had be done because isShown return false in on Resume
 // for main activity view when created
 // because it has not yet attached its DecorView.class to window
