@@ -1,6 +1,5 @@
 package renetik.android.view
 
-import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -15,8 +14,6 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
 import renetik.android.framework.event.CSEventRegistration
@@ -126,11 +123,15 @@ fun <T> View.model(): T? = modelProperty<T?>().value
 
 fun View.id(value: Int) = apply { id = value }
 
-fun View.selected(value: Boolean) {
+fun View.pressedIf(value: Boolean) {
+    isPressed = value
+}
+
+fun View.selectedIf(value: Boolean) {
     isSelected = value
 }
 
-fun View.activated(value: Boolean) {
+fun View.activatedIf(value: Boolean) {
     isActivated = value
 }
 
@@ -156,8 +157,8 @@ fun <T> View.selectIf(property: CSEventProperty<T>, value: T)
 
 fun <T> View.selectedIf(property: CSEventProperty<T>,
                         condition: (T) -> Boolean): CSEventRegistration {
-    selected(condition(property.value))
-    return property.onChange { selected(condition(property.value)) }
+    selectedIf(condition(property.value))
+    return property.onChange { selectedIf(condition(property.value)) }
 }
 
 fun View.selectedIf(property: CSEventProperty<Boolean>): CSEventRegistration {
@@ -172,8 +173,8 @@ fun <T> View.activateIf(property: CSEventProperty<T>, value: T)
 
 fun <T> View.activatedIf(property: CSEventProperty<T>,
                          condition: (T) -> Boolean): CSEventRegistration {
-    activated(condition(property.value))
-    return property.onChange { activated(condition(property.value)) }
+    activatedIf(condition(property.value))
+    return property.onChange { activatedIf(condition(property.value)) }
 }
 
 fun View.activatedIf(property: CSEventProperty<Boolean>) = activatedIf(property) { it }
@@ -184,7 +185,7 @@ fun <T> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventProper
 
 fun <T, V> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
                             condition: (T, V) -> Boolean): CSEventRegistration {
-    fun update() = activated(condition(property1.value, property2.value))
+    fun update() = activatedIf(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
         property1.onChange { update() },
@@ -197,7 +198,20 @@ fun <T> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventPropert
 
 fun <T, V> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
                            condition: (T, V) -> Boolean): CSEventRegistration {
-    fun update() = selected(condition(property1.value, property2.value))
+    fun update() = selectedIf(condition(property1.value, property2.value))
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() })
+}
+
+fun <T> View.pressedIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
+                        condition: (T) -> Boolean) =
+    pressedIf(property1, property2) { first, _ -> condition(first) }
+
+fun <T, V> View.pressedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+                           condition: (T, V) -> Boolean): CSEventRegistration {
+    fun update() = pressedIf(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
         property1.onChange { update() },
