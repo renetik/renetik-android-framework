@@ -172,7 +172,7 @@ abstract class CSActivityView<ViewType : View>
         onViewVisibilityChanged()
         if (isVisible) {
             isVisibleEventRegistrations.setActive(true)
-            onViewVisible()
+            onViewShowing()
         } else {
             isVisibleEventRegistrations.setActive(false)
             onViewHiding()
@@ -184,14 +184,14 @@ abstract class CSActivityView<ViewType : View>
         eventViewVisibilityChanged.fire(isVisible)
     }
 
-    protected open fun onViewVisible() {
+    protected open fun onViewShowing() {
         if (!onViewShowingCalled) {
-            onViewVisibleFirstTime()
+            onViewShowingFirstTime()
             onViewShowingCalled = true
         } else onViewShowingAgain()
     }
 
-    protected open fun onViewVisibleFirstTime() {}
+    protected open fun onViewShowingFirstTime() {}
 
     protected open fun onViewShowingAgain() {}
 

@@ -96,8 +96,7 @@ open class CSNavigationDialog<ViewType : View>(
     }
 
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
-        later {  fromView.isPressed = true }
-        eventOnDismiss.listenOnce { fromView.isPressed = false }
+        pressed(fromView)
         isFullscreen.setFalse()
         animation = Fade
 
@@ -166,4 +165,9 @@ open class CSNavigationDialog<ViewType : View>(
             height = MATCH_PARENT
         }
     }
+}
+
+fun CSNavigationDialog<*>.pressed(button: View) = apply {
+    later { button.isPressed = true }
+    onDismiss { button.isPressed = false }
 }
