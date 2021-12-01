@@ -61,14 +61,14 @@ abstract class CSActivityView<ViewType : View>
         if (!isResumeFirstTime) {
             onResumeFirstTime()
             isResumeFirstTime = true
-        } else onResumeRestore()
+        } else onResumeAgain()
         updateVisibility()
         onResume.fire()
     }
 
     protected open fun onResumeFirstTime() {}
 
-    protected open fun onResumeRestore() {}
+    protected open fun onResumeAgain() {}
 
     open fun onPause() {
         if (isPaused && isVisible) {
