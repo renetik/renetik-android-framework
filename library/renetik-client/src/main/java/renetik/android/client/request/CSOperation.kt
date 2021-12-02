@@ -7,20 +7,20 @@ import renetik.kotlin.notNull
 
 open class CSOperation<Data : Any>() : CSContext() {
 
-    var executeProcess: (CSOperation<Data>.() -> CSProcess<Data>)? = null
+    var executeProcess: (CSOperation<Data>.() -> CSProcessBase<Data>)? = null
 
-    constructor(function: CSOperation<Data>.() -> CSProcess<Data>) : this() {
+    constructor(function: CSOperation<Data>.() -> CSProcessBase<Data>) : this() {
         executeProcess = function
     }
 
-    open fun executeProcess(): CSProcess<Data> {
+    open fun executeProcess(): CSProcessBase<Data> {
         return executeProcess!!.invoke(this)
     }
 
     private val eventSuccess = event<Data>()
-    private val eventFailed = event<CSProcess<*>>()
+    private val eventFailed = event<CSProcessBase<*>>()
     private val eventDone = event<Data?>()
-    var process: CSProcess<Data>? = null
+    var process: CSProcessBase<Data>? = null
     var isRefresh = false
     var isCached = true
     var expireMinutes: Int? = 1
@@ -31,13 +31,13 @@ open class CSOperation<Data : Any>() : CSContext() {
     fun onSuccess(function: (argument: Data) -> Unit) =
         apply { eventSuccess.listen(function) }
 
-    fun onFailed(function: (argument: CSProcess<*>) -> Unit) =
+    fun onFailed(function: (argument: CSProcessBase<*>) -> Unit) =
         apply { eventFailed.listen(function) }
 
     fun onDone(function: (argument: Data?) -> Unit) =
         apply { eventDone.listen(function) }
 
-    fun send(): CSProcess<Data> = executeProcess().also { process ->
+    fun send(): CSProcessBase<Data> = executeProcess().also { process ->
         this.process = process
         process.onSuccess {
             eventSuccess.fire(process.data!!)

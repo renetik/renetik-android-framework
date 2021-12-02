@@ -2,13 +2,13 @@ package renetik.android.client.request
 
 
 interface CSServerWithPing {
-    fun ping(): CSProcess<CSServerMapData>
+    fun ping(): CSProcessBase<CSServerMapData>
 }
 
 open class CSPingConcurrentRequest<T:Any>(server: CSServerWithPing, onPingDone: CSOperation<*>.(CSConcurrentProcess<T>) -> Unit)
     : CSPingRequest<List<T>>(server, { CSConcurrentProcess<T>().apply { onPingDone(this@apply) } })
 
-open class CSPingRequest<Data : Any>(server: CSServerWithPing, onPingDone: CSOperation<*>.() -> CSProcess<Data>)
+open class CSPingRequest<Data : Any>(server: CSServerWithPing, onPingDone: CSOperation<*>.() -> CSProcessBase<Data>)
     : CSOperation<Data>({ CSPingMultiProcess(server) { onPingDone() } })
 
 open class CSPingMultiRequest<Data : Any>(server: CSServerWithPing, items: Data,
@@ -17,7 +17,7 @@ open class CSPingMultiRequest<Data : Any>(server: CSServerWithPing, items: Data,
 
 open class CSPingMultiProcess<Data : Any> : CSMultiProcess<Data> {
 
-    constructor(server: CSServerWithPing, onPingDone: () -> CSProcess<Data>)
+    constructor(server: CSServerWithPing, onPingDone: () -> CSProcessBase<Data>)
             : this(server, null, { addLast(onPingDone()) })
 
     constructor(server: CSServerWithPing, data: Data?, onPingDone: CSMultiProcess<Data>.() -> Unit)
@@ -27,5 +27,5 @@ open class CSPingMultiProcess<Data : Any> : CSMultiProcess<Data> {
     }
 
     private fun onPingSuccess(onPingDone: CSMultiProcess<Data>.() -> Unit)
-            : (CSProcess<CSServerMapData>) -> Unit = { if (!it.isCanceled) onPingDone(this) }
+            : (CSProcessBase<CSServerMapData>) -> Unit = { if (!it.isCanceled) onPingDone(this) }
 }

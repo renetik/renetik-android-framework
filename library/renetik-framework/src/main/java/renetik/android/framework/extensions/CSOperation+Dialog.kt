@@ -2,11 +2,10 @@ package renetik.android.framework.extensions
 
 import android.view.ViewGroup
 import renetik.android.client.request.CSOperation
-import renetik.android.client.request.CSProcess
+import renetik.android.client.request.CSProcessBase
 import renetik.android.content.isNetworkConnected
 import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.framework.R
 import renetik.kotlin.unfinished
 
 //fun <Data : Any> CSOperation<Data>.send(
@@ -29,7 +28,7 @@ import renetik.kotlin.unfinished
 
 private fun <Data : Any> CSOperation<Data>.onSendFailed(
     parent: CSActivityView<out ViewGroup>,
-    process: CSProcess<Data>, title: String, isProgress: Boolean,
+    process: CSProcessBase<Data>, title: String, isProgress: Boolean,
     onInternetFailed: (() -> Unit)?,
     onSuccess: ((Data) -> Unit)?) {
     process.onFailed {

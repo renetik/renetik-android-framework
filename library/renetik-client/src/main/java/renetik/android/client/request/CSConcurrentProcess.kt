@@ -5,25 +5,25 @@ import renetik.kotlin.collections.list
 import renetik.kotlin.collections.put
 import renetik.kotlin.collections.putAll
 
-open class CSConcurrentProcess<T : Any>(data: MutableList<T>) : CSProcess<List<T>>(data) {
+open class CSConcurrentProcess<T : Any>(data: MutableList<T>) : CSProcessBase<List<T>>(data) {
 
-    private val processes: MutableList<CSProcess<T>> = list()
-    private val runningProcesses: MutableList<CSProcess<T>> = list()
+    private val processes: MutableList<CSProcessBase<T>> = list()
+    private val runningProcesses: MutableList<CSProcessBase<T>> = list()
 
     constructor() : this(list())
 
-    constructor(vararg adding: CSProcess<T>) : this() {
+    constructor(vararg adding: CSProcessBase<T>) : this() {
         runningProcesses.putAll(processes.putAll(*adding)).forEach { response ->
             response.onSuccess { onResponseSuccess(it) }
             response.onFailed { onResponseFailed(it) }
         }
     }
 
-    fun add(process: CSProcess<T>) =
+    fun add(process: CSProcessBase<T>) =
         runningProcesses.put(processes.put(process))
             .onSuccess { onResponseSuccess(it) }.onFailed { onResponseFailed(it) }
 
-    private fun onResponseSuccess(succeededProcess: CSProcess<*>) {
+    private fun onResponseSuccess(succeededProcess: CSProcessBase<*>) {
         runningProcesses.remove(succeededProcess)
         if (runningProcesses.isEmpty) {
             val mutableListData = (data as MutableList)
@@ -32,7 +32,7 @@ open class CSConcurrentProcess<T : Any>(data: MutableList<T>) : CSProcess<List<T
         }
     }
 
-    private fun onResponseFailed(failedProcess: CSProcess<*>) {
+    private fun onResponseFailed(failedProcess: CSProcessBase<*>) {
         runningProcesses.apply { remove(failedProcess) }.forEach { response -> response.cancel() }
         failed(failedProcess)
     }
