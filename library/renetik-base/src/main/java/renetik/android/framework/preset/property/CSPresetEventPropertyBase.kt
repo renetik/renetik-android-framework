@@ -49,6 +49,8 @@ abstract class CSPresetEventPropertyBase<T>(
         }
     }
 
+    val isModified get() = _value != loadFrom(preset.item.value.store)
+
     override var value: T
         get() = _value
         set(value) = value(value)
