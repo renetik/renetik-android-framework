@@ -56,6 +56,8 @@ fun <T> list(size: Int, init: (index: Int) -> T) = MutableList(size, init)
 fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
 fun <T> list(items: Iterable<T>): MutableList<T> = list<T>().putAll(items)
 fun <T> list(items: Collection<T>): MutableList<T> = CSList(items)
+@JvmName("listItemsArray")
+fun <T> list(items: Array<out T>): MutableList<T> = list<T>().putAll(*items)
 fun <T> list(vararg items: Iterable<T>): MutableList<T> = list<T>().also {
     for (iterable in items) it.addAll(iterable)
 }
