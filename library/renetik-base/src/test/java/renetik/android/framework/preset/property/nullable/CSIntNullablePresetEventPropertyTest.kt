@@ -4,11 +4,8 @@ import junit.framework.Assert.assertEquals
 import org.junit.Test
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.preset.CSPreset
-import renetik.android.framework.preset.CSPresetItem
-import renetik.android.framework.preset.CSPresetItemList
+import renetik.android.framework.preset.*
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.preset.propertyNullInt
 import renetik.android.framework.store.CSStoreInterface
 
 class CSIntNullablePresetEventPropertyTest {
@@ -44,9 +41,9 @@ class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
 }
 
 class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
-    override val default = mutableListOf<CSPresetTestPresetItem>()
-    override val user = mutableListOf<CSPresetTestPresetItem>()
-    override val items = mutableListOf<CSPresetTestPresetItem>()
+    override val defaultList = mutableListOf<CSPresetTestPresetItem>()
+    override val userList = mutableListOf<CSPresetTestPresetItem>()
+//    override val items = mutableListOf<CSPresetTestPresetItem>()
     override fun put(item: CSPresetTestPresetItem) {
         items.add(item)
     }

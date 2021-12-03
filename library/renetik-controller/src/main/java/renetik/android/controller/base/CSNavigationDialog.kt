@@ -43,10 +43,20 @@ enum class DialogPopupSide {
     Bottom, Right
 }
 
-open class CSNavigationDialog<ViewType : View>(
-    parent: CSActivityView<out ViewGroup>, val layout: CSLayoutRes)
-    : CSActivityView<FrameLayout>(parent.navigation!!,
-    layout(R.layout.cs_frame_match)), CSNavigationItem {
+open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)
+    : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_frame_match)),
+    CSNavigationItem {
+
+    lateinit var dialogContent: ViewType
+
+    constructor(parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes) : this(parent) {
+        dialogContent = inflate<ViewType>(layout.id).also { it.isClickable = true }
+    }
+
+//    constructor(parent: CSActivityView<out ViewGroup>, dialogContent: ViewType) : this(parent) {
+//        this.dialogContent = dialogContent
+//    }
+
 
     override var isFullscreen: CSEventProperty<Boolean> = property(false)
     var animation = Slide
@@ -57,8 +67,6 @@ open class CSNavigationDialog<ViewType : View>(
 
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
-
-    val dialogContent by lazy { inflate<ViewType>(layout.id).also { it.isClickable = true } }
 
     override fun onViewReady() {
         super.onViewReady()

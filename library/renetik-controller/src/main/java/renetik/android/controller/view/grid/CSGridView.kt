@@ -13,6 +13,8 @@ import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.event.resume
+import renetik.android.view.extensions.alphaToDisabled
+import renetik.android.view.extensions.disabledByAlpha
 import renetik.android.view.fadeIn
 import renetik.android.view.fadeOut
 import renetik.android.view.onClick
@@ -82,6 +84,10 @@ class CSGridView<ItemType : Any>(
     fun onReSelected(function: (CSGridItemView<ItemType>) -> Unit) =
         apply { onReSelected.listen { function(it) } }
 
+    val onDisabledItemClick = event<CSGridItemView<ItemType>>()
+    fun onDisabledItemClick(function: (CSGridItemView<ItemType>) -> Unit) =
+        apply { onDisabledItemClick.listen { function(it) } }
+
     val onItemActivated = event<CSGridItemView<ItemType>>()
     fun onActive(function: (CSGridItemView<ItemType>) -> Unit) =
         apply { onItemActivated.listen { function(it) } }
@@ -101,14 +107,21 @@ class CSGridView<ItemType : Any>(
             rowView.view.onClick { rowView.onClick() }
         }
         rowView.load(data[position], position)
+        if (rowView.itemDisabled) {
+            if (onDisabledItemClick.isListened) rowView.view.alphaToDisabled()
+            else rowView.view.disabledByAlpha()
+        }
         rowView.updateSelection()
         return rowView.view
     }
 
     private fun CSGridItemView<ItemType>.onClick() =
         if (property.value != this.row) {
-            property.value = this.row
-            onItemSelected.fire(this)
+            if (itemDisabled) onDisabledItemClick.fire(this)
+            else {
+                property.value = this.row
+                onItemSelected.fire(this)
+            }
         } else onReSelected.fire(this)
 
     private var emptyView: View? = null

@@ -109,9 +109,9 @@ class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
 }
 
 private class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
-    override val default = mutableListOf<CSPresetTestPresetItem>()
-    override val user = mutableListOf<CSPresetTestPresetItem>()
-    override val items = mutableListOf<CSPresetTestPresetItem>()
+    override val defaultList = mutableListOf<CSPresetTestPresetItem>()
+    override val userList = mutableListOf<CSPresetTestPresetItem>()
+//    override val items = mutableListOf<CSPresetTestPresetItem>()
     override fun put(item: CSPresetTestPresetItem) {
         items.add(item)
     }
