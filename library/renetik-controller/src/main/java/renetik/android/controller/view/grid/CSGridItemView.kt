@@ -14,18 +14,18 @@ open class CSGridItemView<RowType : Any>(
     var onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null)
     : CSView<ViewGroup>(parent, layout) {
 
-    lateinit var row: RowType
+    lateinit var value: RowType
     var index = -1
     var itemDisabled = false
 
-    fun load(row: RowType, index: Int = 0) {
+    fun load(value: RowType, index: Int = 0) {
         this.index = index
-        this.row = row
-        onLoad(row)
+        this.value = value
+        onLoad(value)
     }
 
-    open fun onLoad(row: RowType) {
-        onLoad?.invoke(this, row)
+    open fun onLoad(value: RowType) {
+        onLoad?.invoke(this, value)
     }
 
     override var isActivated: Boolean

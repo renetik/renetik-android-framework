@@ -61,13 +61,13 @@ class CSGridView<ItemType : Any>(
         this.property.value(property.value)
     }
 
-    fun reload(list: Iterable<ItemType>) = apply {
+    fun reload(iterable: Iterable<ItemType>) = apply {
         data.clear()
-        load(list)
+        load(iterable)
     }
 
-    fun load(list: Iterable<ItemType>) = apply {
-        data.addAll(list)
+    fun load(iterable: Iterable<ItemType>) = apply {
+        data.addAll(iterable)
         reload()
     }
 
@@ -93,7 +93,7 @@ class CSGridView<ItemType : Any>(
         apply { onItemActivated.listen { function(it) } }
 
     private fun CSGridItemView<ItemType>.updateSelection() {
-        val isActive = property.value == row
+        val isActive = property.value == value
         isSelected = isActive && !onReSelected.isListened
         isActivated = isActive && onReSelected.isListened
         if (isActive) onItemActivated.fire(this)
@@ -116,10 +116,10 @@ class CSGridView<ItemType : Any>(
     }
 
     private fun CSGridItemView<ItemType>.onClick() =
-        if (property.value != this.row) {
+        if (property.value != this.value) {
             if (itemDisabled) onDisabledItemClick.fire(this)
             else {
-                property.value = this.row
+                property.value = this.value
                 onItemSelected.fire(this)
             }
         } else onReSelected.fire(this)

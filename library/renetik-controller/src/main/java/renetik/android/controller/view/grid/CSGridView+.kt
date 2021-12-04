@@ -15,3 +15,5 @@ fun <T : CSTitle> CSGridView<T>.reload(values: Iterable<T>, searchText: CSValue<
     else values.filter { it.title.contains(searchText.value, ignoreCase = true) }
     reload(data)
 }
+
+fun <T : Any> CSGridView<T>.value(value: T?) = apply { property.value(value) }

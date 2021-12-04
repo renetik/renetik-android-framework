@@ -14,7 +14,7 @@ class CSListItemNullablePresetEventProperty<T>(
     key: String,
     override val values: List<T>,
     override val default: T?,
-    onChange: ((value: T?) -> Unit)?)
+    onChange: ((value: T?) -> Unit)? = null)
     : CSNullablePresetEventProperty<T>(parent, preset, key, onChange),
     CSListValuesEventProperty<T?> {
     override var _value = load()
