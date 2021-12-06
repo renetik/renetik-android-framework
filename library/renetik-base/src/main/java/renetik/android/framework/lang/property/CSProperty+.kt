@@ -12,6 +12,7 @@ inline var CSProperty<Boolean>.isTrue
     set(newValue) {
         value = newValue
     }
+
 inline var CSProperty<Boolean>.isFalse
     get() = !value
     set(newValue) {

@@ -11,6 +11,10 @@ fun File.createFileAndDirs() = apply {
     createNewFile()
 }
 
+fun File.createFileDirs() = apply {
+    parentFile?.mkdirs()
+}
+
 fun File.write(text: String) = apply {
     createFileAndDirs()
     writeText(text)

@@ -20,7 +20,6 @@ import renetik.android.controller.common.CSNavigationItem
 import renetik.android.framework.event.event
 import renetik.android.framework.event.fire
 import renetik.android.framework.event.listenOnce
-import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSLayoutRes
@@ -58,7 +57,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 //    }
 
 
-    override var isFullscreen: CSEventProperty<Boolean> = property(false)
+    override var isFullscreen = property(false)
     var animation = Slide
     private val marginDp = 7
 
@@ -165,7 +164,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         }
     }
 
-    open fun fullScreen() = apply {
+   fun fullScreen() = apply {
         isFullscreen.setTrue()
         animation = Slide
         dialogContent.updateLayoutParams<LayoutParams> {

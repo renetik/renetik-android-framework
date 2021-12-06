@@ -16,4 +16,4 @@ fun <T : CSTitle> CSGridView<T>.reload(values: Iterable<T>, searchText: CSValue<
     reload(data)
 }
 
-fun <T : Any> CSGridView<T>.value(value: T?) = apply { property.value(value) }
+fun <T : Any> CSGridView<T>.value(value: T?) = apply { activeItem.value(value) }

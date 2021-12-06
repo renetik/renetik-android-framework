@@ -27,7 +27,7 @@ class CSGridView<ItemType : Any>(
     val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>
 ) : CSView<GridView>(parent, viewId) {
 
-    val property: CSEventProperty<ItemType?> = property(null)
+    val activeItem: CSEventProperty<ItemType?> = property(null)
     private var listAdapter = Adapter()
     private val data = list<ItemType>()
 
@@ -40,25 +40,25 @@ class CSGridView<ItemType : Any>(
 
     fun property(property: CSEventProperty<ItemType>) = apply {
         val registration = parent.register(property
-            .onChange { this.property.value(property.value) })
-        this.property.onChange {
+            .onChange { activeItem.value(property.value) })
+        activeItem.onChange {
             registration.pause()
             property.value = it!!
             registration.resume()
         }
-        this.property.value(property.value)
+        activeItem.value(property.value)
     }
 
     @JvmName("propertyNullableItem")
     fun property(property: CSEventProperty<ItemType?>) = apply {
         val registration = parent.register(property
-            .onChange { this.property.value(property.value) })
-        this.property.onChange {
+            .onChange { activeItem.value(property.value) })
+        activeItem.onChange {
             registration.pause()
             property.value = it
             registration.resume()
         }
-        this.property.value(property.value)
+        activeItem.value(property.value)
     }
 
     fun reload(iterable: Iterable<ItemType>) = apply {
@@ -93,7 +93,7 @@ class CSGridView<ItemType : Any>(
         apply { onItemActivated.listen { function(it) } }
 
     private fun CSGridItemView<ItemType>.updateSelection() {
-        val isActive = property.value == value
+        val isActive = activeItem.value == value
         isSelected = isActive && !onReSelected.isListened
         isActivated = isActive && onReSelected.isListened
         if (isActive) onItemActivated.fire(this)
@@ -103,23 +103,30 @@ class CSGridView<ItemType : Any>(
         var rowView = toReuseView?.tag as? CSGridItemView<ItemType>
         if (rowView == null) {
             rowView = createView(this)
-            parent.register(property.onChange { rowView.updateSelection() })
+            parent.register(activeItem.onChange { rowView.updateSelection() })
             rowView.view.onClick { rowView.onClick() }
         }
         rowView.load(data[position], position)
-        if (rowView.itemDisabled) {
-            if (onDisabledItemClick.isListened) rowView.view.alphaToDisabled()
-            else rowView.view.disabledByAlpha()
-        }
+        rowView.updateDisabled()
         rowView.updateSelection()
         return rowView.view
     }
 
+    private fun CSGridItemView<ItemType>.updateDisabled() {
+        if (itemDisabled) {
+            if (onDisabledItemClick.isListened) view.alphaToDisabled()
+            else view.disabledByAlpha()
+        } else {
+            view.disabledByAlpha(false)
+            view.alpha = 1f
+        }
+    }
+
     private fun CSGridItemView<ItemType>.onClick() =
-        if (property.value != this.value) {
+        if (activeItem.value != this.value) {
             if (itemDisabled) onDisabledItemClick.fire(this)
             else {
-                property.value = this.value
+                activeItem.value = this.value
                 onItemSelected.fire(this)
             }
         } else onReSelected.fire(this)
@@ -130,7 +137,7 @@ class CSGridView<ItemType : Any>(
         emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
     }
 
-    fun scrollToActive() = view.scrollToIndex(data.indexOf(property.value))
+    fun scrollToActive() = apply { view.scrollToIndex(data.indexOf(activeItem.value)) }
 
     inner class Adapter : BaseAdapter() {
         override fun getCount() = data.size
