@@ -3,7 +3,6 @@ package renetik.android.view
 import android.view.View
 import android.view.ViewPropertyAnimator
 import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.view.extensions.*
 
 val shortAnimationDuration =
     application.resources.getInteger(android.R.integer.config_shortAnimTime)

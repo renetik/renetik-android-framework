@@ -1,8 +1,7 @@
-package renetik.android.view.extensions
+package renetik.android.view
 
 import android.view.View
 import renetik.android.framework.math.CSPoint
-import renetik.android.view.superview
 
 val <T : View> T.topFromBottom get() = superview?.let { it.height - top } ?: height
 

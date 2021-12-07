@@ -1,4 +1,4 @@
-package renetik.android.view.extensions
+package renetik.android.view
 
 import android.view.ViewPropertyAnimator
 import renetik.android.framework.Func

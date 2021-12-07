@@ -1,4 +1,4 @@
-package renetik.android.view.extensions
+package renetik.android.view
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
@@ -13,7 +13,6 @@ import renetik.android.content.dpToPixel
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.view.disabledIf
 
 
 fun <T : View> T.background(@DrawableRes value: Int) = apply {

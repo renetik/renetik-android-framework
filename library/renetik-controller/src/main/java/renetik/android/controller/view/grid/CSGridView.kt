@@ -13,8 +13,8 @@ import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.event.resume
-import renetik.android.view.extensions.alphaToDisabled
-import renetik.android.view.extensions.disabledByAlpha
+import renetik.android.view.alphaToDisabled
+import renetik.android.view.disabledByAlpha
 import renetik.android.view.fadeIn
 import renetik.android.view.fadeOut
 import renetik.android.view.onClick
@@ -29,7 +29,7 @@ class CSGridView<ItemType : Any>(
 
     val activeItem: CSEventProperty<ItemType?> = property(null)
     private var listAdapter = Adapter()
-    private val data = list<ItemType>()
+    val data = list<ItemType>()
 
     init {
         view.adapter = listAdapter

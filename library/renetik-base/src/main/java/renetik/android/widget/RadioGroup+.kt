@@ -12,11 +12,7 @@ import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSTitle
-import renetik.android.view.extensions.*
-import renetik.android.view.findView
-import renetik.android.view.id
-import renetik.android.view.model
-import renetik.android.view.propertyWithTag
+import renetik.android.view.*
 
 fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
 

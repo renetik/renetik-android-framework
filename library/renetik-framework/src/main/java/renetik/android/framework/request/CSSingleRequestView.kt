@@ -7,9 +7,9 @@ import renetik.android.framework.lang.CSTimeConstants.Second
 import renetik.android.controller.extensions.snackBarInfo
 import renetik.android.framework.task.CSDoLater
 import renetik.android.framework.task.CSDoLaterObject.later
-import renetik.android.view.extensions.hide
+import renetik.android.view.gone
 import renetik.android.view.onClick
-import renetik.android.view.extensions.show
+import renetik.android.view.show
 
 open class CSSingleRequestView(parent: CSActivityView<*>, viewId: Int)
     : CSActivityView<ProgressBar>(parent, viewId) {
@@ -29,7 +29,7 @@ open class CSSingleRequestView(parent: CSActivityView<*>, viewId: Int)
         retryTimer?.stop()
         currentOperation?.cancel()
         view.show()
-        currentOperation = operation.onDone { view.hide() }
+        currentOperation = operation.onDone { view.gone() }
         requestTitle = title
         send()
         return operation

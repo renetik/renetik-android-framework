@@ -2,17 +2,14 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.view.inputmethod.InputMethodManager.*
 import androidx.annotation.LayoutRes
 import renetik.android.content.inflate
 import renetik.android.content.input
-import renetik.android.controller.common.CSNavigationView
-import renetik.android.controller.extensions.asActivityView
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.view.extensions.inflate
+import renetik.android.view.inflate
 import renetik.kotlin.className
 import renetik.kotlin.exception
 import renetik.kotlin.notNull

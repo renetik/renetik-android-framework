@@ -4,6 +4,8 @@ import renetik.android.framework.CSEventOwnerHasDestroy
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventPropertyBase
+import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.lang.property.isFalse
 import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStoreInterface
 
@@ -19,6 +21,7 @@ abstract class CSPresetEventPropertyBase<T>(
     protected abstract var _value: T
     protected abstract fun get(store: CSStoreInterface): T?
     protected abstract fun set(store: CSStoreInterface, value: T)
+    var isFollowPreset = property(true)
 
     abstract fun loadFrom(store: CSStoreInterface): T
     override fun saveTo(store: CSStoreInterface) = set(store, value)
@@ -30,6 +33,7 @@ abstract class CSPresetEventPropertyBase<T>(
     })
 
     private fun onStoreChange() {
+        if (isFollowPreset.isFalse) return
         val newValue = load()
         if (_value == newValue) return
         _value = newValue

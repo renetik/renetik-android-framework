@@ -26,7 +26,6 @@ import renetik.android.framework.lang.property.toggle
 import renetik.android.framework.view.adapter.CSClickAdapter
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isTrue
-import renetik.android.view.extensions.remove
 import renetik.kotlin.isNull
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)

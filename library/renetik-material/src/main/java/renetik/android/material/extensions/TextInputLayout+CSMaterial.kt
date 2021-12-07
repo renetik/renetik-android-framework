@@ -20,8 +20,7 @@ import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.kotlin.notNull
 import renetik.kotlin.privateField
-import renetik.android.primitives.isSet
-import renetik.android.view.extensions.*
+import renetik.android.view.gone
 import renetik.android.view.propertyWithTag
 import renetik.android.widget.*
 

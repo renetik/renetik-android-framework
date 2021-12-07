@@ -1,8 +1,16 @@
 package renetik.android.framework.lang.property
 
+import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.lang.isTrue
 import renetik.kotlin.asString
 
 fun <T> CSProperty<T>.value(value: T) = apply { this.value = value }
+
+fun CSProperty<Boolean>.connect(property: CSEventProperty<Boolean>): CSEventRegistration {
+    value = property.isTrue
+    return property.onChange { value = it }
+}
 
 fun CSProperty<Boolean>.setTrue() = apply { this.value = true }
 fun CSProperty<Boolean>.setFalse() = apply { this.value = false }

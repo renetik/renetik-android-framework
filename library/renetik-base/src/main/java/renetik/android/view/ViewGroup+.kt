@@ -1,4 +1,4 @@
-package renetik.android.view.extensions
+package renetik.android.view
 
 import android.view.LayoutInflater.from
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import renetik.android.framework.event.CSHasParent
-import renetik.android.view.removeFromSuperview
 
 val ViewGroup.lastChild: View?
     get() = if (childCount > 0) getChildAt(childCount - 1) else null

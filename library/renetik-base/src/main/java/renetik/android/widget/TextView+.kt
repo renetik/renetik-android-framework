@@ -10,7 +10,7 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.framework.lang.CSValue
 import renetik.android.framework.view.adapter.CSTextWatcherAdapter
-import renetik.android.view.extensions.shownIf
+import renetik.android.view.shownIf
 import renetik.kotlin.asString
 
 fun <T : TextView> T.text(@StringRes resourceId: Int) = apply { setText(resourceId) }

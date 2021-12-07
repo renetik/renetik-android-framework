@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.event.event
 import renetik.android.controller.base.frame
-import renetik.android.view.extensions.add
+import renetik.android.view.add
 import renetik.android.widget.layoutMatch
 import renetik.android.view.removeFromSuperview
 

@@ -3,7 +3,7 @@ package renetik.android.widget
 import android.view.View
 import android.widget.ScrollView
 import renetik.android.framework.event.CSViewInterface
-import renetik.android.view.extensions.locationOnScreen
+import renetik.android.view.locationOnScreen
 
 fun ScrollView.scrollToChild(child: View, centered: Boolean = true) {
     smoothScrollTo(0, child.y.toInt() -
