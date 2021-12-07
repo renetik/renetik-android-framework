@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.annotation.IdRes
 import renetik.android.framework.event.CSEventOwner
 import renetik.android.framework.event.CSViewInterface
@@ -11,8 +12,6 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.register
 import renetik.android.framework.lang.property.setTrue
 import renetik.android.view.*
-import renetik.android.view.afterLayout
-import renetik.android.view.hasSize
 import renetik.android.widget.onChange
 import renetik.android.widget.radioGroup
 
@@ -29,6 +28,9 @@ fun CSViewInterface.editText(@IdRes id: Int) = view.editText(id)
 fun CSViewInterface.textView(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
     view.textView(id).apply { onClick?.let { this.onClick(it) } }
 
+fun CSViewInterface.textViewOrNull(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+    view.findView<TextView>(id)?.apply { onClick?.let { this.onClick(it) } }
+
 fun CSViewInterface.scrollView(@IdRes id: Int) = view.scrollView(id)
 fun CSViewInterface.horizontalScroll(@IdRes id: Int) =
     view.horizontalScroll(id)
@@ -37,6 +39,7 @@ fun CSViewInterface.listView(@IdRes id: Int) = view.listView(id)
 fun CSViewInterface.radio(@IdRes id: Int) = view.radio(id)
 
 fun CSViewInterface.datePicker(@IdRes id: Int) = view.datePicker(id)
+
 //fun CSViewInterface.numberPicker(@IdRes id: Int) = view.numberPicker(id)
 fun CSViewInterface.viewGroup(@IdRes id: Int) = view.viewGroup(id)
 fun CSViewInterface.frame(@IdRes id: Int) = view.frame(id)

@@ -36,10 +36,6 @@ inline var CSProperty<String?>.string
 
 fun <T : CSProperty<Int>> T.increment() = apply { value++ }
 fun <T : CSProperty<Int>> T.decrement() = apply { value-- }
-fun <T : CSProperty<Int>> T.correctToMax(maxValue: Int) = apply {
-    if (value > maxValue) value = maxValue
-}
-
 
 fun CSProperty<Double>.value(value: Int) = apply { this.value = value.toDouble() }
 fun CSProperty<Float>.value(value: Number) = apply { this.value = value.toFloat() }

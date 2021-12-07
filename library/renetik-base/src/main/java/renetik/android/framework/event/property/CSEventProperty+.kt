@@ -40,3 +40,8 @@ fun CSEventProperty<Boolean>.listenUntilFalseOnce(listener: (argument: Boolean) 
     }
     return registration
 }
+
+fun <T : CSEventProperty<Int>> T.keepMax(maxValue: Int, fire: Boolean = true) = apply {
+    if (value > maxValue) value(maxValue, fire)
+    onChange { if (value > maxValue) value(maxValue, fire) }
+}
