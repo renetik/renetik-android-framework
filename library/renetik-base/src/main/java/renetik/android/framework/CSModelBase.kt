@@ -22,5 +22,6 @@ open class CSModelBase(parent: CSHasDestroy? = null) : CSEventOwnerHasDestroy {
         eventDestroy.fire().clear()
     }
 
+    override fun toString() = "${super.toString()}"
 }
 

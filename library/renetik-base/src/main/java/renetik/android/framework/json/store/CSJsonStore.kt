@@ -46,8 +46,8 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
         save()
     }
 
-    override fun <T : CSJsonObject> set(key: String, jsonObject: T?) {
-        super.set(key, jsonObject)
+    override fun <T : CSJsonObject> set(key: String, value: T?) {
+        super.set(key, value)
         save()
     }
 

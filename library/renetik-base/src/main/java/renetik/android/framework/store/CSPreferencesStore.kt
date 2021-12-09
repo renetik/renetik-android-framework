@@ -67,8 +67,8 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
         (get(key)?.parseJsonList() as? List<MutableMap<String, Any?>>)
             ?.let { type.createJsonObjectList(it) }
 
-    override fun <T : CSJsonObject> set(key: String, jsonObject: T?) =
-        set(key, jsonObject?.toJsonString(formatted = true))
+    override fun <T : CSJsonObject> set(key: String, value: T?) =
+        set(key, value?.toJsonString(formatted = true))
 
     override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>) =
         get(key)?.parseJsonMap()?.let { type.createJsonObject(it) }

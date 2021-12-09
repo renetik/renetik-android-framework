@@ -1,5 +1,7 @@
 package renetik.android.client.request
 
+import renetik.android.framework.ArgFunc
+
 open class CSMultiProcess<Data : Any>(data: Data? = null) : CSProcessBase<Data>(data) {
 
     protected var addedProcess: CSProcessBase<*>? = null
@@ -14,9 +16,11 @@ open class CSMultiProcess<Data : Any>(data: Data? = null) : CSProcessBase<Data>(
         return add(process)
     }
 
-    fun <V : Any> add(process: CSProcessBase<V>): CSProcessBase<V> {
+    fun <V : Any> add(process: CSProcessBase<V>,
+                      onSuccess: ArgFunc<CSProcessBase<V>>? = null): CSProcessBase<V> {
         addedProcess = process
         process.onFailed { failed(it) }
+        onSuccess?.let { process.onSuccess(it) }
         return process
     }
 

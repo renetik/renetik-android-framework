@@ -19,7 +19,7 @@ open class CSApplication : Application() {
 
     open val name: String by lazy { applicationLabel }
     open val log: CSLogger by lazy { AndroidLogger() }
-    open val store: CSStoreInterface by lazy { CSFileJsonStore("store", isJsonPretty = true) }
+    open val store: CSStoreInterface by lazy { CSFileJsonStore("app", isJsonPretty = true) }
     open val externalFilesDir: File
         get() = getExternalFilesDir(null) ?: getExternalStorageDirectory()
     open val isDebugBuild: Boolean
@@ -27,7 +27,7 @@ open class CSApplication : Application() {
             throw exception("You need to override this if like to use it in your implementation of CSApplication," +
                     " because BuildConfig.DEBUG returns true only in debugged module")
         }
-    open val isDevelopmentMode = isDebugBuild
+    open val isDevelopmentMode get() = isDebugBuild
 
     override fun onCreate() {
         super.onCreate()

@@ -1,5 +1,6 @@
 package renetik.android.client.request
 
+import renetik.android.framework.ArgFunc
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
@@ -17,9 +18,9 @@ open class CSOperation<Data : Any>() : CSContext() {
         return executeProcess!!.invoke(this)
     }
 
-    private val eventSuccess = event<Data>()
+    private val eventSuccess = event<CSProcessBase<Data>>()
     private val eventFailed = event<CSProcessBase<*>>()
-    private val eventDone = event<Data?>()
+    private val eventDone = event<CSProcessBase<Data>>()
     var process: CSProcessBase<Data>? = null
     var isRefresh = false
     var isCached = true
@@ -28,31 +29,31 @@ open class CSOperation<Data : Any>() : CSContext() {
 
     fun refresh() = apply { isRefresh = true }
 
-    fun onSuccess(function: (argument: Data) -> Unit) =
+    fun onSuccess(function: ArgFunc<CSProcessBase<Data>>) =
         apply { eventSuccess.listen(function) }
 
-    fun onFailed(function: (argument: CSProcessBase<*>) -> Unit) =
+    fun onFailed(function: ArgFunc<CSProcessBase<*>>) =
         apply { eventFailed.listen(function) }
 
-    fun onDone(function: (argument: Data?) -> Unit) =
+    fun onDone(function: ArgFunc<CSProcessBase<Data>>) =
         apply { eventDone.listen(function) }
 
     fun send(): CSProcessBase<Data> = executeProcess().also { process ->
         this.process = process
         process.onSuccess {
-            eventSuccess.fire(process.data!!)
-            eventDone.fire(process.data)
+            eventSuccess.fire(process)
+            eventDone.fire(process)
         }
     }
 
     fun cancel() {
         process.notNull {
             if (it.isFailed) {
-                eventFailed.fire(it)
-                eventDone.fire(null)
+                eventFailed.fire(it.failedProcess!!)
+                eventDone.fire(it)
             } else {
                 it.cancel()
-                eventDone.fire(null)
+                eventDone.fire(it)
             }
         }
     }

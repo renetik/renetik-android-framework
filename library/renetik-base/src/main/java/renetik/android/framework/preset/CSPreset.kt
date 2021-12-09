@@ -14,9 +14,9 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     val list: PresetList) : CSModelBase(parent), CSHasId {
 
     override val id = "$key preset"
-    val item = CSPresetStoreItem(this, parentStore)
+    val item = CSPresetStoreItemProperty(this, parentStore)
     val store = CSPresetStore(this, parentStore)
-    private val properties = mutableSetOf<CSPresetKeyData>()
+    private val dataList = mutableSetOf<CSPresetKeyData>()
 
     @Deprecated("Used just in test now")
     constructor(parent: CSEventOwnerHasDestroy, parentPreset: CSPreset<*, *>,
@@ -41,18 +41,18 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     fun reload(item: PresetItem) = store.reload(item.store)
 
     fun <T : CSPresetKeyData> add(property: T): T {
-        properties.add(property)
-        property.eventDestroy.listenOnce { properties.remove(property) }
+        dataList.add(property)
+        property.eventDestroy.listenOnce { dataList.remove(property) }
         return property
     }
 
     fun saveAsNew(item: PresetItem) {
-        item.save(properties)
+        item.save(dataList)
         list.put(item)
         this.item.value(item)
     }
 
-    fun saveAsCurrent() = item.value.save(properties)
+    fun saveAsCurrent() = item.value.save(dataList)
 
     fun delete(preset: PresetItem) {
         preset.delete()

@@ -7,21 +7,23 @@ import renetik.android.framework.CSModelBase
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStoreInterface
+import renetik.kotlin.collections.at
 import renetik.kotlin.collections.second
 import renetik.kotlin.collections.third
 
 const val ClearPresetItemId = "clear parent preset item id"
+const val ParentPresetItemId1 = "prent preset item id 1"
 const val ParentPresetItemId2 = "prent preset item id 2"
-const val ParentPresetItemId3 = "prent preset item id 3"
 const val ParentPropertyInitialValue = "parent property initial value"
 const val ParentPropertyNewValue1 = "parent property new value 1"
 const val ParentPropertyNewValue2 = "parent property new value 2"
 const val ClearChildPresetItemId = "clear child preset item id"
 const val ChildPresetItemId2 = "child preset item id 2"
 const val ChildPropertyInitialValue = "child property initial value"
-const val ChildPropertyNewValue1 = "child property new value 1"
-const val ChildPropertyNewValue2 = "child property new value 2"
-
+const val ChildPropertyNewValue0 = "child property new value 1"
+const val ChildPropertyNewValue1 = "child property new value 2"
+const val ChildPropertyNewValue2 = "child property new value 3"
+const val ChildPropertyNewValue3 = "child property new value 4"
 
 class CSPresetTest {
 
@@ -32,9 +34,17 @@ class CSPresetTest {
     fun test1() {
         assertEquals(ClearPresetItemId, parent.parentPreset.item.value.id)
         assertEquals(ParentPropertyInitialValue, parent.property.value)
-        assertEquals(ClearChildPresetItemId, parent.child.childPreset.item.value.id)
-        assertEquals(ChildPropertyInitialValue, parent.child.property.value)
-        assertTrue(parent.parentPreset.store.has("child preset store"))
+        parent.childs.forEach {
+            assertEquals(ClearChildPresetItemId, it.childPreset1.item.value.id)
+            it.childPreset1Props.forEach {
+                assertEquals(ChildPropertyInitialValue, it.value)
+            }
+            assertEquals(ClearChildPresetItemId, it.childPreset2.item.value.id)
+            it.childPreset2Props.forEach {
+                assertEquals(ChildPropertyInitialValue, it.value)
+            }
+        }
+        assertTrue(parent.parentPreset.store.has("childs:0 childPreset1 preset store"))
     }
 
     @Test
@@ -42,7 +52,7 @@ class CSPresetTest {
         parent.property.value = ParentPropertyNewValue1
         assertEquals(ParentPropertyNewValue1, parent.property.value)
 
-        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId2))
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId1))
 
         val parentPropertyNewValue2 = ParentPropertyNewValue2
         parent.property.value = parentPropertyNewValue2
@@ -53,51 +63,128 @@ class CSPresetTest {
 
     @Test
     fun test3() {
-        assertEquals(ClearChildPresetItemId, parent.child.childPreset.item.value.id)
-        assertEquals(ChildPropertyInitialValue, parent.child.property.value)
-        parent.child.property.value = ChildPropertyNewValue1
-        assertEquals(ChildPropertyNewValue1, parent.child.property.value)
+        assertEquals(ClearChildPresetItemId, parent.childs.first()
+            .childPreset1.item.value.id)
+        assertEquals(ChildPropertyInitialValue, parent.childs.first()
+            .childPreset1Props.first().value)
+        parent.childs.first().childPreset1Props.first().value = ChildPropertyNewValue0
+        assertEquals(ChildPropertyNewValue0, parent.childs.first()
+            .childPreset1Props.first().value)
 
-        parent.child.childPreset.saveAsNew(CSPresetTestPresetItem(ChildPresetItemId2))
-        assertEquals(ChildPropertyNewValue1, parent.child.property.value)
-        assertEquals(ChildPresetItemId2, parent.child.childPreset.item.value.id)
+        parent.childs.first().childPreset1
+            .saveAsNew(CSPresetTestPresetItem(ChildPresetItemId2))
+        assertEquals(ChildPropertyNewValue0, parent.childs.first()
+            .childPreset1Props.first().value)
+        assertEquals(ChildPresetItemId2, parent.childs.first()
+            .childPreset1.item.value.id)
 
         parent.parentPreset.reload()
-        assertEquals(ClearChildPresetItemId, parent.child.childPreset.item.value.id)
-        assertEquals(ChildPropertyInitialValue, parent.child.property.value)
+        assertEquals(ClearChildPresetItemId, parent.childs.first()
+            .childPreset1.item.value.id)
+        assertEquals(ChildPropertyInitialValue, parent.childs.first()
+            .childPreset1Props.first().value)
     }
 
     @Test
     fun test4() {
-        parent.child.property.value = ChildPropertyNewValue1
-        assertEquals(ChildPropertyNewValue1, parent.child.property.value)
+        parent.childs.first().childPreset1Props.first().value = ChildPropertyNewValue0
+        assertEquals(ChildPropertyNewValue0, parent.childs.first()
+            .childPreset1Props.first().value)
 
-        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId2))
-        assertEquals(ChildPropertyNewValue1, parent.child.property.value)
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId1))
+        assertEquals(ChildPropertyNewValue0, parent.childs.first()
+            .childPreset1Props.first().value)
 
         parent.parentPreset.item.value = parent.parentPreset.list.items.first()
-        assertEquals(ChildPropertyInitialValue, parent.child.property.value)
+        assertEquals(ChildPropertyInitialValue, parent.childs.first()
+            .childPreset1Props.first().value)
     }
 
     @Test
     fun test5() {
-        parent.child.property.value = ChildPropertyNewValue1
-        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId2))
-        assertEquals(ChildPropertyNewValue1, parent.child.property.value)
+        parent.childs.first().childPreset1Props.first().value = ChildPropertyNewValue0
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId1))
+        assertEquals(ChildPropertyNewValue0, parent.childs.first()
+            .childPreset1Props.first().value)
 
-        parent.child.property.value = ChildPropertyNewValue2
-        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId3))
+        parent.childs.first().childPreset1Props.first().value = ChildPropertyNewValue1
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId2))
 
         parent.parentPreset.item.value = parent.parentPreset.list.items.first()
-        assertEquals(ChildPropertyInitialValue, parent.child.property.value)
+        assertEquals(ChildPropertyInitialValue, parent.childs.first()
+            .childPreset1Props.first().value)
 
         parent.parentPreset.item.value = parent.parentPreset.list.items.third()
-        assertEquals(ChildPropertyNewValue2, parent.child.property.value)
+        assertEquals(ChildPropertyNewValue1, parent.childs.first()
+            .childPreset1Props.first().value)
 
         parent.parentPreset.item.value = parent.parentPreset.list.items.second()
-        assertEquals(ChildPropertyNewValue1, parent.child.property.value)
+        assertEquals(ChildPropertyNewValue0, parent.childs.first()
+            .childPreset1Props.first().value)
+    }
+
+    @Test
+    fun test6() {
+        parent.childs.first().childPreset1Props.at(0)!!.value = ChildPropertyNewValue0
+        parent.childs.first().childPreset1Props.at(2)!!.value = ChildPropertyNewValue2
+        parent.childs.second().childPreset1Props.at(1)!!.value = ChildPropertyNewValue1
+        parent.childs.second().childPreset1Props.at(3)!!.value = ChildPropertyNewValue3
+        parent.parentPreset.saveAsNew(CSPresetTestPresetItem(ParentPresetItemId1))
+        assertEquals(ChildPropertyNewValue1, parent.childs.second()
+            .childPreset1Props.at(1)!!.value)
+
+        parent.parentPreset.item.value = parent.parentPreset.list.items.first()
+        assertEquals(ChildPropertyInitialValue, parent.childs.second()
+            .childPreset1Props.at(1)!!.value)
+
+        parent.parentPreset.item.value = parent.parentPreset.list.items.second()
+        assertEquals(ChildPropertyNewValue2, parent.childs.first()
+            .childPreset1Props.at(2)!!.value)
+        assertEquals(ChildPropertyNewValue1, parent.childs.second()
+            .childPreset1Props.at(1)!!.value)
     }
 }
+
+private class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase() {
+    private val presetList = CSPresetTestPresetItemList()
+
+    init {
+        presetList.put(CSPresetTestPresetItem(ClearPresetItemId))
+    }
+
+    val parentPreset = CSPreset(this, store, "parent", presetList)
+
+    val childs = List(4) {
+        CSPresetTestChildClass(this, parentPreset, "childs:$it")
+    }
+
+    val property = parentPreset.property(this, "property", ParentPropertyInitialValue)
+}
+
+private class CSPresetTestChildClass(
+    parent: CSPresetTestParentClass,
+    preset: CSPreset<*, *>,
+    key: String) : CSModelBase(parent) {
+
+    private val presetList = CSPresetTestPresetItemList()
+
+    init {
+        presetList.put(CSPresetTestPresetItem(ClearChildPresetItemId))
+    }
+
+    val childPreset1 = CSPreset(this, preset, "$key childPreset1", presetList)
+    val childPreset1Props = List(4) {
+        childPreset1.property(this, "$key childPreset1Props:$it property",
+            ChildPropertyInitialValue)
+    }
+
+    val childPreset2 = CSPreset(this, preset, "$key childPreset2", presetList)
+    val childPreset2Props = List(4) {
+        childPreset2.property(this, "$key childPreset2Props:$it property",
+            ChildPropertyInitialValue)
+    }
+}
+
 
 class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
     override val store = CSJsonObject()
@@ -111,9 +198,9 @@ class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
 private class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
     override val defaultList = mutableListOf<CSPresetTestPresetItem>()
     override val userList = mutableListOf<CSPresetTestPresetItem>()
-//    override val items = mutableListOf<CSPresetTestPresetItem>()
+
     override fun put(item: CSPresetTestPresetItem) {
-        items.add(item)
+        defaultList.add(item)
     }
 
     override fun remove(item: CSPresetTestPresetItem) {
@@ -122,30 +209,6 @@ private class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetIt
 
     override fun createPresetItem(title: String, isDefault: Boolean, id: String) =
         CSPresetTestPresetItem(title)
-}
 
-private class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase() {
-    private val presetList = CSPresetTestPresetItemList()
-
-    init {
-        presetList.put(CSPresetTestPresetItem(ClearPresetItemId))
-    }
-
-    val parentPreset = CSPreset(this, store, "parent", presetList)
-    val child = CSPresetTestChildClass(this, parentPreset)
-    val property = parentPreset.property(this, "property", ParentPropertyInitialValue)
-}
-
-private class CSPresetTestChildClass(
-    parent: CSPresetTestParentClass,
-    preset: CSPreset<*, *>) :
-    CSModelBase() {
-    private val presetList = CSPresetTestPresetItemList()
-
-    init {
-        presetList.put(CSPresetTestPresetItem(ClearChildPresetItemId))
-    }
-
-    val childPreset = CSPreset(this, preset, "child", presetList)
-    val property = childPreset.property(this, "property", ChildPropertyInitialValue)
+    override fun reload() = Unit
 }

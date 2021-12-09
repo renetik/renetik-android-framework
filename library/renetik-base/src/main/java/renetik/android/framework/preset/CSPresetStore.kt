@@ -38,8 +38,8 @@ class CSPresetStore(
 
     override fun onChanged() {
         parentStoreEventChanged.pause().use {
-            saveTo(parentStore)
             super.onChanged()
+            saveTo(parentStore)
         }
     }
 }

@@ -48,7 +48,7 @@ interface CSStoreInterface : CSPropertyStoreInterface,
 
     fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>): List<T>?
 
-    fun <T : CSJsonObject> set(key: String, jsonObject: T?)
+    fun <T : CSJsonObject> set(key: String, value: T?)
     fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T?
 
     fun load(store: CSStoreInterface)

@@ -10,7 +10,7 @@ import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.getValue
 import renetik.kotlin.toId
 
-class CSPresetStoreItem<PresetItem : CSPresetItem,
+class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         PresetList : CSPresetItemList<PresetItem>>(
     override val preset: CSPreset<PresetItem, PresetList>,
     val parentStore: CSStoreInterface
@@ -36,9 +36,9 @@ class CSPresetStoreItem<PresetItem : CSPresetItem,
         if (_value == newValue) return
         _value = newValue
         parentStoreChanged.pause().use {
-            saveTo(parentStore)
             if (fire) eventChange.fire(newValue)
             preset.reload(newValue)
+            saveTo(parentStore)
         }
     }
 

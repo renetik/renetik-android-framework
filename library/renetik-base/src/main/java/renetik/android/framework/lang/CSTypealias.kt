@@ -2,6 +2,6 @@ package renetik.android.framework
 
 typealias void = Unit
 typealias Func = () -> void
-typealias ArgFunc<Type> = (Type) -> void
-typealias GetFunc<Type> = () -> Type
-typealias ArgGetFunc<Arg, Get> = (Arg) -> Get
+typealias ArgFunc<Arg> = (Arg) -> void
+typealias ReturnFunc<Return> = () -> Return
+typealias ArgReturnFunc<Arg, Return> = (Arg) -> Return

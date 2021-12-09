@@ -5,6 +5,7 @@ import renetik.android.framework.json.extensions.createJsonObject
 import renetik.android.framework.json.extensions.createJsonObjectList
 import renetik.android.framework.json.toJsonString
 import renetik.android.framework.store.CSStoreInterface
+import renetik.android.primitives.toArray
 import renetik.kotlin.collections.at
 import java.io.Closeable
 import kotlin.reflect.KClass
@@ -41,38 +42,39 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
     }
 
     override fun set(key: String, value: String?) {
-        if (data[key] == value) return
+        if (value != null && data[key] == value) return
         data[key] = value
         if (!isBulkSave) onChanged()
         else isBulkSaveDirty = true
     }
 
     override fun set(key: String, value: Map<String, *>?) {
-        if (data[key] == value) return
-        data[key] = value
+        if (value != null && data[key] == value) return
+        data[key] = value?.toMap()
         if (!isBulkSave) onChanged()
         else isBulkSaveDirty = true
     }
 
     override fun set(key: String, value: Array<*>?) {
-        if (data[key] == value) return
-        data[key] = value
+        if (value != null && data[key] == value) return
+        data[key] = value?.toArray()
         if (!isBulkSave) onChanged()
         else isBulkSaveDirty = true
     }
 
     override fun set(key: String, value: List<*>?) {
-        if (data[key] == value) return
-        data[key] = value
+        if (value != null && data[key] == value) return
+        data[key] = value?.toList()
         if (!isBulkSave) onChanged()
         else isBulkSaveDirty = true
     }
 
     override fun <T : CSJsonObject> set(key: String, value: T?) {
-        if (data[key] == value) return
-        data[key] = value
-        if (!isBulkSave) onChanged()
-        else isBulkSaveDirty = true
+//        if (value != null && data[key] == value) return
+//        data[key] = value
+//        if (!isBulkSave) onChanged()
+//        else isBulkSaveDirty = true
+        set(key, value?.data)
     }
 
     override fun clear() {
