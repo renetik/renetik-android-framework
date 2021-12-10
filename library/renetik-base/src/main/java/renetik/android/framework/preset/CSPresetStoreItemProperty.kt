@@ -48,5 +48,5 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         get() = _value
         set(value) = value(value)
 
-    override fun toString() = "${super.toString()}, value:$value"
+    override fun toString() = "${super.toString()} key:$key value:$value"
 }

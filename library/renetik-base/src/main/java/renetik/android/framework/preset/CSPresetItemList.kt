@@ -1,8 +1,6 @@
 package renetik.android.framework.preset
 
 import renetik.java.util.currentTime
-import renetik.kotlin.collections.list
-import renetik.kotlin.collections.putAll
 
 interface CSPresetItemList<PresetItem : CSPresetItem> {
     val defaultList: List<PresetItem>
@@ -13,8 +11,3 @@ interface CSPresetItemList<PresetItem : CSPresetItem> {
                          id: String = "$currentTime"): PresetItem
     fun reload()
 }
-
-val <PresetItem : CSPresetItem> CSPresetItemList<PresetItem>.items
-    get() = list(defaultList).putAll(userList)
-
-val CSPresetItemList<*>.count get() = defaultList.size + userList.size

@@ -19,6 +19,7 @@ import renetik.kotlin.collections.deleteLast
 import renetik.kotlin.collections.hasKey
 import renetik.kotlin.exception
 import renetik.kotlin.notNull
+import renetik.kotlin.unexpected
 
 open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
@@ -114,7 +115,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         if (current == oldController) return pushAsLast(newController)
 
         val entryOfController = _controllers.entries.find { it.value == oldController }
-            ?: throw exception("oldController not found in navigation")
+            ?: unexpected("oldController not found in navigation")
 
         oldController.showingInPager(false)
         view.remove(oldController)

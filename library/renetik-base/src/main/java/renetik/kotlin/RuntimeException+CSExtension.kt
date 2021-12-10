@@ -1,10 +1,17 @@
 package renetik.kotlin
 
-val unfinished get() = unexpected("This code is unfinished, contact developer")
-fun unfinished(): Nothing = throw unexpected()
-val unexpected get() = CSUnexpectedException.unexpected()
-val impossible get() = unexpected("Path that leads to this situation should not be possible")
-fun unexpected(message: String? = "") = CSUnexpectedException.unexpected(message)
+import renetik.kotlin.CSUnexpectedException.Companion.unexpected
+import renetik.kotlin.CSUnsupportedException.Companion.unsupported
+
+fun unfinished(message: String = "This code is unfinished, contact developer"): Nothing =
+    throw unexpected(message)
+
+fun impossible(message: String? = "Obviously impossible but..."): Nothing =
+    throw unexpected(message)
+
+fun unexpected(message: String? = "Not expected to happen"): Nothing =
+    throw unexpected(message)
+
 class CSUnexpectedException(message: String? = "") : CSException(message) {
     companion object {
         val unexpected get() = unexpected()
@@ -12,8 +19,9 @@ class CSUnexpectedException(message: String? = "") : CSException(message) {
     }
 }
 
-val unsupported get() = CSUnsupportedException.unsupported()
-fun unsupported(message: String? = "") = CSUnsupportedException.unsupported(message)
+fun unsupported(message: String? = "Not supported to call this right now"): Nothing =
+    throw  unsupported(message)
+
 class CSUnsupportedException(message: String? = "") : CSException(message) {
     companion object {
         val unsupported get() = unsupported()

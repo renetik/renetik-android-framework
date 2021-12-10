@@ -21,25 +21,29 @@ abstract class CSPresetEventPropertyBase<T>(
     protected abstract var _value: T
     protected abstract fun get(store: CSStoreInterface): T?
     protected abstract fun set(store: CSStoreInterface, value: T)
-    var isFollowPreset = property(true)
 
     abstract fun loadFrom(store: CSStoreInterface): T
     override fun saveTo(store: CSStoreInterface) = set(store, value)
 
     fun load(): T = loadFrom(store)
 
+    var isFollowPreset = property(true)
+
     var presetStoreValueEventChanged = parent.register(store.eventChanged.listen {
         onStoreChange()
     })
 
     private fun onStoreChange() {
-        if (isFollowPreset.isFalse) return
-        val newValue = load()
-        if (_value == newValue) return
-        _value = newValue
-        presetStoreValueEventChanged.pause().use {
-            onApply?.invoke(newValue)
-            eventChange.fire(newValue)
+        if (isFollowPreset.isFalse)
+            saveTo(store)
+        else {
+            val newValue = load()
+            if (_value == newValue) return
+            _value = newValue
+            presetStoreValueEventChanged.pause().use {
+                onApply?.invoke(newValue)
+                eventChange.fire(newValue)
+            }
         }
     }
 
@@ -47,9 +51,9 @@ abstract class CSPresetEventPropertyBase<T>(
         if (_value == newValue) return
         _value = newValue
         presetStoreValueEventChanged.pause().use {
-            saveTo(store)
             onApply?.invoke(newValue)
             if (fire) eventChange.fire(newValue)
+            saveTo(store)
         }
     }
 

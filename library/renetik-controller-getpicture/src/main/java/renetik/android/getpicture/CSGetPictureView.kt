@@ -51,7 +51,7 @@ class CSGetPictureView<T : View>(
     private fun showAfterPermissionsGranted() {
         if (!selectPhoto) onTakePhoto()
         else if (!takePhoto) onSelectPhoto()
-        throw unfinished
+        unfinished()
 //    TODO!!!  else dialog(title).showChoice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
     }
 

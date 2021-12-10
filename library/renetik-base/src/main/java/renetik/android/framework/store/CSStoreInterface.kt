@@ -55,11 +55,9 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     fun clear()
     fun clear(key: String)
 
-    fun reload(store: CSStoreInterface) {
-        bulkSave().use {
-            clear()
-            load(store)
-        }
+    fun reload(store: CSStoreInterface) = bulkSave().use {
+        clear()
+        load(store)
     }
 
     fun set(key: String, value: Int?) = set(key, value?.toString())

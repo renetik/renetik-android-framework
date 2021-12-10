@@ -69,13 +69,7 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
         else isBulkSaveDirty = true
     }
 
-    override fun <T : CSJsonObject> set(key: String, value: T?) {
-//        if (value != null && data[key] == value) return
-//        data[key] = value
-//        if (!isBulkSave) onChanged()
-//        else isBulkSaveDirty = true
-        set(key, value?.data)
-    }
+    override fun <T : CSJsonObject> set(key: String, value: T?) = set(key, value?.data)
 
     override fun clear() {
         data.clear()
@@ -106,6 +100,9 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
     override fun getMap(key: String) = data[key] as? MutableMap<String, Any?>
     override fun getArray(key: String): Array<*>? = getList(key)?.toTypedArray()
     override fun getList(key: String): List<*>? = data[key] as? MutableList<Any?>
+
+    // Looks like setJsonList<CSJsonObject> is not implemented and used right now so
+    // probably this implementation is wrong as it expect this possibility
     override fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>): List<T>? {
         val isCreated = ((data[key] as? List<*>)?.at(0) as? T) != null
         return if (isCreated) data[key] as List<T> else

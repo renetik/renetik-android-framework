@@ -13,7 +13,7 @@ import renetik.android.framework.lang.property.CSProperty
 import renetik.android.framework.logging.CSLog.warn
 import renetik.android.view.isShowing
 import renetik.kotlin.className
-import renetik.kotlin.exception
+import renetik.kotlin.unexpected
 
 abstract class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner, CSVisibleEventOwner {
@@ -82,8 +82,7 @@ abstract class CSActivityView<ViewType : View>
 
     override fun onDestroy() {
         if (isResumed) onPause()
-        if (isDestroyed)
-            throw exception("$className $this Already destroyed")
+        if (isDestroyed) unexpected("$className $this Already destroyed")
         whileVisibleEventRegistrations.cancel()
         isVisibleEventRegistrations.cancel()
         super.onDestroy()

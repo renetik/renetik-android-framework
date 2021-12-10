@@ -32,9 +32,8 @@ private fun <Data : Any> CSOperation<Data>.onSendFailed(
     onInternetFailed: (() -> Unit)?,
     onSuccess: ((Data) -> Unit)?) {
     process.onFailed {
-        if (!application.isNetworkConnected && onInternetFailed != null)
-            onInternetFailed()
-        else  throw unfinished // TODO!!!
+        if (!application.isNetworkConnected && onInternetFailed != null) onInternetFailed()
+        else unfinished() // TODO!!!
 //            parent.dialog(title,
 //            getString(R.string.renetik_android_framework_operation_send_failed))
 //            .show(getString(R.string.renetik_android_framework_operation_send_cancel), {

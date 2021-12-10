@@ -11,8 +11,8 @@ import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.view.inflate
 import renetik.kotlin.className
-import renetik.kotlin.exception
 import renetik.kotlin.notNull
+import renetik.kotlin.unexpected
 
 open class CSView<ViewType : View> : CSContext,
     CSHasParent, CSViewInterface {
@@ -62,8 +62,7 @@ open class CSView<ViewType : View> : CSContext,
         get() {
             when {
                 _view != null -> return _view!!
-                isDestroyed ->
-                    throw exception("$className $this Already destroyed")
+                isDestroyed -> unexpected("$className $this Already destroyed")
                 layout != null -> setView(inflate(layout.id))
                 viewId != null -> setView(parent!!.view(viewId) as ViewType)
                 else -> (parent?.view as? ViewType)?.let {
@@ -101,13 +100,12 @@ open class CSView<ViewType : View> : CSContext,
     fun showKeyboard() = input.toggleSoftInput(SHOW_IMPLICIT, 0);
 
     override fun onDestroy() {
-        if (isDestroyed)
-            throw exception("$className $this Already destroyed")
+        if (isDestroyed) unexpected("$className $this Already destroyed")
         // We need live view instance when calling onDestroy,
         // because it can be used by clients
         super.onDestroy()
         if (layout != null) {
-            if (_view == null) throw exception("$className $this _view shouldn't be null")
+            if (_view == null) unexpected("$className $this _view shouldn't be null")
             _view!!.tag = "tag instance of $className removed, onDestroy called"
         }
         _view = null
