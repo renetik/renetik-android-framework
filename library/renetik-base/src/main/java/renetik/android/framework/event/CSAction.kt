@@ -2,76 +2,19 @@ package renetik.android.framework.event
 
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.lang.isTrue
+import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
-import renetik.android.primitives.ifTrue
 
-interface CSActionInterface : CSEventProperty<Boolean> {
-    val isObserved: Boolean
-    fun onObserveChange(function: (CSActionInterface) -> Unit): CSEventRegistration
-    val isRunning: Boolean
-    fun start()
-    fun stop()
-}
+typealias CSActionInterface = CSEventProperty<Boolean>
 
-fun CSActionInterface.toggle() = apply { if (isRunning) stop() else start() }
-val CSActionInterface.isStopped get() = !isRunning
-fun CSActionInterface.runIf(condition: Boolean) = condition.ifTrue { start() } ?: stop()
+fun CSActionInterface.start() = setTrue()
+fun CSActionInterface.stop() = setFalse()
+val CSActionInterface.isRunning get() = isTrue
 
-//TODO: Refactor to something simple please
-class CSAction(val id: String, onChange: ((Boolean) -> Unit)? = null) : CSActionInterface {
-
+class CSAction {
     companion object {
         fun action(id: String, function: ((Boolean) -> Unit)? = null):
-                CSActionInterface = CSAction(id, function)
-    }
-
-    private val property = property(id, default = false, onChange)
-    private val eventIsObserved = event()
-    private var observerCount = 0
-
-    override val isObserved get() = observerCount > 0
-
-    override fun onObserveChange(function: (CSActionInterface) -> Unit) =
-        eventIsObserved.listen { function(this) }
-
-    override val isRunning get() = property.isTrue
-
-    override fun value(newValue: Boolean, fire: Boolean) = property.value(newValue, fire)
-
-    override var value: Boolean
-        get() = property.value
-        set(value) {
-            property.value = value
-        }
-
-    override fun start() {
-        property.setTrue()
-    }
-
-    override fun stop() {
-        property.setFalse()
-    }
-
-    override fun onChange(function: (Boolean) -> Unit): CSEventRegistration {
-        observerCount++
-        if (observerCount == 1) eventIsObserved.fire()
-        return CSActionOnChangeEventRegistration(property.onChange(function))
-    }
-
-    inner class CSActionOnChangeEventRegistration(
-        private val registration: CSEventRegistration) : CSEventRegistration {
-        override var isActive
-            get() = registration.isActive
-            set(value) {
-                registration.isActive = value
-            }
-
-        override fun cancel() {
-            registration.cancel()
-            observerCount--
-            if (observerCount == 0) eventIsObserved.fire()
-        }
+                CSActionInterface = property(id, false, function)
     }
 }

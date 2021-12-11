@@ -4,8 +4,8 @@
     <string name="cs_dialog_cancel">Cancel</string>
     <string name="cs_base_yes">Yes</string>
     <string name="cs_base_no">No</string>
-    <string name="cs_base_dummy_short">Lorem ipsum</string>
-    <string name="cs_base_dummy_medium">Lorem ipsum dolor sit amet</string>
+    <string name="cs_base_dummy_short">Lorem ipsum dolor</string>
+    <string name="cs_base_dummy_medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="cs_base_dummy_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="cs_base_dummy_complete">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet nunc pulvinar, pulvinar nulla nec, suscipit ante. Donec finibus, diam in feugiat venenatis, libero turpis convallis massa, id ullamcorper lacus dui ac metus. Suspendisse potenti. Cras vehicula augue orci, id vulputate sem consectetur a. Nam tincidunt arcu in tellus venenatis consectetur. Aenean placerat, sapien sit amet semper sodales, ex est vehicula nibh, vitae volutpat ipsum orci non eros. Praesent a ante dui. Ut eget efficitur odio, eget congue erat.
 
