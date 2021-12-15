@@ -26,13 +26,7 @@ import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
-import renetik.android.view.add
-import renetik.android.view.backgroundColor
-import renetik.android.view.locationOnScreen
-import renetik.android.view.hasSize
-import renetik.android.view.height
-import renetik.android.view.onClick
-import renetik.kotlin.later
+import renetik.android.view.*
 
 enum class DialogAnimation {
     None, Slide, Fade
@@ -164,7 +158,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         }
     }
 
-   fun fullScreen() = apply {
+    fun fullScreen() = apply {
         isFullscreen.setTrue()
         animation = Slide
         dialogContent.updateLayoutParams<LayoutParams> {
@@ -175,6 +169,6 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 }
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
-    later { button.isPressed = true }
-    onDismiss { button.isPressed = false }
+    button.isActivated = true
+    onDismiss { button.isActivated = false }
 }

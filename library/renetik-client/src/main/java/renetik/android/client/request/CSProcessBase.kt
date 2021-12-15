@@ -116,4 +116,6 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
         isDone = true
         eventDone.fire(this)
     }
+
+    override fun toString() = "${super.toString()} data:$data"
 }

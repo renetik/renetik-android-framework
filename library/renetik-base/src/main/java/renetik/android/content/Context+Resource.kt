@@ -21,6 +21,7 @@ import renetik.android.R
 import renetik.android.framework.common.*
 import renetik.kotlin.asString
 import renetik.kotlin.collections.list
+import renetik.kotlin.isAny
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -127,7 +128,8 @@ fun clearDrawable(drawable: Drawable) = clearDrawable(drawable.bounds)
 fun clearDrawable(bounds: Rect) = ColorDrawable().apply { this.bounds = bounds }
 
 val Context.isDarkMode
-    get() = if (getDefaultNightMode() == MODE_NIGHT_FOLLOW_SYSTEM) isSystemDarkMode
+    get() = if (getDefaultNightMode()
+            .isAny(MODE_NIGHT_FOLLOW_SYSTEM, MODE_NIGHT_UNSPECIFIED)) isSystemDarkMode
     else getDefaultNightMode() == MODE_NIGHT_YES
 
 val Context.isSystemDarkMode

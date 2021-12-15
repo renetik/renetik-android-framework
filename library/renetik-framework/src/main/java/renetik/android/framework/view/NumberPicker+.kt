@@ -1,6 +1,7 @@
 package renetik.android.framework.view
 
 import com.shawnlin.numberpicker.NumberPicker
+import com.shawnlin.numberpicker.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE
 import renetik.android.controller.base.view
 import renetik.android.framework.Func
 import renetik.android.framework.event.CSEventRegistration
@@ -27,7 +28,12 @@ fun <T> NumberPicker.value(property: CSEventProperty<T>, function: (T) -> Int)
 }
 
 fun NumberPicker.onValueChange(function: Func) = apply {
-    setOnValueChangedListener { _, _, _ -> function() }
+    var isScrolling = false
+    setOnScrollListener { _, scrollState ->
+        isScrolling = scrollState != SCROLL_STATE_IDLE
+        if (!isScrolling) function()
+    }
+    setOnValueChangedListener { _, _, _ -> if (!isScrolling) function() }
 }
 
 fun NumberPicker.circulate(circulate: Boolean) = apply {

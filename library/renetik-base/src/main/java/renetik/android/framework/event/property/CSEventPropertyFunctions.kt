@@ -1,6 +1,8 @@
 package renetik.android.framework.event.property
 
 import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.pause
 
 //TODO move to CSEventProperty Companion
 object CSEventPropertyFunctions {
@@ -10,6 +12,20 @@ object CSEventPropertyFunctions {
 
     fun <T> synchronizedProperty(value: T, onApply: ((value: T) -> Unit)? = null) =
         CSSynchronizedEventPropertyImpl(value, onApply)
+
+    fun <T> synchronizedProperty(property: CSEventProperty<T>,
+                                 onApply: ((value: T) -> Unit)? = null)
+            : CSSynchronizedEventPropertyImpl<T> {
+        val synchronized = CSSynchronizedEventPropertyImpl(property.value, onApply)
+        lateinit var propertyOnChange: CSEventRegistration
+        val synchronizedOnChange: CSEventRegistration = synchronized.onChange { value ->
+            propertyOnChange.pause().use { property.value = value }
+        }
+        propertyOnChange = property.onChange { value ->
+            synchronizedOnChange.pause().use { synchronized.value = value }
+        }
+        return synchronized
+    }
 
     fun <T> lateProperty(onApply: ((value: T) -> Unit)? = null) =
         CSLateEventProperty(onApply)

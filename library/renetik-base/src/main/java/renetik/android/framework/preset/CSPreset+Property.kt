@@ -86,9 +86,8 @@ fun <T : CSJsonObject> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, listType: KClass<T>,
     default: List<T> = emptyList(),
     onApply: ((value: List<T>) -> Unit)? = null
-) =
-    add(CSJsonListValuePresetEventProperty(parent, this,
-        key, listType, default, onApply))
+) = add(CSJsonListValuePresetEventProperty(parent, this,
+    key, listType, default, onApply))
 
 fun <T : CSJsonObject> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, type: KClass<T>,

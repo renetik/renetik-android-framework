@@ -120,6 +120,8 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
         (other as? CSJsonObject)?.let { it.data == data } ?: super.equals(other)
 
     override fun hashCode() = data.hashCode()
+
+
 }
 
 
