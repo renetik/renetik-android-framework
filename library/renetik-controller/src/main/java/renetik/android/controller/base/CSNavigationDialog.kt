@@ -46,11 +46,6 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         dialogContent = inflate<ViewType>(layout.id).also { it.isClickable = true }
     }
 
-//    constructor(parent: CSActivityView<out ViewGroup>, dialogContent: ViewType) : this(parent) {
-//        this.dialogContent = dialogContent
-//    }
-
-
     override var isFullscreen = property(false)
     var animation = Slide
     private val marginDp = 7
