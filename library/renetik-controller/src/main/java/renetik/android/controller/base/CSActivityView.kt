@@ -3,6 +3,7 @@ package renetik.android.controller.base
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.appcompat.widget.ContentFrameLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
@@ -11,7 +12,7 @@ import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.property.CSProperty
 import renetik.android.framework.logging.CSLog.warn
-import renetik.android.view.isShowing
+import renetik.android.view.isVisible
 import renetik.kotlin.className
 import renetik.kotlin.unexpected
 
@@ -148,7 +149,8 @@ abstract class CSActivityView<ViewType : View>
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle
 
-    override var isVisible = false
+    private var _isVisible = false
+    override val isVisible: Boolean get() = _isVisible
     private var onViewShowingCalled = false
     override val eventViewVisibilityChanged = event<Boolean>()
 
@@ -161,13 +163,18 @@ abstract class CSActivityView<ViewType : View>
     private fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (showingInPager == false) return false
+
+        // This is useful when showing just started in parent container,
+        // so view.isShowing() returns false
+        if (showingInPager == true && parentActivityView?.isVisible == true) return true
+
         if (parentActivityView?.isVisible == false) return false
         return view.isShowing()
     }
 
     private fun onViewVisibilityChanged(showing: Boolean) {
         if (isVisible == showing) return
-        isVisible = showing
+        _isVisible = showing
         onViewVisibilityChanged()
         if (isVisible) {
             isVisibleEventRegistrations.setActive(true)
@@ -210,7 +217,7 @@ abstract class CSActivityView<ViewType : View>
         registration?.let { isVisibleEventRegistrations.add(it) }
 
     private val whileVisibleEventRegistrations = CSEventRegistrations()
-    override fun whileVisible(registration: CSEventRegistration) =
+    override fun whileShowing(registration: CSEventRegistration) =
         registration.let { whileVisibleEventRegistrations.add(it) }
 
     open val navigation: CSNavigationView? by lazy {
@@ -220,6 +227,23 @@ abstract class CSActivityView<ViewType : View>
             controller = controller?.parentActivityView
         } while (controller != null)
         null
+    }
+}
+
+//TODO: could this be in main View extension ?
+private fun View.isShowing(): Boolean {
+    if (!isVisible) return false
+    var view: View = this
+    while (true) {
+        val parent = view.parent
+        when {
+            parent == null -> return false
+            parent !is View -> return true
+            parent is ContentFrameLayout -> return true
+            !parent.isVisible -> return false
+            parent.asCSActivityView()?.isVisible == true -> return true
+            else -> view = parent
+        }
     }
 }
 

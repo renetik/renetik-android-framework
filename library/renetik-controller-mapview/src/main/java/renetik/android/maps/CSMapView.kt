@@ -155,7 +155,7 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
 
     fun onMapAvailable(parent: CSActivityView<*>, onMapReady: (GoogleMap) -> Unit) {
         map?.let { onMapReady(it) } ?: let {
-            parent.whileVisible(onMapReadyEvent.add { registration, map ->
+            parent.whileShowing(onMapReadyEvent.add { registration, map ->
                 onMapReady(map)
                 registration.cancel()
             })

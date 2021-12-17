@@ -1,11 +1,13 @@
 package renetik.android.widget
 
 import android.view.Gravity
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.IntDef
 import androidx.core.view.GravityCompat.END
 import androidx.core.view.GravityCompat.START
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.drawerlayout.widget.DrawerLayout.STATE_IDLE
 import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
 import renetik.android.framework.view.adapter.CSDrawerAdapter
 import renetik.android.view.view
@@ -37,9 +39,7 @@ fun DrawerLayout.closeRightPanel() = closeDrawer((END))
 
 fun DrawerLayout.openRightPanel() = openDrawer((END))
 
-val DrawerLayout.isLeftPanelOpen get() = isDrawerOpen(START)
-
-val DrawerLayout.isRightPanelOpen get() = isDrawerOpen(END)
+val DrawerLayout.isDrawerOpen get() = isDrawerOpen(START) || isDrawerOpen(END)
 
 fun DrawerLayout.setupLeftPanelSliding(@IdRes viewId: Int, @IdRes contentId: Int) {
     addDrawerListener(CSDrawerAdapter(onDrawerSlide = { drawerView, slideOffset ->
@@ -59,5 +59,23 @@ fun DrawerLayout.onDrawerStateChanged(function: (DrawerLayout) -> Unit) {
     val drawerLayout = this
     addDrawerListener(object : SimpleDrawerListener() {
         override fun onDrawerStateChanged(newState: Int) = function(drawerLayout)
+    })
+}
+
+fun DrawerLayout.onDrawerOpening(function: (DrawerLayout) -> Unit) {
+    val drawerLayout = this
+    var onDrawerOpeningCalled = false
+    addDrawerListener(object : SimpleDrawerListener() {
+        override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+            super.onDrawerSlide(drawerView, slideOffset)
+            if (!onDrawerOpeningCalled && slideOffset > 0f && !isDrawerOpen) {
+                function(drawerLayout)
+                onDrawerOpeningCalled = true
+            }
+        }
+
+        override fun onDrawerStateChanged(newState: Int) {
+            if (newState == STATE_IDLE) onDrawerOpeningCalled = false
+        }
     })
 }

@@ -42,7 +42,7 @@ open class CSMapClientView<V : View>(parent: CSActivityView<V>, private val mapF
             map.setOnMapLongClickListener { latLng -> onMapLongClickEvent.fire(latLng) }
             onMapShowingEvent.fire(map)
         }
-        whileVisible(mapController.onCameraStopped { map ->
+        whileShowing(mapController.onCameraStopped { map ->
             lastLocation = map.cameraPosition.target
             lastZoom = map.cameraPosition.zoom
         })

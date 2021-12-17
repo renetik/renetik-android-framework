@@ -53,7 +53,7 @@ fun <T> TextView.text(
     getText: (T) -> CharSequence
 ) = apply {
     fun updateText() = text(getText(property.value))
-    parent.whileVisible(property.onChange { updateText() })
+    parent.whileShowing(property.onChange { updateText() })
     updateText()
 }
 

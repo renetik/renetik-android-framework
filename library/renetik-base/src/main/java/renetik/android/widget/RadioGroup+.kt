@@ -53,7 +53,7 @@ fun <T : Any> RadioGroup.property(
         checkedId = data.filterValues { it == property.value }.keys.firstOrNull()
     }
 
-    val onPropertyChange = parent.whileVisible(property.onChange { updateChecked() })
+    val onPropertyChange = parent.whileShowing(property.onChange { updateChecked() })
     onChange { buttonId -> onPropertyChange.pause().use { property.value = data[buttonId] } }
     updateChecked()
 }
