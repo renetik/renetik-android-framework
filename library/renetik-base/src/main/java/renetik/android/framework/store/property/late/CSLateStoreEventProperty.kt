@@ -11,10 +11,6 @@ abstract class CSLateStoreEventProperty<T>(
     : CSEventPropertyBase<T>(onChange), CSStoreEventProperty<T> {
 
     var _value: T? = null
-        set(value) {
-            field = value
-            set(store, value!!)
-        }
 
     override var value: T
         get() {
@@ -23,9 +19,7 @@ abstract class CSLateStoreEventProperty<T>(
                 throw unexpected
             return _value!!
         }
-        set(value) {
-            value(value)
-        }
+        set(value) = value(value)
 
     abstract fun get(): T?
 
@@ -33,11 +27,13 @@ abstract class CSLateStoreEventProperty<T>(
         if (_value == newValue) return
         val before = if (store.has(key)) _value else null
         _value = newValue
+        set(store, newValue)
         onApply?.invoke(newValue)
         if (fire && before != null) eventChange.fire(newValue)
     }
 
     val isNotLoaded get() = _value == null
+
     val isLoaded get() = _value != null
 
     override fun toString() = "$key $value"

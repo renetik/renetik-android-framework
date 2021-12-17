@@ -56,7 +56,8 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
         this.item.value(item)
     }
 
-    fun saveAsCurrent() = item.value.save(dataList)
+    fun saveAsCurrent() =
+        item.value.save(dataList)
 
     fun delete(preset: PresetItem) {
         preset.delete()
