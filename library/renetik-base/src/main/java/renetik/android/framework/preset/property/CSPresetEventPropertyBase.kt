@@ -16,7 +16,7 @@ abstract class CSPresetEventPropertyBase<T>(
     onChange: ((value: T) -> Unit)? = null
 ) : CSEventPropertyBase<T>(parent, onChange), CSPresetKeyData {
 
-    private val store = preset.store
+    val store = preset.store
     protected abstract val default: T
     protected abstract var _value: T
     protected abstract fun get(store: CSStoreInterface): T?
@@ -25,7 +25,7 @@ abstract class CSPresetEventPropertyBase<T>(
     abstract fun loadFrom(store: CSStoreInterface): T
     override fun saveTo(store: CSStoreInterface) = set(store, value)
 
-    fun load(): T = loadFrom(store)
+    open fun load(): T = loadFrom(store)
 
     var isFollowPreset = property(true)
 

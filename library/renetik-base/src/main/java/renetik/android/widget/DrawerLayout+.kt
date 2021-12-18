@@ -7,8 +7,7 @@ import androidx.annotation.IntDef
 import androidx.core.view.GravityCompat.END
 import androidx.core.view.GravityCompat.START
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.drawerlayout.widget.DrawerLayout.STATE_IDLE
-import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
+import androidx.drawerlayout.widget.DrawerLayout.*
 import renetik.android.framework.view.adapter.CSDrawerAdapter
 import renetik.android.view.view
 
@@ -22,22 +21,22 @@ private fun DrawerLayout.toggleDrawer(@EdgeGravity gravity: Int) =
 fun DrawerLayout.toggleLeftPanel() = toggleDrawer(START)
 
 fun DrawerLayout.lockRightSide() {
-    setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, END);
+    setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED, END);
 }
 
 fun DrawerLayout.unlockRightSide() {
-    setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, END);
+    setDrawerLockMode(LOCK_MODE_UNLOCKED, END);
 }
 
-fun DrawerLayout.closeLeftPanel() = closeDrawer((START))
+fun DrawerLayout.closeLeftPanel() = closeDrawer(START)
 
-fun DrawerLayout.openLeftPanel() = openDrawer((START))
+fun DrawerLayout.openLeftPanel() = openDrawer(START)
 
 fun DrawerLayout.toggleRightPanel() = toggleDrawer(END)
 
-fun DrawerLayout.closeRightPanel() = closeDrawer((END))
+fun DrawerLayout.closeRightPanel() = closeDrawer(END)
 
-fun DrawerLayout.openRightPanel() = openDrawer((END))
+fun DrawerLayout.openRightPanel() = openDrawer(END)
 
 val DrawerLayout.isDrawerOpen get() = isDrawerOpen(START) || isDrawerOpen(END)
 
@@ -55,11 +54,20 @@ fun DrawerLayout.setupRightPanelSliding(@IdRes viewId: Int, @IdRes contentId: In
     }))
 }
 
-fun DrawerLayout.onDrawerStateChanged(function: (DrawerLayout) -> Unit) {
-    val drawerLayout = this
+fun DrawerLayout.onDrawerStateChanged(function: (newState: Int) -> Unit) {
     addDrawerListener(object : SimpleDrawerListener() {
-        override fun onDrawerStateChanged(newState: Int) = function(drawerLayout)
+        override fun onDrawerStateChanged(newState: Int) = function(newState)
     })
+}
+
+fun DrawerLayout.onOpenStateChanged(function: (DrawerLayout) -> Unit) {
+    var state = isDrawerOpen
+    onDrawerStateChanged {
+        if (it == STATE_IDLE && state != isDrawerOpen) {
+            function(this)
+            state = isDrawerOpen
+        }
+    }
 }
 
 fun DrawerLayout.onDrawerOpening(function: (DrawerLayout) -> Unit) {
