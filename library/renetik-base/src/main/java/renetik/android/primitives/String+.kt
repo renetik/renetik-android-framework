@@ -2,10 +2,11 @@ package renetik.android.primitives
 
 import renetik.android.framework.common.catchWarnReturn
 import renetik.android.framework.common.catchWarnReturnNull
+import renetik.kotlin.notNull
 import renetik.kotlin.text.StringBuilder
 import renetik.kotlin.text.add
 import renetik.kotlin.text.deleteLast
-import renetik.kotlin.notNull
+import renetik.kotlin.text.reload
 import java.nio.charset.StandardCharsets
 import java.text.Normalizer
 import java.util.*
@@ -59,12 +60,14 @@ fun String.asFloat(default: Float) =
 fun String.asInt(default: Int) =
     catchWarnReturn<Int, NumberFormatException>(default) { toInt() }
 
-fun String.trimNewLines(): String {
-    return replace(String.NewLine, String.Empty)
-}
+fun String.trimNewLines() = replace(String.NewLine, String.Empty)
 
-fun String.remove(toRemove: String): String {
-    return replace(toRemove, "")
+fun String.remove(toRemove: String) = replace(toRemove, "")
+
+fun String.replace(strings: Array<String>, replacement: String): String {
+    val builder = StringBuilder(this)
+    strings.forEach { builder.reload(builder.toString().replace(it, replacement)) }
+    return builder.toString()
 }
 
 fun String.leaveEndOfLength(length: Int): String {

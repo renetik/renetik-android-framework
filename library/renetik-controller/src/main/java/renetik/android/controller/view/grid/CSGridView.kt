@@ -94,8 +94,8 @@ class CSGridView<ItemType : Any>(
 
     private fun CSGridItemView<ItemType>.updateSelection() {
         val isActive = activeItem.value == value
-        isSelected = isActive && !onReSelected.isListened
-        isActivated = isActive && onReSelected.isListened
+        isSelected = isActive && onReSelected.isListened
+        isActivated = isActive && !onReSelected.isListened
         if (isActive) onItemActivated.fire(this)
     }
 
