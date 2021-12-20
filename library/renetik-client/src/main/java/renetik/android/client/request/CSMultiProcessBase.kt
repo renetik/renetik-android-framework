@@ -2,7 +2,7 @@ package renetik.android.client.request
 
 import renetik.android.framework.ArgFunc
 
-open class CSMultiProcess<Data : Any>(data: Data? = null) : CSProcessBase<Data>(data) {
+open class CSMultiProcessBase<Data : Any>(data: Data? = null) : CSProcessBase<Data>(data) {
 
     protected var addedProcess: CSProcessBase<*>? = null
 

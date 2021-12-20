@@ -52,7 +52,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     fun saveAsNew(item: PresetItem) {
         item.save(dataList)
-        list.put(item)
+        list.add(item)
         this.item.value(item)
     }
 

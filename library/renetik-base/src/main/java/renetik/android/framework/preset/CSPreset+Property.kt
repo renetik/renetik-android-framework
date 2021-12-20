@@ -110,6 +110,12 @@ fun <T> CSPreset<*, *>.propertyNullListItem(
 ) = add(CSListItemNullablePresetEventProperty(parent, this,
     key, values, default, onChange))
 
+fun <T> CSPreset<*, *>.propertyNullListItem(
+    parent: CSEventOwnerHasDestroy, key: String, getValues: () -> List<T>, default: T? = null,
+    onChange: ((value: T?) -> Unit)? = null
+) = add(CSListItemNullablePresetEventProperty(parent, this,
+    key, getValues, { default }, onChange))
+
 fun <T> CSPreset<*, *>.propertyNullArrayItem(
     parent: CSEventOwnerHasDestroy, key: String, values: Array<T>, default: T? = null,
     onChange: ((value: T?) -> Unit)? = null

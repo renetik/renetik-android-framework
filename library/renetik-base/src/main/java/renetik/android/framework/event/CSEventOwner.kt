@@ -8,6 +8,3 @@ interface CSEventOwner {
     fun cancel(registration: CSEventRegistration) =
         registration.also { eventRegistrations.cancel(it) }
 }
-
-fun CSEventOwner.register(registration: CSEventRegistration) =
-    registration.also { eventRegistrations.add(it) }

@@ -1,8 +1,10 @@
 package renetik.android.framework.preset.property
 
 import renetik.android.framework.CSEventOwnerHasDestroy
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.property.isFalse
@@ -14,33 +16,29 @@ abstract class CSPresetEventPropertyBase<T>(
     final override val preset: CSPreset<*, *>,
     override val key: String,
     onChange: ((value: T) -> Unit)? = null
-) : CSEventPropertyBase<T>(parent, onChange), CSPresetKeyData {
+) : CSEventPropertyBase<T>(parent, onChange), CSPresetEventProperty<T> {
 
-    val store = preset.store
     protected abstract val default: T
     protected abstract var _value: T
     protected abstract fun get(store: CSStoreInterface): T?
     protected abstract fun set(store: CSStoreInterface, value: T)
+    protected abstract fun load(): T
+    protected abstract fun loadFrom(store: CSStoreInterface): T
 
-    abstract fun loadFrom(store: CSStoreInterface): T
     override fun saveTo(store: CSStoreInterface) = set(store, value)
+    override val isFollowPreset: CSEventProperty<Boolean> = property(true)
+    override val isModified: Boolean get() = value != loadFrom(preset.item.value.store)
 
-    open fun load(): T = loadFrom(store)
+    private val storeChanged: CSEventRegistration =
+        parent.register(store.eventChanged.listen(::onStoreChange))
 
-    var isFollowPreset = property(true)
-
-    var presetStoreValueEventChanged = parent.register(store.eventChanged.listen {
-        onStoreChange()
-    })
-
-    private fun onStoreChange() {
-        if (isFollowPreset.isFalse)
-            saveTo(store)
+    private fun onStoreChange(store: CSStoreInterface) {
+        if (isFollowPreset.isFalse) saveTo(store)
         else {
             val newValue = load()
             if (_value == newValue) return
             _value = newValue
-            presetStoreValueEventChanged.pause().use {
+            storeChanged.pause().use {
                 onApply?.invoke(newValue)
                 eventChange.fire(newValue)
             }
@@ -50,14 +48,12 @@ abstract class CSPresetEventPropertyBase<T>(
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        presetStoreValueEventChanged.pause().use {
+        storeChanged.pause().use {
             onApply?.invoke(newValue)
             if (fire) eventChange.fire(newValue)
             saveTo(store)
         }
     }
-
-    val isModified get() = _value != loadFrom(preset.item.value.store)
 
     override var value: T
         get() = _value
