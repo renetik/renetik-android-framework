@@ -43,7 +43,7 @@ class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
 class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
     override val defaultList = mutableListOf<CSPresetTestPresetItem>()
     override val userList = mutableListOf<CSPresetTestPresetItem>()
-    override fun put(item: CSPresetTestPresetItem) {
+    override fun add(item: CSPresetTestPresetItem) {
         defaultList.add(item)
     }
 
@@ -61,7 +61,7 @@ class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {
-        presetList.put(CSPresetTestPresetItem("Clear Parent"))
+        presetList.add(CSPresetTestPresetItem("Clear Parent"))
     }
 
     val id = "parentClass"
