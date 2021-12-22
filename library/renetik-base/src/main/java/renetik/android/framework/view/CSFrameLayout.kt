@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
@@ -15,14 +16,15 @@ import renetik.android.framework.event.fire
 open class CSFrameLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
 
     private val minWidth: Int
     private val maxWidth: Int
     var dispatchState: Boolean
     val eventOnDraw = event<Canvas>()
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-    var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    override val self: View get() = this
+    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var eventOnLayout = event()
 
     init {

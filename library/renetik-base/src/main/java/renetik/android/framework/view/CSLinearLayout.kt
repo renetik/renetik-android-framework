@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
@@ -15,13 +16,14 @@ import renetik.android.primitives.isSet
 open class CSLinearLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : LinearLayout(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
 
     var minWidth: Int
     var maxWidth: Int
     var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-    var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    override val self: View get() = this
+    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var onDraw: ((event: Canvas) -> Unit)? = null
 
     init {
