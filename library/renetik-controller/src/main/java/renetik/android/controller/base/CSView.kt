@@ -10,6 +10,7 @@ import renetik.android.framework.CSContext
 import renetik.android.framework.event.*
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.view.inflate
+import renetik.android.view.onClick
 import renetik.kotlin.className
 import renetik.kotlin.notNull
 import renetik.kotlin.unexpected
@@ -128,4 +129,6 @@ open class CSView<ViewType : View> : CSContext,
         set(value) {
             view.isSelected = value
         }
+
+    open fun onClick(function: (view: ViewType) -> Unit) = apply { view.onClick(function) }
 }
