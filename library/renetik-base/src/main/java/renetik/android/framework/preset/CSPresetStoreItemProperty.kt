@@ -5,6 +5,7 @@ import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.lang.property.isFalse
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.getValue
@@ -26,10 +27,13 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
     private val eventChange = event<PresetItem>()
 
     val parentStoreChanged = register(parentStore.eventChanged.listen {
-        val newValue = loadValue()
-        if (_value == newValue) return@listen
-        _value = newValue
-        eventChange.fire(newValue)
+        if (preset.isFollowStore.isFalse) saveTo(parentStore)
+        else {
+            val newValue = loadValue()
+            if (_value == newValue) return@listen
+            _value = newValue
+            eventChange.fire(newValue)
+        }
     })
 
     override fun value(newValue: PresetItem, fire: Boolean) {

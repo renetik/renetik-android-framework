@@ -4,6 +4,7 @@ import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.data.reload
+import renetik.android.framework.lang.property.isFalse
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStoreInterface
 
@@ -17,7 +18,8 @@ class CSPresetStore(
     override fun onDestroy() = preset.onDestroy()
 
     private val parentStoreEventChanged = preset.register(parentStore.eventChanged.listen {
-        onParentStoreChanged(it.getMap(key) ?: emptyMap<String, Any>())
+        if (preset.isFollowStore.isFalse) saveTo(parentStore)
+        else onParentStoreChanged(it.getMap(key) ?: emptyMap<String, Any>())
     })
 
     private fun onParentStoreChanged(data: Map<String, *>) {
