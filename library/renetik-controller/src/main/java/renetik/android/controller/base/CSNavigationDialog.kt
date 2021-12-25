@@ -27,6 +27,7 @@ import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
 import renetik.android.view.*
+import renetik.kotlin.later
 
 enum class DialogAnimation {
     None, Slide, Fade
@@ -164,6 +165,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 }
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
-    button.isActivated = true
-    onDismiss { button.isActivated = false }
+    button.isPressed = true
+    afterLayout { button.isPressed = true }
+    onDismiss { button.isPressed = false }
 }

@@ -168,7 +168,7 @@ abstract class CSActivityView<ViewType : View>
         // so view.isShowing() returns false
         if (showingInPager == true && parentActivityView?.isVisible == true) return true
 
-//        if (parentActivityView?.isVisible == false) return false //TODO !!!!!!
+        if (parentActivityView?.isVisible == false) return false //TODO !!!!!!
         return view.isShowing()
     }
 
