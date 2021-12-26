@@ -1,7 +1,7 @@
 package renetik.android.framework.task
 
 import renetik.java.util.concurrent.background
-import renetik.java.util.concurrent.backgroundNano
+import renetik.java.util.concurrent.looperBackgroundNano
 import renetik.java.util.concurrent.backgroundRepeat
 import java.util.concurrent.Executors.newSingleThreadScheduledExecutor
 
@@ -15,7 +15,7 @@ object CSBackground {
         executor.background(delay = delay, function = function)
 
     fun backgroundNano(delay: Long = 0, function: () -> Unit) =
-        executor.backgroundNano(delay = delay, function = function)
+        executor.looperBackgroundNano(delay = delay, function = function)
 
     fun background(delay: Int = 0, function: () -> Unit) =
         executor.background(delay = delay.toLong(), function = function)

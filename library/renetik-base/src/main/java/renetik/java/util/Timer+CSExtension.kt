@@ -25,7 +25,7 @@ object CSTimer {
         executor.background(delay, function)
 
     fun scheduleNano(delay: Long = 0, function: () -> Unit) =
-        executor.backgroundNano(delay, function)
+        executor.looperBackgroundNano(delay, function)
 }
 
 fun Timer.scheduleAtFixedRateRunOnUI(delay: Long = 0, period: Long, function: () -> Unit) =

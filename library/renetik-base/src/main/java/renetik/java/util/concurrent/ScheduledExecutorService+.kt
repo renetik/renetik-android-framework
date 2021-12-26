@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit.NANOSECONDS
 fun ScheduledExecutorService.background(delay: Long = 0, function: () -> Unit) =
     schedule({ catchAllError { function() } }, delay, MILLISECONDS)
 
-fun ScheduledExecutorService.backgroundNano(delay: Long = 0, function: () -> Unit) =
+fun ScheduledExecutorService.looperBackgroundNano(delay: Long = 0, function: () -> Unit) =
     schedule({ catchAllError { function() } }, delay, NANOSECONDS)
 
 fun ScheduledExecutorService.backgroundRunOnUi(delay: Long = 0, function: () -> Unit) =
