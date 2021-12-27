@@ -11,6 +11,7 @@ import renetik.android.framework.event.CSViewInterface
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.register
 import renetik.android.framework.lang.property.setTrue
+import renetik.android.framework.lang.property.toggle
 import renetik.android.view.*
 import renetik.android.widget.onChange
 import renetik.android.widget.radioGroup
@@ -85,6 +86,6 @@ fun View.asCSView() = asCS<CSView<*>>()
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()
 fun <CSViewType : CSView<*>> View.asCS() = ((this as? View)?.tag as? CSViewType)
 
-fun View.action(action: CSEventProperty<Boolean>) = onClick { action.setTrue() }
+fun View.action(action: CSEventProperty<Boolean>) = onClick { action.toggle() }
 
 
