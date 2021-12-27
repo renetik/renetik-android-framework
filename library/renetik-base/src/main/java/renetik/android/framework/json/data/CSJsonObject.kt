@@ -26,7 +26,6 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
     }
 
     override val data = mutableMapOf<String, Any?>()
-    var index: Int? = null
     override val eventChanged = event<CSStoreInterface>()
 
     override fun load(store: CSStoreInterface) = load(store.data)

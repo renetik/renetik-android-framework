@@ -15,7 +15,5 @@ fun <T : CSJsonList> KClass<T>.createJsonList(list: List<Any?>?) =
 
 fun <T : CSJsonObject> KClass<T>.createJsonObjectList(data: List<Map<String, Any?>>?)
         : MutableList<T> = list<T>().also { dataList ->
-    data?.withIndex()?.forEach { (index, map) ->
-        dataList.put(createJsonObject(map)).index = index
-    }
+    data?.forEach { dataList.put(createJsonObject(it)) }
 }
