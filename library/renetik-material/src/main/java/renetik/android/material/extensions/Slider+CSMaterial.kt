@@ -68,7 +68,10 @@ fun Slider.value(property: CSEventProperty<Double>) = apply {
 }
 
 @JvmName("valuePropertyInt")
-fun Slider.value(property: CSEventProperty<Int>) = apply {
+fun Slider.value(property: CSEventProperty<Int>,
+                 min: Int = 0, max: Int = 100) = apply {
+    valueFrom = min.toFloat()
+    valueTo = max.toFloat()
     value(property.value)
     onChange { property.value = it.value.toInt() }
 }

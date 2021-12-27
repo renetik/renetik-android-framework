@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import renetik.android.controller.base.CSView
 import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.view.activatedIf
+import renetik.android.view.activated
 import renetik.android.view.selectedIf
 
 // Requires item to be wrapped in empty frame layout for now...
@@ -30,7 +30,7 @@ open class CSGridItemView<RowType : Any>(
 
     override var isActivated: Boolean
         get() = view.children.first().isActivated
-        set(value) = view.children.first().activatedIf(value)
+        set(value) = view.children.first().activated(value)
 
     override var isSelected: Boolean
         get() = view.children.first().isSelected

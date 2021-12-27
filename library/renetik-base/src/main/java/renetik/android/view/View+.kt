@@ -130,7 +130,7 @@ fun View.selectedIf(value: Boolean) {
     isSelected = value
 }
 
-fun View.activatedIf(value: Boolean) {
+fun View.activated(value: Boolean = true) {
     isActivated = value
 }
 
@@ -172,8 +172,8 @@ fun <T> View.activateIf(property: CSEventProperty<T>, value: T)
 
 fun <T> View.activatedIf(property: CSEventProperty<T>,
                          condition: (T) -> Boolean): CSEventRegistration {
-    activatedIf(condition(property.value))
-    return property.onChange { activatedIf(condition(property.value)) }
+    activated(condition(property.value))
+    return property.onChange { activated(condition(property.value)) }
 }
 
 fun View.activatedIf(property: CSEventProperty<Boolean>) = activatedIf(property) { it }
@@ -184,7 +184,7 @@ fun <T> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventProper
 
 fun <T, V> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
                             condition: (T, V) -> Boolean): CSEventRegistration {
-    fun update() = activatedIf(condition(property1.value, property2.value))
+    fun update() = activated(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
         property1.onChange { update() },

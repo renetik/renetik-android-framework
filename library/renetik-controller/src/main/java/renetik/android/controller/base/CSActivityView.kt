@@ -163,12 +163,8 @@ abstract class CSActivityView<ViewType : View>
     private fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (showingInPager == false) return false
-
-        // This is useful when showing just started in parent container,
-        // so view.isShowing() returns false
         if (showingInPager == true && parentActivityView?.isVisible == true) return true
-
-        if (parentActivityView?.isVisible == false) return false //TODO !!!!!!
+        if (parentActivityView?.isVisible == false) return false
         return view.isShowing()
     }
 

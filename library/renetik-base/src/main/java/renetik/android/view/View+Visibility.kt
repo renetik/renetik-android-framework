@@ -11,21 +11,25 @@ import renetik.android.framework.event.property.CSEventProperty
 fun <T : View> T.visible(animated: Boolean = false) = apply {
     if (animated) fadeIn() else {
         visibility = VISIBLE
-        (tag as? CSVisibility)?.updateVisibility()
+        updateVisibility()
     }
 }
 
 fun <T : View> T.invisible(animated: Boolean = false) = apply {
     if (animated) fadeOut(invisible = true) else {
         visibility = INVISIBLE
-        (tag as? CSVisibility)?.updateVisibility()
+        updateVisibility()
     }
+}
+
+fun <T : View> T.updateVisibility() {
+    (tag as? CSVisibility)?.updateVisibility()
 }
 
 fun <T : View> T.gone(animated: Boolean = false) = apply {
     if (animated) fadeOut() else {
         visibility = GONE
-        (tag as? CSVisibility)?.updateVisibility()
+        updateVisibility()
     }
 }
 
@@ -74,8 +78,8 @@ fun <T, V> View.shownIf(property1: CSEventProperty<T>, property2: CSEventPropert
 }
 
 fun <T, V> View.goneIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
-                        animated: Boolean = false,
-                        condition: (T, V) -> Boolean): CSEventRegistration {
+                       animated: Boolean = false,
+                       condition: (T, V) -> Boolean): CSEventRegistration {
     fun update() = goneIf(condition(property1.value, property2.value), animated)
     update()
     return CSMultiEventRegistration(
