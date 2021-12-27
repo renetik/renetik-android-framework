@@ -72,8 +72,8 @@ fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
 
 fun View.enabledByAlphaIf(condition: Boolean) = disabledByAlpha(!condition)
 
-fun View.disabledByAlpha(condition: Boolean = true) {
-    disabledIf(condition)
+fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
+    if (disable) disabledIf(condition)
     alpha = if (condition) context.attributeFloat(android.R.attr.disabledAlpha) else 1F
 }
 
@@ -90,13 +90,13 @@ fun <T> View.enabledByAlphaIf(property: CSEventProperty<T>,
 fun View.enabledByAlphaIf(property: CSEventProperty<Boolean>) =
     enabledByAlphaIf(property) { it }
 
-fun View.disabledByAlphaIf(property: CSEventProperty<Boolean>) =
-    disabledByAlphaIf(property) { it }
+fun View.disabledByAlphaIf(property: CSEventProperty<Boolean>, disable: Boolean = true) =
+    disabledByAlphaIf(property, disable) { it }
 
-fun <T> View.disabledByAlphaIf(property: CSEventProperty<T>,
+fun <T> View.disabledByAlphaIf(property: CSEventProperty<T>, disable: Boolean = true,
                                condition: (T) -> Boolean): CSEventRegistration {
-    disabledByAlpha(condition(property.value))
-    return property.onChange { disabledByAlpha(condition(property.value)) }
+    disabledByAlpha(condition(property.value), disable)
+    return property.onChange { disabledByAlpha(condition(property.value), disable) }
 }
 
 fun <T> View.enabledByAlphaIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
