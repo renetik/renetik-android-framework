@@ -7,6 +7,7 @@ import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.CSVisibility
 import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.primitives.isTrue
 
 fun <T : View> T.visible(animated: Boolean = false) = apply {
     if (animated) fadeIn() else {
@@ -75,6 +76,13 @@ fun <T, V> View.shownIf(property1: CSEventProperty<T>, property2: CSEventPropert
     return CSMultiEventRegistration(
         property1.onChange { update(animated) },
         property2.onChange { update(animated) })
+}
+
+fun View.goneIf(property1: CSEventProperty<Boolean>,
+                property2: CSEventProperty<Boolean>,
+                animated: Boolean = false): CSEventRegistration {
+    return goneIf(property1, property2,
+        animated) { value1, value2 -> value1.isTrue || value2.isTrue }
 }
 
 fun <T, V> View.goneIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
