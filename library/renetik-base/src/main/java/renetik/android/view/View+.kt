@@ -139,13 +139,13 @@ fun View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
 fun View.toggleAsTrue(property: CSEventProperty<Boolean>)
         : CSEventRegistration {
     onClick { property.toggle() }
-    return activatedIf(property) { it.isTrue }
+    return selectedIf(property) { it.isTrue }
 }
 
 fun View.toggleAsFalse(property: CSEventProperty<Boolean>)
         : CSEventRegistration {
     onClick { property.toggle() }
-    return activatedIf(property) { it.isFalse }
+    return selectedIf(property) { it.isFalse }
 }
 
 fun <T> View.selectIf(property: CSEventProperty<T>, value: T)

@@ -5,25 +5,23 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
-import renetik.android.R
+import androidx.appcompat.widget.AppCompatTextView
+import renetik.android.R.styleable.CSLayout
+import renetik.android.R.styleable.CSLayout_dispatchState
 
 
 class CSTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : androidx.appcompat.widget.AppCompatTextView(context, attrs, defStyleAttr) {
+) : AppCompatTextView(context, attrs, defStyleAttr), CSHasTouchEvent {
 
-    //    private val minWidth: Int
-//    private val maxWidth: Int
+    override val self = this
     private val dispatchState: Boolean
-    var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
     init {
-        val attributes =
-            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
+        val attributes = context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0)
         try {
-//            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, -1)
-//            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
-            dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
+            dispatchState = attributes.getBoolean(CSLayout_dispatchState, true)
         } finally {
             attributes.recycle()
         }
