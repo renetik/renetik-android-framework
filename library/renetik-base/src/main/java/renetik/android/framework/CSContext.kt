@@ -27,7 +27,6 @@ abstract class CSContext : ContextWrapper, CSHasContext {
 
     constructor(context: Context) : super(context)
 
-
     private var _isDestroyed = false
     val isDestroyed get() = _isDestroyed
     override val eventDestroy = event<Unit>()
@@ -94,7 +93,7 @@ abstract class CSContext : ContextWrapper, CSHasContext {
         eventDestroy.fire().clear()
     }
 
-    override val eventRegistrations = CSEventRegistrations()
+    final override val eventRegistrations = CSEventRegistrations()
 }
 
 fun CSContext.register(intent: IntentFilter, receiver: (Intent, BroadcastReceiver) -> void) =

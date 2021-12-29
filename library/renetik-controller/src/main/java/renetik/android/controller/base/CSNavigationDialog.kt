@@ -17,15 +17,13 @@ import renetik.android.controller.base.DialogPopupSide.Bottom
 import renetik.android.controller.base.DialogPopupSide.Right
 import renetik.android.controller.common.CSNavigationAnimation.*
 import renetik.android.controller.common.CSNavigationItem
-import renetik.android.framework.event.event
-import renetik.android.framework.event.fire
-import renetik.android.framework.event.listenOnce
+import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
+import renetik.android.framework.logging.CSLog.info
 import renetik.android.view.*
 import renetik.kotlin.later
 
@@ -52,7 +50,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     private val marginDp = 7
 
     private val eventOnDismiss = event<Unit>()
-    fun onDismiss(function: () -> Unit) = eventOnDismiss.listenOnce { function() }
+    fun onDismiss(function: () -> Unit) = eventOnDismiss.listen { function() }
 
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }

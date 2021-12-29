@@ -2,6 +2,7 @@ package renetik.android.framework.preset
 
 import renetik.android.framework.CSEventOwnerHasDestroy
 import renetik.android.framework.CSModelBase
+import renetik.android.framework.event.CSAction.Companion.action
 import renetik.android.framework.event.listenOnce
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSHasId
@@ -16,6 +17,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     val list: PresetList) : CSModelBase(parent), CSHasId {
 
     override val id = "$key preset"
+    val actionEdit = action("$id actionEdit")
     val isFollowStore = property(true)
     val item = CSPresetStoreItemProperty(this, parentStore)
     val store = CSPresetStore(this, parentStore)

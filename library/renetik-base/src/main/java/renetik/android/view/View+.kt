@@ -1,10 +1,14 @@
 package renetik.android.view
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
+import android.view.GestureDetector
+import android.view.GestureDetector.*
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnLayoutChangeListener
 import android.view.ViewGroup
@@ -246,3 +250,15 @@ val View.eventScrollChange
     get() = propertyWithTag(R.id.ViewEventOnScrollChangeTag) {
         event<View>().also { setOnScrollChangeListener { _, _, _, _, _ -> it.fire(this) } }
     }
+
+@SuppressLint("ClickableViewAccessibility")
+fun <T : View> T.onDoubleTap(function: (T) -> Unit) = apply {
+    val view = this
+    val detector = GestureDetector(context, object : SimpleOnGestureListener() {
+        override fun onDoubleTap(e: MotionEvent?): Boolean {
+            function(view)
+            return true
+        }
+    })
+    setOnTouchListener { _, event -> detector.onTouchEvent(event) }
+}

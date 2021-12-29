@@ -126,8 +126,8 @@ class CSGridView<ItemType : Any>(
         if (activeItem.value != this.value) {
             if (itemDisabled) onDisabledItemClick.fire(this)
             else {
-                activeItem.value = this.value
                 onItemSelected.fire(this)
+                activeItem.value = this.value
             }
         } else onReSelected.fire(this)
 
