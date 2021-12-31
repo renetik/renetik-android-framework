@@ -135,8 +135,8 @@ abstract class CSActivityView<ViewType : View>
         super.onRemovedFromParent()
     }
 
-    fun showingInPager(isShowing: Boolean) {
-        if (showingInPager == isShowing) return
+    fun showingInPager(isShowing: Boolean) = apply {
+        if (showingInPager == isShowing) return this
         showingInPager = isShowing
         updateVisibility()
     }
@@ -162,6 +162,7 @@ abstract class CSActivityView<ViewType : View>
 
     private fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
+        if (!view.isVisible) return false
         if (showingInPager == false) return false
         if (showingInPager == true && parentActivityView?.isVisible == true) return true
         if (parentActivityView?.isVisible == false) return false
@@ -171,7 +172,6 @@ abstract class CSActivityView<ViewType : View>
     private fun onViewVisibilityChanged(showing: Boolean) {
         if (isVisible == showing) return
         _isVisible = showing
-        onViewVisibilityChanged()
         if (isVisible) {
             isVisibleEventRegistrations.setActive(true)
             onViewShowing()
@@ -180,6 +180,7 @@ abstract class CSActivityView<ViewType : View>
             onViewHiding()
             whileVisibleEventRegistrations.cancel()
         }
+        onViewVisibilityChanged()
     }
 
     protected open fun onViewVisibilityChanged() {

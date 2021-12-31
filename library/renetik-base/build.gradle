@@ -13,7 +13,7 @@ dependencies {
     // https://github.com/ShawnLin013/NumberPicker
     api 'com.shawnlin:number-picker:2.4.12'
 
-    testImplementation 'org.json:json:20180813'
+    testImplementation 'org.json:json:20210307'
 }
 repositories {
     mavenCentral()

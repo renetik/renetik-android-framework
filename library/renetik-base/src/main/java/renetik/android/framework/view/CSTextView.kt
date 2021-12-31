@@ -19,6 +19,7 @@ class CSTextView @JvmOverloads constructor(
     override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
     init {
+        clipToOutline = false
         val attributes = context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0)
         try {
             dispatchState = attributes.getBoolean(CSLayout_dispatchState, true)
@@ -33,7 +34,8 @@ class CSTextView @JvmOverloads constructor(
             super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
         } else if (maxWidth != -1 && measuredWidth > maxWidth) {
             super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
-        }
+        } else if (rotation == 270f || rotation == 90f)
+            super.onMeasure(heightMeasureSpec, widthMeasureSpec)
     }
 
     override fun dispatchSetActivated(activated: Boolean) {
