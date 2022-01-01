@@ -13,11 +13,7 @@ import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.event.resume
-import renetik.android.view.alphaToDisabled
-import renetik.android.view.disabledByAlpha
-import renetik.android.view.fadeIn
-import renetik.android.view.fadeOut
-import renetik.android.view.onClick
+import renetik.android.view.*
 import renetik.android.widget.scrollToIndex
 import renetik.kotlin.collections.list
 
@@ -27,38 +23,33 @@ class CSGridView<ItemType : Any>(
     val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>
 ) : CSView<GridView>(parent, viewId) {
 
-    val activeItem: CSEventProperty<ItemType?> = property(null)
+    val selectedItem: CSEventProperty<ItemType?> = property(null)
     private var listAdapter = Adapter()
     val data = list<ItemType>()
-
-    init {
-        view.adapter = listAdapter
-        view.isFastScrollEnabled = true
-    }
 
     val dataCount get() = data.size
 
     fun property(property: CSEventProperty<ItemType>) = apply {
         val registration = parent.register(property
-            .onChange { activeItem.value(property.value) })
-        activeItem.onChange {
+            .onChange { selectedItem.value(property.value) })
+        selectedItem.onChange {
             registration.pause()
             property.value = it!!
             registration.resume()
         }
-        activeItem.value(property.value)
+        selectedItem.value(property.value)
     }
 
     @JvmName("propertyNullableItem")
     fun property(property: CSEventProperty<ItemType?>) = apply {
         val registration = parent.register(property
-            .onChange { activeItem.value(property.value) })
-        activeItem.onChange {
+            .onChange { selectedItem.value(property.value) })
+        selectedItem.onChange {
             registration.pause()
             property.value = it
             registration.resume()
         }
-        activeItem.value(property.value)
+        selectedItem.value(property.value)
     }
 
     fun reload(iterable: Iterable<ItemType>) = apply {
@@ -92,8 +83,14 @@ class CSGridView<ItemType : Any>(
     fun onActive(function: (CSGridItemView<ItemType>) -> Unit) =
         apply { onItemActivated.listen { function(it) } }
 
+    init {
+        view.adapter = listAdapter
+        view.isFastScrollEnabled = true
+        onItemSelected.listen { selectedItem.value(it.value) }
+    }
+
     private fun CSGridItemView<ItemType>.updateSelection() {
-        val isActive = activeItem.value == value
+        val isActive = selectedItem.value == value
         isSelected = isActive && onReSelected.isListened
         isActivated = isActive && !onReSelected.isListened
         if (isActive) onItemActivated.fire(this)
@@ -103,7 +100,7 @@ class CSGridView<ItemType : Any>(
         var rowView = toReuseView?.tag as? CSGridItemView<ItemType>
         if (rowView == null) {
             rowView = createView(this)
-            parent.register(activeItem.onChange { rowView.updateSelection() })
+            parent.register(selectedItem.onChange { rowView.updateSelection() })
             rowView.view.onClick { rowView.onClick() }
         }
         rowView.load(data[position], position)
@@ -123,12 +120,9 @@ class CSGridView<ItemType : Any>(
     }
 
     private fun CSGridItemView<ItemType>.onClick() =
-        if (activeItem.value != this.value) {
+        if (selectedItem.value != this.value) {
             if (itemDisabled) onDisabledItemClick.fire(this)
-            else {
-                onItemSelected.fire(this)
-                activeItem.value = this.value
-            }
+            else onItemSelected.fire(this)
         } else onReSelected.fire(this)
 
     private var emptyView: View? = null
@@ -137,7 +131,7 @@ class CSGridView<ItemType : Any>(
         emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
     }
 
-    fun scrollToActive() = apply { view.scrollToIndex(data.indexOf(activeItem.value)) }
+    fun scrollToActive() = apply { view.scrollToIndex(data.indexOf(selectedItem.value)) }
 
     inner class Adapter : BaseAdapter() {
         override fun getCount() = data.size
