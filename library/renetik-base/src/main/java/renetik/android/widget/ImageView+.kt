@@ -20,8 +20,8 @@ fun <T : ImageView> T.image(@DrawableRes resourceId: Int) = apply {
 
 fun <T : ImageView> T.image(file: File) = apply {
     load(file)
-//    setImageBitmap(decodeFile(file.absolutePath))
 //    Glide.with(context).load(file).into(this)
+//    setImageBitmap(decodeFile(file.absolutePath))
 }
 
 fun <T> ImageView.image(property: CSEventProperty<T>,

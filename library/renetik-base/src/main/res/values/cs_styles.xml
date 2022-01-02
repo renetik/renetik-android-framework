@@ -104,7 +104,6 @@
     </style>
 
 
-
     <style name="CSVerticalMatchWrap">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -199,7 +198,6 @@
     </style>
 
 
-
     <style name="CSContentMain" parent="CSMatchFill" />
 
     <style name="CSGridMatch" parent="android:Widget.Material.GridView">
@@ -255,28 +253,11 @@
     </style>
 
 
-
     <style name="CSGridItemMatchWrap" parent="CSMatchWrap">
         <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:padding">2dp</item>
     </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <style name="CSImageViewButtonWrap">
@@ -290,11 +271,6 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
-
-
-
-
-
 
     <style name="CSActionBar">
         <item name="android:layout_width">match_parent</item>
@@ -312,42 +288,5 @@
         <item name="android:layout_margin">0dp</item>
         <item name="contentInsetStartWithNavigation">0dp</item>
     </style>
-
-    <style name="CSSpaceHorizontal3dp">
-        <item name="android:layout_width">3dp</item>
-        <item name="android:layout_height">0dp</item>
-    </style>
-
-    <style name="CSSpaceVertical3dp">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">3dp</item>
-    </style>
-
-    <style name="CSSpaceHorizontal5dp">
-        <item name="android:layout_width">5dp</item>
-        <item name="android:layout_height">0dp</item>
-    </style>
-
-    <style name="CSSpaceHorizontal7dp">
-        <item name="android:layout_width">7dp</item>
-        <item name="android:layout_height">0dp</item>
-    </style>
-
-    <style name="CSSpaceHorizontal15dp">
-        <item name="android:layout_width">15dp</item>
-        <item name="android:layout_height">0dp</item>
-    </style>
-
-    <style name="CSSpaceVertical5dp">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">5dp</item>
-    </style>
-
-    <style name="CSSpaceVertical7dp">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">7dp</item>
-    </style>
-
-
 
 </resources>

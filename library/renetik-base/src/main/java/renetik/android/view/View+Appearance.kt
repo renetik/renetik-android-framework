@@ -1,5 +1,6 @@
 package renetik.android.view
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
@@ -7,8 +8,8 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
+import renetik.android.R
 import renetik.android.content.CSColorInt
-import renetik.android.content.attributeFloat
 import renetik.android.content.dpToPixel
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.CSMultiEventRegistration
@@ -74,12 +75,16 @@ fun View.enabledByAlphaIf(condition: Boolean) = disabledByAlpha(!condition)
 
 fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
     if (disable) disabledIf(condition)
-    alpha = if (condition) context.attributeFloat(android.R.attr.disabledAlpha) else 1F
+    alpha = if (condition) context.disabledAlpha else 1F
 }
 
 fun View.alphaToDisabled() {
-    alpha = context.attributeFloat(android.R.attr.disabledAlpha)
+    alpha = context.disabledAlpha
 }
+
+val Context.disabledAlpha
+    get() = getResources().getString(R.string.cs_disabled_alpha).toFloat()
+//        attributeFloat(android.R.attr.disabledAlpha)
 
 fun <T> View.enabledByAlphaIf(property: CSEventProperty<T>,
                               condition: (T) -> Boolean): CSEventRegistration {
