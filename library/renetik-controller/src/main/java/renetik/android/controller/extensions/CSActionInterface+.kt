@@ -1,8 +1,10 @@
 package renetik.android.controller.extensions
 
+import android.view.View
 import android.view.ViewGroup
 import renetik.android.controller.base.CSNavigationDialog
 import renetik.android.controller.base.DialogAnimation
+import renetik.android.controller.base.action
 import renetik.android.framework.event.CSActionInterface
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.onTrue
@@ -23,4 +25,10 @@ fun CSActionInterface.dialog(function: () -> CSNavigationDialog<*>): CSEventRegi
     }
     if (isTrue) show()
     return onTrue { show() }
+}
+
+fun View.actionDialog(action: CSActionInterface,
+                      function: () -> CSNavigationDialog<*>): CSEventRegistration {
+    action(action)
+    return action.dialog(function)
 }
