@@ -5,6 +5,7 @@ import renetik.android.framework.event.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.event.register
 import renetik.android.framework.lang.property.isFalse
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStoreInterface
@@ -26,15 +27,22 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
 
     private val eventChange = event<PresetItem>()
 
-    val parentStoreChanged = register(parentStore.eventChanged.listen {
-        if (preset.isFollowStore.isFalse) saveTo(parentStore)
+    val parentStoreChanged = register(parentStore.eventChanged.listen { onParentStoreChange() })
+    private fun onParentStoreChange() {
+        if (preset.isFollowStore.isFalse)
+            parentStoreChangedIsFollowStoreFalseSaveToParentStore()
         else {
             val newValue = loadValue()
-            if (_value == newValue) return@listen
+            if (_value == newValue) return
             _value = newValue
-            eventChange.fire(newValue)
+            //TODO Experimental Change !!! This is maybe useless also in property base
+            parentStoreChanged.pause().use { eventChange.fire(newValue) }
         }
-    })
+    }
+
+    //TODO Experimental Change !!!
+    private fun parentStoreChangedIsFollowStoreFalseSaveToParentStore() =
+        parentStore.eventChanged.pause().use { saveTo(parentStore) }
 
     override fun value(newValue: PresetItem, fire: Boolean) {
         if (_value == newValue) return
