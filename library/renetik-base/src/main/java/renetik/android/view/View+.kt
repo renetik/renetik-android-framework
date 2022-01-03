@@ -134,7 +134,7 @@ fun View.selectedIf(value: Boolean) {
     isSelected = value
 }
 
-fun View.activated(value: Boolean = true) {
+fun View.activated(value: Boolean = true) = apply {
     isActivated = value
 }
 

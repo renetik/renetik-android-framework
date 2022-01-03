@@ -1,5 +1,7 @@
 package renetik.android.primitives
 
+import renetik.android.framework.ArgFunc
+import kotlin.math.absoluteValue
 import kotlin.random.Random
 
 inline val Int.Companion.Empty get() = MAX_VALUE
@@ -21,3 +23,16 @@ fun Int.isLastIndex(index: Int) = index == this - 1
 
 inline val Int.isEven: Boolean get() = this % 2 == 0
 inline val Int.isOdd: Boolean get() = !isEven
+
+fun Int.update(newCount: Int, onAdd: ArgFunc<Int>,
+               onRemove: ArgFunc<Int>) {
+    val lastIndex = this - 1
+    val difference = newCount - this
+    if (difference > 0) repeat(difference) { index ->
+        val column = lastIndex + 1 + index
+        onAdd(column)
+    } else repeat(difference.absoluteValue) { index ->
+        val columnIndex = lastIndex - index
+        onRemove(columnIndex)
+    }
+}
