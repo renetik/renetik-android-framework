@@ -13,7 +13,6 @@ import renetik.android.framework.view.adapter.CSTextWatcherAdapter
 import renetik.android.view.shownIf
 import renetik.kotlin.asString
 
-fun <T : TextView> T.text(@StringRes resourceId: Int) = apply { setText(resourceId) }
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
 fun <T : TextView> T.textAppend(string: CharSequence?) = text("$title$string")
 fun <T : TextView> T.text(value: CSValue<*>) = text(value.value.asString)
@@ -86,7 +85,7 @@ fun <T> TextView.text(property: CSEventProperty<T>, getText: (T) -> Any)
 
 
 fun <T, V> TextView.text(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
-                         getText: (T, V) -> String): CSEventRegistration {
+                         getText: (T, V) -> Any): CSEventRegistration {
     fun update() = text(getText(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(

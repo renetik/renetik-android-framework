@@ -1,10 +1,7 @@
 package renetik.android.controller.base
 
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.IdRes
 import renetik.android.framework.event.CSEventOwner
 import renetik.android.framework.event.CSViewInterface
@@ -64,6 +61,7 @@ fun CSViewInterface.imageView(@IdRes id: Int,
 
 fun CSViewInterface.swipeRefresh(@IdRes id: Int) = view.swipeRefresh(id)
 fun CSViewInterface.seekBar(@IdRes id: Int) = view.seekBar(id)
+fun CSViewInterface.progress(@IdRes id: Int) = view.progress(id)
 fun CSViewInterface.radioGroup(@IdRes id: Int,
                                onChange: ((buttonId: Int) -> Unit)? = null): RadioGroup =
     view.radioGroup(id).apply { onChange?.let { this.onChange(it) } }
