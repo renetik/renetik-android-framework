@@ -19,6 +19,7 @@ fun Int.isSetIn(bitwise: Int) = bitwise and this != 0
 fun Int.isNotIn(bitwise: Int) = !this.isSetIn(bitwise)
 
 val Int.isFirstIndex get() = this == 0
+val Int.asIndex get() = this - 1
 fun Int.isLastIndex(index: Int) = index == this - 1
 
 inline val Int.isEven: Boolean get() = this % 2 == 0
