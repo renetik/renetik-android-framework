@@ -34,8 +34,8 @@ fun CompoundButton.isCheckedIfNot(property: CSEventProperty<Boolean>): CSEventRe
 
 fun CompoundButton.isCheckedIf(property: CSEventProperty<Boolean>): CSEventRegistration {
     val onChangeRegistration = property.onChange(this::isCheckedIf)
-    onChecked { onChangeRegistration.pause().use { property.value(isChecked) } }
     isCheckedIf(property.isTrue)
+    onChecked { onChangeRegistration.pause().use { property.value(isChecked) } }
     return onChangeRegistration
 }
 

@@ -7,21 +7,21 @@ import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
 
 abstract class CSValueStoreEventProperty<T>(
-        final override val store: CSStoreInterface,
-        final override val key: String,
-        val listenStoreChanged: Boolean = false,
-        onChange: ((value: T) -> Unit)? = null)
+    final override val store: CSStoreInterface,
+    final override val key: String,
+    val listenStoreChanged: Boolean = false,
+    onChange: ((value: T) -> Unit)? = null)
     : CSEventPropertyBase<T>(onChange), CSStoreEventProperty<T> {
 
     abstract val defaultValue: T
     protected abstract var _value: T
     abstract fun get(store: CSStoreInterface): T?
-    var isLoaded = false
+    var isStored = false
 
     fun load(): T {
         val value = get(store)
         return if (value != null) {
-            isLoaded = true
+            isStored = true
             value
         } else defaultValue
     }
@@ -44,18 +44,28 @@ abstract class CSValueStoreEventProperty<T>(
         get() = _value
         set(value) = value(value)
 
+    // Why do we need this logic with isStored,
+    // When you have default value and set same it is stored but for what purpose ?
+    // Best would be to remove and try live without it.
     override fun value(newValue: T, fire: Boolean) {
-        if (_value == newValue && isLoaded) return
-        _value = newValue
-        isLoaded = true
-        storeEventChangedRegistration?.pause()?.use {
-            set(store, newValue)
-            onApply?.invoke(newValue)
-            if (fire) eventChange.fire(newValue)
-        } ?: run {
-            set(store, newValue)
-            onApply?.invoke(newValue)
-            if (fire) eventChange.fire(newValue)
+        if (_value == newValue) {
+            if (!isStored) {
+                isStored = true
+                storeEventChangedRegistration?.pause()?.use { set(store, newValue) }
+                    ?: run { set(store, newValue) }
+            }
+        } else {
+            isStored = true
+            _value = newValue
+            storeEventChangedRegistration?.pause()?.use {
+                set(store, newValue)
+                onApply?.invoke(newValue)
+                if (fire) eventChange.fire(newValue)
+            } ?: run {
+                set(store, newValue)
+                onApply?.invoke(newValue)
+                if (fire) eventChange.fire(newValue)
+            }
         }
     }
 

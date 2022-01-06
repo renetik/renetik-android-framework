@@ -84,6 +84,3 @@ fun View.asCSView() = asCS<CSView<*>>()
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()
 fun <CSViewType : CSView<*>> View.asCS() = ((this as? View)?.tag as? CSViewType)
 
-fun View.action(action: CSEventProperty<Boolean>) = onClick { action.toggle() }
-
-

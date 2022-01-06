@@ -141,6 +141,8 @@ fun View.activated(value: Boolean = true) = apply {
 
 fun View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
 
+fun View.onClick(action: CSEventProperty<Boolean>) = onClick { action.toggle() }
+
 fun View.toggleAsTrue(property: CSEventProperty<Boolean>)
         : CSEventRegistration {
     onClick { property.toggle() }

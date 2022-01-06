@@ -1,14 +1,32 @@
 package renetik.android.framework.event.property
 
 import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.lang.isFalse
+import renetik.android.framework.lang.isTrue
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isTrue
+
+
+fun <T> CSEventProperty<T>.action(function: (T) -> Unit): CSEventRegistration {
+    function(value)
+    return onChange(function)
+}
 
 fun CSEventProperty<Boolean>.onFalse(function: () -> Unit) =
     onChange { if (it.isFalse) function() }
 
 fun CSEventProperty<Boolean>.onTrue(function: () -> Unit) =
     onChange { if (it.isTrue) function() }
+
+fun CSEventProperty<Boolean>.actionIf(function: () -> Unit): CSEventRegistration {
+    if (isTrue) function()
+    return onTrue(function)
+}
+
+fun CSEventProperty<Boolean>.actionIfNot(function: () -> Unit): CSEventRegistration {
+    if (isFalse) function()
+    return onFalse(function)
+}
 
 fun <T> CSEventProperty<T>.listenChangeOnce(listener: (argument: T) -> Unit): CSEventRegistration {
     lateinit var registration: CSEventRegistration

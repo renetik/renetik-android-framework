@@ -33,7 +33,7 @@ open class CSView<ViewType : View> : CSContext,
 
     private var _view: ViewType? = null
 
-    protected constructor(parent: CSViewInterface, layout: CSLayoutRes) : super(parent) {
+     constructor(parent: CSViewInterface, layout: CSLayoutRes) : super(parent) {
         this.parent = parent
         this.layout = layout
         this.viewId = null

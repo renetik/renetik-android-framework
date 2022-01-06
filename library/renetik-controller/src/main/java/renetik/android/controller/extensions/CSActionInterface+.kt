@@ -4,12 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import renetik.android.controller.base.CSNavigationDialog
 import renetik.android.controller.base.DialogAnimation
-import renetik.android.controller.base.action
 import renetik.android.framework.event.CSActionInterface
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.onTrue
 import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.lang.property.setFalse
+import renetik.android.view.onClick
 
 fun CSActionInterface.dialog(dialog: CSNavigationDialog<ViewGroup>,
                              animation: DialogAnimation = DialogAnimation.Slide): CSEventRegistration {
@@ -29,6 +29,6 @@ fun CSActionInterface.dialog(function: () -> CSNavigationDialog<*>): CSEventRegi
 
 fun View.actionDialog(action: CSActionInterface,
                       function: () -> CSNavigationDialog<*>): CSEventRegistration {
-    action(action)
+    onClick(action)
     return action.dialog(function)
 }
