@@ -20,10 +20,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
-import renetik.android.framework.event.CSEventRegistration
-import renetik.android.framework.event.CSMultiEventRegistration
-import renetik.android.framework.event.event
-import renetik.android.framework.event.listen
+import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.property.toggle
@@ -265,3 +262,5 @@ fun <T : View> T.onDoubleTap(function: (T) -> Unit) = apply {
     })
     setOnTouchListener { _, event -> detector.onTouchEvent(event) }
 }
+
+fun View.action(action: CSEvent<Unit>) = onClick { action.fire() }

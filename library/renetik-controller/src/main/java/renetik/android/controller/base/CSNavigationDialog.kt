@@ -82,7 +82,8 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
             DialogAnimation.None -> None
         }
 
-    fun dismiss() = navigation!!.pop(this)
+    fun dismiss() =
+        navigation!!.pop(this)
 
     fun show(animation: DialogAnimation? = null) = apply {
         animation?.let { this.animation = it }
