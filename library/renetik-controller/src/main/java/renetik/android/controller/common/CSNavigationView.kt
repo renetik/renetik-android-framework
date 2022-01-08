@@ -17,7 +17,6 @@ import renetik.android.primitives.isFalse
 import renetik.android.primitives.isSet
 import renetik.kotlin.collections.deleteLast
 import renetik.kotlin.collections.hasKey
-import renetik.kotlin.exception
 import renetik.kotlin.notNull
 import renetik.kotlin.unexpected
 
@@ -37,7 +36,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller: CSActivityView<T>,
         pushId: String? = null
     ): CSActivityView<T> {
-        val isFullScreen = (controller as? CSNavigationItem)?.isFullscreen?.value ?: true
+        val isFullScreen = (controller as? CSNavigationItem)?.isFullscreenNavigationItem?.value ?: true
         current?.showingInPager(!isFullScreen)
         _controllers[pushId ?: controller.toString()] = controller
         pushAnimation(this, controller)

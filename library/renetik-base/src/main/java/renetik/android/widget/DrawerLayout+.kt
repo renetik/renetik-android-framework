@@ -18,25 +18,25 @@ annotation class EdgeGravity
 private fun DrawerLayout.toggleDrawer(@EdgeGravity gravity: Int) =
     if (isDrawerOpen(gravity)) closeDrawer(gravity) else openDrawer(gravity)
 
-fun DrawerLayout.toggleLeftPanel() = toggleDrawer(START)
+fun DrawerLayout.toggleLeft() = toggleDrawer(START)
 
-fun DrawerLayout.lockRightSide() {
+fun DrawerLayout.lockRight() {
     setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED, END);
 }
 
-fun DrawerLayout.unlockRightSide() {
+fun DrawerLayout.unlockRight() {
     setDrawerLockMode(LOCK_MODE_UNLOCKED, END);
 }
 
-fun DrawerLayout.closeLeftPanel() = closeDrawer(START)
+fun DrawerLayout.closeLeft() = closeDrawer(START)
 
-fun DrawerLayout.openLeftPanel() = openDrawer(START)
+fun DrawerLayout.openLeft() = openDrawer(START)
 
-fun DrawerLayout.toggleRightPanel() = toggleDrawer(END)
+fun DrawerLayout.toggleRight() = toggleDrawer(END)
 
-fun DrawerLayout.closeRightPanel() = closeDrawer(END)
+fun DrawerLayout.closeRight() = closeDrawer(END)
 
-fun DrawerLayout.openRightPanel() = openDrawer(END)
+fun DrawerLayout.openRight() = openDrawer(END)
 
 val DrawerLayout.isDrawerOpen get() = isDrawerOpen(START) || isDrawerOpen(END)
 

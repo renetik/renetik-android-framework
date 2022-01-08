@@ -11,11 +11,11 @@ import renetik.android.content.color
 import renetik.android.content.dpToPixel
 import renetik.android.content.dpToPixelF
 import renetik.android.controller.R
-import renetik.android.controller.base.DialogAnimation.Fade
-import renetik.android.controller.base.DialogAnimation.Slide
+import renetik.android.controller.base.DialogAnimation.*
 import renetik.android.controller.base.DialogPopupSide.Bottom
 import renetik.android.controller.base.DialogPopupSide.Right
 import renetik.android.controller.common.CSNavigationAnimation.*
+import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
@@ -23,12 +23,10 @@ import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
-import renetik.android.framework.logging.CSLog.info
 import renetik.android.view.*
-import renetik.kotlin.later
 
 enum class DialogAnimation {
-    None, Slide, Fade
+    None, Slide, Fade, SlideFade
 }
 
 enum class DialogPopupSide {
@@ -45,7 +43,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         dialogContent = inflate<ViewType>(layout.id).also { it.isClickable = true }
     }
 
-    override var isFullscreen = property(false)
+    override var isFullscreenNavigationItem = property(false)
     var animation = Slide
     private val marginDp = 7
 
@@ -70,7 +68,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     override val pushAnimation
         get() = when (animation) {
-            Slide -> SlideInRight
+            Slide,SlideFade -> SlideInRight
             Fade -> FadeIn
             DialogAnimation.None -> None
         }
@@ -78,7 +76,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     override val popAnimation
         get() = when (animation) {
             Slide -> SlideOutLeft
-            Fade -> FadeOut
+            Fade,SlideFade -> FadeOut
             DialogAnimation.None -> None
         }
 
@@ -93,7 +91,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
         pressed(fromView)
-        isFullscreen.setFalse()
+        isFullscreenNavigationItem.setFalse()
         animation = Fade
 
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
@@ -138,7 +136,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     }
 
     fun center() = apply {
-        isFullscreen.setFalse()
+        isFullscreenNavigationItem.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
     }
@@ -154,7 +152,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     }
 
     fun fullScreen() = apply {
-        isFullscreen.setTrue()
+        isFullscreenNavigationItem.setTrue()
         animation = Slide
         dialogContent.updateLayoutParams<LayoutParams> {
             width = MATCH_PARENT
