@@ -1,14 +1,12 @@
 package renetik.android.controller.base
 
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.annotation.IdRes
-import renetik.android.framework.event.CSEventOwner
-import renetik.android.framework.event.CSViewInterface
-import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.register
-import renetik.android.framework.lang.property.setTrue
-import renetik.android.framework.lang.property.toggle
+import renetik.android.framework.event.*
 import renetik.android.view.*
 import renetik.android.widget.onChange
 import renetik.android.widget.radioGroup
@@ -72,13 +70,36 @@ fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
     view.removeFromSuperview()
 }
 
-fun <Type> Type.afterLayout(action: (Type) -> Unit)
-        where  Type : CSView<*>, Type : CSEventOwner =
-    apply { register(view.afterLayout { action(this) }) }
+fun <Type> Type.afterLayout(function: (Type) -> Unit)
+        where  Type : CSView<*>, Type : CSEventOwner = apply {
+    lateinit var registration: CSEventRegistration
+    registration = register(view.afterLayout {
+        function(this)
+        remove(registration)
+    })
+}
 
-fun <Type> Type.hasSize(onHasSize: (Type) -> Unit)
+fun <Type> Type.later(delayMilliseconds: Int = 0, function: () -> Unit)
+        where  Type : CSView<*>, Type : CSEventOwner = apply {
+    lateinit var registration: CSEventRegistration
+    registration = register(renetik.kotlin.later(delayMilliseconds) {
+        function()
+        remove(registration)
+    })
+}
+
+fun <Type> Type.later(function: () -> Unit)
+        where  Type : CSView<*>, Type : CSEventOwner = later(0, function)
+
+fun <Type> Type.hasSize(function: (Type) -> Unit)
         where  Type : CSView<*>, Type : CSEventOwner =
-    apply { register(view.hasSize { onHasSize(this) }) }
+    apply {
+        var registration: CSEventRegistration? = null
+        registration = register(view.hasSize {
+            function(this)
+            remove(registration)
+        })
+    }
 
 fun View.asCSView() = asCS<CSView<*>>()
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()

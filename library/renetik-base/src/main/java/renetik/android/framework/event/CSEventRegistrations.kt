@@ -29,6 +29,10 @@ class CSEventRegistrations() {
 
     fun cancel(registration: CSEventRegistration) {
         registration.cancel()
+        remove(registration)
+    }
+
+    fun remove(registration: CSEventRegistration) {
         registrations.remove(registration)
     }
 

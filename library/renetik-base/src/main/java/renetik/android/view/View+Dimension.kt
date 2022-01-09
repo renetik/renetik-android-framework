@@ -25,7 +25,8 @@ fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSEventRegistration? {
 fun <T : View> T.afterLayout(action: (View) -> Unit) = object : CSEventRegistration {
     val listener = OnGlobalLayoutListener {
         if (isActive) {
-            cancel(); action(this@afterLayout)
+            cancel()
+            action(this@afterLayout)
         }
     }
     override var isActive = true

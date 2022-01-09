@@ -6,6 +6,9 @@ fun CSEventOwner.register(registration: CSEventRegistration) =
 fun CSEventOwner.cancel(registration: CSEventRegistration) =
     registration.also { eventRegistrations.cancel(it) }
 
+fun CSEventOwner.remove(registration: CSEventRegistration) =
+    registration.also { eventRegistrations.remove(it) }
+
 @JvmName("CSEventOwnerRegisterNullable")
 fun CSEventOwner.register(registration: CSEventRegistration?) =
     registration?.let { eventRegistrations.add(it) }
@@ -13,3 +16,7 @@ fun CSEventOwner.register(registration: CSEventRegistration?) =
 @JvmName("CSEventOwnerCancelNullable")
 fun CSEventOwner.cancel(registration: CSEventRegistration?) =
     registration?.let { eventRegistrations.cancel(it) }
+
+@JvmName("CSEventOwnerRemoveNullable")
+fun CSEventOwner.remove(registration: CSEventRegistration?) =
+    registration?.also { eventRegistrations.remove(it) }

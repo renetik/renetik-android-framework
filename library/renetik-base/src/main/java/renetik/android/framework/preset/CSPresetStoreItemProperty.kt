@@ -36,6 +36,7 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
             if (_value == newValue) return
             _value = newValue
             //TODO Experimental Change !!! This is maybe useless also in property base
+            // This was causing issues with controller preset changes not loading
             parentStoreChanged.pause().use { eventChange.fire(newValue) }
         }
     }

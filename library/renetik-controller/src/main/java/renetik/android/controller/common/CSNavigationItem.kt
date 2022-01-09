@@ -4,6 +4,7 @@ import renetik.android.framework.lang.CSValue
 import renetik.android.framework.lang.CSValue.Companion.value
 
 interface CSNavigationItem {
+    val isNavigationBackPressedAllowed get() = true
     val isFullscreenNavigationItem: CSValue<Boolean> get() = value(true)
     val isBarVisible: Boolean? get() = null
     val isNavigationIconVisible: Boolean? get() = null

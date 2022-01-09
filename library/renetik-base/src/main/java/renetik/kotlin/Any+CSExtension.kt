@@ -1,18 +1,30 @@
 package renetik.kotlin
 
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.util.CSMainHandler.postOnMain
 import renetik.java.lang.isMain
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 
-fun <T : Any> T.later(delayMilliseconds: Int = 0, function: (T).() -> Unit) {
-    postOnMain(delayMilliseconds) { function(this) }
-}
+inline fun later(delayMilliseconds: Int = 0, crossinline function: () -> Unit) =
+    object : CSEventRegistration {
+        init {
+            postOnMain(delayMilliseconds) {
+                if (isActive) {
+                    isActive = false
+                    function()
+                }
+            }
+        }
 
-fun <T : Any> T.later(function: (T).() -> Unit) {
-    postOnMain { function(this) }
-}
+        override var isActive = true
+        override fun cancel() {
+            isActive = false
+        }
+    }
+
+inline fun later(crossinline function: () -> Unit) = later(0, function)
 
 fun <T : Any> T.onMainThread(function: (T).() -> Unit) {
     if (Thread.currentThread().isMain) function()

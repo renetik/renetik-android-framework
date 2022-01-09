@@ -1,12 +1,12 @@
 package renetik.android.widget
 
+//import coil.load
 import android.content.res.ColorStateList
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
-import com.bumptech.glide.signature.MediaStoreSignature
-//import coil.load
+import com.bumptech.glide.signature.ObjectKey
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import java.io.File
@@ -23,8 +23,8 @@ fun <T : ImageView> T.image(@DrawableRes resourceId: Int) = apply {
 fun <T : ImageView> T.image(file: File) = apply {
 //    load(file)
     Glide.with(context).load(file)
-            //Cache invalidation https://muyangmin.github.io/glide/doc/caching.html#cache-invalidation
-        .signature(MediaStoreSignature("", file.lastModified(), 0)).into(this)
+        //Cache invalidation https://muyangmin.github.io/glide/doc/caching.html#cache-invalidation
+        .signature(ObjectKey(file.lastModified())).into(this)
 //    setImageBitmap(decodeFile(file.absolutePath))
 }
 
