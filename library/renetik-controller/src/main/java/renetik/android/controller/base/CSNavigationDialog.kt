@@ -55,7 +55,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     override fun onViewReady() {
         super.onViewReady()
-        view.backgroundColor(color(R.color.cs_dialog_background)).onClick {
+        view.background(color(R.color.cs_dialog_background)).onClick {
             if (cancelOnTouchOut) dismiss()
         }
         view.add(dialogContent)
@@ -101,7 +101,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
             correctHeight()
         })
 
-        view.backgroundColor(color(R.color.cs_dialog_popup_background))
+        view.background(color(R.color.cs_dialog_popup_background))
     }
 
     override val statusBarHeight = activity().activityView!!.view.locationOnScreen.y
@@ -163,6 +163,6 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
     button.isPressed = true
-    afterLayout { button.isPressed = true }
+    afterGlobalLayout { button.isPressed = true }
     onDismiss { button.isPressed = false }
 }

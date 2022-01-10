@@ -119,6 +119,10 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         if (goBack.value) super.onBackPressed()
     }
 
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+        return super.onKeyUp(keyCode, event)
+    }
+
     override fun onUserLeaveHint() {
         onUserLeaveHint.fire()
         super.onUserLeaveHint()

@@ -7,20 +7,25 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
+import renetik.android.content.color
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
+import renetik.android.controller.base.onGlobalFocus
+import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isSet
+import renetik.android.view.background
+import renetik.android.view.removeFromSuperview
 import renetik.kotlin.collections.deleteLast
 import renetik.kotlin.collections.hasKey
 import renetik.kotlin.notNull
 import renetik.kotlin.unexpected
 
-open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
+class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
 
@@ -32,15 +37,27 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     private val _controllers = linkedMapOf<String, CSActivityView<*>>()
     val controllers get() = _controllers.values
 
-    fun <T : View> push(
-        controller: CSActivityView<T>,
-        pushId: String? = null
-    ): CSActivityView<T> {
+    private val backgroundView =
+        View(this).also { it.background(color(R.color.cs_dialog_background)) }
+
+    // WORKAROUND CODE:
+    // I had issue with EditText after focus when removed by pop,Activity.onBackPressed was never fired again
+    // Like if some events was go to removed view. This somehow helps I found that when I clear focus
+    // while still having edittext, problem is not there so this is ugly programmatic workaround
+    // simulating manual clear focus when closing view .
+    private var focusedView: View? = null
+
+    init {
+        onGlobalFocus { _, newFocus -> focusedView = newFocus }
+    }
+
+    fun <T : View> push(controller: CSActivityView<T>,
+                        pushId: String? = null): CSActivityView<T> {
         val isFullScreen =
             (controller as? CSNavigationItem)?.isFullscreenNavigationItem?.value ?: true
         current?.showingInPager(!isFullScreen)
         _controllers[pushId ?: controller.toString()] = controller
-        pushAnimation(this, controller)
+        pushAnimation(controller)
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
@@ -59,7 +76,9 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     private fun popController(controller: CSActivityView<*>) {
-        popAnimation(this, controller)
+        backgroundView.removeFromSuperview()
+        focusedView?.clearFocus()
+        popAnimation(controller)
         controller.showingInPager(false)
         view.remove(controller)
         current?.showingInPager(true)
@@ -70,13 +89,13 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
         _controllers.deleteLast().notNull { lastController ->
-            popAnimation(this, controller)
+            popAnimation(controller)
             view.remove(lastController)
             onViewControllerPop(lastController)
         }
 
         _controllers[controller.toString()] = controller
-        pushAnimation(this, controller)
+        pushAnimation(controller)
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
@@ -98,7 +117,7 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
                 if (lastEntry.key == pushId) break
             }
         _controllers[pushId] = controller
-        pushAnimation(this, controller)
+        pushAnimation(controller)
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
@@ -240,17 +259,16 @@ open class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     private val currentNavigationItem get() = (current as? CSNavigationItem) ?: this
-}
 
+    private fun pushAnimation(controller: CSActivityView<*>) {
+        val animation = ((controller as? CSNavigationItem)?.pushAnimation ?: pushAnimation)
+        if (animation != None)
+            controller.view.startAnimation(loadAnimation(this, animation.resource))
+    }
 
-private fun pushAnimation(navigation: CSNavigationView, controller: CSActivityView<*>) {
-    val animation = ((controller as? CSNavigationItem)?.pushAnimation ?: navigation.pushAnimation)
-    if (animation != CSNavigationAnimation.None)
-        controller.view.startAnimation(loadAnimation(navigation, animation.resource))
-}
-
-private fun popAnimation(navigation: CSNavigationView, controller: CSActivityView<*>) {
-    val animation = ((controller as? CSNavigationItem)?.popAnimation ?: navigation.popAnimation)
-    if (animation != CSNavigationAnimation.None)
-        controller.view.startAnimation(loadAnimation(navigation, animation.resource))
+    private fun popAnimation(controller: CSActivityView<*>) {
+        val animation = ((controller as? CSNavigationItem)?.popAnimation ?: popAnimation)
+        if (animation != None)
+            controller.view.startAnimation(loadAnimation(this, animation.resource))
+    }
 }

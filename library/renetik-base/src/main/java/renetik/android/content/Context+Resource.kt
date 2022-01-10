@@ -16,7 +16,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import renetik.android.R
 import renetik.android.framework.common.*
 import renetik.kotlin.asString
@@ -28,7 +28,8 @@ import java.io.InputStream
 
 class CSColorInt(@ColorInt val color: Int)
 
-fun Context.color(@ColorRes color: Int) = CSColorInt(ContextCompat.getColor(this, color))
+fun Context.color(@ColorRes color: Int) = CSColorInt(getColor(this, color))
+fun Context.colorInt(@ColorInt color: Int) = CSColorInt(color)
 
 fun Context.resourceBytes(id: Int) = catchAllWarn {
     val stream = resources.openRawResource(id)

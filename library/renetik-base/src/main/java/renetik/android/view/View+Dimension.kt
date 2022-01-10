@@ -2,6 +2,7 @@ package renetik.android.view
 
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.content.dpToPixel
 import renetik.android.content.toDp
@@ -22,11 +23,11 @@ fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSEventRegistration? {
     }
 }
 
-fun <T : View> T.afterLayout(action: (View) -> Unit) = object : CSEventRegistration {
+fun <T : View> T.afterGlobalLayout(action: (View) -> Unit) = object : CSEventRegistration {
     val listener = OnGlobalLayoutListener {
         if (isActive) {
             cancel()
-            action(this@afterLayout)
+            action(this@afterGlobalLayout)
         }
     }
     override var isActive = true
@@ -37,6 +38,19 @@ fun <T : View> T.afterLayout(action: (View) -> Unit) = object : CSEventRegistrat
 
     init {
         viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+}
+
+fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit) = object : CSEventRegistration {
+    val listener = OnGlobalFocusChangeListener { old, new -> if (isActive) function(old, new) }
+    override var isActive = true
+    override fun cancel() {
+        isActive = false
+        viewTreeObserver.removeOnGlobalFocusChangeListener(listener)
+    }
+
+    init {
+        viewTreeObserver.addOnGlobalFocusChangeListener(listener)
     }
 }
 

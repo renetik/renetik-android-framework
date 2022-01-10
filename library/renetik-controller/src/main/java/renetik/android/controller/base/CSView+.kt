@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.IdRes
+import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.framework.event.*
 import renetik.android.view.*
 import renetik.android.widget.onChange
@@ -39,6 +40,7 @@ fun CSViewInterface.datePicker(@IdRes id: Int) = view.datePicker(id)
 //fun CSViewInterface.numberPicker(@IdRes id: Int) = view.numberPicker(id)
 fun CSViewInterface.viewGroup(@IdRes id: Int) = view.viewGroup(id)
 fun CSViewInterface.frame(@IdRes id: Int) = view.frame(id)
+fun CSViewInterface.drawer(@IdRes id: Int) = view.view(id) as DrawerLayout
 fun CSViewInterface.linear(@IdRes id: Int) = view.linear(id)
 fun CSViewInterface.group(@IdRes id: Int) = view.group(id)
 fun CSViewInterface.spinner(@IdRes id: Int) = view.spinner(id)
@@ -70,14 +72,19 @@ fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
     view.removeFromSuperview()
 }
 
-fun <Type> Type.afterLayout(function: (Type) -> Unit)
-        where  Type : CSView<*>, Type : CSEventOwner = apply {
+fun <Type> Type.afterGlobalLayout(function: (Type) -> Unit): CSEventRegistration
+        where  Type : CSView<*>, Type : CSEventOwner {
     lateinit var registration: CSEventRegistration
-    registration = register(view.afterLayout {
+    registration = register(view.afterGlobalLayout {
         function(this)
         remove(registration)
     })
+    return registration
 }
+
+fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
+        where  Type : CSView<*>, Type : CSEventOwner =
+    register(view.onGlobalFocus { old, new -> function(old, new) })
 
 fun <Type> Type.later(delayMilliseconds: Int = 0, function: () -> Unit)
         where  Type : CSView<*>, Type : CSEventOwner = apply {

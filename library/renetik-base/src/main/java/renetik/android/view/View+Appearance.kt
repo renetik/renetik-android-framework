@@ -24,7 +24,7 @@ fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {
     setBackgroundColor(value)
 }
 
-fun <T : View> T.backgroundColor(value: CSColorInt) = apply {
+fun <T : View> T.background(value: CSColorInt) = apply {
     setBackgroundColor(value.color)
 }
 
