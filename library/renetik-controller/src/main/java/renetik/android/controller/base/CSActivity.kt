@@ -9,7 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEventRegistrations
+import renetik.android.framework.event.CSVisibility
+import renetik.android.framework.event.event
+import renetik.android.framework.event.fire
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.property.CSProperty
 
@@ -57,12 +60,16 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         onCreate.fire(state)
     }
 
-    fun recreateView(){
+    var isRecreateView = false
+
+    fun recreateView() {
+        isRecreateView = true
         activityView!!.onDestroy()
         configuration.updateFrom(resources.configuration)
         activityView = createView()
         setContentView(activityView!!.view)
         activityView!!.onResume()
+        isRecreateView = false
     }
 
     override fun onStart() {
@@ -169,5 +176,5 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onLowMemory()
     }
 
-     override val eventRegistrations = CSEventRegistrations()
+    override val eventRegistrations = CSEventRegistrations()
 }

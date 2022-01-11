@@ -16,8 +16,8 @@ fun <T : ImageView> T.iconTint(@ColorInt color: Int) =
 
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int) = apply {
 //    load(resourceId)
-    Glide.with(context).load(resourceId).into(this)
-//    setImageResource(resourceId)
+//    Glide.with(context).load(resourceId).into(this) // Making horrible sheet images
+    setImageResource(resourceId)
 }
 
 fun <T : ImageView> T.image(file: File) = apply {

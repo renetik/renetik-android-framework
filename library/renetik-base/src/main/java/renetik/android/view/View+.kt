@@ -7,7 +7,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
 import android.view.GestureDetector
-import android.view.GestureDetector.*
+import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnLayoutChangeListener
@@ -128,7 +128,7 @@ fun View.pressedIf(value: Boolean) {
     isPressed = value
 }
 
-fun View.selectedIf(value: Boolean) {
+fun View.selected(value: Boolean = true) {
     isSelected = value
 }
 
@@ -140,10 +140,17 @@ fun View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
 
 fun View.onClick(action: CSEventProperty<Boolean>) = onClick { action.toggle() }
 
-fun View.toggleAsTrue(property: CSEventProperty<Boolean>)
+fun View.toggleSelectedAsTrue(property: CSEventProperty<Boolean>)
         : CSEventRegistration {
     onClick { property.toggle() }
     return selectedIf(property) { it.isTrue }
+}
+
+
+fun View.toggleActiveAsTrue(property: CSEventProperty<Boolean>)
+        : CSEventRegistration {
+    onClick { property.toggle() }
+    return activatedIf(property) { it.isTrue }
 }
 
 fun View.toggleAsFalse(property: CSEventProperty<Boolean>)
@@ -160,8 +167,8 @@ fun <T> View.selectIf(property: CSEventProperty<T>, value: T)
 
 fun <T> View.selectedIf(property: CSEventProperty<T>,
                         condition: (T) -> Boolean): CSEventRegistration {
-    selectedIf(condition(property.value))
-    return property.onChange { selectedIf(condition(property.value)) }
+    selected(condition(property.value))
+    return property.onChange { selected(condition(property.value)) }
 }
 
 fun View.selectedIf(property: CSEventProperty<Boolean>): CSEventRegistration {
@@ -201,7 +208,7 @@ fun <T> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventPropert
 
 fun <T, V> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
                            condition: (T, V) -> Boolean): CSEventRegistration {
-    fun update() = selectedIf(condition(property1.value, property2.value))
+    fun update() = selected(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
         property1.onChange { update() },
@@ -209,11 +216,11 @@ fun <T, V> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProp
 }
 
 fun <T> View.pressedIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
-                        condition: (T) -> Boolean) =
+                       condition: (T) -> Boolean) =
     pressedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.pressedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
-                           condition: (T, V) -> Boolean): CSEventRegistration {
+                          condition: (T, V) -> Boolean): CSEventRegistration {
     fun update() = pressedIf(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
