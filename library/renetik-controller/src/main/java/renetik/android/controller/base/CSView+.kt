@@ -86,18 +86,6 @@ fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
         where  Type : CSView<*>, Type : CSEventOwner =
     register(view.onGlobalFocus { old, new -> function(old, new) })
 
-fun <Type> Type.later(delayMilliseconds: Int = 0, function: () -> Unit)
-        where  Type : CSView<*>, Type : CSEventOwner = apply {
-    lateinit var registration: CSEventRegistration
-    registration = register(renetik.kotlin.later(delayMilliseconds) {
-        function()
-        remove(registration)
-    })
-}
-
-fun <Type> Type.later(function: () -> Unit)
-        where  Type : CSView<*>, Type : CSEventOwner = later(0, function)
-
 fun <Type> Type.hasSize(function: (Type) -> Unit)
         where  Type : CSView<*>, Type : CSEventOwner =
     apply {

@@ -20,3 +20,14 @@ fun CSEventOwner.cancel(registration: CSEventRegistration?) =
 @JvmName("CSEventOwnerRemoveNullable")
 fun CSEventOwner.remove(registration: CSEventRegistration?) =
     registration?.also { eventRegistrations.remove(it) }
+
+fun CSEventOwner.later(delayMilliseconds: Int = 0, function: () -> Unit): CSEventRegistration {
+    lateinit var registration: CSEventRegistration
+    registration = register(renetik.kotlin.later(delayMilliseconds) {
+        function()
+        remove(registration)
+    })
+    return registration
+}
+
+fun CSEventOwner.later(function: () -> Unit) = later(0, function)
