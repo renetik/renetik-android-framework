@@ -98,5 +98,5 @@ fun <Type> Type.hasSize(function: (Type) -> Unit)
 
 fun View.asCSView() = asCS<CSView<*>>()
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()
-fun <CSViewType : CSView<*>> View.asCS() = ((this as? View)?.tag as? CSViewType)
+fun <CSViewType : CSView<*>> View.asCS() = (this.tag as? CSViewType)
 

@@ -22,18 +22,6 @@ fun <T : CSHasTouchEvent> T.onTouch(function: (Boolean) -> Unit) = apply {
     }
 }
 
-//fun <T : CSHasTouchEvent> T.toggleIfTrue(
-//    property: CSEventProperty<Boolean>): CSEventRegistration {
-//    onTouch {
-//        if (it.isTrue) {
-//            if (!self.isActivated) property.setTrue()
-//        } else {
-//
-//        }
-//    }
-//    return self.activatedIf(property) { it.isTrue }
-//}
-
 fun <T : CSHasTouchEvent> T.toggleIf(property: CSEventProperty<Boolean>): CSEventRegistration {
     setTogglePressed(property.value)
     val propertyOnChange = property.onChange { setTogglePressed(property.value) }

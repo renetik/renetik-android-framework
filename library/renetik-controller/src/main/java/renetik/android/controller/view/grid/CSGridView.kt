@@ -6,6 +6,7 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
+import renetik.android.controller.base.asCS
 import renetik.android.controller.base.findView
 import renetik.android.framework.event.*
 import renetik.android.framework.event.property.CSEventProperty
@@ -94,7 +95,7 @@ class CSGridView<ItemType : Any>(
     }
 
     private fun loadView(toReuseView: View?, position: Int): View {
-        var rowView = toReuseView?.tag as? CSGridItemView<ItemType>
+        var rowView = toReuseView?.asCS<CSGridItemView<ItemType>>()
         if (rowView == null) {
             rowView = createView(this)
             parent.register(selectedItem.onChange { rowView.updateSelection() })

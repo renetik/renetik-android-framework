@@ -19,6 +19,12 @@ fun <ViewType : View> ViewGroup.add(
     return view
 }
 
+inline fun <R:Comparable<R>> ViewGroup.sortChildren(crossinline selector: (View) -> R?) = apply {
+    val sorted = children.toList().sortedBy(selector)
+    removeAllViews()
+    sorted.forEach(::addView)
+}
+
 fun <ViewType : View> ViewGroup.add(
     view: ViewType, layout: ViewGroup.LayoutParams, index: Int = -1,
 ): ViewType {

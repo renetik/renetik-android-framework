@@ -5,7 +5,7 @@ abstract class CSEventPropertyWrapper<T> :
     protected abstract val property: CSEventProperty<T>
     override fun value(newValue: T, fire: Boolean) = property.value(newValue, fire)
     override fun onChange(function: (T) -> Unit) = property.onChange(function)
-    final override var value: T
+    override var value: T
         get() = property.value
         set(value) = property.value(value)
 }
