@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import renetik.android.content.input
 import renetik.android.controller.common.CSNavigationView
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.property.CSProperty
 import renetik.android.framework.logging.CSLog.warn

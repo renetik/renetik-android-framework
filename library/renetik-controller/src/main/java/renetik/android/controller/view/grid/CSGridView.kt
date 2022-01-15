@@ -9,6 +9,7 @@ import renetik.android.controller.base.CSView
 import renetik.android.controller.base.asCS
 import renetik.android.controller.base.findView
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.view.*

@@ -1,7 +1,7 @@
 package renetik.android.framework.preset
 
 import renetik.android.framework.CSModelBase
-import renetik.android.framework.event.event
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty

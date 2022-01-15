@@ -5,7 +5,7 @@ import android.view.MotionEvent.*
 import android.view.View
 import renetik.android.content.dpToPixel
 import renetik.android.framework.CSApplication.Companion.application
-import renetik.android.framework.event.event
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.logging.CSLog.info
 import renetik.android.framework.view.touch.CSSwipeDetector.CSSwipeType.*

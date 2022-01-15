@@ -11,6 +11,7 @@ import android.view.WindowManager
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.kotlin.notNull
 import java.util.*
 

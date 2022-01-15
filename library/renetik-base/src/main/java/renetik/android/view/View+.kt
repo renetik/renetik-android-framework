@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.property.toggle

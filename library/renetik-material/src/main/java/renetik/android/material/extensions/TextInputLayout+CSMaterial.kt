@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
 import renetik.android.R
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.kotlin.notNull
 import renetik.kotlin.privateField

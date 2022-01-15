@@ -2,7 +2,7 @@ package renetik.android.controller.pager
 
 import android.view.View
 import renetik.android.controller.base.CSActivityView
-import renetik.android.framework.event.event
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.kotlin.later
 import renetik.android.view.shownIf

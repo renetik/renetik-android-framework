@@ -1,6 +1,6 @@
 package renetik.android.framework.json.data
 
-import renetik.android.framework.event.event
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.json.extensions.createJsonObject
 import renetik.android.framework.json.extensions.createJsonObjectList
 import renetik.android.framework.json.toJsonString

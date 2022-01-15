@@ -1,14 +1,16 @@
 package renetik.android.framework.event
 
+import androidx.annotation.UiThread
 import java.io.Closeable
 
-@JvmName("eventWithType")
-fun <T> event(): CSEvent<T> = CSEventImpl()
-
-fun event(): CSEvent<Unit> = CSEventImpl()
-
-//TODO:  Move event func to CSEvent companion object
 interface CSEvent<T> {
+
+    companion object {
+        @JvmName("eventWithType")
+        fun <T> event(): CSEvent<T> = CSEventImpl()
+
+        fun event(): CSEvent<Unit> = CSEventImpl()
+    }
 
     fun pause(): Closeable
 
@@ -16,9 +18,10 @@ interface CSEvent<T> {
 
     val isListened: Boolean
 
-    fun add(listener: (registration: CSEventRegistration, argument: T) -> Unit): CSEventRegistration
+    fun add(@UiThread listener: (registration: CSEventRegistration,
+                                 argument: T) -> Unit): CSEventRegistration
 
-    fun add(listener: CSEventListener<T>): CSEventRegistration
+    fun add(@UiThread listener: CSEventListener<T>): CSEventRegistration
 
     fun cancel(listener: CSEventListener<T>)
 

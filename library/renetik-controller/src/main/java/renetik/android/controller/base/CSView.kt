@@ -8,6 +8,7 @@ import renetik.android.content.inflate
 import renetik.android.content.input
 import renetik.android.framework.CSContext
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.view.inflate
 import renetik.android.view.onClick

@@ -1,6 +1,7 @@
 package renetik.android.framework
 
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 
 open class CSModelBase(parent: CSHasDestroy? = null) : CSEventOwnerHasDestroy {
 

@@ -2,7 +2,7 @@ package renetik.android.framework.event.property
 
 import renetik.android.framework.CSEventOwnerHasDestroy
 import renetik.android.framework.CSModelBase
-import renetik.android.framework.event.event
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 
 abstract class CSEventPropertyBase<T>

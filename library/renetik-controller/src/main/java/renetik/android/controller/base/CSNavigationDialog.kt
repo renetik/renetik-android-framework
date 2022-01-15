@@ -18,6 +18,7 @@ import renetik.android.controller.common.CSNavigationAnimation.*
 import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout

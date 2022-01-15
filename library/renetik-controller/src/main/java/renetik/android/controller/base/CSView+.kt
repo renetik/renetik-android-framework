@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.view.*
 import renetik.android.widget.onChange
 import renetik.android.widget.radioGroup

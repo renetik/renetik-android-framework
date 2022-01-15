@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.content.drawable
 import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.CSEventRegistration.Companion.registration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSDrawableInterface

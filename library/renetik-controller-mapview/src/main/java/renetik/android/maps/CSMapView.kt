@@ -8,7 +8,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSActivityView
-import renetik.android.framework.event.event
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.logging.CSLog.error
 import renetik.android.maps.extensions.asLatLng

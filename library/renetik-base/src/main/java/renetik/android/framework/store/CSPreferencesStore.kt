@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import renetik.android.framework.CSContext
 import renetik.android.framework.common.catchAllWarnReturnNull
-import renetik.android.framework.event.event
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.extensions.createJsonObject
 import renetik.android.framework.json.extensions.createJsonObjectList

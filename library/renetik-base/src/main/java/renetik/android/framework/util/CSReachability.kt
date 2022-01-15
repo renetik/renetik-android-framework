@@ -8,7 +8,7 @@ import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import renetik.android.content.asString
 import renetik.android.content.isNetworkConnected
 import renetik.android.framework.CSContext
-import renetik.android.framework.event.event
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.logging.CSLog.debug
 
 class CSReachability : CSContext() {
