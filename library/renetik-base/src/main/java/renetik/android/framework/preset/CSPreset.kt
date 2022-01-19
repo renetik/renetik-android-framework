@@ -43,7 +43,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     fun reload() = reload(item.value)
 
-    fun reload(item: PresetItem) = store.reload(item.store)
+    fun reload(item: PresetItem) = store.reload(item)
 
     fun <T : CSPresetKeyData> add(property: T): T {
         if (dataList.contains(property)) unexpected()

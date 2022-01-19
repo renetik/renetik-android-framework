@@ -26,8 +26,11 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         parentStore.getValue(key, values) ?: values[0]
 
     private val eventChange = event<PresetItem>()
+    val eventAfterChange = event<PresetItem>()
 
-    val parentStoreChanged = register(parentStore.eventChanged.listen { onParentStoreChange() })
+    private val parentStoreChanged =
+        register(parentStore.eventChanged.listen { onParentStoreChange() })
+
     private fun onParentStoreChange() {
         if (preset.isFollowStore.isFalse)
             parentStoreChangedIsFollowStoreFalseSaveToParentStore()
@@ -35,13 +38,10 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
             val newValue = loadValue()
             if (_value == newValue) return
             _value = newValue
-            //TODO Experimental Change !!! This is maybe useless also in property base
-            // This was causing issues with controller preset changes not loading
             parentStoreChanged.pause().use { eventChange.fire(newValue) }
         }
     }
 
-    //TODO Experimental Change !!!
     private fun parentStoreChangedIsFollowStoreFalseSaveToParentStore() =
         parentStore.eventChanged.pause().use { saveTo(parentStore) }
 
@@ -49,9 +49,13 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         if (_value == newValue) return
         _value = newValue
         parentStoreChanged.pause().use {
+//            val time = nanoTime()
             if (fire) eventChange.fire(newValue)
             preset.reload(newValue)
             saveTo(parentStore)
+            if (fire) eventAfterChange.fire(newValue)
+//            val duration = nanoTime() - time
+//            info("Duration ${duration / MilliToNanoSecondMultiplier / Second} Seconds")
         }
     }
 

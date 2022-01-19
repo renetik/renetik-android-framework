@@ -1,5 +1,6 @@
 package renetik.android.framework.preset
 
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.register
@@ -41,6 +42,15 @@ class CSPresetStore(
         }
     }
 
+    val eventReload = event<CSPresetItem>()
+    val eventAfterReload = event<CSPresetItem>()
+
+    fun reload(item: CSPresetItem) {
+        eventReload.fire(item)
+        super.reload(item.store)
+        eventAfterReload.fire(item)
+    }
+
     override fun equals(other: Any?) =
         (other as? CSPresetStore)?.let { it.key == key && super.equals(other) }
             ?: super.equals(other)
@@ -50,4 +60,6 @@ class CSPresetStore(
         result = 31 * result + super.hashCode()
         return result
     }
+
+
 }
