@@ -8,7 +8,6 @@ import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
 import renetik.android.content.color
-import renetik.android.content.dpToPixel
 import renetik.android.content.dpToPixelF
 import renetik.android.controller.R
 import renetik.android.controller.base.DialogAnimation.*
@@ -24,9 +23,9 @@ import renetik.android.framework.event.fire
 import renetik.android.framework.event.later
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
+import renetik.android.framework.lang.isTrue
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
 import renetik.android.view.*
@@ -153,6 +152,8 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
             height = MATCH_PARENT
         }
     }
+
+    val isFullscreen get() = isFullscreenNavigationItem
 }
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
