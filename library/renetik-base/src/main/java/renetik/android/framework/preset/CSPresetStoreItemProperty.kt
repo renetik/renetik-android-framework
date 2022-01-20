@@ -49,13 +49,10 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         if (_value == newValue) return
         _value = newValue
         parentStoreChanged.pause().use {
-//            val time = nanoTime()
             if (fire) eventChange.fire(newValue)
             preset.reload(newValue)
             saveTo(parentStore)
             if (fire) eventAfterChange.fire(newValue)
-//            val duration = nanoTime() - time
-//            info("Duration ${duration / MilliToNanoSecondMultiplier / Second} Seconds")
         }
     }
 

@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.view.*
 import renetik.android.widget.onChange
 import renetik.android.widget.radioGroup
@@ -88,14 +87,13 @@ fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
     register(view.onGlobalFocus { old, new -> function(old, new) })
 
 fun <Type> Type.hasSize(function: (Type) -> Unit)
-        where  Type : CSView<*>, Type : CSEventOwner =
-    apply {
-        var registration: CSEventRegistration? = null
-        registration = register(view.hasSize {
-            function(this)
-            remove(registration)
-        })
-    }
+        where  Type : CSView<*>, Type : CSEventOwner = apply {
+    var registration: CSEventRegistration? = null
+    registration = register(view.hasSize {
+        function(this)
+        remove(registration)
+    })
+}
 
 fun View.asCSView() = asCS<CSView<*>>()
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()

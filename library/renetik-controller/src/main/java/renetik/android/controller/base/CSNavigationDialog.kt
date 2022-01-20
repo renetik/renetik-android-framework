@@ -17,9 +17,14 @@ import renetik.android.controller.base.DialogPopupSide.Right
 import renetik.android.controller.common.CSNavigationAnimation.*
 import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.common.CSNavigationItem
-import renetik.android.framework.event.*
+import renetik.android.controller.extensions.height
+import renetik.android.controller.extensions.width
 import renetik.android.framework.event.CSEvent.Companion.event
+import renetik.android.framework.event.fire
+import renetik.android.framework.event.later
+import renetik.android.framework.event.listen
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
 import renetik.android.framework.lang.property.setFalse
@@ -46,7 +51,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     override var isFullscreenNavigationItem = property(false)
     var animation = Slide
-    private val marginDp = 7
+    private val marginDp = 5
 
     private val eventOnDismiss = event<Unit>()
     fun onDismiss(function: () -> Unit) = eventOnDismiss.listen { function() }
@@ -69,7 +74,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     override val pushAnimation
         get() = when (animation) {
-            Slide,SlideFade -> SlideInRight
+            Slide, SlideFade -> SlideInRight
             Fade -> FadeIn
             DialogAnimation.None -> None
         }
@@ -77,7 +82,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     override val popAnimation
         get() = when (animation) {
             Slide -> SlideOutLeft
-            Fade,SlideFade -> FadeOut
+            Fade, SlideFade -> FadeOut
             DialogAnimation.None -> None
         }
 
@@ -94,14 +99,12 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         pressed(fromView)
         isFullscreenNavigationItem.setFalse()
         animation = Fade
-
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
-        register(dialogContent.hasSize {
+        hasSize {
             if (side == Bottom) positionDialogContentFromViewBottom(fromView)
             else if (side == Right) positionDialogContentFromViewRight(fromView)
             correctHeight()
-        })
-
+        }
         view.background(color(R.color.cs_dialog_popup_background))
     }
 
@@ -111,8 +114,8 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         val fromViewLocation = fromView.locationOnScreen
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
         var desiredX = fromViewTopCenterX.toFloat() - (dialogContent.width / 2)
-        if (desiredX + dialogContent.width > displayWidth - dpToPixelF(marginDp))
-            desiredX -= (desiredX + dialogContent.width) - (displayWidth - dpToPixelF(marginDp))
+        if (desiredX + dialogContent.width > width - dpToPixelF(marginDp))
+            desiredX -= (desiredX + dialogContent.width) - (width - dpToPixelF(marginDp))
         if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
         dialogContent.x = desiredX
 
@@ -120,17 +123,17 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     }
 
     private fun correctHeight() {
-        if (dialogContent.y + dialogContent.height > displayHeight - dpToPixelF(marginDp))
-            dialogContent.height(displayHeight - statusBarHeight - dpToPixelF(marginDp) - dialogContent.y)
+        if (dialogContent.y + dialogContent.height > height - dpToPixelF(marginDp))
+            dialogContent.height(height - statusBarHeight - dpToPixelF(marginDp) - dialogContent.y)
     }
 
     private fun positionDialogContentFromViewRight(fromView: View) {
         val fromViewLocation = fromView.locationOnScreen
         val fromViewLeftCenterY = fromViewLocation.y + (fromView.height / 2)
         var desiredY = fromViewLeftCenterY.toFloat() - (dialogContent.height / 2)
-        if (desiredY + dialogContent.height > displayHeight - dpToPixelF(marginDp))
+        if (desiredY + dialogContent.height > height - dpToPixelF(marginDp))
             desiredY -= (desiredY + dialogContent.height) -
-                    (displayHeight - dpToPixelF(marginDp) - statusBarHeight)
+                    (height - dpToPixelF(marginDp) - statusBarHeight)
         if (desiredY < dpToPixelF(marginDp)) desiredY = dpToPixelF(marginDp)
         dialogContent.x = fromViewLocation.x.toFloat() + fromView.width
         dialogContent.y = desiredY
@@ -140,16 +143,6 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         isFullscreenNavigationItem.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
-    }
-
-    // TODO not used .. useful ? not ? remove.
-    fun margin(margin: Int) = apply {
-        dialogContent.updateLayoutParams<LayoutParams> {
-            topMargin = dpToPixel(margin)
-            bottomMargin = dpToPixel(margin)
-            leftMargin = dpToPixel(margin)
-            rightMargin = dpToPixel(margin)
-        }
     }
 
     fun fullScreen() = apply {
@@ -163,7 +156,6 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 }
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
-    button.isPressed = true
-    afterGlobalLayout { button.isPressed = true }
+    later(50) { button.isPressed = true }
     onDismiss { button.isPressed = false }
 }

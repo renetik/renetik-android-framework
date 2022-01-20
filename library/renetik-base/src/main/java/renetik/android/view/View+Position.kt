@@ -11,3 +11,10 @@ val View.locationOnScreen: CSPoint<Int>
         getLocationOnScreen(location)
         return CSPoint(location[0], location[1])
     }
+
+val View.locationInWindow: CSPoint<Int>
+    get() {
+        val location = IntArray(2)
+        getLocationInWindow(location)
+        return CSPoint(location[0], location[1])
+    }
