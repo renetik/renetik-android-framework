@@ -44,7 +44,6 @@ abstract class CSPresetEventPropertyBase<T>(
         }
     }
 
-    //TODO Experimental Change !!!
     private fun parentStoreChangedIsFollowStoreFalseSaveToParentStore() =
         store.eventChanged.pause().use { saveTo(store) }
 

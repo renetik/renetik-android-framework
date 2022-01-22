@@ -3,28 +3,30 @@ package renetik.android.framework.task
 import renetik.android.framework.util.CSMainHandler.postOnMain
 import renetik.android.framework.util.CSMainHandler.removePosted
 
-fun repeat(interval: Int, runnable: (CSWork) -> Unit) = CSWork(interval, runnable)
+fun work(interval: Int, runnable: (CSWork) -> Unit) = CSWork(interval, runnable)
 
 class CSWork(private var interval: Int, private val function: (CSWork) -> Unit) {
 
-    private var isStarted = false
+    private var _isStarted = false
+
+    val isStarted get() = _isStarted
 
     fun run() = apply { function(this) }
 
     fun start() = apply {
-        if (!isStarted) {
-            isStarted = true
+        if (!_isStarted) {
+            _isStarted = true
             postOnMain(interval, ::runFunction)
         }
     }
 
     fun stop() = apply {
-        isStarted = false
+        _isStarted = false
         removePosted(::runFunction)
     }
 
     private fun runFunction() {
-        if (this.isStarted) {
+        if (this._isStarted) {
             function(this)
             postOnMain(interval, ::runFunction)
         }

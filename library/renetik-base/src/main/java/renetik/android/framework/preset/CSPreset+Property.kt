@@ -6,6 +6,7 @@ import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.preset.property.nullable.CSFloatNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSIntNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSListItemNullablePresetEventProperty
+import renetik.android.framework.preset.property.nullable.CSStringNullablePresetEventProperty
 import renetik.android.framework.preset.property.value.*
 import kotlin.reflect.KClass
 
@@ -93,6 +94,11 @@ fun <T : CSJsonObject> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, type: KClass<T>,
     onApply: ((value: T) -> Unit)? = null
 ) = add(CSJsonTypeValuePresetEventProperty(parent, this, key, type, onApply))
+
+fun CSPreset<*, *>.propertyNullString(
+    parent: CSEventOwnerHasDestroy, key: String, default: String? = null,
+    onChange: ((value: String?) -> Unit)? = null
+) = add(CSStringNullablePresetEventProperty(parent, this, key, default, onChange))
 
 fun CSPreset<*, *>.propertyNullInt(
     parent: CSEventOwnerHasDestroy, key: String, default: Int? = null,

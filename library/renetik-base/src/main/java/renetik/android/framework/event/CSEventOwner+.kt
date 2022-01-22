@@ -1,5 +1,7 @@
 package renetik.android.framework.event
 
+import renetik.kotlin.later
+
 fun CSEventOwner.register(registration: CSEventRegistration) =
     registration.also { eventRegistrations.add(it) }
 
@@ -21,13 +23,13 @@ fun CSEventOwner.cancel(registration: CSEventRegistration?) =
 fun CSEventOwner.remove(registration: CSEventRegistration?) =
     registration?.also { eventRegistrations.remove(it) }
 
-fun CSEventOwner.later(delayMilliseconds: Int = 0, function: () -> Unit): CSEventRegistration {
-    lateinit var registration: CSEventRegistration
-    registration = register(renetik.kotlin.later(delayMilliseconds) {
-        function()
-        remove(registration)
-    })
-    return registration
-}
-
-fun CSEventOwner.later(function: () -> Unit) = later(0, function)
+//fun CSEventOwner.later(delayMilliseconds: Int = 0, function: () -> Unit): CSEventRegistration {
+//    lateinit var registration: CSEventRegistration
+//    registration = register(renetik.kotlin.later(delayMilliseconds) {
+//        function()
+//        remove(registration)
+//    })
+//    return registration
+//}
+//
+//fun CSEventOwner.later(function: () -> Unit) = later(0, function)

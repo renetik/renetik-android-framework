@@ -2,6 +2,7 @@ package renetik.android.framework.lang
 
 import renetik.android.framework.lang.property.CSProperty
 import renetik.android.primitives.Empty
+import renetik.android.primitives.containsAll
 import renetik.android.primitives.isFalse
 
 inline val CSValue<Boolean>.isTrue get() = value
@@ -37,5 +38,9 @@ fun CSValue<String>.contains(value: String,
 fun CSValue<String>.contains(property: CSProperty<String>,
                              ignoreCase: Boolean = false) =
     this.contains(property.value, ignoreCase)
+
+fun CSValue<String>.containsAll(words: List<String>,
+                                ignoreCase: Boolean = false) =
+    this.value.containsAll(words, ignoreCase)
 
 inline val CSValue<Double>.number get() = value
