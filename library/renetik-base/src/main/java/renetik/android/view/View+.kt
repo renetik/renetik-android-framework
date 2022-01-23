@@ -268,7 +268,7 @@ fun View.onScrollChange(function: (view: View) -> Unit) =
 
 val View.eventScrollChange
     @RequiresApi(Build.VERSION_CODES.M)
-    get() = propertyWithTag(R.id.ViewEventOnScrollChangeTag) {
+    get() = propertyWithTag(R.id.ViewEventOnScrollTag) {
         event<View>().also { setOnScrollChangeListener { _, _, _, _, _ -> it.fire(this) } }
     }
 

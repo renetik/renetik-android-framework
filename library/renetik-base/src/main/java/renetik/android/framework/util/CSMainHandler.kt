@@ -2,19 +2,20 @@ package renetik.android.framework.util
 
 import android.os.Handler
 import android.os.Looper
+import android.os.Looper.getMainLooper
 import renetik.android.framework.logging.CSLog.error
 import renetik.kotlin.exception
 
 object CSMainHandler {
-    val handler by lazy { Handler(Looper.getMainLooper()) }
+    val mainHandler by lazy { Handler(getMainLooper()) }
 
     fun postOnMain(function: () -> Unit) {
-        if (!handler.post(function))
+        if (!mainHandler.post(function))
             error(exception("Runnable not run"))
     }
 
     fun postOnMain(delay: Long, function: () -> Unit) {
-        if (!handler.postDelayed(function, delay))
+        if (!mainHandler.postDelayed(function, delay))
             error(exception("Runnable not run"))
     }
 
@@ -23,7 +24,7 @@ object CSMainHandler {
     }
 
     fun removePosted(function: () -> Unit) {
-        handler.removeCallbacks(function)
+        mainHandler.removeCallbacks(function)
     }
 }
 

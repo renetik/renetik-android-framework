@@ -39,14 +39,12 @@ fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
     setOnFocusChangeListener { _, _ -> onChange(this) }
 }
 
-fun TextView.text(
-    parent: CSVisibleEventOwner, property: CSEventProperty<*>
-) = text(parent, property) { it.asString }
+fun TextView.text(parent: CSVisibleEventOwner, property: CSEventProperty<*>) =
+    text(parent, property) { it.asString }
 
 @JvmName("TextViewTextStringProperty")
-fun TextView.text(
-    parent: CSVisibleEventOwner, property: CSEventProperty<String>
-) = text(parent, property) { it }
+fun TextView.text(parent: CSVisibleEventOwner, property: CSEventProperty<String>) =
+    text(parent, property) { it }
 
 fun <T> TextView.text(
     parent: CSVisibleEventOwner, property: CSEventProperty<T>,

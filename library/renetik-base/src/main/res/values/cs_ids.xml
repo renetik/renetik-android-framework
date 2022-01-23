@@ -2,6 +2,6 @@
 <resources>
     <item name="ViewEventOnClearTag" type="id" />
     <item name="ViewEventOnCheckTag" type="id" />
-    <item name="ViewEventOnScrollChangeTag" type="id" />
+    <item name="ViewEventOnScrollTag" type="id" />
     <item name="ViewModelTag" type="id" />
 </resources>
