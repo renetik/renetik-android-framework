@@ -17,7 +17,6 @@ class CSNumberPicker @JvmOverloads constructor(
     val eventOnScroll = event<Int>()
 
     init {
-        info(value)
         setOnScrollListener { _, scrollState ->
 //            isScrolling = scrollState != SCROLL_STATE_IDLE
 //            if (!isScrolling) valueProperty.value(value)
