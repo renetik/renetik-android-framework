@@ -85,8 +85,8 @@ fun String.separateToString(vararg items: Any?): String {
     return text.toString()
 }
 
-val String.lowerCased: String get() = toLowerCase(Locale.ROOT)
-val String.upperCased: String get() = toUpperCase(Locale.ROOT)
+val String.lowerCased: String get() = lowercase(Locale.ROOT)
+val String.upperCased: String get() = uppercase(Locale.ROOT)
 val String.noAccents: String get() = removeAccents()
 
 private val nonSpacingCharactersRegex = "\\p{Mn}+".toRegex()

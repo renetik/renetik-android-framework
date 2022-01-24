@@ -21,11 +21,11 @@ private fun DrawerLayout.toggleDrawer(@EdgeGravity gravity: Int) =
 fun DrawerLayout.toggleLeft() = toggleDrawer(START)
 
 fun DrawerLayout.lockRight() {
-    setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED, END);
+    setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED, END)
 }
 
 fun DrawerLayout.unlockRight() {
-    setDrawerLockMode(LOCK_MODE_UNLOCKED, END);
+    setDrawerLockMode(LOCK_MODE_UNLOCKED, END)
 }
 
 fun DrawerLayout.closeLeft() = closeDrawer(START)

@@ -70,7 +70,7 @@ val Context.packageInfo
 @SuppressLint("UseCompatLoadingForDrawables")
 fun Context.getDrawable(name: String): Drawable? {
     val resourceId = resources.getIdentifier(name, "drawable", packageName)
-    return resources.getDrawable(resourceId);
+    return resources.getDrawable(resourceId)
 }
 
 fun Context.getColorResource(name: String): Int? {
