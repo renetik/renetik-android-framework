@@ -15,15 +15,15 @@ import renetik.kotlin.toId
 class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         PresetList : CSPresetItemList<PresetItem>>(
     override val preset: CSPreset<PresetItem, PresetList>,
-    val parentStore: CSStoreInterface
+    val parentStore: CSStoreInterface,
+    val getDefault: () -> PresetItem
 ) : CSModelBase(preset), CSEventProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
     override fun saveTo(store: CSStoreInterface) = store.set(key, value.toId())
     private var _value: PresetItem = loadValue()
-    private val values: List<PresetItem> get() = preset.list.items
     private fun loadValue(): PresetItem =
-        parentStore.getValue(key, values) ?: values[0]
+        parentStore.getValue(key, preset.list.items) ?: getDefault()
 
     private val eventChange = event<PresetItem>()
     val eventAfterChange = event<PresetItem>()

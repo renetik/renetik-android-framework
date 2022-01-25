@@ -14,14 +14,22 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     parent: CSEventOwnerHasDestroy,
     parentStore: CSStoreInterface,
     key: String,
-    val list: PresetList) : CSModelBase(parent), CSHasId {
+    val list: PresetList,
+    val getDefault: () -> PresetItem = { list.items[0] })
+    : CSModelBase(parent), CSHasId {
 
     override val id = "$key preset"
     val actionEdit = action("$id actionEdit")
     val isFollowStore = property(true)
-    val item = CSPresetStoreItemProperty(this, parentStore)
+    val item = CSPresetStoreItemProperty(this, parentStore, getDefault)
     val store = CSPresetStore(this, parentStore)
     private val dataList = mutableListOf<CSPresetKeyData>()
+
+    constructor (
+        parent: CSEventOwnerHasDestroy, parentStore: CSStoreInterface,
+        key: String, list: PresetList, defaultItemId: String)
+            : this(parent, parentStore, key, list,
+        { list.defaultList.let { list -> list.find { it.id == defaultItemId } ?: list[0] } })
 
     @Deprecated("Used just in test now")
     constructor(parent: CSEventOwnerHasDestroy, parentPreset: CSPreset<*, *>,
@@ -31,8 +39,9 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
         parentPreset.add(store)
     }
 
-    constructor(parent: CSHasPreset, key: String, list: PresetList)
-            : this(parent, parent.preset.store, "${parent.presetId} $key", list) {
+    constructor(parent: CSHasPreset, key: String,
+                list: PresetList, getDefault: () -> PresetItem = { list.items[0] })
+            : this(parent, parent.preset.store, "${parent.presetId} $key", list, getDefault) {
         parent.preset.add(item)
         parent.preset.add(store)
     }
