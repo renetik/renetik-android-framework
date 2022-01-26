@@ -2,6 +2,10 @@
 
 Framework to enjoy, improve and speed up your application development while writing readable code.
 
+This library lathou used dayly is not polished for other peple to dive in easily anymore. Doc is totaly irelevant right now as ther where milino of chenges in two years. 
+
+Right now it is used as base library for my last big project Renetik Instrument.  www.renetik.com
+
 [![Build Status](https://travis-ci.org/rene-dohan/renetik-android.svg?branch=master)](https://travis-ci.org/rene-dohan/renetik-android)
 
 # Table of Contents
