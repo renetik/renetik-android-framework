@@ -2,7 +2,7 @@
 
 Framework to enjoy, improve and speed up your application development while writing readable code.
 
-This library lathou used dayly is not polished for other peple to dive in easily anymore. Doc is totaly irelevant right now as ther where milino of chenges in two years. 
+This library althou used daily is not polished for other peple to dive in easily anymore. Doc is totaly irelevant right now as there where milion of chenges in two years, I removed sample projects and also it is updated quite often.  
 
 Right now it is used as base library for my last big project Renetik Instrument.  www.renetik.com
 
