@@ -1,7 +1,5 @@
 package renetik.android.framework.event
 
-import renetik.kotlin.later
-
 fun CSEventOwner.register(registration: CSEventRegistration) =
     registration.also { eventRegistrations.add(it) }
 
@@ -18,6 +16,9 @@ fun CSEventOwner.register(registration: CSEventRegistration?) =
 @JvmName("CSEventOwnerCancelNullable")
 fun CSEventOwner.cancel(registration: CSEventRegistration?) =
     registration?.let { eventRegistrations.cancel(it) }
+
+fun CSEventOwner.cancel(vararg registrations: CSEventRegistration?) =
+    registrations.forEach { cancel(it) }
 
 @JvmName("CSEventOwnerRemoveNullable")
 fun CSEventOwner.remove(registration: CSEventRegistration?) =
