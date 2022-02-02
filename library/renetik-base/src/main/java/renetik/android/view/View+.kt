@@ -58,9 +58,7 @@ fun View.seekBar(@IdRes id: Int) = findView<SeekBar>(id)!!
 fun View.progress(@IdRes id: Int) = findView<ProgressBar>(id)!!
 fun View.toolbar(@IdRes id: Int) = findView<Toolbar>(id)!!
 
-fun <T : View> T.enabledIf(condition: Boolean) = apply { isEnabled = condition }
 
-fun <T : View> T.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
 fun View.disabledIf(property: CSEventProperty<Boolean>) = disabledIf(property) { it }
 fun <T> View.disabledIf(property: CSEventProperty<T>,
                         condition: (T) -> Boolean): CSEventRegistration {
@@ -77,14 +75,12 @@ fun <T, V> View.disabledIf(property1: CSEventProperty<T>, property2: CSEventProp
         property2.onChange { update() })
 }
 
-fun <T : View> T.enabled() = apply { isEnabled = true }
-
-fun <T : View> T.disabled() = apply { isEnabled = false }
-
+fun <T : View> T.enabled(enabled: Boolean = true) = enabledIf(enabled)
+fun <T : View> T.enabledIf(condition: Boolean) = apply { isEnabled = condition }
+fun <T : View> T.disabled(value: Boolean = true) = disabledIf(value)
+fun <T : View> T.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
 val <T : View> T.superview get() = parent as? View
-
 val <T : View> T.parentView get() = parent as? View
-
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
 
 fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
@@ -122,23 +118,13 @@ fun <T> View.modelProperty(): CSEventProperty<T?> =
 
 fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
 fun <T> View.model(): T? = modelProperty<T?>().value
-
 fun View.id(value: Int) = apply { id = value }
-
-fun View.pressedIf(value: Boolean) {
-    isPressed = value
-}
-
-fun View.selected(value: Boolean = true) {
-    isSelected = value
-}
-
-fun View.activated(value: Boolean = true) = apply {
-    isActivated = value
-}
-
+fun View.pressedIf(value: Boolean) = apply { isPressed = value }
+fun View.selected(value: Boolean = true) = selectedIf(value)
+fun View.selectedIf(value: Boolean) = apply { isSelected = value }
+fun View.activated(value: Boolean = true) = activatedIf(value)
+fun View.activatedIf(value: Boolean) = apply { isActivated = value }
 fun View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
-
 fun View.onClick(action: CSEventProperty<Boolean>) = onClick { action.toggle() }
 
 fun View.toggleSelectedAsTrue(property: CSEventProperty<Boolean>)
@@ -146,7 +132,6 @@ fun View.toggleSelectedAsTrue(property: CSEventProperty<Boolean>)
     onClick { property.toggle() }
     return selectedIf(property) { it.isTrue }
 }
-
 
 fun View.toggleActiveAsTrue(property: CSEventProperty<Boolean>)
         : CSEventRegistration {

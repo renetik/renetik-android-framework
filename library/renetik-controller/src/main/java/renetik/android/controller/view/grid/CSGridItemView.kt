@@ -36,6 +36,8 @@ open class CSGridItemView<RowType : Any>(
 
     override var isSelected: Boolean
         get() = view.children.first().isSelected
-        set(value) = view.children.first().selected(value)
+        set(value) {
+            view.children.first().selected(value)
+        }
 }
 
