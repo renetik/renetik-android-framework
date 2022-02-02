@@ -3,11 +3,10 @@ package renetik.kotlin
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.util.CSMainHandler.postOnMain
-import renetik.java.lang.isMain
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 
-inline fun later(delayMilliseconds: Int = 0, crossinline function: () -> Unit) =
+inline fun later(delayMilliseconds: Int, crossinline function: () -> Unit) =
     object : CSEventRegistration {
         init {
             postOnMain(delayMilliseconds) {
@@ -24,12 +23,14 @@ inline fun later(delayMilliseconds: Int = 0, crossinline function: () -> Unit) =
         }
     }
 
+// Later uses default of 5 due to one strange rare multithreading issue
+// where later function where executed earlier then later returned registration
 inline fun later(crossinline function: () -> Unit) = later(0, function)
 
-fun <T : Any> T.onMainThread(function: (T).() -> Unit) {
-    if (Thread.currentThread().isMain) function()
-    else postOnMain { function(this) }
-}
+//fun <T : Any> T.onMainThread(function: (T).() -> Unit) {
+//    if (Thread.currentThread().isMain) function()
+//    else later { function(this) }
+//}
 
 fun <T : Any> T.runIf(condition: Boolean, function: (T) -> T) =
     if (condition) function(this) else this

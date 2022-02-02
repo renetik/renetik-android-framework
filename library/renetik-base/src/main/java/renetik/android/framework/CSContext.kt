@@ -23,7 +23,7 @@ abstract class CSContext : ContextWrapper, CSHasContext {
     constructor() : super(application)
     constructor(context: CSContext) : this(context as CSHasContext)
     constructor(context: CSHasContext) : super(context.context) {
-        eventRegistrations.add(context.eventDestroy.listenOnce { onDestroy() })
+        register(context.eventDestroy.listenOnce { onDestroy() })
     }
 
     constructor(context: Context) : super(context)

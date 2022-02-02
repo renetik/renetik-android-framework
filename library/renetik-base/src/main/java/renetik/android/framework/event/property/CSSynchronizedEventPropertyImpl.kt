@@ -2,7 +2,6 @@ package renetik.android.framework.event.property
 
 import renetik.android.framework.lang.CSValue
 import renetik.android.framework.lang.property.CSProperty
-import renetik.kotlin.onMainThread
 
 class CSSynchronizedEventPropertyImpl<T>(
     value: T, onApply: ((value: T) -> Unit)? = null)
@@ -11,10 +10,10 @@ class CSSynchronizedEventPropertyImpl<T>(
     @get:Synchronized
     private var _value: T = value
 
-    override fun value(newValue: T, fire: Boolean) = synchronized(this) {
+    override fun value(newValue: T, fire: Boolean): Unit = synchronized(this) {
         if (_value == newValue) return
         _value = newValue
-        onMainThread {
+        onMain {
             onApply?.invoke(newValue)
             if (fire) eventChange.fire(newValue)
         }

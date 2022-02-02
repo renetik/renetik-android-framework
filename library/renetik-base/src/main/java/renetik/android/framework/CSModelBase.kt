@@ -12,7 +12,7 @@ open class CSModelBase(parent: CSHasDestroy? = null) : CSEventOwnerHasDestroy {
     final override val eventDestroy = event<Unit>()
 
     init {
-        parent?.let { eventRegistrations.add(it.eventDestroy.listenOnce { onDestroy() }) }
+        parent?.let { register(it.eventDestroy.listenOnce { onDestroy() }) }
     }
 
     override fun onDestroy() {

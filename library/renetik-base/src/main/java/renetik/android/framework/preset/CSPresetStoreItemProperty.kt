@@ -26,7 +26,7 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         parentStore.getValue(key, preset.list.items) ?: getDefault()
 
     private val eventChange = event<PresetItem>()
-    val eventAfterChange = event<PresetItem>()
+//    private val eventAfterChange = event<PresetItem>()
 
     private val parentStoreChanged =
         register(parentStore.eventChanged.listen { onParentStoreChange() })
@@ -52,7 +52,7 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
             if (fire) eventChange.fire(newValue)
             preset.reload(newValue)
             saveTo(parentStore)
-            if (fire) eventAfterChange.fire(newValue)
+//            if (fire) eventAfterChange.fire(newValue)
         }
     }
 

@@ -3,6 +3,7 @@ package renetik.android.framework.store.property.nullable
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventPropertyBase
+import renetik.android.framework.event.register
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
 
@@ -20,13 +21,14 @@ abstract class CSNullableStoreEventProperty<T>(
     fun load(): T? = load(store)
     fun load(store: CSStoreInterface): T? = get(store) ?: defaultValue
 
-    private val storeEventChangedRegistration = if (listenStoreChanged) store.eventChanged.listen {
-        val newValue = load()
-        if (_value == newValue) return@listen
-        _value = newValue
-        onApply?.invoke(newValue)
-        eventChange.fire(newValue)
-    } else null
+    private val storeEventChangedRegistration =
+        if (listenStoreChanged) register(store.eventChanged.listen {
+            val newValue = load()
+            if (_value == newValue) return@listen
+            _value = newValue
+            onApply?.invoke(newValue)
+            eventChange.fire(newValue)
+        }) else null
 
     var isLoaded = false
     override var value: T?

@@ -3,6 +3,7 @@ package renetik.android.framework.store.property.value
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventPropertyBase
+import renetik.android.framework.event.register
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
 
@@ -26,12 +27,13 @@ abstract class CSValueStoreEventProperty<T>(
         } else defaultValue
     }
 
-    private val storeEventChangedRegistration = if (listenStoreChanged) store.eventChanged.listen {
-        val newValue = load()
-        if (_value == newValue) return@listen
-        _value = newValue
-        onStoreChangeValueChange(newValue)
-    } else null
+    private val storeEventChangedRegistration =
+        if (listenStoreChanged) register(store.eventChanged.listen {
+            val newValue = load()
+            if (_value == newValue) return@listen
+            _value = newValue
+            onStoreChangeValueChange(newValue)
+        }) else null
 
     private fun onStoreChangeValueChange(newValue: T) {
         storeEventChangedRegistration?.pause()?.use {
@@ -70,6 +72,4 @@ abstract class CSValueStoreEventProperty<T>(
     }
 
     override fun toString() = "$key $value"
-
-    fun stopListeningStoreChanged() = storeEventChangedRegistration?.cancel()
 }

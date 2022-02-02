@@ -20,7 +20,6 @@ import renetik.android.framework.task.CSBackground.background
 import renetik.android.imaging.extensions.resizeImage
 import renetik.java.io.createDatedFile
 import renetik.kotlin.collections.list
-import renetik.kotlin.onMainThread
 import renetik.kotlin.unfinished
 import java.io.File
 
@@ -60,9 +59,9 @@ class CSGetPictureView<T : View>(
             catchAllError {
                 val outputImage = folder.createDatedFile("jpg")
                 outputImage.outputStream().use { output -> input.resizeImage(1024, 768, output) }
-                onMainThread { onImageReady(outputImage) }
+                onMain { onImageReady(outputImage) }
             }
-            onMainThread { onDone?.invoke() }
+            onMain { onDone?.invoke() }
         }
     }
 
