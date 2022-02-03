@@ -188,6 +188,19 @@ fun <T, V> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventPro
         property2.onChange { update() })
 }
 
+fun <T, V, X> View.activatedIf(property1: CSEventProperty<T>,
+                              property2: CSEventProperty<V>,
+                              property3: CSEventProperty<X>,
+                              condition: (T, V, X) -> Boolean): CSEventRegistration {
+    fun update() = activated(condition(property1.value, property2.value, property3.value))
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() },
+        property3.onChange { update() }
+    )
+}
+
 fun <T> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
                         condition: (T) -> Boolean) =
     selectedIf(property1, property2) { first, _ -> condition(first) }
