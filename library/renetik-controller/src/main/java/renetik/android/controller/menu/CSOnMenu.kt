@@ -44,7 +44,7 @@ class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) :
             title = SpannableString(title).apply {
                 setSpan(
                     ForegroundColorSpan(
-                        attributeColor(R.attr.colorOnSurface)
+                        attributeColor(com.google.android.material.R.attr.colorOnSurface)
                     ), 0, length, 0
                 )
             }

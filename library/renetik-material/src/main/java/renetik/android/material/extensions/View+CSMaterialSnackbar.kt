@@ -28,17 +28,17 @@ private fun View.snackBar(
             }
         }
         view.setBackgroundColor(backColor)
-        (view.findViewById(R.id.snackbar_text) as? TextView)?.setTextColor(textColor)
+        (view.findViewById(com.google.android.material.R.id.snackbar_text) as? TextView)?.setTextColor(textColor)
     }.show()
 
 fun View.snackBarWarn(text: String, action: CSUserAction? = null) =
-    snackBar(text, context.attributeColor(R.attr.colorError),
-        context.attributeColor(R.attr.colorOnError), action)
+    snackBar(text, context.attributeColor(androidx.appcompat.R.attr.colorError),
+        context.attributeColor(com.google.android.material.R.attr.colorOnError), action)
 
 fun View.snackBarError(text: String, action: CSUserAction? = null) =
-    snackBar(text, context.attributeColor(R.attr.colorError),
-        context.attributeColor(R.attr.colorOnError), action)
+    snackBar(text, context.attributeColor(androidx.appcompat.R.attr.colorError),
+        context.attributeColor(com.google.android.material.R.attr.colorOnError), action)
 
 fun View.snackBarInfo(text: String, action: CSUserAction? = null) =
-    snackBar(text, context.attributeColor(R.attr.colorPrimary),
-        context.attributeColor(R.attr.colorOnPrimary), action)
+    snackBar(text, context.attributeColor(androidx.appcompat.R.attr.colorPrimary),
+        context.attributeColor(com.google.android.material.R.attr.colorOnPrimary), action)

@@ -113,7 +113,7 @@ fun <T : TextInputLayout> T.withClear(): TextInputLayout = apply {
     }
 
     fun showClearIcon() {
-        setEndIconDrawable(R.drawable.abc_ic_clear_material)
+        setEndIconDrawable(androidx.appcompat.R.drawable.abc_ic_clear_material)
         isEndIconVisible = true
         endIconMode = END_ICON_CUSTOM
         setEndIconOnClickListener {

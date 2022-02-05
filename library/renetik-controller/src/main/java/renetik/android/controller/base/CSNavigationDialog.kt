@@ -38,7 +38,7 @@ enum class DialogPopupSide {
 }
 
 open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)
-    : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_frame_match)),
+    : CSActivityView<FrameLayout>(parent.navigation!!, layout(renetik.android.R.layout.cs_frame_match)),
     CSNavigationItem {
 
     lateinit var dialogContent: ViewType
@@ -59,7 +59,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     override fun onViewReady() {
         super.onViewReady()
-        view.background(color(R.color.cs_dialog_background)).onClick {
+        view.background(color(renetik.android.R.color.cs_dialog_background)).onClick {
             if (cancelOnTouchOut) dismiss()
         }
         view.add(dialogContent)
@@ -103,7 +103,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
             else if (side == Right) positionDialogContentFromViewRight(fromView)
             correctHeight()
         }
-        view.background(color(R.color.cs_dialog_popup_background))
+        view.background(color(renetik.android.R.color.cs_dialog_popup_background))
     }
 
     override val statusBarHeight = activity().activityView!!.view.locationOnScreen.y

@@ -23,7 +23,7 @@ class CSActionBarSearchView(parent: CSActivityView<*>, viewId: Int, hint: String
     private var searchOpened = false
     private var expanded = false
     private var hint: String? = hint
-    private val clearButton by lazy { findView<ImageView>(R.id.search_close_btn)!! }
+    private val clearButton by lazy { findView<ImageView>(com.google.android.material.R.id.search_close_btn)!! }
 
     override fun onViewReady() {
         super.onViewReady()

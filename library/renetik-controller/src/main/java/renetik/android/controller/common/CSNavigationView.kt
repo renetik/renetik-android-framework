@@ -38,7 +38,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     val controllers get() = _controllers.values
 
     private val backgroundView =
-        View(this).also { it.background(color(R.color.cs_dialog_background)) }
+        View(this).also { it.background(color(renetik.android.R.color.cs_dialog_background)) }
 
     // WORKAROUND CODE:
     // I had issue with EditText after focus when removed by pop,Activity.onBackPressed was never fired again

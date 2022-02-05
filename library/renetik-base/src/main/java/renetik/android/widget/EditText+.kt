@@ -23,7 +23,7 @@ fun <T : EditText> T.onClear(listener: (EditText) -> Unit): T =
 fun <T : EditText> T.withClear(showOnFocus: Boolean = false) = apply {
     fun updateClearIcon() {
         endDrawable(if (editableText.isNotEmpty() || (showOnFocus && isFocused))
-            R.drawable.abc_ic_clear_material else null)
+            androidx.appcompat.R.drawable.abc_ic_clear_material else null)
     }
     updateClearIcon()
     if (showOnFocus) onFocusChange { updateClearIcon() }
