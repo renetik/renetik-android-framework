@@ -3,40 +3,52 @@ package renetik.android.framework.logging
 import renetik.android.content.CSToast.toast
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.primitives.separateToString
+import java.lang.System.currentTimeMillis
 import java.lang.Thread.currentThread
+import java.text.DateFormat
 
 object CSLog {
 
     private val log by lazy { application.log }
 
     fun debug(vararg values: Any?) {
-        if (application.isDebugBuild) log.debug(*createLogMessage(values))
+        if (application.isDebugBuild) log.debug(*createDebugMessage(values))
     }
 
-    fun warn(vararg values: Any?) =
-        log.warn(*createLogMessage(values))
-
-    fun warn(e: Throwable, vararg values: Any?) =
-        log.warn(e, *createLogMessage(values))
-
-    fun error(vararg values: Any?) =
-        log.error(*createLogMessage(values))
-
-    fun error(e: Throwable, vararg values: Any?) =
-        log.error(e, *createLogMessage(values))
-
-    fun info(vararg values: Any?) =
-        log.info(*createLogMessage(values))
+    fun warn(vararg values: Any?) = log.warn(*createMessage(values))
+    fun warn(e: Throwable, vararg values: Any?) = log.warn(e, *createMessage(values))
+    fun error(vararg values: Any?) = log.error(*createMessage(values))
+    fun error(e: Throwable, vararg values: Any?) = log.error(e, *createMessage(values))
+    fun info(vararg values: Any?) = log.info(values)
 
     fun infoToast(vararg values: Any?) {
-        val message = createLogMessage(values)
-        toast(" ".separateToString(*message))
+        val message = createMessage(values)
+        toast(" ".separateToString(*values))
         log.info(*message)
     }
 
-    private fun createLogMessage(values: Array<out Any?>): Array<Any?> {
-        val element = currentThread().stackTrace[4]
-        val trace = "${element.className}$${element.methodName}(${element.fileName}:${element.lineNumber})"
-        return Array(values.size + 1) { index -> if (index == 0) trace else values[index - 1] }
+    private fun createMessage(values: Array<out Any?>): Array<out Any?> = Array(values.size + 2) {
+        when (it) {
+            0 -> time
+            1 -> traceLine
+            else -> values[it - 2]
+        }
+    }
+
+    private val timeFormat by lazy { DateFormat.getDateTimeInstance() }
+
+    private val traceLine
+        get() = currentThread().stackTrace[5].let { element ->
+            "${element.className}$${element.methodName}(${element.fileName}:${element.lineNumber})"
+        }
+
+    private val time get() = timeFormat.format(currentTimeMillis())
+
+    private fun createDebugMessage(values: Array<out Any?>) = Array(values.size + 2) {
+        when (it) {
+            0 -> time
+            1 -> traceLine
+            else -> values[it - 2]
+        }
     }
 }
