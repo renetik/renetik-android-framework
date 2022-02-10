@@ -14,12 +14,12 @@ import java.io.File
 fun <T : ImageView> T.iconTint(@ColorInt color: Int) =
     apply { imageTintList = ColorStateList.valueOf(color) }
 
-fun <T : ImageView> T.image(@DrawableRes resourceId: Int) = apply {
+fun <T : ImageView> T.image(@DrawableRes resourceId: Int,
+                            useAndroidSdk: Boolean = false) = apply {
 //    load(resourceId)
+    if (useAndroidSdk) setImageResource(resourceId)
+    else Glide.with(context).load(resourceId).into(this)
 
-    // Should test again was making horrible note sheet images
-    // Glide.with(context).load(resourceId).into(this)
-    setImageResource(resourceId)
 }
 
 fun <T : ImageView> T.image(file: File) = apply {

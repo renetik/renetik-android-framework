@@ -48,7 +48,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     }
 
     override var isFullscreenNavigationItem = property(false)
-    var animation = Slide
+    var animation = Fade
     private val marginDp = 5
 
     private val eventOnDismiss = event<Unit>()
