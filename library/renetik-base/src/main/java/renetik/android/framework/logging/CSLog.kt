@@ -6,6 +6,7 @@ import renetik.android.primitives.separateToString
 import java.lang.System.currentTimeMillis
 import java.lang.Thread.currentThread
 import java.text.DateFormat
+import java.text.DateFormat.getDateTimeInstance
 
 object CSLog {
 
@@ -19,7 +20,7 @@ object CSLog {
     fun warn(e: Throwable, vararg values: Any?) = log.warn(e, *createMessage(values))
     fun error(vararg values: Any?) = log.error(*createMessage(values))
     fun error(e: Throwable, vararg values: Any?) = log.error(e, *createMessage(values))
-    fun info(vararg values: Any?) = log.info(values)
+    fun info(vararg values: Any?) = log.info(*createMessage(values))
 
     fun infoToast(vararg values: Any?) {
         val message = createMessage(values)
@@ -35,7 +36,7 @@ object CSLog {
         }
     }
 
-    private val timeFormat by lazy { DateFormat.getDateTimeInstance() }
+    private val timeFormat by lazy { getDateTimeInstance() }
 
     private val traceLine
         get() = currentThread().stackTrace[5].let { element ->
