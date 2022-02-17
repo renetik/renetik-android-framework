@@ -69,7 +69,7 @@ class CSGridView<ItemType : Any>(
         updateEmptyView()
     }
 
-    val onItemSelected = event<CSGridItemView<ItemType>>()
+    private val onItemSelected = event<CSGridItemView<ItemType>>()
     fun onSelected(function: (CSGridItemView<ItemType>) -> Unit) =
         apply { onItemSelected.listen { function(it) } }
 
@@ -102,7 +102,7 @@ class CSGridView<ItemType : Any>(
         var rowView = toReuseView?.asCS<CSGridItemView<ItemType>>()
         if (rowView == null) {
             rowView = createView(this)
-            parent.register(selectedItem.onChange { rowView.updateSelection() })
+            selectedItem.onChange { rowView.updateSelection() }
             rowView.view.onClick { rowView.onClick() }
         }
         rowView.load(data[position], position)

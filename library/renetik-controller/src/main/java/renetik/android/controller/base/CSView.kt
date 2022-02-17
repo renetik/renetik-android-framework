@@ -125,6 +125,12 @@ open class CSView<ViewType : View> : CSContext,
             view.isActivated = value
         }
 
+    open var isEnabled
+        get() = view.isEnabled
+        set(value) {
+            view.isEnabled = value
+        }
+
     open var isSelected
         get() = view.isSelected
         set(value) {

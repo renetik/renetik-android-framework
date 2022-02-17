@@ -28,6 +28,7 @@ import renetik.android.framework.lang.isTrue
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
 import renetik.android.view.*
+import java.io.Closeable
 
 enum class DialogAnimation {
     None, Slide, Fade, SlideFade
@@ -39,7 +40,7 @@ enum class DialogPopupSide {
 
 open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)
     : CSActivityView<FrameLayout>(parent.navigation!!, layout(renetik.android.R.layout.cs_frame_match)),
-    CSNavigationItem {
+    CSNavigationItem, Closeable {
 
     lateinit var dialogContent: ViewType
 
@@ -153,6 +154,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     }
 
     val isFullscreen get() = isFullscreenNavigationItem
+    override fun close() = dismiss()
 }
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {

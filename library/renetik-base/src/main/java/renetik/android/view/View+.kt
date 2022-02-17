@@ -189,15 +189,31 @@ fun <T, V> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventPro
 }
 
 fun <T, V, X> View.activatedIf(property1: CSEventProperty<T>,
-                              property2: CSEventProperty<V>,
-                              property3: CSEventProperty<X>,
-                              condition: (T, V, X) -> Boolean): CSEventRegistration {
+                               property2: CSEventProperty<V>,
+                               property3: CSEventProperty<X>,
+                               condition: (T, V, X) -> Boolean): CSEventRegistration {
     fun update() = activated(condition(property1.value, property2.value, property3.value))
     update()
     return CSMultiEventRegistration(
         property1.onChange { update() },
         property2.onChange { update() },
         property3.onChange { update() }
+    )
+}
+
+fun <T, V, X, Y> View.activatedIf(property1: CSEventProperty<T>,
+                                  property2: CSEventProperty<V>,
+                                  property3: CSEventProperty<X>,
+                                  property4: CSEventProperty<Y>,
+                                  condition: (T, V, X, Y) -> Boolean): CSEventRegistration {
+    fun update() = activated(condition(property1.value, property2.value,
+        property3.value, property4.value))
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() },
+        property3.onChange { update() },
+        property4.onChange { update() }
     )
 }
 
@@ -226,6 +242,23 @@ fun <T, V, X> View.selectedIf(property1: CSEventProperty<T>,
         property3.onChange { update() }
     )
 }
+
+fun <T, V, X, Y> View.selectedIf(property1: CSEventProperty<T>,
+                                  property2: CSEventProperty<V>,
+                                  property3: CSEventProperty<X>,
+                                  property4: CSEventProperty<Y>,
+                                  condition: (T, V, X, Y) -> Boolean): CSEventRegistration {
+    fun update() = selected(condition(property1.value, property2.value,
+        property3.value, property4.value))
+    update()
+    return CSMultiEventRegistration(
+        property1.onChange { update() },
+        property2.onChange { update() },
+        property3.onChange { update() },
+        property4.onChange { update() }
+    )
+}
+
 
 fun <T> View.pressedIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
                        condition: (T) -> Boolean) =

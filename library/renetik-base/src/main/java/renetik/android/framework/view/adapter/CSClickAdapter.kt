@@ -8,7 +8,7 @@ class CSClickAdapter(private val onClickListener: View.OnClickListener) : View.O
 
     override fun onClick(v: View?) {
         val current = currentTimeMillis()
-        if ((current - lastTime) > 250) {
+        if ((current - lastTime) > 400) {
             onClickListener.onClick(v)
             lastTime = current
         }
