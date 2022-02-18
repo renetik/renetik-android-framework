@@ -10,11 +10,9 @@ import renetik.android.controller.base.asCS
 import renetik.android.controller.base.findView
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
-import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.event.register
-import renetik.android.framework.event.resume
 import renetik.android.view.*
 import renetik.android.widget.scrollToIndex
 import renetik.kotlin.collections.list
@@ -28,31 +26,6 @@ class CSGridView<ItemType : Any>(
     val selectedItem: CSEventProperty<ItemType?> = property(null)
     private var listAdapter = Adapter()
     val data = list<ItemType>()
-
-    val dataCount get() = data.size
-
-    fun property(property: CSEventProperty<ItemType>) = apply {
-        val registration = parent.register(property
-            .onChange { selectedItem.value(property.value) })
-        selectedItem.onChange {
-            registration.pause()
-            property.value = it!!
-            registration.resume()
-        }
-        selectedItem.value(property.value)
-    }
-
-    @JvmName("propertyNullableItem")
-    fun property(property: CSEventProperty<ItemType?>) = apply {
-        val registration = parent.register(property
-            .onChange { selectedItem.value(property.value) })
-        selectedItem.onChange {
-            registration.pause()
-            property.value = it
-            registration.resume()
-        }
-        selectedItem.value(property.value)
-    }
 
     fun reload(iterable: Iterable<ItemType>) = apply {
         data.clear()
@@ -102,7 +75,7 @@ class CSGridView<ItemType : Any>(
         var rowView = toReuseView?.asCS<CSGridItemView<ItemType>>()
         if (rowView == null) {
             rowView = createView(this)
-            selectedItem.onChange { rowView.updateSelection() }
+            register(selectedItem.onChange { rowView.updateSelection() })
             rowView.view.onClick { rowView.onClick() }
         }
         rowView.load(data[position], position)
