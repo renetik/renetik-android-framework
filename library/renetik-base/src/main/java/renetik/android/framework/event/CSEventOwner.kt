@@ -15,7 +15,7 @@ interface CSEventOwner {
         return registration
     }
 
-    fun later(function: () -> Unit) = later(0, function)
+    fun later(function: () -> Unit) = later(5, function)
 
     // onMain uses later(5) due to one strange rare multithreading issue
     // where later function where executed earlier then later returned registration
