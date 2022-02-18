@@ -72,11 +72,11 @@ fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
     view.removeFromSuperview()
 }
 
-fun <Type> Type.afterGlobalLayout(function: (Type) -> Unit): CSEventRegistration
+fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSEventRegistration
         where  Type : CSView<*>, Type : CSEventOwner {
     lateinit var registration: CSEventRegistration
     registration = register(view.afterGlobalLayout {
-        function(this)
+        function()
         remove(registration)
     })
     return registration
