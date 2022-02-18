@@ -71,7 +71,7 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     fun getDouble(key: String, default: Double) = get(key)?.asDouble() ?: default
     fun getDouble(key: String, default: Double? = null) = get(key)?.asDouble() ?: default
     fun getLong(key: String, default: Long) = get(key)?.asLong() ?: default
-    fun getLong(key: String, default: Long?) = get(key)?.asLong() ?: default
+    fun getLong(key: String, default: Long? = null) = get(key)?.asLong() ?: default
     fun getFloat(key: String, default: Float) = get(key)?.asFloat() ?: default
     fun getFloat(key: String, default: Float? = null) = get(key)?.asFloat() ?: default
     fun getInt(key: String, default: Int) = get(key)?.asInt() ?: default
@@ -93,6 +93,9 @@ interface CSStoreInterface : CSPropertyStoreInterface,
 
     override fun property(key: String, value: Float, onChange: ((value: Float) -> Unit)?) =
         CSFloatValueStoreEventProperty(this, key, value, onChange)
+
+    override fun property(key: String, value: Long, onChange: ((value: Long) -> Unit)?) =
+        CSLongValueStoreEventProperty(this, key, value, onChange)
 
     override fun <T> property(
         key: String, values: List<T>, value: T, onChange: ((value: T) -> Unit)?) =

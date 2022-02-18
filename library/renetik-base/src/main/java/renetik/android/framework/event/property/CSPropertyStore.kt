@@ -42,6 +42,11 @@ interface CSPropertyStoreInterface {
         onChange: ((value: Float) -> Unit)? = null
     ): CSEventProperty<Float>
 
+    fun property(
+        key: String, value: Long,
+        onChange: ((value: Long) -> Unit)? = null
+    ): CSEventProperty<Long>
+
     fun <T> property(
         key: String, values: List<T>, value: T,
         onChange: ((value: T) -> Unit)? = null

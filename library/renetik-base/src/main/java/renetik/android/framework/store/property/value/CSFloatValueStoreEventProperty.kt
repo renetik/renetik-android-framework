@@ -11,3 +11,4 @@ class CSFloatValueStoreEventProperty(
     override fun get(store: CSStoreInterface) = store.getFloat(key)
     override fun set(store: CSStoreInterface, value: Float) = store.set(key, value)
 }
+

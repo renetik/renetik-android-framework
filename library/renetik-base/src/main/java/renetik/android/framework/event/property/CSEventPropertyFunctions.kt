@@ -41,6 +41,10 @@ object CSEventPropertyFunctions {
                  onApply: ((value: Float) -> Unit)? = null) =
         application.store.property(key, default, onApply)
 
+    fun property(key: String, default: Long,
+                 onApply: ((value: Long) -> Unit)? = null) =
+        application.store.property(key, default, onApply)
+
     fun property(key: String, default: Int,
                  onApply: ((value: Int) -> Unit)? = null) =
         application.store.property(key, default, onApply)
