@@ -23,6 +23,13 @@ fun Date.addYears(value: Int): Date {
     instance.add(Calendar.YEAR, value)
     return instance.time
 }
+fun Date.addHours(value: Int): Date {
+    val instance = Calendar.getInstance()
+    instance.time = this
+    instance.add(Calendar.HOUR, value)
+    return instance.time
+}
+
 
 fun Date.createDatedDirName() = format("yyyy-MM-dd_HH-mm-ss")
 
