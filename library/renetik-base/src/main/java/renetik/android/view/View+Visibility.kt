@@ -78,6 +78,21 @@ fun <T, V> View.shownIf(property1: CSEventProperty<T>, property2: CSEventPropert
         property2.onChange { update(animated) })
 }
 
+fun <T, V, X> View.shownIf(property1: CSEventProperty<T>,
+                           property2: CSEventProperty<V>,
+                           property3: CSEventProperty<X>,
+                           animated: Boolean = false,
+                           condition: (T, V, X) -> Boolean): CSEventRegistration {
+    fun update(animated: Boolean) =
+        shownIf(condition(property1.value, property2.value, property3.value), animated)
+    update(animated = false)
+    return CSMultiEventRegistration(
+        property1.onChange { update(animated) },
+        property2.onChange { update(animated) },
+        property3.onChange { update(animated) },
+    )
+}
+
 fun View.goneIf(property1: CSEventProperty<Boolean>,
                 property2: CSEventProperty<Boolean>,
                 animated: Boolean = false): CSEventRegistration {

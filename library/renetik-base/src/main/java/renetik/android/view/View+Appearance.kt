@@ -78,6 +78,7 @@ fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
     alpha = if (condition) context.disabledAlpha else 1F
 }
 
+
 fun View.alphaToDisabled() {
     alpha = context.disabledAlpha
 }
@@ -97,6 +98,9 @@ fun View.enabledByAlphaIf(property: CSEventProperty<Boolean>) =
 
 fun View.disabledByAlphaIf(property: CSEventProperty<Boolean>, disable: Boolean = true) =
     disabledByAlphaIf(property, disable) { it }
+
+fun View.disabledByAlphaIfNot(property: CSEventProperty<Boolean>, disable: Boolean = true) =
+    disabledByAlphaIf(property, disable) { !it }
 
 fun <T> View.disabledByAlphaIf(property: CSEventProperty<T>, disable: Boolean = true,
                                condition: (T) -> Boolean): CSEventRegistration {
