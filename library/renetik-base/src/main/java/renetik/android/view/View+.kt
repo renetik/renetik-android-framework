@@ -89,6 +89,9 @@ fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
 fun <T : View> T.onClick(onClick: (view: T) -> Unit) =
     apply { setOnClickListener(CSClickAdapter { onClick(this) }) }
 
+fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) =
+    apply { setOnLongClickListener { onClick(this); true } }
+
 fun <T : View> T.createBitmap(): Bitmap {
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     Canvas(bitmap).apply {
@@ -244,10 +247,10 @@ fun <T, V, X> View.selectedIf(property1: CSEventProperty<T>,
 }
 
 fun <T, V, X, Y> View.selectedIf(property1: CSEventProperty<T>,
-                                  property2: CSEventProperty<V>,
-                                  property3: CSEventProperty<X>,
-                                  property4: CSEventProperty<Y>,
-                                  condition: (T, V, X, Y) -> Boolean): CSEventRegistration {
+                                 property2: CSEventProperty<V>,
+                                 property3: CSEventProperty<X>,
+                                 property4: CSEventProperty<Y>,
+                                 condition: (T, V, X, Y) -> Boolean): CSEventRegistration {
     fun update() = selected(condition(property1.value, property2.value,
         property3.value, property4.value))
     update()

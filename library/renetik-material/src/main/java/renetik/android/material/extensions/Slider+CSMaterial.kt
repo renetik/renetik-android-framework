@@ -5,6 +5,7 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
 import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.primitives.roundToStep
 import renetik.android.view.findView
 
 fun View.slider(id: Int) = findView<Slider>(id)!!
@@ -62,16 +63,32 @@ fun <T : Slider> T.stepSize(value: Float) = apply { this.stepSize = value }
 fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat() }
 
 @JvmName("valuePropertyDouble")
-fun Slider.value(property: CSEventProperty<Double>) = apply {
-    value(property.value)
-    onChange { property.value = it.value.toDouble() }
+fun Slider.value(property: CSEventProperty<Double>,
+                 min: Double = 0.0, max: Double = 1.0, step: Double = 0.1) = apply {
+    valueFrom = min.toFloat()
+    valueTo = max.toFloat()
+    stepSize = step.toFloat()
+    value(property.value.roundToStep(step))
+    onChange { property.value = it.value.roundToStep(step) }
 }
+
+@JvmName("valuePropertyDouble")
+fun Slider.value(property: CSEventProperty<Float>,
+                 min: Float = 0f, max: Float = 1.0f, step: Float = 0.1f) = apply {
+    valueFrom = min
+    valueTo = max
+    stepSize = step
+    value(property.value.roundToStep(step))
+    onChange { property.value = it.value.roundToStep(step) }
+}
+
 
 @JvmName("valuePropertyInt")
 fun Slider.value(property: CSEventProperty<Int>,
-                 min: Int = 0, max: Int = 100) = apply {
+                 min: Int = 0, max: Int = 100, step: Int = 1) = apply {
     valueFrom = min.toFloat()
     valueTo = max.toFloat()
-    value(property.value)
-    onChange { property.value = it.value.toInt() }
+    stepSize = step.toFloat()
+    value(property.value.roundToStep(step))
+    onChange { property.value = it.value.roundToStep(step) }
 }
