@@ -2,11 +2,11 @@ package renetik.android.widget
 
 import android.text.Editable
 import android.widget.TextView
-import androidx.annotation.StringRes
 import renetik.android.content.drawable
-import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.Companion.event
+import renetik.android.framework.event.CSEventRegistration
 import renetik.android.framework.event.CSEventRegistration.Companion.registration
+import renetik.android.framework.event.CSMultiEventRegistration
+import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSDrawableInterface
 import renetik.android.framework.lang.CSValue
@@ -74,14 +74,12 @@ fun <T, V> TextView.text(parent: CSEventProperty<T>,
     }
 }
 
-
-fun <T> TextView.text(property: CSEventProperty<T>, getText: (T) -> Any)
-        : CSEventRegistration {
+fun <T> TextView.text(property: CSEventProperty<T>,
+                      getText: (T) -> Any): CSEventRegistration {
     fun update() = text(getText(property.value))
     update()
     return property.onChange { update() }
 }
-
 
 fun <T, V> TextView.text(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
                          getText: (T, V) -> Any): CSEventRegistration {

@@ -9,7 +9,6 @@ import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
 import renetik.android.content.color
 import renetik.android.content.dpToPixelF
-import renetik.android.controller.R
 import renetik.android.controller.base.DialogAnimation.*
 import renetik.android.controller.base.DialogPopupSide.Bottom
 import renetik.android.controller.base.DialogPopupSide.Right
@@ -24,7 +23,6 @@ import renetik.android.framework.event.listen
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.framework.lang.isTrue
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
 import renetik.android.view.*
@@ -39,7 +37,8 @@ enum class DialogPopupSide {
 }
 
 open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)
-    : CSActivityView<FrameLayout>(parent.navigation!!, layout(renetik.android.R.layout.cs_frame_match)),
+    : CSActivityView<FrameLayout>(parent.navigation!!,
+    layout(renetik.android.R.layout.cs_frame_match)),
     CSNavigationItem, Closeable {
 
     lateinit var dialogContent: ViewType
@@ -160,4 +159,14 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
     later(50) { button.isPressed = true }
     onDismiss { button.isPressed = false }
+}
+
+fun CSNavigationDialog<*>.active(button: View) = apply {
+    button.isActivated = true
+    onDismiss { button.isActivated = false }
+}
+
+fun CSNavigationDialog<*>.selected(button: View) = apply {
+    button.isSelected = true
+    onDismiss { button.isSelected = false }
 }
