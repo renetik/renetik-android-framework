@@ -98,6 +98,7 @@ fun <Type> Type.hasSize(function: (Type) -> Unit)
 fun <Type : CSView<*>> Type.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
 fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
     if (disable) disabledIf(condition)
+    view.alphaToDisabled(condition)
 }
 
 fun View.asCSView() = asCS<CSView<*>>()

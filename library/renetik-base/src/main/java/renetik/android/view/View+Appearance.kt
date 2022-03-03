@@ -75,17 +75,15 @@ fun View.enabledByAlphaIf(condition: Boolean) = disabledByAlpha(!condition)
 
 fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
     if (disable) disabledIf(condition)
-    alpha = if (condition) context.disabledAlpha else 1F
+    alphaToDisabled(condition)
 }
 
-
-fun View.alphaToDisabled() {
-    alpha = context.disabledAlpha
+fun View.alphaToDisabled(value: Boolean = true) {
+    alpha = if (value) context.disabledAlpha else 1F
 }
 
 val Context.disabledAlpha
     get() = getResources().getString(R.string.cs_disabled_alpha).toFloat()
-//        attributeFloat(android.R.attr.disabledAlpha)
 
 fun <T> View.enabledByAlphaIf(property: CSEventProperty<T>,
                               condition: (T) -> Boolean): CSEventRegistration {

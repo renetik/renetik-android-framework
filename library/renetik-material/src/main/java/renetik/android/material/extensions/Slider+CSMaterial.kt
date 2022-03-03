@@ -4,9 +4,13 @@ import android.view.View
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
 import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.lang.property.isTrue
 import renetik.android.primitives.roundToStep
 import renetik.android.view.findView
+import renetik.android.widget.isCheckedIf
+import renetik.android.widget.onChecked
 
 fun View.slider(id: Int) = findView<Slider>(id)!!
 
@@ -69,7 +73,7 @@ fun Slider.value(property: CSEventProperty<Double>,
     valueTo = max.toFloat()
     stepSize = step.toFloat()
     value(property.value.roundToStep(step))
-    onChange { property.value = it.value.roundToStep(step) }
+    onChange { property.value = value.roundToStep(step) }
 }
 
 @JvmName("valuePropertyDouble")
@@ -79,16 +83,18 @@ fun Slider.value(property: CSEventProperty<Float>,
     valueTo = max
     stepSize = step
     value(property.value.roundToStep(step))
-    onChange { property.value = it.value.roundToStep(step) }
+    onChange { property.value = value.roundToStep(step) }
 }
 
 
 @JvmName("valuePropertyInt")
 fun Slider.value(property: CSEventProperty<Int>,
-                 min: Int = 0, max: Int = 100, step: Int = 1) = apply {
+                 min: Int = 0, max: Int = 100, step: Int = 1) :CSEventRegistration {
     valueFrom = min.toFloat()
     valueTo = max.toFloat()
     stepSize = step.toFloat()
+    val onChangeRegistration = property.onChange {  value(property.value.roundToStep(step)) }
     value(property.value.roundToStep(step))
-    onChange { property.value = it.value.roundToStep(step) }
+    onChange { onChangeRegistration.pause().use { property.value = value.roundToStep(step)} }
+    return onChangeRegistration
 }

@@ -1,6 +1,7 @@
 package renetik.android.primitives
 
 import java.math.RoundingMode
+import java.math.RoundingMode.CEILING
 import java.text.DecimalFormat
 import java.util.Locale.ENGLISH
 
@@ -9,12 +10,13 @@ fun Double.roundToStep(step: Double): Double = (this / step).toInt() * step
 
 fun Int.roundToStep(step: Int): Int = (this / step) * step
 
-fun Double.roundTo(n: Int): Double {
+fun Double.formatRoundTo(n: Int): Double {
     return "%.${n}f".format(ENGLISH, this).toDouble()
 }
 
-fun Double.roundOffDecimal(format: String = "#.##"): Double? {
+fun Double.formatOffDecimal(format: String = "#.##",
+                            mode: RoundingMode = CEILING): Double? {
     val df = DecimalFormat(format)
-    df.roundingMode = RoundingMode.CEILING
+    df.roundingMode = mode
     return df.format(this).toDouble()
 }
