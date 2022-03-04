@@ -1,6 +1,6 @@
 package renetik.android.framework.lang
 
-interface CSDrawableInterface {
+interface CSHasDrawable {
     //   @DrawableRes  annotation cannot be set here
     val drawable: Int
 }

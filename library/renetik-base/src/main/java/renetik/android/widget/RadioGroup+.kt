@@ -11,7 +11,7 @@ import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.lang.CSTitle
+import renetik.android.framework.lang.CSHasTitle
 import renetik.android.view.*
 
 fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
@@ -34,7 +34,7 @@ fun RadioGroup.propertyTrueIfChecked(property: CSEventProperty<Boolean?>, viewId
     onChange { property.value = it == viewId }
 }
 
-fun <T : CSTitle> RadioGroup.property(
+fun <T : CSHasTitle> RadioGroup.property(
     parent: CSVisibleEventOwner, property: CSEventProperty<T?>,
     list: List<T>, @LayoutRes layoutId: Int) = apply {
     val data = mutableMapOf<Int, T>()

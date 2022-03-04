@@ -4,17 +4,17 @@ import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.register
 import renetik.android.framework.event.resume
-import renetik.android.framework.lang.CSTitle
+import renetik.android.framework.lang.CSHasTitle
 import renetik.android.framework.lang.CSValue
 import renetik.android.framework.lang.isEmpty
 
 fun <RowType : Any> CSGridView<RowType>.reload(values: Array<out RowType>) =
     reload(values.asIterable())
 
-fun <T : CSTitle> CSGridView<T>.reload(values: Array<T>, searchText: CSValue<String>) =
+fun <T : CSHasTitle> CSGridView<T>.reload(values: Array<T>, searchText: CSValue<String>) =
     reload(values.asIterable(), searchText)
 
-fun <T : CSTitle> CSGridView<T>.reload(values: Iterable<T>, searchText: CSValue<String>) = apply {
+fun <T : CSHasTitle> CSGridView<T>.reload(values: Iterable<T>, searchText: CSValue<String>) = apply {
     val data = if (searchText.isEmpty) values
     else values.filter { it.title.contains(searchText.value, ignoreCase = true) }
     reload(data)

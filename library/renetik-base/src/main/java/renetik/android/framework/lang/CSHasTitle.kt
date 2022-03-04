@@ -1,5 +1,5 @@
 package renetik.android.framework.lang
 
-interface CSTitle {
+interface CSHasTitle {
     val title: String
 }

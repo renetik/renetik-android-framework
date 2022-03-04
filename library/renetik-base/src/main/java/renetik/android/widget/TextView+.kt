@@ -8,7 +8,8 @@ import renetik.android.framework.event.CSEventRegistration.Companion.registratio
 import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.lang.CSDrawableInterface
+import renetik.android.framework.event.property.action
+import renetik.android.framework.lang.CSHasDrawable
 import renetik.android.framework.lang.CSValue
 import renetik.android.framework.view.adapter.CSTextWatcherAdapter
 import renetik.android.view.shownIf
@@ -74,12 +75,8 @@ fun <T, V> TextView.text(parent: CSEventProperty<T>,
     }
 }
 
-fun <T> TextView.text(property: CSEventProperty<T>,
-                      getText: (T) -> Any): CSEventRegistration {
-    fun update() = text(getText(property.value))
-    update()
-    return property.onChange { update() }
-}
+fun <T> TextView.text(property: CSEventProperty<T>, getText: (T) -> Any) =
+    property.action { text(getText(property.value)) }
 
 fun <T, V> TextView.text(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
                          getText: (T, V) -> Any): CSEventRegistration {
@@ -90,9 +87,8 @@ fun <T, V> TextView.text(property1: CSEventProperty<T>, property2: CSEventProper
         property2.onChange { update() })
 }
 
-fun <T : CSDrawableInterface> TextView.startDrawable(property: CSEventProperty<T>)
-        : CSEventRegistration {
-    fun updateDrawable() = startDrawable(context.drawable(property.value.drawable))
-    updateDrawable()
-    return property.onChange { updateDrawable() }
-}
+fun <T : CSHasDrawable> TextView.startDrawable(property: CSEventProperty<T>) =
+    property.action { startDrawable(context.drawable(property.value.drawable)) }
+
+fun <T> TextView.startDrawable(property: CSEventProperty<T>, getDrawable: (T) -> Int?) =
+    property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }

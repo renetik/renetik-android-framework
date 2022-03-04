@@ -14,12 +14,14 @@ import java.io.File
 fun <T : ImageView> T.iconTint(@ColorInt color: Int) =
     apply { imageTintList = ColorStateList.valueOf(color) }
 
-fun <T : ImageView> T.image(@DrawableRes resourceId: Int,
-                            useAndroidSdk: Boolean = false) = apply {
+fun <T : ImageView> T.image(
+    @DrawableRes resourceId: Int?,
+    useAndroidSdk: Boolean = false) = apply {
 //    load(resourceId)
-    if (useAndroidSdk) setImageResource(resourceId)
-    else Glide.with(context).load(resourceId).into(this)
-
+    resourceId?.let {
+        if (useAndroidSdk) setImageResource(it)
+        else Glide.with(context).load(it).into(this)
+    } ?: run { setImageDrawable(null) }
 }
 
 fun <T : ImageView> T.image(file: File) = apply {
