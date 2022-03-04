@@ -28,13 +28,22 @@ fun DrawerLayout.unlockRight() {
     setDrawerLockMode(LOCK_MODE_UNLOCKED, END)
 }
 
-fun DrawerLayout.closeLeft() = closeDrawer(START)
+fun DrawerLayout.closeLeft() {
+    if (isDrawerOpen(START)) closeDrawer(START)
+}
 
 fun DrawerLayout.openLeft() = openDrawer(START)
 
 fun DrawerLayout.toggleRight() = toggleDrawer(END)
 
-fun DrawerLayout.closeRight() = closeDrawer(END)
+fun DrawerLayout.closeRight() {
+    if (isDrawerOpen(END)) closeDrawer(END)
+}
+
+fun DrawerLayout.close() {
+    closeRight()
+    closeLeft()
+}
 
 fun DrawerLayout.openRight() = openDrawer(END)
 
