@@ -63,6 +63,7 @@ fun <T : Slider> T.valueTo(value: Int) = apply { this.valueTo = value.toFloat() 
 fun <T : Slider> T.stepSize(value: Float) = apply { this.stepSize = value }
 fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat() }
 
+@Deprecated("Double is useless in ui logic, use float")
 @JvmName("valuePropertyDouble")
 fun Slider.value(property: CSEventProperty<Double>,
                  min: Double = 0.0, max: Double = 1.0, step: Double = 0.1): CSEventRegistration {
