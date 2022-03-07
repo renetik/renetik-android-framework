@@ -4,10 +4,12 @@ import android.view.View
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
 import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.primitives.roundToStep
 import renetik.android.view.findView
+import kotlin.math.roundToInt
 
 fun View.slider(id: Int) = findView<Slider>(id)!!
 
@@ -53,7 +55,6 @@ fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSEventRegistration {
     }
 }
 
-fun <T : Slider> T.value(value: Double) = apply { this.value = value.toFloat() }
 fun <T : Slider> T.value(value: Float) = apply { this.value = value }
 fun <T : Slider> T.value(value: Int) = apply { this.value = value.toFloat() }
 fun <T : Slider> T.valueFrom(value: Float) = apply { this.valueFrom = value }
@@ -63,18 +64,6 @@ fun <T : Slider> T.valueTo(value: Int) = apply { this.valueTo = value.toFloat() 
 fun <T : Slider> T.stepSize(value: Float) = apply { this.stepSize = value }
 fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat() }
 
-@Deprecated("Double is useless in ui logic, use float")
-@JvmName("valuePropertyDouble")
-fun Slider.value(property: CSEventProperty<Double>,
-                 min: Double = 0.0, max: Double = 1.0, step: Double = 0.1): CSEventRegistration {
-    valueFrom = min.toFloat()
-    valueTo = max.toFloat()
-    stepSize = step.toFloat()
-    val onChangeRegistration = property.onChange { value(property.value.roundToStep(step)) }
-    value(property.value.roundToStep(step))
-    onChange { onChangeRegistration.pause().use { property.value = value.roundToStep(step) } }
-    return onChangeRegistration
-}
 
 @JvmName("valuePropertyDouble")
 fun Slider.value(property: CSEventProperty<Float>,
@@ -82,10 +71,15 @@ fun Slider.value(property: CSEventProperty<Float>,
     valueFrom = min
     valueTo = max
     stepSize = step
-    val onChangeRegistration = property.onChange { value(property.value.roundToStep(step)) }
     value(property.value.roundToStep(step))
-    onChange { onChangeRegistration.pause().use { property.value = value.roundToStep(step) } }
-    return onChangeRegistration
+    lateinit var onSliderChangeRegistration: CSEventRegistration
+    val onChangeRegistration = property.onChange {
+        onSliderChangeRegistration.pause().use { value(property.value.roundToStep(step)) }
+    }
+    onSliderChangeRegistration = onChange {
+        onChangeRegistration.pause().use { property.value = value }
+    }
+    return CSMultiEventRegistration(onChangeRegistration, onSliderChangeRegistration)
 }
 
 
@@ -95,8 +89,13 @@ fun Slider.value(property: CSEventProperty<Int>,
     valueFrom = min.toFloat()
     valueTo = max.toFloat()
     stepSize = step.toFloat()
-    val onChangeRegistration = property.onChange { value(property.value.roundToStep(step)) }
     value(property.value.roundToStep(step))
-    onChange { onChangeRegistration.pause().use { property.value = value.roundToStep(step) } }
-    return onChangeRegistration
+    lateinit var onSliderChangeRegistration: CSEventRegistration
+    val onChangeRegistration = property.onChange {
+        onSliderChangeRegistration.pause().use { value(property.value.roundToStep(step)) }
+    }
+    onSliderChangeRegistration = onChange {
+        onChangeRegistration.pause().use { property.value = value.roundToInt() }
+    }
+    return CSMultiEventRegistration(onChangeRegistration, onSliderChangeRegistration)
 }

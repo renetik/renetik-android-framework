@@ -64,14 +64,29 @@ fun TextView.text(property: CSEventProperty<String>) = text(property) { it }
 fun <T, V> TextView.text(parent: CSEventProperty<T>,
                          child: (T) -> CSEventProperty<V>,
                          getText: (V) -> Any): CSEventRegistration {
-    var childRegistration = text(child(parent.value), getText)
-    val parentRegistration = parent.onChange {
+    lateinit var childRegistration: CSEventRegistration
+    val parentRegistration = parent.action {
         childRegistration.cancel()
         childRegistration = text(child(parent.value), getText)
     }
     return registration {
         parentRegistration.cancel()
         childRegistration.cancel()
+    }
+}
+
+fun <T, V> TextView.textNullableChild(
+    parent: CSEventProperty<T>, child: (T) -> CSEventProperty<V>?,
+    getText: (V?) -> Any): CSEventRegistration {
+    var childRegistration: CSEventRegistration? = null
+    val parentRegistration = parent.action {
+        childRegistration?.cancel()
+        childRegistration = child(parent.value)?.let { text(it, getText) }
+        if (childRegistration == null) text(getText(null))
+    }
+    return registration {
+        parentRegistration.cancel()
+        childRegistration?.cancel()
     }
 }
 
