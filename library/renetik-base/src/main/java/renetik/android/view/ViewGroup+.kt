@@ -62,6 +62,8 @@ fun <T : ViewGroup> T.clear() = apply {
 
 fun ViewGroup.childAt(condition: (View) -> Boolean) = children.find(condition)
 
+fun ViewGroup.removeViews(start: Int) = removeViews(start, childCount - start)
+
 val ViewGroup.subViews
     get() = object : List<View> {
         override val size: Int
