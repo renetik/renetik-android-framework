@@ -64,14 +64,14 @@ fun TextView.text(property: CSEventProperty<String>) = text(property) { it }
 fun <T, V> TextView.text(parent: CSEventProperty<T>,
                          child: (T) -> CSEventProperty<V>,
                          getText: (V) -> Any): CSEventRegistration {
-    lateinit var childRegistration: CSEventRegistration
+    var childRegistration: CSEventRegistration? = null
     val parentRegistration = parent.action {
-        childRegistration.cancel()
+        childRegistration?.cancel()
         childRegistration = text(child(parent.value), getText)
     }
     return registration {
         parentRegistration.cancel()
-        childRegistration.cancel()
+        childRegistration?.cancel()
     }
 }
 

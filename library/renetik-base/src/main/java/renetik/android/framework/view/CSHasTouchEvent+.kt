@@ -5,7 +5,7 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.view.CSHasTouchEvent
 import renetik.android.primitives.isTrue
 
-fun <T : CSHasTouchEvent> T.onTouch(function: (Boolean) -> Unit) = apply {
+fun <T : CSHasTouchEvent> T.onTouch(function: (down: Boolean) -> Unit) = apply {
     onTouchEvent = {
         when (it.actionMasked) {
             ACTION_DOWN -> true.also {
@@ -20,6 +20,10 @@ fun <T : CSHasTouchEvent> T.onTouch(function: (Boolean) -> Unit) = apply {
             else -> false
         }
     }
+}
+
+fun <T : CSHasTouchEvent> T.onTouchDown(function: () -> Unit) = apply {
+    onTouch { down -> if (down) function() }
 }
 
 fun <T : CSHasTouchEvent> T.toggleIf(property: CSEventProperty<Boolean>): CSEventRegistration {

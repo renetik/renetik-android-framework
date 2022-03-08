@@ -5,6 +5,8 @@ import renetik.android.framework.lang.CSHasTitle
 import renetik.android.framework.lang.CSValue
 import renetik.android.primitives.isEmpty
 
+fun <Type : Any> Any.type() = (this as Type)
+
 val Any?.asString
     get() = (this as? CSHasTitle)?.title
         ?: (this as? CSValue<*>)?.value as? String

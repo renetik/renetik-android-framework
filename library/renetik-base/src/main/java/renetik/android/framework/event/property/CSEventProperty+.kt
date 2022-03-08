@@ -6,6 +6,9 @@ import renetik.android.framework.lang.isTrue
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isTrue
 
+fun <T> CSEventProperty<T?>.clear() = value(null)
+val <T> CSEventProperty<T?>.isEmpty get() = value == null
+val <T> CSEventProperty<T?>.isSet get() = !isEmpty
 
 fun <T> CSEventProperty<T>.action(function: (T) -> Unit): CSEventRegistration {
     function(value)
