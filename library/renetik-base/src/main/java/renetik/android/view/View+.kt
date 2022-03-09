@@ -20,6 +20,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import renetik.android.R
+import renetik.android.content.CSToast.toast
 import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.property.CSEventProperty
@@ -310,12 +311,13 @@ val View.eventScrollChange
 fun <T : View> T.onDoubleTap(function: (T) -> Unit) = apply {
     val view = this
     val detector = GestureDetector(context, object : SimpleOnGestureListener() {
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
+        override fun onDoubleTap(e: MotionEvent): Boolean {
             function(view)
+            toast("")
             return true
         }
 
-        override fun onDown(e: MotionEvent?): Boolean = true
+        override fun onDown(e: MotionEvent): Boolean = true
     })
     setOnTouchListener { _, event -> detector.onTouchEvent(event) }
 }

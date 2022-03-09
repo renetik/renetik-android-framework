@@ -17,15 +17,19 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.primitives.at
 
 fun TextView.textColor(value: CSColorInt) = apply {
-    setTextColor(ColorStateList.valueOf(value.color))
+    setTextColor(value.color)
+}
+
+fun TextView.textColorInt(@ColorInt color: Int) = apply {
+    setTextColor(color)
 }
 
 fun TextView.textColor(@ColorRes value: Int) = apply {
     textColor(context.color(value))
 }
 
-fun TextView.textColorAttr(value: Int) = apply {
-    setTextColor(ColorStateList.valueOf(context.attributeColor(value)))
+fun TextView.textColorAttr(@ColorRes value: Int) = apply {
+    setTextColor(context.attributeColor(value))
 }
 
 @RequiresApi(Build.VERSION_CODES.M)
