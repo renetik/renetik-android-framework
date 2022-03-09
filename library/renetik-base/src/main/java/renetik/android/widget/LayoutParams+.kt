@@ -19,6 +19,7 @@ val layoutWrap get() = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
 fun layoutWrap(gravity: Int) = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT, gravity)
 val layoutWrapMatch get() = LayoutParams(WRAP_CONTENT, MATCH_PARENT)
 val layoutFillMatch get() = LayoutParams(0, MATCH_PARENT, 1f)
+val layoutFillWrap get() = LayoutParams(0, WRAP_CONTENT, 1f)
 
 fun layoutWrapHeight(dpHeight: Float) = LayoutParams(WRAP_CONTENT, application.dpToPixel(dpHeight))
 fun layoutWrapHeight(dpHeight: Int) = layoutWrapHeight(dpHeight.toFloat())

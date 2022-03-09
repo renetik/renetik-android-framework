@@ -32,10 +32,13 @@ class CSImageView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        var widthMeasure = widthMeasureSpec
+        var heightMeasure = heightMeasureSpec
         if (_maxWidth != -1 && measuredWidth > _maxWidth)
-            super.onMeasure(makeMeasureSpec(_maxWidth, EXACTLY), heightMeasureSpec)
-        else if (_maxHeight != -1 && measuredHeight > _maxHeight)
-            super.onMeasure(widthMeasureSpec, makeMeasureSpec(_maxHeight, EXACTLY))
+            widthMeasure = makeMeasureSpec(_maxWidth, EXACTLY)
+        if (_maxHeight != -1 && measuredHeight > _maxHeight)
+            heightMeasure = makeMeasureSpec(_maxHeight, EXACTLY)
+        super.onMeasure(widthMeasure, heightMeasure)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
