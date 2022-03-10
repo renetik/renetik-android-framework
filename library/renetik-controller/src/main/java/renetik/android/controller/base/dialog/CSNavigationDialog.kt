@@ -1,4 +1,4 @@
-package renetik.android.controller.base
+package renetik.android.controller.base.dialog
 
 import android.view.Gravity.*
 import android.view.View
@@ -9,9 +9,11 @@ import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
 import renetik.android.content.color
 import renetik.android.content.dpToPixelF
-import renetik.android.controller.base.DialogAnimation.*
-import renetik.android.controller.base.DialogPopupSide.Bottom
-import renetik.android.controller.base.DialogPopupSide.Right
+import renetik.android.controller.base.CSActivityView
+import renetik.android.controller.base.dialog.DialogAnimation.*
+import renetik.android.controller.base.dialog.DialogPopupSide.Bottom
+import renetik.android.controller.base.dialog.DialogPopupSide.Right
+import renetik.android.controller.base.hasSize
 import renetik.android.controller.common.CSNavigationAnimation.*
 import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.common.CSNavigationItem
@@ -27,14 +29,6 @@ import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
 import renetik.android.view.*
 import java.io.Closeable
-
-enum class DialogAnimation {
-    None, Slide, Fade, SlideFade
-}
-
-enum class DialogPopupSide {
-    Bottom, Right
-}
 
 open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)
     : CSActivityView<FrameLayout>(parent.navigation!!,
@@ -153,20 +147,6 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     }
 
     val isFullscreen get() = isFullscreenNavigationItem
+
     override fun close() = dismiss()
-}
-
-fun CSNavigationDialog<*>.pressed(button: View) = apply {
-    later(50) { button.isPressed = true }
-    onDismiss { button.isPressed = false }
-}
-
-fun CSNavigationDialog<*>.active(button: View) = apply {
-    button.isActivated = true
-    onDismiss { button.isActivated = false }
-}
-
-fun CSNavigationDialog<*>.selected(button: View) = apply {
-    button.isSelected = true
-    onDismiss { button.isSelected = false }
 }
