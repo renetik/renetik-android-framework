@@ -64,6 +64,9 @@ fun <T> View.shownIf(property: CSEventProperty<T>,
 fun View.shownIf(property: CSEventProperty<Boolean>,
                  animated: Boolean = false) = shownIf(property, animated) { it }
 
+fun View.shownIfNot(property: CSEventProperty<Boolean>,
+                 animated: Boolean = false) = shownIf(property, animated) { !it }
+
 fun <T> View.shownIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
                      animated: Boolean = false, condition: (T) -> Boolean) =
     shownIf(property1, property2, animated) { first, _ -> condition(first) }
@@ -141,6 +144,9 @@ fun <T> View.visibleIf(property: CSEventProperty<T>,
 
 fun View.visibleIf(property: CSEventProperty<Boolean>,
                    animated: Boolean = false) = visibleIf(property, animated) { it }
+
+fun View.visibleIfNot(property: CSEventProperty<Boolean>,
+                   animated: Boolean = false) = visibleIf(property, animated) { !it }
 
 fun <T> View.invisibleIf(property: CSEventProperty<T>,
                          animated: Boolean = false,
