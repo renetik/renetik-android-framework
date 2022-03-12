@@ -78,8 +78,9 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
             DialogAnimation.None -> None
         }
 
-    fun dismiss() =
+    fun dismiss() {
         navigation!!.pop(this)
+    }
 
     fun show(animation: DialogAnimation? = null) = apply {
         animation?.let { this.animation = it }
@@ -149,4 +150,10 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
     val isFullscreen get() = isFullscreenNavigationItem
 
     override fun close() = dismiss()
+
+    override fun onDestroy() {
+//        if (showingInPager == true) dismiss()
+//        else
+            super.onDestroy()
+    }
 }

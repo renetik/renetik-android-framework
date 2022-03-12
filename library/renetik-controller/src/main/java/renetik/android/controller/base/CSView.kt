@@ -2,13 +2,15 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager.*
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import androidx.annotation.LayoutRes
 import renetik.android.content.inflate
 import renetik.android.content.input
 import renetik.android.framework.CSContext
-import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.Companion.event
+import renetik.android.framework.event.CSHasParent
+import renetik.android.framework.event.CSViewInterface
+import renetik.android.framework.event.listenOnce
+import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.view.inflate
 import renetik.android.view.onClick
@@ -34,7 +36,7 @@ open class CSView<ViewType : View> : CSContext,
 
     private var _view: ViewType? = null
 
-     constructor(parent: CSViewInterface, layout: CSLayoutRes) : super(parent) {
+    constructor(parent: CSViewInterface, layout: CSLayoutRes) : super(parent) {
         this.parent = parent
         this.layout = layout
         this.viewId = null
@@ -108,6 +110,7 @@ open class CSView<ViewType : View> : CSContext,
         super.onDestroy()
         if (layout != null) {
             if (_view == null) unexpected("$className $this _view shouldn't be null")
+            _view!!.visibility = View.GONE
             _view!!.tag = "tag instance of $className removed, onDestroy called"
         }
         _view = null

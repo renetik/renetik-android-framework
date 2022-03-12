@@ -29,7 +29,7 @@ abstract class CSActivityView<ViewType : View>
     private val isPaused get() = !isResumed
     private var parentActivityView: CSActivityView<*>? = null
     var activity: CSActivity? = null
-    private var showingInPager: Boolean? = null
+    var showingInPager: Boolean? = null
 
     constructor(parent: CSActivityView<*>) : super(parent) {
         parentActivityView = parent
