@@ -56,8 +56,6 @@ fun <T> TextView.text(
     updateText()
 }
 
-fun TextView.text(property: CSEventProperty<*>) = text(property) { it.asString }
-
 @JvmName("TextViewTextStringProperty")
 fun TextView.text(property: CSEventProperty<String>) = text(property) { it }
 
@@ -92,6 +90,8 @@ fun <T, V> TextView.textNullableChild(
 
 fun <T> TextView.text(property: CSEventProperty<T>, getText: (T) -> Any) =
     property.action { text(getText(property.value)) }
+
+fun TextView.text(property: CSEventProperty<*>) = text(property, getText = { it.asString })
 
 fun <T, V> TextView.text(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
                          getText: (T, V) -> Any): CSEventRegistration {
