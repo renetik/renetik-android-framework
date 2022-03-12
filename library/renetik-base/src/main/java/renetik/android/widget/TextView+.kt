@@ -73,6 +73,10 @@ fun <T, V> TextView.text(parent: CSEventProperty<T>,
     }
 }
 
+fun <T> TextView.textOfChild(
+    parent: CSEventProperty<T>, child: (T) -> CSEventProperty<String>) =
+    text(parent, child) { it }
+
 fun <T, V> TextView.textNullableChild(
     parent: CSEventProperty<T>, child: (T) -> CSEventProperty<V>?,
     getText: (V?) -> Any): CSEventRegistration {

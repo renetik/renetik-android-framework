@@ -7,6 +7,7 @@ import renetik.kotlin.collections.putAll
 class CSEventRegistrations() {
 
     private val registrations = list<CSEventRegistration>()
+    private val registrationsMap = mutableMapOf<Any, CSEventRegistration>()
     private var active = true
 
     constructor(vararg registrations: CSEventRegistration) : this() {
@@ -18,6 +19,9 @@ class CSEventRegistrations() {
     fun cancel() {
         for (reg in registrations) reg.cancel()
         registrations.clear()
+
+        for (reg in registrationsMap) reg.value.cancel()
+        registrationsMap.clear()
     }
 
     @Synchronized
@@ -32,6 +36,15 @@ class CSEventRegistrations() {
     fun add(registration: CSEventRegistration): CSEventRegistration {
         registration.isActive = active
         return registrations.put(registration)
+    }
+
+    @Synchronized
+    @AnyThread
+    fun add(key: Any, registration: CSEventRegistration): CSEventRegistration {
+        registration.isActive = active
+        registrationsMap[key]?.cancel()
+        registrationsMap[key] = registration
+        return registration
     }
 
     @Synchronized
