@@ -14,26 +14,21 @@ fun <RowType : Any> CSGridView<RowType>.reload(values: Array<out RowType>) =
 fun <T : CSHasTitle> CSGridView<T>.reload(values: Array<T>, searchText: CSValue<String>) =
     reload(values.asIterable(), searchText)
 
-fun <T : CSHasTitle> CSGridView<T>.reload(values: Iterable<T>, searchText: CSValue<String>) = apply {
-    val data = if (searchText.isEmpty) values
-    else values.filter { it.title.contains(searchText.value, ignoreCase = true) }
-    reload(data)
-}
+fun <T : CSHasTitle> CSGridView<T>.reload(values: Iterable<T>, searchText: CSValue<String>) =
+    apply {
+        val data = if (searchText.isEmpty) values
+        else values.filter { it.title.contains(searchText.value, ignoreCase = true) }
+        reload(data)
+    }
 
 val CSGridView<*>.dataCount get() = data.size
 
 fun <T : Any> CSGridView<T>.value(value: T?) = apply { selectedItem.value(value) }
 
 fun <T : Any> CSGridView<T>.property(property: CSEventProperty<T>) = apply {
-    val registration = register(property.onChange {
-        selectedItem.value(property.value)
-    })
-    selectedItem.onChange {
-        registration.pause()
-        property.value = it!!
-        registration.resume()
-    }
+    val registration = register(property.onChange { selectedItem.value(property.value) })
     selectedItem.value(property.value)
+    selectedItem.onChange { item -> registration.pause().use { property.value = item!! } }
 }
 
 @JvmName("propertyNullableItem")
