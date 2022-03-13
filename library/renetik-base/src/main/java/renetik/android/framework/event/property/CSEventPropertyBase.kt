@@ -13,7 +13,7 @@ abstract class CSEventPropertyBase<T>
     constructor(onApply: ((value: T) -> Unit)? = null)
             : this(parent = null, onApply = onApply)
 
-    protected val eventChange = event<T>()
+    val eventChange = event<T>()
 
     override fun onChange(function: (T) -> Unit) = eventChange.listen(function)
 
@@ -25,3 +25,9 @@ abstract class CSEventPropertyBase<T>
         eventChange.fire(value)
     }
 }
+
+//fun <V, T : CSEventPropertyBase<V>> T.apply() = apply {
+//    val value = this.value
+//    onApply?.invoke(value)
+//    eventChange.fire(value)
+//}

@@ -7,6 +7,6 @@ import renetik.android.framework.store.CSStoreInterface
 
 val CSPresetEventProperty<*>.store: CSStoreInterface get() = preset.store
 
-fun <T> CSPresetEventProperty<T>.followPresetIf(property: CSEventProperty<Boolean>) {
+fun <T> CSPresetEventProperty<T>.followPresetIf(property: CSEventProperty<Boolean>) = apply {
     parent.register(isFollowPreset.connect(property))
 }
