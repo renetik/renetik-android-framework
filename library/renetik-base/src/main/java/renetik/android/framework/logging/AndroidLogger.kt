@@ -41,6 +41,13 @@ class AndroidLogger() : CSContext(), CSLogger {
         listener?.onLogEvent(Debug, message)
     }
 
+    override fun debug(e: Throwable, vararg values: Any?) {
+        if (!application.isDebugBuild) return
+        val message = createMessage(*values)
+        Log.d(application.name, message.toString(), e)
+        listener?.onLogEvent(Debug, message.addSpace().add(getStackTraceString(e)).toString())
+    }
+
     override fun warn(vararg values: Any?) {
         val message = createMessage(*values).toString()
         Log.w(application.name, message)

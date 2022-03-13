@@ -4,8 +4,11 @@ import renetik.android.framework.CSEventOwnerHasDestroy
 import renetik.android.framework.CSModelBase
 import renetik.android.framework.event.CSAction.Companion.action
 import renetik.android.framework.event.listenOnce
+import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSHasId
+import renetik.android.framework.lang.property.connect
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStoreInterface
 import renetik.kotlin.unexpected
@@ -79,4 +82,8 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     }
 
     override fun toString() = "$id ${super.toString()}"
+}
+
+fun Preset.followStoreIf(property: CSEventProperty<Boolean>) {
+    register(isFollowStore.connect(property))
 }

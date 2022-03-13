@@ -9,6 +9,8 @@ interface CSLogger {
 
     fun debug(vararg values: Any?)
 
+    fun debug(e: Throwable, vararg values: Any?)
+
     fun warn(vararg values: Any?)
 
     fun warn(e: Throwable, vararg values: Any?)

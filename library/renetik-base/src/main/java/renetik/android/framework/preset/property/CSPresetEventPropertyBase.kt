@@ -12,7 +12,7 @@ import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStoreInterface
 
 abstract class CSPresetEventPropertyBase<T>(
-    val parent: CSEventOwnerHasDestroy,
+    override val parent: CSEventOwnerHasDestroy,
     final override val preset: CSPreset<*, *>,
     override val key: String,
     onChange: ((value: T) -> Unit)? = null
