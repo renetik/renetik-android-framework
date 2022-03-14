@@ -17,7 +17,7 @@ import renetik.android.view.isVisible
 import renetik.kotlin.className
 import renetik.kotlin.unexpected
 
-abstract class CSActivityView<ViewType : View>
+open class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner, CSVisibleEventOwner {
 
     override val onResume = event<Unit>()
