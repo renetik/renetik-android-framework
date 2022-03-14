@@ -17,6 +17,10 @@ fun CompoundButton.buttonTint(@ColorInt value: Int?) = apply {
     buttonTintList = if (value != null) ColorStateList.valueOf(value) else null
 }
 
+fun CompoundButton.checked(condition: Boolean = true) = apply {
+    isChecked = condition
+}
+
 fun CompoundButton.isCheckedIf(condition: Boolean) = apply {
     isChecked = condition
 }
