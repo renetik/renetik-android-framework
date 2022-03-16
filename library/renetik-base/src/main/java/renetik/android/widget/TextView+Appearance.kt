@@ -12,7 +12,7 @@ import renetik.android.content.CSColorInt
 import renetik.android.content.attributeColor
 import renetik.android.content.color
 import renetik.android.content.drawable
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.primitives.at
 
@@ -50,7 +50,7 @@ fun <T : TextView> T.startDrawable(@DrawableRes drawable: Int?) =
     startDrawable(drawable?.let { context.drawable(it) })
 
 fun <T : TextView> T.startDrawable(property: CSEventProperty<Boolean>,
-                                   function: (Boolean) -> Int): CSEventRegistration {
+                                   function: (Boolean) -> Int): CSRegistration {
     fun update(value: Boolean) = startDrawable(function(value))
     update(property.value)
     return property.onChange { update(it) }

@@ -62,13 +62,13 @@ fun View.toolbar(@IdRes id: Int) = findView<Toolbar>(id)!!
 
 fun View.disabledIf(property: CSEventProperty<Boolean>) = disabledIf(property) { it }
 fun <T> View.disabledIf(property: CSEventProperty<T>,
-                        condition: (T) -> Boolean): CSEventRegistration {
+                        condition: (T) -> Boolean): CSRegistration {
     disabledIf(condition(property.value))
     return property.onChange { disabledIf(condition(property.value)) }
 }
 
 fun <T, V> View.disabledIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
-                           condition: (T, V) -> Boolean): CSEventRegistration {
+                           condition: (T, V) -> Boolean): CSRegistration {
     fun update() = disabledIf(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
@@ -132,47 +132,47 @@ fun View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
 fun View.onClick(action: CSEventProperty<Boolean>) = onClick { action.toggle() }
 
 fun View.toggleSelectedAsTrue(property: CSEventProperty<Boolean>)
-        : CSEventRegistration {
+        : CSRegistration {
     onClick { property.toggle() }
     return selectedIf(property) { it.isTrue }
 }
 
 fun View.toggleActiveAsTrue(property: CSEventProperty<Boolean>)
-        : CSEventRegistration {
+        : CSRegistration {
     onClick { property.toggle() }
     return activatedIf(property) { it.isTrue }
 }
 
 fun View.toggleAsFalse(property: CSEventProperty<Boolean>)
-        : CSEventRegistration {
+        : CSRegistration {
     onClick { property.toggle() }
     return selectedIf(property) { it.isFalse }
 }
 
 fun <T> View.selectIf(property: CSEventProperty<T>, value: T)
-        : CSEventRegistration {
+        : CSRegistration {
     onClick { property.value = value }
     return selectedIf(property) { it == value }
 }
 
 fun <T> View.selectedIf(property: CSEventProperty<T>,
-                        condition: (T) -> Boolean): CSEventRegistration {
+                        condition: (T) -> Boolean): CSRegistration {
     selected(condition(property.value))
     return property.onChange { selected(condition(property.value)) }
 }
 
-fun View.selectedIf(property: CSEventProperty<Boolean>): CSEventRegistration {
+fun View.selectedIf(property: CSEventProperty<Boolean>): CSRegistration {
     return selectedIf(property) { it.isTrue }
 }
 
 fun <T> View.activateIf(property: CSEventProperty<T>, value: T)
-        : CSEventRegistration {
+        : CSRegistration {
     onClick { property.value = value }
     return activatedIf(property) { it == value }
 }
 
 fun <T> View.activatedIf(property: CSEventProperty<T>,
-                         condition: (T) -> Boolean): CSEventRegistration {
+                         condition: (T) -> Boolean): CSRegistration {
     activated(condition(property.value))
     return property.onChange { activated(condition(property.value)) }
 }
@@ -184,7 +184,7 @@ fun <T> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventProper
     activatedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
-                            condition: (T, V) -> Boolean): CSEventRegistration {
+                            condition: (T, V) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
@@ -195,7 +195,7 @@ fun <T, V> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventPro
 fun <T, V, X> View.activatedIf(property1: CSEventProperty<T>,
                                property2: CSEventProperty<V>,
                                property3: CSEventProperty<X>,
-                               condition: (T, V, X) -> Boolean): CSEventRegistration {
+                               condition: (T, V, X) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value, property3.value))
     update()
     return CSMultiEventRegistration(
@@ -209,7 +209,7 @@ fun <T, V, X, Y> View.activatedIf(property1: CSEventProperty<T>,
                                   property2: CSEventProperty<V>,
                                   property3: CSEventProperty<X>,
                                   property4: CSEventProperty<Y>,
-                                  condition: (T, V, X, Y) -> Boolean): CSEventRegistration {
+                                  condition: (T, V, X, Y) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value,
         property3.value, property4.value))
     update()
@@ -226,7 +226,7 @@ fun <T> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventPropert
     selectedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
-                           condition: (T, V) -> Boolean): CSEventRegistration {
+                           condition: (T, V) -> Boolean): CSRegistration {
     fun update() = selected(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
@@ -237,7 +237,7 @@ fun <T, V> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProp
 fun <T, V, X> View.selectedIf(property1: CSEventProperty<T>,
                               property2: CSEventProperty<V>,
                               property3: CSEventProperty<X>,
-                              condition: (T, V, X) -> Boolean): CSEventRegistration {
+                              condition: (T, V, X) -> Boolean): CSRegistration {
     fun update() = selected(condition(property1.value, property2.value, property3.value))
     update()
     return CSMultiEventRegistration(
@@ -251,7 +251,7 @@ fun <T, V, X, Y> View.selectedIf(property1: CSEventProperty<T>,
                                  property2: CSEventProperty<V>,
                                  property3: CSEventProperty<X>,
                                  property4: CSEventProperty<Y>,
-                                 condition: (T, V, X, Y) -> Boolean): CSEventRegistration {
+                                 condition: (T, V, X, Y) -> Boolean): CSRegistration {
     fun update() = selected(condition(property1.value, property2.value,
         property3.value, property4.value))
     update()
@@ -269,7 +269,7 @@ fun <T> View.pressedIf(property1: CSEventProperty<T>, property2: CSEventProperty
     pressedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.pressedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
-                          condition: (T, V) -> Boolean): CSEventRegistration {
+                          condition: (T, V) -> Boolean): CSRegistration {
     fun update() = pressedIf(condition(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(
@@ -289,10 +289,10 @@ fun View.exitFullscreen() {
     systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
 }
 
-fun View.onLayoutChange(function: () -> Unit): CSEventRegistration {
+fun View.onLayoutChange(function: () -> Unit): CSRegistration {
     val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
     addOnLayoutChangeListener(listener)
-    return object : CSEventRegistration {
+    return object : CSRegistration {
         override var isActive = true
         override fun cancel() = removeOnLayoutChangeListener(listener)
     }

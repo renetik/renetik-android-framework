@@ -14,9 +14,9 @@ class CSEventImpl<T> : CSEvent<T> {
     private var running = false
     private var paused = false
 
-    override fun add(listener: (CSEventRegistration, T) -> Unit) = add(EventListenerImpl(listener))
+    override fun add(listener: (CSRegistration, T) -> Unit) = add(EventListenerImpl(listener))
 
-    override fun add(listener: CSEventListener<T>): CSEventRegistration {
+    override fun add(listener: CSEventListener<T>): CSRegistration {
         if (running) toAdd.add(listener)
         else listeners.add(listener)
         return listener
@@ -44,7 +44,7 @@ class CSEventImpl<T> : CSEvent<T> {
     override val isListened get() = listeners.hasItems
 
     internal inner class EventListenerImpl(
-        private val listener: (CSEventRegistration, T) -> Unit) :
+        private val listener: (CSRegistration, T) -> Unit) :
         CSEventListener<T> {
         override var isActive = true
         private var canceled = false

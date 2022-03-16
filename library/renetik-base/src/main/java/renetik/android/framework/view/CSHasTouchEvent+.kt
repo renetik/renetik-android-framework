@@ -1,5 +1,5 @@
 import android.view.MotionEvent.*
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.view.CSHasTouchEvent
@@ -26,7 +26,7 @@ fun <T : CSHasTouchEvent> T.onTouchDown(function: () -> Unit) = apply {
     onTouch { down -> if (down) function() }
 }
 
-fun <T : CSHasTouchEvent> T.toggleIf(property: CSEventProperty<Boolean>): CSEventRegistration {
+fun <T : CSHasTouchEvent> T.toggleIf(property: CSEventProperty<Boolean>): CSRegistration {
     setTogglePressed(property.value)
     val propertyOnChange = property.onChange { setTogglePressed(property.value) }
     onTouchToggle { on -> propertyOnChange.pause().use { property.value(on) } }

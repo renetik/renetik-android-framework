@@ -1,6 +1,6 @@
 package renetik.android.framework.event.property
 
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.lang.isFalse
 import renetik.android.framework.lang.isTrue
 import renetik.android.primitives.isFalse
@@ -10,7 +10,7 @@ fun <T> CSEventProperty<T?>.clear() = value(null)
 val <T> CSEventProperty<T?>.isEmpty get() = value == null
 val <T> CSEventProperty<T?>.isSet get() = !isEmpty
 
-fun <T> CSEventProperty<T>.action(function: (T) -> Unit): CSEventRegistration {
+fun <T> CSEventProperty<T>.action(function: (T) -> Unit): CSRegistration {
     function(value)
     return onChange(function)
 }
@@ -21,18 +21,18 @@ fun CSEventProperty<Boolean>.onFalse(function: () -> Unit) =
 fun CSEventProperty<Boolean>.onTrue(function: () -> Unit) =
     onChange { if (it.isTrue) function() }
 
-fun CSEventProperty<Boolean>.actionIf(function: () -> Unit): CSEventRegistration {
+fun CSEventProperty<Boolean>.actionIf(function: () -> Unit): CSRegistration {
     if (isTrue) function()
     return onTrue(function)
 }
 
-fun CSEventProperty<Boolean>.actionIfNot(function: () -> Unit): CSEventRegistration {
+fun CSEventProperty<Boolean>.actionIfNot(function: () -> Unit): CSRegistration {
     if (isFalse) function()
     return onFalse(function)
 }
 
-fun <T> CSEventProperty<T>.listenChangeOnce(listener: (argument: T) -> Unit): CSEventRegistration {
-    lateinit var registration: CSEventRegistration
+fun <T> CSEventProperty<T>.listenChangeOnce(listener: (argument: T) -> Unit): CSRegistration {
+    lateinit var registration: CSRegistration
     registration = onChange { argument: T ->
         registration.cancel()
         listener(argument)
@@ -40,8 +40,8 @@ fun <T> CSEventProperty<T>.listenChangeOnce(listener: (argument: T) -> Unit): CS
     return registration
 }
 
-fun CSEventProperty<Boolean>.listenUntilTrueOnce(listener: (argument: Boolean) -> Unit): CSEventRegistration {
-    lateinit var registration: CSEventRegistration
+fun CSEventProperty<Boolean>.listenUntilTrueOnce(listener: (argument: Boolean) -> Unit): CSRegistration {
+    lateinit var registration: CSRegistration
     registration = onChange { argument: Boolean ->
         if (argument) {
             registration.cancel()
@@ -51,8 +51,8 @@ fun CSEventProperty<Boolean>.listenUntilTrueOnce(listener: (argument: Boolean) -
     return registration
 }
 
-fun CSEventProperty<Boolean>.listenUntilFalseOnce(listener: (argument: Boolean) -> Unit): CSEventRegistration {
-    lateinit var registration: CSEventRegistration
+fun CSEventProperty<Boolean>.listenUntilFalseOnce(listener: (argument: Boolean) -> Unit): CSRegistration {
+    lateinit var registration: CSRegistration
     registration = onChange { argument: Boolean ->
         if (!argument) {
             registration.cancel()

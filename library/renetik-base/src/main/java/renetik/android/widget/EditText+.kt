@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent.ACTION_UP
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
 import renetik.android.framework.event.*
@@ -38,7 +37,7 @@ fun <T : EditText> T.withClear(showOnFocus: Boolean = false) = apply {
     }
 }
 
-fun EditText.textProperty(property: CSEventProperty<String>): CSEventRegistration {
+fun EditText.textProperty(property: CSEventProperty<String>): CSRegistration {
     fun updateText() = text(property.value.asString)
     val propertyOnChange = property.onChange { updateText() }
     onTextChange {

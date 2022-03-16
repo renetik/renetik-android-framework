@@ -3,7 +3,7 @@ package renetik.android.material.extensions
 import android.view.View
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
@@ -13,10 +13,10 @@ import kotlin.math.roundToInt
 
 fun View.slider(id: Int) = findView<Slider>(id)!!
 
-fun <T : Slider> T.onChange(listener: (T) -> Unit): CSEventRegistration {
+fun <T : Slider> T.onChange(listener: (T) -> Unit): CSRegistration {
     val sliderListener = OnChangeListener { _, _, _ -> listener(this) }
     addOnChangeListener(sliderListener)
-    return object : CSEventRegistration {
+    return object : CSRegistration {
         override var isActive = true
             set(value) = if (value) addOnChangeListener(sliderListener)
             else removeOnChangeListener(sliderListener)
@@ -25,13 +25,13 @@ fun <T : Slider> T.onChange(listener: (T) -> Unit): CSEventRegistration {
     }
 }
 
-fun <T : Slider> T.onDragStart(listener: (T) -> Unit): CSEventRegistration {
+fun <T : Slider> T.onDragStart(listener: (T) -> Unit): CSRegistration {
     val sliderListener = object : Slider.OnSliderTouchListener {
         override fun onStartTrackingTouch(slider: Slider) = listener(this@onDragStart)
         override fun onStopTrackingTouch(slider: Slider) = Unit
     }
     addOnSliderTouchListener(sliderListener)
-    return object : CSEventRegistration {
+    return object : CSRegistration {
         override var isActive = true
             set(value) = if (value) addOnSliderTouchListener(sliderListener)
             else removeOnSliderTouchListener(sliderListener)
@@ -40,13 +40,13 @@ fun <T : Slider> T.onDragStart(listener: (T) -> Unit): CSEventRegistration {
     }
 }
 
-fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSEventRegistration {
+fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSRegistration {
     val sliderListener = object : Slider.OnSliderTouchListener {
         override fun onStartTrackingTouch(slider: Slider) = Unit
         override fun onStopTrackingTouch(slider: Slider) = listener(this@onDragStop)
     }
     addOnSliderTouchListener(sliderListener)
-    return object : CSEventRegistration {
+    return object : CSRegistration {
         override var isActive = true
             set(value) = if (value) addOnSliderTouchListener(sliderListener)
             else removeOnSliderTouchListener(sliderListener)
@@ -67,12 +67,12 @@ fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat(
 
 @JvmName("valuePropertyDouble")
 fun Slider.value(property: CSEventProperty<Float>,
-                 min: Float = 0f, max: Float = 1.0f, step: Float = 0.1f): CSEventRegistration {
+                 min: Float = 0f, max: Float = 1.0f, step: Float = 0.1f): CSRegistration {
     valueFrom = min
     valueTo = max
     stepSize = step
     value(property.value.roundToStep(step))
-    lateinit var onSliderChangeRegistration: CSEventRegistration
+    lateinit var onSliderChangeRegistration: CSRegistration
     val onChangeRegistration = property.onChange {
         onSliderChangeRegistration.pause().use { value(property.value.roundToStep(step)) }
     }
@@ -85,12 +85,12 @@ fun Slider.value(property: CSEventProperty<Float>,
 
 @JvmName("valuePropertyInt")
 fun Slider.value(property: CSEventProperty<Int>,
-                 min: Int = 0, max: Int = 100, step: Int = 1): CSEventRegistration {
+                 min: Int = 0, max: Int = 100, step: Int = 1): CSRegistration {
     valueFrom = min.toFloat()
     valueTo = max.toFloat()
     stepSize = step.toFloat()
     value(property.value.roundToStep(step))
-    lateinit var onSliderChangeRegistration: CSEventRegistration
+    lateinit var onSliderChangeRegistration: CSRegistration
     val onChangeRegistration = property.onChange {
         onSliderChangeRegistration.pause().use { value(property.value.roundToStep(step)) }
     }

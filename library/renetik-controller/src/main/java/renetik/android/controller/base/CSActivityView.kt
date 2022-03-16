@@ -20,9 +20,9 @@ import renetik.kotlin.unexpected
 open class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner, CSVisibleEventOwner {
 
-    override val onResume = event<Unit>()
-    override val onPause = event<Unit>()
-    override val onBack = event<CSProperty<Boolean>>()
+    override val eventResume = event<Unit>()
+    override val eventPause = event<Unit>()
+    override val eventBack = event<CSProperty<Boolean>>()
     final override fun activity(): CSActivity = activity!!
     private var isResumed = false
     private var isResumeFirstTime = false
@@ -65,7 +65,7 @@ open class CSActivityView<ViewType : View>
             isResumeFirstTime = true
         } else onResumeAgain()
         updateVisibility()
-        onResume.fire()
+        eventResume.fire()
     }
 
     protected open fun onResumeFirstTime() {}
@@ -79,7 +79,7 @@ open class CSActivityView<ViewType : View>
         }
         isResumed = false
         updateVisibility()
-        onPause.fire()
+        eventPause.fire()
     }
 
     override fun onDestroy() {
@@ -108,14 +108,14 @@ open class CSActivityView<ViewType : View>
     private fun <Parent> initializeParent(parent: Parent)
             where Parent : CSActivityViewInterface, Parent : CSVisibility {
         activity = parent.activity()
-        register(parent.onResume.listen(::onResume))
-        register(parent.onPause.listen(::onPause))
-        register(parent.onBack.listen(::onBack))
+        register(parent.eventResume.listen(::onResume))
+        register(parent.eventPause.listen(::onPause))
+        register(parent.eventBack.listen(::onBack))
         register(parent.eventViewVisibilityChanged.listen { updateVisibility() })
     }
 
     protected open fun onBack(goBack: CSProperty<Boolean>) {
-        onBack.fire(goBack)
+        eventBack.fire(goBack)
         if (goBack.value && isVisible) {
             hideKeyboard()
             goBack.value = onGoBack()
@@ -211,11 +211,11 @@ open class CSActivityView<ViewType : View>
     protected open fun onViewHidingAgain() {}
 
     private val isVisibleEventRegistrations = CSEventRegistrations()
-    fun ifVisible(registration: CSEventRegistration?) =
+    fun ifVisible(registration: CSRegistration?) =
         registration?.let { isVisibleEventRegistrations.add(it) }
 
     private val whileVisibleEventRegistrations = CSEventRegistrations()
-    override fun whileShowing(registration: CSEventRegistration) =
+    override fun whileShowing(registration: CSRegistration) =
         registration.let { whileVisibleEventRegistrations.add(it) }
 
     open val navigation: CSNavigationView? by lazy {

@@ -1,13 +1,13 @@
 package renetik.kotlin
 
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.util.CSMainHandler.postOnMain
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 
 inline fun later(delayMilliseconds: Int, crossinline function: () -> Unit) =
-    object : CSEventRegistration {
+    object : CSRegistration {
         init {
             postOnMain(delayMilliseconds) {
                 if (isActive) {

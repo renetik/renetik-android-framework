@@ -6,7 +6,7 @@ import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
 import androidx.annotation.ColorInt
 import renetik.android.framework.Func
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.kotlin.asStringArray
@@ -58,7 +58,7 @@ fun NumberPicker.max(value: Int) = apply { maxValue = value }
 
 @Deprecated("Impossible to style this widget , use CSNumberPicker")
 @JvmName("valuePropertyInt")
-fun NumberPicker.value(property: CSEventProperty<Int>): CSEventRegistration {
+fun NumberPicker.value(property: CSEventProperty<Int>): CSRegistration {
     val registration = value(property) { it }
     onValueChange { registration.pause().use { property.value = value } }
     return registration
@@ -66,7 +66,7 @@ fun NumberPicker.value(property: CSEventProperty<Int>): CSEventRegistration {
 
 @Deprecated("Impossible to style this widget , use CSNumberPicker")
 fun <T> NumberPicker.value(property: CSEventProperty<T>, function: (T) -> Int)
-        : CSEventRegistration {
+        : CSRegistration {
     value = function(property.value)
     return property.onChange { value = function(property.value) }
 }

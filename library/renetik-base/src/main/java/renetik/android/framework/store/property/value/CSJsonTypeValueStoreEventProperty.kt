@@ -1,6 +1,6 @@
 package renetik.android.framework.store.property.value
 
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.listen
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.store.CSStoreInterface
@@ -25,7 +25,7 @@ class CSJsonTypeValueStoreEventProperty<T : CSJsonObject>(
         updateOnChanged()
     }
 
-    var valueEventChanged: CSEventRegistration? = null
+    var valueEventChanged: CSRegistration? = null
 
     private fun updateOnChanged() {
         valueEventChanged?.cancel()

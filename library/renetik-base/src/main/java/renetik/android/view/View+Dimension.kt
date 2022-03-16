@@ -6,10 +6,9 @@ import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.content.dpToPixel
 import renetik.android.content.toDp
-import renetik.android.framework.event.CSEvent.*
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 
-fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSEventRegistration? {
+fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSRegistration? {
     if (width == 0 || height == 0) return onLayout {
         if (width != 0 && height != 0) {
             onHasSize(this@hasSize)
@@ -23,7 +22,7 @@ fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSEventRegistration? {
     }
 }
 
-fun <T : View> T.afterGlobalLayout(action: (View) -> Unit) = object : CSEventRegistration {
+fun <T : View> T.afterGlobalLayout(action: (View) -> Unit) = object : CSRegistration {
     val listener = OnGlobalLayoutListener {
         if (isActive) {
             cancel()
@@ -41,7 +40,7 @@ fun <T : View> T.afterGlobalLayout(action: (View) -> Unit) = object : CSEventReg
     }
 }
 
-fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit) = object : CSEventRegistration {
+fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit) = object : CSRegistration {
     val listener = OnGlobalFocusChangeListener { old, new -> if (isActive) function(old, new) }
     override var isActive = true
     override fun cancel() {
@@ -57,7 +56,7 @@ fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit) = object : CSEv
 /**
  * @return true to remove listener
  **/
-fun <T : View> T.onLayout(action: (View) -> Boolean) = object : CSEventRegistration {
+fun <T : View> T.onLayout(action: (View) -> Boolean) = object : CSRegistration {
     val listener = OnGlobalLayoutListener {
         if (isActive && action(this@onLayout)) cancel()
     }

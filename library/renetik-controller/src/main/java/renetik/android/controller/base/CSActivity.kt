@@ -22,11 +22,11 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     val onCreate = event<Bundle?>()
     val onSaveInstanceState = event<Bundle>()
     val onStart = event<Unit>()
-    override val onResume = event<Unit>()
-    override val onPause = event<Unit>()
+    override val eventResume = event<Unit>()
+    override val eventPause = event<Unit>()
     val onStop = event<Unit>()
     override val eventDestroy = event<Unit>()
-    override val onBack = event<CSProperty<Boolean>>()
+    override val eventBack = event<CSProperty<Boolean>>()
     val onConfigurationChanged = event<Configuration>()
     val onOrientationChanged = event<Configuration>()
     val onLowMemory = event<Unit>()
@@ -78,12 +78,12 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     }
 
     override fun onResume() {
-        onResume.fire()
+        eventResume.fire()
         super.onResume()
     }
 
     override fun onPause() {
-        onPause.fire()
+        eventPause.fire()
         super.onPause()
     }
 
@@ -122,7 +122,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     override fun onBackPressed() {
         val goBack = property(true)
-        onBack.fire(goBack)
+        eventBack.fire(goBack)
         if (goBack.value) super.onBackPressed()
     }
 

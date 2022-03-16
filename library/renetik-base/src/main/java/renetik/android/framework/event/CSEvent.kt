@@ -18,10 +18,10 @@ interface CSEvent<T> {
 
     val isListened: Boolean
 
-    fun add(@UiThread listener: (registration: CSEventRegistration,
-                                 argument: T) -> Unit): CSEventRegistration
+    fun add(@UiThread listener: (registration: CSRegistration,
+                                 argument: T) -> Unit): CSRegistration
 
-    fun add(@UiThread listener: CSEventListener<T>): CSEventRegistration
+    fun add(@UiThread listener: CSEventListener<T>): CSRegistration
 
     fun cancel(listener: CSEventListener<T>)
 
@@ -30,5 +30,5 @@ interface CSEvent<T> {
     fun clear()
 
     @Deprecated("Just for debugging")
-    val registrations: List<CSEventRegistration>
+    val registrations: List<CSRegistration>
 }

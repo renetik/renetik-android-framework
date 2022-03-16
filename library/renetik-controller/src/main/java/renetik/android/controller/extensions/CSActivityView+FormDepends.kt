@@ -1,6 +1,6 @@
 package renetik.android.controller.extensions
 
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.CSCondition
 import renetik.android.framework.lang.CSCondition.Factory.condition
@@ -26,7 +26,7 @@ fun <View : android.view.View> View.shownIf(
 class CSPropertyConditionList(val evaluate: (CSPropertyConditionList).() -> Unit) {
     val conditions = mutableListOf<CSCondition>()
 
-    fun <T> on(property: CSEventProperty<T>, condition: (T?) -> Boolean?): CSEventRegistration {
+    fun <T> on(property: CSEventProperty<T>, condition: (T?) -> Boolean?): CSRegistration {
         conditions.add(CSPropertyCondition(property, condition))
         return property.onChange { evaluate() }
     }

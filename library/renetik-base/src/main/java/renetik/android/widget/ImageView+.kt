@@ -2,13 +2,12 @@ package renetik.android.widget
 
 //import coil.load
 import android.content.res.ColorStateList
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
-import renetik.android.framework.event.CSEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import java.io.File
 
@@ -36,7 +35,7 @@ fun <T : ImageView> T.image(file: File) = apply {
 
 fun <T> ImageView.image(property: CSEventProperty<T>,
                         valueToImage: (T) -> File
-): CSEventRegistration {
+): CSRegistration {
     fun updateImage() = image(valueToImage(property.value))
     updateImage()
     return property.onChange { updateImage() }

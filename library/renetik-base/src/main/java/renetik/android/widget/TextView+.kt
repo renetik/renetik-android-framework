@@ -3,8 +3,8 @@ package renetik.android.widget
 import android.text.Editable
 import android.widget.TextView
 import renetik.android.content.drawable
-import renetik.android.framework.event.CSEventRegistration
-import renetik.android.framework.event.CSEventRegistration.Companion.registration
+import renetik.android.framework.event.CSRegistration
+import renetik.android.framework.event.CSRegistration.Companion.registration
 import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
@@ -61,8 +61,8 @@ fun TextView.text(property: CSEventProperty<String>) = text(property) { it }
 
 fun <T, V> TextView.text(parent: CSEventProperty<T>,
                          child: (T) -> CSEventProperty<V>,
-                         getText: (V) -> Any): CSEventRegistration {
-    var childRegistration: CSEventRegistration? = null
+                         getText: (V) -> Any): CSRegistration {
+    var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
         childRegistration = text(child(parent.value), getText)
@@ -79,8 +79,8 @@ fun <T> TextView.textOfChild(
 
 fun <T, V> TextView.textNullableChild(
     parent: CSEventProperty<T>, child: (T) -> CSEventProperty<V>?,
-    getText: (V?) -> Any): CSEventRegistration {
-    var childRegistration: CSEventRegistration? = null
+    getText: (V?) -> Any): CSRegistration {
+    var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
         childRegistration = child(parent.value)?.let { text(it, getText) }
@@ -98,7 +98,7 @@ fun <T> TextView.text(property: CSEventProperty<T>, getText: (T) -> Any) =
 fun TextView.text(property: CSEventProperty<*>) = text(property, getText = { it.asString })
 
 fun <T, V> TextView.text(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
-                         getText: (T, V) -> Any): CSEventRegistration {
+                         getText: (T, V) -> Any): CSRegistration {
     fun update() = text(getText(property1.value, property2.value))
     update()
     return CSMultiEventRegistration(

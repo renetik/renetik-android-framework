@@ -31,10 +31,6 @@ fun Float.formatOffDecimal(format: String = "#.##",
     return df.format(this)
 }
 
-val Float.rest: Float
-    get() {
-        if (this == 0f) return 0f
-        return this - this.toInt()
-    }
+val Float.rest: Float get() = if (this == 0f) 0f else this - this.toInt()
 
 
