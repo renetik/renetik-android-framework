@@ -41,7 +41,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     //CSVisibility
     override val isVisible: Boolean get() = true
-    override val eventViewVisibilityChanged = event<Boolean>()
+    override val eventVisibility = event<Boolean>()
     override fun updateVisibility() = Unit
 
     override fun activity(): CSActivity = this

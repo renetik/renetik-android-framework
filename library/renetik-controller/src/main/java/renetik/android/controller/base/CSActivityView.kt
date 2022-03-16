@@ -111,7 +111,7 @@ open class CSActivityView<ViewType : View>
         register(parent.eventResume.listen(::onResume))
         register(parent.eventPause.listen(::onPause))
         register(parent.eventBack.listen(::onBack))
-        register(parent.eventViewVisibilityChanged.listen { updateVisibility() })
+        register(parent.eventVisibility.listen { updateVisibility() })
     }
 
     protected open fun onBack(goBack: CSProperty<Boolean>) {
@@ -153,7 +153,7 @@ open class CSActivityView<ViewType : View>
     private var _isVisible = false
     override val isVisible: Boolean get() = _isVisible
     private var onViewShowingCalled = false
-    override val eventViewVisibilityChanged = event<Boolean>()
+    override val eventVisibility = event<Boolean>()
 
     override fun updateVisibility() {
         if (checkIfIsShowing()) {
@@ -185,7 +185,7 @@ open class CSActivityView<ViewType : View>
     }
 
     protected open fun onViewVisibilityChanged() {
-        eventViewVisibilityChanged.fire(isVisible)
+        eventVisibility.fire(isVisible)
     }
 
     protected open fun onViewShowing() {
