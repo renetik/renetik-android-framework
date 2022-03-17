@@ -52,7 +52,6 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
             if (fire) eventChange.fire(newValue)
             preset.reload(newValue)
             saveTo(parentStore)
-//            if (fire) eventAfterChange.fire(newValue)
         }
     }
 
