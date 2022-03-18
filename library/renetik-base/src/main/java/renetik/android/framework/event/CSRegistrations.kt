@@ -4,7 +4,7 @@ import androidx.annotation.AnyThread
 import renetik.kotlin.collections.list
 import renetik.kotlin.collections.putAll
 
-class CSEventRegistrations() {
+class CSRegistrations() {
 
     private val registrations = list<CSRegistration>()
     private val registrationsMap = mutableMapOf<Any, CSRegistration>()
@@ -26,7 +26,7 @@ class CSEventRegistrations() {
 
     @Synchronized
     @AnyThread
-    fun addAll(vararg registrations: CSRegistration): CSEventRegistrations {
+    fun addAll(vararg registrations: CSRegistration): CSRegistrations {
         this.registrations.putAll(*registrations)
         return this
     }

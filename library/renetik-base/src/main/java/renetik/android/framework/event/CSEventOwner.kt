@@ -3,7 +3,7 @@ package renetik.android.framework.event
 import renetik.java.lang.isMain
 
 interface CSEventOwner {
-    val eventRegistrations: CSEventRegistrations
+    val registrations: CSRegistrations
 
     // later should be here instead of extension so Any.later is not called by mistake
     fun later(delayMilliseconds: Int, function: () -> Unit): CSRegistration {

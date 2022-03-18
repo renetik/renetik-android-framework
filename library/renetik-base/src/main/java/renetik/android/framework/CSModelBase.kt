@@ -5,7 +5,7 @@ import renetik.android.framework.event.CSEvent.Companion.event
 
 open class CSModelBase(parent: CSHasDestroy? = null) : CSEventOwnerHasDestroy {
 
-    override val eventRegistrations = CSEventRegistrations()
+    override val registrations = CSRegistrations()
 
     var isDestroyed = false
 
@@ -16,7 +16,7 @@ open class CSModelBase(parent: CSHasDestroy? = null) : CSEventOwnerHasDestroy {
     }
 
     override fun onDestroy() {
-        eventRegistrations.cancel()
+        registrations.cancel()
         // _isDestroyed should be set before event so we now we should not
         // destroy again in some actions as remove from superview
         isDestroyed = true

@@ -87,14 +87,14 @@ abstract class CSContext : ContextWrapper, CSHasContext {
     fun stopService(serviceClass: Class<out Service>) = stopService(Intent(this, serviceClass))
 
     override fun onDestroy() {
-        eventRegistrations.cancel()
+        registrations.cancel()
         // _isDestroyed should be set before event so we now we should not
         // destroy again in some actions as remove from superview
         _isDestroyed = true
         eventDestroy.fire().clear()
     }
 
-    final override val eventRegistrations = CSEventRegistrations()
+    final override val registrations = CSRegistrations()
 }
 
 fun CSContext.register(intent: IntentFilter, receiver: (Intent, BroadcastReceiver) -> void) =

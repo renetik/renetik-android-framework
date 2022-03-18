@@ -210,11 +210,11 @@ open class CSActivityView<ViewType : View>
 
     protected open fun onViewHidingAgain() {}
 
-    private val isVisibleEventRegistrations = CSEventRegistrations()
+    private val isVisibleEventRegistrations = CSRegistrations()
     fun ifVisible(registration: CSRegistration?) =
         registration?.let { isVisibleEventRegistrations.add(it) }
 
-    private val whileVisibleEventRegistrations = CSEventRegistrations()
+    private val whileVisibleEventRegistrations = CSRegistrations()
     override fun whileShowing(registration: CSRegistration) =
         registration.let { whileVisibleEventRegistrations.add(it) }
 

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.android.framework.event.CSEventRegistrations
+import renetik.android.framework.event.CSRegistrations
 import renetik.android.framework.event.CSVisibility
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.fire
@@ -176,5 +176,5 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onLowMemory()
     }
 
-    override val eventRegistrations = CSEventRegistrations()
+    override val registrations = CSRegistrations()
 }
