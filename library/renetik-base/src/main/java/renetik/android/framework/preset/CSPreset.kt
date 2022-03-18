@@ -55,14 +55,12 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
 
     fun reload() = reload(item.value)
 
-    fun reload(item: PresetItem) = store.reload(item)
+    fun reload(item: PresetItem) = store.reload(item.store)
 
     fun <T : CSPresetKeyData> add(property: T): T {
         if (dataList.contains(property)) unexpected()
         dataList.add(property)
-        property.eventDestroy.listenOnce {
-            dataList.remove(property)
-        }
+        property.eventDestroy.listenOnce { dataList.remove(property) }
         return property
     }
 

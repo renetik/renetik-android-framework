@@ -1,6 +1,7 @@
 package renetik.android.framework.preset
 
 import renetik.android.framework.event.CSEvent.Companion.event
+import renetik.android.framework.event.fire
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.register
@@ -27,7 +28,8 @@ class CSPresetStore(
     private fun onParentStoreChanged(data: Map<String, *>) {
         if (this.data == data) return
         parentStoreEventChanged.pause().use {
-            if (data.isEmpty()) reload(preset.item.value.store) else reload(data)
+            if (data.isEmpty()) super.reload(preset.item.value.store)
+            else reload(data)
         }
     }
 
@@ -42,13 +44,13 @@ class CSPresetStore(
         }
     }
 
-    val eventReload = event<CSPresetItem>()
-    val eventAfterReload = event<CSPresetItem>()
+    val eventReload = event()
+    val eventAfterReload = event()
 
-    fun reload(item: CSPresetItem) {
-        eventReload.fire(item)
-        super.reload(item.store)
-        eventAfterReload.fire(item)
+    override fun reload(store: CSStoreInterface) {
+        eventReload.fire()
+        super.reload(store)
+        eventAfterReload.fire()
     }
 
     override fun equals(other: Any?) =
@@ -60,4 +62,6 @@ class CSPresetStore(
         result = 31 * result + super.hashCode()
         return result
     }
+
+    fun clone() = CSPresetStore(preset, parentStore).also { it.load(this) }
 }
