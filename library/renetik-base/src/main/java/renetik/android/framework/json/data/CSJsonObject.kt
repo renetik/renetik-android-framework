@@ -34,7 +34,10 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
         this.data.putAll(data)
         if (!isBulkSave) onChanged()
         else isBulkSaveDirty = true
+        onLoaded()
     }
+
+    open fun onLoaded() = Unit
 
     open fun onChanged() {
         eventChanged.fire(this)

@@ -6,9 +6,7 @@ import renetik.android.framework.json.CSJsonMapInterface
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.logging.CSLog.warn
-import renetik.android.framework.store.property.late.CSBooleanLateStoreEventProperty
-import renetik.android.framework.store.property.late.CSStringLateStoreEventProperty
-import renetik.android.framework.store.property.late.CSValuesItemLateStoreEventProperty
+import renetik.android.framework.store.property.late.*
 import renetik.android.framework.store.property.nullable.CSBooleanNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSIntNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
@@ -115,8 +113,15 @@ interface CSStoreInterface : CSPropertyStoreInterface,
         key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =
         CSListValueStoreEventProperty(this, key, values, value, onChange)
 
+    fun <T : CSJsonObject> CSStoreInterface.lateProperty(
+        key: String, listType: KClass<T>, onApply: ((value: List<T>) -> Unit)? = null
+    ) = CSJsonListLateStoreEventProperty(this, key, listType, onApply)
+
     fun lateStringProperty(key: String, onChange: ((value: String) -> Unit)? = null) =
         CSStringLateStoreEventProperty(this, key, onChange)
+
+    fun lateIntProperty(key: String, onChange: ((value: Int) -> Unit)? = null) =
+        CSIntLateStoreEventProperty(this, key, onChange)
 
     override fun lateBooleanProperty(key: String, onChange: ((value: Boolean) -> Unit)?) =
         CSBooleanLateStoreEventProperty(this, key, onChange)
