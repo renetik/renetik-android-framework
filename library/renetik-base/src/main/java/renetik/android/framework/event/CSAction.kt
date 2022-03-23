@@ -1,9 +1,7 @@
 package renetik.android.framework.event
 
-import android.view.ViewGroup
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.event.property.onTrue
 import renetik.android.framework.lang.property.isTrue
 import renetik.android.framework.lang.property.setFalse
 import renetik.android.framework.lang.property.setTrue
