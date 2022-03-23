@@ -133,6 +133,9 @@ fun <T : View> T.width(value: Int) = apply {
     layoutParams = params
 }
 
+fun <T : View> T.heightDp(value: Int) = height(context.dpToPixel(value))
+fun <T : View> T.widthDp(value: Int) = widthDp(value.toFloat())
+
 fun <T : View> T.widthDp(value: Float) = apply {
     val params = layoutParams
     params.width = context.dpToPixel(value)

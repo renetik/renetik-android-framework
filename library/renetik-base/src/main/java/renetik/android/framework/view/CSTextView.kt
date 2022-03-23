@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import androidx.appcompat.widget.AppCompatTextView
+import renetik.android.R
 import renetik.android.R.styleable.CSLayout
 import renetik.android.R.styleable.CSLayout_dispatchState
 
@@ -15,6 +16,7 @@ class CSTextView @JvmOverloads constructor(
 ) : AppCompatTextView(context, attrs, defStyleAttr), CSHasTouchEvent {
 
     override val self = this
+    private val _maxHeight: Int
     private val dispatchState: Boolean
     override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
@@ -23,6 +25,7 @@ class CSTextView @JvmOverloads constructor(
         val attributes = context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0)
         try {
             dispatchState = attributes.getBoolean(CSLayout_dispatchState, true)
+            _maxHeight = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxHeight, -1)
         } finally {
             attributes.recycle()
         }
@@ -30,13 +33,24 @@ class CSTextView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (minWidth != -1 && measuredWidth < minWidth) {
-            super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
-        } else if (maxWidth != -1 && measuredWidth > maxWidth) {
-            super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
-        } else if (rotation == 270f || rotation == 90f)
+//        if (minWidth != -1 && measuredWidth < minWidth) {
+//            super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
+//        } else if (maxWidth != -1 && measuredWidth > maxWidth) {
+//            super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
+//        } else if (rotation == 270f || rotation == 90f)
+//            super.onMeasure(heightMeasureSpec, widthMeasureSpec)
+
+        var widthMeasure = widthMeasureSpec
+        var heightMeasure = heightMeasureSpec
+
+        if (_maxHeight != -1 && measuredHeight > _maxHeight)
+            heightMeasure = makeMeasureSpec(_maxHeight, EXACTLY)
+
+        if (rotation == 270f || rotation == 90f)
             super.onMeasure(heightMeasureSpec, widthMeasureSpec)
+        else super.onMeasure(widthMeasure, heightMeasure)
     }
+
 
     override fun dispatchSetActivated(activated: Boolean) {
         if (dispatchState) super.dispatchSetActivated(activated)

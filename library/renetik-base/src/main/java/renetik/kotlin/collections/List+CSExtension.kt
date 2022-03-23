@@ -29,6 +29,11 @@ fun <T> List<T>.hasAll(items: List<T>): Boolean = containsAll(items)
 fun <T> List<T>.hasAll(items: Array<out T>): Boolean = containsAll(items.asList())
 fun <T> List<T>.hasAll(items: Iterable<T>): Boolean = containsAll(items.toList())
 
+fun <T> List<T>.hasAny(items: Array<out T>): Boolean {
+    items.forEach { if (contains(it)) return true }
+    return false
+}
+
 
 fun <T> List<T>.second() = this[1]
 
@@ -56,6 +61,7 @@ fun <T> list(size: Int, init: (index: Int) -> T) = MutableList(size, init)
 fun <T> list(vararg items: T): MutableList<T> = list<T>().putAll(*items)
 fun <T> list(items: Iterable<T>): MutableList<T> = list<T>().putAll(items)
 fun <T> list(items: Collection<T>): MutableList<T> = CSList(items)
+
 @JvmName("listItemsArray")
 fun <T> list(items: Array<out T>): MutableList<T> = list<T>().putAll(*items)
 fun <T> list(vararg items: Iterable<T>): MutableList<T> = list<T>().also {

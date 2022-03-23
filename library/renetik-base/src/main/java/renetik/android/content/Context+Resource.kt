@@ -11,6 +11,7 @@ import android.util.DisplayMetrics
 import android.util.DisplayMetrics.DENSITY_DEFAULT
 import android.util.TypedValue
 import android.util.TypedValue.*
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -76,31 +77,31 @@ fun Context.spToPixelF(sp: Int) = dpToPixelF(sp.toFloat())
 fun Context.spToPixel(sp: Float) = dpToPixelF(sp).toInt()
 fun Context.spToPixel(sp: Int) = dpToPixelF(sp.toFloat()).toInt()
 
-private fun Context.attributeValue(attribute: Int) =
+private fun Context.attributeValue(@AttrRes attribute: Int) =
     TypedValue().apply { theme.resolveAttribute(attribute, this, true) }
 
 @ColorInt
-fun Context.attributeColor(attribute: Int) = attributeValue(attribute).data.apply {
+fun Context.attributeColor(@AttrRes attribute: Int) = attributeValue(attribute).data.apply {
     if (this == 0) throw NotFoundException()
 }
 
-fun Context.attributeDimensionPixel(attribute: Int): Int {
+fun Context.attributeDimensionPixel(@AttrRes attribute: Int): Int {
     val attributes = obtainStyledAttributes(intArrayOf(attribute))
     val dimension = attributes.getDimensionPixelSize(0, 0)
     attributes.recycle()
     return dimension
 }
 
-fun Context.attributeFloat(attribute: Int): Float {
+fun Context.attributeFloat(@AttrRes attribute: Int): Float {
     val attributes = obtainStyledAttributes(intArrayOf(attribute))
     val float = attributes.getFloat(0, 0F)
     attributes.recycle()
     return float
 }
 
-fun Context.attributeString(attribute: Int) = attributeValue(attribute).string.asString
+fun Context.attributeString(@AttrRes attribute: Int) = attributeValue(attribute).string.asString
 
-fun Context.attributeString2(attribute: Int) = attributeString(intArrayOf(attribute), 0)
+fun Context.attributeString2(@AttrRes attribute: Int) = attributeString(intArrayOf(attribute), 0)
 
 fun Context.attributeString(styleable: IntArray, styleableAttribute: Int): String {
     val attributes = obtainStyledAttributes(styleable)
@@ -109,7 +110,7 @@ fun Context.attributeString(styleable: IntArray, styleableAttribute: Int): Strin
     return string.asString
 }
 
-fun Context.attributeResourceId(attribute: Int) = attributeValue(attribute).resourceId.apply {
+fun Context.attributeResourceId(@AttrRes attribute: Int) = attributeValue(attribute).resourceId.apply {
     if (this == 0) throw NotFoundException()
 }
 

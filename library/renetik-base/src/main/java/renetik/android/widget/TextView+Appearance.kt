@@ -28,12 +28,12 @@ fun TextView.textColor(@ColorRes value: Int) = apply {
     textColor(context.color(value))
 }
 
-fun TextView.textColorAttr(@ColorRes value: Int) = apply {
-    setTextColor(context.attributeColor(value))
+fun TextView.textColorAttr(@AttrRes attribute: Int) = apply {
+    setTextColor(context.attributeColor(attribute))
 }
 
 @RequiresApi(Build.VERSION_CODES.M)
-fun TextView.drawableTintAttr(value: Int) = apply {
+fun TextView.drawableTintAttr(@AttrRes value: Int) = apply {
     setDrawableTint(context.attributeColor(value))
 }
 
