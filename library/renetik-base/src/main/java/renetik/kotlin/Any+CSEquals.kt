@@ -1,12 +1,16 @@
 package renetik.kotlin
 
-fun Any?.equalsAny(vararg items: Any?): Boolean {
+fun Any?.equalsAny(items: Iterable<Any?>): Boolean {
     for (item in items)
         if (this == item) return true
     return false
 }
 
-fun Any?.isAny(vararg items: Any?) = equalsAny(*items)
+fun Any?.equalsAny(vararg items: Any?)= equalsAny(items.asIterable())
+
+fun Any?.isAny(vararg items: Any?) = equalsAny(items.asIterable())
+
+fun Any?.isAny(items: Iterable<Any?>) = equalsAny(items)
 
 fun Any?.equalsAll(vararg items: Any?): Boolean {
     for (item in items)
