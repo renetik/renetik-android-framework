@@ -8,6 +8,12 @@ import androidx.core.view.children
 import androidx.core.view.iterator
 import renetik.android.framework.event.CSHasParent
 
+inline fun <R : Comparable<R>> ViewGroup.sortChildren(crossinline selector: (View) -> R?) = apply {
+    val sorted = children.toList().sortedBy(selector)
+    removeAllViews()
+    sorted.forEach(::addView)
+}
+
 val ViewGroup.lastIndex: Int get() = childCount - 1
 val ViewGroup.lastChild get() = if (lastIndex >= 0) getChildAt(lastIndex) else null
 
@@ -17,12 +23,6 @@ fun <ViewType : View> ViewGroup.add(
     addView(view, index)
     (view.tag as? CSHasParent)?.onAddedToParent()
     return view
-}
-
-inline fun <R:Comparable<R>> ViewGroup.sortChildren(crossinline selector: (View) -> R?) = apply {
-    val sorted = children.toList().sortedBy(selector)
-    removeAllViews()
-    sorted.forEach(::addView)
 }
 
 fun <ViewType : View> ViewGroup.add(
@@ -36,13 +36,14 @@ fun <ViewType : View> ViewGroup.add(
 
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.add(@LayoutRes layoutId: Int, index: Int = -1) =
-    add(from(context).inflate(layoutId, this, false), index) as ViewType
+    add(from(context).inflate(layoutId, this, false) as ViewType, index)
 
-fun ViewGroup.removeAt(index: Int): View {
-    val view = getChildAt(index)
-    removeViewAt(index)
-    return view
-}
+@Suppress("UNCHECKED_CAST")
+fun <ViewType : View> ViewGroup.add(@LayoutRes layoutId: Int,
+                                    layout: ViewGroup.LayoutParams, index: Int = -1) =
+    add(from(context).inflate(layoutId, this, false) as ViewType, layout, index)
+
+fun ViewGroup.removeAt(index: Int): View = getChildAt(index).also { removeViewAt(index) }
 
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.inflate(@LayoutRes layoutId: Int): ViewType =

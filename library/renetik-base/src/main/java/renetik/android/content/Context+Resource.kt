@@ -92,6 +92,13 @@ fun Context.attributeDimensionPixel(@AttrRes attribute: Int): Int {
     return dimension
 }
 
+fun Context.attributeDimension(@AttrRes attribute: Int): Float {
+    val attributes = obtainStyledAttributes(intArrayOf(attribute))
+    val dimension = attributes.getDimension(0, 0f)
+    attributes.recycle()
+    return dimension
+}
+
 fun Context.attributeFloat(@AttrRes attribute: Int): Float {
     val attributes = obtainStyledAttributes(intArrayOf(attribute))
     val float = attributes.getFloat(0, 0F)
@@ -110,9 +117,10 @@ fun Context.attributeString(styleable: IntArray, styleableAttribute: Int): Strin
     return string.asString
 }
 
-fun Context.attributeResourceId(@AttrRes attribute: Int) = attributeValue(attribute).resourceId.apply {
-    if (this == 0) throw NotFoundException()
-}
+fun Context.attributeResourceId(@AttrRes attribute: Int) =
+    attributeValue(attribute).resourceId.apply {
+        if (this == 0) throw NotFoundException()
+    }
 
 fun Context.assetsReadText(path: String) = assets.open(path).bufferedReader().use { it.readText() }
 

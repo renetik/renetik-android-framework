@@ -7,6 +7,8 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
+import renetik.android.R.color
+import renetik.android.R.layout
 import renetik.android.content.color
 import renetik.android.content.dpToPixelF
 import renetik.android.controller.base.CSActivityView
@@ -32,7 +34,7 @@ import java.io.Closeable
 
 open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)
     : CSActivityView<FrameLayout>(parent.navigation!!,
-    layout(renetik.android.R.layout.cs_frame_match)),
+    layout(layout.cs_frame_match)),
     CSNavigationItem, Closeable {
 
     lateinit var dialogContent: ViewType
@@ -53,7 +55,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     override fun onViewReady() {
         super.onViewReady()
-        view.background(color(renetik.android.R.color.cs_dialog_background)).onClick {
+        view.background(color(color.cs_dialog_background)).onClick {
             if (cancelOnTouchOut) dismiss()
         }
         view.add(dialogContent)
@@ -96,7 +98,7 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
             else if (side == Right) positionDialogContentFromViewRight(fromView)
             correctHeight()
         }
-        view.background(color(renetik.android.R.color.cs_dialog_popup_background))
+        view.background(color(color.cs_dialog_popup_background))
     }
 
     override val statusBarHeight = activity().activityView!!.view.locationOnScreen.y
@@ -130,10 +132,16 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         dialogContent.y = desiredY
     }
 
-    fun center() = apply {
+    fun center() = this.center(null, null)
+
+    fun center(width: Int? = null, height: Int? = null) = apply {
         isFullscreenNavigationItem.setFalse()
         animation = Fade
-        dialogContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
+        dialogContent.updateLayoutParams<LayoutParams> {
+            gravity = CENTER
+            width?.let { this.width = it }
+            height?.let { this.height = it }
+        }
     }
 
     fun fullScreen() = apply {

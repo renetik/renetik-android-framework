@@ -34,6 +34,10 @@ fun <T> List<T>.hasAny(items: Array<out T>): Boolean {
     return false
 }
 
+fun <T> List<T>.hasAny(items: List<T>): Boolean {
+    items.forEach { if (contains(it)) return true }
+    return false
+}
 
 fun <T> List<T>.second() = this[1]
 
