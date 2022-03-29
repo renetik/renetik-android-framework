@@ -26,7 +26,6 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         parentStore.getValue(key, preset.list.items) ?: getDefault()
 
     private val eventChange = event<PresetItem>()
-//    private val eventAfterChange = event<PresetItem>()
 
     private val parentStoreChanged =
         register(parentStore.eventChanged.listen { onParentStoreChange() })

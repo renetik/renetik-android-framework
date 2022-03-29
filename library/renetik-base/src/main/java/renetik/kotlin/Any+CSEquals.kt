@@ -11,6 +11,7 @@ fun Any?.equalsAny(vararg items: Any?)= equalsAny(items.asIterable())
 fun Any?.isAny(vararg items: Any?) = equalsAny(items.asIterable())
 
 fun Any?.isAny(items: Iterable<Any?>) = equalsAny(items)
+fun Any?.equalsNone(items: Iterable<Any?>) = !equalsAny(items)
 
 fun Any?.equalsAll(vararg items: Any?): Boolean {
     for (item in items)

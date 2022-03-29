@@ -1,5 +1,6 @@
 package renetik.android.framework.store
 
+import renetik.android.framework.json.data.CSJsonObject
 import renetik.kotlin.toId
 
 fun <T> CSStoreInterface.getValue(key: String, values: Iterable<T>): T? {

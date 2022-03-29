@@ -29,15 +29,17 @@ fun <T> List<T>.hasAll(items: List<T>): Boolean = containsAll(items)
 fun <T> List<T>.hasAll(items: Array<out T>): Boolean = containsAll(items.asList())
 fun <T> List<T>.hasAll(items: Iterable<T>): Boolean = containsAll(items.toList())
 
-fun <T> List<T>.hasAny(items: Array<out T>): Boolean {
+fun <T> List<T>.containsAny(items: Array<out T>): Boolean {
     items.forEach { if (contains(it)) return true }
     return false
 }
 
-fun <T> List<T>.hasAny(items: List<T>): Boolean {
+fun <T> List<T>.containsAny(items: Iterable<T>): Boolean {
     items.forEach { if (contains(it)) return true }
     return false
 }
+
+fun <T> List<T>.containsNone(items: Iterable<T>) = !containsAny(items)
 
 fun <T> List<T>.second() = this[1]
 
