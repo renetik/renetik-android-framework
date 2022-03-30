@@ -1,5 +1,6 @@
 package renetik.android.framework.lang
 
+import renetik.android.framework.Func
 import renetik.android.framework.lang.property.CSProperty
 import renetik.android.primitives.Empty
 import renetik.android.primitives.containsAll
@@ -7,6 +8,13 @@ import renetik.android.primitives.isFalse
 
 inline val CSValue<Boolean>.isTrue get() = value
 inline val CSValue<Boolean>.isFalse get() = !value
+inline fun CSValue<Boolean>.ifTrue(function: Func) {
+    if (isTrue) function()
+}
+
+inline fun CSValue<Boolean>.ifFalse(function: Func) {
+    if (isFalse) function()
+}
 
 inline val CSValue<Int>.number get() = value
 inline val CSValue<Int>.next get() = value + 1

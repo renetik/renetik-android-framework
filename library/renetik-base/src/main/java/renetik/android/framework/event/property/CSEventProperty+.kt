@@ -21,12 +21,12 @@ fun CSEventProperty<Boolean>.onFalse(function: () -> Unit) =
 fun CSEventProperty<Boolean>.onTrue(function: () -> Unit) =
     onChange { if (it.isTrue) function() }
 
-fun CSEventProperty<Boolean>.actionIf(function: () -> Unit): CSRegistration {
+fun CSEventProperty<Boolean>.actionTrue(function: () -> Unit): CSRegistration {
     if (isTrue) function()
     return onTrue(function)
 }
 
-fun CSEventProperty<Boolean>.actionIfNot(function: () -> Unit): CSRegistration {
+fun CSEventProperty<Boolean>.actionFalse(function: () -> Unit): CSRegistration {
     if (isFalse) function()
     return onFalse(function)
 }
