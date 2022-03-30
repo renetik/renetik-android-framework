@@ -26,18 +26,29 @@ fun <T : CSHasTouchEvent> T.onTouchDown(function: () -> Unit) = apply {
     onTouch { down -> if (down) function() }
 }
 
-fun <T : CSHasTouchEvent> T.toggleIf(property: CSEventProperty<Boolean>): CSRegistration {
-    setTogglePressed(property.value)
-    val propertyOnChange = property.onChange { setTogglePressed(property.value) }
-    onTouchToggle { on -> propertyOnChange.pause().use { property.value(on) } }
+fun <T : CSHasTouchEvent> T.toggleActiveIf(property: CSEventProperty<Boolean>): CSRegistration {
+    setToggleActive(property.value)
+    val propertyOnChange = property.onChange { setToggleActive(property.value) }
+    onTouchActiveToggle { on -> propertyOnChange.pause().use { property.value(on) } }
     return propertyOnChange
 }
 
-fun <T : CSHasTouchEvent> T.setTogglePressed(pressed: Boolean) = apply {
+fun <T : CSHasTouchEvent> T.toggleSelectedIf(property: CSEventProperty<Boolean>): CSRegistration {
+    setToggleSelected(property.value)
+    val propertyOnChange = property.onChange { setToggleSelected(property.value) }
+    onTouchSelectedToggle { on -> propertyOnChange.pause().use { property.value(on) } }
+    return propertyOnChange
+}
+
+fun <T : CSHasTouchEvent> T.setToggleActive(pressed: Boolean) = apply {
     self.isActivated = pressed
 }
 
-fun <T : CSHasTouchEvent> T.onTouchToggle(function: (Boolean) -> Unit) = onTouch {
+fun <T : CSHasTouchEvent> T.setToggleSelected(pressed: Boolean) = apply {
+    self.isSelected = pressed
+}
+
+fun <T : CSHasTouchEvent> T.onTouchActiveToggle(function: (Boolean) -> Unit) = onTouch {
     if (it.isTrue) {
         if (!self.isActivated) {
             function(true)
@@ -55,6 +66,28 @@ fun <T : CSHasTouchEvent> T.onTouchToggle(function: (Boolean) -> Unit) = onTouch
             function(false)
             self.isActivated = false
             self.isSelected = false
+        }
+    }
+}
+
+fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(function: (Boolean) -> Unit) = onTouch {
+    if (it.isTrue) {
+        if (!self.isSelected) {
+            function(true)
+            self.isActivated = true
+            self.isSelected = true
+        } else if (self.isSelected) {
+            self.isPressed = true
+            self.isActivated = true
+            self.isSelected = false
+        }
+    } else {
+        if (self.isSelected) {
+            self.isActivated = false
+        } else {
+            function(false)
+            self.isSelected = false
+            self.isActivated = false
         }
     }
 }
