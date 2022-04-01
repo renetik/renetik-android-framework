@@ -73,11 +73,11 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     fun saveAsCurrent() =
         item.value.save(dataList)
 
-    fun delete(preset: PresetItem) {
-        preset.delete()
-        list.remove(preset)
-        if (item.value == preset) item.value = list.items.first()
-    }
+//    fun delete(preset: PresetItem) {
+//        preset.delete()
+//        list.remove(preset)
+//        if (item.value == preset) item.value = list.items.first()
+//    }
 
     override fun toString() = "$id ${super.toString()}"
 }

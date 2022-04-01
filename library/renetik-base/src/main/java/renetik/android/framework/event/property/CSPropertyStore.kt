@@ -15,11 +15,11 @@ interface CSPropertyStoreInterface {
                  onChange: ((value: Boolean) -> Unit)? = null)
             : CSEventProperty<Boolean>
 
-    fun propertyNullBool(key: String, default: Boolean?,
+    fun nullBoolProperty(key: String, default: Boolean? = null,
                          onChange: ((value: Boolean?) -> Unit)? = null)
             : CSEventProperty<Boolean?>
 
-    fun lateBooleanProperty(key: String, onChange: ((value: Boolean) -> Unit)? = null)
+    fun lateBoolProperty(key: String, onChange: ((value: Boolean) -> Unit)? = null)
             : CSEventProperty<Boolean>
 
     fun property(

@@ -123,14 +123,14 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     fun lateIntProperty(key: String, onChange: ((value: Int) -> Unit)? = null) =
         CSIntLateStoreEventProperty(this, key, onChange)
 
-    override fun lateBooleanProperty(key: String, onChange: ((value: Boolean) -> Unit)?) =
+    override fun lateBoolProperty(key: String, onChange: ((value: Boolean) -> Unit)?) =
         CSBooleanLateStoreEventProperty(this, key, onChange)
 
     fun <T> lateItemProperty(key: String, values: List<T>,
                              onChange: ((value: T) -> Unit)? = null) =
         CSValuesItemLateStoreEventProperty(this, key, values, onChange)
 
-    override fun propertyNullBool(key: String, default: Boolean?,
+    override fun nullBoolProperty(key: String, default: Boolean?,
                                   onChange: ((value: Boolean?) -> Unit)?) =
         CSBooleanNullableStoreEventProperty(this, key, default, onChange)
 
