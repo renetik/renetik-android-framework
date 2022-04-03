@@ -10,8 +10,8 @@ dependencies {
     implementation project(':renetik-library-imaging')
     implementation project(':renetik-library-controller')
 
-    implementation "com.google.android.gms:play-services-location:18.0.0"
-    implementation "com.google.android.gms:play-services-maps:17.0.1"
+    implementation "com.google.android.gms:play-services-location:19.0.1"
+    implementation "com.google.android.gms:play-services-maps:18.0.2"
 }
 repositories {
     mavenCentral()
