@@ -2,6 +2,7 @@ package renetik.android.view
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.Bitmap.createBitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
@@ -94,7 +95,7 @@ fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) =
     apply { setOnLongClickListener { onClick(this); true } }
 
 fun <T : View> T.createBitmap(): Bitmap {
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val bitmap = createBitmap(width, height, Bitmap.Config.ARGB_8888)
     Canvas(bitmap).apply {
         background?.draw(this) ?: this.drawColor(Color.WHITE)
         draw(this)

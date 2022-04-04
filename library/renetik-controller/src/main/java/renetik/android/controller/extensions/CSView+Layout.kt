@@ -1,6 +1,7 @@
 package renetik.android.controller.extensions
 
 import android.view.View
+import renetik.android.content.displayWidth
 import renetik.android.content.dpToPixel
 import renetik.android.controller.base.CSView
 import renetik.android.framework.math.CSPoint
