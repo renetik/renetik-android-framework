@@ -1,33 +1,25 @@
 package renetik.android.framework.event
 
 import androidx.annotation.AnyThread
-import renetik.kotlin.collections.list
-import renetik.kotlin.collections.putAll
+import renetik.kotlin.collections.removeIf
+import java.lang.System.nanoTime
 
-class CSRegistrations() {
+class CSRegistrations {
 
-    private val registrations = list<CSRegistration>()
-    private val registrationsMap = mutableMapOf<Any, CSRegistration>()
+    private val registrations: MutableMap<Any, CSRegistration> = mutableMapOf()
     private var active = true
-
-    constructor(vararg registrations: CSRegistration) : this() {
-        this.registrations.putAll(*registrations)
-    }
 
     @Synchronized
     @AnyThread
     fun cancel() {
-        for (reg in registrations) reg.cancel()
+        registrations.forEach { it.value.cancel() }
         registrations.clear()
-
-        for (reg in registrationsMap) reg.value.cancel()
-        registrationsMap.clear()
     }
 
     @Synchronized
     @AnyThread
     fun addAll(vararg registrations: CSRegistration): CSRegistrations {
-        this.registrations.putAll(*registrations)
+        registrations.forEach { add(it) }
         return this
     }
 
@@ -35,15 +27,16 @@ class CSRegistrations() {
     @AnyThread
     fun add(registration: CSRegistration): CSRegistration {
         registration.isActive = active
-        return registrations.put(registration)
+        registrations[nanoTime()] = registration
+        return registration
     }
 
     @Synchronized
     @AnyThread
     fun add(key: Any, registration: CSRegistration): CSRegistration {
+        registrations[key]?.cancel()
+        registrations[key] = registration
         registration.isActive = active
-        registrationsMap[key]?.cancel()
-        registrationsMap[key] = registration
         return registration
     }
 
@@ -56,14 +49,15 @@ class CSRegistrations() {
 
     @Synchronized
     @AnyThread
-    fun remove(registration: CSRegistration) {
-        registrations.remove(registration)
-    }
+    fun remove(registration: CSRegistration) =
+        registrations.removeIf { _, value -> value == registration }
 
     @Synchronized
     @AnyThread
     fun setActive(active: Boolean) {
         this.active = active
-        for (registration in registrations) registration.isActive = active
+        for (registration in registrations) registration.value.isActive = active
     }
 }
+
+

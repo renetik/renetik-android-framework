@@ -3,8 +3,8 @@ package renetik.android.view
 import android.view.View
 import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
-import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.CSMultiEventRegistration
+import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.CSVisibility
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.primitives.isTrue
@@ -99,8 +99,9 @@ fun <T, V, X> View.shownIf(property1: CSEventProperty<T>,
 fun View.goneIf(property1: CSEventProperty<Boolean>,
                 property2: CSEventProperty<Boolean>,
                 animated: Boolean = false): CSRegistration {
-    return goneIf(property1, property2,
-        animated) { value1, value2 -> value1.isTrue || value2.isTrue }
+    return goneIf(property1, property2, animated) { value1, value2 ->
+        value1.isTrue || value2.isTrue
+    }
 }
 
 fun <T, V> View.goneIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,

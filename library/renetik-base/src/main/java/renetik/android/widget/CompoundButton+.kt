@@ -9,7 +9,7 @@ import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.lang.property.isTrue
 
-fun CompoundButton.onChecked(function: (CompoundButton) -> Unit) = apply {
+fun CompoundButton.onCheck(function: (CompoundButton) -> Unit) = apply {
     setOnCheckedChangeListener { buttonView, _ -> function(buttonView) }
 }
 
@@ -31,7 +31,7 @@ fun CompoundButton.isCheckedIfNot(condition: Boolean) = apply {
 
 fun CompoundButton.isCheckedIfNot(property: CSEventProperty<Boolean>): CSRegistration {
     val onChangeRegistration = property.onChange(this::isCheckedIfNot)
-    onChecked { onChangeRegistration.pause().use { property.value(!isChecked) } }
+    onCheck { onChangeRegistration.pause().use { property.value(!isChecked) } }
     isCheckedIfNot(property.isTrue)
     return onChangeRegistration
 }
@@ -39,7 +39,7 @@ fun CompoundButton.isCheckedIfNot(property: CSEventProperty<Boolean>): CSRegistr
 fun CompoundButton.isCheckedIf(property: CSEventProperty<Boolean>): CSRegistration {
     val onChangeRegistration = property.onChange(this::isCheckedIf)
     isCheckedIf(property.isTrue)
-    onChecked { onChangeRegistration.pause().use { property.value(isChecked) } }
+    onCheck { onChangeRegistration.pause().use { property.value(isChecked) } }
     return onChangeRegistration
 }
 
