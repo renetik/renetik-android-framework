@@ -24,3 +24,5 @@ fun CSActivityView<*>.exitFullScreen() {
 
 fun CSActivityView<*>.onResume(listener: Func) = eventResume.listen { listener() }
 fun CSActivityView<*>.onPause(listener: Func) = eventPause.listen { listener() }
+
+//val statusBarHeight get() =  activity().activityView!!.view.locationOnScreen.y

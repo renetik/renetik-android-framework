@@ -1,9 +1,10 @@
 package renetik.android.app
 
 import android.app.Activity
+import android.content.Context
 import android.content.res.Configuration.*
 import android.view.View
-import renetik.android.content.isLandscape
+import renetik.android.content.input
 
 val Activity.contentView1
     get() = window.findViewById<View>(android.R.id.content)
@@ -21,3 +22,15 @@ val Activity.screenOrientation: Int
             else -> ORIENTATION_LANDSCAPE
         }
     }
+
+@Deprecated("Does this work ?")
+fun Context.fixInputMethodLeak() {
+    for (declaredField in input::class.java.getDeclaredFields()) try {
+        if (!declaredField.isAccessible()) declaredField.setAccessible(true)
+        val obj = declaredField.get(input)
+        if (obj == null || obj !is View) continue
+        if (obj.context === this) declaredField.set(input, null) else continue
+    } catch (th: Throwable) {
+        th.printStackTrace()
+    }
+}

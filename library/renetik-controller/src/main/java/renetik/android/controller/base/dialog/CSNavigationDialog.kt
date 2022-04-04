@@ -11,6 +11,7 @@ import renetik.android.R.color
 import renetik.android.R.layout
 import renetik.android.content.color
 import renetik.android.content.dpToPixelF
+import renetik.android.content.statusBarHeight
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.dialog.DialogAnimation.*
 import renetik.android.controller.base.dialog.DialogPopupSide.Bottom
@@ -100,8 +101,6 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
         }
         view.background(color(color.cs_dialog_popup_background))
     }
-
-    override val statusBarHeight = activity().activityView!!.view.locationOnScreen.y
 
     private fun positionDialogContentFromViewBottom(fromView: View) {
         val fromViewLocation = fromView.locationOnScreen

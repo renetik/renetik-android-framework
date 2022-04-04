@@ -1,6 +1,11 @@
 package renetik.java.util
 
+import android.content.Context
+import android.text.format.DateFormat.getDateFormat
+import android.text.format.DateFormat.getTimeFormat
+import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.common.catchError
+import renetik.kotlin.notNull
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -23,6 +28,7 @@ fun Date.addYears(value: Int): Date {
     instance.add(Calendar.YEAR, value)
     return instance.time
 }
+
 fun Date.addHours(value: Int): Date {
     val instance = Calendar.getInstance()
     instance.time = this
@@ -38,3 +44,8 @@ fun Date.formatToISO8601(): String {
     dateFormat.timeZone = TimeZone.getTimeZone("CET")
     return dateFormat.format(this)
 }
+
+fun Context.parseTimeFormat(text: String) = catchAllWarn { getTimeFormat(this).parse(text) }
+fun Context.parseDateFormat(text: String) = catchAllWarn { getDateFormat(this).parse(text) }
+fun Context.formatDate(date: Date) = date.notNull { getDateFormat(this).format(date) }
+fun Context.formatTime(date: Date) = date.notNull { getTimeFormat(this).format(date) }

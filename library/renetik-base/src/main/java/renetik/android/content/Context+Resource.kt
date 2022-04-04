@@ -1,6 +1,9 @@
 package renetik.android.content
 
+import android.app.ActivityManager
+import android.app.Service
 import android.content.Context
+import android.content.ContextWrapper.ACTIVITY_SERVICE
 import android.content.res.Configuration.*
 import android.content.res.Resources.NotFoundException
 import android.graphics.Rect
@@ -26,6 +29,7 @@ import renetik.kotlin.isAny
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
+import java.lang.Integer.MAX_VALUE
 
 class CSColorInt(@ColorInt val color: Int)
 
@@ -62,6 +66,19 @@ fun Context.resourceInts(id: Int) = catchError<NotFoundException> {
 }
 
 val Context.displayMetrics get():DisplayMetrics = resources.displayMetrics
+
+
+private const val LOW_DPI_STATUS_BAR_HEIGHT = 19
+private const val MEDIUM_DPI_STATUS_BAR_HEIGHT = 25
+private const val HIGH_DPI_STATUS_BAR_HEIGHT = 38
+
+val Context.statusBarHeight
+    get() = when (displayMetrics.densityDpi) {
+        DisplayMetrics.DENSITY_HIGH -> HIGH_DPI_STATUS_BAR_HEIGHT
+        DisplayMetrics.DENSITY_MEDIUM -> MEDIUM_DPI_STATUS_BAR_HEIGHT
+        DisplayMetrics.DENSITY_LOW -> LOW_DPI_STATUS_BAR_HEIGHT
+        else -> MEDIUM_DPI_STATUS_BAR_HEIGHT
+    }
 
 fun Context.toDpF(pixel: Float) = pixel / (displayMetrics.densityDpi.toFloat() / DENSITY_DEFAULT)
 fun Context.toDpF(pixel: Int) = toDpF(pixel.toFloat())
@@ -144,3 +161,11 @@ val Context.isDarkMode
 
 val Context.isSystemDarkMode
     get() = resources.configuration.uiMode and UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+
+fun Context.isServiceRunning(serviceClass: Class<out Service>): Boolean {
+    val activityManager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+    @Suppress("DEPRECATION")
+    for (running in activityManager.getRunningServices(MAX_VALUE))
+        if (serviceClass.name == running.service.className) return true
+    return false
+}

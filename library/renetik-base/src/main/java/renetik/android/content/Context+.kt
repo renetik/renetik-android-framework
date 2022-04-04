@@ -1,22 +1,27 @@
 package renetik.android.content
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.ContextWrapper
+import android.content.*
+import android.content.ContextWrapper.WINDOW_SERVICE
+import android.content.Intent.ACTION_BATTERY_CHANGED
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
+import android.os.BatteryManager
 import android.util.Base64
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import androidx.core.content.res.getDrawableOrThrow
 import renetik.android.framework.CSApplication.Companion.application
 import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.framework.common.catchWarnReturnNull
+import renetik.android.framework.void
 import renetik.android.primitives.isSet
 import java.security.MessageDigest
 
@@ -93,6 +98,35 @@ val Context.progressDrawable: Drawable
         return drawable
     }
 
+fun Context.register(intent: IntentFilter, receiver: (Intent, BroadcastReceiver) -> void) =
+    registerReceiver(object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) = receiver(intent, this)
+    }, intent)
 
+fun Context.unregister(receiver: BroadcastReceiver) {
+    unregisterReceiver(receiver)
+}
+
+val Context.batteryPercent: Float
+    get() {
+        val batteryStatus = registerReceiver(null, IntentFilter(ACTION_BATTERY_CHANGED))
+        val level = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+        val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+        return level / scale.toFloat()
+    }
+
+val Context.defaultDisplay get() = (getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay
+
+@Suppress("DEPRECATION")
+val Context.displayWidth: Int
+    get() = defaultDisplay.width
+
+@Suppress("DEPRECATION")
+val Context.displayHeight
+    get() = defaultDisplay.height
+
+private val Context.displayMetrics2 get() = DisplayMetrics().apply { defaultDisplay.getMetrics(this) }
+
+val Context.realDisplayMetrics get() = DisplayMetrics().apply { defaultDisplay.getRealMetrics(this) }
 
 
