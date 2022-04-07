@@ -130,7 +130,7 @@ fun View.selectedIf(value: Boolean) = apply { isSelected = value }
 fun View.activated(value: Boolean = true) = activatedIf(value)
 fun View.activatedIf(value: Boolean) = apply { isActivated = value }
 fun View.selectIf(property: CSEventProperty<Boolean>) = selectIf(property, true)
-fun View.onClick(action: CSEventProperty<Boolean>) = onClick { action.toggle() }
+fun View.onClick(action: CSActionInterface) = onClick { action.toggle() }
 
 fun View.toggleSelectedAsTrue(property: CSEventProperty<Boolean>)
         : CSRegistration {

@@ -6,6 +6,7 @@ import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.event.register
 import renetik.android.framework.store.CSStoreInterface
 import renetik.android.framework.store.property.CSStoreEventProperty
+import java.io.Closeable
 
 abstract class CSValueStoreEventProperty<T>(
     final override val store: CSStoreInterface,
@@ -36,10 +37,7 @@ abstract class CSValueStoreEventProperty<T>(
         }) else null
 
     private fun onStoreChangeValueChange(newValue: T) {
-        storeEventChangedRegistration?.pause()?.use {
-            onApply?.invoke(newValue)
-            eventChange.fire(newValue)
-        }
+        storeEventChangedRegistration!!.pause().use { onValueChanged(newValue) }
     }
 
     final override var value: T
@@ -53,20 +51,14 @@ abstract class CSValueStoreEventProperty<T>(
         if (_value == newValue) {
             if (!isStored) {
                 isStored = true
-                storeEventChangedRegistration?.pause()?.use { set(store, newValue) }
-                    ?: run { set(store, newValue) }
+                storeEventChangedRegistration?.pause().use { set(store, newValue) }
             }
         } else {
             isStored = true
             _value = newValue
-            storeEventChangedRegistration?.pause()?.use {
+            storeEventChangedRegistration?.pause().use {
                 set(store, newValue)
-                onApply?.invoke(newValue)
-                if (fire) eventChange.fire(newValue)
-            } ?: run {
-                set(store, newValue)
-                onApply?.invoke(newValue)
-                if (fire) eventChange.fire(newValue)
+                onValueChanged(newValue, fire)
             }
         }
     }

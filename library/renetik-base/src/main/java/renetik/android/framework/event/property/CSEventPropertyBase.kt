@@ -19,15 +19,10 @@ abstract class CSEventPropertyBase<T>
 
     override fun toString() = value.toString()
 
-    fun apply(): CSEventProperty<T> = apply {
-        val value = this.value
-        onApply?.invoke(value)
-        eventChange.fire(value)
+    fun apply(): CSEventProperty<T> = apply { onValueChanged(this.value) }
+
+    protected fun onValueChanged(newValue: T, fire: Boolean = true) {
+        onApply?.invoke(newValue)
+        if (fire) eventChange.fire(newValue)
     }
 }
-
-//fun <V, T : CSEventPropertyBase<V>> T.apply() = apply {
-//    val value = this.value
-//    onApply?.invoke(value)
-//    eventChange.fire(value)
-//}

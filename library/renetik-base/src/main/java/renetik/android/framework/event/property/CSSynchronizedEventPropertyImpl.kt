@@ -13,10 +13,7 @@ class CSSynchronizedEventPropertyImpl<T>(
     override fun value(newValue: T, fire: Boolean): Unit = synchronized(this) {
         if (_value == newValue) return
         _value = newValue
-        onMain {
-            onApply?.invoke(newValue)
-            if (fire) eventChange.fire(newValue)
-        }
+        onMain { onValueChanged(newValue) }
     }
 
     override var value: T

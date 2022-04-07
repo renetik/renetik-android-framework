@@ -15,8 +15,7 @@ abstract class CSLateStoreEventProperty<T>(
     override var value: T
         get() {
             if (_value == null) _value = get()
-            if (_value == null)
-                throw unexpected
+            if (_value == null) throw unexpected
             return _value!!
         }
         set(value) = value(value)
@@ -28,8 +27,7 @@ abstract class CSLateStoreEventProperty<T>(
         val before = if (store.has(key)) _value else null
         _value = newValue
         set(store, newValue)
-        onApply?.invoke(newValue)
-        if (fire && before != null) eventChange.fire(newValue)
+        onValueChanged(newValue, fire && before != null)
     }
 
     val isNotLoaded get() = _value == null

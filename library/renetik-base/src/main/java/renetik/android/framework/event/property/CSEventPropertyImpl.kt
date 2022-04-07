@@ -9,8 +9,7 @@ class CSEventPropertyImpl<T>(
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
         _value = newValue
-        onApply?.invoke(newValue)
-        if (fire) eventChange.fire(newValue)
+        onValueChanged(newValue, fire)
     }
 
     override var value: T

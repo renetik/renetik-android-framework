@@ -83,11 +83,11 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     fun dismiss() = navigation!!.pop(this)
 
-    fun show(animation: DialogAnimation? = null) = apply {
-        animation?.let { this.animation = it }
-        navigation!!.push(this)
-        updateVisibility()
-    }
+//    fun show(animation: DialogAnimation? = null) = apply {
+//        animation?.let { this.animation = it }
+//        navigation!!.push(this)
+//        updateVisibility()
+//    }
 
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
         pressed(fromView)

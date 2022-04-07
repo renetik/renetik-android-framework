@@ -37,10 +37,7 @@ abstract class CSPresetEventPropertyBase<T>(
             val newValue = load()
             if (_value == newValue) return
             _value = newValue
-            storeChanged.pause().use {
-                onApply?.invoke(newValue)
-                eventChange.fire(newValue)
-            }
+            storeChanged.pause().use { onValueChanged(newValue) }
         }
     }
 
@@ -51,8 +48,7 @@ abstract class CSPresetEventPropertyBase<T>(
         if (_value == newValue) return
         _value = newValue
         storeChanged.pause().use {
-            onApply?.invoke(newValue)
-            if (fire) eventChange.fire(newValue)
+            onValueChanged(newValue, fire)
             saveTo(store)
         }
     }

@@ -16,3 +16,9 @@ fun CSNavigationDialog<*>.selected(button: View) = apply {
     button.isSelected = true
     onDismiss { button.isSelected = false }
 }
+
+fun <T : CSNavigationDialog<*>> T.show(animation: DialogAnimation) = apply {
+    this.animation = animation
+    navigation!!.push(this)
+    updateVisibility()
+}

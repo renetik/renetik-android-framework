@@ -26,8 +26,7 @@ abstract class CSNullableStoreEventProperty<T>(
             val newValue = load()
             if (_value == newValue) return@listen
             _value = newValue
-            onApply?.invoke(newValue)
-            eventChange.fire(newValue)
+            onValueChanged(newValue)
         }) else null
 
     var isLoaded = false
@@ -44,10 +43,8 @@ abstract class CSNullableStoreEventProperty<T>(
     override fun value(newValue: T?, fire: Boolean) {
         if (value == newValue) return
         _value = newValue
-        storeEventChangedRegistration?.pause()?.use { set(store, newValue) }
-            ?: set(store, newValue)
-        onApply?.invoke(newValue)
-        if (fire) eventChange.fire(newValue)
+        storeEventChangedRegistration?.pause().use { set(store, newValue) }
+        onValueChanged(newValue, fire)
     }
 
     override fun toString() = "$key $value"

@@ -2,7 +2,7 @@ package renetik.android.framework.store.property.value
 
 import renetik.android.framework.store.CSStoreInterface
 
-class CSBooleanValueStoreEventProperty(
+open class CSBooleanValueStoreEventProperty(
     store: CSStoreInterface, key: String, default: Boolean,
     onChange: ((value: Boolean) -> Unit)?)
     : CSValueStoreEventProperty<Boolean>(store, key, listenStoreChanged = false, onChange) {
