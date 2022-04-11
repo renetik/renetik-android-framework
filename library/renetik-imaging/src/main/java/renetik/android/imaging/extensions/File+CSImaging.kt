@@ -12,12 +12,12 @@ fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int) = apply {
 }
 
 fun File.write(
-    bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG, quality: Int = 100
+    bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, quality: Int = 80
 ) = apply {
     createFileAndDirs()
-    outputStream().use { out ->
-        bitmap.compress(format, quality, out)
-        out.flush()
+    outputStream().use {
+        bitmap.compress(format, quality, it)
+        it.flush()
     }
 }
 

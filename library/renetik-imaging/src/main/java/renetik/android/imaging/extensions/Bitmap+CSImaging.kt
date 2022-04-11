@@ -26,6 +26,6 @@ fun Bitmap.copy(): Bitmap? = copy(config, isMutable)
 
 fun Bitmap.saveTo(
     file: File,
-    format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
+    format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
     quality: Int = 70
 ) = apply { file.write(this, format, quality) }
