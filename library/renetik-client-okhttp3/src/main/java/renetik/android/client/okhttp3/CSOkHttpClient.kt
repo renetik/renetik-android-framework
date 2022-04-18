@@ -4,7 +4,7 @@ import com.androidnetworking.AndroidNetworking
 import okhttp3.*
 import okhttp3.Credentials.basic
 import okhttp3.OkHttpClient.Builder
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.android.framework.lang.CSDataConstants.MB
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
@@ -12,7 +12,6 @@ import java.io.File
 import java.net.CookieManager
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLSocketFactory
 
 private class BasicAuthHeader(val name: String, val username: String, val password: String)
 private class Timeouts(val connection: Long, val read: Long, val write: Long)
@@ -46,7 +45,7 @@ class CSOkHttpClient(val url: String) {
     }
 
     val client: OkHttpClient by lazy {
-        val builder = Builder().cache(Cache(File(application.cacheDir, "ResponseCache"), 10L * MB))
+        val builder = Builder().cache(Cache(File(app.cacheDir, "ResponseCache"), 10L * MB))
         builder.cookieJar(JavaNetCookieJar(CookieManager()))
         timeouts?.let {
             builder.connectTimeout(it.connection, SECONDS)
@@ -61,6 +60,6 @@ class CSOkHttpClient(val url: String) {
         networkInterceptor?.let { builder.addNetworkInterceptor(it).addInterceptor(it) }
 //        sslSocketFactory?.let { builder.sslSocketFactory(it) }
         hostNameVerifier?.let { builder.hostnameVerifier(it) }
-        builder.build().apply { AndroidNetworking.initialize(application, this) }
+        builder.build().apply { AndroidNetworking.initialize(app, this) }
     }
 }

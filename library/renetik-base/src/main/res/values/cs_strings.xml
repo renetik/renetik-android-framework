@@ -4,6 +4,9 @@
     <string name="cs_dialog_cancel">Cancel</string>
     <string name="cs_base_yes">Yes</string>
     <string name="cs_base_no">No</string>
+    <string name="cs_base_dummy_number">1</string>
+    <string name="cs_base_dummy_word">Lorem</string>
+    <string name="cs_base_dummy_two_words">Lorem Ipsum</string>
     <string name="cs_base_dummy_short">Lorem ipsum dolor</string>
     <string name="cs_base_dummy_medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="cs_base_dummy_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>

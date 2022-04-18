@@ -14,7 +14,7 @@ import java.io.File
 
 open class CSApplication : Application() {
     companion object {
-        lateinit var application: CSApplication
+        lateinit var app: CSApplication
     }
 
     open val name: String by lazy { applicationLabel }
@@ -30,7 +30,7 @@ open class CSApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        application = this
+        app = this
     }
 
     override fun onLowMemory() {

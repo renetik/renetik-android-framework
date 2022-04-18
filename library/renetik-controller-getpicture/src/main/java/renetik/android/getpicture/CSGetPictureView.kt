@@ -14,7 +14,7 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.snackBarWarn
 import renetik.android.controller.extensions.startActivityForResult
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.android.framework.common.catchAllError
 import renetik.android.framework.task.CSBackground.background
 import renetik.android.imaging.extensions.resizeImage
@@ -29,7 +29,7 @@ class CSGetPictureView<T : View>(
 
     constructor(parent: CSActivityView<T>, title: String,
                 imagesDirName: String, onImageReady: (File) -> Unit) :
-            this(parent, title, File(File(application.externalFilesDir, "Pictures"),
+            this(parent, title, File(File(app.externalFilesDir, "Pictures"),
                 imagesDirName), onImageReady)
 
     //TODO: Migrate to Context#getExternalFilesDir(String)

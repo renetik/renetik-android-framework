@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Context.ACTIVITY_SERVICE
 import android.os.Debug
 import android.text.format.Formatter.formatFileSize
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 
 // https://stackoverflow.com/questions/3170691/how-to-get-current-memory-usage-in-android
 // The more the "usedMemInMB" variable gets close to "maxHeapSizeInMB",
@@ -29,9 +29,9 @@ object CSMemory {
         private val usedMemInBytes get() = nativeHeapSize - nativeHeapFreeSize
         private val usedMemInPercentage = usedMemInBytes * 100 / nativeHeapSize
         override fun toString() =
-            "Real memory usage total:${formatFileSize(application, nativeHeapSize)} " +
-                    ",free:${formatFileSize(application, nativeHeapFreeSize)} " +
-                    ",used:${formatFileSize(application, usedMemInBytes)} ($usedMemInPercentage%)"
+            "Real memory usage total:${formatFileSize(app, nativeHeapSize)} " +
+                    ",free:${formatFileSize(app, nativeHeapFreeSize)} " +
+                    ",used:${formatFileSize(app, usedMemInBytes)} ($usedMemInPercentage%)"
     }
 
     fun Context.getRealTotalMemoryUsage(): RealTotalMemoryUsage {

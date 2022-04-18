@@ -1,7 +1,7 @@
 package renetik.android.framework.logging
 
 import renetik.android.content.CSToast.toast
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.android.primitives.separateToString
 import java.lang.System.currentTimeMillis
 import java.lang.Thread.currentThread
@@ -9,14 +9,14 @@ import java.text.DateFormat.getDateTimeInstance
 
 object CSLog {
 
-    private val log by lazy { application.log }
+    private val log by lazy { app.log }
 
     fun debug(vararg values: Any?) {
-        if (application.isDebugBuild) log.debug(*createDebugMessage(values))
+        if (app.isDebugBuild) log.debug(*createDebugMessage(values))
     }
 
     fun debug(e: Throwable, vararg values: Any?) {
-        if (application.isDebugBuild) log.debug(e, *createDebugMessage(values))
+        if (app.isDebugBuild) log.debug(e, *createDebugMessage(values))
     }
 
     fun warn(vararg values: Any?) = log.warn(*createMessage(values))

@@ -2,13 +2,13 @@ package renetik.android.view
 
 import android.view.View
 import android.view.ViewPropertyAnimator
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 
 val shortAnimationDuration =
-    application.resources.getInteger(android.R.integer.config_shortAnimTime)
+    app.resources.getInteger(android.R.integer.config_shortAnimTime)
 
 val mediumAnimationDuration =
-    application.resources.getInteger(android.R.integer.config_mediumAnimTime)
+    app.resources.getInteger(android.R.integer.config_mediumAnimTime)
 
 fun <T : View> T.fadeIn(duration: Int = shortAnimationDuration): ViewPropertyAnimator? {
     if (isVisible) return null

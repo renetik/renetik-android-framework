@@ -4,13 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.ContextWrapper
 import renetik.android.app.fixInputMethodLeak
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.android.framework.common.catchAllWarn
 import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.Companion.event
 
 abstract class CSContext : ContextWrapper, CSHasContext {
-    constructor() : super(application)
+    constructor() : super(app)
     constructor(context: CSContext) : this(context as CSHasContext)
     constructor(context: CSHasContext) : super(context.context) {
         register(context.eventDestroy.listenOnce { onDestroy() })

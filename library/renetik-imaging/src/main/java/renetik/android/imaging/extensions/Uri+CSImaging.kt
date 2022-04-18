@@ -11,7 +11,7 @@ import android.provider.MediaStore.Images.Media.ORIENTATION
 import androidx.exifinterface.media.ExifInterface
 import androidx.exifinterface.media.ExifInterface.*
 import renetik.android.content.openInputStream
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.android.framework.common.catchAllError
 import java.io.OutputStream
 import kotlin.math.max
@@ -19,11 +19,11 @@ import kotlin.math.max
 fun Uri.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, output: OutputStream) = apply {
     catchAllError {
         val decodeBounds = Options()
-        application.openInputStream(this).use {
+        app.openInputStream(this).use {
             decodeBounds.inJustDecodeBounds = true
             decodeStream(it, null, decodeBounds)
         }
-        application.openInputStream(this).use { input ->
+        app.openInputStream(this).use { input ->
             val options = Options()
             options.inSampleSize = max(
                 decodeBounds.outWidth / maxTargetWidth,
@@ -50,7 +50,7 @@ fun Uri.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, output: OutputStr
 fun Uri.createFixOrientationMatrix(): Matrix {
     val matrix = Matrix()
     catchAllError {
-        val orientation = ExifInterface(application.openInputStream(this)!!)
+        val orientation = ExifInterface(app.openInputStream(this)!!)
             .getAttributeInt(TAG_ORIENTATION, ORIENTATION_NORMAL)
         when (orientation) {
             ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
@@ -77,7 +77,7 @@ fun Uri.createFixOrientationMatrix(): Matrix {
 
 fun Uri.fixRotationByContentQuery(matrix: Matrix) {
     val orientationColumn = arrayOf(ORIENTATION)
-    val cur = application.contentResolver.query(this, orientationColumn, null, null, null)
+    val cur = app.contentResolver.query(this, orientationColumn, null, null, null)
     cur?.use {
         var orientation = -1
         if (cur.moveToFirst()) orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]))

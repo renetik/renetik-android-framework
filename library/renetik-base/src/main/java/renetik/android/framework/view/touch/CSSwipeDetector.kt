@@ -4,7 +4,7 @@ import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View
 import renetik.android.content.dpToPixel
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.logging.CSLog.info
@@ -13,7 +13,7 @@ import kotlin.math.abs
 
 class CSSwipeDetector(
     view: View,
-    val minDistance: Int = application.dpToPixel(30),
+    val minDistance: Int = app.dpToPixel(30),
     function: (CSSwipeType) -> Unit) : View.OnTouchListener {
 
     private var downX = 0F

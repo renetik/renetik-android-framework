@@ -17,16 +17,17 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.StringRes
 import androidx.core.content.res.getDrawableOrThrow
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.android.framework.common.catchAllErrorReturnNull
 import renetik.android.framework.common.catchWarnReturnNull
 import renetik.android.framework.void
 import renetik.android.primitives.isSet
 import java.security.MessageDigest
 
-val Context.isDevelopment get() = application.isDevelopmentMode
-val Context.isDebug get() = application.isDebugBuild
+val Context.isDevelopment get() = app.isDevelopmentMode
+val Context.isDebug get() = app.isDebugBuild
 
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> Context.inflate(layoutId: Int) =
@@ -129,4 +130,6 @@ private val Context.displayMetrics2 get() = DisplayMetrics().apply { defaultDisp
 
 val Context.realDisplayMetrics get() = DisplayMetrics().apply { defaultDisplay.getRealMetrics(this) }
 
-
+fun Context.string(@StringRes resId: Int): String {
+    return getResources().getString(resId)
+}

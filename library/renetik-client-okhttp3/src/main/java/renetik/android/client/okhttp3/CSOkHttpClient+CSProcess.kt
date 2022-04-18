@@ -7,7 +7,7 @@ import renetik.android.client.request.CSHttpProcess
 import renetik.android.client.request.CSHttpResponseData
 import renetik.android.client.request.CSOperation
 import renetik.android.content.isNetworkConnected
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.android.framework.lang.CSTimeConstants.Minute
 import renetik.kotlin.notNull
 import renetik.android.framework.json.data.CSJsonObject
@@ -48,7 +48,7 @@ fun <ServerDataType : CSHttpResponseData> CSOkHttpClient.get(
         builder.setMaxStaleCacheControl(it * Minute, TimeUnit.MILLISECONDS)
     }
     if (operation?.isRefresh.isTrue) builder.responseOnlyFromNetwork
-    else if (!application.isNetworkConnected && operation?.isCached.isTrue
+    else if (!app.isNetworkConnected && operation?.isCached.isTrue
         || operation?.isJustUseCache.isTrue
     ) {
         builder.responseOnlyIfCached

@@ -5,7 +5,7 @@ import renetik.android.client.request.CSOperation
 import renetik.android.client.request.CSProcessBase
 import renetik.android.content.isNetworkConnected
 import renetik.android.controller.base.CSActivityView
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 import renetik.kotlin.unfinished
 
 //fun <Data : Any> CSOperation<Data>.send(
@@ -32,7 +32,7 @@ private fun <Data : Any> CSOperation<Data>.onSendFailed(
     onInternetFailed: (() -> Unit)?,
     onSuccess: ((Data) -> Unit)?) {
     process.onFailed {
-        if (!application.isNetworkConnected && onInternetFailed != null) onInternetFailed()
+        if (!app.isNetworkConnected && onInternetFailed != null) onInternetFailed()
         else unfinished() // TODO!!!
 //            parent.dialog(title,
 //            getString(R.string.renetik_android_framework_operation_send_failed))

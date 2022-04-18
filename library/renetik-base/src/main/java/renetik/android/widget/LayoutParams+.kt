@@ -7,7 +7,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import renetik.android.content.dpToPixel
-import renetik.android.framework.CSApplication.Companion.application
+import renetik.android.framework.CSApplication.Companion.app
 
 val layoutMatch get() = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 val layoutMatchCenter get() = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT, CENTER)
@@ -26,14 +26,14 @@ fun layoutWrapHeight(dpHeight: Int, gravity: Int? = null) =
 
 fun layoutWrapHeight(dpHeight: Float, gravity: Int? = null) =
     FrameLayout.LayoutParams(WRAP_CONTENT,
-        application.dpToPixel(dpHeight), gravity ?: NO_GRAVITY)
+        app.dpToPixel(dpHeight), gravity ?: NO_GRAVITY)
 
 fun layoutMatchHeight(dpHeight: Int, gravity: Int? = null) =
     layoutMatchHeight(dpHeight.toFloat(), gravity)
 
 fun layoutMatchHeight(dpHeight: Float, gravity: Int? = null) =
     FrameLayout.LayoutParams(MATCH_PARENT,
-        application.dpToPixel(dpHeight), gravity ?: NO_GRAVITY)
+        app.dpToPixel(dpHeight), gravity ?: NO_GRAVITY)
 
 fun layoutMatchHeightPx(pixelHeight: Int) =
     FrameLayout.LayoutParams(MATCH_PARENT, pixelHeight)
@@ -43,4 +43,4 @@ fun layoutWidthHeight(dpWidth: Int, dpHeight: Int) =
     layoutWidthHeight(dpWidth.toFloat(), dpHeight.toFloat())
 
 fun layoutWidthHeight(dpWidth: Float, dpHeight: Float) =
-    FrameLayout.LayoutParams(application.dpToPixel(dpWidth), application.dpToPixel(dpHeight))
+    FrameLayout.LayoutParams(app.dpToPixel(dpWidth), app.dpToPixel(dpHeight))

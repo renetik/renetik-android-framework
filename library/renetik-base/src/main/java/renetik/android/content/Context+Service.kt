@@ -18,10 +18,10 @@ val Context.isMidiSupported: Boolean
     @RequiresApi(Build.VERSION_CODES.M) get() = getSystemService(MIDI_SERVICE) != null
 
 @RequiresApi(Build.VERSION_CODES.M)
-fun <T> Context.ifMidiSupported(function: () -> T): T? = if (isMidiSupported) function() else null
+fun <T> Context.ifHasMidi(function: (MidiManager) -> T): T? = midi?.let { function(it) }
 
-val Context.midi: MidiManager
-    @RequiresApi(Build.VERSION_CODES.M) get() = getSystemService(MIDI_SERVICE) as MidiManager
+val Context.midi: MidiManager?
+    @RequiresApi(Build.VERSION_CODES.M) get() = getSystemService(MIDI_SERVICE) as? MidiManager
 
 fun Context.startService(serviceClass: Class<out Service>) =
     startService(Intent(this, serviceClass))
