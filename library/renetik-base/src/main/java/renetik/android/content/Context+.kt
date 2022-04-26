@@ -7,6 +7,7 @@ import android.content.Intent.ACTION_BATTERY_CHANGED
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
+import android.content.res.Configuration
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -14,6 +15,7 @@ import android.os.BatteryManager
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -25,6 +27,7 @@ import renetik.android.framework.common.catchWarnReturnNull
 import renetik.android.framework.void
 import renetik.android.primitives.isSet
 import java.security.MessageDigest
+import java.util.*
 
 val Context.isDevelopment get() = app.isDevelopmentMode
 val Context.isDebug get() = app.isDebugBuild
@@ -116,7 +119,9 @@ val Context.batteryPercent: Float
         return level / scale.toFloat()
     }
 
-val Context.defaultDisplay get() = (getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay
+@Suppress("DEPRECATION")
+val Context.defaultDisplay: Display
+    get() = (getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay
 
 @Suppress("DEPRECATION")
 val Context.displayWidth: Int
@@ -126,10 +131,24 @@ val Context.displayWidth: Int
 val Context.displayHeight
     get() = defaultDisplay.height
 
-private val Context.displayMetrics2 get() = DisplayMetrics().apply { defaultDisplay.getMetrics(this) }
+private val Context.displayMetrics2
+    get() = DisplayMetrics().apply {
+        defaultDisplay.getMetrics(this)
+    }
 
-val Context.realDisplayMetrics get() = DisplayMetrics().apply { defaultDisplay.getRealMetrics(this) }
+val Context.realDisplayMetrics
+    get() = DisplayMetrics().apply {
+        defaultDisplay.getRealMetrics(this)
+    }
 
 fun Context.string(@StringRes resId: Int): String {
-    return getResources().getString(resId)
+    return resources.getString(resId)
+}
+
+fun Context.changeLocale(locale: Locale) {
+    val config = Configuration(resources.configuration)
+    config.setLocale(locale)
+    Locale.setDefault(locale)
+    resources.updateConfiguration(config, resources.displayMetrics)
+    createConfigurationContext(config)
 }
