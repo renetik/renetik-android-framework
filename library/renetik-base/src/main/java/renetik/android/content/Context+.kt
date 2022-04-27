@@ -145,7 +145,7 @@ fun Context.string(@StringRes resId: Int): String {
     return resources.getString(resId)
 }
 
-fun Context.changeLocale(locale: Locale) {
+fun Context.setLocale(locale: Locale) {
     val config = Configuration(resources.configuration)
     config.setLocale(locale)
     Locale.setDefault(locale)
