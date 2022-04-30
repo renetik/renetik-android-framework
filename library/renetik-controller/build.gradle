@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation "com.google.android.material:material:$material_version"
-    implementation "com.google.android.gms:play-services-base:$play_version"
+//    implementation "com.google.android.gms:play-services-base:$play_version"
 
     implementation project(':renetik-library-base')
     implementation project(':renetik-library-material') //using snackbar and floating button
