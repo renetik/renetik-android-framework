@@ -60,6 +60,13 @@ class AndroidLogger() : CSContext(), CSLogger {
         listener?.onLogEvent(Warn, message.addSpace().add(getStackTraceString(e)).toString())
     }
 
+
+//    override fun assert(vararg values: Any?) {
+//        val message = createMessage(*values).toString()
+//        Log.println(Log.ASSERT, app.name, message)
+//        listener?.onLogEvent(Info, message)
+//    }
+
     private fun createMessage(vararg values: Any?) = StringBuilder().apply {
         values.forEach { it?.let { add(it).addSpace() } }
     }
