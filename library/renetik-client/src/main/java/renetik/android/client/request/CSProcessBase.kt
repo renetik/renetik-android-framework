@@ -97,10 +97,10 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
     }
 
     open fun cancel() {
-        debug(
-            "Response cancel", this, "isCanceled", isCanceled,
-            "isDone", isDone, "isSuccess", isSuccess, "isFailed", isFailed
-        )
+        debug {
+            "Response cancel, $this, isCanceled:$isCanceled, " +
+                    "isDone:$isDone, isSuccess:$isSuccess isFailed:$isFailed"
+        }
         if (isCanceled || isDone || isSuccess || isFailed) return
         isCanceled = true
         eventCancel.fire(this)
@@ -108,7 +108,7 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
     }
 
     private fun onDoneImpl() {
-        debug("Response onDone", this)
+        debug { "Response onDone:this" }
         if (isDone) {
             error(exception("already done"))
             return

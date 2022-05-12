@@ -1,5 +1,7 @@
 package renetik.android.controller.common
 
+import renetik.android.controller.common.CSNavigationAnimation.SlideInRight
+import renetik.android.controller.common.CSNavigationAnimation.SlideOutLeft
 import renetik.android.framework.lang.CSValue
 import renetik.android.framework.lang.CSValue.Companion.value
 
@@ -14,6 +16,10 @@ interface CSNavigationItem {
     val isNavigationBackButtonVisible get() = true
     val navigationBackButtonIcon: Int? get() = null
     val navigationBackButtonIconTint: Int? get() = null
-    val pushAnimation: CSNavigationAnimation get() = CSNavigationAnimation.SlideInRight
-    val popAnimation: CSNavigationAnimation get() = CSNavigationAnimation.SlideOutLeft
+
+    val pushAnimation: CSNavigationAnimation get() = SlideInRight
+    val popAnimation: CSNavigationAnimation get() = SlideOutLeft
+
+    fun onViewControllerPush(navigation: CSNavigationView) = Unit
+    fun onViewControllerPop(navigation: CSNavigationView) = Unit
 }

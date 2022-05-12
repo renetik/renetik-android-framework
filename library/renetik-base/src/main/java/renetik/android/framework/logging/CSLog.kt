@@ -11,12 +11,8 @@ object CSLog {
 
     private val log by lazy { app.log }
 
-    fun debug(vararg values: Any?) {
-        if (app.isDebugBuild) log.debug(*createDebugMessage(values))
-    }
-
-    fun debug(e: Throwable, vararg values: Any?) {
-        if (app.isDebugBuild) log.debug(e, *createDebugMessage(values))
+    fun debug(message: (() -> Any)? = null) {
+        if (app.isDebugBuild) log.debug(*createDebugMessage(message?.invoke()))
     }
 
     fun warn(vararg values: Any?) = log.warn(*createMessage(values))
@@ -53,6 +49,14 @@ object CSLog {
             0 -> time
             1 -> traceLine
             else -> values[it - 2]
+        }
+    }
+
+    private fun createDebugMessage(message: Any?) = Array(3) {
+        when (it) {
+            0 -> time
+            1 -> traceLine
+            else -> message
         }
     }
 }

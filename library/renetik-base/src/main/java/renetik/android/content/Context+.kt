@@ -146,9 +146,18 @@ fun Context.string(@StringRes resId: Int): String {
 }
 
 fun Context.setLocale(locale: Locale) {
-    val config = Configuration(resources.configuration)
+//    Locale.setDefault(locale)
+    val config = resources.configuration
     config.setLocale(locale)
-    Locale.setDefault(locale)
+    config.setLayoutDirection(locale)
+    @Suppress("DEPRECATION")
     resources.updateConfiguration(config, resources.displayMetrics)
-    createConfigurationContext(config)
+}
+
+fun Context.createContextForLocale(locale: Locale): Context {
+//    Locale.setDefault(locale)
+    val config = resources.configuration
+    config.setLocale(locale)
+    config.setLayoutDirection(locale)
+    return createConfigurationContext(config)
 }

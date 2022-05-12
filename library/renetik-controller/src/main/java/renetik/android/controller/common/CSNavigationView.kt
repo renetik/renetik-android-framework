@@ -54,7 +54,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     fun <T : View> push(controller: CSActivityView<T>,
                         pushId: String? = null): CSActivityView<T> {
-        debug(controller)
+        debug { controller }
         val isFullScreen =
             (controller as? CSNavigationItem)?.isFullscreenNavigationItem?.value ?: true
         current?.showingInPager(!isFullScreen)
@@ -65,12 +65,12 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller.lifecycleUpdate()
         updateBar()
         hideKeyboard()
-        onViewControllerPush(controller)
+        onViewControllerPush()
         return controller
     }
 
     fun pop(controller: CSActivityView<*>) {
-        debug(controller)
+        debug { controller }
         _controllers.remove(controller.toString()).notNull { popController(controller) }
     }
 
@@ -87,14 +87,14 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         current?.showingInPager(true)
         updateBar()
         hideKeyboard()
-        onViewControllerPop(controller)
+        onViewControllerPop()
     }
 
     fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
         _controllers.deleteLast().notNull { lastController ->
             popAnimation(controller)
             view.remove(lastController)
-            onViewControllerPop(lastController)
+            onViewControllerPop()
         }
 
         _controllers[controller.toString()] = controller
@@ -104,7 +104,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller.lifecycleUpdate()
         updateBar()
         hideKeyboard()
-        onViewControllerPush(controller)
+        onViewControllerPush()
         return controller
     }
 
@@ -116,7 +116,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
             for (lastEntry in _controllers.entries.reversed()) {
                 _controllers.remove(lastEntry.key)
                 view.remove(lastEntry.value)
-                onViewControllerPop(lastEntry.value)
+                onViewControllerPop()
                 if (lastEntry.key == pushId) break
             }
         _controllers[pushId] = controller
@@ -126,7 +126,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         controller.lifecycleUpdate()
         updateBar()
         hideKeyboard()
-        onViewControllerPush(controller)
+        onViewControllerPush()
         return controller
     }
 
@@ -141,14 +141,14 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
         oldController.showingInPager(false)
         view.remove(oldController)
-        onViewControllerPop(oldController)
+        onViewControllerPop()
 
         _controllers[entryOfController.key] = newController
         val indexIfController = _controllers.entries.indexOf(entryOfController)
         view.addView(newController.view, indexIfController)
         newController.showingInPager(true)
         newController.lifecycleUpdate()
-        onViewControllerPush(newController)
+        onViewControllerPush()
         return newController
     }
 
@@ -242,10 +242,12 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         return true
     }
 
-    open fun onViewControllerPush(controller: CSActivityView<*>) {
+    open fun onViewControllerPush() {
+        (current as? CSNavigationItem)?.onViewControllerPush(this)
     }
 
-    open fun onViewControllerPop(controller: CSActivityView<*>) {
+    open fun onViewControllerPop() {
+        (current as? CSNavigationItem)?.onViewControllerPop(this)
     }
 
     fun setSupportActionBar(toolbar: Toolbar) {

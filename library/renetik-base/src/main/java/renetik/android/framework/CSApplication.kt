@@ -19,7 +19,7 @@ open class CSApplication : Application() {
 
     open val name: String by lazy { applicationLabel }
     open val log: CSLogger by lazy { AndroidLogger() }
-    open val store: CSStoreInterface by lazy { CSFileJsonStore("app", isJsonPretty = true) }
+    val store: CSStoreInterface by lazy { CSFileJsonStore(this, "app", isJsonPretty = true) }
     open val externalFilesDir: File
         get() = getExternalFilesDir(null) ?: getExternalStorageDirectory()
     open val isDebugBuild: Boolean
