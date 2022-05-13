@@ -7,7 +7,6 @@ import android.content.Intent.ACTION_BATTERY_CHANGED
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
-import android.content.res.Configuration
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -146,7 +145,7 @@ fun Context.string(@StringRes resId: Int): String {
 }
 
 fun Context.setLocale(locale: Locale) {
-//    Locale.setDefault(locale)
+    Locale.setDefault(locale)
     val config = resources.configuration
     config.setLocale(locale)
     config.setLayoutDirection(locale)
@@ -155,7 +154,7 @@ fun Context.setLocale(locale: Locale) {
 }
 
 fun Context.createContextForLocale(locale: Locale): Context {
-//    Locale.setDefault(locale)
+    Locale.setDefault(locale)
     val config = resources.configuration
     config.setLocale(locale)
     config.setLayoutDirection(locale)

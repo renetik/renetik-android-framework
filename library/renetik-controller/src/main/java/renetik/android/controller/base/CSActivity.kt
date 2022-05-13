@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
+import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.CSRegistrations
 import renetik.android.framework.event.CSVisibility
-import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.fire
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.property.CSProperty
@@ -46,7 +46,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     override fun activity(): CSActivity = this
     var activityView: CSActivityView<out ViewGroup>? = null
-    var configuration = Configuration()
+    val configuration = Configuration()
     override val view: View get() = window.decorView
     override val context: Context get() = this
 
