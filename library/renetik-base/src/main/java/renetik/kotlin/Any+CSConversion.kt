@@ -1,6 +1,6 @@
 package renetik.kotlin
 
-import renetik.android.framework.common.catchAllWarnReturn
+import renetik.android.framework.lang.catchAllWarnReturn
 import renetik.android.framework.lang.CSHasTitle
 import renetik.android.framework.lang.CSValue
 import renetik.android.primitives.isEmpty

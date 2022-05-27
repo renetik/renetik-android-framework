@@ -1,8 +1,10 @@
-package renetik.android.framework.common
+package renetik.android.framework.lang
 
 import renetik.android.framework.Func
 import renetik.android.framework.logging.CSLog.error
 import renetik.android.framework.logging.CSLog.warn
+
+// TODO remake to this pattern:  runCatching {  }.onFailure {  }
 
 inline fun <ReturnType> catchReturn(
     tryFunction: () -> ReturnType, onExceptionReturn: (Throwable) -> ReturnType
@@ -13,7 +15,7 @@ inline fun <ReturnType> catchReturn(
 }
 
 inline fun <ReturnType> catchReturnNull(
-    tryFunction: () -> ReturnType): ReturnType? = catchReturn(tryFunction, { null })
+    tryFunction: () -> ReturnType): ReturnType? = catchReturn(tryFunction) { null }
 
 
 inline fun <reified ExceptionType : Throwable, ReturnType> catchWarnReturn(
@@ -32,25 +34,24 @@ inline fun <reified ExceptionType : Throwable, ReturnType> catchWarnReturn(
 
 inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturn(
     onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
-) = catchWarnReturn<ExceptionType, ReturnType>(message = null, tryFunction, { onExceptionReturn })
+) = catchWarnReturn<ExceptionType, ReturnType>(message = null, tryFunction) { onExceptionReturn }
 
 inline fun <reified ExceptionType : Throwable> catchWarn(tryFunction: () -> Unit) =
     catchWarnReturn<Unit, ExceptionType>(Unit, tryFunction)
 
 inline fun <ReturnType> catchAllWarnReturn(
     onExceptionReturn: ReturnType, tryFunction: () -> ReturnType
-) = catchWarnReturn<Exception, ReturnType>(message = null, tryFunction, { onExceptionReturn })
+) = catchWarnReturn<Exception, ReturnType>(message = null, tryFunction) { onExceptionReturn }
 
 inline fun catchAllWarn(tryFunction: () -> Unit) = catchAllWarnReturn(Unit, tryFunction)
 
-inline fun <ReturnType, reified ExceptionType : Throwable> catchWarnReturnNull(
-    tryFunction: () -> ReturnType
-): ReturnType? = catchWarnReturn<ExceptionType, ReturnType?>(message = null, tryFunction, { null })
+inline fun <ReturnType, reified ExceptionType : Throwable>
+        catchWarnReturnNull(tryFunction: () -> ReturnType): ReturnType? =
+    catchWarnReturn<ExceptionType, ReturnType?>(message = null, tryFunction) { null }
 
-
-inline fun <ReturnType> catchAllWarnReturnNull(message: String? = null,
-                                               tryFunction: () -> ReturnType)
-        : ReturnType? = catchWarnReturn<Exception, ReturnType?>(message, tryFunction, { null })
+inline fun <ReturnType>
+        catchAllWarnReturnNull(message: String? = null, tryFunction: () -> ReturnType)
+        : ReturnType? = catchWarnReturn<Exception, ReturnType?>(message, tryFunction) { null }
 
 inline fun <ReturnType, reified ExceptionType : Throwable> catchErrorReturn(
     tryFunction: () -> ReturnType, onExceptionReturn: (ExceptionType) -> ReturnType

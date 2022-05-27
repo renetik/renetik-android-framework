@@ -1,7 +1,7 @@
 package renetik.java.util
 
 import renetik.android.framework.Func
-import renetik.android.framework.common.catchAllError
+import renetik.android.framework.lang.catchAllError
 import renetik.android.framework.util.CSMainHandler.postOnMain
 import renetik.java.util.concurrent.*
 import java.util.*

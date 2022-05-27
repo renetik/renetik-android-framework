@@ -1,7 +1,7 @@
 package renetik.android.primitives
 
-import renetik.android.framework.common.catchWarnReturn
-import renetik.android.framework.common.catchWarnReturnNull
+import renetik.android.framework.lang.catchWarnReturn
+import renetik.android.framework.lang.catchWarnReturnNull
 import renetik.kotlin.notNull
 import renetik.kotlin.text.StringBuilder
 import renetik.kotlin.text.add

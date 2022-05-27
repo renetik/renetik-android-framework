@@ -22,17 +22,24 @@ object CSLog {
     fun info(vararg values: Any?) = log.info(*createMessage(values))
 
     fun infoToast(vararg values: Any?) {
-        val message = createMessage(values)
+        log.info(*createMessage(values))
         toast(" ".separateToString(*values))
-        log.info(*message)
+    }
+
+    fun warnToast(vararg values: Any?) {
+        log.warn(*createMessage(values))
+        toast(" ".separateToString(*values))
+    }
+
+    fun errorToast(vararg values: Any?) {
+        log.error(*createMessage(values))
+        toast(" ".separateToString(*values))
     }
 
     private fun createMessage(values: Array<out Any?>): Array<out Any?> = Array(values.size + 2) {
-        when (it) {
-            0 -> time
-            1 -> traceLine
-            else -> values[it - 2]
-        }
+        if (it == 0) time
+        else if (it == 1) traceLine
+        else values[it - 2]
     }
 
     private val timeFormat by lazy { getDateTimeInstance() }

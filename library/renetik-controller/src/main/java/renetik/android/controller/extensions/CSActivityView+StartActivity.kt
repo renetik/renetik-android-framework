@@ -8,6 +8,8 @@ import android.content.Intent.*
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSActivityView
+import renetik.android.controller.extensions.CSStartActivityResult.ActivityNotFound
+import renetik.android.controller.extensions.CSStartActivityResult.Cancel
 import renetik.android.framework.event.register
 import renetik.android.framework.logging.CSLog.warn
 import renetik.android.primitives.random
@@ -28,17 +30,26 @@ fun CSActivityView<*>.startActivityForResult(activityClass: Class<out AppCompatA
                                              requestCode: Int) =
     startActivityForResult(Intent(activity(), activityClass), requestCode)
 
+enum class CSStartActivityResult {
+    Cancel, ActivityNotFound
+}
+
 fun CSActivityView<*>.startActivityForResult(
-    intent: Intent, onCanceled: (() -> Unit)? = null, onSuccess: (Intent?) -> Unit) {
-    val requestCode = Int.random(0, 9999)
-    startActivityForResult(intent, requestCode)
-    register(activity().onActivityResult.add { registration, result ->
-        if (result.requestCode == requestCode) {
-            if (result.isOK()) onSuccess(result.data)
-            else onCanceled?.invoke()
-            registration.cancel()
-        }
-    })
+    intent: Intent, onSuccess: (Intent?) -> Unit,
+    onFailure: ((CSStartActivityResult) -> Unit)? = null) {
+    try {
+        val requestCode = Int.random(0, 9999)
+        startActivityForResult(intent, requestCode)
+        register(activity().onActivityResult.add { registration, result ->
+            if (result.requestCode == requestCode) {
+                if (result.isOK()) onSuccess(result.data)
+                else onFailure?.invoke(Cancel)
+                registration.cancel()
+            }
+        })
+    } catch (ex: ActivityNotFoundException) {
+        onFailure?.invoke(ActivityNotFound)
+    }
 }
 
 fun CSActivityView<*>.startActivityForResult(intent: Intent, requestCode: Int) =

@@ -1,7 +1,7 @@
 package renetik.java.io
 
 import renetik.android.framework.common.CSStringBuilderWriter
-import renetik.android.framework.common.catchAllError
+import renetik.android.framework.lang.catchAllError
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStream

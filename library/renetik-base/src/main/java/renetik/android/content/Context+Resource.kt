@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat.getColor
 import renetik.android.R
-import renetik.android.framework.common.*
+import renetik.android.framework.lang.*
 import renetik.kotlin.asString
 import renetik.kotlin.collections.list
 import renetik.kotlin.isAny

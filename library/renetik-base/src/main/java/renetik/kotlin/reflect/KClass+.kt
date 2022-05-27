@@ -1,6 +1,6 @@
 package renetik.kotlin.reflect
 
-import renetik.android.framework.common.catchAllWarnReturnNull
+import renetik.android.framework.lang.catchAllWarnReturnNull
 import kotlin.reflect.KClass
 
 fun <T : Any> KClass<T>.createInstance() = catchAllWarnReturnNull {

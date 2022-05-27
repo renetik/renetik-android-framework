@@ -3,6 +3,7 @@ package renetik.android.getpicture
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent
+import android.content.Intent.ACTION_GET_CONTENT
 import android.content.Intent.createChooser
 import android.net.Uri
 import android.os.Environment.getExternalStorageDirectory
@@ -10,12 +11,13 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
+import renetik.android.content.Intent
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.snackBarWarn
 import renetik.android.controller.extensions.startActivityForResult
 import renetik.android.framework.CSApplication.Companion.app
-import renetik.android.framework.common.catchAllError
+import renetik.android.framework.lang.catchAllError
 import renetik.android.framework.task.CSBackground.background
 import renetik.android.imaging.extensions.resizeImage
 import renetik.java.io.createDatedFile
@@ -66,11 +68,8 @@ class CSGetPictureView<T : View>(
     }
 
     private fun onSelectPhoto() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        startActivityForResult(createChooser(intent, "Select Picture")) { result ->
-            catchAllError { onImageSelected(result!!.data!!) }
-        }
+        startActivityForResult(createChooser(Intent(ACTION_GET_CONTENT, "image/*"),
+            "Select Picture"), { catchAllError { onImageSelected(it!!.data!!) } })
     }
 
     private fun onTakePhoto() {
@@ -78,8 +77,8 @@ class CSGetPictureView<T : View>(
         val cacheImage = cacheImagesDir.createDatedFile("jpg")
         val authority = "${applicationContext.packageName}.renetik.android.getpicture.fileprovider"
         val uri = getUriForFile(this, authority, cacheImage)
-        startActivityForResult(intent.putExtra(EXTRA_OUTPUT, uri)) {
+        startActivityForResult(intent.putExtra(EXTRA_OUTPUT, uri), {
             onImageSelected(uri) { cacheImage.delete() }
-        }
+        })
     }
 }

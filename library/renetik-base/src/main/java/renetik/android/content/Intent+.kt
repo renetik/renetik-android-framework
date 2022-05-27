@@ -25,6 +25,7 @@ val Intent.asString: String
 
 
 fun Intent(context: Context, kClass: KClass<*>) = Intent(context, kClass.java)
+fun Intent(action: String, type: String) = Intent(action).also { it.type = type }
 fun Intent(action: String, category: String, type: String) = Intent(action).also {
     it.addCategory(category)
     it.type = type

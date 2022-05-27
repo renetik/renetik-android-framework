@@ -12,7 +12,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.exifinterface.media.ExifInterface.*
 import renetik.android.content.openInputStream
 import renetik.android.framework.CSApplication.Companion.app
-import renetik.android.framework.common.catchAllError
+import renetik.android.framework.lang.catchAllError
 import java.io.OutputStream
 import kotlin.math.max
 

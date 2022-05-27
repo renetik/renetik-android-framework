@@ -21,8 +21,8 @@ import android.view.WindowManager
 import androidx.annotation.StringRes
 import androidx.core.content.res.getDrawableOrThrow
 import renetik.android.framework.CSApplication.Companion.app
-import renetik.android.framework.common.catchAllErrorReturnNull
-import renetik.android.framework.common.catchWarnReturnNull
+import renetik.android.framework.lang.catchAllErrorReturnNull
+import renetik.android.framework.lang.catchWarnReturnNull
 import renetik.android.framework.void
 import renetik.android.primitives.isSet
 import java.security.MessageDigest

@@ -4,7 +4,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.json.JSONTokener
-import renetik.android.framework.common.catchWarnReturnNull
+import renetik.android.framework.lang.catchWarnReturnNull
 import renetik.kotlin.asString
 import renetik.kotlin.collections.linkedMap
 import renetik.kotlin.collections.list

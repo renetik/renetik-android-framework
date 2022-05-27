@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import renetik.android.app.fixInputMethodLeak
 import renetik.android.framework.CSApplication.Companion.app
-import renetik.android.framework.common.catchAllWarn
+import renetik.android.framework.lang.catchAllWarn
 import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.Companion.event
 

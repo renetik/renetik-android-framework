@@ -1,6 +1,6 @@
 package renetik.kotlin.collections
 
-import renetik.android.framework.common.catchAllWarnReturnNull
+import renetik.android.framework.lang.catchAllWarnReturnNull
 
 fun <T, ListType : MutableList<T>> ListType.put(item: T) =
     item.apply { add(item) }

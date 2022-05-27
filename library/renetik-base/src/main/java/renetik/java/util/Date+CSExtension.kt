@@ -3,8 +3,8 @@ package renetik.java.util
 import android.content.Context
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
-import renetik.android.framework.common.catchAllWarn
-import renetik.android.framework.common.catchError
+import renetik.android.framework.lang.catchAllWarn
+import renetik.android.framework.lang.catchError
 import renetik.kotlin.notNull
 import java.text.DateFormat
 import java.text.ParseException

@@ -2,7 +2,7 @@ package renetik.java.util.concurrent
 
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
-import renetik.android.framework.common.catchAllError
+import renetik.android.framework.lang.catchAllError
 import renetik.android.framework.util.CSMainHandler.postOnMain
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit.MILLISECONDS

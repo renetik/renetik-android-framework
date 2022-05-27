@@ -3,7 +3,7 @@ package renetik.android.framework.store
 import android.annotation.SuppressLint
 import android.content.Context
 import renetik.android.framework.CSContext
-import renetik.android.framework.common.catchAllWarnReturnNull
+import renetik.android.framework.lang.catchAllWarnReturnNull
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.extensions.createJsonObject

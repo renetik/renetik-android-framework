@@ -1,7 +1,7 @@
 package renetik.kotlin
 
-import renetik.android.framework.common.catchAllWarn
-import renetik.android.framework.common.catchAllWarnReturnNull
+import renetik.android.framework.lang.catchAllWarn
+import renetik.android.framework.lang.catchAllWarnReturnNull
 import renetik.java.lang.createInstance
 
 const val INVOKE_FAILED = "invoke_failed"
