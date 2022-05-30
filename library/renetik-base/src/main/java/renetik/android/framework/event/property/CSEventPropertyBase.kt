@@ -1,14 +1,14 @@
 package renetik.android.framework.event.property
 
-import renetik.android.framework.CSEventOwnerHasDestroy
-import renetik.android.framework.CSModelBase
+import renetik.android.framework.base.CSEventOwnerHasDestroy
+import renetik.android.framework.base.CSBase
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 
 abstract class CSEventPropertyBase<T>
     (parent: CSEventOwnerHasDestroy? = null,
      val onApply: ((value: T) -> Unit)? = null)
-    : CSModelBase(parent), CSEventProperty<T> {
+    : CSBase(parent), CSEventProperty<T> {
 
     constructor(onApply: ((value: T) -> Unit)? = null)
             : this(parent = null, onApply = onApply)

@@ -16,7 +16,7 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.snackBarWarn
 import renetik.android.controller.extensions.startActivityForResult
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.framework.lang.catchAllError
 import renetik.android.framework.task.CSBackground.background
 import renetik.android.imaging.extensions.resizeImage

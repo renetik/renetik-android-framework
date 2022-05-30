@@ -15,11 +15,11 @@ interface CSRegistration {
             registrations.onEach { it.isActive = true }
         }
 
-        fun registration(onCancel: () -> Unit) = object : CSRegistration {
+        fun registration(onCancel: Func? = null) = object : CSRegistration {
             override var isActive = true
             override fun cancel() {
                 super.cancel()
-                onCancel()
+                onCancel?.invoke()
             }
         }
     }

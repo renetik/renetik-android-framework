@@ -1,7 +1,7 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.CSEventOwnerHasDestroy
-import renetik.android.framework.CSModelBase
+import renetik.android.framework.base.CSEventOwnerHasDestroy
+import renetik.android.framework.base.CSBase
 import renetik.android.framework.event.CSAction.Companion.action
 import renetik.android.framework.event.listenOnce
 import renetik.android.framework.event.property.CSEventProperty
@@ -10,16 +10,16 @@ import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.lang.property.connect
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import renetik.kotlin.unexpected
 
 class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
     parent: CSEventOwnerHasDestroy,
-    parentStore: CSStoreInterface,
+    parentStore: CSStore,
     key: String,
     val list: PresetList,
     val getDefault: () -> PresetItem = { list.items[0] })
-    : CSModelBase(parent), CSHasId {
+    : CSBase(parent), CSHasId {
 
     override val id = "$key preset"
     val actionEdit = action("$id actionEdit")
@@ -29,7 +29,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     private val dataList = mutableListOf<CSPresetKeyData>()
 
     constructor (
-        parent: CSEventOwnerHasDestroy, parentStore: CSStoreInterface,
+        parent: CSEventOwnerHasDestroy, parentStore: CSStore,
         key: String, list: PresetList, defaultItemId: String)
             : this(parent, parentStore, key, list,
         { list.defaultList.let { list -> list.find { it.id == defaultItemId } ?: list[0] } })

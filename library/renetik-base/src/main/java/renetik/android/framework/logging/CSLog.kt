@@ -1,7 +1,7 @@
 package renetik.android.framework.logging
 
 import renetik.android.content.CSToast.toast
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.primitives.separateToString
 import java.lang.System.currentTimeMillis
 import java.lang.Thread.currentThread

@@ -1,6 +1,6 @@
 package renetik.android.framework.event.property
 
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.framework.event.CSRegistration
 import renetik.android.framework.event.pause
 

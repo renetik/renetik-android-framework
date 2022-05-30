@@ -197,7 +197,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         actionBar?.title = title
     }
 
-    open fun setActionBarIcon(icon: Drawable) {
+    fun setActionBarIcon(icon: Drawable) {
         actionBar?.setDisplayShowHomeEnabled(true)
         actionBar?.setIcon(icon)
     }
@@ -207,7 +207,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         actionBar?.setIcon(icon)
     }
 
-    open fun hideActionBarIcon() {
+    fun hideActionBarIcon() {
         actionBar?.setDisplayShowHomeEnabled(false)
         actionBar?.setIcon(null)
     }
@@ -242,11 +242,11 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
         return true
     }
 
-    open fun onViewControllerPush() {
+    private fun onViewControllerPush() {
         (current as? CSNavigationItem)?.onViewControllerPush(this)
     }
 
-    open fun onViewControllerPop() {
+    fun onViewControllerPop() {
         (current as? CSNavigationItem)?.onViewControllerPop(this)
     }
 

@@ -1,4 +1,4 @@
-package renetik.android.framework
+package renetik.android.framework.base
 
 import android.app.Application
 import android.content.Context
@@ -9,7 +9,7 @@ import renetik.android.framework.logging.AndroidLogger
 import renetik.android.framework.logging.CSLog.info
 import renetik.android.framework.logging.CSLog.warn
 import renetik.android.framework.logging.CSLogger
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import renetik.kotlin.unexpected
 import java.io.File
 
@@ -29,7 +29,7 @@ open class CSApplication : Application() {
                 " because BuildConfig.DEBUG returns true only in debugged module")
     open val isDevelopmentMode get() = isDebugBuild
 
-    lateinit var store: CSStoreInterface
+    lateinit var store: CSStore
 
     override fun attachBaseContext(context: Context) {
         store = CSFileJsonStore(context, "app", isJsonPretty = true)

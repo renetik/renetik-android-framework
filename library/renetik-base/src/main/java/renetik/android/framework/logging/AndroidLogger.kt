@@ -2,8 +2,8 @@ package renetik.android.framework.logging
 
 import android.util.Log
 import android.util.Log.getStackTraceString
-import renetik.android.framework.CSApplication.Companion.app
-import renetik.android.framework.CSContext
+import renetik.android.framework.base.CSApplication.Companion.app
+import renetik.android.framework.base.CSContext
 import renetik.android.framework.logging.CSLoggerEvent.*
 import renetik.kotlin.text.add
 import renetik.kotlin.text.addSpace

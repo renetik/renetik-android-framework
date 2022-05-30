@@ -5,9 +5,8 @@ import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import renetik.android.controller.R
 import renetik.android.content.attributeColor
-import renetik.android.framework.CSContext
+import renetik.android.framework.base.CSContext
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.primitives.isSet
 

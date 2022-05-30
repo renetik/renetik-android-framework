@@ -1,8 +1,8 @@
 package renetik.android.framework.preset.property.nullable
 
-import renetik.android.framework.CSEventOwnerHasDestroy
+import renetik.android.framework.base.CSEventOwnerHasDestroy
 import renetik.android.framework.preset.CSPreset
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 
 class CSStringNullablePresetEventProperty(
     parent: CSEventOwnerHasDestroy,
@@ -12,8 +12,8 @@ class CSStringNullablePresetEventProperty(
     onChange: ((value: String?) -> Unit)?)
     : CSNullablePresetEventProperty<String>(parent, preset, key, onChange) {
     override var _value = load()
-    override fun get(store: CSStoreInterface): String? = store.getString(key)
-    override fun set(store: CSStoreInterface, value: String?) {
+    override fun get(store: CSStore): String? = store.getString(key)
+    override fun set(store: CSStore, value: String?) {
         store.set(key, value)
     }
 }

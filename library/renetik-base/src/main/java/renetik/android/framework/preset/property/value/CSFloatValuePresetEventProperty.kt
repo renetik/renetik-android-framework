@@ -1,8 +1,8 @@
 package renetik.android.framework.preset.property.value
 
-import renetik.android.framework.CSEventOwnerHasDestroy
+import renetik.android.framework.base.CSEventOwnerHasDestroy
 import renetik.android.framework.preset.CSPreset
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 
 class CSFloatValuePresetEventProperty(
     parent: CSEventOwnerHasDestroy,
@@ -12,6 +12,6 @@ class CSFloatValuePresetEventProperty(
     onChange: ((value: Float) -> Unit)?)
     : CSValuePresetEventProperty<Float>(parent,preset, key, onChange) {
     override var _value = load()
-    override fun get(store: CSStoreInterface) = store.getFloat(key)
-    override fun set(store: CSStoreInterface, value: Float) = store.set(key, value)
+    override fun get(store: CSStore) = store.getFloat(key)
+    override fun set(store: CSStore, value: Float) = store.set(key, value)
 }

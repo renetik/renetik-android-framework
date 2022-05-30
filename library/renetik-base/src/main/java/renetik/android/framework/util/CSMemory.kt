@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Context.ACTIVITY_SERVICE
 import android.os.Debug
 import android.text.format.Formatter.formatFileSize
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 
 // https://stackoverflow.com/questions/3170691/how-to-get-current-memory-usage-in-android
 // The more the "usedMemInMB" variable gets close to "maxHeapSizeInMB",

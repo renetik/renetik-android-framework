@@ -3,7 +3,7 @@ package renetik.android.content
 import android.widget.Toast.*
 import renetik.android.content.CSToastLength.LongTime
 import renetik.android.content.CSToastLength.ShortTime
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 
 object CSToast {
     fun toast(text: String) = toast(text, LongTime)

@@ -9,14 +9,14 @@ import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.data.reload
 import renetik.android.framework.lang.property.isFalse
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 
 class CSPresetStore(
     override val preset: CSPreset<*, *>,
-    val parentStore: CSStoreInterface) : CSJsonObject(), CSPresetKeyData {
+    val parentStore: CSStore) : CSJsonObject(), CSPresetKeyData {
 
     override val key = "${preset.id} store"
-    override fun saveTo(store: CSStoreInterface) = store.set(key, data)
+    override fun saveTo(store: CSStore) = store.set(key, data)
     override val eventDestroy get() = preset.eventDestroy
     override fun onDestroy() = preset.onDestroy()
 
@@ -47,7 +47,7 @@ class CSPresetStore(
     val eventReload = event()
     val eventAfterReload = event()
 
-    override fun reload(store: CSStoreInterface) {
+    override fun reload(store: CSStore) {
         eventReload.fire()
         super.reload(store)
         eventAfterReload.fire()

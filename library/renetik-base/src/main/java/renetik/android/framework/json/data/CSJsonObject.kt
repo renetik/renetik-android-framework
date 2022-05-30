@@ -4,20 +4,20 @@ import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.json.extensions.createJsonObject
 import renetik.android.framework.json.extensions.createJsonObjectList
 import renetik.android.framework.json.toJsonString
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import renetik.android.primitives.toArray
 import renetik.kotlin.collections.at
 import java.io.Closeable
 import kotlin.reflect.KClass
 
 @Suppress("unchecked_cast")
-open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface, Closeable {
+open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStore, Closeable {
 
     constructor(map: MutableMap<String, Any?>) : this() {
         load(map)
     }
 
-    constructor(data: CSStoreInterface) : this() {
+    constructor(data: CSStore) : this() {
         load(data)
     }
 
@@ -26,9 +26,9 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStoreInterface,
     }
 
     override val data = mutableMapOf<String, Any?>()
-    override val eventChanged = event<CSStoreInterface>()
+    override val eventChanged = event<CSStore>()
 
-    override fun load(store: CSStoreInterface) = load(store.data)
+    override fun load(store: CSStore) = load(store.data)
 
     fun load(data: Map<String, Any?>) {
         this.data.putAll(data)

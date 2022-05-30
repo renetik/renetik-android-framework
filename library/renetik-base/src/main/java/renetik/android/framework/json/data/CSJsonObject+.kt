@@ -1,6 +1,20 @@
 package renetik.android.framework.json.data
 
+import renetik.android.framework.base.CSApplication
+import renetik.android.framework.json.parseJsonMap
+import renetik.android.framework.json.toJSONObject
+import renetik.java.io.readText
 import renetik.kotlin.reflect.createInstance
+import java.io.File
+
+fun CSJsonObject.toJsonObject() = asStringMap().toJSONObject()
+
+fun <T : CSJsonObject> T.load(data: String) = apply { load(data.parseJsonMap()!!) }
+
+fun <T : CSJsonObject> T.load(file: File) = load(file.readText())
+
+fun <T : CSJsonObject> T.loadAsset(file: String) =
+    load(CSApplication.app.assets.open(file).readText())
 
 fun CSJsonObject.getObject(key: String) = getMap(key)?.let(::CSJsonObject)
 

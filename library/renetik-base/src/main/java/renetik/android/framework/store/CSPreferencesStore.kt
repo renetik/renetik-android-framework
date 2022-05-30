@@ -2,7 +2,7 @@ package renetik.android.framework.store
 
 import android.annotation.SuppressLint
 import android.content.Context
-import renetik.android.framework.CSContext
+import renetik.android.framework.base.CSContext
 import renetik.android.framework.lang.catchAllWarnReturnNull
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.json.data.CSJsonObject
@@ -14,13 +14,13 @@ import renetik.android.framework.json.parseJsonMap
 import renetik.android.framework.json.toJsonString
 import kotlin.reflect.KClass
 
-class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
+class CSPreferencesStore(id: String) : CSContext(), CSStore {
 
     private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
 
     override val data: Map<String, Any?> get() = preferences.all
 
-    override val eventChanged = event<CSStoreInterface>()
+    override val eventChanged = event<CSStore>()
 
     @SuppressLint("CommitPrefEdits")
     override fun clear() = preferences.edit().clear().apply()
@@ -73,13 +73,13 @@ class CSPreferencesStore(id: String) : CSContext(), CSStoreInterface {
     override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>) =
         get(key)?.parseJsonMap()?.let { type.createJsonObject(it) }
 
-    override fun load(store: CSStoreInterface) = with(preferences.edit()) {
+    override fun load(store: CSStore) = with(preferences.edit()) {
         loadAll(store)
         eventChanged.fire(this@CSPreferencesStore)
         apply()
     }
 
-    override fun reload(store: CSStoreInterface) = with(preferences.edit()) {
+    override fun reload(store: CSStore) = with(preferences.edit()) {
         clear()
         loadAll(store)
         eventChanged.fire(this@CSPreferencesStore)

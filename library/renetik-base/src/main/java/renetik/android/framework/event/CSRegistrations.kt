@@ -5,7 +5,6 @@ import renetik.kotlin.collections.removeIf
 import java.lang.System.nanoTime
 
 class CSRegistrations {
-
     private val registrations: MutableMap<Any, CSRegistration> = mutableMapOf()
     private var active = true
 
@@ -26,6 +25,7 @@ class CSRegistrations {
     @Synchronized
     @AnyThread
     fun add(registration: CSRegistration): CSRegistration {
+        if (!registration.isActive) return registration
         registration.isActive = active
         registrations[nanoTime()] = registration
         return registration
@@ -34,6 +34,7 @@ class CSRegistrations {
     @Synchronized
     @AnyThread
     fun add(key: Any, registration: CSRegistration): CSRegistration {
+        if (!registration.isActive) return registration
         registrations[key]?.cancel()
         registrations[key] = registration
         registration.isActive = active
@@ -59,5 +60,3 @@ class CSRegistrations {
         for (registration in registrations) registration.value.isActive = active
     }
 }
-
-

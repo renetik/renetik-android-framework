@@ -3,10 +3,10 @@ package renetik.android.framework.preset
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
-import renetik.android.framework.CSModelBase
+import renetik.android.framework.base.CSBase
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import renetik.kotlin.collections.at
 import renetik.kotlin.collections.second
 import renetik.kotlin.collections.third
@@ -145,7 +145,7 @@ class CSPresetTest {
     }
 }
 
-private class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase() {
+private class CSPresetTestParentClass(val store: CSStore) : CSBase() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {
@@ -164,7 +164,7 @@ private class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase
 private class CSPresetTestChildClass(
     parent: CSPresetTestParentClass,
     preset: CSPreset<*, *>,
-    key: String) : CSModelBase(parent) {
+    key: String) : CSBase(parent) {
 
     private val presetList = CSPresetTestPresetItemList()
 

@@ -1,9 +1,9 @@
 package renetik.android.framework.preset.property.value
 
-import renetik.android.framework.CSEventOwnerHasDestroy
+import renetik.android.framework.base.CSEventOwnerHasDestroy
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.preset.CSPreset
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import renetik.kotlin.toId
 
 class CSListValuePresetEventProperty<T : CSHasId>(
@@ -14,9 +14,9 @@ class CSListValuePresetEventProperty<T : CSHasId>(
 
     override var _value = load()
 
-    override fun get(store: CSStoreInterface) = store.get(key)?.split(",")
+    override fun get(store: CSStore) = store.get(key)?.split(",")
         ?.mapNotNull { categoryId -> values.find { it.id == categoryId } } ?: default
 
-    override fun set(store: CSStoreInterface, value: List<T>) =
+    override fun set(store: CSStore, value: List<T>) =
         store.set(key, value.joinToString(",") { it.toId() })
 }

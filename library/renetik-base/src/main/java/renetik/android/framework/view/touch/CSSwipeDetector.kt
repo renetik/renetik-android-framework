@@ -4,7 +4,7 @@ import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View
 import renetik.android.content.dpToPixel
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.logging.CSLog.info

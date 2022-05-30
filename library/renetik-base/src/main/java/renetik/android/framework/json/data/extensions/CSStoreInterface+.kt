@@ -1,12 +1,12 @@
 package  renetik.android.framework.json.data.extensions
 
 import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
 @Suppress("unchecked_cast")
-fun <T : CSJsonObject> CSStoreInterface.getJsonListList(key: String, type: KClass<T>)
+fun <T : CSJsonObject> CSStore.getJsonListList(key: String, type: KClass<T>)
         : MutableList<List<T>>? {
     val playsData = getList(key) ?: return null
     val plays = mutableListOf<List<T>>()

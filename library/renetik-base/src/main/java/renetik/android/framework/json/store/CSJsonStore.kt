@@ -3,7 +3,7 @@ package renetik.android.framework.json.store
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.json.parseJsonMap
 import renetik.android.framework.json.toJsonString
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import renetik.kotlin.runIf
 import java.io.Closeable
 
@@ -51,7 +51,7 @@ abstract class CSJsonStore(private val isJsonPretty: Boolean = false)
         save()
     }
 
-    override fun load(store: CSStoreInterface) {
+    override fun load(store: CSStore) {
         super.load(store)
         save()
     }

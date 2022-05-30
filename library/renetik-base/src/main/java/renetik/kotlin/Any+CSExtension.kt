@@ -1,36 +1,26 @@
 package renetik.kotlin
 
-import renetik.android.framework.event.CSRegistration
+import renetik.android.framework.event.CSRegistration.Companion.registration
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.util.CSMainHandler.postOnMain
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 
-inline fun later(delayMilliseconds: Int, crossinline function: () -> Unit) =
-    object : CSRegistration {
-        init {
-            postOnMain(delayMilliseconds) {
-                if (isActive) {
-                    isActive = false
-                    function()
-                }
+inline fun later(delayMilliseconds: Int,
+                 crossinline function: () -> Unit) =
+    registration().also {
+        postOnMain(delayMilliseconds) {
+            if (it.isActive) {
+                it.isActive = false
+                function()
             }
-        }
-
-        override var isActive = true
-        override fun cancel() {
-            isActive = false
         }
     }
 
-// Later uses default of 5 due to one strange rare multithreading issue
-// where later function where executed earlier then later returned registration
-inline fun later(crossinline function: () -> Unit) = later(0, function)
-
-//fun <T : Any> T.onMainThread(function: (T).() -> Unit) {
-//    if (Thread.currentThread().isMain) function()
-//    else later { function(this) }
-//}
+/** Later uses default of 5 due to one strange rare multithreading issue
+ *  where later function where executed earlier then later returned registration
+ */
+inline fun later(crossinline function: () -> Unit) = later(5, function)
 
 fun <T : Any> T.runIf(condition: Boolean, function: (T) -> T) =
     if (condition) function(this) else this

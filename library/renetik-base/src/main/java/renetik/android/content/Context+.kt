@@ -20,7 +20,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.annotation.StringRes
 import androidx.core.content.res.getDrawableOrThrow
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.framework.lang.catchAllErrorReturnNull
 import renetik.android.framework.lang.catchWarnReturnNull
 import renetik.android.framework.void

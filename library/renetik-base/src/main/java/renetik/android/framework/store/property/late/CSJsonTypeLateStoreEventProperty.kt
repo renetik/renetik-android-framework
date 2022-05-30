@@ -1,14 +1,14 @@
 package renetik.android.framework.store.property.late
 
 import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import kotlin.reflect.KClass
 
 class CSJsonTypeLateStoreEventProperty<T : CSJsonObject>(
-    override val store: CSStoreInterface,
+    override val store: CSStore,
     override val key: String, val type: KClass<T>,
     onChange: ((value: T) -> Unit)? = null)
     : CSLateStoreEventProperty<T>(store, key, onChange) {
     override fun get(): T? = store.getJsonObject(key, type)
-    override fun set(store: CSStoreInterface, value: T) = store.set(key, value)
+    override fun set(store: CSStore, value: T) = store.set(key, value)
 }

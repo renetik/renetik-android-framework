@@ -6,10 +6,10 @@ import android.content.res.Configuration.*
 import android.view.View
 import renetik.android.content.input
 
-val Activity.contentView1
-    get() = window.findViewById<View>(android.R.id.content)
+val Activity.contentView1: View
+    get() = window.findViewById(android.R.id.content)
 
-val Activity.contentView2
+val Activity.contentView2: View
     get() = window.decorView.rootView
 
 val Activity.isScreenLandscape get() = screenOrientation == ORIENTATION_LANDSCAPE
@@ -25,8 +25,8 @@ val Activity.screenOrientation: Int
 
 @Deprecated("Does this work ?")
 fun Context.fixInputMethodLeak() {
-    for (declaredField in input::class.java.getDeclaredFields()) try {
-        if (!declaredField.isAccessible()) declaredField.setAccessible(true)
+    for (declaredField in input::class.java.declaredFields) try {
+        if (!declaredField.isAccessible) declaredField.isAccessible = true
         val obj = declaredField.get(input)
         if (obj == null || obj !is View) continue
         if (obj.context === this) declaredField.set(input, null) else continue

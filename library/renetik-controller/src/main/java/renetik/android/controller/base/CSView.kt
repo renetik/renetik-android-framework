@@ -6,7 +6,7 @@ import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import androidx.annotation.LayoutRes
 import renetik.android.content.inflate
 import renetik.android.content.input
-import renetik.android.framework.CSContext
+import renetik.android.framework.base.CSContext
 import renetik.android.framework.event.CSHasParent
 import renetik.android.framework.event.CSViewInterface
 import renetik.android.framework.event.listenOnce

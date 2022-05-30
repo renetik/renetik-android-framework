@@ -1,7 +1,7 @@
 package renetik.android.framework.json.store
 
 import android.content.Context
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.java.io.readString
 import renetik.java.io.write
 import java.io.File

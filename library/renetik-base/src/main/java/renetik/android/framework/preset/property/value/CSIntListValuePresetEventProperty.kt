@@ -1,8 +1,8 @@
 package renetik.android.framework.preset.property.value
 
-import renetik.android.framework.CSEventOwnerHasDestroy
+import renetik.android.framework.base.CSEventOwnerHasDestroy
 import renetik.android.framework.preset.CSPreset
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 
 class CSIntListValuePresetEventProperty(
     parent: CSEventOwnerHasDestroy,
@@ -13,9 +13,9 @@ class CSIntListValuePresetEventProperty(
 
     override var _value = load()
 
-    override fun get(store: CSStoreInterface) = store.get(key)?.split(",")
+    override fun get(store: CSStore) = store.get(key)?.split(",")
         ?.map { it.toInt() } ?: default
 
-    override fun set(store: CSStoreInterface, value: List<Int>) =
+    override fun set(store: CSStore, value: List<Int>) =
         store.set(key, value.joinToString(",") { it.toString() })
 }

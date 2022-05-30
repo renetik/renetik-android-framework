@@ -1,8 +1,8 @@
 package renetik.android.framework.preset.property.value
 
-import renetik.android.framework.CSEventOwnerHasDestroy
+import renetik.android.framework.base.CSEventOwnerHasDestroy
 import renetik.android.framework.preset.CSPreset
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 
 class CSDoubleValuePresetEventProperty(
     parent: CSEventOwnerHasDestroy,
@@ -12,6 +12,6 @@ class CSDoubleValuePresetEventProperty(
     onChange: ((value: Double) -> Unit)?)
     : CSValuePresetEventProperty<Double>(parent,preset, key, onChange) {
     override var _value = load()
-    override fun get(store: CSStoreInterface) = store.getDouble(key)
-    override fun set(store: CSStoreInterface, value: Double) = store.set(key, value)
+    override fun get(store: CSStore) = store.getDouble(key)
+    override fun set(store: CSStore, value: Double) = store.set(key, value)
 }

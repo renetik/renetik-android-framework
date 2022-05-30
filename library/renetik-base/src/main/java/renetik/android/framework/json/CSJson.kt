@@ -33,8 +33,8 @@ private fun Any?.toJsonType(): Any? {
     return (this as? Map<String, *>)?.toJSONObject()
         ?: (this as? Array<*>)?.toJSONArray()
         ?: (this as? List<*>)?.toJSONArray()
-        ?: (this as? CSJsonMapInterface)?.asStringMap()?.toJSONObject()
-        ?: (this as? CSJsonListInterface)?.asList()?.toJSONArray()
+        ?: (this as? CSJsonMap)?.asStringMap()?.toJSONObject()
+        ?: (this as? CSJsonList)?.asList()?.toJSONArray()
         ?: this?.asString
 }
 
@@ -76,10 +76,10 @@ private fun JSONObject.createMapObject(): Map<String, Any?> {
     return map
 }
 
-interface CSJsonMapInterface {
+interface CSJsonMap {
     fun asStringMap(): Map<String, *>
 }
 
-interface CSJsonListInterface {
+interface CSJsonList {
     fun asList(): List<*>
 }

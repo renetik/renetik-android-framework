@@ -1,13 +1,13 @@
 package renetik.android.framework.store.property.value
 
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 
 open class CSBooleanValueStoreEventProperty(
-    store: CSStoreInterface, key: String, default: Boolean,
+    store: CSStore, key: String, default: Boolean,
     onChange: ((value: Boolean) -> Unit)?)
     : CSValueStoreEventProperty<Boolean>(store, key, listenStoreChanged = false, onChange) {
     override val defaultValue = default
     override var _value = load()
-    override fun get(store: CSStoreInterface) = store.getBoolean(key)
-    override fun set(store: CSStoreInterface, value: Boolean) = store.set(key, value)
+    override fun get(store: CSStore) = store.getBoolean(key)
+    override fun set(store: CSStore, value: Boolean) = store.set(key, value)
 }

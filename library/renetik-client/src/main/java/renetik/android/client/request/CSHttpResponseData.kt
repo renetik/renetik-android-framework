@@ -2,9 +2,6 @@ package renetik.android.client.request
 
 import renetik.android.framework.json.data.CSJsonList
 import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.json.data.properties.CSJsonBoolean
-import renetik.android.framework.json.data.properties.CSJsonInt
-import renetik.android.framework.json.data.properties.CSJsonString
 import renetik.android.framework.json.extensions.createJsonObject
 import renetik.android.framework.json.parseJsonList
 import renetik.android.framework.json.parseJsonMap
@@ -57,20 +54,20 @@ class CSValueServerData<ValueType : CSJsonObject>(key: String, kClass: KClass<Va
 class CSStringServerData(key: String) : CSServerMapData() {
     constructor() : this("value")
 
-    private val property = CSJsonString(this, key)
+    private val property = lateStringProperty(key)
     val value get() = property.value
 }
 
 class CSIntServerData(key: String) : CSServerMapData() {
     constructor() : this("value")
 
-    private val property = CSJsonInt(this, key)
+    private val property = lateIntProperty(key)
     val value get() = property.value
 }
 
 class CSBoolServerData(key: String) : CSServerMapData() {
     constructor() : this("value")
 
-    private val property = CSJsonBoolean(this, key)
+    private val property = lateBoolProperty(key)
     val value get() = property.value
 }

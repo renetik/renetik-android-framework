@@ -1,6 +1,6 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.CSModelBase
+import renetik.android.framework.base.CSBase
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
@@ -8,19 +8,19 @@ import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.register
 import renetik.android.framework.lang.property.isFalse
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import renetik.android.framework.store.getValue
 import renetik.kotlin.toId
 
 class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
         PresetList : CSPresetItemList<PresetItem>>(
     override val preset: CSPreset<PresetItem, PresetList>,
-    val parentStore: CSStoreInterface,
+    val parentStore: CSStore,
     val getDefault: () -> PresetItem
-) : CSModelBase(preset), CSEventProperty<PresetItem>, CSPresetKeyData {
+) : CSBase(preset), CSEventProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
-    override fun saveTo(store: CSStoreInterface) = store.set(key, value.toId())
+    override fun saveTo(store: CSStore) = store.set(key, value.toId())
     private var _value: PresetItem = loadValue()
     private fun loadValue() = parentStore.getValue(key, preset.list.items) ?: getDefault()
 

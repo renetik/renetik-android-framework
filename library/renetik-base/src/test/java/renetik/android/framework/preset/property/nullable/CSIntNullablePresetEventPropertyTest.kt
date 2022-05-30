@@ -2,11 +2,11 @@ package renetik.android.framework.preset.property.nullable
 
 import junit.framework.Assert.assertEquals
 import org.junit.Test
-import renetik.android.framework.CSModelBase
+import renetik.android.framework.base.CSBase
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.preset.*
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 
 class CSIntNullablePresetEventPropertyTest {
 
@@ -57,7 +57,7 @@ class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
     override fun reload() = Unit
 }
 
-class CSPresetTestParentClass(val store: CSStoreInterface) : CSModelBase() {
+class CSPresetTestParentClass(val store: CSStore) : CSBase() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {

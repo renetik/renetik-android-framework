@@ -7,7 +7,7 @@ import renetik.android.client.request.CSHttpProcess
 import renetik.android.client.request.CSHttpResponseData
 import renetik.android.client.request.CSOperation
 import renetik.android.content.isNetworkConnected
-import renetik.android.framework.CSApplication.Companion.app
+import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.framework.lang.CSTimeConstants.Minute
 import renetik.kotlin.notNull
 import renetik.android.framework.json.data.CSJsonObject

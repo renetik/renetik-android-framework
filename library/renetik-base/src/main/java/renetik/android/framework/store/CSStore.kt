@@ -1,8 +1,8 @@
 package renetik.android.framework.store
 
 import renetik.android.framework.event.CSEvent
-import renetik.android.framework.event.property.CSPropertyStoreInterface
-import renetik.android.framework.json.CSJsonMapInterface
+import renetik.android.framework.event.property.CSPropertyStore
+import renetik.android.framework.json.CSJsonMap
 import renetik.android.framework.json.data.CSJsonObject
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.logging.CSLog.warn
@@ -18,10 +18,10 @@ import renetik.android.primitives.asLong
 import java.io.Closeable
 import kotlin.reflect.KClass
 
-interface CSStoreInterface : CSPropertyStoreInterface,
-    Iterable<Map.Entry<String, Any?>>, CSJsonMapInterface {
+interface CSStore : CSPropertyStore,
+    Iterable<Map.Entry<String, Any?>>, CSJsonMap {
 
-    val eventChanged: CSEvent<CSStoreInterface>
+    val eventChanged: CSEvent<CSStore>
 
     val data: Map<String, Any?>
 
@@ -49,11 +49,11 @@ interface CSStoreInterface : CSPropertyStoreInterface,
     fun <T : CSJsonObject> set(key: String, value: T?)
     fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T?
 
-    fun load(store: CSStoreInterface)
+    fun load(store: CSStore)
     fun clear()
     fun clear(key: String)
 
-    fun reload(store: CSStoreInterface) = bulkSave().use {
+    fun reload(store: CSStore) = bulkSave().use {
         clear()
         load(store)
     }
@@ -113,7 +113,7 @@ interface CSStoreInterface : CSPropertyStoreInterface,
         key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =
         CSListValueStoreEventProperty(this, key, values, value, onChange)
 
-    fun <T : CSJsonObject> CSStoreInterface.lateProperty(
+    fun <T : CSJsonObject> CSStore.lateProperty(
         key: String, listType: KClass<T>, onApply: ((value: List<T>) -> Unit)? = null
     ) = CSJsonListLateStoreEventProperty(this, key, listType, onApply)
 

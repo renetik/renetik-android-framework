@@ -4,11 +4,11 @@ import renetik.android.framework.event.listen
 import renetik.android.framework.event.pause
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.event.register
-import renetik.android.framework.store.CSStoreInterface
+import renetik.android.framework.store.CSStore
 import renetik.android.framework.store.property.CSStoreEventProperty
 
 abstract class CSNullableStoreEventProperty<T>(
-    final override val store: CSStoreInterface,
+    final override val store: CSStore,
     final override val key: String,
     val defaultValue: T?,
     val listenStoreChanged: Boolean = false,
@@ -16,10 +16,10 @@ abstract class CSNullableStoreEventProperty<T>(
     : CSEventPropertyBase<T?>(onApply), CSStoreEventProperty<T?> {
 
     protected var _value: T? = null
-    abstract fun get(store: CSStoreInterface): T?
+    abstract fun get(store: CSStore): T?
 
     fun load(): T? = load(store)
-    fun load(store: CSStoreInterface): T? = get(store) ?: defaultValue
+    fun load(store: CSStore): T? = get(store) ?: defaultValue
 
     private val storeEventChangedRegistration =
         if (listenStoreChanged) register(store.eventChanged.listen {
