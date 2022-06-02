@@ -9,9 +9,9 @@ import renetik.kotlin.asString
 import renetik.kotlin.collections.linkedMap
 import renetik.kotlin.collections.list
 
-fun String.parseJsonMap() = parseJson<MutableMap<String, Any?>>()
+fun String.parseJsonMap(): MutableMap<String, Any?>? = parseJson<MutableMap<String, Any?>>()
 
-fun String.parseJsonList() = parseJson<MutableList<Any?>>()
+fun String.parseJsonList(): MutableList<Any?>? = parseJson<MutableList<Any?>>()
 
 @Suppress("UNCHECKED_CAST")
 fun <Type> String.parseJson(): Type? = catchWarnReturnNull<Any, JSONException> {
@@ -33,8 +33,8 @@ private fun Any?.toJsonType(): Any? {
     return (this as? Map<String, *>)?.toJSONObject()
         ?: (this as? Array<*>)?.toJSONArray()
         ?: (this as? List<*>)?.toJSONArray()
-        ?: (this as? CSJsonMap)?.asStringMap()?.toJSONObject()
-        ?: (this as? CSJsonList)?.asList()?.toJSONArray()
+        ?: (this as? CSJsonObjectInterface)?.asStringMap()?.toJSONObject()
+        ?: (this as? CSJsonArrayInterface)?.asList()?.toJSONArray()
         ?: this?.asString
 }
 
@@ -74,12 +74,4 @@ private fun JSONObject.createMapObject(): Map<String, Any?> {
     val map = linkedMap<String, Any?>()
     for (key in keys()) map[key] = this[key].createValueFromJsonType()
     return map
-}
-
-interface CSJsonMap {
-    fun asStringMap(): Map<String, *>
-}
-
-interface CSJsonList {
-    fun asList(): List<*>
 }

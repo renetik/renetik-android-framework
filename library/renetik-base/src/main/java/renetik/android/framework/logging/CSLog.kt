@@ -11,27 +11,27 @@ object CSLog {
 
     private val log by lazy { app.log }
 
-    fun debug(message: (() -> Any)? = null) {
+    fun logDebug(message: (() -> Any)? = null) {
         if (app.isDebugBuild) log.debug(*createDebugMessage(message?.invoke()))
     }
 
-    fun warn(vararg values: Any?) = log.warn(*createMessage(values))
-    fun warn(e: Throwable, vararg values: Any?) = log.warn(e, *createMessage(values))
-    fun error(vararg values: Any?) = log.error(*createMessage(values))
-    fun error(e: Throwable, vararg values: Any?) = log.error(e, *createMessage(values))
-    fun info(vararg values: Any?) = log.info(*createMessage(values))
+    fun logWarn(vararg values: Any?) = log.warn(*createMessage(values))
+    fun logWarn(e: Throwable, vararg values: Any?) = log.warn(e, *createMessage(values))
+    fun logError(vararg values: Any?) = log.error(*createMessage(values))
+    fun logError(e: Throwable, vararg values: Any?) = log.error(e, *createMessage(values))
+    fun logInfo(vararg values: Any?) = log.info(*createMessage(values))
 
-    fun infoToast(vararg values: Any?) {
+    fun logInfoToast(vararg values: Any?) {
         log.info(*createMessage(values))
         toast(" ".separateToString(*values))
     }
 
-    fun warnToast(vararg values: Any?) {
+    fun logWarnToast(vararg values: Any?) {
         log.warn(*createMessage(values))
         toast(" ".separateToString(*values))
     }
 
-    fun errorToast(vararg values: Any?) {
+    fun logErrorToast(vararg values: Any?) {
         log.error(*createMessage(values))
         toast(" ".separateToString(*values))
     }

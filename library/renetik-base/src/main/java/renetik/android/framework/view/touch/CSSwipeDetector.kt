@@ -7,7 +7,7 @@ import renetik.android.content.dpToPixel
 import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
-import renetik.android.framework.logging.CSLog.info
+import renetik.android.framework.logging.CSLog.logInfo
 import renetik.android.framework.view.touch.CSSwipeDetector.CSSwipeType.*
 import kotlin.math.abs
 
@@ -33,22 +33,22 @@ class CSSwipeDetector(
 
     private fun onBottomToTopSwipe() {
         eventSwipe.fire(BottomToTop)
-        info("SwipeDetector onBottomToTopSwipe!")
+        logInfo("SwipeDetector onBottomToTopSwipe!")
     }
 
     private fun onLeftToRightSwipe() {
         eventSwipe.fire(LeftToRight)
-        info("SwipeDetector LeftToRightSwipe!")
+        logInfo("SwipeDetector LeftToRightSwipe!")
     }
 
     private fun onRightToLeftSwipe() {
         eventSwipe.fire(RightToLeft)
-        info("SwipeDetector RightToLeftSwipe!")
+        logInfo("SwipeDetector RightToLeftSwipe!")
     }
 
     private fun onTopToBottomSwipe() {
         eventSwipe.fire(TopToBottom)
-        info("SwipeDetector onTopToBottomSwipe!")
+        logInfo("SwipeDetector onTopToBottomSwipe!")
     }
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
@@ -77,7 +77,7 @@ class CSSwipeDetector(
                         return true
                     }
                 } else
-                    info("SwipeDetector Swipe was only " + abs(deltaX) +
+                    logInfo("SwipeDetector Swipe was only " + abs(deltaX) +
                             " long, need at least " + minDistance)
 
                 // swipe vertical?
@@ -92,7 +92,7 @@ class CSSwipeDetector(
                         return true
                     }
                 } else {
-                    info("Swipe was only " + abs(deltaX) + " long, need at least " + minDistance)
+                    logInfo("Swipe was only " + abs(deltaX) + " long, need at least " + minDistance)
                     view.performClick()
                 }
             }

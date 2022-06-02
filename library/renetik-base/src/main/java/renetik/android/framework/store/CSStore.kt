@@ -2,10 +2,10 @@ package renetik.android.framework.store
 
 import renetik.android.framework.event.CSEvent
 import renetik.android.framework.event.property.CSPropertyStore
-import renetik.android.framework.json.CSJsonMap
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.json.CSJsonObjectInterface
 import renetik.android.framework.lang.CSHasId
-import renetik.android.framework.logging.CSLog.warn
+import renetik.android.framework.logging.CSLog.logWarn
 import renetik.android.framework.store.property.late.*
 import renetik.android.framework.store.property.nullable.CSBooleanNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSIntNullableStoreEventProperty
@@ -19,7 +19,7 @@ import java.io.Closeable
 import kotlin.reflect.KClass
 
 interface CSStore : CSPropertyStore,
-    Iterable<Map.Entry<String, Any?>>, CSJsonMap {
+    Iterable<Map.Entry<String, Any?>>, CSJsonObjectInterface {
 
     val eventChanged: CSEvent<CSStore>
 
@@ -31,7 +31,7 @@ interface CSStore : CSPropertyStore,
 
     fun has(key: String): Boolean = data.containsKey(key)
 
-    fun bulkSave(): Closeable = Closeable { warn("Bulk save not implemented") }
+    fun bulkSave(): Closeable = Closeable { logWarn("Bulk save not implemented") }
     fun set(key: String, value: String?)
     fun get(key: String): String? = data[key]?.toString()
 
@@ -44,7 +44,7 @@ interface CSStore : CSPropertyStore,
     fun set(key: String, value: List<*>?)
     fun getList(key: String): List<*>?
 
-    fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>): List<T>?
+    fun <T : CSJsonObject> getJsonObjectList(key: String, type: KClass<T>): List<T>?
 
     fun <T : CSJsonObject> set(key: String, value: T?)
     fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T?
@@ -58,24 +58,26 @@ interface CSStore : CSPropertyStore,
         load(store)
     }
 
-    fun set(key: String, value: Int?) = set(key, value?.toString())
     fun set(key: String, value: Boolean?) = set(key, value?.toString())
-    fun set(key: String, value: Float?) = set(key, value?.toString())
-    fun set(key: String, value: Double?) = set(key, value?.toString())
+    fun set(key: String, value: Int?) = set(key, value?.toString())
     fun set(key: String, value: Long?) = set(key, value?.toString())
+    fun set(key: String, value: Double?) = set(key, value?.toString())
+    fun set(key: String, value: Float?) = set(key, value?.toString())
 
-    fun getBoolean(key: String, default: Boolean) = get(key)?.toBoolean() ?: default
-    fun getBoolean(key: String, default: Boolean? = null) = get(key)?.toBoolean() ?: default
-    fun getDouble(key: String, default: Double) = get(key)?.asDouble() ?: default
-    fun getDouble(key: String, default: Double? = null) = get(key)?.asDouble() ?: default
-    fun getLong(key: String, default: Long) = get(key)?.asLong() ?: default
-    fun getLong(key: String, default: Long? = null) = get(key)?.asLong() ?: default
-    fun getFloat(key: String, default: Float) = get(key)?.asFloat() ?: default
-    fun getFloat(key: String, default: Float? = null) = get(key)?.asFloat() ?: default
-    fun getInt(key: String, default: Int) = get(key)?.asInt() ?: default
-    fun getInt(key: String, default: Int? = null) = get(key)?.asInt() ?: default
-    fun getString(key: String, default: String) = get(key) ?: default
-    fun getString(key: String) = get(key)
+    fun getString(key: String, default: String): String = get(key) ?: default
+    fun getString(key: String): String? = get(key)
+    fun getBoolean(key: String, default: Boolean): Boolean = get(key)?.toBoolean() ?: default
+    fun getBoolean(key: String, default: Boolean? = null): Boolean? =
+        get(key)?.toBoolean() ?: default
+
+    fun getInt(key: String, default: Int): Int = get(key)?.asInt() ?: default
+    fun getInt(key: String, default: Int? = null): Int? = get(key)?.asInt() ?: default
+    fun getLong(key: String, default: Long): Long = get(key)?.asLong() ?: default
+    fun getLong(key: String, default: Long? = null): Long? = get(key)?.asLong() ?: default
+    fun getFloat(key: String, default: Float): Float = get(key)?.asFloat() ?: default
+    fun getFloat(key: String, default: Float? = null): Float? = get(key)?.asFloat() ?: default
+    fun getDouble(key: String, default: Double): Double = get(key)?.asDouble() ?: default
+    fun getDouble(key: String, default: Double? = null): Double? = get(key)?.asDouble() ?: default
 
     override fun property(key: String, value: String, onChange: ((value: String) -> Unit)?) =
         CSStringValueStoreEventProperty(this, key, value, listenStoreChanged = false, onChange)

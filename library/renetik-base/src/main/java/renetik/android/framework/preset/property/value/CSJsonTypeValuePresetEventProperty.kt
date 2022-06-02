@@ -1,7 +1,7 @@
 package renetik.android.framework.preset.property.value
 
 import renetik.android.framework.base.CSEventOwnerHasDestroy
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStore
 import renetik.kotlin.reflect.createInstance

@@ -1,6 +1,6 @@
 package renetik.android.framework.json.store
 
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.store.CSStore
 import renetik.android.framework.store.property.nullable.CSJsonTypeNullableStoreEventProperty
 import renetik.android.framework.store.property.value.CSJsonListValueStoreEventProperty

@@ -1,6 +1,6 @@
 package renetik.android.framework.store.property.value
 
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.store.CSStore
 import kotlin.reflect.KClass
 
@@ -14,6 +14,6 @@ class CSJsonListValueStoreEventProperty<T : CSJsonObject>(
 ) : CSValueStoreEventProperty<List<T>>(store, key, listenStoreChanged, onApply) {
     override val defaultValue = default
     override var _value = load()
-    override fun get(store: CSStore) = store.getJsonList(key, type) ?: default
+    override fun get(store: CSStore) = store.getJsonObjectList(key, type) ?: default
     override fun set(store: CSStore, value: List<T>) = store.set(key, value)
 }

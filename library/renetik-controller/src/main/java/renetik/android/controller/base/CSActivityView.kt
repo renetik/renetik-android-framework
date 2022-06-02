@@ -12,7 +12,7 @@ import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.framework.lang.property.CSProperty
-import renetik.android.framework.logging.CSLog.warn
+import renetik.android.framework.logging.CSLog.logWarn
 import renetik.android.view.isVisible
 import renetik.kotlin.className
 import renetik.kotlin.unexpected
@@ -74,7 +74,7 @@ open class CSActivityView<ViewType : View>
 
     open fun onPause() {
         if (isPaused && isVisible) {
-            warn(Throwable(), "Not Resumed while paused, should be resumed first", this)
+            logWarn(Throwable(), "Not Resumed while paused, should be resumed first", this)
             return
         }
         isResumed = false

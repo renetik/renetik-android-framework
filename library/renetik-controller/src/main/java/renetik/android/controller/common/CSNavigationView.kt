@@ -16,7 +16,7 @@ import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
 import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.framework.logging.CSLog.debug
+import renetik.android.framework.logging.CSLog.logDebug
 import renetik.android.primitives.isFalse
 import renetik.android.primitives.isSet
 import renetik.android.view.background
@@ -54,7 +54,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     fun <T : View> push(controller: CSActivityView<T>,
                         pushId: String? = null): CSActivityView<T> {
-        debug { controller }
+        logDebug { controller }
         val isFullScreen =
             (controller as? CSNavigationItem)?.isFullscreenNavigationItem?.value ?: true
         current?.showingInPager(!isFullScreen)
@@ -70,7 +70,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     fun pop(controller: CSActivityView<*>) {
-        debug { controller }
+        logDebug { controller }
         _controllers.remove(controller.toString()).notNull { popController(controller) }
     }
 

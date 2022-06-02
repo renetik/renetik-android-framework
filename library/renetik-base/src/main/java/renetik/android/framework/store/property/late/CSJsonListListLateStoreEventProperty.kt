@@ -1,6 +1,6 @@
 package renetik.android.framework.store.property.late
 
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.data.extensions.getJsonListList
 import renetik.android.framework.store.CSStore
 import kotlin.reflect.KClass

@@ -1,8 +1,8 @@
 package renetik.android.client.request
 
-import renetik.android.framework.json.data.CSJsonList
-import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.json.extensions.createJsonObject
+import renetik.android.framework.json.CSJsonArray
+import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.json.createJsonObject
 import renetik.android.framework.json.parseJsonList
 import renetik.android.framework.json.parseJsonMap
 import kotlin.reflect.KClass
@@ -28,7 +28,7 @@ open class CSServerMapData : CSJsonObject(), CSHttpResponseData {
     override val message: String? get() = getString("message")
 }
 
-open class CSServerListData : CSJsonList(), CSHttpResponseData {
+open class CSServerListData : CSJsonArray(), CSHttpResponseData {
 
     private var _message = ""
 

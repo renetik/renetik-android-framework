@@ -6,8 +6,8 @@ import android.os.Environment.getExternalStorageDirectory
 import renetik.android.content.applicationLabel
 import renetik.android.framework.json.store.CSFileJsonStore
 import renetik.android.framework.logging.AndroidLogger
-import renetik.android.framework.logging.CSLog.info
-import renetik.android.framework.logging.CSLog.warn
+import renetik.android.framework.logging.CSLog.logInfo
+import renetik.android.framework.logging.CSLog.logWarn
 import renetik.android.framework.logging.CSLogger
 import renetik.android.framework.store.CSStore
 import renetik.kotlin.unexpected
@@ -45,11 +45,11 @@ open class CSApplication : Application() {
 
     override fun onLowMemory() {
         super.onLowMemory()
-        warn("onLowMemory")
+        logWarn("onLowMemory")
     }
 
     override fun onTerminate() {
         super.onTerminate()
-        info("onTerminate")
+        logInfo("onTerminate")
     }
 }

@@ -1,11 +1,7 @@
-package renetik.android.framework.json.data
-
-import renetik.android.framework.json.CSJsonList
-import renetik.android.framework.json.toJsonString
+package renetik.android.framework.json
 
 @Suppress("unchecked_cast")
-open class CSJsonList() : Iterable<Any?>,
-    CSJsonList {
+open class CSJsonArray() : Iterable<Any?>, CSJsonArrayInterface {
 
     constructor(list: List<Any?>) : this() {
         load(list)

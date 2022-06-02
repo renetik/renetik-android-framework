@@ -2,7 +2,7 @@ package renetik.android.framework.store.property.value
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.store.CSStringJsonStore
 import renetik.android.framework.json.store.property
 

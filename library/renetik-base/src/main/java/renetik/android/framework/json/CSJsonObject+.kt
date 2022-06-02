@@ -1,8 +1,6 @@
-package renetik.android.framework.json.data
+package renetik.android.framework.json
 
 import renetik.android.framework.base.CSApplication
-import renetik.android.framework.json.parseJsonMap
-import renetik.android.framework.json.toJSONObject
 import renetik.java.io.readText
 import renetik.kotlin.reflect.createInstance
 import java.io.File

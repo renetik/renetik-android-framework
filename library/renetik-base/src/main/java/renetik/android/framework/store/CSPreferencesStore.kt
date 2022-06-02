@@ -2,12 +2,13 @@ package renetik.android.framework.store
 
 import android.annotation.SuppressLint
 import android.content.Context
+import renetik.android.content.isDebug
 import renetik.android.framework.base.CSContext
 import renetik.android.framework.lang.catchAllWarnReturnNull
 import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.json.extensions.createJsonObject
-import renetik.android.framework.json.extensions.createJsonObjectList
+import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.json.createJsonObject
+import renetik.android.framework.json.createJsonObjectList
 import renetik.android.framework.json.parseJson
 import renetik.android.framework.json.parseJsonList
 import renetik.android.framework.json.parseJsonMap
@@ -17,10 +18,8 @@ import kotlin.reflect.KClass
 class CSPreferencesStore(id: String) : CSContext(), CSStore {
 
     private val preferences = getSharedPreferences(id, Context.MODE_PRIVATE)
-
-    override val data: Map<String, Any?> get() = preferences.all
-
     override val eventChanged = event<CSStore>()
+    override val data: Map<String, Any?> get() = preferences.all
 
     @SuppressLint("CommitPrefEdits")
     override fun clear() = preferences.edit().clear().apply()
@@ -44,34 +43,34 @@ class CSPreferencesStore(id: String) : CSContext(), CSStore {
         catchAllWarnReturnNull { preferences.getString(key, null) }
 
     override fun set(key: String, value: Map<String, *>?) =
-        set(key, value?.toJsonString(formatted = true))
+        set(key, value?.toJsonString(formatted = isDebug))
 
     override fun getMap(key: String): Map<String, *>? =
         get(key)?.parseJson<Map<String, *>>()
 
     // TODO Array can be retrieved and save by using list functions in extensions
     override fun set(key: String, value: Array<*>?) =
-        set(key, value?.toJsonString(formatted = true))
+        set(key, value?.toJsonString(formatted = isDebug))
 
     override fun getArray(key: String): Array<*>? =
         get(key)?.parseJson<List<*>>()?.toTypedArray()
 
     override fun set(key: String, value: List<*>?) =
-        set(key, value?.toJsonString(formatted = true))
+        set(key, value?.toJsonString(formatted = isDebug))
 
     override fun getList(key: String): List<*>? =
         get(key)?.parseJson<List<*>>()
 
     @Suppress("unchecked_cast")
-    override fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>) =
+    override fun <T : CSJsonObject> getJsonObjectList(key: String, type: KClass<T>) =
         (get(key)?.parseJsonList() as? List<MutableMap<String, Any?>>)
-            ?.let { type.createJsonObjectList(it) }
+            ?.let(type::createJsonObjectList)
 
     override fun <T : CSJsonObject> set(key: String, value: T?) =
-        set(key, value?.toJsonString(formatted = true))
+        set(key, value?.toJsonString(formatted = isDebug))
 
     override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>) =
-        get(key)?.parseJsonMap()?.let { type.createJsonObject(it) }
+        get(key)?.parseJsonMap()?.let(type::createJsonObject)
 
     override fun load(store: CSStore) = with(preferences.edit()) {
         loadAll(store)

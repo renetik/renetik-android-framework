@@ -1,6 +1,6 @@
 package  renetik.android.framework.json.data.extensions
 
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.store.CSStore
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance

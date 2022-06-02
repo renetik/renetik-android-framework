@@ -3,7 +3,7 @@ package renetik.android.framework.preset.property.nullable
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import renetik.android.framework.base.CSBase
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.preset.*
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStore

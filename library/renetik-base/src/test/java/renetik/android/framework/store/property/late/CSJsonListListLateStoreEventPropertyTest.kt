@@ -2,8 +2,8 @@ package renetik.android.framework.store.property.late
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import renetik.android.framework.json.data.CSJsonObject
-import renetik.android.framework.json.data.load
+import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.json.load
 import renetik.android.framework.json.toJsonString
 
 class TestData() : CSJsonObject() {

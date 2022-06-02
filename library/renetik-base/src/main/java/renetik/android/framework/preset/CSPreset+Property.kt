@@ -1,7 +1,7 @@
 package renetik.android.framework.preset
 
 import renetik.android.framework.base.CSEventOwnerHasDestroy
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.preset.property.nullable.CSFloatNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSIntNullablePresetEventProperty

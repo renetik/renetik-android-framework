@@ -1,9 +1,6 @@
-package renetik.android.framework.json.data
+package renetik.android.framework.json
 
 import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.json.extensions.createJsonObject
-import renetik.android.framework.json.extensions.createJsonObjectList
-import renetik.android.framework.json.toJsonString
 import renetik.android.framework.store.CSStore
 import renetik.android.primitives.toArray
 import renetik.kotlin.collections.at
@@ -27,8 +24,7 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStore, Closeabl
 
     override val data = mutableMapOf<String, Any?>()
     override val eventChanged = event<CSStore>()
-
-    override fun load(store: CSStore) = load(store.data)
+    final override fun load(store: CSStore) = load(store.data)
 
     fun load(data: Map<String, Any?>) {
         this.data.putAll(data)
@@ -39,8 +35,18 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStore, Closeabl
 
     open fun onLoaded() = Unit
 
-    open fun onChanged() {
-        eventChanged.fire(this)
+    open fun onChanged() = eventChanged.fire(this)
+
+    override fun clear() {
+        data.clear()
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
+    }
+
+    override fun clear(key: String) {
+        if (data.remove(key) == null) return
+        if (!isBulkSave) onChanged()
+        else isBulkSaveDirty = true
     }
 
     override fun set(key: String, value: String?) {
@@ -57,12 +63,16 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStore, Closeabl
         else isBulkSaveDirty = true
     }
 
+    override fun getMap(key: String) = data[key] as? MutableMap<String, Any?>
+
     override fun set(key: String, value: Array<*>?) {
         if (value != null && data[key] == value) return
         data[key] = value?.toArray()
         if (!isBulkSave) onChanged()
         else isBulkSaveDirty = true
     }
+
+    override fun getArray(key: String): Array<*>? = getList(key)?.toTypedArray()
 
     override fun set(key: String, value: List<*>?) {
         if (value != null && data[key] == value) return
@@ -71,22 +81,37 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStore, Closeabl
         else isBulkSaveDirty = true
     }
 
-    override fun <T : CSJsonObject> set(key: String, value: T?) = set(key, value?.data)
+    override fun getList(key: String): List<*>? = data[key] as? MutableList<Any?>
 
-    override fun clear() {
-        data.clear()
+    override fun <T : CSJsonObject> getJsonObjectList(key: String, type: KClass<T>): List<T>? {
+        val isFirstItemJsonObject = ((data[key] as? List<*>)?.at(0) as? T) != null
+        return if (isFirstItemJsonObject) data[key] as List<T> else
+            (data[key] as? List<MutableMap<String, Any?>>)?.let { list ->
+                type.createJsonObjectList(list).also { data[key] = it }
+            }
+    }
+
+    override fun <T : CSJsonObject> set(key: String, value: T?) {
+        if (value != null && data[key] == value) return
+        data[key] = value
         if (!isBulkSave) onChanged()
         else isBulkSaveDirty = true
     }
 
-    override fun clear(key: String) {
-        if (data.remove(key) == null) return
-        if (!isBulkSave) onChanged()
-        else isBulkSaveDirty = true
-    }
+    override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T? =
+        data[key] as? T ?: (data[key] as? MutableMap<String, Any?>)?.let { map ->
+            type.createJsonObject(map).also { data[key] = it }
+        }
+
+    override fun toString() = super.toString() + toJsonString(formatted = true)
+
+    override fun equals(other: Any?) =
+        (other as? CSJsonObject)?.let { it.data == data } ?: super.equals(other)
+
+    override fun hashCode() = data.hashCode()
 
     protected var isBulkSave = false
-    protected var isBulkSaveDirty = false
+    private var isBulkSaveDirty = false
 
     override fun bulkSave() = apply {
         isBulkSave = true
@@ -98,32 +123,6 @@ open class CSJsonObject() : Iterable<Map.Entry<String, Any?>>, CSStore, Closeabl
         isBulkSaveDirty = false
         isBulkSave = false
     }
-
-    override fun getMap(key: String) = data[key] as? MutableMap<String, Any?>
-    override fun getArray(key: String): Array<*>? = getList(key)?.toTypedArray()
-    override fun getList(key: String): List<*>? = data[key] as? MutableList<Any?>
-
-    // Looks like setJsonList<CSJsonObject> is not implemented and used right now so
-    // probably this implementation is wrong as it expect this possibility
-    override fun <T : CSJsonObject> getJsonList(key: String, type: KClass<T>): List<T>? {
-        val isCreated = ((data[key] as? List<*>)?.at(0) as? T) != null
-        return if (isCreated) data[key] as List<T> else
-            (data[key] as? List<MutableMap<String, Any?>>)?.let { type.createJsonObjectList(it) }
-    }
-
-    override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T? {
-        return data[key] as? T
-            ?: (data[key] as? MutableMap<String, Any?>)?.let { type.createJsonObject(it) }
-    }
-
-    override fun toString() = super.toString() + toJsonString(formatted = true)
-
-    override fun equals(other: Any?) =
-        (other as? CSJsonObject)?.let { it.data == data } ?: super.equals(other)
-
-    override fun hashCode() = data.hashCode()
-
-
 }
 
 

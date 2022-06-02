@@ -10,7 +10,7 @@ import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSActivityView
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.listen
-import renetik.android.framework.logging.CSLog.error
+import renetik.android.framework.logging.CSLog.logError
 import renetik.android.maps.extensions.asLatLng
 import renetik.kotlin.unfinished
 
@@ -46,7 +46,7 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
         try {
             function()
         } catch (ex: RuntimeException) {
-            error(ex)
+            logError(ex)
             if (ex.message?.contains("API key not found") == true) unfinished()
                   //TODO finish if CSMapView is used ever
 //                dialog("Error", ex.message!!).cancelable(false).show {

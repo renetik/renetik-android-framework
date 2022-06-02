@@ -11,7 +11,7 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.CSStartActivityResult.ActivityNotFound
 import renetik.android.controller.extensions.CSStartActivityResult.Cancel
 import renetik.android.framework.event.register
-import renetik.android.framework.logging.CSLog.warn
+import renetik.android.framework.logging.CSLog.logWarn
 import renetik.android.primitives.random
 
 fun CSActivityView<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
@@ -124,7 +124,7 @@ fun <T : CSActivityView<*>> T.startActivityForUriAndType(
     try {
         startActivity(intent)
     } catch (exception: ActivityNotFoundException) {
-        warn(exception)
+        logWarn(exception)
         onActivityNotFound?.invoke(exception)
     }
 }

@@ -4,7 +4,7 @@ import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 import renetik.android.framework.base.CSBase
-import renetik.android.framework.json.data.CSJsonObject
+import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStore
 import renetik.kotlin.collections.at
