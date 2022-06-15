@@ -1,23 +1,8 @@
-ext.publish_module_name = 'base'
 apply from: '../../library.gradle'
 apply plugin: 'kotlin-android'
 
-
 dependencies {
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
-    // https://github.com/ShawnLin013/NumberPicker
-    api 'com.shawnlin:number-picker:2.4.12'
-
-//    https://github.com/bumptech/glide
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-
-//    https://github.com/coil-kt/coil
-//    Coil make issues with view to image conversion
-//    https://stackoverflow.com/questions/58314397/java-lang-illegalstateexception-software-rendering-doesnt-support-hardware-bit
-//    implementation("io.coil-kt:coil:1.4.0")
-
     testImplementation 'org.json:json:20210307'
 }
 repositories {

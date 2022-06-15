@@ -19,7 +19,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
 import renetik.android.R
 import renetik.android.content.CSToast.toast
 import renetik.android.framework.event.*
@@ -55,7 +55,7 @@ fun View.switch(@IdRes id: Int) = findView<Switch>(id)!!
 fun View.timePicker(@IdRes id: Int) = findView<TimePicker>(id)!!
 fun View.webView(@IdRes id: Int) = findView<WebView>(id)!!
 fun View.imageView(@IdRes id: Int) = findView<ImageView>(id)!!
-fun View.swipeRefresh(@IdRes id: Int) = findView<SwipeRefreshLayout>(id)!!
+
 fun View.seekBar(@IdRes id: Int) = findView<SeekBar>(id)!!
 fun View.progress(@IdRes id: Int) = findView<ProgressBar>(id)!!
 fun View.toolbar(@IdRes id: Int) = findView<Toolbar>(id)!!

@@ -1,4 +1,4 @@
-package renetik.android.widget
+package renetik.android.framework.view
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 

@@ -11,6 +11,14 @@ dependencies {
     api project(':renetik-library-controller')
     api project(':renetik-library-controller-getpicture')
     api project(':renetik-library-controller-maps')
+
+    //https://github.com/ShawnLin013/NumberPicker
+    api 'com.shawnlin:number-picker:2.4.12'
+
+    //https://github.com/bumptech/glide
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+
+    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
 repositories {
     mavenCentral()

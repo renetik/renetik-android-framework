@@ -7,7 +7,10 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
-import renetik.android.framework.event.*
+import renetik.android.framework.event.CSEventOwner
+import renetik.android.framework.event.CSRegistration
+import renetik.android.framework.event.register
+import renetik.android.framework.event.remove
 import renetik.android.framework.protocol.CSViewInterface
 import renetik.android.view.*
 import renetik.android.widget.onChange
@@ -60,7 +63,6 @@ fun CSViewInterface.imageView(@IdRes id: Int,
                               onClick: ((view: ImageView) -> Unit)? = null) =
     view.imageView(id).apply { onClick?.let { this.onClick(it) } }
 
-fun CSViewInterface.swipeRefresh(@IdRes id: Int) = view.swipeRefresh(id)
 fun CSViewInterface.seekBar(@IdRes id: Int) = view.seekBar(id)
 fun CSViewInterface.progress(@IdRes id: Int) = view.progress(id)
 fun CSViewInterface.radioGroup(@IdRes id: Int,
