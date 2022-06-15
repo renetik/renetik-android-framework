@@ -19,6 +19,7 @@ import renetik.android.R
 import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.framework.protocol.CSVisibleEventOwner
 import renetik.kotlin.notNull
 import renetik.kotlin.privateField
 import renetik.android.view.gone

@@ -4,9 +4,9 @@ import android.text.Editable
 import android.widget.TextView
 import renetik.android.content.drawable
 import renetik.android.framework.event.CSRegistration
-import renetik.android.framework.event.CSRegistration.Companion.registration
+import renetik.android.framework.event.CSRegistration.Companion.construct
 import renetik.android.framework.event.CSMultiEventRegistration
-import renetik.android.framework.event.CSVisibleEventOwner
+import renetik.android.framework.protocol.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.action
 import renetik.android.framework.lang.CSHasDrawable
@@ -67,7 +67,7 @@ fun <T, V> TextView.text(parent: CSEventProperty<T>,
         childRegistration?.cancel()
         childRegistration = text(child(parent.value), getText)
     }
-    return registration {
+    return construct {
         parentRegistration.cancel()
         childRegistration?.cancel()
     }
@@ -86,7 +86,7 @@ fun <T, V> TextView.textNullableChild(
         childRegistration = child(parent.value)?.let { text(it, getText) }
         if (childRegistration == null) text(getText(null))
     }
-    return registration {
+    return construct {
         parentRegistration.cancel()
         childRegistration?.cancel()
     }

@@ -4,6 +4,7 @@ import renetik.android.framework.Func
 
 interface CSRegistration {
     var isActive: Boolean
+
     fun cancel() {
         isActive = false
     }
@@ -15,7 +16,7 @@ interface CSRegistration {
             registrations.onEach { it.isActive = true }
         }
 
-        fun registration(onCancel: Func? = null) = object : CSRegistration {
+        fun construct(onCancel: Func? = null) = object : CSRegistration {
             override var isActive = true
             override fun cancel() {
                 super.cancel()

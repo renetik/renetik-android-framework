@@ -1,6 +1,5 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.base.CSEventOwnerHasDestroy
 import renetik.android.framework.base.CSBase
 import renetik.android.framework.event.CSAction.Companion.action
 import renetik.android.framework.event.listenOnce
@@ -10,6 +9,7 @@ import renetik.android.framework.event.register
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.lang.property.connect
 import renetik.android.framework.preset.property.CSPresetKeyData
+import renetik.android.framework.protocol.CSEventOwnerHasDestroy
 import renetik.android.framework.store.CSStore
 import renetik.kotlin.unexpected
 

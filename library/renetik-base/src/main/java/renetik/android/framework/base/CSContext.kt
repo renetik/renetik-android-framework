@@ -8,6 +8,7 @@ import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.framework.event.*
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.lang.catchAllWarn
+import renetik.android.framework.protocol.CSHasContext
 
 abstract class CSContext : ContextWrapper, CSHasContext {
     constructor() : super(app)

@@ -1,6 +1,6 @@
 package renetik.android.framework.preset.property.nullable
 
-import renetik.android.framework.base.CSEventOwnerHasDestroy
+import renetik.android.framework.protocol.CSEventOwnerHasDestroy
 import renetik.android.framework.lang.property.CSListValuesEventProperty
 import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStore

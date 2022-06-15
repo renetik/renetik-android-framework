@@ -1,4 +1,4 @@
-package renetik.android.framework.event
+package renetik.android.framework.protocol
 
 interface CSHasParent {
     fun onAddedToParent()

@@ -1,6 +1,5 @@
 package renetik.android.framework.event
 
-import renetik.android.framework.event.CSRegistration.Companion.registration
 import renetik.android.framework.util.CSMainHandler.postOnMain
 import renetik.java.lang.isMain
 
@@ -12,7 +11,7 @@ interface CSEventOwner {
      *  so this was rewritten to not fail, even 5ms caused issue on some device so..
      */
     fun later(delayMilliseconds: Int, function: () -> Unit): CSRegistration {
-        val registration = registration()
+        val registration = CSRegistration.construct()
         postOnMain(delayMilliseconds) {
             if (registration.isActive) {
                 registration.isActive = false

@@ -1,6 +1,6 @@
 package renetik.kotlin
 
-import renetik.android.framework.event.CSRegistration.Companion.registration
+import renetik.android.framework.event.CSRegistration.Companion.construct
 import renetik.android.framework.lang.CSHasId
 import renetik.android.framework.util.CSMainHandler.postOnMain
 import kotlin.properties.ObservableProperty
@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty
 
 inline fun later(delayMilliseconds: Int,
                  crossinline function: () -> Unit) =
-    registration().also {
+    construct().also {
         postOnMain(delayMilliseconds) {
             if (it.isActive) {
                 it.isActive = false

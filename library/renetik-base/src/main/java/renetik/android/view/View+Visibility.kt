@@ -5,7 +5,7 @@ import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
 import renetik.android.framework.event.CSMultiEventRegistration
 import renetik.android.framework.event.CSRegistration
-import renetik.android.framework.event.CSVisibility
+import renetik.android.framework.protocol.CSVisibility
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.primitives.isTrue
 

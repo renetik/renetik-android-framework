@@ -11,7 +11,7 @@ import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.framework.event.CSEvent.Companion.event
 import renetik.android.framework.event.CSRegistrations
-import renetik.android.framework.event.CSVisibility
+import renetik.android.framework.protocol.CSVisibility
 import renetik.android.framework.event.fire
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 import renetik.android.framework.lang.property.CSProperty

@@ -5,9 +5,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import renetik.android.framework.Func
 import renetik.android.framework.event.*
-import renetik.android.framework.event.CSRegistration.Companion.registration
-import renetik.java.util.CSTimer.scheduleAtFixedRateRunOnUI
-import java.util.concurrent.ScheduledFuture
 
 fun CSActivityView<*>.enterFullScreen() {
     WindowCompat.setDecorFitsSystemWindows(activity().window, false)

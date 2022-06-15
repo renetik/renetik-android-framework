@@ -2,7 +2,7 @@ package renetik.android.controller.extensions
 
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
-import renetik.android.framework.event.CSViewInterface
+import renetik.android.framework.protocol.CSViewInterface
 import renetik.android.view.add
 import renetik.android.view.remove
 

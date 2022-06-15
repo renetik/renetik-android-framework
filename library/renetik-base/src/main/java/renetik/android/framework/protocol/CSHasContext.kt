@@ -1,7 +1,7 @@
-package renetik.android.framework.event
+package renetik.android.framework.protocol
 
 import android.content.Context
-import renetik.android.framework.base.CSEventOwnerHasDestroy
+import renetik.android.framework.protocol.CSEventOwnerHasDestroy
 
 interface CSHasContext : CSEventOwnerHasDestroy {
     val context: Context

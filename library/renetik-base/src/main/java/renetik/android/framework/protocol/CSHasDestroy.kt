@@ -1,4 +1,7 @@
-package renetik.android.framework.event
+package renetik.android.framework.protocol
+
+import renetik.android.framework.event.CSEvent
+import renetik.android.framework.event.listenOnce
 
 interface CSHasDestroy {
     val eventDestroy: CSEvent<Unit>

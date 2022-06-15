@@ -1,6 +1,8 @@
-package renetik.android.framework.event
+package renetik.android.framework.protocol
 
 import renetik.android.framework.Func
+import renetik.android.framework.event.CSRegistration
+import renetik.android.framework.event.listen
 import renetik.java.util.CSTimer.scheduleAtFixedRateRunOnUI
 import java.util.concurrent.ScheduledFuture
 
@@ -28,7 +30,7 @@ fun CSVisibility.task(delay: Int, period: Int, function: Func): CSRegistration {
         task?.cancel(true)
         task = null
     }
-    reg = CSRegistration.registration {
+    reg = CSRegistration.construct {
         onResumeRegistration.cancel()
         onPauseRegistration.cancel()
     }
