@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     api project(':renetik-library-base')
+    api project(':renetik-android-event')
+    api project(':renetik-android-ui')
     api project(':renetik-library-material')
     api project(':renetik-library-client')
     api project(':renetik-library-client-okhttp3')
