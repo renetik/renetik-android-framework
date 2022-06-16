@@ -19,7 +19,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.StringRes
-import androidx.core.content.res.getDrawableOrThrow
 import renetik.android.framework.base.CSApplication.Companion.app
 import renetik.android.framework.lang.catchAllErrorReturnNull
 import renetik.android.framework.lang.catchWarnReturnNull
@@ -95,7 +94,7 @@ val Context.progressDrawable: Drawable
         val progressBarStyle = value.data
         val attributes = intArrayOf(android.R.attr.indeterminateDrawable)
         val array = obtainStyledAttributes(progressBarStyle, attributes)
-        val drawable = array.getDrawableOrThrow(0)
+        val drawable = array.getDrawable(0)!!
         array.recycle()
         (drawable as? Animatable)?.start()
         return drawable

@@ -2,7 +2,7 @@ package renetik.android.framework.store
 
 import android.annotation.SuppressLint
 import android.content.Context
-import renetik.android.content.isDebug
+import renetik.android.framework.base.isDebug
 import renetik.android.framework.base.CSContext
 import renetik.android.framework.lang.catchAllWarnReturnNull
 import renetik.android.framework.event.CSEvent.Companion.event
