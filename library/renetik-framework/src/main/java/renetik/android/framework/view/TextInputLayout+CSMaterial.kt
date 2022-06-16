@@ -1,4 +1,4 @@
-package renetik.android.material.extensions
+package renetik.android.framework.view
 
 import android.annotation.SuppressLint
 import android.content.Context

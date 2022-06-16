@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    api "androidx.core:core-ktx:$ktx_version"
     testImplementation 'org.json:json:20210307'
 }
 repositories {
