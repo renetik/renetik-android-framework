@@ -1,4 +1,4 @@
-package renetik.android.framework.task
+package renetik.android.core.lang
 
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasItems

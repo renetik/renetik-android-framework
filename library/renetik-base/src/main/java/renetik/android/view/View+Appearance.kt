@@ -15,7 +15,6 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.property.CSEventProperty
 
-
 fun <T : View> T.background(@DrawableRes value: Int) = apply {
     setBackgroundResource(value)
 }

@@ -1,9 +1,8 @@
-package renetik.android.framework.task
+package renetik.android.event.util
 
 import renetik.android.core.lang.CSMainHandler.postOnMain
 import renetik.android.core.lang.CSMainHandler.removePosted
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistrationFunctions
 import renetik.android.event.registration.CSRegistrationFunctions.CSRegistration
 
 object CSLater {

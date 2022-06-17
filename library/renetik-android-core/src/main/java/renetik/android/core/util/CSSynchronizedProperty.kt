@@ -1,4 +1,4 @@
-package renetik.android.framework.util
+package renetik.android.core.util
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

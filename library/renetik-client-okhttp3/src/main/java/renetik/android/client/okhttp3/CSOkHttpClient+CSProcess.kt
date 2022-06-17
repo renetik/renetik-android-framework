@@ -6,18 +6,14 @@ import org.json.JSONTokener
 import renetik.android.client.request.CSHttpProcess
 import renetik.android.client.request.CSHttpResponseData
 import renetik.android.client.request.CSOperation
-import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.core.CSApplication.Companion.app
-import renetik.android.core.lang.CSTimeConstants.Minute
+import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.core.kotlin.notNull
-import renetik.android.store.json.CSStoreJsonObject
-import renetik.android.json.toJsonObject
-import renetik.android.json.toJSONArray
-import renetik.android.json.toJSONObject
-import renetik.android.json.toJsonString
-import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.core.lang.CSTimeConstants.Minute
+import renetik.android.core.logging.CSLog.logInfo
+import renetik.android.json.*
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -93,7 +89,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.postJson(
 }
 
 fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
-    url: String, data: CSStoreJsonObject, responseData: ResponseData
+    url: String, data: CSJsonObject, responseData: ResponseData
 ) = CSHttpProcess("${this.url}/$url", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONObjectBody(data.toJsonObject()).build()
     logInfo("post ${request.url}")

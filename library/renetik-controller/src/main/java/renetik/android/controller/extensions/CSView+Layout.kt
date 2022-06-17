@@ -4,7 +4,7 @@ import android.view.View
 import renetik.android.core.extensions.content.displayWidth
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.controller.base.CSView
-import renetik.android.framework.math.CSPoint
+import renetik.android.core.math.CSPoint
 import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.view.locationOnScreen
 

@@ -4,8 +4,10 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     api project(':renetik-android-core')
+    api project(':renetik-android-json')
     api project(':renetik-android-event')
     api project(':renetik-android-store')
+    api project(':renetik-android-preset')
     api project(':renetik-library-base')
     api project(':renetik-library-material')
     api project(':renetik-library-client')

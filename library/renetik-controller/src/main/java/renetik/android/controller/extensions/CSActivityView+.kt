@@ -4,9 +4,6 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewParent
 import renetik.android.controller.base.CSActivityView
-import renetik.android.event.listen
-import renetik.android.event.listenOnce
-import renetik.android.framework.util.CSReachability
 
 val CSActivityView<*>.intent: Intent get() = activity().intent
 
@@ -28,13 +25,6 @@ var <T : View> CSActivityView<T>.requestedOrientation
     set(value) {
         activity().requestedOrientation = value
     }
-
-fun CSActivityView<*>.onInternetConnected(function: () -> Unit): CSReachability {
-    val reachability = CSReachability().start()
-    reachability.eventOnConnected.listenOnce { function() }
-    eventDestroy.listen { reachability.stop() }
-    return reachability
-}
 
 fun ViewParent.asActivityView() = ((this as? View)?.tag as? CSActivityView<*>)
 fun View.asActivityView() = ((this as? View)?.tag as? CSActivityView<*>)

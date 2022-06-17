@@ -1,4 +1,4 @@
-package renetik.android.framework.util
+package renetik.android.client
 
 import android.content.BroadcastReceiver
 import android.content.Context

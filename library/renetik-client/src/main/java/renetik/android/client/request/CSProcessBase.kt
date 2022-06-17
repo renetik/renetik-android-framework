@@ -7,7 +7,7 @@ import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.logging.CSLog.logError
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
-import renetik.android.framework.util.CSSynchronizedProperty.Companion.synchronized
+import renetik.android.core.util.CSSynchronizedProperty.Companion.synchronized
 import renetik.android.core.kotlin.exception
 import renetik.android.core.kotlin.rootCauseMessage
 

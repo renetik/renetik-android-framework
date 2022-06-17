@@ -10,11 +10,11 @@ import java.util.concurrent.TimeUnit.NANOSECONDS
 
 inline fun ScheduledExecutorService.background(
     delay: Long = 0, @WorkerThread crossinline function: () -> Unit) =
-    schedule({ catchAllError { function() } }, delay, MILLISECONDS)
+    schedule({ catchAllError { function() } }, delay, MILLISECONDS)!!
 
 inline fun ScheduledExecutorService.backgroundNano(
     delay: Long = 0, @WorkerThread crossinline function: () -> Unit) =
-    schedule({ catchAllError { function() } }, delay, NANOSECONDS)
+    schedule({ catchAllError { function() } }, delay, NANOSECONDS)!!
 
 fun ScheduledExecutorService.backgroundRunOnUi(
     delay: Long = 0, @UiThread function: () -> Unit) =
@@ -22,7 +22,7 @@ fun ScheduledExecutorService.backgroundRunOnUi(
 
 inline fun ScheduledExecutorService.backgroundRepeat(
     delay: Long = 0, period: Long, @WorkerThread crossinline function: () -> Unit) =
-    scheduleAtFixedRate({ catchAllError { function() } }, delay, period, MILLISECONDS)
+    scheduleAtFixedRate({ catchAllError { function() } }, delay, period, MILLISECONDS)!!
 
 inline fun ScheduledExecutorService.backgroundRepeatNano(
     delay: Long = 0, period: Long, @WorkerThread crossinline function: () -> Unit) =

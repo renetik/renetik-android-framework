@@ -1,9 +1,8 @@
-package renetik.android.framework.math
+package renetik.android.core.math
 
 import kotlin.math.sqrt
 
 object CSMath {
-
     fun to1E6(value: Double) = (value * 1E6).toInt()
 
     fun between(value: Int, from: Int, to: Int) = value in from until to
