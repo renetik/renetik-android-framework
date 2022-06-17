@@ -5,7 +5,8 @@ import org.junit.Test
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.framework.preset.*
-import renetik.android.framework.preset.property.CSPresetKeyData
+import renetik.android.preset.property.CSPresetKeyData
+import renetik.android.preset.propertyNullInt
 import renetik.android.store.CSStore
 
 class CSIntNullablePresetEventPropertyTest {
@@ -33,13 +34,13 @@ class CSIntNullablePresetEventPropertyTest {
     }
 }
 
-class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
+class CSPresetTestPresetItem(override val id: String) : renetik.android.preset.CSPresetItem {
     override val store = CSStoreJsonObject()
-    override fun save(properties: Iterable<CSPresetKeyData>) =
+    override fun save(properties: Iterable<renetik.android.preset.property.CSPresetKeyData>) =
         properties.forEach { it.saveTo(store) }
 }
 
-class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
+class CSPresetTestPresetItemList : renetik.android.preset.CSPresetItemList<CSPresetTestPresetItem> {
     override val defaultList = mutableListOf<CSPresetTestPresetItem>()
     override val userList = mutableListOf<CSPresetTestPresetItem>()
     override fun add(item: CSPresetTestPresetItem) {
@@ -64,7 +65,7 @@ class CSPresetTestParentClass(val store: CSStore) : CSEventOwnerHasDestroyBase()
     }
 
     val id = "parentClass"
-    val parentPreset = CSPreset(this, store, "$id parent", presetList)
+    val parentPreset = renetik.android.preset.CSPreset(this, store, "$id parent", presetList)
     val property1 = parentPreset.propertyNullInt(this, "property1", 1)
     val property2 = parentPreset.propertyNullInt(this, "property2", 2)
 }

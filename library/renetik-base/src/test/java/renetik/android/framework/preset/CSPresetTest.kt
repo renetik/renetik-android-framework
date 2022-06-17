@@ -5,11 +5,13 @@ import junit.framework.Assert.assertTrue
 import org.junit.Test
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.store.json.CSStoreJsonObject
-import renetik.android.framework.preset.property.CSPresetKeyData
+import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.second
 import renetik.android.core.kotlin.collections.third
+import renetik.android.preset.items
+import renetik.android.preset.property
 
 const val ClearPresetItemId = "clear parent preset item id"
 const val ParentPresetItemId1 = "prent preset item id 1"
@@ -152,7 +154,7 @@ private class CSPresetTestParentClass(val store: CSStore) : CSEventOwnerHasDestr
         presetList.add(CSPresetTestPresetItem(ClearPresetItemId))
     }
 
-    val parentPreset = CSPreset(this, store, "parent", presetList)
+    val parentPreset = renetik.android.preset.CSPreset(this, store, "parent", presetList)
 
     val childs = List(4) {
         CSPresetTestChildClass(this, parentPreset, "childs:$it")
@@ -163,7 +165,7 @@ private class CSPresetTestParentClass(val store: CSStore) : CSEventOwnerHasDestr
 
 private class CSPresetTestChildClass(
     parent: CSPresetTestParentClass,
-    preset: CSPreset<*, *>,
+    preset: renetik.android.preset.CSPreset<*, *>,
     key: String) : CSEventOwnerHasDestroyBase(parent) {
 
     private val presetList = CSPresetTestPresetItemList()
@@ -172,13 +174,15 @@ private class CSPresetTestChildClass(
         presetList.add(CSPresetTestPresetItem(ClearChildPresetItemId))
     }
 
-    val childPreset1 = CSPreset(this, preset, "$key childPreset1", presetList)
+    val childPreset1 =
+        renetik.android.preset.CSPreset(this, preset, "$key childPreset1", presetList)
     val childPreset1Props = List(4) {
         childPreset1.property(this, "$key childPreset1Props:$it property",
             ChildPropertyInitialValue)
     }
 
-    val childPreset2 = CSPreset(this, preset, "$key childPreset2", presetList)
+    val childPreset2 =
+        renetik.android.preset.CSPreset(this, preset, "$key childPreset2", presetList)
     val childPreset2Props = List(4) {
         childPreset2.property(this, "$key childPreset2Props:$it property",
             ChildPropertyInitialValue)
@@ -186,15 +190,16 @@ private class CSPresetTestChildClass(
 }
 
 
-class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
+class CSPresetTestPresetItem(override val id: String) : renetik.android.preset.CSPresetItem {
     override val store = CSStoreJsonObject()
-    override fun save(properties: Iterable<CSPresetKeyData>) =
+    override fun save(properties: Iterable<renetik.android.preset.property.CSPresetKeyData>) =
         properties.forEach { it.saveTo(store) }
 
     override fun toString() = "${super.toString()}, id:$id"
 }
 
-private class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
+private class CSPresetTestPresetItemList :
+    renetik.android.preset.CSPresetItemList<CSPresetTestPresetItem> {
     override val defaultList = mutableListOf<CSPresetTestPresetItem>()
     override val userList = mutableListOf<CSPresetTestPresetItem>()
 
