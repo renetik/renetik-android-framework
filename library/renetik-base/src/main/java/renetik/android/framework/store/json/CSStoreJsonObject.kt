@@ -3,16 +3,16 @@ package renetik.android.framework.store.json
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.primitives.toArray
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.framework.json.CSJsonObject
-import renetik.android.framework.json.createJsonObject
-import renetik.android.framework.json.createJsonObjectList
-import renetik.android.framework.json.toJsonString
+import renetik.android.json.CSJsonObject
+import renetik.android.json.createJsonObject
+import renetik.android.json.createJsonObjectList
+import renetik.android.json.toJsonString
 import renetik.android.framework.store.CSStore
 import java.io.Closeable
 import kotlin.reflect.KClass
 
 @Suppress("unchecked_cast")
-open class CSStoreJsonObject : CSJsonObject, CSStore, Closeable {
+open class CSStoreJsonObject : renetik.android.json.CSJsonObject, CSStore, Closeable {
 
     constructor() : super()
     constructor(map: MutableMap<String, Any?>) : super(map)
@@ -78,7 +78,7 @@ open class CSStoreJsonObject : CSJsonObject, CSStore, Closeable {
 
     override fun getList(key: String): List<*>? = data[key] as? MutableList<Any?>
 
-    override fun <T : CSJsonObject> getJsonObjectList(
+    override fun <T : renetik.android.json.CSJsonObject> getJsonObjectList(
         key: String, type: KClass<T>): List<T>? {
         val isFirstItemJsonObject = ((data[key] as? List<*>)?.at(0) as? T) != null
         return if (isFirstItemJsonObject) data[key] as List<T> else
@@ -87,13 +87,13 @@ open class CSStoreJsonObject : CSJsonObject, CSStore, Closeable {
             }
     }
 
-    override fun <T : CSJsonObject> set(key: String, value: T?) {
+    override fun <T : renetik.android.json.CSJsonObject> set(key: String, value: T?) {
         if (value != null && data[key] == value) return
         data[key] = value
         onChange()
     }
 
-    override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T? =
+    override fun <T : renetik.android.json.CSJsonObject> getJsonObject(key: String, type: KClass<T>): T? =
         data[key] as? T ?: (data[key] as? MutableMap<String, Any?>)?.let { map ->
             type.createJsonObject(map).also { data[key] = it }
         }

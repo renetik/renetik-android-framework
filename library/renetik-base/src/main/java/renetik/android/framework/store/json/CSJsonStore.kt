@@ -1,7 +1,7 @@
 package renetik.android.framework.store.json
 
-import renetik.android.framework.json.parseJsonMap
-import renetik.android.framework.json.toJsonString
+import renetik.android.json.parseJsonMap
+import renetik.android.json.toJsonString
 import renetik.android.core.kotlin.runIf
 import java.io.Closeable
 

@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     api project(':renetik-android-core')
+    api project(':renetik-android-json')
     api project(':renetik-android-event')
     api project(':renetik-android-store')
     testImplementation 'org.json:json:20210307'

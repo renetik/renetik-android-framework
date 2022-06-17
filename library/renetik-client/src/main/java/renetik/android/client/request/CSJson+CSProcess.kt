@@ -1,9 +1,9 @@
 package renetik.android.client.request
 
 import renetik.android.core.lang.CSTimeConstants.Second
-import renetik.android.framework.json.CSJsonArray
+import renetik.android.json.CSJsonArray
 import renetik.android.framework.store.json.CSStoreJsonObject
-import renetik.android.framework.json.load
+import renetik.android.json.load
 
 fun <T : CSStoreJsonObject> T.mockProcessSuccess(data: String) = CSProcessBase<T>().apply {
     later(1 * Second) {
@@ -17,7 +17,7 @@ fun <T : CSStoreJsonObject> T.mockProcessSuccess() = CSProcessBase<T>().apply {
     }
 }
 
-fun <T : CSJsonArray> T.mockProcessSuccess(data: String) = CSProcessBase<T>().apply {
+fun <T : renetik.android.json.CSJsonArray> T.mockProcessSuccess(data: String) = CSProcessBase<T>().apply {
     later(1 * Second) {
         success(load(data))
     }

@@ -3,8 +3,7 @@ package renetik.android.framework.store.property.late
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import renetik.android.framework.store.json.CSStoreJsonObject
-import renetik.android.framework.json.load
-import renetik.android.framework.json.toJsonString
+import renetik.android.json.toJsonString
 
 class TestData() : CSStoreJsonObject() {
     val title = lateStringProperty("title")

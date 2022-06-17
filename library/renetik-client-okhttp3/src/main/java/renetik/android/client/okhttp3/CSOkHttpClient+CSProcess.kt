@@ -11,10 +11,10 @@ import renetik.android.core.CSApplication.Companion.app
 import renetik.android.core.lang.CSTimeConstants.Minute
 import renetik.android.core.kotlin.notNull
 import renetik.android.framework.store.json.CSStoreJsonObject
-import renetik.android.framework.json.toJsonObject
-import renetik.android.framework.json.toJSONArray
-import renetik.android.framework.json.toJSONObject
-import renetik.android.framework.json.toJsonString
+import renetik.android.json.toJsonObject
+import renetik.android.json.toJSONArray
+import renetik.android.json.toJSONObject
+import renetik.android.json.toJsonString
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue

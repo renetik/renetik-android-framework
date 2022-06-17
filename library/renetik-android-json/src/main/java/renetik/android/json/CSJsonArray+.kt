@@ -1,4 +1,4 @@
-package renetik.android.framework.json
+package renetik.android.json
 
 fun CSJsonArray.toJsonArray() = asList().toJSONArray()
 

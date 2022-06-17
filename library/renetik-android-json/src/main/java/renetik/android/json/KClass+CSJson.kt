@@ -1,4 +1,4 @@
-package  renetik.android.framework.json
+package  renetik.android.json
 
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.notNull

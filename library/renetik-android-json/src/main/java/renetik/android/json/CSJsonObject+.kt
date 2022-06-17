@@ -1,4 +1,4 @@
-package renetik.android.framework.json
+package renetik.android.json
 
 import renetik.android.core.CSApplication
 import renetik.android.core.java.io.readText

@@ -1,4 +1,4 @@
-package renetik.android.framework.json
+package renetik.android.json
 
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.primitives.toArray

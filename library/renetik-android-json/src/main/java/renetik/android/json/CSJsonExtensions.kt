@@ -1,4 +1,4 @@
-package renetik.android.framework.json
+package renetik.android.json
 
 import org.json.JSONArray
 import org.json.JSONException

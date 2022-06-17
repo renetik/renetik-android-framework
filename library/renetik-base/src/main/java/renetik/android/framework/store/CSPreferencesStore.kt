@@ -4,10 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import renetik.android.core.extensions.content.isDebug
 import renetik.android.core.lang.catchAllWarnReturnNull
-import renetik.android.framework.base.CSContext
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.framework.json.*
-import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.framework.base.CSContext
+import renetik.android.json.*
 import kotlin.reflect.KClass
 
 class CSPreferencesStore(id: String) : CSContext(), CSStore {
@@ -57,14 +56,16 @@ class CSPreferencesStore(id: String) : CSContext(), CSStore {
         get(key)?.parseJson<List<*>>()
 
     @Suppress("unchecked_cast")
-    override fun <T : CSJsonObject> getJsonObjectList(key: String, type: KClass<T>) =
+    override fun <T : renetik.android.json.CSJsonObject> getJsonObjectList(key: String,
+                                                                           type: KClass<T>) =
         (get(key)?.parseJsonList() as? List<MutableMap<String, Any?>>)
             ?.let(type::createJsonObjectList)
 
-    override fun <T : CSJsonObject> set(key: String, value: T?) =
+    override fun <T : renetik.android.json.CSJsonObject> set(key: String, value: T?) =
         set(key, value?.toJsonString(formatted = isDebug))
 
-    override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>) =
+    override fun <T : renetik.android.json.CSJsonObject> getJsonObject(key: String,
+                                                                       type: KClass<T>) =
         get(key)?.parseJsonMap()?.let(type::createJsonObject)
 
     override fun load(store: CSStore) = with(preferences.edit()) {
