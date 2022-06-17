@@ -10,7 +10,7 @@ import renetik.android.event.property.CSEventProperty
 import renetik.android.event.property.action
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.CSValue
-import renetik.android.framework.view.adapter.CSTextWatcherAdapter
+import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 import renetik.android.view.shownIf
 import renetik.android.core.kotlin.asString
 import renetik.android.event.registration.CSRegistrationFunctions

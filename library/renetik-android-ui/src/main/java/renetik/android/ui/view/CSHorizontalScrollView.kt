@@ -1,4 +1,4 @@
-package renetik.android.framework.view
+package renetik.android.ui.view
 
 import android.content.Context
 import android.util.AttributeSet

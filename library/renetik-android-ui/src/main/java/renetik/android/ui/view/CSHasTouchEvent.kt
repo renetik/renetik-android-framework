@@ -1,4 +1,4 @@
-package renetik.android.framework.view
+package renetik.android.ui.view
 
 import android.view.MotionEvent
 import android.view.View

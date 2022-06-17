@@ -2,7 +2,7 @@ import android.view.MotionEvent.*
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.pause
 import renetik.android.event.property.CSEventProperty
-import renetik.android.framework.view.CSHasTouchEvent
+import renetik.android.ui.view.CSHasTouchEvent
 import renetik.android.core.kotlin.primitives.isTrue
 
 fun <T : CSHasTouchEvent> T.onTouch(function: (down: Boolean) -> Unit) = apply {

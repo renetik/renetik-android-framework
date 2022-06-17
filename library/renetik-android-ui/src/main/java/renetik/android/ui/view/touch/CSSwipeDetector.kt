@@ -1,4 +1,4 @@
-package renetik.android.framework.view.touch
+package renetik.android.ui.view.touch
 
 import android.view.MotionEvent
 import android.view.MotionEvent.*
@@ -8,7 +8,7 @@ import renetik.android.core.CSApplication.Companion.app
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen
 import renetik.android.core.logging.CSLog.logInfo
-import renetik.android.framework.view.touch.CSSwipeDetector.CSSwipeType.*
+import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.*
 import kotlin.math.abs
 
 class CSSwipeDetector(

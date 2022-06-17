@@ -1,4 +1,4 @@
-package renetik.android.framework.view.adapter
+package renetik.android.ui.view.adapter
 
 import android.text.Editable
 import android.text.TextWatcher

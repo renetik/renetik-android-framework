@@ -8,7 +8,7 @@ import androidx.core.view.GravityCompat.END
 import androidx.core.view.GravityCompat.START
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.*
-import renetik.android.framework.view.adapter.CSDrawerAdapter
+import renetik.android.ui.view.adapter.CSDrawerAdapter
 import renetik.android.view.view
 
 @IntDef(value = [Gravity.LEFT, Gravity.RIGHT, START, END], flag = true)
