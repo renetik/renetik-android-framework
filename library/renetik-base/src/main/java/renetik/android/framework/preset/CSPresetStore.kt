@@ -1,15 +1,15 @@
 package renetik.android.framework.preset
 
+import renetik.android.core.lang.property.isFalse
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.registration.pause
 import renetik.android.event.register
-import renetik.android.store.json.CSStoreJsonObject
-import renetik.android.store.json.reload
-import renetik.android.core.lang.property.isFalse
+import renetik.android.event.registration.pause
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
+import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.store.json.reload
 
 class CSPresetStore(
     override val preset: CSPreset<*, *>,

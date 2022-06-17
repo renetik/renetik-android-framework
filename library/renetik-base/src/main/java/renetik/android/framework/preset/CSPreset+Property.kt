@@ -1,13 +1,13 @@
 package renetik.android.framework.preset
 
-import renetik.android.event.owner.CSEventOwnerHasDestroy
-import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.core.lang.CSHasId
+import renetik.android.event.owner.CSEventOwnerHasDestroy
 import renetik.android.framework.preset.property.nullable.CSFloatNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSIntNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSListItemNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSStringNullablePresetEventProperty
 import renetik.android.framework.preset.property.value.*
+import renetik.android.store.json.CSStoreJsonObject
 import kotlin.reflect.KClass
 
 fun CSPreset<*, *>.property(
