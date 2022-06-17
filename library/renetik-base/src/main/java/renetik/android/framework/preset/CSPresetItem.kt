@@ -6,6 +6,5 @@ import renetik.android.framework.store.CSStore
 
 interface CSPresetItem : CSHasId {
     val store: CSStore
-//    fun delete()
     fun save(properties: Iterable<CSPresetKeyData>)
 }

@@ -35,7 +35,6 @@ class CSIntNullablePresetEventPropertyTest {
 
 class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
     override val store = CSJsonObject()
-    override fun delete() = Unit
     override fun save(properties: Iterable<CSPresetKeyData>) =
         properties.forEach { it.saveTo(store) }
 }

@@ -1,7 +1,8 @@
-package renetik.android.framework.event
+package renetik.android.event
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import renetik.android.event.CSEvent.Companion.event
 
 class CSEventTest {
 
