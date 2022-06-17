@@ -1,4 +1,4 @@
-package renetik.android.framework.event.property
+package renetik.android.framework.store.property
 
 import renetik.android.framework.store.CSStore.Companion.store
 

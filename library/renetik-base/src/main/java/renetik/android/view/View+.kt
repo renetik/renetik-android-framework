@@ -22,7 +22,6 @@ import androidx.appcompat.widget.Toolbar
 
 import renetik.android.R
 import renetik.android.core.extensions.content.CSToast.toast
-import renetik.android.framework.event.*
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSEventProperty
 import renetik.android.event.property.CSEventPropertyFunctions.property
@@ -34,6 +33,7 @@ import renetik.android.core.kotlin.isNull
 import renetik.android.event.*
 import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.CSRegistration
+import renetik.android.framework.store.property.CSActionInterface
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 fun View.view(@IdRes id: Int) = findView<View>(id)!!

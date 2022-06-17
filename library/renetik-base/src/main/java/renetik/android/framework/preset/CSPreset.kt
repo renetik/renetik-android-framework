@@ -3,7 +3,7 @@ package renetik.android.framework.preset
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSHasId
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.framework.event.CSAction.Companion.action
+import renetik.android.framework.store.property.CSAction.Companion.action
 import renetik.android.event.listenOnce
 import renetik.android.event.property.CSEventProperty
 import renetik.android.event.property.CSEventPropertyFunctions.property
