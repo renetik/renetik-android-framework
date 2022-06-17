@@ -4,12 +4,11 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.findView
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.event.listen
-import renetik.android.primitives.isSet
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.listen
+import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.view.imageView
 import renetik.android.view.onClick
 

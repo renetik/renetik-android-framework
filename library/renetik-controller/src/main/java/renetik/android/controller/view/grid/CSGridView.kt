@@ -8,14 +8,14 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
 import renetik.android.controller.base.asCS
 import renetik.android.controller.base.findView
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.event.listen
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.listen
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.event.register
+import renetik.android.event.register
 import renetik.android.view.*
 import renetik.android.widget.scrollToIndex
-import renetik.kotlin.collections.list
+import renetik.android.core.kotlin.collections.list
 
 @Suppress("UNCHECKED_CAST")
 class CSGridView<ItemType : Any>(

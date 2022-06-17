@@ -1,7 +1,7 @@
 package renetik.android.controller.menu
 
 import android.view.MenuItem
-import renetik.android.primitives.isSet
+import renetik.android.core.kotlin.primitives.isSet
 
 class CSOnMenuItem(private val item: MenuItem) {
     var isConsumed = false

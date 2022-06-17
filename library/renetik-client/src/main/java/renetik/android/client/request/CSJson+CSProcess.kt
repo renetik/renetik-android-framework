@@ -1,6 +1,6 @@
 package renetik.android.client.request
 
-import renetik.android.framework.lang.CSTimeConstants.Second
+import renetik.android.core.lang.CSTimeConstants.Second
 import renetik.android.framework.json.CSJsonArray
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.load

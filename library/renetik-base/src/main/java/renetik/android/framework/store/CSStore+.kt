@@ -1,6 +1,6 @@
 package renetik.android.framework.store
 
-import renetik.kotlin.toId
+import renetik.android.core.kotlin.toId
 
 fun <T> CSStore.getValue(key: String, values: Iterable<T>): T? {
     val savedString = get(key) ?: return null

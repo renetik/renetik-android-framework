@@ -2,8 +2,8 @@ package renetik.android.controller.common
 
 import renetik.android.controller.common.CSNavigationAnimation.SlideInRight
 import renetik.android.controller.common.CSNavigationAnimation.SlideOutLeft
-import renetik.android.framework.lang.CSValue
-import renetik.android.framework.lang.CSValue.Companion.value
+import renetik.android.core.lang.CSValue
+import renetik.android.core.lang.CSValue.Companion.value
 
 interface CSNavigationItem {
     val isNavigationBackPressedAllowed get() = true

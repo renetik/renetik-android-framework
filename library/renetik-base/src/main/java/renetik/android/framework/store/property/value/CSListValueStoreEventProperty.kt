@@ -1,8 +1,8 @@
 package renetik.android.framework.store.property.value
 
-import renetik.android.framework.lang.CSHasId
+import renetik.android.core.lang.CSHasId
 import renetik.android.framework.store.CSStore
-import renetik.kotlin.toId
+import renetik.android.core.kotlin.toId
 
 class CSListValueStoreEventProperty<T : CSHasId>(
     store: CSStore, key: String,

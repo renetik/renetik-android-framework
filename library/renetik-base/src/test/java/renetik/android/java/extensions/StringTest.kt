@@ -2,7 +2,7 @@ package renetik.android.java.extensions
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import renetik.android.primitives.leaveEndOfLength
+import renetik.android.core.kotlin.primitives.leaveEndOfLength
 
 class StringTest {
     @Test

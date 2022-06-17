@@ -1,9 +1,9 @@
 package renetik.android.controller.base
 
-import renetik.android.framework.event.CSEvent
+import renetik.android.event.CSEvent
 import renetik.android.framework.protocol.CSViewInterface
 import renetik.android.framework.protocol.CSVisibility
-import renetik.android.framework.lang.property.CSProperty
+import renetik.android.core.lang.property.CSProperty
 
 
 //TODO: This way Activity implements CSVisibility what doesn't make sense,

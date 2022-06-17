@@ -1,6 +1,6 @@
 package renetik.android.framework.preset
 
-import renetik.java.util.currentTime
+import renetik.android.core.java.util.currentTime
 
 interface CSPresetItemList<PresetItem : CSPresetItem> {
     val defaultList: List<PresetItem>

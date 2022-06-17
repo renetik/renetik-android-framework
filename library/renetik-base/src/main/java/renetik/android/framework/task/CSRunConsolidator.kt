@@ -1,9 +1,9 @@
 package renetik.android.framework.task
 
-import renetik.kotlin.collections.deleteLast
-import renetik.kotlin.collections.hasItems
-import renetik.kotlin.collections.list
-import renetik.kotlin.later
+import renetik.android.core.kotlin.collections.deleteLast
+import renetik.android.core.kotlin.collections.hasItems
+import renetik.android.core.kotlin.collections.list
+import renetik.android.core.lang.CSMainHandler.postOnMain
 
 class CSRunConsolidator(private val miliseconds: Int) {
 
@@ -15,14 +15,14 @@ class CSRunConsolidator(private val miliseconds: Int) {
         else {
             runnable()
             isRunning = true
-            later(miliseconds) { run() }
+            postOnMain(miliseconds) { run() }
         }
     }
 
     fun run() {
         if (runnables.hasItems) {
             runnables.deleteLast()!!.invoke()
-            later(miliseconds) { run() }
+            postOnMain(miliseconds) { run() }
         } else isRunning = false
     }
 

@@ -9,8 +9,8 @@ import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
 import renetik.android.R
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.event.fire
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
 
 
 open class CSFrameLayout @JvmOverloads constructor(

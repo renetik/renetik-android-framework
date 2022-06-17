@@ -1,10 +1,10 @@
 package renetik.android.framework.event
 
-import renetik.android.framework.base.CSApplication.Companion.app
+import renetik.android.core.lang.property.isTrue
+import renetik.android.core.lang.property.setFalse
+import renetik.android.core.lang.property.setTrue
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.lang.property.isTrue
-import renetik.android.framework.lang.property.setFalse
-import renetik.android.framework.lang.property.setTrue
+import renetik.android.framework.store.CSStore.Companion.store
 import renetik.android.framework.store.property.value.CSBooleanValueStoreEventProperty
 
 typealias CSActionInterface = CSEventProperty<Boolean>
@@ -19,7 +19,7 @@ class CSAction {
         var actionsDisabled = false
 
         fun action(id: String, function: ((Boolean) -> Unit)? = null): CSActionInterface =
-            object : CSBooleanValueStoreEventProperty(app.store, id, false, function) {
+            object : CSBooleanValueStoreEventProperty(store, id, false, function) {
                 override var _value = if (!actionsDisabled) load() else false
             }
     }

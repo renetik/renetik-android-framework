@@ -1,11 +1,11 @@
 package renetik.android.controller.extensions
 
 import android.view.View
-import renetik.android.content.displayWidth
-import renetik.android.content.dpToPixel
+import renetik.android.core.extensions.content.displayWidth
+import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.controller.base.CSView
 import renetik.android.framework.math.CSPoint
-import renetik.android.primitives.isSet
+import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.view.locationOnScreen
 
 val CSView<*>.layoutWidth get() = this.view.layoutParams.width

@@ -2,18 +2,18 @@ package renetik.android.widget
 
 import android.text.Editable
 import android.widget.TextView
-import renetik.android.content.drawable
-import renetik.android.framework.event.CSRegistration
-import renetik.android.framework.event.CSRegistration.Companion.construct
-import renetik.android.framework.event.CSMultiEventRegistration
+import renetik.android.core.extensions.content.drawable
+import renetik.android.event.CSRegistration
+import renetik.android.event.CSRegistration.Companion.construct
+import renetik.android.event.CSMultiEventRegistration
 import renetik.android.framework.protocol.CSVisibleEventOwner
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.action
-import renetik.android.framework.lang.CSHasDrawable
-import renetik.android.framework.lang.CSValue
+import renetik.android.core.lang.CSHasDrawable
+import renetik.android.core.lang.CSValue
 import renetik.android.framework.view.adapter.CSTextWatcherAdapter
 import renetik.android.view.shownIf
-import renetik.kotlin.asString
+import renetik.android.core.kotlin.asString
 
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
 fun <T : TextView> T.textAppend(string: CharSequence?) = text("$title$string")

@@ -9,8 +9,8 @@ import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
 import renetik.android.R
-import renetik.android.primitives.Empty
-import renetik.android.primitives.isSet
+import renetik.android.core.kotlin.primitives.Empty
+import renetik.android.core.kotlin.primitives.isSet
 
 
 open class CSLinearLayout @JvmOverloads constructor(

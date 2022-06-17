@@ -4,11 +4,9 @@ import android.view.View
 import android.widget.TextView
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
-import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar.make
-import renetik.android.content.attributeColor
-import renetik.android.framework.lang.CSUserAction
-import renetik.android.material.R
+import renetik.android.core.extensions.content.attributeColor
+import renetik.android.core.lang.CSUserAction
 
 private fun View.snackBar(text: String) = snackBar(text, LENGTH_LONG)
 

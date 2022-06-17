@@ -1,11 +1,11 @@
 package renetik.android.framework.preset.property.value
 
 import renetik.android.framework.protocol.CSEventOwnerHasDestroy
-import renetik.android.framework.lang.property.CSListValuesEventProperty
+import renetik.android.framework.event.property.CSListValuesEventProperty
 import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStore
 import renetik.android.framework.store.getValue
-import renetik.kotlin.toId
+import renetik.android.core.kotlin.toId
 
 open class CSListItemValuePresetEventProperty<T>(
     parent: CSEventOwnerHasDestroy,

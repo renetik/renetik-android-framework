@@ -6,18 +6,18 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.ContentFrameLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import renetik.android.content.input
+import renetik.android.core.extensions.content.input
 import renetik.android.controller.common.CSNavigationView
-import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.framework.lang.property.CSProperty
-import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.core.lang.CSLayoutRes
+import renetik.android.core.lang.property.CSProperty
+import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.framework.protocol.CSVisibility
 import renetik.android.framework.protocol.CSVisibleEventOwner
 import renetik.android.view.isVisible
-import renetik.kotlin.className
-import renetik.kotlin.unexpected
+import renetik.android.core.kotlin.className
+import renetik.android.core.kotlin.unexpected
+import renetik.android.event.*
 
 open class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner, CSVisibleEventOwner {

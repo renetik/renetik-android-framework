@@ -1,6 +1,6 @@
 package renetik.android.client.request
 
-import renetik.android.framework.ArgFunc
+import renetik.android.core.lang.ArgFunc
 
 open class CSMultiProcessBase<Data : Any>(data: Data? = null) : CSProcessBase<Data>(data) {
 

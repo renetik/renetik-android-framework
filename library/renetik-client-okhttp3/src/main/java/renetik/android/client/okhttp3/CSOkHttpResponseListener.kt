@@ -6,9 +6,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import renetik.android.client.request.CSHttpProcess
 import renetik.android.client.request.CSHttpResponseData
-import renetik.android.framework.lang.catchError
-import renetik.android.framework.lang.catchErrorReturn
-import renetik.android.framework.logging.CSLog.logInfo
+import renetik.android.core.lang.catchError
+import renetik.android.core.lang.catchErrorReturn
+import renetik.android.core.logging.CSLog.logInfo
 import java.io.IOException
 
 const val APPLICATION_ERROR = "Application error or invalid data"

@@ -3,7 +3,7 @@ package renetik.android.imaging.extensions
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri.fromFile
-import renetik.java.io.createFileAndDirs
+import renetik.android.core.java.io.createFileAndDirs
 import java.io.File
 import java.io.FileOutputStream
 

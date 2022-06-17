@@ -1,6 +1,6 @@
 package renetik.android.framework.protocol
 
-import renetik.android.framework.event.CSEvent
+import renetik.android.event.CSEvent
 
 interface CSVisibility {
     fun updateVisibility()

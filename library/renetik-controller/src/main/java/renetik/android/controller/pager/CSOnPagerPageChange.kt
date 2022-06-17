@@ -2,7 +2,7 @@ package renetik.android.controller.pager
 
 import androidx.viewpager.widget.ViewPager.*
 import renetik.android.controller.base.CSActivityView
-import renetik.kotlin.notNull
+import renetik.android.core.kotlin.notNull
 import renetik.android.framework.math.CSMath.between
 
 class CSOnPagerPageChange<PageType>(private val pager: CSPagerView<PageType>) :

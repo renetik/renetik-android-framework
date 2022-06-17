@@ -1,6 +1,6 @@
 package renetik.android.framework.event.property
 
-import renetik.android.framework.lang.CSHasId
+import renetik.android.core.lang.CSHasId
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
 import renetik.android.framework.store.property.value.CSListItemValueStoreEventProperty
 import renetik.android.framework.store.property.value.CSListValueStoreEventProperty

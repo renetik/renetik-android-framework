@@ -1,5 +1,5 @@
 package renetik.android.framework.protocol
 
-import renetik.android.framework.event.CSEventOwner
+import renetik.android.event.CSEventOwner
 
 interface CSEventOwnerHasDestroy : CSEventOwner, CSHasDestroy

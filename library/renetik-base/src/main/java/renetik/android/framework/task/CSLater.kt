@@ -1,27 +1,19 @@
 package renetik.android.framework.task
 
-import renetik.android.framework.util.CSMainHandler.postOnMain
-import renetik.android.framework.util.CSMainHandler.removePosted
+import renetik.android.core.lang.CSMainHandler.postOnMain
+import renetik.android.core.lang.CSMainHandler.removePosted
+import renetik.android.event.CSRegistration
+import renetik.android.event.CSRegistration.Companion.CSRegistration
 
-class CSDoLater {
-    companion object {
-        fun later(delayMilliseconds: Int = 0, function: () -> Unit) =
-            CSDoLater(function, delayMilliseconds)
-
-        fun later(function: () -> Unit) = CSDoLater(function)
-    }
-
-    private val function: () -> Unit
-
-    constructor(function: () -> Unit, delayMilliseconds: Int) {
-        this.function = function
+object CSLater {
+    fun later(
+        delayMilliseconds: Int, function: () -> Unit): CSRegistration {
         postOnMain(delayMilliseconds, function)
+        return CSRegistration(onCancel = { removePosted(function) })
     }
 
-    constructor(function: () -> Unit) {
-        this.function = function
-        postOnMain(function)
-    }
-
-    fun stop() = removePosted(function)
+    /** Later uses default of 5 due to one strange rare multithreading issue
+     *  where later function where executed earlier then later returned registration
+     */
+    fun later(function: () -> Unit) = later(5, function)
 }

@@ -3,11 +3,11 @@ package renetik.android.widget
 import android.content.res.ColorStateList
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
-import renetik.android.framework.event.CSRegistration
-import renetik.android.framework.event.CSMultiEventRegistration
-import renetik.android.framework.event.pause
+import renetik.android.event.CSRegistration
+import renetik.android.event.CSMultiEventRegistration
+import renetik.android.event.pause
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.lang.property.isTrue
+import renetik.android.core.lang.property.isTrue
 
 fun CompoundButton.onCheck(function: (CompoundButton) -> Unit) = apply {
     setOnCheckedChangeListener { buttonView, _ -> function(buttonView) }

@@ -1,6 +1,6 @@
 package renetik.android.framework.json.store
 
-import renetik.kotlin.collections.reload
+import renetik.android.core.kotlin.collections.reload
 
 class CSStringJsonStore(jsonString: String) : CSJsonStore() {
 

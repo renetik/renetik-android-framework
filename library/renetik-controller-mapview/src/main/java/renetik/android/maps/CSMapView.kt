@@ -8,11 +8,11 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSActivityView
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.event.listen
-import renetik.android.framework.logging.CSLog.logError
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.listen
+import renetik.android.core.logging.CSLog.logError
 import renetik.android.maps.extensions.asLatLng
-import renetik.kotlin.unfinished
+import renetik.android.core.kotlin.unfinished
 
 private const val DEFAULT_ZOOM = 13f
 

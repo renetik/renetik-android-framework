@@ -7,9 +7,9 @@ import renetik.android.framework.base.CSBase
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStore
-import renetik.kotlin.collections.at
-import renetik.kotlin.collections.second
-import renetik.kotlin.collections.third
+import renetik.android.core.kotlin.collections.at
+import renetik.android.core.kotlin.collections.second
+import renetik.android.core.kotlin.collections.third
 
 const val ClearPresetItemId = "clear parent preset item id"
 const val ParentPresetItemId1 = "prent preset item id 1"

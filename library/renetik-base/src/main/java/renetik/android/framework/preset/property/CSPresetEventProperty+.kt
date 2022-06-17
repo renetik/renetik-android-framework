@@ -1,8 +1,8 @@
 package renetik.android.framework.preset.property
 
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.register
-import renetik.android.framework.lang.property.connect
+import renetik.android.framework.event.property.connect
+import renetik.android.event.register
 import renetik.android.framework.store.CSStore
 
 val CSPresetEventProperty<*>.store: CSStore get() = preset.store

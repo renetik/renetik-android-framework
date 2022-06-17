@@ -1,25 +1,31 @@
 package renetik.android.framework.store
 
-import renetik.android.framework.event.CSEvent
+import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.kotlin.primitives.asDouble
+import renetik.android.core.kotlin.primitives.asFloat
+import renetik.android.core.kotlin.primitives.asInt
+import renetik.android.core.kotlin.primitives.asLong
+import renetik.android.core.lang.CSHasId
+import renetik.android.core.logging.CSLog.logWarn
+import renetik.android.event.CSEvent
 import renetik.android.framework.event.property.CSPropertyStore
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.CSJsonObjectInterface
-import renetik.android.framework.lang.CSHasId
-import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.framework.json.store.CSFileJsonStore
 import renetik.android.framework.store.property.late.*
 import renetik.android.framework.store.property.nullable.CSBooleanNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSIntNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSListItemNullableStoreEventProperty
 import renetik.android.framework.store.property.value.*
-import renetik.android.primitives.asDouble
-import renetik.android.primitives.asFloat
-import renetik.android.primitives.asInt
-import renetik.android.primitives.asLong
 import java.io.Closeable
 import kotlin.reflect.KClass
 
 interface CSStore : CSPropertyStore,
     Iterable<Map.Entry<String, Any?>>, CSJsonObjectInterface {
+
+    companion object {
+        var store = CSFileJsonStore(app, "app", isJsonPretty = true)
+    }
 
     val eventChanged: CSEvent<CSStore>
 

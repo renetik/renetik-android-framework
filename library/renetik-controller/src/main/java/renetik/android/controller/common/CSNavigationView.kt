@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
-import renetik.android.content.color
+import renetik.android.core.extensions.content.color
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
@@ -15,16 +15,16 @@ import renetik.android.controller.base.onGlobalFocus
 import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
-import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.framework.logging.CSLog.logDebug
-import renetik.android.primitives.isFalse
-import renetik.android.primitives.isSet
+import renetik.android.core.lang.CSLayoutRes.Companion.layout
+import renetik.android.core.logging.CSLog.logDebug
+import renetik.android.core.kotlin.primitives.isFalse
+import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.view.background
 import renetik.android.view.removeFromSuperview
-import renetik.kotlin.collections.deleteLast
-import renetik.kotlin.collections.hasKey
-import renetik.kotlin.notNull
-import renetik.kotlin.unexpected
+import renetik.android.core.kotlin.collections.deleteLast
+import renetik.android.core.kotlin.collections.hasKey
+import renetik.android.core.kotlin.notNull
+import renetik.android.core.kotlin.unexpected
 
 class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 

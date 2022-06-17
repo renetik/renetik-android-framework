@@ -1,7 +1,7 @@
 package renetik.android.controller.extensions
 
 import renetik.android.controller.base.CSView
-import renetik.android.framework.lang.CSUserAction
+import renetik.android.core.lang.CSUserAction
 import renetik.android.material.extensions.snackBarError
 import renetik.android.material.extensions.snackBarInfo
 import renetik.android.material.extensions.snackBarWarn

@@ -1,17 +1,17 @@
 package renetik.android.framework.preset
 
+import renetik.android.core.kotlin.unexpected
+import renetik.android.core.lang.CSHasId
 import renetik.android.framework.base.CSBase
 import renetik.android.framework.event.CSAction.Companion.action
-import renetik.android.framework.event.listenOnce
+import renetik.android.event.listenOnce
 import renetik.android.framework.event.property.CSEventProperty
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.event.register
-import renetik.android.framework.lang.CSHasId
-import renetik.android.framework.lang.property.connect
+import renetik.android.framework.event.property.connect
+import renetik.android.event.register
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.protocol.CSEventOwnerHasDestroy
 import renetik.android.framework.store.CSStore
-import renetik.kotlin.unexpected
 
 class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
     parent: CSEventOwnerHasDestroy,

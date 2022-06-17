@@ -1,10 +1,10 @@
 package renetik.android.client.request
 
-import renetik.android.framework.ArgFunc
+import renetik.android.core.lang.ArgFunc
 import renetik.android.framework.base.CSContext
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.event.listen
-import renetik.kotlin.notNull
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.listen
+import renetik.android.core.kotlin.notNull
 
 open class CSOperation<Data : Any>() : CSContext() {
 

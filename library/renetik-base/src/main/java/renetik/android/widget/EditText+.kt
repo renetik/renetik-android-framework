@@ -6,12 +6,14 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.R
-import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.Companion.event
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.primitives.isEmpty
+import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.view.propertyWithTag
-import renetik.kotlin.asString
+import renetik.android.core.kotlin.asString
+import renetik.android.event.CSRegistration
+import renetik.android.event.listen
+import renetik.android.event.pause
 
 val EditText.eventClear get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<EditText>() }
 

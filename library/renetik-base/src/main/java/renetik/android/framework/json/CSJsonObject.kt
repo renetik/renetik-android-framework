@@ -1,9 +1,9 @@
 package renetik.android.framework.json
 
-import renetik.android.framework.event.CSEvent.Companion.event
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.framework.store.CSStore
-import renetik.android.primitives.toArray
-import renetik.kotlin.collections.at
+import renetik.android.core.kotlin.primitives.toArray
+import renetik.android.core.kotlin.collections.at
 import java.io.Closeable
 import kotlin.reflect.KClass
 

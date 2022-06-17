@@ -3,7 +3,7 @@ package renetik.android.controller.view.grid
 import android.view.ViewGroup
 import androidx.core.view.children
 import renetik.android.controller.base.CSView
-import renetik.android.framework.lang.CSLayoutRes
+import renetik.android.core.lang.CSLayoutRes
 import renetik.android.view.activated
 import renetik.android.view.selected
 

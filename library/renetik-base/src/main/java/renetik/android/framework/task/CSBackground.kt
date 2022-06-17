@@ -1,8 +1,8 @@
 package renetik.android.framework.task
 
-import renetik.java.util.concurrent.background
-import renetik.java.util.concurrent.backgroundNano
-import renetik.java.util.concurrent.backgroundRepeat
+import renetik.android.core.java.util.concurrent.background
+import renetik.android.core.java.util.concurrent.backgroundNano
+import renetik.android.core.java.util.concurrent.backgroundRepeat
 import java.util.concurrent.Executors.newSingleThreadScheduledExecutor
 
 object CSBackground {

@@ -6,18 +6,18 @@ import org.json.JSONTokener
 import renetik.android.client.request.CSHttpProcess
 import renetik.android.client.request.CSHttpResponseData
 import renetik.android.client.request.CSOperation
-import renetik.android.content.isNetworkConnected
-import renetik.android.framework.base.CSApplication.Companion.app
-import renetik.android.framework.lang.CSTimeConstants.Minute
-import renetik.kotlin.notNull
+import renetik.android.core.extensions.content.isNetworkConnected
+import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.lang.CSTimeConstants.Minute
+import renetik.android.core.kotlin.notNull
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.toJsonObject
 import renetik.android.framework.json.toJSONArray
 import renetik.android.framework.json.toJSONObject
 import renetik.android.framework.json.toJsonString
-import renetik.android.framework.logging.CSLog.logInfo
-import renetik.android.primitives.isFalse
-import renetik.android.primitives.isTrue
+import renetik.android.core.logging.CSLog.logInfo
+import renetik.android.core.kotlin.primitives.isFalse
+import renetik.android.core.kotlin.primitives.isTrue
 import java.io.File
 import java.util.concurrent.TimeUnit
 

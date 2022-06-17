@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import renetik.android.controller.base.CSActivityView
-import renetik.kotlin.collections.list
+import renetik.android.core.kotlin.collections.list
 
 class CSPagerAdapter<PagerPageType>(val controllers: List<PagerPageType> = list())
     : PagerAdapter() where PagerPageType : CSActivityView<*>, PagerPageType : CSPagerPage {

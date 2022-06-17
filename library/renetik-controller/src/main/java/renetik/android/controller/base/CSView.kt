@@ -4,19 +4,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import androidx.annotation.LayoutRes
-import renetik.android.content.inflate
-import renetik.android.content.input
+import renetik.android.core.extensions.content.inflate
+import renetik.android.core.extensions.content.input
+import renetik.android.core.kotlin.className
+import renetik.android.core.kotlin.notNull
+import renetik.android.core.kotlin.unexpected
+import renetik.android.core.lang.CSLayoutRes
 import renetik.android.framework.base.CSContext
+import renetik.android.event.listenOnce
+import renetik.android.event.register
 import renetik.android.framework.protocol.CSHasParent
 import renetik.android.framework.protocol.CSViewInterface
-import renetik.android.framework.event.listenOnce
-import renetik.android.framework.event.register
-import renetik.android.framework.lang.CSLayoutRes
 import renetik.android.view.inflate
 import renetik.android.view.onClick
-import renetik.kotlin.className
-import renetik.kotlin.notNull
-import renetik.kotlin.unexpected
 
 open class CSView<ViewType : View> : CSContext,
     CSHasParent, CSViewInterface {
@@ -62,7 +62,7 @@ open class CSView<ViewType : View> : CSContext,
     }
 
     @Suppress("UNCHECKED_CAST")
-    override val view: ViewType
+    final override val view: ViewType
         get() {
             when {
                 _view != null -> return _view!!

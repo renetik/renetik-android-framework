@@ -4,7 +4,7 @@ import renetik.android.framework.protocol.CSEventOwnerHasDestroy
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStore
-import renetik.kotlin.reflect.createInstance
+import renetik.android.core.kotlin.reflect.createInstance
 import kotlin.reflect.KClass
 
 open class CSJsonTypeValuePresetEventProperty<T : CSJsonObject>(

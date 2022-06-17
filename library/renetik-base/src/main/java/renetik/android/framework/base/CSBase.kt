@@ -1,7 +1,10 @@
 package renetik.android.framework.base
 
-import renetik.android.framework.event.*
-import renetik.android.framework.event.CSEvent.Companion.event
+import renetik.android.event.CSRegistrations
+import renetik.android.event.register
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
+import renetik.android.event.listenOnce
 import renetik.android.framework.protocol.CSEventOwnerHasDestroy
 import renetik.android.framework.protocol.CSHasDestroy
 

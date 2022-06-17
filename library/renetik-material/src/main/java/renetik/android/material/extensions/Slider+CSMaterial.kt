@@ -3,11 +3,11 @@ package renetik.android.material.extensions
 import android.view.View
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
-import renetik.android.framework.event.CSRegistration
-import renetik.android.framework.event.CSMultiEventRegistration
-import renetik.android.framework.event.pause
+import renetik.android.event.CSRegistration
+import renetik.android.event.CSMultiEventRegistration
+import renetik.android.event.pause
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.primitives.roundToStep
+import renetik.android.core.kotlin.primitives.roundToStep
 import renetik.android.view.findView
 import kotlin.math.roundToInt
 

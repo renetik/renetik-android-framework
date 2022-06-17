@@ -1,13 +1,13 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.event.fire
-import renetik.android.framework.event.listen
-import renetik.android.framework.event.pause
-import renetik.android.framework.event.register
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
+import renetik.android.event.listen
+import renetik.android.event.pause
+import renetik.android.event.register
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.reload
-import renetik.android.framework.lang.property.isFalse
+import renetik.android.core.lang.property.isFalse
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStore
 

@@ -1,12 +1,12 @@
 package renetik.android.controller.view.grid
 
-import renetik.android.framework.event.pause
+import renetik.android.event.pause
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.register
-import renetik.android.framework.event.resume
-import renetik.android.framework.lang.CSHasTitle
-import renetik.android.framework.lang.CSValue
-import renetik.android.framework.lang.isEmpty
+import renetik.android.event.register
+import renetik.android.event.resume
+import renetik.android.core.lang.CSHasTitle
+import renetik.android.core.lang.CSValue
+import renetik.android.core.lang.isEmpty
 
 fun <RowType : Any> CSGridView<RowType>.reload(values: Array<out RowType>) =
     reload(values.asIterable())

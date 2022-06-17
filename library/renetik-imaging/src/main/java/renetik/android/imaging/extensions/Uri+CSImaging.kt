@@ -10,9 +10,9 @@ import android.net.Uri
 import android.provider.MediaStore.Images.Media.ORIENTATION
 import androidx.exifinterface.media.ExifInterface
 import androidx.exifinterface.media.ExifInterface.*
-import renetik.android.content.openInputStream
-import renetik.android.framework.base.CSApplication.Companion.app
-import renetik.android.framework.lang.catchAllError
+import renetik.android.core.extensions.content.openInputStream
+import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.lang.catchAllError
 import java.io.OutputStream
 import kotlin.math.max
 

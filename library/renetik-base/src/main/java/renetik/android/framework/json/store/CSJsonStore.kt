@@ -3,7 +3,7 @@ package renetik.android.framework.json.store
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.parseJsonMap
 import renetik.android.framework.json.toJsonString
-import renetik.kotlin.runIf
+import renetik.android.core.kotlin.runIf
 import java.io.Closeable
 
 abstract class CSJsonStore(private val isJsonPretty: Boolean = false)

@@ -1,8 +1,8 @@
 package renetik.android.framework.json
 
-import renetik.android.framework.base.CSApplication
-import renetik.java.io.readText
-import renetik.kotlin.reflect.createInstance
+import renetik.android.core.CSApplication
+import renetik.android.core.java.io.readText
+import renetik.android.core.kotlin.reflect.createInstance
 import java.io.File
 
 fun CSJsonObject.toJsonObject() = asStringMap().toJSONObject()

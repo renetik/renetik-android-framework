@@ -6,8 +6,8 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
-import renetik.kotlin.collections.list
-import renetik.kotlin.collections.reload
+import renetik.android.core.kotlin.collections.list
+import renetik.android.core.kotlin.collections.reload
 
 class CSGridLayout(parent: CSActivityView<*>,
                    viewId: Int,

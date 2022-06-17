@@ -2,10 +2,10 @@ package renetik.android.java.extensions
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import renetik.kotlin.text.StringBuilder
-import renetik.kotlin.text.cutStart
-import renetik.kotlin.text.deleteLast
-import renetik.kotlin.text.remove
+import renetik.android.core.kotlin.text.StringBuilder
+import renetik.android.core.kotlin.text.cutStart
+import renetik.android.core.kotlin.text.deleteLast
+import renetik.android.core.kotlin.text.remove
 
 class StringBuilderTest {
     @Test

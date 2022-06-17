@@ -6,8 +6,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.view.View
 import renetik.android.controller.base.CSActivityView
-import renetik.android.framework.logging.CSLog.logInfo
-import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.core.logging.CSLog.logInfo
+import renetik.android.core.logging.CSLog.logWarn
 
 class CSHeadsetAudioPlugDetector(
     parent: CSActivityView<*>, val onHeadsetPlugChanged: (isPlugged: Boolean) -> Unit)

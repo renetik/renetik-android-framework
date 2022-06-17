@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.shawnlin.numberpicker.NumberPicker
 import com.shawnlin.numberpicker.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE
-import renetik.android.framework.event.CSEvent.Companion.event
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
 
 class CSNumberPicker @JvmOverloads constructor(

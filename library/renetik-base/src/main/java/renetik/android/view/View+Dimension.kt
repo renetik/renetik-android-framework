@@ -4,9 +4,9 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import renetik.android.content.dpToPixel
-import renetik.android.content.toDp
-import renetik.android.framework.event.CSRegistration
+import renetik.android.core.extensions.content.dpToPixel
+import renetik.android.core.extensions.content.toDp
+import renetik.android.event.CSRegistration
 
 fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSRegistration? {
     if (width == 0 || height == 0) return onLayout {

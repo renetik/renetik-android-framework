@@ -3,10 +3,10 @@ package renetik.android.framework.extensions
 import android.view.ViewGroup
 import renetik.android.client.request.CSOperation
 import renetik.android.client.request.CSProcessBase
-import renetik.android.content.isNetworkConnected
+import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.controller.base.CSActivityView
-import renetik.android.framework.base.CSApplication.Companion.app
-import renetik.kotlin.unfinished
+import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.kotlin.unfinished
 
 //fun <Data : Any> CSOperation<Data>.send(
 //    parent: CSActivityView<out ViewGroup>,

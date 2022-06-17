@@ -3,8 +3,8 @@ package renetik.android.controller.base
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import renetik.android.framework.Func
-import renetik.android.framework.event.*
+import renetik.android.core.lang.Func
+import renetik.android.event.listen
 
 fun CSActivityView<*>.enterFullScreen() {
     WindowCompat.setDecorFitsSystemWindows(activity().window, false)

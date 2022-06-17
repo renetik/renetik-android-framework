@@ -4,10 +4,10 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.json.JSONTokener
-import renetik.android.framework.lang.catchWarnReturnNull
-import renetik.kotlin.asString
-import renetik.kotlin.collections.linkedMap
-import renetik.kotlin.collections.list
+import renetik.android.core.lang.catchWarnReturnNull
+import renetik.android.core.kotlin.asString
+import renetik.android.core.kotlin.collections.linkedMap
+import renetik.android.core.kotlin.collections.list
 
 fun String.parseJsonMap(): MutableMap<String, Any?>? = parseJson<MutableMap<String, Any?>>()
 

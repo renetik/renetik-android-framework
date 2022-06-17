@@ -1,16 +1,16 @@
 package renetik.android.framework.view
 
 import renetik.android.controller.base.view
-import renetik.android.framework.Func
-import renetik.android.framework.event.CSRegistration
+import renetik.android.core.lang.Func
+import renetik.android.event.CSRegistration
 import renetik.android.framework.protocol.CSViewInterface
-import renetik.android.framework.event.listen
-import renetik.android.framework.event.pause
+import renetik.android.event.listen
+import renetik.android.event.pause
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.void
-import renetik.kotlin.asStringArray
-import renetik.kotlin.collections.hasItems
-import renetik.kotlin.collections.index
+import renetik.android.core.lang.void
+import renetik.android.core.kotlin.asStringArray
+import renetik.android.core.kotlin.collections.hasItems
+import renetik.android.core.kotlin.collections.index
 
 fun CSViewInterface.numberPicker(viewId: Int) = view(viewId) as CSNumberPicker
 

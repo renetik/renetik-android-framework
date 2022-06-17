@@ -3,7 +3,7 @@ package renetik.android.framework.store.property.late
 import renetik.android.framework.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStore
 import renetik.android.framework.store.property.CSStoreEventProperty
-import renetik.kotlin.CSUnexpectedException.Companion.unexpected
+import renetik.android.core.kotlin.CSUnexpectedException.Companion.unexpected
 
 abstract class CSLateStoreEventProperty<T>(
     override val store: CSStore,

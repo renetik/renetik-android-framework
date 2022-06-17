@@ -1,15 +1,15 @@
 package renetik.android.client.request
 
 import renetik.android.framework.base.CSContext
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.event.listen
-import renetik.android.framework.logging.CSLog.logDebug
-import renetik.android.framework.logging.CSLog.logError
-import renetik.android.framework.logging.CSLog.logInfo
-import renetik.android.framework.logging.CSLog.logWarn
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.listen
+import renetik.android.core.logging.CSLog.logDebug
+import renetik.android.core.logging.CSLog.logError
+import renetik.android.core.logging.CSLog.logInfo
+import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.framework.util.CSSynchronizedProperty.Companion.synchronized
-import renetik.kotlin.exception
-import renetik.kotlin.rootCauseMessage
+import renetik.android.core.kotlin.exception
+import renetik.android.core.kotlin.rootCauseMessage
 
 
 open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {

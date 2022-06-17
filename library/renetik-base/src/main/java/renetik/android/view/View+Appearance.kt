@@ -9,10 +9,10 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import renetik.android.R
-import renetik.android.content.CSColorInt
-import renetik.android.content.dpToPixel
-import renetik.android.framework.event.CSRegistration
-import renetik.android.framework.event.CSMultiEventRegistration
+import renetik.android.core.extensions.content.CSColorInt
+import renetik.android.core.extensions.content.dpToPixel
+import renetik.android.event.CSRegistration
+import renetik.android.event.CSMultiEventRegistration
 import renetik.android.framework.event.property.CSEventProperty
 
 

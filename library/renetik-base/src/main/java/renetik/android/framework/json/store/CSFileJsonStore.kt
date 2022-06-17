@@ -1,9 +1,9 @@
 package renetik.android.framework.json.store
 
 import android.content.Context
-import renetik.android.framework.base.CSApplication.Companion.app
-import renetik.java.io.readString
-import renetik.java.io.write
+import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.java.io.readString
+import renetik.android.core.java.io.write
 import java.io.File
 
 class CSFileJsonStore(context: Context, id: String, directory: String = "",

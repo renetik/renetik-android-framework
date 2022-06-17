@@ -5,10 +5,10 @@ import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import renetik.android.content.attributeColor
+import renetik.android.core.extensions.content.attributeColor
 import renetik.android.framework.base.CSContext
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.primitives.isSet
+import renetik.android.core.kotlin.primitives.isSet
 
 const val GeneratedMenuItems = 7687678
 

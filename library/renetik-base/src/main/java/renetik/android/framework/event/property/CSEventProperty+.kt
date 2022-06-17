@@ -1,10 +1,11 @@
 package renetik.android.framework.event.property
 
-import renetik.android.framework.event.CSRegistration
-import renetik.android.framework.lang.isFalse
-import renetik.android.framework.lang.isTrue
-import renetik.android.primitives.isFalse
-import renetik.android.primitives.isTrue
+import renetik.android.event.CSRegistration
+import renetik.android.core.lang.isFalse
+import renetik.android.core.lang.isTrue
+import renetik.android.core.kotlin.primitives.isFalse
+import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.core.lang.property.CSProperty
 
 fun <T> CSEventProperty<T?>.clear() = value(null)
 val <T> CSEventProperty<T?>.isEmpty get() = value == null
@@ -65,4 +66,9 @@ fun CSEventProperty<Boolean>.listenUntilFalseOnce(listener: (argument: Boolean) 
 fun <T : CSEventProperty<Int>> T.keepMax(maxValue: Int, fire: Boolean = true) = apply {
     if (value > maxValue) value(maxValue, fire)
     onChange { if (value > maxValue) value(maxValue, fire) }
+}
+
+fun CSProperty<Boolean>.connect(property: CSEventProperty<Boolean>): CSRegistration {
+    value = property.isTrue
+    return property.onChange { value = it }
 }

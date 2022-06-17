@@ -1,17 +1,17 @@
 package renetik.android.widget
 
 import android.widget.AbsListView
-import renetik.kotlin.later
+import renetik.android.core.lang.CSMainHandler.postOnMain
 
 fun AbsListView.scrollToIndex(index: Int, smooth: Boolean = true) {
     if (smooth) {
         smoothScrollToPositionFromTop(index, 0, 100)
-        later(100) {
+        postOnMain(100) {
             setSelection(index)
-            later { smoothScrollToPositionFromTop(index, 0, 100) }
+            postOnMain { smoothScrollToPositionFromTop(index, 0, 100) }
         }
     } else {
         setSelection(index)
-        later { smoothScrollToPositionFromTop(index, 0, 100) }
+        postOnMain { smoothScrollToPositionFromTop(index, 0, 100) }
     }
 }

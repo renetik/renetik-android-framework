@@ -1,7 +1,7 @@
 package  renetik.android.framework.json
 
-import renetik.kotlin.collections.list
-import renetik.kotlin.notNull
+import renetik.android.core.kotlin.collections.list
+import renetik.android.core.kotlin.notNull
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 

@@ -3,9 +3,9 @@ package renetik.android.framework.request
 import android.widget.ProgressBar
 import renetik.android.client.request.CSOperation
 import renetik.android.controller.base.CSActivityView
-import renetik.android.framework.lang.CSTimeConstants.Second
 import renetik.android.controller.extensions.snackBarInfo
-import renetik.android.framework.task.CSDoLater
+import renetik.android.core.lang.CSTimeConstants.Second
+import renetik.android.event.CSRegistration
 import renetik.android.view.gone
 import renetik.android.view.onClick
 import renetik.android.view.show
@@ -14,18 +14,18 @@ open class CSSingleRequestView(parent: CSActivityView<*>, viewId: Int)
     : CSActivityView<ProgressBar>(parent, viewId) {
 
     var currentOperation: CSOperation<*>? = null
-    var retryTimer: CSDoLater? = null
+    var retryTimer: CSRegistration? = null
     var requestTitle: String? = null
 
     init {
         view.onClick {
-            retryTimer?.stop()
+            retryTimer?.cancel()
             send()
         }
     }
 
     open fun <T : Any> send(operation: CSOperation<T>, title: String): CSOperation<T> {
-        retryTimer?.stop()
+        retryTimer?.cancel()
         currentOperation?.cancel()
         view.show()
         currentOperation = operation.onDone { view.gone() }
@@ -37,7 +37,7 @@ open class CSSingleRequestView(parent: CSActivityView<*>, viewId: Int)
     private fun send() {
         currentOperation?.send()?.onFailed {
             snackBarInfo("$requestTitle not successful, retrying in 3 sec.")
-            retryTimer = CSDoLater.later(3 * Second) {
+            retryTimer = later(3 * Second) {
                 retryTimer = null
                 send()
             }

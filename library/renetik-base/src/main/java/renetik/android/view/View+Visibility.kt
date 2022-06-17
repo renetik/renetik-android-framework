@@ -3,11 +3,11 @@ package renetik.android.view
 import android.view.View
 import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
-import renetik.android.framework.event.CSMultiEventRegistration
-import renetik.android.framework.event.CSRegistration
+import renetik.android.event.CSMultiEventRegistration
+import renetik.android.event.CSRegistration
 import renetik.android.framework.protocol.CSVisibility
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.primitives.isTrue
+import renetik.android.core.kotlin.primitives.isTrue
 
 fun <T : View> T.visible(animated: Boolean = false) = apply {
     if (animated) fadeIn() else {

@@ -9,9 +9,9 @@ import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
 import renetik.android.R.color
 import renetik.android.R.layout
-import renetik.android.content.color
-import renetik.android.content.dpToPixelF
-import renetik.android.content.statusBarHeight
+import renetik.android.core.extensions.content.color
+import renetik.android.core.extensions.content.dpToPixelF
+import renetik.android.core.extensions.content.statusBarHeight
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.dialog.DialogAnimation.*
 import renetik.android.controller.base.dialog.DialogPopupSide.Bottom
@@ -22,14 +22,14 @@ import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.event.fire
-import renetik.android.framework.event.listen
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
+import renetik.android.event.listen
 import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.lang.CSLayoutRes
-import renetik.android.framework.lang.CSLayoutRes.Companion.layout
-import renetik.android.framework.lang.property.setFalse
-import renetik.android.framework.lang.property.setTrue
+import renetik.android.core.lang.CSLayoutRes
+import renetik.android.core.lang.CSLayoutRes.Companion.layout
+import renetik.android.core.lang.property.setFalse
+import renetik.android.core.lang.property.setTrue
 import renetik.android.view.*
 import java.io.Closeable
 

@@ -3,10 +3,10 @@ package renetik.android.java.extensions
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import renetik.kotlin.isAllNotNull
-import renetik.kotlin.isAllNull
-import renetik.kotlin.isAnyNotNull
-import renetik.kotlin.isAnyNull
+import renetik.android.core.kotlin.isAllNotNull
+import renetik.android.core.kotlin.isAllNull
+import renetik.android.core.kotlin.isAnyNotNull
+import renetik.android.core.kotlin.isAnyNull
 
 class AnyCSNullTest {
     @Test

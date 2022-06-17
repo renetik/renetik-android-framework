@@ -1,7 +1,8 @@
 package renetik.android.framework.task
 
-import renetik.android.framework.util.CSMainHandler.postOnMain
-import renetik.android.framework.util.CSMainHandler.removePosted
+import renetik.android.core.lang.CSMainHandler.postOnMain
+import renetik.android.core.lang.CSMainHandler.removePosted
+
 
 @Deprecated("Use CSVisibility schedule or other options")
 class CSWork(private var interval: Int, private val function: (CSWork) -> Unit) {

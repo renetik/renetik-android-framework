@@ -7,10 +7,10 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
-import renetik.android.framework.event.CSEventOwner
-import renetik.android.framework.event.CSRegistration
-import renetik.android.framework.event.register
-import renetik.android.framework.event.remove
+import renetik.android.event.CSEventOwner
+import renetik.android.event.CSRegistration
+import renetik.android.event.register
+import renetik.android.event.remove
 import renetik.android.framework.protocol.CSViewInterface
 import renetik.android.view.*
 import renetik.android.widget.onChange

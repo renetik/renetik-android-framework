@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
-import renetik.android.content.asString
-import renetik.android.content.isNetworkConnected
+import renetik.android.core.extensions.content.asString
+import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.framework.base.CSContext
-import renetik.android.framework.event.CSEvent.Companion.event
-import renetik.android.framework.logging.CSLog.logDebug
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.core.logging.CSLog.logDebug
 
 class CSReachability : CSContext() {
 

@@ -1,10 +1,10 @@
 package renetik.android.controller.extensions
 
-import renetik.android.framework.event.CSRegistration
+import renetik.android.event.CSRegistration
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.lang.CSCondition
-import renetik.android.framework.lang.CSCondition.Factory.condition
-import renetik.android.primitives.isTrue
+import renetik.android.core.lang.CSCondition
+import renetik.android.core.lang.CSCondition.Factory.condition
+import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.view.shownIf
 import renetik.android.view.superview
 

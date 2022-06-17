@@ -5,7 +5,7 @@ import android.content.Intent.*
 import android.net.Uri
 import android.os.Environment.getExternalStorageDirectory
 import renetik.android.controller.base.CSActivityView
-import renetik.kotlin.collections.list
+import renetik.android.core.kotlin.collections.list
 import java.io.File
 
 fun <T : CSActivityView<*>> T.sendMail(email: String, subject: String, text: String) {

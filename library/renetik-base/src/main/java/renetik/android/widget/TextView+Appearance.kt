@@ -8,13 +8,13 @@ import android.os.Build
 import android.widget.TextView
 import androidx.annotation.*
 import androidx.core.content.res.ResourcesCompat
-import renetik.android.content.CSColorInt
-import renetik.android.content.attributeColor
-import renetik.android.content.color
-import renetik.android.content.drawable
-import renetik.android.framework.event.CSRegistration
+import renetik.android.core.extensions.content.CSColorInt
+import renetik.android.core.extensions.content.attributeColor
+import renetik.android.core.extensions.content.color
+import renetik.android.core.extensions.content.drawable
+import renetik.android.event.CSRegistration
 import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.primitives.at
+import renetik.android.core.kotlin.primitives.at
 
 fun TextView.textColor(value: CSColorInt) = apply {
     setTextColor(value.color)

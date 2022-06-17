@@ -5,7 +5,7 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
-import renetik.android.framework.event.CSRegistration
+import renetik.android.event.CSRegistration
 import renetik.android.framework.event.property.CSEventProperty
 import java.io.File
 
