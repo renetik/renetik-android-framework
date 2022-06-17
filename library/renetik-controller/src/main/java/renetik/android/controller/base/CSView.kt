@@ -13,8 +13,8 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.event.owner.CSContext
 import renetik.android.event.listenOnce
 import renetik.android.event.register
-import renetik.android.framework.protocol.CSHasParent
-import renetik.android.framework.protocol.CSViewInterface
+import renetik.android.ui.protocol.CSHasParent
+import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.view.inflate
 import renetik.android.view.onClick
 

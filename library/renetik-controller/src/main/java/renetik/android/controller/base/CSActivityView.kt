@@ -12,8 +12,8 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.property.CSProperty
 import renetik.android.core.logging.CSLog.logWarn
-import renetik.android.framework.protocol.CSVisibility
-import renetik.android.framework.protocol.CSVisibleEventOwner
+import renetik.android.ui.protocol.CSVisibility
+import renetik.android.ui.protocol.CSVisibleEventOwner
 import renetik.android.view.isVisible
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected

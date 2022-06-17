@@ -1,8 +1,8 @@
 package renetik.android.controller.base
 
 import renetik.android.event.CSEvent
-import renetik.android.framework.protocol.CSViewInterface
-import renetik.android.framework.protocol.CSVisibility
+import renetik.android.ui.protocol.CSViewInterface
+import renetik.android.ui.protocol.CSVisibility
 import renetik.android.core.lang.property.CSProperty
 
 

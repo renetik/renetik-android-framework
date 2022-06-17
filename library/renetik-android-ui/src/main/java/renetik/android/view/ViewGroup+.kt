@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.core.view.iterator
-import renetik.android.framework.protocol.CSHasParent
+import renetik.android.ui.protocol.CSHasParent
 
 inline fun <R : Comparable<R>> ViewGroup.sortChildren(crossinline selector: (View) -> R?) = apply {
     val sorted = children.toList().sortedBy(selector)

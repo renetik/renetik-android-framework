@@ -1,4 +1,4 @@
-package renetik.android.framework.protocol
+package renetik.android.ui.protocol
 
 import renetik.android.event.CSEvent
 

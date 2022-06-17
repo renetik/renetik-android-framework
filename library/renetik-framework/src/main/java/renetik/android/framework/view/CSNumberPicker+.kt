@@ -3,7 +3,7 @@ package renetik.android.framework.view
 import renetik.android.controller.base.view
 import renetik.android.core.lang.Func
 import renetik.android.event.registration.CSRegistration
-import renetik.android.framework.protocol.CSViewInterface
+import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.event.listen
 import renetik.android.event.registration.pause
 import renetik.android.event.property.CSEventProperty

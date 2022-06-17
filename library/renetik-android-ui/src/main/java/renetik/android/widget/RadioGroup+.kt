@@ -6,7 +6,7 @@ import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.R
-import renetik.android.framework.protocol.CSVisibleEventOwner
+import renetik.android.ui.protocol.CSVisibleEventOwner
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen
 import renetik.android.event.registration.pause

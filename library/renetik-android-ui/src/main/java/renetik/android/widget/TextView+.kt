@@ -5,7 +5,7 @@ import android.widget.TextView
 import renetik.android.core.extensions.content.drawable
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSMultiRegistration
-import renetik.android.framework.protocol.CSVisibleEventOwner
+import renetik.android.ui.protocol.CSVisibleEventOwner
 import renetik.android.event.property.CSEventProperty
 import renetik.android.event.property.action
 import renetik.android.core.lang.CSHasDrawable
