@@ -1,4 +1,4 @@
-package renetik.android.text
+package renetik.android.ui.text
 
 import android.text.InputFilter
 import android.text.Spanned
