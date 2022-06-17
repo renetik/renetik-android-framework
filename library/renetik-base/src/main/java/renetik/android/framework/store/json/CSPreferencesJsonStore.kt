@@ -1,8 +1,9 @@
-package renetik.android.framework.json.store
+package renetik.android.framework.store.json
 
 import android.annotation.SuppressLint
 import android.content.Context
 import renetik.android.core.CSApplication.Companion.app
+import renetik.android.framework.store.json.CSJsonStore
 
 class CSPreferencesJsonStore(id: String, isJsonPretty: Boolean = false)
     : CSJsonStore(isJsonPretty) {

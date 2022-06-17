@@ -8,10 +8,11 @@ import renetik.android.core.kotlin.primitives.asLong
 import renetik.android.core.lang.CSHasId
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.event.CSEvent
-import renetik.android.framework.store.property.CSPropertyStore
 import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.property.CSPropertyStore
+import renetik.android.framework.store.json.CSStoreJsonObject
 import renetik.android.framework.json.CSJsonObjectInterface
-import renetik.android.framework.json.store.CSFileJsonStore
+import renetik.android.framework.store.json.CSFileJsonStore
 import renetik.android.framework.store.property.late.*
 import renetik.android.framework.store.property.nullable.CSBooleanNullableStoreEventProperty
 import renetik.android.framework.store.property.nullable.CSIntNullableStoreEventProperty
@@ -121,7 +122,7 @@ interface CSStore : CSPropertyStore,
         key: String, values: Iterable<T>, value: List<T>, onChange: ((value: List<T>) -> Unit)?) =
         CSListValueStoreEventProperty(this, key, values, value, onChange)
 
-    fun <T : CSJsonObject> CSStore.lateProperty(
+    fun <T : CSStoreJsonObject> CSStore.lateProperty(
         key: String, listType: KClass<T>, onApply: ((value: List<T>) -> Unit)? = null
     ) = CSJsonListLateStoreEventProperty(this, key, listType, onApply)
 

@@ -4,7 +4,7 @@ import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.json.CSStoreJsonObject
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStore
 import renetik.android.core.kotlin.collections.at
@@ -27,7 +27,7 @@ const val ChildPropertyNewValue3 = "child property new value 4"
 
 class CSPresetTest {
 
-    private val store = CSJsonObject()
+    private val store = CSStoreJsonObject()
     private val parent = CSPresetTestParentClass(store)
 
     @Test
@@ -187,7 +187,7 @@ private class CSPresetTestChildClass(
 
 
 class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
-    override val store = CSJsonObject()
+    override val store = CSStoreJsonObject()
     override fun save(properties: Iterable<CSPresetKeyData>) =
         properties.forEach { it.saveTo(store) }
 

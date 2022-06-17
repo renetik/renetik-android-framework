@@ -3,14 +3,14 @@ package renetik.android.framework.preset.property.nullable
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.json.CSStoreJsonObject
 import renetik.android.framework.preset.*
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStore
 
 class CSIntNullablePresetEventPropertyTest {
 
-    private val store = CSJsonObject()
+    private val store = CSStoreJsonObject()
     private val parent = CSPresetTestParentClass(store)
 
     @Test
@@ -34,7 +34,7 @@ class CSIntNullablePresetEventPropertyTest {
 }
 
 class CSPresetTestPresetItem(override val id: String) : CSPresetItem {
-    override val store = CSJsonObject()
+    override val store = CSStoreJsonObject()
     override fun save(properties: Iterable<CSPresetKeyData>) =
         properties.forEach { it.saveTo(store) }
 }

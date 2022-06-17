@@ -1,7 +1,7 @@
 package renetik.android.framework.preset
 
 import renetik.android.event.owner.CSEventOwnerHasDestroy
-import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.json.CSStoreJsonObject
 import renetik.android.core.lang.CSHasId
 import renetik.android.framework.preset.property.nullable.CSFloatNullablePresetEventProperty
 import renetik.android.framework.preset.property.nullable.CSIntNullablePresetEventProperty
@@ -83,14 +83,14 @@ fun <T : CSHasId> CSPreset<*, *>.property(
     onChange: ((value: List<T>) -> Unit)? = null
 ) = property(parent, key, values.asList(), default, onChange)
 
-fun <T : CSJsonObject> CSPreset<*, *>.property(
+fun <T : CSStoreJsonObject> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, listType: KClass<T>,
     default: List<T> = emptyList(),
     onApply: ((value: List<T>) -> Unit)? = null
 ) = add(CSJsonListValuePresetEventProperty(parent, this,
     key, listType, default, onApply))
 
-fun <T : CSJsonObject> CSPreset<*, *>.property(
+fun <T : CSStoreJsonObject> CSPreset<*, *>.property(
     parent: CSEventOwnerHasDestroy, key: String, type: KClass<T>,
     onApply: ((value: T) -> Unit)? = null
 ) = add(CSJsonTypeValuePresetEventProperty(parent, this, key, type, onApply))

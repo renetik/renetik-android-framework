@@ -1,7 +1,7 @@
 package renetik.android.client.request
 
 import renetik.android.framework.json.CSJsonArray
-import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.json.CSStoreJsonObject
 import renetik.android.framework.json.createJsonObject
 import renetik.android.framework.json.parseJsonList
 import renetik.android.framework.json.parseJsonMap
@@ -15,7 +15,7 @@ interface CSHttpResponseData {
 
 const val PARSING_FAILED = "Parsing data as json failed"
 
-open class CSServerMapData : CSJsonObject(), CSHttpResponseData {
+open class CSServerMapData : CSStoreJsonObject(), CSHttpResponseData {
     var code: Int? = null
 
     override fun onHttpResponse(code: Int, message: String, content: String?) {
@@ -44,7 +44,7 @@ open class CSServerListData : CSJsonArray(), CSHttpResponseData {
     override val message: String? get() = _message
 }
 
-class CSValueServerData<ValueType : CSJsonObject>(key: String, kClass: KClass<ValueType>) :
+class CSValueServerData<ValueType : CSStoreJsonObject>(key: String, kClass: KClass<ValueType>) :
     CSServerMapData() {
     constructor(kClass: KClass<ValueType>) : this("value", kClass)
 

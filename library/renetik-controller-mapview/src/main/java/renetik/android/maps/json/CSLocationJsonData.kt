@@ -1,9 +1,9 @@
 package renetik.android.maps.json
 
 import com.google.android.gms.maps.model.LatLng
-import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.json.CSStoreJsonObject
 
-class CSLocationJsonData() : CSJsonObject() {
+class CSLocationJsonData() : CSStoreJsonObject() {
 
     val latLng get() = locationProperty.latLng!!
 

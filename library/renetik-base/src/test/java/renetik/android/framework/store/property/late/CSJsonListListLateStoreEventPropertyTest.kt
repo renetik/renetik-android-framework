@@ -2,11 +2,11 @@ package renetik.android.framework.store.property.late
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.json.CSStoreJsonObject
 import renetik.android.framework.json.load
 import renetik.android.framework.json.toJsonString
 
-class TestData() : CSJsonObject() {
+class TestData() : CSStoreJsonObject() {
     val title = lateStringProperty("title")
 
     constructor(title: String) : this() {
@@ -16,7 +16,7 @@ class TestData() : CSJsonObject() {
 
 class CSJsonListListLateStoreEventPropertyTest {
 
-    private val store = CSJsonObject()
+    private val store = CSStoreJsonObject()
 
     @Test
     fun `Value set get`() {
@@ -39,7 +39,7 @@ class CSJsonListListLateStoreEventPropertyTest {
 
         val json = store.toJsonString(formatted = true)
 
-        val store2 = CSJsonObject()
+        val store2 = CSStoreJsonObject()
         val property2 = CSJsonListListLateStoreEventProperty(store2, "property", TestData::class)
         store2.load(json)
 

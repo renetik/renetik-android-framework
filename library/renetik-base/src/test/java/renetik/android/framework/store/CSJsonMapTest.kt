@@ -3,11 +3,11 @@ package renetik.android.framework.store
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.json.CSStoreJsonObject
 
 class CSJsonMapTest {
 
-    private val store = CSJsonObject()
+    private val store = CSStoreJsonObject()
 
     @Before
     fun before() = store.clear()

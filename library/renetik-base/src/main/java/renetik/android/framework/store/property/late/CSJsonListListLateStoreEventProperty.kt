@@ -1,11 +1,11 @@
 package renetik.android.framework.store.property.late
 
-import renetik.android.framework.json.CSJsonObject
-import renetik.android.framework.json.data.extensions.getJsonListList
+import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.framework.json.store.getJsonListList
 import renetik.android.framework.store.CSStore
 import kotlin.reflect.KClass
 
-class CSJsonListListLateStoreEventProperty<T : CSJsonObject>(
+class CSJsonListListLateStoreEventProperty<T : CSStoreJsonObject>(
     override val store: CSStore,
     override val key: String, val type: KClass<T>,
     onChange: ((value: List<List<T>>) -> Unit)? = null)

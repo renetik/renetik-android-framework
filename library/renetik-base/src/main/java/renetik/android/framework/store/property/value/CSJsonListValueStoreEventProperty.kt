@@ -1,10 +1,10 @@
 package renetik.android.framework.store.property.value
 
-import renetik.android.framework.json.CSJsonObject
+import renetik.android.framework.store.json.CSStoreJsonObject
 import renetik.android.framework.store.CSStore
 import kotlin.reflect.KClass
 
-class CSJsonListValueStoreEventProperty<T : CSJsonObject>(
+class CSJsonListValueStoreEventProperty<T : CSStoreJsonObject>(
     store: CSStore,
     key: String,
     val type: KClass<T>,

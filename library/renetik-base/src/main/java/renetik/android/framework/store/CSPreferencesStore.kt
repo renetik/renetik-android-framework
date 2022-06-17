@@ -7,6 +7,7 @@ import renetik.android.core.lang.catchAllWarnReturnNull
 import renetik.android.framework.base.CSContext
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.framework.json.*
+import renetik.android.framework.store.json.CSStoreJsonObject
 import kotlin.reflect.KClass
 
 class CSPreferencesStore(id: String) : CSContext(), CSStore {
