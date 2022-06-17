@@ -6,7 +6,7 @@ dependencies {
     implementation project(':renetik-android-core')
     implementation project(':renetik-android-json')
     implementation project(':renetik-android-event')
-    implementation project(':renetik-library-base')
+    implementation project(':renetik-android-ui')
     implementation project(':renetik-library-client')
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.10.0-RC1'

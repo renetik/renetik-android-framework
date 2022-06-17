@@ -1,9 +1,10 @@
 package renetik.android.store.property
 
+import renetik.android.event.property.CSActionInterface
 import renetik.android.store.CSStore
 import renetik.android.store.property.value.CSBooleanValueStoreEventProperty
 
-class CSAction {
+class CSActionFunction {
     companion object {
         var actionsDisabled = false
         fun action(id: String, function: ((Boolean) -> Unit)? = null): CSActionInterface =

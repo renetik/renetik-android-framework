@@ -11,7 +11,7 @@ import renetik.android.event.property.connect
 import renetik.android.event.register
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.property.CSAction.Companion.action
+import renetik.android.store.property.CSActionFunction.Companion.action
 
 class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
     parent: CSEventOwnerHasDestroy,

@@ -4,8 +4,10 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation "com.google.android.material:material:$material_version"
+    implementation project(':renetik-android-core')
+    implementation project(':renetik-android-event')
+    implementation project(':renetik-android-ui')
 
-    implementation project(':renetik-library-base')
 }
 repositories {
     mavenCentral()

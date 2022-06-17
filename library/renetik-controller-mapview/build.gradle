@@ -3,7 +3,11 @@ apply from: '../../library.gradle'
 apply plugin: 'kotlin-android'
 
 dependencies {
-    implementation project(':renetik-library-base')
+    implementation project(':renetik-android-core')
+    implementation project(':renetik-android-json')
+    implementation project(':renetik-android-event')
+    implementation project(':renetik-android-ui')
+    implementation project(':renetik-android-store')
     implementation project(':renetik-library-imaging')
     implementation project(':renetik-library-controller')
 

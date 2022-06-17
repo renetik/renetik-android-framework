@@ -8,7 +8,7 @@ dependencies {
     api project(':renetik-android-event')
     api project(':renetik-android-store')
     api project(':renetik-android-preset')
-    api project(':renetik-library-base')
+    api project(':renetik-android-ui')
     api project(':renetik-library-material')
     api project(':renetik-library-client')
     api project(':renetik-library-client-okhttp3')

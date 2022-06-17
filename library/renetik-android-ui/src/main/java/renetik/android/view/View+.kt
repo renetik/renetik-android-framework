@@ -33,7 +33,7 @@ import renetik.android.core.kotlin.isNull
 import renetik.android.event.*
 import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.CSRegistration
-import renetik.android.store.property.CSActionInterface
+import renetik.android.event.property.CSActionInterface
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 fun View.view(@IdRes id: Int) = findView<View>(id)!!

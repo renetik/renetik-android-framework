@@ -7,7 +7,7 @@ dependencies {
     implementation project(':renetik-android-json')
     implementation project(':renetik-android-store')
     implementation project(':renetik-android-event')
-    implementation project(':renetik-library-base')
+    implementation project(':renetik-android-ui')
 }
 repositories {
     mavenCentral()
