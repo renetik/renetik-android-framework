@@ -1,8 +1,8 @@
-package renetik.android.framework.store.property.value
+package renetik.android.store.property.value
 
 import org.junit.Assert
 import org.junit.Test
-import renetik.android.framework.store.json.CSStringJsonStore
+import renetik.android.store.json.CSStringJsonStore
 
 private enum class TestEnum {
     First, Second, Third

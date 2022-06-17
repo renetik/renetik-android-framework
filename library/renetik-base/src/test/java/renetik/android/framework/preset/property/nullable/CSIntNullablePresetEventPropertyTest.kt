@@ -3,10 +3,10 @@ package renetik.android.framework.preset.property.nullable
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.framework.preset.*
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.store.CSStore
+import renetik.android.store.CSStore
 
 class CSIntNullablePresetEventPropertyTest {
 

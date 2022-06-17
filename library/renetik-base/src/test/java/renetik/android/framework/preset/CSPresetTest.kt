@@ -4,9 +4,9 @@ import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.store.CSStore
+import renetik.android.store.CSStore
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.second
 import renetik.android.core.kotlin.collections.third

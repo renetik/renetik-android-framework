@@ -3,7 +3,7 @@ package renetik.android.maps.json
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.core.kotlin.collections.list
-import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.maps.extensions.asLatLng
 
 @Suppress("unchecked_cast")

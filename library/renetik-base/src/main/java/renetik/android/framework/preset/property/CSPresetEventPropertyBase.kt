@@ -9,7 +9,7 @@ import renetik.android.event.property.CSEventPropertyFunctions.property
 import renetik.android.event.register
 import renetik.android.core.lang.property.isFalse
 import renetik.android.framework.preset.CSPreset
-import renetik.android.framework.store.CSStore
+import renetik.android.store.CSStore
 
 abstract class CSPresetEventPropertyBase<T>(
     override val parent: CSEventOwnerHasDestroy,

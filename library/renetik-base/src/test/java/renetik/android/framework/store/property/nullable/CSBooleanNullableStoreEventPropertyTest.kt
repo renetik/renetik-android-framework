@@ -1,8 +1,8 @@
-package renetik.android.framework.store.property.nullable
+package renetik.android.store.property.nullable
 
 import org.junit.Assert.*
 import org.junit.Test
-import renetik.android.framework.store.json.CSStringJsonStore
+import renetik.android.store.json.CSStringJsonStore
 
 class CSBooleanNullableStoreEventPropertyTest {
     private val store = CSStringJsonStore("{}")

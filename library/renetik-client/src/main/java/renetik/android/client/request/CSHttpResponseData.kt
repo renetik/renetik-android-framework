@@ -1,7 +1,7 @@
 package renetik.android.client.request
 
 import renetik.android.json.CSJsonArray
-import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.json.createJsonObject
 import renetik.android.json.parseJsonList
 import renetik.android.json.parseJsonMap

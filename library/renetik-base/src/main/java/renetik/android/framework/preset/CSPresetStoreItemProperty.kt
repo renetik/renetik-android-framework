@@ -8,8 +8,8 @@ import renetik.android.event.property.CSEventProperty
 import renetik.android.event.register
 import renetik.android.core.lang.property.isFalse
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.store.CSStore
-import renetik.android.framework.store.getValue
+import renetik.android.store.CSStore
+import renetik.android.store.getValue
 import renetik.android.core.kotlin.toId
 
 class CSPresetStoreItemProperty<PresetItem : CSPresetItem,

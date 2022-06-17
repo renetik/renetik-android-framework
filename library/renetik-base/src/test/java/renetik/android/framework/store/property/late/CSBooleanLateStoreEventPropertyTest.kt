@@ -1,9 +1,9 @@
-package renetik.android.framework.store.property.late
+package renetik.android.store.property.late
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.store.json.CSStoreJsonObject
 
 class CSBooleanLateStoreEventPropertyTest {
 

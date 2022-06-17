@@ -10,7 +10,7 @@ import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.core.CSApplication.Companion.app
 import renetik.android.core.lang.CSTimeConstants.Minute
 import renetik.android.core.kotlin.notNull
-import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.json.toJsonObject
 import renetik.android.json.toJSONArray
 import renetik.android.json.toJSONObject

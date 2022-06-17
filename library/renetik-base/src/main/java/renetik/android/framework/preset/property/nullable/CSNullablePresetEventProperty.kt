@@ -5,7 +5,7 @@ import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.preset.property.CSPresetEventPropertyBase
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.preset.property.store
-import renetik.android.framework.store.CSStore
+import renetik.android.store.CSStore
 
 abstract class CSNullablePresetEventProperty<T>(
     parent: CSEventOwnerHasDestroy,

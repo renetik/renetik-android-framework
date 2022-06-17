@@ -3,8 +3,8 @@ package renetik.android.framework.preset.property.nullable
 import renetik.android.event.owner.CSEventOwnerHasDestroy
 import renetik.android.event.property.CSListValuesEventProperty
 import renetik.android.framework.preset.CSPreset
-import renetik.android.framework.store.CSStore
-import renetik.android.framework.store.getValue
+import renetik.android.store.CSStore
+import renetik.android.store.getValue
 import renetik.android.core.kotlin.toId
 
 class CSListItemNullablePresetEventProperty<T>(

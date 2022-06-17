@@ -1,9 +1,9 @@
-package renetik.android.framework.store
+package renetik.android.store
 
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import renetik.android.framework.store.json.CSStoreJsonObject
+import renetik.android.store.json.CSStoreJsonObject
 
 class CSJsonMapTest {
 
