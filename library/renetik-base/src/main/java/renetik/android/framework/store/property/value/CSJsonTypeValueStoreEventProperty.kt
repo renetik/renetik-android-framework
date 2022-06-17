@@ -1,6 +1,6 @@
 package renetik.android.framework.store.property.value
 
-import renetik.android.event.CSRegistration
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.listen
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.store.CSStore

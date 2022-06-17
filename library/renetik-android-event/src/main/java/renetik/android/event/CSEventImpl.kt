@@ -4,6 +4,7 @@ import renetik.android.core.logging.CSLog.logError
 import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.exception
+import renetik.android.event.registration.CSRegistration
 import java.io.Closeable
 
 class CSEventImpl<T> : CSEvent<T> {

@@ -1,4 +1,4 @@
-package renetik.android.event
+package renetik.android.event.registration
 
 import androidx.annotation.AnyThread
 import renetik.android.core.kotlin.collections.removeIf

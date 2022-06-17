@@ -1,10 +1,16 @@
-package renetik.android.event
+package renetik.android.event.owner
 
 import renetik.android.core.java.lang.isMain
 import renetik.android.core.lang.CSMainHandler.postOnMain
 import renetik.android.core.lang.CSMainHandler.removePosted
-import renetik.android.event.CSRegistration.Companion.CSRegistration
+//import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.core.lang.void
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistrations
+import renetik.android.event.register
+import renetik.android.event.registration.CSRegistrationFunctions
+import renetik.android.event.registration.CSRegistrationFunctions.CSRegistration
+import renetik.android.event.remove
 
 interface CSEventOwner {
     val registrations: CSRegistrations

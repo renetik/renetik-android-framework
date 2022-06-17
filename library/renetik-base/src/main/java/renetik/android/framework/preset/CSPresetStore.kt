@@ -3,7 +3,7 @@ package renetik.android.framework.preset
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.pause
+import renetik.android.event.registration.pause
 import renetik.android.event.register
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.reload

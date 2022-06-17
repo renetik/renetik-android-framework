@@ -18,6 +18,9 @@ import renetik.android.view.isVisible
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.event.*
+import renetik.android.event.owner.CSEventOwner
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistrations
 
 open class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner, CSVisibleEventOwner {

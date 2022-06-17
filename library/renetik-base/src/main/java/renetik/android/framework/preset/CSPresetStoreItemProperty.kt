@@ -1,10 +1,10 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.base.CSBase
+import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen
-import renetik.android.event.pause
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.pause
+import renetik.android.event.property.CSEventProperty
 import renetik.android.event.register
 import renetik.android.core.lang.property.isFalse
 import renetik.android.framework.preset.property.CSPresetKeyData
@@ -17,7 +17,7 @@ class CSPresetStoreItemProperty<PresetItem : CSPresetItem,
     override val preset: CSPreset<PresetItem, PresetList>,
     val parentStore: CSStore,
     val getDefault: () -> PresetItem
-) : CSBase(preset), CSEventProperty<PresetItem>, CSPresetKeyData {
+) : CSEventOwnerHasDestroyBase(preset), CSEventProperty<PresetItem>, CSPresetKeyData {
 
     override val key = "${preset.id} current"
     override fun saveTo(store: CSStore) = store.set(key, value.toId())

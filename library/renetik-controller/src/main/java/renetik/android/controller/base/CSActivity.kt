@@ -10,10 +10,10 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.CSRegistrations
+import renetik.android.event.registration.CSRegistrations
 import renetik.android.framework.protocol.CSVisibility
 import renetik.android.event.fire
-import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.event.property.CSEventPropertyFunctions.property
 import renetik.android.core.lang.property.CSProperty
 
 

@@ -7,7 +7,7 @@ import renetik.android.app.fixInputMethodLeak
 import renetik.android.core.lang.catchAllWarn
 import renetik.android.core.CSApplication.Companion.app
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.CSRegistrations
+import renetik.android.event.registration.CSRegistrations
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
 import renetik.android.event.register

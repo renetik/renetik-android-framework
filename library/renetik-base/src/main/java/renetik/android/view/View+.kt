@@ -24,14 +24,16 @@ import renetik.android.R
 import renetik.android.core.extensions.content.CSToast.toast
 import renetik.android.framework.event.*
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.property.CSEventPropertyFunctions.property
+import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSEventPropertyFunctions.property
 import renetik.android.core.lang.property.toggle
 import renetik.android.framework.view.adapter.CSClickAdapter
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.kotlin.isNull
 import renetik.android.event.*
+import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.registration.CSRegistration
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
@@ -73,7 +75,7 @@ fun <T, V> View.disabledIf(property1: CSEventProperty<T>, property2: CSEventProp
                            condition: (T, V) -> Boolean): CSRegistration {
     fun update() = disabledIf(condition(property1.value, property2.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }
@@ -189,7 +191,7 @@ fun <T, V> View.activatedIf(property1: CSEventProperty<T>, property2: CSEventPro
                             condition: (T, V) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }
@@ -200,7 +202,7 @@ fun <T, V, X> View.activatedIf(property1: CSEventProperty<T>,
                                condition: (T, V, X) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value, property3.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() },
         property3.onChange { update() }
@@ -215,7 +217,7 @@ fun <T, V, X, Y> View.activatedIf(property1: CSEventProperty<T>,
     fun update() = activated(condition(property1.value, property2.value,
         property3.value, property4.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() },
         property3.onChange { update() },
@@ -231,7 +233,7 @@ fun <T, V> View.selectedIf(property1: CSEventProperty<T>, property2: CSEventProp
                            condition: (T, V) -> Boolean): CSRegistration {
     fun update() = selected(condition(property1.value, property2.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }
@@ -242,7 +244,7 @@ fun <T, V, X> View.selectedIf(property1: CSEventProperty<T>,
                               condition: (T, V, X) -> Boolean): CSRegistration {
     fun update() = selected(condition(property1.value, property2.value, property3.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() },
         property3.onChange { update() }
@@ -257,7 +259,7 @@ fun <T, V, X, Y> View.selectedIf(property1: CSEventProperty<T>,
     fun update() = selected(condition(property1.value, property2.value,
         property3.value, property4.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() },
         property3.onChange { update() },
@@ -274,7 +276,7 @@ fun <T, V> View.pressedIf(property1: CSEventProperty<T>, property2: CSEventPrope
                           condition: (T, V) -> Boolean): CSRegistration {
     fun update() = pressedIf(condition(property1.value, property2.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }

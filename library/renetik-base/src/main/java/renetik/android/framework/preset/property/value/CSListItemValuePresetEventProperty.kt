@@ -1,7 +1,7 @@
 package renetik.android.framework.preset.property.value
 
-import renetik.android.framework.protocol.CSEventOwnerHasDestroy
-import renetik.android.framework.event.property.CSListValuesEventProperty
+import renetik.android.event.owner.CSEventOwnerHasDestroy
+import renetik.android.event.property.CSListValuesEventProperty
 import renetik.android.framework.preset.CSPreset
 import renetik.android.framework.store.CSStore
 import renetik.android.framework.store.getValue

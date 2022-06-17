@@ -1,6 +1,6 @@
-package renetik.android.event
+package renetik.android.event.registration
 
-class CSMultiEventRegistration(
+class CSMultiRegistration(
     private vararg val registrations: CSRegistration) : CSRegistration {
     override var isActive = true
     override fun cancel() {

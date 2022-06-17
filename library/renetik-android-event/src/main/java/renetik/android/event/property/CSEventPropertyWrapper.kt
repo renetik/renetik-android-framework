@@ -1,4 +1,4 @@
-package renetik.android.framework.event.property
+package renetik.android.event.property
 
 abstract class CSEventPropertyWrapper<T> :
     CSEventProperty<T> {

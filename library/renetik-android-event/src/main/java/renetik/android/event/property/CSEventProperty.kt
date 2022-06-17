@@ -1,6 +1,6 @@
-package renetik.android.framework.event.property
+package renetik.android.event.property
 
-import renetik.android.event.CSRegistration
+import renetik.android.event.registration.CSRegistration
 import renetik.android.core.lang.property.CSProperty
 
 interface CSEventProperty<T> : CSProperty<T> {

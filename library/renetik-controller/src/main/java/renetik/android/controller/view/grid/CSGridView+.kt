@@ -1,9 +1,9 @@
 package renetik.android.controller.view.grid
 
-import renetik.android.event.pause
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.pause
+import renetik.android.event.property.CSEventProperty
 import renetik.android.event.register
-import renetik.android.event.resume
+import renetik.android.event.registration.resume
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.CSValue
 import renetik.android.core.lang.isEmpty

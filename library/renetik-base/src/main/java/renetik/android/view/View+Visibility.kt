@@ -3,10 +3,10 @@ package renetik.android.view
 import android.view.View
 import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
-import renetik.android.event.CSMultiEventRegistration
-import renetik.android.event.CSRegistration
+import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.registration.CSRegistration
 import renetik.android.framework.protocol.CSVisibility
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.property.CSEventProperty
 import renetik.android.core.kotlin.primitives.isTrue
 
 fun <T : View> T.visible(animated: Boolean = false) = apply {
@@ -76,7 +76,7 @@ fun <T, V> View.shownIf(property1: CSEventProperty<T>, property2: CSEventPropert
                         condition: (T, V) -> Boolean): CSRegistration {
     fun update(animated: Boolean) = shownIf(condition(property1.value, property2.value), animated)
     update(animated = false)
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update(animated) },
         property2.onChange { update(animated) })
 }
@@ -89,7 +89,7 @@ fun <T, V, X> View.shownIf(property1: CSEventProperty<T>,
     fun update(animated: Boolean) =
         shownIf(condition(property1.value, property2.value, property3.value), animated)
     update(animated = false)
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update(animated) },
         property2.onChange { update(animated) },
         property3.onChange { update(animated) },
@@ -109,7 +109,7 @@ fun <T, V> View.goneIf(property1: CSEventProperty<T>, property2: CSEventProperty
                        condition: (T, V) -> Boolean): CSRegistration {
     fun update() = goneIf(condition(property1.value, property2.value), animated)
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }
@@ -132,7 +132,7 @@ fun <T, V> View.visibleIf(property1: CSEventProperty<T>, property2: CSEventPrope
                           condition: (T, V) -> Boolean): CSRegistration {
     fun update() = visibleIf(condition(property1.value, property2.value), animated)
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }

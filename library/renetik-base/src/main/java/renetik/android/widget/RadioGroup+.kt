@@ -9,8 +9,8 @@ import renetik.android.R
 import renetik.android.framework.protocol.CSVisibleEventOwner
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen
-import renetik.android.event.pause
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.pause
+import renetik.android.event.property.CSEventProperty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.view.*
 

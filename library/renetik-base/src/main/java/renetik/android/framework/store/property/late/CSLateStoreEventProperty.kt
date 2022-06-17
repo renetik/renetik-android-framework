@@ -1,6 +1,6 @@
 package renetik.android.framework.store.property.late
 
-import renetik.android.framework.event.property.CSEventPropertyBase
+import renetik.android.event.property.CSEventPropertyBase
 import renetik.android.framework.store.CSStore
 import renetik.android.framework.store.property.CSStoreEventProperty
 import renetik.android.core.kotlin.CSUnexpectedException.Companion.unexpected

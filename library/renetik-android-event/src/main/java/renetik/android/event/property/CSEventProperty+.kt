@@ -1,6 +1,6 @@
-package renetik.android.framework.event.property
+package renetik.android.event.property
 
-import renetik.android.event.CSRegistration
+import renetik.android.event.registration.CSRegistration
 import renetik.android.core.lang.isFalse
 import renetik.android.core.lang.isTrue
 import renetik.android.core.kotlin.primitives.isFalse

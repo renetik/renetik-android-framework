@@ -2,15 +2,15 @@ package renetik.android.framework.preset
 
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSHasId
-import renetik.android.framework.base.CSBase
+import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.framework.event.CSAction.Companion.action
 import renetik.android.event.listenOnce
-import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.property.CSEventPropertyFunctions.property
-import renetik.android.framework.event.property.connect
+import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSEventPropertyFunctions.property
+import renetik.android.event.property.connect
 import renetik.android.event.register
 import renetik.android.framework.preset.property.CSPresetKeyData
-import renetik.android.framework.protocol.CSEventOwnerHasDestroy
+import renetik.android.event.owner.CSEventOwnerHasDestroy
 import renetik.android.framework.store.CSStore
 
 class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetItem>>(
@@ -19,7 +19,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     key: String,
     val list: PresetList,
     val getDefault: () -> PresetItem = { list.items[0] })
-    : CSBase(parent), CSHasId {
+    : CSEventOwnerHasDestroyBase(parent), CSHasId {
 
     override val id = "$key preset"
     val actionEdit = action("$id actionEdit")

@@ -11,9 +11,9 @@ import androidx.annotation.RequiresApi
 import renetik.android.R
 import renetik.android.core.extensions.content.CSColorInt
 import renetik.android.core.extensions.content.dpToPixel
-import renetik.android.event.CSRegistration
-import renetik.android.event.CSMultiEventRegistration
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.property.CSEventProperty
 
 
 fun <T : View> T.background(@DrawableRes value: Int) = apply {
@@ -114,7 +114,7 @@ fun <T, V> View.enabledByAlphaIf(property1: CSEventProperty<T>, property2: CSEve
                                  condition: (T, V) -> Boolean): CSRegistration {
     fun update() = enabledByAlphaIf(condition(property1.value, property2.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }
@@ -123,7 +123,7 @@ fun <T, V> View.disabledByAlphaIf(property1: CSEventProperty<T>, property2: CSEv
                                   condition: (T, V) -> Boolean): CSRegistration {
     fun update() = disabledByAlpha(condition(property1.value, property2.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }

@@ -1,7 +1,7 @@
 package renetik.android.framework.preset.property
 
-import renetik.android.framework.event.property.CSEventProperty
-import renetik.android.framework.event.property.connect
+import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.connect
 import renetik.android.event.register
 import renetik.android.framework.store.CSStore
 

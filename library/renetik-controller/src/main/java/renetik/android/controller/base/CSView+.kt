@@ -7,8 +7,8 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
-import renetik.android.event.CSEventOwner
-import renetik.android.event.CSRegistration
+import renetik.android.event.owner.CSEventOwner
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.register
 import renetik.android.event.remove
 import renetik.android.framework.protocol.CSViewInterface

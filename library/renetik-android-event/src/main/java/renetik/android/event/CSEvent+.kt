@@ -1,6 +1,7 @@
 package renetik.android.event
 
 import androidx.annotation.UiThread
+import renetik.android.event.registration.CSRegistration
 
 fun CSEvent<Unit>.fire() = apply { fire(Unit) }
 

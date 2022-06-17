@@ -1,14 +1,12 @@
-package renetik.android.framework.base
+package renetik.android.event.owner
 
-import renetik.android.event.CSRegistrations
+import renetik.android.event.registration.CSRegistrations
 import renetik.android.event.register
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
-import renetik.android.framework.protocol.CSEventOwnerHasDestroy
-import renetik.android.framework.protocol.CSHasDestroy
 
-open class CSBase(parent: CSHasDestroy? = null) : CSEventOwnerHasDestroy {
+open class CSEventOwnerHasDestroyBase(parent: CSHasDestroy? = null) : CSEventOwnerHasDestroy {
 
     final override val registrations = CSRegistrations()
     override val eventDestroy = event<Unit>()

@@ -1,4 +1,4 @@
-package renetik.android.framework.event.property
+package renetik.android.event.property
 
 import renetik.android.core.lang.property.CSListValuesProperty
 

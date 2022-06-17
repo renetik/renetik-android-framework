@@ -8,7 +8,7 @@ import renetik.android.core.kotlin.primitives.asLong
 import renetik.android.core.lang.CSHasId
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.event.CSEvent
-import renetik.android.framework.event.property.CSPropertyStore
+import renetik.android.framework.store.property.CSPropertyStore
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.json.CSJsonObjectInterface
 import renetik.android.framework.json.store.CSFileJsonStore

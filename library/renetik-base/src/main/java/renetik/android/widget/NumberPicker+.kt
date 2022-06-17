@@ -6,9 +6,9 @@ import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
 import androidx.annotation.ColorInt
 import renetik.android.core.lang.Func
-import renetik.android.event.CSRegistration
-import renetik.android.event.pause
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.pause
+import renetik.android.event.property.CSEventProperty
 import renetik.android.core.kotlin.asStringArray
 import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.index

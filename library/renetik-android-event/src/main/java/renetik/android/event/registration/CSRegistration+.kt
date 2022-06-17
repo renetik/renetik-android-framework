@@ -1,4 +1,4 @@
-package renetik.android.event
+package renetik.android.event.registration
 
 import renetik.android.core.lang.Func
 import java.io.Closeable

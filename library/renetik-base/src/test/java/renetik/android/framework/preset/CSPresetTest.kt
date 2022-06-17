@@ -3,7 +3,7 @@ package renetik.android.framework.preset
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
-import renetik.android.framework.base.CSBase
+import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.preset.property.CSPresetKeyData
 import renetik.android.framework.store.CSStore
@@ -145,7 +145,7 @@ class CSPresetTest {
     }
 }
 
-private class CSPresetTestParentClass(val store: CSStore) : CSBase() {
+private class CSPresetTestParentClass(val store: CSStore) : CSEventOwnerHasDestroyBase() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {
@@ -164,7 +164,7 @@ private class CSPresetTestParentClass(val store: CSStore) : CSBase() {
 private class CSPresetTestChildClass(
     parent: CSPresetTestParentClass,
     preset: CSPreset<*, *>,
-    key: String) : CSBase(parent) {
+    key: String) : CSEventOwnerHasDestroyBase(parent) {
 
     private val presetList = CSPresetTestPresetItemList()
 

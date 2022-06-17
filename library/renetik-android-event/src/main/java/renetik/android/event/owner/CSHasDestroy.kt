@@ -1,4 +1,4 @@
-package renetik.android.framework.protocol
+package renetik.android.event.owner
 
 import renetik.android.event.CSEvent
 import renetik.android.event.listenOnce

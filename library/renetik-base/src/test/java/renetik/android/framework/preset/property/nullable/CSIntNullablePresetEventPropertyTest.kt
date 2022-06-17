@@ -2,7 +2,7 @@ package renetik.android.framework.preset.property.nullable
 
 import junit.framework.Assert.assertEquals
 import org.junit.Test
-import renetik.android.framework.base.CSBase
+import renetik.android.event.owner.CSEventOwnerHasDestroyBase
 import renetik.android.framework.json.CSJsonObject
 import renetik.android.framework.preset.*
 import renetik.android.framework.preset.property.CSPresetKeyData
@@ -57,7 +57,7 @@ class CSPresetTestPresetItemList : CSPresetItemList<CSPresetTestPresetItem> {
     override fun reload() = Unit
 }
 
-class CSPresetTestParentClass(val store: CSStore) : CSBase() {
+class CSPresetTestParentClass(val store: CSStore) : CSEventOwnerHasDestroyBase() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {

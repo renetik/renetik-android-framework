@@ -5,8 +5,8 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
-import renetik.android.event.CSRegistration
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.property.CSEventProperty
 import java.io.File
 
 fun <T : ImageView> T.image(

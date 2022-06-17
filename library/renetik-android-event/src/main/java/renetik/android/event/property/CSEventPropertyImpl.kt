@@ -1,9 +1,10 @@
-package renetik.android.framework.event.property
+package renetik.android.event.property
 
-class CSLateEventProperty<T>(onApply: ((value: T) -> Unit)? = null) :
+class CSEventPropertyImpl<T>(
+    value: T, onApply: ((value: T) -> Unit)? = null) :
     CSEventPropertyBase<T>(onApply) {
 
-    private var _value: T? = null
+    private var _value: T = value
 
     override fun value(newValue: T, fire: Boolean) {
         if (_value == newValue) return
@@ -12,6 +13,8 @@ class CSLateEventProperty<T>(onApply: ((value: T) -> Unit)? = null) :
     }
 
     override var value: T
-        get() = _value!!
+        get() = _value
         set(value) = value(value)
 }
+
+

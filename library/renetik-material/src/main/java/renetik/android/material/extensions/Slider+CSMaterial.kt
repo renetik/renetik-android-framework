@@ -3,10 +3,10 @@ package renetik.android.material.extensions
 import android.view.View
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
-import renetik.android.event.CSRegistration
-import renetik.android.event.CSMultiEventRegistration
-import renetik.android.event.pause
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.registration.pause
+import renetik.android.event.property.CSEventProperty
 import renetik.android.core.kotlin.primitives.roundToStep
 import renetik.android.view.findView
 import kotlin.math.roundToInt
@@ -79,7 +79,7 @@ fun Slider.value(property: CSEventProperty<Float>,
     onSliderChangeRegistration = onChange {
         onChangeRegistration.pause().use { property.value = value }
     }
-    return CSMultiEventRegistration(onChangeRegistration, onSliderChangeRegistration)
+    return CSMultiRegistration(onChangeRegistration, onSliderChangeRegistration)
 }
 
 
@@ -97,5 +97,5 @@ fun Slider.value(property: CSEventProperty<Int>,
     onSliderChangeRegistration = onChange {
         onChangeRegistration.pause().use { property.value = value.roundToInt() }
     }
-    return CSMultiEventRegistration(onChangeRegistration, onSliderChangeRegistration)
+    return CSMultiRegistration(onChangeRegistration, onSliderChangeRegistration)
 }

@@ -1,7 +1,7 @@
 package renetik.android.framework.preset.property
 
-import renetik.android.framework.protocol.CSEventOwnerHasDestroy
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.owner.CSEventOwnerHasDestroy
+import renetik.android.event.property.CSEventProperty
 
 interface CSPresetEventProperty<T> : CSEventProperty<T>, CSPresetKeyData {
     val parent: CSEventOwnerHasDestroy

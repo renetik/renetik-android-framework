@@ -2,11 +2,11 @@ package renetik.android.framework.view
 
 import renetik.android.controller.base.view
 import renetik.android.core.lang.Func
-import renetik.android.event.CSRegistration
+import renetik.android.event.registration.CSRegistration
 import renetik.android.framework.protocol.CSViewInterface
 import renetik.android.event.listen
-import renetik.android.event.pause
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.pause
+import renetik.android.event.property.CSEventProperty
 import renetik.android.core.lang.void
 import renetik.android.core.kotlin.asStringArray
 import renetik.android.core.kotlin.collections.hasItems

@@ -1,6 +1,6 @@
 package renetik.android.framework.preset
 
-import renetik.android.framework.protocol.CSEventOwnerHasDestroy
+import renetik.android.event.owner.CSEventOwnerHasDestroy
 import renetik.android.core.lang.CSHasId
 
 typealias Preset = CSPreset<*, out CSPresetItemList<*>>

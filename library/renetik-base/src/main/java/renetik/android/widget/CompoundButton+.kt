@@ -3,10 +3,10 @@ package renetik.android.widget
 import android.content.res.ColorStateList
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
-import renetik.android.event.CSRegistration
-import renetik.android.event.CSMultiEventRegistration
-import renetik.android.event.pause
-import renetik.android.framework.event.property.CSEventProperty
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.registration.pause
+import renetik.android.event.property.CSEventProperty
 import renetik.android.core.lang.property.isTrue
 
 fun CompoundButton.onCheck(function: (CompoundButton) -> Unit) = apply {
@@ -51,7 +51,7 @@ fun <T, V> CompoundButton.isCheckedIf(property1: CSEventProperty<T>, property2: 
                                       condition: (T, V) -> Boolean): CSRegistration {
     fun update() = isCheckedIf(condition(property1.value, property2.value))
     update()
-    return CSMultiEventRegistration(
+    return CSMultiRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }
