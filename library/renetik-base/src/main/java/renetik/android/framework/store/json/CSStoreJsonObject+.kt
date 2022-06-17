@@ -1,6 +1,4 @@
-package renetik.android.framework.json
-
-import renetik.android.framework.store.json.CSStoreJsonObject
+package renetik.android.framework.store.json
 
 fun CSStoreJsonObject.getObject(key: String) = getMap(key)?.let(::CSStoreJsonObject)
 

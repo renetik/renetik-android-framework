@@ -1,6 +1,5 @@
-package  renetik.android.framework.json.store
+package  renetik.android.framework.store.json
 
-import renetik.android.framework.store.json.CSStoreJsonObject
 import renetik.android.framework.store.CSStore
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance

@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 
 @Suppress("unchecked_cast")
 open class CSStoreJsonObject : CSJsonObject, CSStore, Closeable {
-    
+
     constructor() : super()
     constructor(map: MutableMap<String, Any?>) : super(map)
     constructor(data: String) : super(data)
