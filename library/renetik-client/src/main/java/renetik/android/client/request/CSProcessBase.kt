@@ -1,6 +1,6 @@
 package renetik.android.client.request
 
-import renetik.android.framework.base.CSContext
+import renetik.android.event.owner.CSContext
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen
 import renetik.android.core.logging.CSLog.logDebug

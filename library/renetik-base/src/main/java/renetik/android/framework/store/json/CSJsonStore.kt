@@ -1,8 +1,8 @@
 package renetik.android.framework.store.json
 
+import renetik.android.core.kotlin.runIf
 import renetik.android.json.parseJsonMap
 import renetik.android.json.toJsonString
-import renetik.android.core.kotlin.runIf
 import java.io.Closeable
 
 abstract class CSJsonStore(private val isJsonPretty: Boolean = false)

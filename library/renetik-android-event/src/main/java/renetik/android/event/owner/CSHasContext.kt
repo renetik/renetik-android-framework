@@ -1,4 +1,4 @@
-package renetik.android.framework.protocol
+package renetik.android.event.owner
 
 import android.content.Context
 import renetik.android.event.owner.CSEventOwnerHasDestroy

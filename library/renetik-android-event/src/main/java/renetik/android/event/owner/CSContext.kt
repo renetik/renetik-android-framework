@@ -1,4 +1,4 @@
-package renetik.android.framework.base
+package renetik.android.event.owner
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,7 +11,6 @@ import renetik.android.event.registration.CSRegistrations
 import renetik.android.event.fire
 import renetik.android.event.listenOnce
 import renetik.android.event.register
-import renetik.android.framework.protocol.CSHasContext
 
 abstract class CSContext : ContextWrapper, CSHasContext {
 

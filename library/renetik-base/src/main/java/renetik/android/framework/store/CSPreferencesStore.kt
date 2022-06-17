@@ -5,7 +5,7 @@ import android.content.Context
 import renetik.android.core.extensions.content.isDebug
 import renetik.android.core.lang.catchAllWarnReturnNull
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.framework.base.CSContext
+import renetik.android.event.owner.CSContext
 import renetik.android.json.*
 import kotlin.reflect.KClass
 

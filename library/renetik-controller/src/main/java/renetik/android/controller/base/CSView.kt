@@ -10,7 +10,7 @@ import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
-import renetik.android.framework.base.CSContext
+import renetik.android.event.owner.CSContext
 import renetik.android.event.listenOnce
 import renetik.android.event.register
 import renetik.android.framework.protocol.CSHasParent
