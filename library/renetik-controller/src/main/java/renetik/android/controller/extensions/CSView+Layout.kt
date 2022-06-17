@@ -6,7 +6,7 @@ import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.controller.base.CSView
 import renetik.android.core.math.CSPoint
 import renetik.android.core.kotlin.primitives.isSet
-import renetik.android.view.locationOnScreen
+import renetik.android.extensions.locationOnScreen
 
 val CSView<*>.layoutWidth get() = this.view.layoutParams.width
 val CSView<*>.layoutHeight get() = this.view.layoutParams.height

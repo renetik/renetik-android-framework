@@ -11,9 +11,8 @@ import renetik.android.event.property.action
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.CSValue
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
-import renetik.android.view.shownIf
+import renetik.android.extensions.shownIf
 import renetik.android.core.kotlin.asString
-import renetik.android.event.registration.CSRegistrationFunctions
 import renetik.android.event.registration.CSRegistrationFunctions.CSRegistration
 
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")

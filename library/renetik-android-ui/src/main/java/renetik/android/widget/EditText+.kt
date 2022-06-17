@@ -9,7 +9,7 @@ import renetik.android.R
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSEventProperty
 import renetik.android.core.kotlin.primitives.isEmpty
-import renetik.android.view.propertyWithTag
+import renetik.android.extensions.propertyWithTag
 import renetik.android.core.kotlin.asString
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.listen

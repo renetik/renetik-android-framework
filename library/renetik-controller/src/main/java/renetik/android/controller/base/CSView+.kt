@@ -12,7 +12,7 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.register
 import renetik.android.event.remove
 import renetik.android.ui.protocol.CSViewInterface
-import renetik.android.view.*
+import renetik.android.extensions.*
 import renetik.android.widget.onChange
 import renetik.android.widget.radioGroup
 

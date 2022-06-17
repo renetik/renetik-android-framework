@@ -1,4 +1,4 @@
-package renetik.android.view
+package renetik.android.extensions
 
 import android.content.Context
 import android.content.res.ColorStateList

@@ -8,7 +8,7 @@ import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.pause
 import renetik.android.event.property.CSEventProperty
 import renetik.android.core.kotlin.primitives.roundToStep
-import renetik.android.view.findView
+import renetik.android.extensions.findView
 import kotlin.math.roundToInt
 
 fun View.slider(id: Int) = findView<Slider>(id)!!

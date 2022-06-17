@@ -1,4 +1,4 @@
-package renetik.android.view
+package renetik.android.extensions
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap

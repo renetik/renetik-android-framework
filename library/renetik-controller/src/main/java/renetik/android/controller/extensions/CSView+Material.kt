@@ -9,8 +9,8 @@ import renetik.android.controller.base.findView
 import renetik.android.material.extensions.materialSwitch
 import renetik.android.material.extensions.rangeSlider
 import renetik.android.material.extensions.slider
-import renetik.android.view.findView
-import renetik.android.view.onClick
+import renetik.android.extensions.findView
+import renetik.android.extensions.onClick
 
 fun CSView<*>.textInput(id: Int, onClick: ((TextInputLayout) -> Unit)? = null) =
     view.findView<TextInputLayout>(id)!!.apply {

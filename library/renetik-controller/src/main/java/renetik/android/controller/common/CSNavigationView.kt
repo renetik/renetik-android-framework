@@ -19,8 +19,8 @@ import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isSet
-import renetik.android.view.background
-import renetik.android.view.removeFromSuperview
+import renetik.android.extensions.background
+import renetik.android.extensions.removeFromSuperview
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
 import renetik.android.core.kotlin.notNull

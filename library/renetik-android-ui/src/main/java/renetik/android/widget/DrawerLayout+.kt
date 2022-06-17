@@ -9,7 +9,7 @@ import androidx.core.view.GravityCompat.START
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.*
 import renetik.android.ui.view.adapter.CSDrawerAdapter
-import renetik.android.view.view
+import renetik.android.extensions.view
 
 @IntDef(value = [Gravity.LEFT, Gravity.RIGHT, START, END], flag = true)
 @kotlin.annotation.Retention(AnnotationRetention.SOURCE)

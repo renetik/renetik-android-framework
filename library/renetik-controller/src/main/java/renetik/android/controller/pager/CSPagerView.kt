@@ -4,7 +4,7 @@ import android.view.View
 import renetik.android.controller.base.CSActivityView
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen
-import renetik.android.view.shownIf
+import renetik.android.extensions.shownIf
 import renetik.android.core.kotlin.collections.*
 
 class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
