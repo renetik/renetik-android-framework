@@ -6,9 +6,9 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.snackBarInfo
 import renetik.android.core.lang.CSTimeConstants.Second
 import renetik.android.event.registration.CSRegistration
-import renetik.android.extensions.gone
-import renetik.android.extensions.onClick
-import renetik.android.extensions.show
+import renetik.android.ui.extensions.view.gone
+import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.show
 
 open class CSSingleRequestView(parent: CSActivityView<*>, viewId: Int)
     : CSActivityView<ProgressBar>(parent, viewId) {

@@ -13,8 +13,8 @@ import renetik.android.event.listen
 import renetik.android.event.property.CSEventProperty
 import renetik.android.event.property.CSEventPropertyFunctions.property
 import renetik.android.event.register
-import renetik.android.extensions.*
-import renetik.android.widget.scrollToIndex
+import renetik.android.ui.extensions.view.*
+import renetik.android.ui.extensions.widget.scrollToIndex
 import renetik.android.core.kotlin.collections.list
 
 @Suppress("UNCHECKED_CAST")

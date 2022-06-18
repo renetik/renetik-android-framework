@@ -7,9 +7,9 @@ import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSActivityView
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.controller.base.frame
-import renetik.android.extensions.add
-import renetik.android.widget.layoutMatch
-import renetik.android.extensions.removeFromSuperview
+import renetik.android.ui.extensions.view.add
+import renetik.android.ui.extensions.widget.layoutMatch
+import renetik.android.ui.extensions.view.removeFromSuperview
 
 open class CSMapClientView<V : View>(parent: CSActivityView<V>, private val mapFrameId: Int,
                                      open val mapController: CSMapView)

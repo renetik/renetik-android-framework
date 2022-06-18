@@ -18,7 +18,7 @@ class CSPreset<PresetItem : CSPresetItem, PresetList : CSPresetItemList<PresetIt
     parentStore: CSStore,
     key: String,
     val list: PresetList,
-    val getDefault: () -> PresetItem = { list.items[0] })
+    getDefault: () -> PresetItem = { list.items[0] })
     : CSEventOwnerHasDestroyBase(parent), CSHasId {
 
     override val id = "$key preset"

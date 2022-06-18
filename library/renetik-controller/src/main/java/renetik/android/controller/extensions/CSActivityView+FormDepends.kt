@@ -5,8 +5,8 @@ import renetik.android.event.property.CSEventProperty
 import renetik.android.core.lang.CSCondition
 import renetik.android.core.lang.CSCondition.Factory.condition
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.extensions.shownIf
-import renetik.android.extensions.superview
+import renetik.android.ui.extensions.view.shownIf
+import renetik.android.ui.extensions.view.superview
 
 fun validate(conditions: (CSPropertyConditionList).() -> Unit, onResult: (Boolean) -> Unit) {
     val dependency = CSPropertyConditionList { onResult(falseIfAnyConditionIsFalse()) }

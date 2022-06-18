@@ -15,8 +15,8 @@ import renetik.android.event.listenOnce
 import renetik.android.event.register
 import renetik.android.ui.protocol.CSHasParent
 import renetik.android.ui.protocol.CSViewInterface
-import renetik.android.extensions.inflate
-import renetik.android.extensions.onClick
+import renetik.android.ui.extensions.view.inflate
+import renetik.android.ui.extensions.view.onClick
 
 open class CSView<ViewType : View> : CSContext,
     CSHasParent, CSViewInterface {

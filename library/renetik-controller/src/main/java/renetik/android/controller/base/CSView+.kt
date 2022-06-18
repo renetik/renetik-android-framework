@@ -12,9 +12,9 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.register
 import renetik.android.event.remove
 import renetik.android.ui.protocol.CSViewInterface
-import renetik.android.extensions.*
-import renetik.android.widget.onChange
-import renetik.android.widget.radioGroup
+import renetik.android.ui.extensions.view.*
+import renetik.android.ui.extensions.widget.onChange
+import renetik.android.ui.extensions.widget.radioGroup
 
 fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
 

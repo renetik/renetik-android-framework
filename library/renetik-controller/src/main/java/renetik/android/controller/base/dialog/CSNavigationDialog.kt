@@ -30,7 +30,7 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.property.setFalse
 import renetik.android.core.lang.property.setTrue
-import renetik.android.extensions.*
+import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 
 open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)

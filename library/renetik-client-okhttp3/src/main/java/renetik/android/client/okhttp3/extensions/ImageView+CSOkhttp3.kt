@@ -5,7 +5,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.internal.ANImageLoader
 import com.androidnetworking.internal.ANImageLoader.ImageContainer
 import com.androidnetworking.internal.ANImageLoader.ImageListener
-import renetik.android.extensions.hasSize
+import renetik.android.ui.extensions.view.hasSize
 
 fun <T : ImageView> T.image(url: String, defaultImageId: Int? = null) = hasSize {
     ANImageLoader.getInstance().get(url,

@@ -3,8 +3,8 @@ package renetik.android.controller.extensions
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import renetik.android.ui.protocol.CSViewInterface
-import renetik.android.extensions.add
-import renetik.android.extensions.remove
+import renetik.android.ui.extensions.view.add
+import renetik.android.ui.extensions.view.remove
 
 fun <View : CSViewInterface> ViewGroup.add(view: View): View {
     add(view.view)

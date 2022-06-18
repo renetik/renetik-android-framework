@@ -24,9 +24,9 @@ import renetik.android.core.kotlin.privateField
 import renetik.android.event.CSEvent
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.extensions.gone
-import renetik.android.extensions.propertyWithTag
-import renetik.android.widget.*
+import renetik.android.ui.extensions.view.gone
+import renetik.android.ui.extensions.view.propertyWithTag
+import renetik.android.ui.extensions.widget.*
 
 val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")
