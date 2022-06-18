@@ -5,6 +5,7 @@ dependencies {
     implementation project(':renetik-android-core')
     implementation project(':renetik-android-json')
     implementation project(':renetik-android-event')
+    testImplementation 'org.json:json:20210307'
 }
 repositories {
     mavenCentral()
