@@ -3,12 +3,12 @@ package renetik.android.preset
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
-import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.store.json.CSStoreJsonObject
-import renetik.android.store.CSStore
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.second
 import renetik.android.core.kotlin.collections.third
+import renetik.android.event.owner.CSEventOwnerHasDestroyBase
+import renetik.android.store.CSStore
+import renetik.android.store.json.CSStoreJsonObject
 
 const val ClearPresetItemId = "clear parent preset item id"
 const val ParentPresetItemId1 = "prent preset item id 1"
@@ -23,6 +23,7 @@ const val ChildPropertyNewValue0 = "child property new value 1"
 const val ChildPropertyNewValue1 = "child property new value 2"
 const val ChildPropertyNewValue2 = "child property new value 3"
 const val ChildPropertyNewValue3 = "child property new value 4"
+
 
 class CSPresetTest {
 
@@ -144,7 +145,7 @@ class CSPresetTest {
     }
 }
 
-private class CSPresetTestParentClass(val store: CSStore) : CSEventOwnerHasDestroyBase() {
+private class CSPresetTestParentClass(store: CSStore) : CSEventOwnerHasDestroyBase() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {
@@ -171,8 +172,7 @@ private class CSPresetTestChildClass(
         presetList.add(CSPresetTestPresetItem(ClearChildPresetItemId))
     }
 
-    val childPreset1 =
-        CSPreset(this, preset, "$key childPreset1", presetList)
+    val childPreset1 = CSPreset(this, preset, "$key childPreset1", presetList)
     val childPreset1Props = List(4) {
         childPreset1.property(this, "$key childPreset1Props:$it property",
             ChildPropertyInitialValue)

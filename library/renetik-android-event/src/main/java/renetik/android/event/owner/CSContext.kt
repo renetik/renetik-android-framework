@@ -30,7 +30,7 @@ abstract class CSContext : ContextWrapper, CSHasContext {
         registrations.cancel()
         isDestroyed = true
         eventDestroy.fire().clear()
-        fixInputMethodLeak()
+//        fixInputMethodLeak() Was this good for something ?
     }
 
     override val context: Context get() = this

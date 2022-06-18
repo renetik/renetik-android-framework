@@ -17,10 +17,8 @@ abstract class CSApplication : Application() {
 
     open val name: String by lazy { applicationLabel }
     open val log: CSLogger by lazy { AndroidLogger() }
-
     open val externalFilesDir: File
         get() = getExternalFilesDir(null) ?: getExternalStorageDirectory()
-
     abstract val isDebugBuild: Boolean
     open val isDevelopmentMode get() = isDebugBuild
 

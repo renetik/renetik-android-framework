@@ -12,7 +12,7 @@ import java.io.Closeable
 import kotlin.reflect.KClass
 
 @Suppress("unchecked_cast")
-open class CSStoreJsonObject : renetik.android.json.CSJsonObject, CSStore, Closeable {
+open class CSStoreJsonObject : CSJsonObject, CSStore, Closeable {
 
     constructor() : super()
     constructor(map: MutableMap<String, Any?>) : super(map)
@@ -78,7 +78,7 @@ open class CSStoreJsonObject : renetik.android.json.CSJsonObject, CSStore, Close
 
     override fun getList(key: String): List<*>? = data[key] as? MutableList<Any?>
 
-    override fun <T : renetik.android.json.CSJsonObject> getJsonObjectList(
+    override fun <T : CSJsonObject> getJsonObjectList(
         key: String, type: KClass<T>): List<T>? {
         val isFirstItemJsonObject = ((data[key] as? List<*>)?.at(0) as? T) != null
         return if (isFirstItemJsonObject) data[key] as List<T> else
@@ -87,13 +87,13 @@ open class CSStoreJsonObject : renetik.android.json.CSJsonObject, CSStore, Close
             }
     }
 
-    override fun <T : renetik.android.json.CSJsonObject> set(key: String, value: T?) {
+    override fun <T : CSJsonObject> set(key: String, value: T?) {
         if (value != null && data[key] == value) return
         data[key] = value
         onChange()
     }
 
-    override fun <T : renetik.android.json.CSJsonObject> getJsonObject(key: String, type: KClass<T>): T? =
+    override fun <T : CSJsonObject> getJsonObject(key: String, type: KClass<T>): T? =
         data[key] as? T ?: (data[key] as? MutableMap<String, Any?>)?.let { map ->
             type.createJsonObject(map).also { data[key] = it }
         }

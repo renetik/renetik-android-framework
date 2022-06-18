@@ -1,6 +1,6 @@
 package renetik.android.store
 
-import renetik.android.core.CSApplication.Companion.app
+import android.content.Context
 import renetik.android.core.kotlin.primitives.asDouble
 import renetik.android.core.kotlin.primitives.asFloat
 import renetik.android.core.kotlin.primitives.asInt
@@ -19,11 +19,21 @@ import renetik.android.store.property.value.*
 import java.io.Closeable
 import kotlin.reflect.KClass
 
+
 interface CSStore : CSPropertyStore,
     Iterable<Map.Entry<String, Any?>>, renetik.android.json.CSJsonObjectInterface {
 
     companion object {
-        var store = CSFileJsonStore(app, "app", isJsonPretty = true)
+        val Context.store: CSStore
+            get() {
+                if (CSStore.store == null) CSStore.store = createStore(applicationContext)
+                return CSStore.store!!
+            }
+
+        var createStore: (Context) -> CSStore = {
+            CSFileJsonStore(it, "app", isJsonPretty = true)
+        }
+        private var store: CSStore? = null
     }
 
     val eventChanged: CSEvent<CSStore>

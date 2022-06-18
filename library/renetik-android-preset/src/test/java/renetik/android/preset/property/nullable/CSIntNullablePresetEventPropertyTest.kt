@@ -3,9 +3,10 @@ package renetik.android.preset.property.nullable
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import renetik.android.event.owner.CSEventOwnerHasDestroyBase
-import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.preset.CSPreset
 import renetik.android.preset.propertyNullInt
 import renetik.android.store.CSStore
+import renetik.android.store.json.CSStoreJsonObject
 
 class CSIntNullablePresetEventPropertyTest {
 
@@ -55,7 +56,7 @@ class CSPresetTestPresetItemList : renetik.android.preset.CSPresetItemList<CSPre
     override fun reload() = Unit
 }
 
-class CSPresetTestParentClass(val store: CSStore) : CSEventOwnerHasDestroyBase() {
+class CSPresetTestParentClass(store: CSStore) : CSEventOwnerHasDestroyBase() {
     private val presetList = CSPresetTestPresetItemList()
 
     init {
@@ -63,7 +64,7 @@ class CSPresetTestParentClass(val store: CSStore) : CSEventOwnerHasDestroyBase()
     }
 
     val id = "parentClass"
-    val parentPreset = renetik.android.preset.CSPreset(this, store, "$id parent", presetList)
+    val parentPreset = CSPreset(this, store, "$id parent", presetList)
     val property1 = parentPreset.propertyNullInt(this, "property1", 1)
     val property2 = parentPreset.propertyNullInt(this, "property2", 2)
 }

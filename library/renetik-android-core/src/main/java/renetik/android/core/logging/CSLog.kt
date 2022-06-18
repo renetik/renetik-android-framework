@@ -8,13 +8,15 @@ import java.lang.Thread.currentThread
 import java.text.DateFormat.getDateTimeInstance
 
 object CSLog {
-    const val NoMessage = "No Message"
+    private const val NoMessage = "No Message"
 
     private var log = AndroidLogger()
 
     fun logDebug(message: (() -> Any)? = null) {
         if (app.isDebugBuild) log.debug(*createDebugMessage(message?.invoke() ?: NoMessage))
     }
+
+    fun logDebug(e: Throwable) = log.debug(e)
 
     fun logWarn(vararg values: Any?) = log.warn(*createMessage(values))
     fun logWarn(e: Throwable, vararg values: Any?) = log.warn(e, *createMessage(values))
