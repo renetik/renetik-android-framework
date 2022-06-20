@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':renetik-android-core')
-    testImplementation 'org.json:json:20210307'
 }
 repositories {
     mavenCentral()

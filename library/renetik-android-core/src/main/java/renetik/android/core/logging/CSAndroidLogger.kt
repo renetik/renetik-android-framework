@@ -2,61 +2,60 @@ package renetik.android.core.logging
 
 import android.util.Log
 import android.util.Log.getStackTraceString
-import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.BuildConfig.LIBRARY_PACKAGE_NAME
 import renetik.android.core.kotlin.text.add
 import renetik.android.core.kotlin.text.addSpace
+import renetik.android.core.lang.CSEnvironment.isDebug
+import renetik.android.core.lang.void
 import renetik.android.core.logging.CSLoggerEvent.*
 
-class AndroidLogger() : CSLogger {
-
-    var listener: CSLoggerListener? = null
-
-    constructor(listener: CSLoggerListener) : this() {
-        this.listener = listener
-    }
+class CSAndroidLogger(val name: String = LIBRARY_PACKAGE_NAME,
+                      val listener: ((event: CSLoggerEvent,
+                                      message: String) -> void)? = null)
+    : CSLogger {
 
     override fun error(vararg values: Any?) {
         val message = createMessage(*values).toString()
-        Log.e(app.name, message)
-        listener?.onLogEvent(Error, message)
+        Log.e(name, message)
+        listener?.invoke(Error, message)
     }
 
     override fun error(e: Throwable, vararg values: Any?) {
         val message = createMessage(*values)
-        Log.e(app.name, message.toString(), e)
-        listener?.onLogEvent(Error, message.addSpace().add(getStackTraceString(e)).toString())
+        Log.e(name, message.toString(), e)
+        listener?.invoke(Error, message.addSpace().add(getStackTraceString(e)).toString())
     }
 
     override fun info(vararg values: Any?) {
         val message = createMessage(*values).toString()
-        Log.i(app.name, message)
-        listener?.onLogEvent(Info, message)
+        Log.i(name, message)
+        listener?.invoke(Info, message)
     }
 
     override fun debug(vararg values: Any?) {
-        if (!app.isDebugBuild) return
+        if (!isDebug) return
         val message = createMessage(*values).toString()
-        Log.d(app.name, message)
-        listener?.onLogEvent(Debug, message)
+        Log.d(name, message)
+        listener?.invoke(Debug, message)
     }
 
     override fun debug(e: Throwable, vararg values: Any?) {
-        if (!app.isDebugBuild) return
+        if (!isDebug) return
         val message = createMessage(*values)
-        Log.d(app.name, message.toString(), e)
-        listener?.onLogEvent(Debug, message.addSpace().add(getStackTraceString(e)).toString())
+        Log.d(name, message.toString(), e)
+        listener?.invoke(Debug, message.addSpace().add(getStackTraceString(e)).toString())
     }
 
     override fun warn(vararg values: Any?) {
         val message = createMessage(*values).toString()
-        Log.w(app.name, message)
-        listener?.onLogEvent(Warn, message)
+        Log.w(name, message)
+        listener?.invoke(Warn, message)
     }
 
     override fun warn(e: Throwable, vararg values: Any?) {
         val message = createMessage(*values)
-        Log.w(app.name, message.toString(), e)
-        listener?.onLogEvent(Warn, message.addSpace().add(getStackTraceString(e)).toString())
+        Log.w(name, message.toString(), e)
+        listener?.invoke(Warn, message.addSpace().add(getStackTraceString(e)).toString())
     }
 
     private fun createMessage(vararg values: Any?) = StringBuilder().apply {

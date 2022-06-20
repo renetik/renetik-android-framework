@@ -2,12 +2,15 @@ package renetik.android.store.property.value
 
 import org.junit.Assert
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import renetik.android.store.json.CSStringJsonStore
 
 private enum class TestEnum {
     First, Second, Third
 }
 
+@RunWith(RobolectricTestRunner::class)
 class CSListItemValueStoreEventPropertyTest {
 
     private val store = CSStringJsonStore("{}")

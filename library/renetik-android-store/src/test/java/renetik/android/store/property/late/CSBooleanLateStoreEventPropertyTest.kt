@@ -3,8 +3,11 @@ package renetik.android.store.property.late
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import renetik.android.store.json.CSStoreJsonObject
 
+@RunWith(RobolectricTestRunner::class)
 class CSBooleanLateStoreEventPropertyTest {
 
     private val store = CSStoreJsonObject()

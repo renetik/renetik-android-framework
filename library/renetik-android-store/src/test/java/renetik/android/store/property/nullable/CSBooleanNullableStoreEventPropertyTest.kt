@@ -2,8 +2,11 @@ package renetik.android.store.property.nullable
 
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import renetik.android.store.json.CSStringJsonStore
 
+@RunWith(RobolectricTestRunner::class)
 class CSBooleanNullableStoreEventPropertyTest {
     private val store = CSStringJsonStore("{}")
     private var _value: Boolean? = null

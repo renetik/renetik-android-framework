@@ -27,8 +27,11 @@ inline fun <reified ClassType : Any>
 }
 
 @Suppress("UNCHECKED_CAST")
+fun <T> createClass(className: String) =
+    catchAllWarnReturnNull { Class.forName(className) } as? Class<T>
+
 fun <T> createInstance(className: String) =
-    (Class.forName(className) as Class<T>).createInstance()
+    createClass<T>(className)?.createInstance()
 
 fun invokeFunction(type: Class<*>, name: String,
                    argumentTypes: Array<Class<*>>, arguments: Array<Any>

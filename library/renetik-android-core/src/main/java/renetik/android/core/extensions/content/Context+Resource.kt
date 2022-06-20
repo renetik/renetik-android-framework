@@ -10,6 +10,7 @@ import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Environment.getExternalStorageDirectory
 import android.util.DisplayMetrics
 import android.util.DisplayMetrics.DENSITY_DEFAULT
 import android.util.TypedValue
@@ -27,6 +28,7 @@ import renetik.android.core.kotlin.asString
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.isAny
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.lang.Integer.MAX_VALUE
@@ -169,3 +171,6 @@ fun Context.isServiceRunning(serviceClass: Class<out Service>): Boolean {
         if (serviceClass.name == running.service.className) return true
     return false
 }
+
+val Context.externalFilesDir: File
+    get() = getExternalFilesDir(null) ?: getExternalStorageDirectory()

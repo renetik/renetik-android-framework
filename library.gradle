@@ -30,6 +30,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     testImplementation "junit:junit:$junit_version"
+    testImplementation 'org.robolectric:robolectric:4.8'
 
 //    androidTestImplementation "androidx.test:core:$coreVersion"
 //    androidTestImplementation "androidx.test.ext:junit:$extJUnitVersion"

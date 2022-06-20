@@ -19,21 +19,20 @@ import renetik.android.store.property.value.*
 import java.io.Closeable
 import kotlin.reflect.KClass
 
-
 interface CSStore : CSPropertyStore,
     Iterable<Map.Entry<String, Any?>>, renetik.android.json.CSJsonObjectInterface {
 
     companion object {
+        private var store: CSStore? = null
         val Context.store: CSStore
             get() {
-                if (CSStore.store == null) CSStore.store = createStore(applicationContext)
+                if (CSStore.store == null)
+                    CSStore.store = storeFactory(applicationContext)
                 return CSStore.store!!
             }
-
-        var createStore: (Context) -> CSStore = {
+        var storeFactory: (Context) -> CSStore = {
             CSFileJsonStore(it, "app", isJsonPretty = true)
         }
-        private var store: CSStore? = null
     }
 
     val eventChanged: CSEvent<CSStore>
