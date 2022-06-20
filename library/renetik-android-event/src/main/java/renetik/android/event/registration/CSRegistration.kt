@@ -23,7 +23,7 @@ object CSRegistrationFunctions {
     fun construct(onCancel: Func? = null) = object : CSRegistration {
         override var isActive = true
         override fun cancel() {
-            super.cancel()
+            isActive = false
             onCancel?.invoke()
         }
     }

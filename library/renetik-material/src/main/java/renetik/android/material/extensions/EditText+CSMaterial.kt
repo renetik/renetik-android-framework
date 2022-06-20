@@ -11,7 +11,7 @@ import com.google.android.material.textfield.TextInputLayout
 //        val textInputLayout = editText.textInputLayout
 //        if (editText.title.trim().isEmpty) {
 //            textInputLayout?.let { it.error = warningMessage }
-//                ?: let { renetik.android.controller.extensions.snackBarWarn("\"${editText.hint}\" $warningMessage") }
+//                ?: let { renetik.android.material.controller.snackBarWarn("\"${editText.hint}\" $warningMessage") }
 //            return false
 //        } else textInputLayout?.error = null
 //    }

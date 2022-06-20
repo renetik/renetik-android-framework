@@ -4,11 +4,12 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.R.attr
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.core.extensions.content.attributeColor
+import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.event.owner.CSContext
 import renetik.android.event.property.CSEventPropertyFunctions.property
-import renetik.android.core.kotlin.primitives.isSet
 
 const val GeneratedMenuItems = 7687678
 
@@ -41,11 +42,8 @@ class CSOnMenu(private val activity: AppCompatActivity, val menu: Menu) :
             item.actionView?.let { actionView = it }
             // Title color was not taken from theme
             title = SpannableString(title).apply {
-                setSpan(
-                    ForegroundColorSpan(
-                        attributeColor(com.google.android.material.R.attr.colorOnSurface)
-                    ), 0, length, 0
-                )
+                val color = attributeColor(attr.titleTextColor)
+                setSpan(ForegroundColorSpan(color), 0, length, 0)
             }
         }
     }

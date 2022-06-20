@@ -1,16 +1,16 @@
 package renetik.android.framework.view
 
 import renetik.android.controller.base.view
-import renetik.android.core.lang.Func
-import renetik.android.event.registration.CSRegistration
-import renetik.android.ui.protocol.CSViewInterface
-import renetik.android.event.listen
-import renetik.android.event.registration.pause
-import renetik.android.event.property.CSEventProperty
-import renetik.android.core.lang.void
 import renetik.android.core.kotlin.asStringArray
 import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.index
+import renetik.android.core.lang.Func
+import renetik.android.core.lang.void
+import renetik.android.event.listen
+import renetik.android.event.property.CSEventProperty
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.pause
+import renetik.android.ui.protocol.CSViewInterface
 
 fun CSViewInterface.numberPicker(viewId: Int) = view(viewId) as CSNumberPicker
 
@@ -31,22 +31,8 @@ fun CSNumberPicker.onValueChange(function: Func) = valueProperty.onChange { func
 
 fun CSNumberPicker.onScroll(function: (Int) -> void) = eventOnScroll.listen(function)
 
-fun CSNumberPicker.circulate(circulate: Boolean) = apply {
-    wrapSelectorWheel = circulate
-}
-
-fun CSNumberPicker.min(value: Int) = apply { minValue = value }
-
-fun CSNumberPicker.max(value: Int) = apply { maxValue = value }
-
 fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selected: Row? = null) =
     loadData(data, selectedIndex = data.index(selected) ?: 0)
-
-fun CSNumberPicker.disableTextEditing(disable: Boolean) = apply {
-    descendantFocusability =
-        if (disable) android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS else android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
-}
-
 
 fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selectedIndex: Int = 0) = apply {
     if (data.hasItems) {

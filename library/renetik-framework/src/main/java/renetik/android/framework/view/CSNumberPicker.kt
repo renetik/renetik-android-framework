@@ -11,9 +11,7 @@ class CSNumberPicker @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : NumberPicker(context, attrs, defStyleAttr) {
 
-    val valueProperty = property(value) {
-        value = it
-    }
+    val valueProperty = property(value) { value = it }
     val eventOnScroll = event<Int>()
     private var isScrolling: Boolean = false
 

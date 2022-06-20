@@ -6,7 +6,6 @@ dependencies {
     implementation project(':renetik-android-core')
     implementation project(':renetik-android-ui')
     implementation project(':renetik-android-event')
-    implementation project(':renetik-library-material')
     implementation project(':renetik-library-imaging')
     implementation project(':renetik-library-controller')
 }

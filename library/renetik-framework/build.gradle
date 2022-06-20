@@ -9,9 +9,9 @@ dependencies {
     api project(':renetik-android-store')
     api project(':renetik-android-preset')
     api project(':renetik-android-ui')
+    api project(':renetik-android-network')
+    api project(':renetik-android-network-okhttp3')
     api project(':renetik-library-material')
-    api project(':renetik-library-client')
-    api project(':renetik-library-client-okhttp3')
     api project(':renetik-library-imaging')
     api project(':renetik-library-controller')
     api project(':renetik-library-controller-getpicture')
@@ -20,12 +20,7 @@ dependencies {
     //https://github.com/ShawnLin013/NumberPicker
     api 'com.shawnlin:number-picker:2.4.12'
 
-    //https://github.com/bumptech/glide
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
-    implementation "com.google.android.material:material:$material_version"
 }
 repositories {
     mavenCentral()

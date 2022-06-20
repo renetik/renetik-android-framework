@@ -13,7 +13,6 @@ import android.view.View
 import androidx.core.content.FileProvider.getUriForFile
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.requestPermissions
-import renetik.android.controller.extensions.snackBarWarn
 import renetik.android.controller.extensions.startActivityForResult
 import renetik.android.core.CSApplication.Companion.app
 import renetik.android.core.extensions.content.Intent
@@ -21,7 +20,9 @@ import renetik.android.core.java.io.createDatedFile
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.unfinished
 import renetik.android.core.lang.CSBackground.background
+import renetik.android.core.lang.Func
 import renetik.android.core.lang.catchAllError
+import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.imaging.extensions.resizeImage
 import java.io.File
 
@@ -44,9 +45,12 @@ class CSGetPictureView<T : View>(
         folder.mkdirs()
     }
 
-    fun show() {
+    fun show(onPermissionsNotGranted: Func? = null) {
         requestPermissions(list(CAMERA, WRITE_EXTERNAL_STORAGE), { showAfterPermissionsGranted() },
-            notGranted = { snackBarWarn("Some permissions not granted for taking photos") })
+            notGranted = {
+                logWarn("Some permissions not granted for taking photos")
+                onPermissionsNotGranted?.invoke()
+            })
     }
 
     private fun showAfterPermissionsGranted() {

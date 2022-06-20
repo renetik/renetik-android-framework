@@ -6,9 +6,6 @@ dependencies {
     implementation project(':renetik-android-core')
     implementation project(':renetik-android-event')
     implementation project(':renetik-android-ui')
-
-    implementation project(':renetik-library-material')
-    implementation "com.google.android.material:material:$material_version"
 }
 repositories {
     mavenCentral()
