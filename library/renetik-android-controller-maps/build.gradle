@@ -1,0 +1,15 @@
+apply from: '../../library.gradle'
+apply plugin: 'kotlin-android'
+
+dependencies {
+    implementation project(':renetik-android-core')
+    implementation project(':renetik-android-json')
+    implementation project(':renetik-android-event')
+    implementation project(':renetik-android-ui')
+    implementation project(':renetik-android-store')
+    implementation project(':renetik-android-imaging')
+    implementation project(':renetik-android-controller')
+
+    implementation "com.google.android.gms:play-services-location:19.0.1"
+    implementation "com.google.android.gms:play-services-maps:18.0.2"
+}

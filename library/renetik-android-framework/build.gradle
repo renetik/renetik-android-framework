@@ -1,0 +1,20 @@
+apply from: '../../library.gradle'
+apply plugin: 'kotlin-android'
+
+dependencies {
+    api project(':renetik-android-core')
+    api project(':renetik-android-json')
+    api project(':renetik-android-event')
+    api project(':renetik-android-store')
+    api project(':renetik-android-preset')
+    api project(':renetik-android-network')
+    api project(':renetik-android-network-okhttp3')
+    api project(':renetik-android-ui')
+    api project(':renetik-android-ui-picker')
+    api project(':renetik-android-material')
+    api project(':renetik-android-imaging')
+    api project(':renetik-android-controller')
+    api project(':renetik-android-controller-maps')
+
+    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+}

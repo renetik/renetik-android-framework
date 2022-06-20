@@ -1,39 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
-//plugins {
-//    id 'com.android.library'
-//    id 'org.jetbrains.kotlin.android'
-//}
-
-//plugins {
-//    id 'com.android.application'
-//    id 'org.jetbrains.kotlin.android'
-//}
-
-group = 'com.github.rene-dohan'
-
 android {
     compileSdkVersion project.properties.sdk_version
     defaultConfig {
         minSdkVersion project.properties.min_sdk_version
         targetSdkVersion project.properties.sdk_version
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
-
     api "androidx.core:core-ktx:$ktx_version"
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-
     testImplementation "junit:junit:$junit_version"
     testImplementation 'org.robolectric:robolectric:4.8'
-
-//    androidTestImplementation "androidx.test:core:$coreVersion"
-//    androidTestImplementation "androidx.test.ext:junit:$extJUnitVersion"
-//    androidTestImplementation "androidx.test:runner:$runnerVersion"
-//    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 }

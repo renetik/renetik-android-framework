@@ -4,6 +4,3 @@ apply plugin: 'kotlin-android'
 dependencies {
     implementation project(':renetik-android-core')
 }
-repositories {
-    mavenCentral()
-}
