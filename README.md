@@ -7,11 +7,11 @@ www.renetik.com
 
 ```gradle
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+ 	}
+}
 ```
 Step 2. Add the dependency
 ```gradle
