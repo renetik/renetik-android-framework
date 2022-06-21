@@ -1,5 +1,7 @@
 buildscript {
     ext {
+//        renetik_library_version = "1.9.1"
+        renetik_library_version = "-SNAPSHOT"
         sdk_version = 32
         min_sdk_version = 24
         kotlin_version = '1.7.0'
@@ -23,6 +25,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
