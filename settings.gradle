@@ -1,31 +1,29 @@
-include ':renetik-android-base',
-        ':renetik-android-crashlitics',
-        ':renetik-android-material',
+include ':renetik-android-core',
         ':renetik-android-json',
-        ':renetik-android-client',
-        ':renetik-android-client-okhttp3',
-        ':renetik-android-dialog',
+        ':renetik-android-event',
+        ':renetik-android-store',
+        ':renetik-android-preset',
+        ':renetik-android-network',
+        ':renetik-android-network-okhttp3',
+        ':renetik-android-ui',
+        ':renetik-android-ui-picker',
+        ':renetik-android-material',
         ':renetik-android-imaging',
         ':renetik-android-controller',
-        ':renetik-android-controller-getpicture',
-        ':renetik-android-controller-list',
         ':renetik-android-controller-maps',
-        ':renetik-android-controller-themes',
-        ':renetik-android-framework',
-        ':sample-renetik-android'
+        ':renetik-android-framework'
 
-project(':renetik-android-base').projectDir = new File("library/renetik-base")
-project(':renetik-android-crashlitics').projectDir = new File("library/renetik-crashlitics")
-project(':renetik-android-material').projectDir = new File("library/renetik-material")
-project(':renetik-android-json').projectDir = new File("library/renetik-json")
-project(':renetik-android-client').projectDir = new File("library/renetik-client")
-project(':renetik-android-client-okhttp3').projectDir = new File("library/renetik-client-okhttp3")
-project(':renetik-android-dialog').projectDir = new File("library/renetik-dialog")
-project(':renetik-android-imaging').projectDir = new File("library/renetik-imaging")
-project(':renetik-android-controller').projectDir = new File("library/renetik-controller")
-project(':renetik-android-controller-getpicture').projectDir = new File("library/renetik-controller-getpicture")
-project(':renetik-android-controller-list').projectDir = new File("library/renetik-controller-listview")
-project(':renetik-android-controller-maps').projectDir = new File("library/renetik-controller-mapview")
-project(':renetik-android-controller-themes').projectDir = new File("library/renetik-controller-themes")
-project(':renetik-android-framework').projectDir = new File("library/renetik-framework")
-project(':sample-renetik-android').projectDir = new File("sample")
+project(':renetik-android-core').projectDir = file("library/renetik-android-core")
+project(':renetik-android-json').projectDir = file("library/renetik-android-json")
+project(':renetik-android-event').projectDir = file("library/renetik-android-event")
+project(':renetik-android-store').projectDir = file("library/renetik-android-store")
+project(':renetik-android-preset').projectDir = file("library/renetik-android-preset")
+project(':renetik-android-network').projectDir = file("library/renetik-android-network")
+project(':renetik-android-network-okhttp3').projectDir = file("library/renetik-android-network-okhttp3")
+project(':renetik-android-ui').projectDir = file("library/renetik-android-ui")
+project(':renetik-android-ui-picker').projectDir = file("library/renetik-android-ui-picker")
+project(':renetik-android-material').projectDir = file("library/renetik-android-material")
+project(':renetik-android-imaging').projectDir = file("library/renetik-android-imaging")
+project(':renetik-android-controller').projectDir = file("library/renetik-android-controller")
+project(':renetik-android-controller-maps').projectDir = file("library/renetik-android-controller-maps")
+project(':renetik-android-framework').projectDir = file("library/renetik-android-framework")
