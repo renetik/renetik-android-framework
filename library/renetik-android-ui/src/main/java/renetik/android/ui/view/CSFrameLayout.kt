@@ -8,7 +8,7 @@ import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
-import renetik.android.R
+import renetik.android.ui.R
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 

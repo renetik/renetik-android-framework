@@ -69,6 +69,7 @@ class CSEventImpl<T> : CSEvent<T> {
         } else logError("Listener not found")
     }
 
+    @Deprecated("Just for debugging")
     override val registrations get() = listeners
 
     override fun pause(): Closeable {

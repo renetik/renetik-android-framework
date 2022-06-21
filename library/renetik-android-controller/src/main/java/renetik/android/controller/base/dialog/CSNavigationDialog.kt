@@ -7,8 +7,8 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
-import renetik.android.R.color
-import renetik.android.R.layout
+import renetik.android.ui.R.color
+import renetik.android.ui.R.layout
 import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.dpToPixelF
 import renetik.android.core.extensions.content.statusBarHeight

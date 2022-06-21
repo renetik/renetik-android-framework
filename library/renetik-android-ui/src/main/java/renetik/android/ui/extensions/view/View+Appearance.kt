@@ -3,17 +3,15 @@ package renetik.android.ui.extensions.view
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
-import renetik.android.R
 import renetik.android.core.extensions.content.CSColorInt
 import renetik.android.core.extensions.content.dpToPixel
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.property.CSEventProperty
+import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.registration.CSRegistration
+import renetik.android.ui.R
 
 fun <T : View> T.background(@DrawableRes value: Int) = apply {
     setBackgroundResource(value)
@@ -31,7 +29,6 @@ fun <T : View> T.backgroundTint(@ColorInt value: Int) = apply {
     backgroundTintList = ColorStateList.valueOf(value)
 }
 
-@RequiresApi(Build.VERSION_CODES.M)
 fun <T : View> T.foregroundTint(@ColorInt value: Int) = apply {
     foregroundTintList = ColorStateList.valueOf(value)
 }

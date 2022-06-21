@@ -1,6 +1,4 @@
 apply from: '../../library.gradle'
-apply plugin: 'kotlin-android'
-
 dependencies {
     api project(':renetik-android-core')
     api project(':renetik-android-json')
@@ -15,6 +13,5 @@ dependencies {
     api project(':renetik-android-imaging')
     api project(':renetik-android-controller')
     api project(':renetik-android-controller-maps')
-
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }

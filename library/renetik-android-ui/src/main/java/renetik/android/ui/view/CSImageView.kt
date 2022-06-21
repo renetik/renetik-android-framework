@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.ImageView
-import renetik.android.R
+import renetik.android.ui.R
 
 class CSImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,

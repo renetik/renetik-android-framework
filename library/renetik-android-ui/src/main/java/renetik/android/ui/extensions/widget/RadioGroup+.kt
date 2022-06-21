@@ -5,7 +5,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import renetik.android.R
+import renetik.android.ui.R
 import renetik.android.ui.protocol.CSVisibleEventOwner
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen

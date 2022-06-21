@@ -6,10 +6,7 @@ import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import androidx.appcompat.widget.AppCompatTextView
-import renetik.android.R
-import renetik.android.R.styleable.CSLayout
-import renetik.android.R.styleable.CSLayout_dispatchState
-
+import renetik.android.ui.R
 
 class CSTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -22,9 +19,9 @@ class CSTextView @JvmOverloads constructor(
 
     init {
         clipToOutline = false
-        val attributes = context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0)
+        val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
         try {
-            dispatchState = attributes.getBoolean(CSLayout_dispatchState, true)
+            dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
             _maxHeight = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxHeight, -1)
         } finally {
             attributes.recycle()

@@ -15,18 +15,18 @@ import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
-import renetik.android.R
-import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.property.CSEventProperty
-import renetik.android.ui.protocol.CSVisibleEventOwner
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.privateField
 import renetik.android.event.CSEvent
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
+import renetik.android.event.property.CSEventProperty
+import renetik.android.ui.R
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.ui.extensions.widget.*
+import renetik.android.ui.protocol.CSVisibleEventOwner
 
 val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")

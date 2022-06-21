@@ -5,7 +5,7 @@ import android.view.MotionEvent.ACTION_UP
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
-import renetik.android.R
+import renetik.android.ui.R
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSEventProperty
 import renetik.android.core.kotlin.primitives.isEmpty

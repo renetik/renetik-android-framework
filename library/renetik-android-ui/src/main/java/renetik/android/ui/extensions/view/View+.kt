@@ -19,21 +19,20 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-
-import renetik.android.R
 import renetik.android.core.extensions.content.CSToast.toast
-import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.property.CSEventProperty
-import renetik.android.event.property.CSEventPropertyFunctions.property
-import renetik.android.core.lang.property.toggle
-import renetik.android.ui.view.adapter.CSClickAdapter
+import renetik.android.core.kotlin.isNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.core.kotlin.isNull
+import renetik.android.core.lang.property.toggle
 import renetik.android.event.*
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.R.*
+import renetik.android.event.property.CSActionInterface
+import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSEventPropertyFunctions.property
 import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.property.CSActionInterface
+import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
@@ -122,7 +121,7 @@ fun View.getRectangleOnScreen(location: IntArray, rectangle: Rect) {
 }
 
 fun <T> View.modelProperty(): CSEventProperty<T?> =
-    propertyWithTag(R.id.ViewModelTag) { property(null) }
+    propertyWithTag(renetik.android.ui.R.id.ViewModelTag) { property(null) }
 
 fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
 fun <T> View.model(): T? = modelProperty<T?>().value
@@ -307,7 +306,7 @@ fun View.onScrollChange(function: (view: View) -> Unit) =
 
 val View.eventScrollChange
     @RequiresApi(Build.VERSION_CODES.M)
-    get() = propertyWithTag(R.id.ViewEventOnScrollTag) {
+    get() = propertyWithTag(renetik.android.ui.R.id.ViewEventOnScrollTag) {
         event<View>().also { setOnScrollChangeListener { _, _, _, _, _ -> it.fire(this) } }
     }
 

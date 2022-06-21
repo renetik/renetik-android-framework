@@ -26,6 +26,7 @@ import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.imaging.extensions.resizeImage
 import java.io.File
 
+// TODO: Not working right now...
 class CSGetPictureView<T : View>(
     parent: CSActivityView<T>, val title: String, private val folder: File,
     private val onImageReady: (File) -> Unit) : CSActivityView<T>(parent) {
