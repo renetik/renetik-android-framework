@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/renetik/renetik-library-android.svg)](https://jitpack.io/#renetik/renetik-library-android)
+[![](https://jitpack.io/v/renetik/renetik-android.svg)](https://jitpack.io/#renetik/renetik-android)
 # Renetik Android Library
 Framework to enjoy, improve and speed up your application development while writing readable code.
 This library although used daily is not polished for other people to dive in easily anymore. 
@@ -16,6 +16,6 @@ allprojects {
 Step 2. Add the dependency
 ```gradle
 dependencies {
-    implementation 'com.github.renetik:renetik-library-android:renetik-android-framework:1.9.1'
+    implementation 'com.github.renetik:renetik-android:renetik-android-framework:1.9.1'
 }
 ```
