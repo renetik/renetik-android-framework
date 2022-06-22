@@ -1,5 +1,5 @@
 include ':renetik-android-json',
-        ':renetik-android-event',
+//        ':renetik-android-event',
         ':renetik-android-store',
         ':renetik-android-preset',
         ':renetik-android-network',
@@ -13,7 +13,7 @@ include ':renetik-android-json',
         ':renetik-android-framework'
 
 project(':renetik-android-json').projectDir = file("library/renetik-android-json")
-project(':renetik-android-event').projectDir = file("library/renetik-android-event")
+//project(':renetik-android-event').projectDir = file("library/renetik-android-event")
 project(':renetik-android-store').projectDir = file("library/renetik-android-store")
 project(':renetik-android-preset').projectDir = file("library/renetik-android-preset")
 project(':renetik-android-network').projectDir = file("library/renetik-android-network")

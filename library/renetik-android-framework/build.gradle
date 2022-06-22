@@ -2,8 +2,12 @@ apply from: '../../library.gradle'
 dependencies {
     if (renetik_library_release == "true") api "$renetik_android_core"
     else api project(':renetik-android-core')
+
     api project(':renetik-android-json')
-    api project(':renetik-android-event')
+
+    if (renetik_library_release == "true") api "$renetik_android_event"
+    else api project(':renetik-android-event')
+
     api project(':renetik-android-store')
     api project(':renetik-android-preset')
     api project(':renetik-android-network')

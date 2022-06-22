@@ -2,7 +2,8 @@ apply from: '../../library.gradle'
 dependencies {
     if (renetik_library_release == "true") implementation "$renetik_android_core"
     else implementation project(':renetik-android-core')
-    implementation project(':renetik-android-event')
+    if (renetik_library_release == "true") implementation "$renetik_android_event"
+    else implementation project(':renetik-android-event')
     implementation project(':renetik-android-ui')
     implementation project(':renetik-android-controller')
     implementation "com.google.android.material:material:$material_version"

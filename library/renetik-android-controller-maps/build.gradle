@@ -3,7 +3,8 @@ dependencies {
     if (renetik_library_release == "true") implementation "$renetik_android_core"
     else implementation project(':renetik-android-core')
     implementation project(':renetik-android-json')
-    implementation project(':renetik-android-event')
+    if (renetik_library_release == "true") implementation "$renetik_android_event"
+    else implementation project(':renetik-android-event')
     implementation project(':renetik-android-ui')
     implementation project(':renetik-android-store')
     implementation project(':renetik-android-imaging')
