@@ -1,5 +1,4 @@
-include ':renetik-android-core',
-        ':renetik-android-json',
+include ':renetik-android-json',
         ':renetik-android-event',
         ':renetik-android-store',
         ':renetik-android-preset',
@@ -13,7 +12,6 @@ include ':renetik-android-core',
         ':renetik-android-controller-maps',
         ':renetik-android-framework'
 
-project(':renetik-android-core').projectDir = file("library/renetik-android-core")
 project(':renetik-android-json').projectDir = file("library/renetik-android-json")
 project(':renetik-android-event').projectDir = file("library/renetik-android-event")
 project(':renetik-android-store').projectDir = file("library/renetik-android-store")

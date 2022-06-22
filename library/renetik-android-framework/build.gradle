@@ -1,33 +1,18 @@
 apply from: '../../library.gradle'
 dependencies {
-    if (renetik_library_release == "true") {
-        api "com.github.renetik.renetik-library-android:renetik-android-core:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-json:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-event:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-store:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-preset:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-network:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-network-okhttp3:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-ui:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-ui-picker:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-material:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-imaging:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-controller:$renetik_library_version"
-        api "com.github.renetik.renetik-library-android:renetik-android-controller-maps:$renetik_library_version"
-    } else {
-        api project(':renetik-android-core')
-        api project(':renetik-android-json')
-        api project(':renetik-android-event')
-        api project(':renetik-android-store')
-        api project(':renetik-android-preset')
-        api project(':renetik-android-network')
-        api project(':renetik-android-network-okhttp3')
-        api project(':renetik-android-ui')
-        api project(':renetik-android-ui-picker')
-        api project(':renetik-android-material')
-        api project(':renetik-android-imaging')
-        api project(':renetik-android-controller')
-        api project(':renetik-android-controller-maps')
-    }
+    if (renetik_library_release == "true") api "$renetik_android_core"
+    else api project(':renetik-android-core')
+    api project(':renetik-android-json')
+    api project(':renetik-android-event')
+    api project(':renetik-android-store')
+    api project(':renetik-android-preset')
+    api project(':renetik-android-network')
+    api project(':renetik-android-network-okhttp3')
+    api project(':renetik-android-ui')
+    api project(':renetik-android-ui-picker')
+    api project(':renetik-android-material')
+    api project(':renetik-android-imaging')
+    api project(':renetik-android-controller')
+    api project(':renetik-android-controller-maps')
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
