@@ -3,14 +3,18 @@ dependencies {
     if (renetik_library_release == "true") api "$renetik_android_core"
     else api project(':renetik-android-core')
 
-    if (renetik_library_release == "true") api "$renetik_android_json"
-    else api project(':renetik-android-json')
-
     if (renetik_library_release == "true") api "$renetik_android_event"
     else api project(':renetik-android-event')
 
-    api project(':renetik-android-store')
-    api project(':renetik-android-preset')
+    if (renetik_library_release == "true") api "$renetik_android_json"
+    else api project(':renetik-android-json')
+
+    if (renetik_library_release == "true") api "$renetik_android_store"
+    else api project(':renetik-android-store')
+
+    if (renetik_library_release == "true") api "$renetik_android_preset"
+    else api project(':renetik-android-preset')
+
     api project(':renetik-android-network')
     api project(':renetik-android-network-okhttp3')
     api project(':renetik-android-ui')
