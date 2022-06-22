@@ -1,5 +1,5 @@
-include ':renetik-android-json',
-        ':renetik-android-store',
+//include ':renetik-android-json',
+include ':renetik-android-store',
         ':renetik-android-preset',
         ':renetik-android-network',
         ':renetik-android-network-okhttp3',
@@ -11,7 +11,7 @@ include ':renetik-android-json',
         ':renetik-android-controller-maps',
         ':renetik-android-framework'
 
-project(':renetik-android-json').projectDir = file("library/renetik-android-json")
+//project(':renetik-android-json').projectDir = file("library/renetik-android-json")
 project(':renetik-android-store').projectDir = file("library/renetik-android-store")
 project(':renetik-android-preset').projectDir = file("library/renetik-android-preset")
 project(':renetik-android-network').projectDir = file("library/renetik-android-network")

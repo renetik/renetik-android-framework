@@ -2,10 +2,14 @@ apply from: '../../library.gradle'
 dependencies {
     if (renetik_library_release == "true") implementation "$renetik_android_core"
     else implementation project(':renetik-android-core')
+
     implementation project(':renetik-android-ui')
+
     if (renetik_library_release == "true") implementation "$renetik_android_event"
     else implementation project(':renetik-android-event')
+
     implementation project(':renetik-android-controller')
+
     //https://github.com/ShawnLin013/NumberPicker
     api 'com.shawnlin:number-picker:2.4.12'
 }

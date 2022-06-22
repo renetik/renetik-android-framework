@@ -3,7 +3,8 @@ dependencies {
     if (renetik_library_release == "true") api "$renetik_android_core"
     else api project(':renetik-android-core')
 
-    api project(':renetik-android-json')
+    if (renetik_library_release == "true") implementation "$renetik_android_json"
+    else implementation project(':renetik-android-json')
 
     if (renetik_library_release == "true") api "$renetik_android_event"
     else api project(':renetik-android-event')

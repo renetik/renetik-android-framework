@@ -4,11 +4,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.Config.NONE
 import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.store.json.CSStringJsonStore
 import renetik.android.store.json.property
 
 @RunWith(RobolectricTestRunner::class)
+@Config(manifest= NONE)
 class CSStringValueStoreEventPropertyTest {
     private val store = CSStringJsonStore("{}")
     private var _value: String? = null

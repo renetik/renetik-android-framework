@@ -4,6 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import renetik.android.json.load
 import renetik.android.store.json.CSStoreJsonObject
 import renetik.android.json.toJsonString
@@ -17,6 +18,7 @@ class TestData() : CSStoreJsonObject() {
 }
 
 @RunWith(RobolectricTestRunner::class)
+@Config(manifest= Config.NONE)
 class CSJsonListListLateStoreEventPropertyTest {
 
     private val store = CSStoreJsonObject()
