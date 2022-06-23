@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        renetik_android_version = "master-SNAPSHOT" //master-SNAPSHOT
+        renetik_android_version = "1.9.6" //master-SNAPSHOT
         sdk_version = 32
         min_sdk_version = 24
         kotlin_version = '1.7.0'
