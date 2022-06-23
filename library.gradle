@@ -1,10 +1,31 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+
 android {
     compileSdkVersion project.properties.sdk_version
     defaultConfig {
         minSdkVersion project.properties.min_sdk_version
         targetSdkVersion project.properties.sdk_version
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+    testOptions {
+        unitTests.all {
+            testLogging {
+                outputs.upToDateWhen { false }
+                events "started", "skipped", "failed", "passed", "standardError"
+                exceptionFormat "full" //short
+                showCauses true
+                showExceptions true
+                showStackTraces true
+                showStandardStreams true
+            }
+        }
     }
 }
 dependencies {

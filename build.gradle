@@ -1,6 +1,5 @@
 buildscript {
     ext {
-        renetik_android_version = "master-SNAPSHOT" //master-SNAPSHOT
         sdk_version = 32
         min_sdk_version = 24
         kotlin_version = '1.7.0'
@@ -9,13 +8,6 @@ buildscript {
         play_version = '18.0.1'
         ktx_version = '1.8.0'
         junit_version = '4.13.2'
-    }
-    ext {
-        renetik_android_core = "com.github.renetik:renetik-android-core:$renetik_android_version"
-        renetik_android_event = "com.github.renetik:renetik-android-event:$renetik_android_version"
-        renetik_android_json = "com.github.renetik:renetik-android-json:$renetik_android_version"
-        renetik_android_store = "com.github.renetik:renetik-android-store:$renetik_android_version"
-        renetik_android_preset = "com.github.renetik:renetik-android-preset:$renetik_android_version"
     }
     repositories {
         google()

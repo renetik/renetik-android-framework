@@ -8,4 +8,8 @@ buildscript {
         renetik_android_preset = "com.github.renetik:renetik-android-preset:$renetik_android_version"
         renetik_android = "com.github.renetik.renetik-android:renetik-android-framework:$renetik_android_version"
     }
+    configurations.all {
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'minutes'
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
 }
