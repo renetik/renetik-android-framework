@@ -8,12 +8,6 @@ android {
         minSdkVersion project.properties.min_sdk_version
         targetSdkVersion project.properties.sdk_version
     }
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
     testOptions {
         unitTests.all {
             testLogging {
@@ -35,4 +29,21 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     testImplementation "junit:junit:$junit_version"
     testImplementation 'org.robolectric:robolectric:4.8'
+}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId 'com.renetik.library'
+                artifactId project.name
+                artifact sourceJar
+                version = project.renetik_android_version
+            }
+        }
+    }
+}
+task sourceJar(type: Jar) {
+    classifier 'sources'
+    from android.sourceSets.main.java.srcDirs
 }
