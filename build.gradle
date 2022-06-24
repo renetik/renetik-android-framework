@@ -1,14 +1,7 @@
 apply from: 'renetik_android_build_common.gradle'
 buildscript {
     ext {
-        sdk_version = 32
-        min_sdk_version = 24
-        kotlin_version = '1.7.0'
-        appcompat_version = '1.4.2'
-        ktx_version = '1.8.0'
-        junit_version = '4.13.2'
-        material_version = '1.6.0-beta01'
-        play_version = '18.0.1'
+        kotlin_version = "1.7.0"
     }
     repositories {
         google()
@@ -18,20 +11,4 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
-}
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url 'https://www.jitpack.io' }
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-wrapper {
-    gradleVersion = "7.4.2"
-    distributionType = Wrapper.DistributionType.ALL
 }
