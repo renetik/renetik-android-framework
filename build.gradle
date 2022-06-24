@@ -7,6 +7,8 @@ buildscript {
         appcompat_version = '1.4.2'
         ktx_version = '1.8.0'
         junit_version = '4.13.2'
+        material_version = '1.6.0-beta01'
+        play_version = '18.0.1'
     }
     repositories {
         google()
@@ -21,7 +23,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
+        maven { url 'https://www.jitpack.io' }
     }
 }
 
