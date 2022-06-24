@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        renetik_android_version = "1.9.13" //master-SNAPSHOT
+        renetik_android_version = "1.9.14" //master-SNAPSHOT
         renetik_android_core = "com.github.renetik:renetik-android-core:$renetik_android_version"
         renetik_android_event = "com.github.renetik:renetik-android-event:$renetik_android_version"
         renetik_android_json = "com.github.renetik:renetik-android-json:$renetik_android_version"
