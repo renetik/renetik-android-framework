@@ -76,7 +76,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
     service: String, responseData: ResponseData, data: JSONObject
 ) = CSHttpProcess("$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONObjectBody(data).build()
-    logInfo("post:${request.url} json:${data.toJsonString(formatted = true)}")
+    logInfo("post:${request.url} json:${data.toJson(formatted = true)}")
     request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
 
@@ -84,7 +84,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.postJson(
     service: String, responseData: ResponseData, data: List<*>
 ) = CSHttpProcess("$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONArrayBody(data.toJSONArray()).build()
-    logInfo("post:${request.url} json:${data.toJsonString(formatted = true)}")
+    logInfo("post:${request.url} json:${data.toJson(formatted = true)}")
     request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
 
