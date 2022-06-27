@@ -1,4 +1,4 @@
-[![Android CI](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
+[![Android CI](https://github.com/renetik/renetik-android/workflows/Android%20CI/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 # Renetik Android
 Framework to enjoy, improve and speed up your application development while writing readable code.
 Used as library for music production and performance app Renetik Instruments www.renetik.com as well as other projects.
