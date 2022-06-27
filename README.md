@@ -15,7 +15,7 @@ allprojects {
 Step 2. Add the dependency
 ```gradle
 dependencies {
-    implementation 'com.renetik.library:renetik-android:$latest-renetik-android-release'
+    implementation "com.renetik.library:renetik-android-framework:$renetik_android_version"
 }
 ```
 
