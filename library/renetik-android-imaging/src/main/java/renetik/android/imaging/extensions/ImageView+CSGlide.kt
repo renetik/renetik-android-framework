@@ -1,4 +1,4 @@
-package renetik.android.framework.view
+package renetik.android.imaging.extensions
 
 import android.net.Uri
 import android.widget.ImageView

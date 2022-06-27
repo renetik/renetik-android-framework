@@ -28,7 +28,6 @@ renetik.android.framework.controller.getpicture
 renetik.android.framework.network
 renetik.android.framework.view
 module:renetik-android-imaging
-renetik.android.framework.view
 renetik.android.imaging.extensions
 module:renetik-android-material
 renetik.android.material
