@@ -1,7 +1,10 @@
 apply from: 'renetik_android_build_common.gradle'
+apply plugin: 'org.jetbrains.dokka'
 buildscript {
     ext {
         kotlin_version = "1.7.0"
+        copyright_message = 'Check my app build upon this library www.renetik.com'
+        docDir = "${projectDir}/docs"
     }
     repositories {
         google()
@@ -12,4 +15,20 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$kotlin_version"
     }
+}
+//dokkaHtmlMultiModule.configure {
+//    outputDirectory = new File(docDir)
+//    includes.from("module.md")
+//}
+//tasks.dokkaHtml.configure {
+//    outputDirectory = new File("${projectDir}/docs")
+//    includes.from("README.md")
+//    pluginsMapConfiguration.set(["org.jetbrains.dokka.base.DokkaBase":
+//                                         """{ "footerMessage": "Check out www.renetik.com"}"""])
+//}
+tasks.dokkaHtmlMultiModule.configure {
+    outputDirectory = new File("${projectDir}/docs")
+    includes.from("README.md")
+    pluginsMapConfiguration.set(["org.jetbrains.dokka.base.DokkaBase":
+                                         """{ "footerMessage": "Check out www.renetik.com"}"""])
 }

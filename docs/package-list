@@ -1,0 +1,54 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/renetik-android-ui/[root]/index.html
+$dokka.location://onTouch/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/renetik-android-ui/[root]/on-touch.html
+$dokka.location://onTouchActiveToggle/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/renetik-android-ui/[root]/on-touch-active-toggle.html
+$dokka.location://onTouchDown/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/renetik-android-ui/[root]/on-touch-down.html
+$dokka.location://onTouchSelectedToggle/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/renetik-android-ui/[root]/on-touch-selected-toggle.html
+$dokka.location://setToggleActive/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Boolean/PointingToDeclaration/renetik-android-ui/[root]/set-toggle-active.html
+$dokka.location://setToggleSelected/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Boolean/PointingToDeclaration/renetik-android-ui/[root]/set-toggle-selected.html
+$dokka.location://toggleActiveIf/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#renetik.android.event.property.CSEventProperty[kotlin.Boolean]/PointingToDeclaration/renetik-android-ui/[root]/toggle-active-if.html
+$dokka.location://toggleSelectedIf/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#renetik.android.event.property.CSEventProperty[kotlin.Boolean]/PointingToDeclaration/renetik-android-ui/[root]/toggle-selected-if.html
+module:renetik-android-controller
+renetik.android.controller.base
+renetik.android.controller.base.dialog
+renetik.android.controller.common
+renetik.android.controller.extensions
+renetik.android.controller.menu
+renetik.android.controller.pager
+renetik.android.controller.view
+renetik.android.controller.view.grid
+module:renetik-android-controller-maps
+renetik.android.maps
+renetik.android.maps.extensions
+renetik.android.maps.json
+module:renetik-android-framework
+renetik.android.framework.controller
+renetik.android.framework.controller.getpicture
+renetik.android.framework.network
+renetik.android.framework.view
+module:renetik-android-imaging
+renetik.android.framework.view
+renetik.android.imaging.extensions
+module:renetik-android-material
+renetik.android.material
+renetik.android.material.controller
+renetik.android.material.extensions
+module:renetik-android-network
+renetik.android.network.data
+renetik.android.network.operation
+renetik.android.network.ping
+renetik.android.network.process
+renetik.android.network.reachability
+module:renetik-android-network-okhttp3
+renetik.android.network.okhttp3
+module:renetik-android-ui
+renetik.android.ui.extensions.view
+renetik.android.ui.extensions.widget
+renetik.android.ui.protocol
+renetik.android.ui.text
+renetik.android.ui.view
+renetik.android.ui.view.adapter
+renetik.android.ui.view.touch
+module:renetik-android-ui-picker
+renetik.android.picker

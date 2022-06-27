@@ -14,6 +14,7 @@ buildscript {
         junit_version = '4.13.2'
         play_version = '18.0.1'
         kotlin_version = '1.7.0'
+        docDir = "${projectDir}/docs"
     }
     configurations.all {
         resolutionStrategy.cacheDynamicVersionsFor 0, 'minutes'
