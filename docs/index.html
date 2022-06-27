@@ -46,20 +46,20 @@ if(savedDarkMode === true){
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <div class="cover ">
-      <p class="paragraph"><a href="https://jitpack.io/#renetik/renetik-android"><img alt="" src="https://jitpack.io/v/renetik/renetik-android.svg"></a></p>
-      <h1 class=""> Renetik Android Library</h1>
-      <p class="paragraph">Framework to enjoy, improve and speed up your application development while writing readable code. This library although used daily is not polished for other people to dive in easily anymore.  It is used as base library for music production and performance app Renetik Instrument.<br>www.renetik.com</p>
+      <h1 class="">Renetik Android</h1>
+      <p class="paragraph">Framework to enjoy, improve and speed up your application development while writing readable code. Used as library for music production and performance app Renetik Instruments www.renetik.com as well as other projects.</p>
       <div class="sample-container">
-        <pre><code class="block lang-gradle" theme="idea">allprojects {<br>    repositories {<br>        ...<br>        maven { url 'https://jitpack.io' }<br>    }<br>}</code></pre>
+        <pre><code class="block lang-gradle" theme="idea">allprojects {<br>    repositories {<br>        // For master-SNAPSHOT<br>        maven { url 'https://github.com/renetik/maven-snapshot/raw/master/repository' }<br>        // For release builds<br>        maven { url 'https://github.com/renetik/maven/raw/master/repository' }<br>    }<br>}</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
           <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
         </span></div>
       <p class="paragraph">Step 2. Add the dependency</p>
       <div class="sample-container">
-        <pre><code class="block lang-gradle" theme="idea">dependencies {<br>    implementation 'com.github.renetik:renetik-android:renetik-android-framework:1.9.1'<br>}</code></pre>
+        <pre><code class="block lang-gradle" theme="idea">dependencies {<br>    implementation 'com.renetik.library:renetik-android:$latest-renetik-android-release'<br>}</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
           <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
         </span></div>
+      <h2 class=""><a href="https://renetik.github.io/renetik-android/">Html Documentation</a></h2>
     </div>
     <h2 class="">All modules:</h2>
     <div class="table"><a data-name="-1446672966%2FMain%2F0" anchor-label="renetik-android-controller" id="-1446672966%2FMain%2F0" data-filterable-set=""></a>
