@@ -1,4 +1,5 @@
-[![Android CI](https://github.com/renetik/renetik-android/workflows/Android%20CI/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
+[![Android CI](https://github.com/renetik/renetik-android/workflows/Android%20CI/badge.svg)
+](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 # Renetik Android
 
