@@ -1,8 +1,9 @@
 package renetik.android.network.data
 
+import renetik.android.json.array.CSJsonArray
 import renetik.android.json.parseJsonList
 
-open class CSServerListData : renetik.android.json.CSJsonArray(), CSHttpResponseData {
+open class CSServerListData : CSJsonArray(), CSHttpResponseData {
 
     private var _message = ""
 
