@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 [![Android CI](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
+=======
+[![Android CI](https://github.com/renetik/renetik-android/workflows/Android%20CI/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
+>>>>>>> 02af2870d01d542f4d1c61db5623faa428b17ad5
 # Renetik Android
 
 Framework to enjoy, improve and speed up your application development while writing readable code.
