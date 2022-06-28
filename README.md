@@ -1,7 +1,10 @@
 [![Android CI](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
+
 # Renetik Android
+
 Framework to enjoy, improve and speed up your application development while writing readable code.
-Used as library for music production and performance app Renetik Instruments www.renetik.com as well as other projects.
+Used as library for music production and performance app Renetik Instruments www.renetik.com as well
+as other projects.
 
 ```gradle
 allprojects {
@@ -13,7 +16,9 @@ allprojects {
     }
 }
 ```
+
 Step 2. Add the dependency
+
 ```gradle
 dependencies {
     implementation "com.renetik.library:renetik-android-framework:$renetik_android_version"
