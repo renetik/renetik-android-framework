@@ -1,18 +1,18 @@
 apply from: '../../library.gradle'
 dependencies {
-    if (renetik_library_release == "true") api "$renetik_android_core"
+    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_core"
     else api project(':renetik-android-core')
 
-    if (renetik_library_release == "true") api "$renetik_android_event"
+    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_event"
     else api project(':renetik-android-event')
 
-    if (renetik_library_release == "true") api "$renetik_android_json"
+    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_json"
     else api project(':renetik-android-json')
 
-    if (renetik_library_release == "true") api "$renetik_android_store"
+    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_store"
     else api project(':renetik-android-store')
 
-    if (renetik_library_release == "true") api "$renetik_android_preset"
+    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_preset"
     else api project(':renetik-android-preset')
 
     api project(':renetik-android-network')

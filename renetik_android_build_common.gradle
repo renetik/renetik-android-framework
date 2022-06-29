@@ -14,7 +14,7 @@ buildscript {
         junit_version = '4.13.2'
         play_version = '18.0.1'
         kotlin_version = '1.7.0'
-        docDir = "${projectDir}/docs"
+        is_renetik_library_release = project.properties["renetik_library_release"] == "true"
     }
     configurations.all {
         resolutionStrategy.cacheDynamicVersionsFor 0, 'minutes'
@@ -29,10 +29,6 @@ allprojects {
         maven { url 'https://github.com/renetik/maven-snapshot/raw/master/repository' }
         maven { url 'https://github.com/renetik/maven/raw/master/repository' }
     }
-}
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor 0, 'minutes'
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 task clean(type: Delete) {
     delete rootProject.buildDir
