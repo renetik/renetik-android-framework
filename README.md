@@ -7,7 +7,10 @@
 #### [https://github.com/renetik/renetik-android-event](https://github.com/renetik/renetik-android-event/) ➜ [Documentation](https://renetik.github.io/renetik-android-event/)
 #### [https://github.com/renetik/renetik-android-store](https://github.com/renetik/renetik-android-store/) ➜ [Documentation](https://renetik.github.io/renetik-android-store/)
 #### [https://github.com/renetik/renetik-android-preset](https://github.com/renetik/renetik-android-preset/) ➜ [Documentation](https://renetik.github.io/renetik-android-preset/)
-#### [https://github.com/renetik/renetik-android](https://github.com/renetik/renetik-android/) ➜ [Documentation](https://renetik.github.io/renetik-android/)
+#### [https://github.com/renetik/
+renetik-android-framework](https://github.com/renetik/
+renetik-android-framework/) ➜ [Documentation](https://renetik.github.io/
+renetik-android-framework/)
 
 Framework to enjoy, improve and speed up your application development while writing readable code.
 Used as library in many projects and improving it while developing new projects.
