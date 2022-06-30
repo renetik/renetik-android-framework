@@ -9,6 +9,7 @@ import renetik.android.event.register
 import renetik.android.core.math.CSMath.randomInt
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.primitives.isSet
+import renetik.android.event.listen
 
 fun CSActivityView<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {
     requestPermissions(permissions, onGranted, null)
@@ -33,12 +34,12 @@ fun CSActivityView<*>.requestPermissions(
     if (deniedPermissions.isSet) {
         val requestCode = randomInt(0, 999)
         ActivityCompat.requestPermissions(activity(), deniedPermissions, requestCode)
-        register(activity().onRequestPermissionsResult.add { registration, results ->
+        register(activity().onRequestPermissionsResult.listen {registration, results ->
             if (results.requestCode == requestCode) {
                 registration.cancel()
                 for (status in results.statuses) if (PERMISSION_GRANTED != status) {
                     notGranted?.invoke()
-                    return@add
+                    return@listen
                 }
                 onGranted?.invoke()
             }
