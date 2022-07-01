@@ -16,7 +16,6 @@ import renetik.android.event.fire
 import renetik.android.event.property.CSEventPropertyFunctions.property
 import renetik.android.core.lang.property.CSProperty
 
-
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
 
     val onCreate = event<Bundle?>()
