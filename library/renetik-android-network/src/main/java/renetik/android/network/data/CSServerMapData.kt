@@ -1,9 +1,9 @@
 package renetik.android.network.data
 
 import renetik.android.json.parseJsonMap
-import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.store.type.CSJsonObjectStore
 
-open class CSServerMapData : CSStoreJsonObject(), CSHttpResponseData {
+open class CSServerMapData : CSJsonObjectStore(), CSHttpResponseData {
     var code: Int? = null
 
     override fun onHttpResponse(code: Int, message: String, content: String?) {

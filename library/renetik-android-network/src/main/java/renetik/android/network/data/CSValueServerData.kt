@@ -1,10 +1,10 @@
 package renetik.android.network.data
 
 import renetik.android.json.createJsonObject
-import renetik.android.store.json.CSStoreJsonObject
+import renetik.android.store.type.CSJsonObjectStore
 import kotlin.reflect.KClass
 
-class CSValueServerData<ValueType : CSStoreJsonObject>(key: String, kClass: KClass<ValueType>) :
+class CSValueServerData<ValueType : CSJsonObjectStore>(key: String, kClass: KClass<ValueType>) :
     CSServerMapData() {
     constructor(kClass: KClass<ValueType>) : this("value", kClass)
 
