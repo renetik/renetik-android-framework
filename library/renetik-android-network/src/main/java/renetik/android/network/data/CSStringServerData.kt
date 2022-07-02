@@ -1,5 +1,7 @@
 package renetik.android.network.data
 
+import renetik.android.store.lateStringProperty
+
 class CSStringServerData(key: String) : CSServerMapData() {
     constructor() : this("value")
 
