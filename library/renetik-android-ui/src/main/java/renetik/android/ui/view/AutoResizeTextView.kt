@@ -1,43 +1,19 @@
 package renetik.android.ui.view
 
 import android.content.Context
-import android.text.Layout
+import android.text.Layout.Alignment.ALIGN_NORMAL
 import android.text.StaticLayout
+import android.text.StaticLayout.Builder.obtain
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 
-/**
- *               DO WHAT YOU WANT TO PUBLIC LICENSE
- *                    Version 2, December 2004
- *
- * Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
- *
- * Everyone is permitted to copy and distribute verbatim or modified
- * copies of this license document, and changing it is allowed as long
- * as the name is changed.
- *
- *            DO WHAT YOU WANT TO PUBLIC LICENSE
- *   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *  0. You just DO WHAT YOU WANT TO.
- */
+class AutoResizeTextView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
+    AppCompatTextView(context, attrs, defStyle) {
 
-
-/**
- * Text view that auto adjusts text size to fit within the view.
- * If the text size equals the minimum text size and still does not
- * fit, append with an ellipsis.
- *
- * @author Chase Colburn
- * @since Apr 4, 2011
- */
-class AutoResizeTextView @JvmOverloads constructor(context: Context,
-                                                   attrs: AttributeSet? = null,
-                                                   defStyle: Int = 0) :
-    androidx.appcompat.widget.AppCompatTextView(context, attrs, defStyle) {
-    // Interface for resize notifications
     interface OnTextResizeListener {
         fun onTextResize(textView: TextView?, oldSize: Float, newSize: Float)
     }
@@ -223,13 +199,16 @@ class AutoResizeTextView @JvmOverloads constructor(context: Context,
             // modified: use a copy of TextPaint for measuring
             val paint = TextPaint(textPaint)
             // Draw using a static layout
-            val layout = StaticLayout(text,
-                paint,
-                width,
-                Layout.Alignment.ALIGN_NORMAL,
-                mSpacingMult,
-                mSpacingAdd,
-                false)
+            val layout: StaticLayout = obtain(text, 0, 0, paint, width)
+                .setAlignment(ALIGN_NORMAL).setLineSpacing(mSpacingAdd, mSpacingMult)
+                .setIncludePad(false).build()
+//            val layout = StaticLayout(text,
+//                paint,
+//                width,
+//                ALIGN_NORMAL,
+//                mSpacingMult,
+//                mSpacingAdd,
+//                false)
             // Check that we have a least one line of rendered text
             if (layout.lineCount > 0) {
                 // Since the line at the specific vertical position would be cut off,
@@ -269,7 +248,7 @@ class AutoResizeTextView @JvmOverloads constructor(context: Context,
     }
 
     // Set the text size of the text paint object and use a static layout to render text off screen before measuring
-    private fun getTextHeight(source: CharSequence?,
+    private fun getTextHeight(source: CharSequence,
                               paint: TextPaint,
                               width: Int,
                               textSize: Float): Int {
@@ -280,13 +259,16 @@ class AutoResizeTextView @JvmOverloads constructor(context: Context,
         // Update the text paint object
         paintCopy.textSize = textSize
         // Measure using a static layout
-        val layout = StaticLayout(source,
-            paintCopy,
-            width,
-            Layout.Alignment.ALIGN_NORMAL,
-            mSpacingMult,
-            mSpacingAdd,
-            true)
+        val layout: StaticLayout = obtain(source, 0, 0, paintCopy, width)
+            .setAlignment(ALIGN_NORMAL).setLineSpacing(mSpacingAdd, mSpacingMult)
+            .setIncludePad(true).build()
+//        val layout = StaticLayout(source,
+//            paintCopy,
+//            width,
+//            ALIGN_NORMAL,
+//            mSpacingMult,
+//            mSpacingAdd,
+//            true)
         return layout.height
     }
 
