@@ -1,6 +1,6 @@
 package renetik.android.network.data
 
-import renetik.android.store.lateIntProperty
+import renetik.android.store.extensions.lateIntProperty
 
 class CSIntServerData(key: String) : CSServerMapData() {
     constructor() : this("value")
