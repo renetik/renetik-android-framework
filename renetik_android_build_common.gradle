@@ -17,8 +17,8 @@ buildscript {
         is_renetik_library_release = project.properties["renetik_library_release"] == "true"
     }
     configurations.all {
-        resolutionStrategy.cacheDynamicVersionsFor 0, 'minutes'
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+        resolutionStrategy.cacheDynamicVersionsFor 1, 'minutes'
+        resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
     }
 }
 allprojects {
@@ -28,6 +28,10 @@ allprojects {
         jcenter()
         maven { url 'https://github.com/renetik/maven-snapshot/raw/master/repository' }
         maven { url 'https://github.com/renetik/maven/raw/master/repository' }
+    }
+    configurations.all {
+        resolutionStrategy.cacheDynamicVersionsFor 1, 'minutes'
+        resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
     }
 }
 task clean(type: Delete) {
