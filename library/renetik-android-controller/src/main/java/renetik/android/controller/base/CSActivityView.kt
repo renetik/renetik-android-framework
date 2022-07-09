@@ -10,7 +10,7 @@ import renetik.android.core.extensions.content.input
 import renetik.android.controller.common.CSNavigationView
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.core.lang.CSLayoutRes
-import renetik.android.core.lang.property.CSProperty
+import renetik.android.core.lang.property.CSVariable
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.ui.protocol.CSVisibility
 import renetik.android.ui.protocol.CSVisibleEventOwner
@@ -19,6 +19,7 @@ import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.event.*
 import renetik.android.event.owner.CSEventOwner
+import renetik.android.event.owner.register
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrations
 
@@ -27,7 +28,7 @@ open class CSActivityView<ViewType : View>
 
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()
-    override val eventBack = event<CSProperty<Boolean>>()
+    override val eventBack = event<CSVariable<Boolean>>()
     final override fun activity(): CSActivity = activity!!
     private var isResumed = false
     private var isResumeFirstTime = false
@@ -36,14 +37,14 @@ open class CSActivityView<ViewType : View>
     var activity: CSActivity? = null
     var showingInPager: Boolean? = null
 
-    constructor(parent: CSActivityView<*>) : super(parent) {
-        parentActivityView = parent
-        initializeParent(parent)
-    }
-
     constructor(activity: CSActivity, layout: CSLayoutRes) : super(activity, layout) {
         this.activity = activity
         initializeParent(activity)
+    }
+
+    constructor(parent: CSActivityView<*>) : super(parent) {
+        parentActivityView = parent
+        initializeParent(parent)
     }
 
     constructor(parent: CSActivityView<*>, @IdRes viewId: Int) : super(parent, viewId) {
@@ -119,7 +120,7 @@ open class CSActivityView<ViewType : View>
         register(parent.eventVisibility.listen { updateVisibility() })
     }
 
-    protected open fun onBack(goBack: CSProperty<Boolean>) {
+    protected open fun onBack(goBack: CSVariable<Boolean>) {
         eventBack.fire(goBack)
         if (goBack.value && isVisible) {
             hideKeyboard()

@@ -1,15 +1,13 @@
 package renetik.android.network.process
 
-import renetik.android.event.owner.CSContext
-import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.listen
-import renetik.android.core.logging.CSLog.logDebug
-import renetik.android.core.logging.CSLog.logError
-import renetik.android.core.logging.CSLog.logInfo
-import renetik.android.core.logging.CSLog.logWarn
-import renetik.android.core.util.CSSynchronizedProperty.Companion.synchronized
 import renetik.android.core.kotlin.exception
 import renetik.android.core.kotlin.rootCauseMessage
+import renetik.android.core.logging.CSLog.logDebug
+import renetik.android.core.logging.CSLog.logError
+import renetik.android.core.logging.CSLog.logWarn
+import renetik.android.core.util.CSSynchronizedProperty.Companion.synchronized
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.owner.CSContext
 
 open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
 
@@ -55,7 +53,7 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
     }
 
     private fun onSuccessImpl() {
-        logInfo("Response onSuccessImpl", this)
+        logDebug { "Response onSuccessImpl $this, $data" }
         if (isFailed) logError(exception("already failed"))
         if (isSuccess) logError(exception("already success"))
         if (isDone) logError(exception("already done"))
@@ -107,7 +105,7 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
     }
 
     private fun onDoneImpl() {
-        logDebug { "Response onDone:this" }
+        logDebug { "Response onDone: $this" }
         if (isDone) {
             logError(exception("already done"))
             return

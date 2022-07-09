@@ -6,7 +6,6 @@ import android.view.View
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.CSApplication.Companion.app
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.listen
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.*
 import kotlin.math.abs

@@ -12,7 +12,7 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.event.owner.CSContext
 import renetik.android.event.listenOnce
-import renetik.android.event.register
+import renetik.android.event.owner.register
 import renetik.android.ui.protocol.CSHasParent
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.extensions.view.inflate

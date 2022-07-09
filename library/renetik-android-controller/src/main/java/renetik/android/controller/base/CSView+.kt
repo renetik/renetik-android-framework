@@ -9,8 +9,8 @@ import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.event.owner.CSEventOwner
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.register
-import renetik.android.event.remove
+import renetik.android.event.owner.register
+import renetik.android.event.owner.remove
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.extensions.widget.onChange

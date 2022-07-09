@@ -9,10 +9,9 @@ import renetik.android.controller.base.CSView
 import renetik.android.controller.base.asCS
 import renetik.android.controller.base.findView
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.listen
 import renetik.android.event.property.CSEventProperty
 import renetik.android.event.property.CSEventPropertyFunctions.property
-import renetik.android.event.register
+import renetik.android.event.owner.register
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.extensions.widget.scrollToIndex
 import renetik.android.core.kotlin.collections.list

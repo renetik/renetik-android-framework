@@ -12,7 +12,6 @@ import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.core.kotlin.asString
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.listen
 import renetik.android.event.registration.pause
 
 val EditText.eventClear get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<EditText>() }

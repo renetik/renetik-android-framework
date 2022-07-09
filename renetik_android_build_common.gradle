@@ -1,11 +1,11 @@
 buildscript {
     ext {
-        renetik_android_core = "com.renetik.library:renetik-android-core:$renetik_android_version"
-        renetik_android_event = "com.renetik.library:renetik-android-event:$renetik_android_version"
-        renetik_android_json = "com.renetik.library:renetik-android-json:$renetik_android_version"
-        renetik_android_store = "com.renetik.library:renetik-android-store:$renetik_android_version"
-        renetik_android_preset = "com.renetik.library:renetik-android-preset:$renetik_android_version"
-        renetik_android = "com.renetik.library:renetik-android-framework:$renetik_android_version"
+        renetik_android_core = "com.renetik.library:renetik-android-core:$renetik_library_version"
+        renetik_android_event = "com.renetik.library:renetik-android-event:$renetik_library_version"
+        renetik_android_json = "com.renetik.library:renetik-android-json:$renetik_library_version"
+        renetik_android_store = "com.renetik.library:renetik-android-store:$renetik_library_version"
+        renetik_android_preset = "com.renetik.library:renetik-android-preset:$renetik_library_version"
+        renetik_android = "com.renetik.library:renetik-android-framework:$renetik_library_version"
         sdk_version = 32
         min_sdk_version = 24
         appcompat_version = '1.4.2'
@@ -13,7 +13,7 @@ buildscript {
         ktx_version = '1.8.0'
         junit_version = '4.13.2'
         play_version = '18.0.1'
-        kotlin_version = '1.7.0'
+        kotlin_version = '1.7.10'
         is_renetik_library_release = project.properties["renetik_library_release"] == "true"
     }
     configurations.all {

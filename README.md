@@ -23,7 +23,7 @@ Step 2. Add the dependency
 
 ```gradle
 dependencies {
-    implementation "com.renetik.library:renetik-android-framework:$renetik_android_version"
+    implementation "com.renetik.library:renetik-android-framework:$renetik_library_version"
 }
 ```
 ## Renetik Android - Libraries

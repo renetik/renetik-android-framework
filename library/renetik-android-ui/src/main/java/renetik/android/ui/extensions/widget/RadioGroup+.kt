@@ -8,7 +8,6 @@ import androidx.annotation.LayoutRes
 import renetik.android.ui.R
 import renetik.android.ui.protocol.CSVisibleEventOwner
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.listen
 import renetik.android.event.registration.pause
 import renetik.android.event.property.CSEventProperty
 import renetik.android.core.lang.CSHasTitle

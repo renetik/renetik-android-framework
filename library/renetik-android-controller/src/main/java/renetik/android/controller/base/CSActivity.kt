@@ -14,10 +14,9 @@ import renetik.android.event.registration.CSRegistrations
 import renetik.android.ui.protocol.CSVisibility
 import renetik.android.event.fire
 import renetik.android.event.property.CSEventPropertyFunctions.property
-import renetik.android.core.lang.property.CSProperty
+import renetik.android.core.lang.property.CSVariable
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
-
     val onCreate = event<Bundle?>()
     val onSaveInstanceState = event<Bundle>()
     val onStart = event<Unit>()
@@ -25,7 +24,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override val eventPause = event<Unit>()
     val onStop = event<Unit>()
     override val eventDestroy = event<Unit>()
-    override val eventBack = event<CSProperty<Boolean>>()
+    override val eventBack = event<CSVariable<Boolean>>()
     val onConfigurationChanged = event<Configuration>()
     val onOrientationChanged = event<Configuration>()
     val onLowMemory = event<Unit>()
