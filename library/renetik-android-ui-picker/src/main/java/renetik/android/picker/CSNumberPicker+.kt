@@ -9,8 +9,7 @@ import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.index
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.void
-import renetik.android.event.listen
-import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.pause
 import renetik.android.ui.protocol.CSViewInterface
@@ -18,13 +17,13 @@ import renetik.android.ui.protocol.CSViewInterface
 fun CSViewInterface.numberPicker(viewId: Int) = view(viewId) as CSNumberPicker
 
 @JvmName("valuePropertyInt")
-fun CSNumberPicker.value(property: CSEventProperty<Int>): CSRegistration {
+fun CSNumberPicker.value(property: CSProperty<Int>): CSRegistration {
     val registration = value(property) { it }
     onValueChange { registration.pause().use { property.value = value } }
     return registration
 }
 
-fun <T> CSNumberPicker.value(property: CSEventProperty<T>, function: (T) -> Int)
+fun <T> CSNumberPicker.value(property: CSProperty<T>, function: (T) -> Int)
         : CSRegistration {
     valueProperty.value = function(property.value)
     return property.onChange { valueProperty.value = function(property.value) }

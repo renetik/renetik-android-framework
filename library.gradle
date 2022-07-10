@@ -57,3 +57,6 @@ dokkaHtml {
         }
     }
 }
+afterEvaluate {
+    tasks.findAll { it.name.startsWith('lint') }.each { it.enabled = false }
+}

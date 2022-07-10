@@ -6,7 +6,7 @@ import com.google.android.material.slider.Slider.OnChangeListener
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.pause
-import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSProperty
 import renetik.android.core.kotlin.primitives.roundToStep
 import renetik.android.ui.extensions.view.findView
 import kotlin.math.roundToInt
@@ -66,7 +66,7 @@ fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat(
 
 
 @JvmName("valuePropertyDouble")
-fun Slider.value(property: CSEventProperty<Float>,
+fun Slider.value(property: CSProperty<Float>,
                  min: Float = 0f, max: Float = 1.0f, step: Float = 0.1f): CSRegistration {
     valueFrom = min
     valueTo = max
@@ -84,7 +84,7 @@ fun Slider.value(property: CSEventProperty<Float>,
 
 
 @JvmName("valuePropertyInt")
-fun Slider.value(property: CSEventProperty<Int>,
+fun Slider.value(property: CSProperty<Int>,
                  min: Int = 0, max: Int = 100, step: Int = 1): CSRegistration {
     valueFrom = min.toFloat()
     valueTo = max.toFloat()

@@ -7,10 +7,10 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
-import renetik.android.event.owner.CSEventOwner
+import renetik.android.event.registrations.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.owner.register
-import renetik.android.event.owner.remove
+import renetik.android.event.registrations.register
+import renetik.android.event.registrations.remove
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.extensions.widget.onChange
@@ -76,7 +76,7 @@ fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
 }
 
 fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
-        where  Type : CSView<*>, Type : CSEventOwner {
+        where  Type : CSView<*>, Type : CSHasRegistrations {
     lateinit var registration: CSRegistration
     registration = register(view.afterGlobalLayout {
         function()
@@ -86,11 +86,11 @@ fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
 }
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
-        where  Type : CSView<*>, Type : CSEventOwner =
+        where  Type : CSView<*>, Type : CSHasRegistrations =
     register(view.onGlobalFocus { old, new -> function(old, new) })
 
 fun <Type> Type.hasSize(function: (Type) -> Unit)
-        where  Type : CSView<*>, Type : CSEventOwner = apply {
+        where  Type : CSView<*>, Type : CSHasRegistrations = apply {
     var registration: CSRegistration? = null
     registration = register(view.hasSize {
         function(this)
@@ -106,6 +106,6 @@ fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: 
 
 fun View.asCSView() = asCS<CSView<*>>()
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()
-fun <CSViewType : CSView<*>> View.asCS() = (this.tag as? CSViewType)
+fun <CSViewType : CSView<*>> View.asCS() = this.tag as? CSViewType
 
 

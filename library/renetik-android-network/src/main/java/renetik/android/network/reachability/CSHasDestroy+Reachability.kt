@@ -1,8 +1,7 @@
 package renetik.android.network.reachability
 
-import renetik.android.event.listen
 import renetik.android.event.listenOnce
-import renetik.android.event.owner.CSHasDestroy
+import renetik.android.event.registrations.CSHasDestroy
 
 fun CSHasDestroy.onInternetConnected(function: () -> Unit): CSReachability {
     val reachability = CSReachability().start()

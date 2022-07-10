@@ -10,11 +10,11 @@ import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.registration.CSRegistrations
+import renetik.android.event.registrations.CSRegistrations
 import renetik.android.ui.protocol.CSVisibility
 import renetik.android.event.fire
-import renetik.android.event.property.CSEventPropertyFunctions.property
-import renetik.android.core.lang.property.CSVariable
+import renetik.android.event.property.CSPropertyFunctions.property
+import renetik.android.core.lang.variable.CSVariable
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
     val onCreate = event<Bundle?>()

@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.shawnlin.numberpicker.NumberPicker
 import com.shawnlin.numberpicker.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.property.CSEventPropertyFunctions.property
+import renetik.android.event.property.CSPropertyFunctions.property
 
 class CSNumberPicker @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

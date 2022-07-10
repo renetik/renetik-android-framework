@@ -21,7 +21,7 @@ import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSProperty
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.propertyWithTag
@@ -188,7 +188,7 @@ fun <T : TextInputLayout> T.onFocusChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onFocusChange { onChange(this) } }
 
 fun <T : Any> TextInputLayout.valueProperty(
-    parent: CSVisibleEventOwner, property: CSEventProperty<T?>
+    parent: CSVisibleEventOwner, property: CSProperty<T?>
 ) = apply {
     onTextChange { if (property.value.notNull) errorClear() }
     onClear { property.value = null }

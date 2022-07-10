@@ -6,7 +6,7 @@ import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSProperty
 import java.io.File
 
 fun <T : ImageView> T.image(
@@ -27,7 +27,7 @@ fun <T : ImageView> T.image(file: File, useAndroidSdk: Boolean = false) = apply 
             .signature(ObjectKey(file.lastModified())).into(this)
 }
 
-fun <T> ImageView.image(property: CSEventProperty<T>,
+fun <T> ImageView.image(property: CSProperty<T>,
                         useAndroidSdk: Boolean = false,
                         valueToImage: (T) -> File
 ): CSRegistration {

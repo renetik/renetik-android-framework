@@ -7,7 +7,7 @@ import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.ui.R
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSProperty
 import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.core.kotlin.asString
@@ -38,7 +38,7 @@ fun <T : EditText> T.withClear(showOnFocus: Boolean = false) = apply {
     }
 }
 
-fun EditText.textProperty(property: CSEventProperty<String>): CSRegistration {
+fun EditText.textProperty(property: CSProperty<String>): CSRegistration {
     fun updateText() = text(property.value.asString)
     val propertyOnChange = property.onChange { updateText() }
     onTextChange {

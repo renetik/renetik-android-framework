@@ -10,7 +10,7 @@ import renetik.android.core.extensions.content.input
 import renetik.android.controller.common.CSNavigationView
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.core.lang.CSLayoutRes
-import renetik.android.core.lang.property.CSVariable
+import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.ui.protocol.CSVisibility
 import renetik.android.ui.protocol.CSVisibleEventOwner
@@ -18,13 +18,13 @@ import renetik.android.ui.extensions.view.isVisible
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.event.*
-import renetik.android.event.owner.CSEventOwner
-import renetik.android.event.owner.register
+import renetik.android.event.registrations.CSHasRegistrations
+import renetik.android.event.registrations.register
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistrations
+import renetik.android.event.registrations.CSRegistrations
 
 open class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSEventOwner, CSVisibleEventOwner {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations, CSVisibleEventOwner {
 
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()

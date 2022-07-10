@@ -7,7 +7,7 @@ import renetik.android.core.kotlin.asStringArray
 import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.index
 import renetik.android.core.lang.Func
-import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.pause
 
@@ -47,13 +47,13 @@ fun NumberPicker.min(value: Int) = apply { minValue = value }
 fun NumberPicker.max(value: Int) = apply { maxValue = value }
 
 @JvmName("valuePropertyInt")
-fun NumberPicker.value(property: CSEventProperty<Int>): CSRegistration {
+fun NumberPicker.value(property: CSProperty<Int>): CSRegistration {
     val registration = value(property) { it }
     onValueChange { registration.pause().use { property.value = value } }
     return registration
 }
 
-fun <T> NumberPicker.value(property: CSEventProperty<T>, function: (T) -> Int)
+fun <T> NumberPicker.value(property: CSProperty<T>, function: (T) -> Int)
         : CSRegistration {
     value = function(property.value)
     return property.onChange { value = function(property.value) }

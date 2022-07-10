@@ -7,8 +7,8 @@ $dokka.location://onTouchDown/TypeParam(bounds=[renetik.android.ui.view.CSHasTou
 $dokka.location://onTouchSelectedToggle/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/renetik-android-ui/[root]/on-touch-selected-toggle.html
 $dokka.location://setToggleActive/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Boolean/PointingToDeclaration/renetik-android-ui/[root]/set-toggle-active.html
 $dokka.location://setToggleSelected/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#kotlin.Boolean/PointingToDeclaration/renetik-android-ui/[root]/set-toggle-selected.html
-$dokka.location://toggleActiveIf/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#renetik.android.event.property.CSEventProperty[kotlin.Boolean]/PointingToDeclaration/renetik-android-ui/[root]/toggle-active-if.html
-$dokka.location://toggleSelectedIf/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#renetik.android.event.property.CSEventProperty[kotlin.Boolean]/PointingToDeclaration/renetik-android-ui/[root]/toggle-selected-if.html
+$dokka.location://toggleActiveIf/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#renetik.android.event.property.CSProperty[kotlin.Boolean]/PointingToDeclaration/renetik-android-ui/[root]/toggle-active-if.html
+$dokka.location://toggleSelectedIf/TypeParam(bounds=[renetik.android.ui.view.CSHasTouchEvent])#renetik.android.event.property.CSProperty[kotlin.Boolean]/PointingToDeclaration/renetik-android-ui/[root]/toggle-selected-if.html
 module:renetik-android-controller
 renetik.android.controller.base
 renetik.android.controller.base.dialog

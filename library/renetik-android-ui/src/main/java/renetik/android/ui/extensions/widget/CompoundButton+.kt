@@ -6,8 +6,8 @@ import androidx.annotation.ColorInt
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.pause
-import renetik.android.event.property.CSEventProperty
-import renetik.android.core.lang.property.isTrue
+import renetik.android.event.property.CSProperty
+import renetik.android.core.lang.variable.isTrue
 
 fun CompoundButton.onCheck(function: (CompoundButton) -> Unit) = apply {
     setOnCheckedChangeListener { buttonView, _ -> function(buttonView) }
@@ -29,25 +29,25 @@ fun CompoundButton.isCheckedIfNot(condition: Boolean) = apply {
     isChecked = !condition
 }
 
-fun CompoundButton.isCheckedIfNot(property: CSEventProperty<Boolean>): CSRegistration {
+fun CompoundButton.isCheckedIfNot(property: CSProperty<Boolean>): CSRegistration {
     val onChangeRegistration = property.onChange(this::isCheckedIfNot)
     onCheck { onChangeRegistration.pause().use { property.value(!isChecked) } }
     isCheckedIfNot(property.isTrue)
     return onChangeRegistration
 }
 
-fun CompoundButton.isCheckedIf(property: CSEventProperty<Boolean>): CSRegistration {
+fun CompoundButton.isCheckedIf(property: CSProperty<Boolean>): CSRegistration {
     val onChangeRegistration = property.onChange(this::isCheckedIf)
     isCheckedIf(property.isTrue)
     onCheck { onChangeRegistration.pause().use { property.value(isChecked) } }
     return onChangeRegistration
 }
 
-fun <T> CompoundButton.isCheckedIf(property1: CSEventProperty<T>, property2: CSEventProperty<*>,
+fun <T> CompoundButton.isCheckedIf(property1: CSProperty<T>, property2: CSProperty<*>,
                                    condition: (T) -> Boolean) =
     isCheckedIf(property1, property2) { first, _ -> condition(first) }
 
-fun <T, V> CompoundButton.isCheckedIf(property1: CSEventProperty<T>, property2: CSEventProperty<V>,
+fun <T, V> CompoundButton.isCheckedIf(property1: CSProperty<T>, property2: CSProperty<V>,
                                       condition: (T, V) -> Boolean): CSRegistration {
     fun update() = isCheckedIf(condition(property1.value, property2.value))
     update()

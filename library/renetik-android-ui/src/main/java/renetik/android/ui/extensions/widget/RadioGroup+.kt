@@ -9,7 +9,7 @@ import renetik.android.ui.R
 import renetik.android.ui.protocol.CSVisibleEventOwner
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.registration.pause
-import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSProperty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.ui.extensions.view.*
 
@@ -29,12 +29,12 @@ var RadioGroup.checkedId: Int?
 
 val RadioGroup.isChecked get() = checkedId != null
 
-fun RadioGroup.propertyTrueIfChecked(property: CSEventProperty<Boolean?>, viewId: Int) = apply {
+fun RadioGroup.propertyTrueIfChecked(property: CSProperty<Boolean?>, viewId: Int) = apply {
     onChange { property.value = it == viewId }
 }
 
 fun <T : CSHasTitle> RadioGroup.property(
-    parent: CSVisibleEventOwner, property: CSEventProperty<T?>,
+    parent: CSVisibleEventOwner, property: CSProperty<T?>,
     list: List<T>, @LayoutRes layoutId: Int) = apply {
     val data = mutableMapOf<Int, T>()
     clear()
@@ -47,7 +47,7 @@ fun <T : CSHasTitle> RadioGroup.property(
 }
 
 fun <T : Any> RadioGroup.property(
-    parent: CSVisibleEventOwner, property: CSEventProperty<T?>, data: Map<Int, T>) = apply {
+    parent: CSVisibleEventOwner, property: CSProperty<T?>, data: Map<Int, T>) = apply {
     fun updateChecked() {
         checkedId = data.filterValues { it == property.value }.keys.firstOrNull()
     }

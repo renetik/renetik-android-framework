@@ -13,7 +13,7 @@ import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.drawable
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.property.CSEventProperty
+import renetik.android.event.property.CSProperty
 import renetik.android.core.kotlin.primitives.at
 
 fun TextView.textColor(value: CSColorInt) = apply {
@@ -49,7 +49,7 @@ fun <T : TextView> T.startDrawable(drawable: Drawable?) = apply {
 fun <T : TextView> T.startDrawable(@DrawableRes drawable: Int?) =
     startDrawable(drawable?.let { context.drawable(it) })
 
-fun <T : TextView> T.startDrawable(property: CSEventProperty<Boolean>,
+fun <T : TextView> T.startDrawable(property: CSProperty<Boolean>,
                                    function: (Boolean) -> Int): CSRegistration {
     fun update(value: Boolean) = startDrawable(function(value))
     update(property.value)

@@ -24,12 +24,11 @@ import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
-import renetik.android.event.listen
-import renetik.android.event.property.CSEventPropertyFunctions.property
+import renetik.android.event.property.CSPropertyFunctions.property
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
-import renetik.android.core.lang.property.setFalse
-import renetik.android.core.lang.property.setTrue
+import renetik.android.core.lang.variable.setFalse
+import renetik.android.core.lang.variable.setTrue
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 

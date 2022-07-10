@@ -4,7 +4,7 @@ import renetik.android.network.process.CSProcessBase
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.owner.CSContext
+import renetik.android.event.registrations.CSContext
 import renetik.android.event.registration.CSRegistration
 
 open class CSOperation<Data : Any>() : CSContext(), CSRegistration {

@@ -7,7 +7,7 @@ import renetik.android.core.logging.CSLog.logError
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.util.CSSynchronizedProperty.Companion.synchronized
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.owner.CSContext
+import renetik.android.event.registrations.CSContext
 
 open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
 

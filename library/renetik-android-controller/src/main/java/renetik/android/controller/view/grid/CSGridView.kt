@@ -9,9 +9,9 @@ import renetik.android.controller.base.CSView
 import renetik.android.controller.base.asCS
 import renetik.android.controller.base.findView
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.property.CSEventProperty
-import renetik.android.event.property.CSEventPropertyFunctions.property
-import renetik.android.event.owner.register
+import renetik.android.event.property.CSProperty
+import renetik.android.event.property.CSPropertyFunctions.property
+import renetik.android.event.registrations.register
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.extensions.widget.scrollToIndex
 import renetik.android.core.kotlin.collections.list
@@ -22,7 +22,7 @@ class CSGridView<ItemType : Any>(
     val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>
 ) : CSView<GridView>(parent, viewId) {
 
-    val selectedItem: CSEventProperty<ItemType?> = property(null)
+    val selectedItem: CSProperty<ItemType?> = property(null)
     private var listAdapter = Adapter()
     val data = list<ItemType>()
 
