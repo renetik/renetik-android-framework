@@ -7,7 +7,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import renetik.android.core.extensions.content.asString
 import renetik.android.core.extensions.content.isNetworkConnected
-import renetik.android.event.registrations.CSContext
+import renetik.android.event.common.CSContext
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.core.logging.CSLog.logDebug
 

@@ -3,7 +3,7 @@ package renetik.android.ui.protocol
 import renetik.android.core.java.util.CSTimer.scheduleAtFixedRateRunOnUI
 import renetik.android.core.lang.Func
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistrationFunctions.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import java.util.concurrent.ScheduledFuture
 
 fun CSVisibility.whileShowingTrue(function: (Boolean) -> Unit) {

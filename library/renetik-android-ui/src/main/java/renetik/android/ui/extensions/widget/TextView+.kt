@@ -3,17 +3,17 @@ package renetik.android.ui.extensions.widget
 import android.text.Editable
 import android.widget.TextView
 import renetik.android.core.extensions.content.drawable
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSMultiRegistration
-import renetik.android.ui.protocol.CSVisibleEventOwner
-import renetik.android.event.property.CSProperty
-import renetik.android.event.property.action
+import renetik.android.core.kotlin.asString
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.value.CSValue
-import renetik.android.ui.view.adapter.CSTextWatcherAdapter
+import renetik.android.event.property.CSProperty
+import renetik.android.event.property.action
+import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.ui.extensions.view.shownIf
-import renetik.android.core.kotlin.asString
-import renetik.android.event.registration.CSRegistrationFunctions.CSRegistration
+import renetik.android.ui.protocol.CSVisibleEventOwner
+import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
 fun <T : TextView> T.textAppend(string: CharSequence?) = text("$title$string")

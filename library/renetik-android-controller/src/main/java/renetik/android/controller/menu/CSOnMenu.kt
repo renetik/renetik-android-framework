@@ -8,8 +8,8 @@ import androidx.appcompat.R.attr
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.kotlin.primitives.isSet
-import renetik.android.event.registrations.CSContext
-import renetik.android.event.property.CSPropertyFunctions.property
+import renetik.android.event.common.CSContext
+import renetik.android.event.property.CSProperty.Companion.property
 
 const val GeneratedMenuItems = 7687678
 

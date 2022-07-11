@@ -24,7 +24,7 @@ import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
-import renetik.android.event.property.CSPropertyFunctions.property
+import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.setFalse

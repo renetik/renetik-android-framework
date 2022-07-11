@@ -13,7 +13,7 @@ import renetik.android.controller.extensions.CSStartActivityResult.Cancel
 import renetik.android.core.kotlin.primitives.random
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.event.listen
-import renetik.android.event.registrations.register
+import renetik.android.event.registration.register
 
 fun CSActivityView<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
 	startActivity(Intent(activity(), activityClass))

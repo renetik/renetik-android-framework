@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
-import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.registrations.CSRegistrations
-import renetik.android.ui.protocol.CSVisibility
-import renetik.android.event.fire
-import renetik.android.event.property.CSPropertyFunctions.property
 import renetik.android.core.lang.variable.CSVariable
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
+import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.CSRegistrations
+import renetik.android.ui.protocol.CSVisibility
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
     val onCreate = event<Bundle?>()
@@ -97,9 +97,10 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         System.gc()
     }
 
-    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         onActivityResult.fire(CSActivityResult(requestCode, resultCode, data))
+        @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
     }
 

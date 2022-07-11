@@ -4,7 +4,7 @@ import com.androidnetworking.AndroidNetworking
 import okhttp3.*
 import okhttp3.Credentials.basic
 import okhttp3.OkHttpClient.Builder
-import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.lang.CSDataConstants.MB
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen

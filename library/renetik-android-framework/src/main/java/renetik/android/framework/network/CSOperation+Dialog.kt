@@ -5,7 +5,7 @@ import renetik.android.network.operation.CSOperation
 import renetik.android.network.process.CSProcessBase
 import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.controller.base.CSActivityView
-import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.kotlin.unfinished
 
 //fun <Data : Any> CSOperation<Data>.send(

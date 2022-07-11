@@ -58,5 +58,6 @@ dokkaHtml {
     }
 }
 afterEvaluate {
+    println "afterEvaluate: ${project.name} lint disabled"
     tasks.findAll { it.name.startsWith('lint') }.each { it.enabled = false }
 }

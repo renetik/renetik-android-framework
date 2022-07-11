@@ -7,7 +7,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import renetik.android.core.extensions.content.dpToPixel
-import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.lang.CSEnvironment.app
 
 val layoutMatch get() = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 val layoutMatchCenter get() = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT, CENTER)

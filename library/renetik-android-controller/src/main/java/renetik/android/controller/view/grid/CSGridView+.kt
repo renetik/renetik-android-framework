@@ -2,7 +2,7 @@ package renetik.android.controller.view.grid
 
 import renetik.android.event.registration.pause
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registrations.register
+import renetik.android.event.registration.register
 import renetik.android.event.registration.resume
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue

@@ -14,8 +14,9 @@ import androidx.core.content.FileProvider.getUriForFile
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.requestPermissions
 import renetik.android.controller.extensions.startActivityForResult
-import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.extensions.content.Intent
+import renetik.android.core.extensions.content.externalFilesDir
 import renetik.android.core.java.io.createDatedFile
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.unfinished

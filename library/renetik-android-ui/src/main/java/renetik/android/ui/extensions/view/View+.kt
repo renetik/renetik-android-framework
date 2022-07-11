@@ -19,16 +19,16 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import renetik.android.core.extensions.content.CSToast.toast
 import renetik.android.core.kotlin.isNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.variable.toggle
-import renetik.android.event.*
+import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
-import renetik.android.event.property.CSPropertyFunctions.property
+import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.view.adapter.CSClickAdapter
@@ -315,7 +315,6 @@ fun <T : View> T.onDoubleTap(function: (T) -> Unit) = apply {
     val detector = GestureDetector(context, object : SimpleOnGestureListener() {
         override fun onDoubleTap(e: MotionEvent): Boolean {
             function(view)
-            toast("")
             return true
         }
 

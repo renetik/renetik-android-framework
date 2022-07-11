@@ -6,7 +6,7 @@ import org.json.JSONTokener
 import renetik.android.network.process.CSHttpProcess
 import renetik.android.network.data.CSHttpResponseData
 import renetik.android.network.operation.CSOperation
-import renetik.android.core.CSApplication.Companion.app
+import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.primitives.isFalse
