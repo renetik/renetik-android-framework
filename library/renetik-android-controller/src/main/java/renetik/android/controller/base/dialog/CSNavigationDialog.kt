@@ -7,11 +7,6 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
-import renetik.android.ui.R.color
-import renetik.android.ui.R.layout
-import renetik.android.core.extensions.content.color
-import renetik.android.core.extensions.content.dpToPixelF
-import renetik.android.core.extensions.content.statusBarHeight
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.dialog.DialogAnimation.*
 import renetik.android.controller.base.dialog.DialogPopupSide.Bottom
@@ -22,19 +17,23 @@ import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
-import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.fire
-import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.core.extensions.content.color
+import renetik.android.core.extensions.content.dpToPixelF
+import renetik.android.core.extensions.content.statusBarHeight
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
+import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.ui.R.color
+import renetik.android.ui.R.layout.cs_frame_match
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 
 open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)
-    : CSActivityView<FrameLayout>(parent.navigation!!,
-    layout(layout.cs_frame_match)),
+    : CSActivityView<FrameLayout>(parent.navigation!!, layout(cs_frame_match)),
     CSNavigationItem, Closeable {
 
     lateinit var dialogContent: ViewType
