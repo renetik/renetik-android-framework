@@ -92,7 +92,7 @@ open class CSActivityView<ViewType : View>
         if (isResumed) onPause()
         if (isDestroyed) unexpected("$className $this Already destroyed")
         whileVisibleEventRegistrations.cancel()
-        isVisibleEventRegistrations.cancel()
+//        isVisibleEventRegistrations.cancel()
         super.onDestroy()
         parentActivityView = null
         activity = null
@@ -180,12 +180,12 @@ open class CSActivityView<ViewType : View>
         if (isVisible == showing) return
         _isVisible = showing
         if (isVisible) {
-            isVisibleEventRegistrations.setActive(true)
+            whileVisibleEventRegistrations.setActive(true)
             onViewShowing()
         } else {
-            isVisibleEventRegistrations.setActive(false)
+            whileVisibleEventRegistrations.setActive(false)
             onViewHiding()
-            whileVisibleEventRegistrations.cancel()
+//            whileVisibleEventRegistrations.cancel()
         }
         onViewVisibilityChanged()
     }
@@ -216,9 +216,9 @@ open class CSActivityView<ViewType : View>
 
     protected open fun onViewHidingAgain() {}
 
-    private val isVisibleEventRegistrations = CSRegistrations()
-    fun ifVisible(registration: CSRegistration?) =
-        registration?.let { isVisibleEventRegistrations.add(it) }
+//    private val isVisibleEventRegistrations = CSRegistrations()
+//    fun ifVisible(registration: CSRegistration?) =
+//        registration?.let { isVisibleEventRegistrations.add(it) }
 
     private val whileVisibleEventRegistrations = CSRegistrations()
     override fun whileShowing(registration: CSRegistration) =

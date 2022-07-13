@@ -13,10 +13,10 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.event.common.CSContext
 import renetik.android.event.listenOnce
 import renetik.android.event.registration.register
-import renetik.android.ui.protocol.CSHasParent
-import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.protocol.CSHasParent
+import renetik.android.ui.protocol.CSViewInterface
 
 open class CSView<ViewType : View> : CSContext,
     CSHasParent, CSViewInterface {
@@ -105,15 +105,12 @@ open class CSView<ViewType : View> : CSContext,
 
     override fun onDestroy() {
         if (isDestroyed) unexpected("$className $this Already destroyed")
-        // We need live view instance when calling onDestroy,
-        // because it can be used by clients
         super.onDestroy()
-        if (layout != null) {
-            if (_view == null) unexpected("$className $this _view shouldn't be null")
-            _view!!.visibility = View.GONE
-            _view!!.tag = "tag instance of $className removed, onDestroy called"
+        if (layout != null) _view?.let {
+            it.visibility = View.GONE
+            it.tag = "tag instance of $className removed, onDestroy called"
+            _view = null
         }
-        _view = null
     }
 
     override fun onAddedToParent() = Unit
