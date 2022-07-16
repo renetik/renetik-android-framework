@@ -31,6 +31,7 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
@@ -293,11 +294,9 @@ fun View.exitFullscreen() {
 
 fun View.onLayoutChange(function: () -> Unit): CSRegistration {
     val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
-    addOnLayoutChangeListener(listener)
-    return object : CSRegistration {
-        override var isActive = true
-        override fun cancel() = removeOnLayoutChangeListener(listener)
-    }
+    return CSRegistration(
+        onResume = { addOnLayoutChangeListener(listener) },
+        onPause = { removeOnLayoutChangeListener(listener) })
 }
 
 fun View.onScrollChange(function: (view: View) -> Unit) =

@@ -17,6 +17,7 @@ val layoutWrapMatchCenter get() = FrameLayout.LayoutParams(WRAP_CONTENT, MATCH_P
 val layoutMatchFill get() = LinearLayout.LayoutParams(MATCH_PARENT, 0, 1f)
 val layoutWrapFill get() = LinearLayout.LayoutParams(WRAP_CONTENT, 0, 1f)
 val layoutWrap get() = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+val layoutWrapCenter get() = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT, CENTER)
 fun layoutWrap(gravity: Int) = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT, gravity)
 val layoutWrapMatch get() = FrameLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
 val layoutFillMatch get() = LinearLayout.LayoutParams(0, MATCH_PARENT, 1f)

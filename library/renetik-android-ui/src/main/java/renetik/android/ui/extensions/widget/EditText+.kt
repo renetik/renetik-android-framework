@@ -12,7 +12,7 @@ import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.core.kotlin.asString
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.pause
+import renetik.android.event.registration.paused
 
 val EditText.eventClear get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<EditText>() }
 
@@ -42,7 +42,7 @@ fun EditText.textProperty(property: CSProperty<String>): CSRegistration {
     fun updateText() = text(property.value.asString)
     val propertyOnChange = property.onChange { updateText() }
     onTextChange {
-        propertyOnChange.pause().use { property.value = if (text().isEmpty) "" else text() }
+        propertyOnChange.paused { property.value = if (text().isEmpty) "" else text() }
     }
     updateText()
     return propertyOnChange

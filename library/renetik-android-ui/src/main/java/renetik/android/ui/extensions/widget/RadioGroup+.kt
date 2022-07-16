@@ -8,9 +8,9 @@ import androidx.annotation.LayoutRes
 import renetik.android.ui.R
 import renetik.android.ui.protocol.CSVisibleEventOwner
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.registration.pause
 import renetik.android.event.property.CSProperty
 import renetik.android.core.lang.CSHasTitle
+import renetik.android.event.registration.paused
 import renetik.android.ui.extensions.view.*
 
 fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
@@ -53,6 +53,6 @@ fun <T : Any> RadioGroup.property(
     }
 
     val onPropertyChange = parent.whileShowing(property.onChange { updateChecked() })
-    onChange { buttonId -> onPropertyChange.pause().use { property.value = data[buttonId] } }
+    onChange { buttonId -> onPropertyChange.paused { property.value = data[buttonId] } }
     updateChecked()
 }

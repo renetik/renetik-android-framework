@@ -9,7 +9,7 @@ import renetik.android.core.kotlin.collections.index
 import renetik.android.core.lang.Func
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.pause
+import renetik.android.event.registration.paused
 
 fun <Row : Any> NumberPicker.loadData(data: List<Row>, selected: Row? = null) =
     loadData(data, selectedIndex = data.index(selected) ?: 0)
@@ -49,7 +49,7 @@ fun NumberPicker.max(value: Int) = apply { maxValue = value }
 @JvmName("valuePropertyInt")
 fun NumberPicker.value(property: CSProperty<Int>): CSRegistration {
     val registration = value(property) { it }
-    onValueChange { registration.pause().use { property.value = value } }
+    onValueChange { registration.paused { property.value = value } }
     return registration
 }
 

@@ -67,10 +67,10 @@ fun <T, V> TextView.text(parent: CSProperty<T>,
         childRegistration?.cancel()
         childRegistration = text(child(parent.value), getText)
     }
-    return CSRegistration {
+    return CSRegistration(onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
-    }
+    })
 }
 
 fun <T> TextView.textOfChild(
@@ -86,10 +86,10 @@ fun <T, V> TextView.textNullableChild(
         childRegistration = child(parent.value)?.let { text(it, getText) }
         if (childRegistration == null) text(getText(null))
     }
-    return CSRegistration {
+    return CSRegistration(onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
-    }
+    })
 }
 
 fun <T> TextView.text(property: CSProperty<T>, getText: (T) -> Any) =

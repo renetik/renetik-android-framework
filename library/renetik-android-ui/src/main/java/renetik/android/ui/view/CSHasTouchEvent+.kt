@@ -1,9 +1,9 @@
 import android.view.MotionEvent.*
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.pause
-import renetik.android.event.property.CSProperty
-import renetik.android.ui.view.CSHasTouchEvent
 import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.paused
+import renetik.android.ui.view.CSHasTouchEvent
 
 fun <T : CSHasTouchEvent> T.onTouch(function: (down: Boolean) -> Unit) = apply {
     onTouchEvent = {
@@ -29,14 +29,14 @@ fun <T : CSHasTouchEvent> T.onTouchDown(function: () -> Unit) = apply {
 fun <T : CSHasTouchEvent> T.toggleActiveIf(property: CSProperty<Boolean>): CSRegistration {
     setToggleActive(property.value)
     val propertyOnChange = property.onChange { setToggleActive(property.value) }
-    onTouchActiveToggle { on -> propertyOnChange.pause().use { property.value(on) } }
+    onTouchActiveToggle { on -> propertyOnChange.paused { property.value(on) } }
     return propertyOnChange
 }
 
 fun <T : CSHasTouchEvent> T.toggleSelectedIf(property: CSProperty<Boolean>): CSRegistration {
     setToggleSelected(property.value)
     val propertyOnChange = property.onChange { setToggleSelected(property.value) }
-    onTouchSelectedToggle { on -> propertyOnChange.pause().use { property.value(on) } }
+    onTouchSelectedToggle { on -> propertyOnChange.paused { property.value(on) } }
     return propertyOnChange
 }
 

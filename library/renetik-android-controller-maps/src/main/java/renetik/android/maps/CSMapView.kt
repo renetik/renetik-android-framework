@@ -31,7 +31,7 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
     private var onInfoWindowClick = event<Marker>()
     fun onMarkerInfoClick(function: (Marker) -> Unit) = onInfoWindowClick.listen(function)
 
-    override fun obtainView() = MapView(this, options)
+    override fun createView() = MapView(this, options)
 
     constructor(parent: CSActivityView<*>) : this(parent, GoogleMapOptions())
 

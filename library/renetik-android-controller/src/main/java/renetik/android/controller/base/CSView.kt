@@ -11,8 +11,6 @@ import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.event.common.CSContext
-import renetik.android.event.listenOnce
-import renetik.android.event.registration.register
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.protocol.CSHasParent
@@ -24,10 +22,6 @@ open class CSView<ViewType : View> : CSContext,
     private val layout: CSLayoutRes?
     private val viewId: Int?
     private var parent: CSViewInterface? = null
-        set(value) {
-            field = value
-            register(field?.eventDestroy?.listenOnce { onDestroy() })
-        }
     var lifecycleStopOnRemoveFromParent = true
     private var _group: ViewGroup? = null
     private val group: ViewGroup? by lazy {
@@ -69,10 +63,12 @@ open class CSView<ViewType : View> : CSContext,
                 isDestroyed -> unexpected("$className $this Already destroyed")
                 layout != null -> setView(inflate(layout.id))
                 viewId != null -> setView(parent!!.view(viewId) as ViewType)
-                else -> (parent?.view as? ViewType)?.let {
-                    _view = it
-                    onViewReady()
-                } ?: setView(obtainView()!!)
+                else -> createView()?.let { setView(it) } ?: run {
+                    (parent?.view as? ViewType)?.let {
+                        _view = it
+                        onViewReady()
+                    }
+                }
             }
             return _view!!
         }
@@ -87,7 +83,7 @@ open class CSView<ViewType : View> : CSContext,
     fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType =
         group?.inflate(layoutId) ?: context.inflate(layoutId)
 
-    protected open fun obtainView(): ViewType? = null
+    protected open fun createView(): ViewType? = null
 
     protected open fun onViewReady() = Unit
 
@@ -105,12 +101,9 @@ open class CSView<ViewType : View> : CSContext,
 
     override fun onDestroy() {
         if (isDestroyed) unexpected("$className $this Already destroyed")
+        _view?.tag = "tag instance of $className removed, onDestroy called"
         super.onDestroy()
-        if (layout != null) _view?.let {
-            it.visibility = View.GONE
-            it.tag = "tag instance of $className removed, onDestroy called"
-            _view = null
-        }
+        _view = null
     }
 
     override fun onAddedToParent() = Unit

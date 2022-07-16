@@ -6,25 +6,27 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.ContentFrameLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import renetik.android.core.extensions.content.input
 import renetik.android.controller.common.CSNavigationView
-import renetik.android.event.CSEvent.Companion.event
+import renetik.android.core.extensions.content.input
+import renetik.android.core.kotlin.className
+import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarn
-import renetik.android.ui.protocol.CSVisibility
-import renetik.android.ui.protocol.CSVisibleEventOwner
-import renetik.android.ui.extensions.view.isVisible
-import renetik.android.core.kotlin.className
-import renetik.android.core.kotlin.unexpected
-import renetik.android.event.*
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
+import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.register
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrations
+import renetik.android.event.registration.register
+import renetik.android.ui.extensions.view.isVisible
+import renetik.android.ui.protocol.CSVisibility
+import renetik.android.ui.protocol.CSVisibleEventOwner
 
 open class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations, CSVisibleEventOwner {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations,
+    CSVisibleEventOwner {
 
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()
@@ -36,6 +38,11 @@ open class CSActivityView<ViewType : View>
     private var parentActivityView: CSActivityView<*>? = null
     var activity: CSActivity? = null
     var showingInPager: Boolean? = null
+
+    constructor(activity: CSActivity) : super(activity) {
+        this.activity = activity
+        initializeParent(activity)
+    }
 
     constructor(activity: CSActivity, layout: CSLayoutRes) : super(activity, layout) {
         this.activity = activity
@@ -185,7 +192,6 @@ open class CSActivityView<ViewType : View>
         } else {
             whileVisibleEventRegistrations.setActive(false)
             onViewHiding()
-//            whileVisibleEventRegistrations.cancel()
         }
         onViewVisibilityChanged()
     }

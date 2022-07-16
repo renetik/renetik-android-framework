@@ -3,11 +3,12 @@ package renetik.android.material.extensions
 import android.view.View
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSMultiRegistration
-import renetik.android.event.registration.pause
-import renetik.android.event.property.CSProperty
 import renetik.android.core.kotlin.primitives.roundToStep
+import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.paused
 import renetik.android.ui.extensions.view.findView
 import kotlin.math.roundToInt
 
@@ -15,14 +16,8 @@ fun View.slider(id: Int) = findView<Slider>(id)!!
 
 fun <T : Slider> T.onChange(listener: (T) -> Unit): CSRegistration {
     val sliderListener = OnChangeListener { _, _, _ -> listener(this) }
-    addOnChangeListener(sliderListener)
-    return object : CSRegistration {
-        override var isActive = true
-            set(value) = if (value) addOnChangeListener(sliderListener)
-            else removeOnChangeListener(sliderListener)
-
-        override fun cancel() = removeOnChangeListener(sliderListener)
-    }
+    return CSRegistration(onResume = { addOnChangeListener(sliderListener) },
+        onPause = { removeOnChangeListener(sliderListener) })
 }
 
 fun <T : Slider> T.onDragStart(listener: (T) -> Unit): CSRegistration {
@@ -30,14 +25,8 @@ fun <T : Slider> T.onDragStart(listener: (T) -> Unit): CSRegistration {
         override fun onStartTrackingTouch(slider: Slider) = listener(this@onDragStart)
         override fun onStopTrackingTouch(slider: Slider) = Unit
     }
-    addOnSliderTouchListener(sliderListener)
-    return object : CSRegistration {
-        override var isActive = true
-            set(value) = if (value) addOnSliderTouchListener(sliderListener)
-            else removeOnSliderTouchListener(sliderListener)
-
-        override fun cancel() = removeOnSliderTouchListener(sliderListener)
-    }
+    return CSRegistration(onResume = { addOnSliderTouchListener(sliderListener) },
+        onPause = { removeOnSliderTouchListener(sliderListener) })
 }
 
 fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSRegistration {
@@ -45,14 +34,8 @@ fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSRegistration {
         override fun onStartTrackingTouch(slider: Slider) = Unit
         override fun onStopTrackingTouch(slider: Slider) = listener(this@onDragStop)
     }
-    addOnSliderTouchListener(sliderListener)
-    return object : CSRegistration {
-        override var isActive = true
-            set(value) = if (value) addOnSliderTouchListener(sliderListener)
-            else removeOnSliderTouchListener(sliderListener)
-
-        override fun cancel() = removeOnSliderTouchListener(sliderListener)
-    }
+    return CSRegistration(onResume = { addOnSliderTouchListener(sliderListener) },
+        onPause = { removeOnSliderTouchListener(sliderListener) })
 }
 
 fun <T : Slider> T.value(value: Float) = apply { this.value = value }
@@ -74,10 +57,10 @@ fun Slider.value(property: CSProperty<Float>,
     value(property.value.roundToStep(step))
     lateinit var onSliderChangeRegistration: CSRegistration
     val onChangeRegistration = property.onChange {
-        onSliderChangeRegistration.pause().use { value(property.value.roundToStep(step)) }
+        onSliderChangeRegistration.paused { value(property.value.roundToStep(step)) }
     }
     onSliderChangeRegistration = onChange {
-        onChangeRegistration.pause().use { property.value = value }
+        onChangeRegistration.paused { property.value = value }
     }
     return CSMultiRegistration(onChangeRegistration, onSliderChangeRegistration)
 }
@@ -92,10 +75,10 @@ fun Slider.value(property: CSProperty<Int>,
     value(property.value.roundToStep(step))
     lateinit var onSliderChangeRegistration: CSRegistration
     val onChangeRegistration = property.onChange {
-        onSliderChangeRegistration.pause().use { value(property.value.roundToStep(step)) }
+        onSliderChangeRegistration.paused { value(property.value.roundToStep(step)) }
     }
     onSliderChangeRegistration = onChange {
-        onChangeRegistration.pause().use { property.value = value.roundToInt() }
+        onChangeRegistration.paused { property.value = value.roundToInt() }
     }
     return CSMultiRegistration(onChangeRegistration, onSliderChangeRegistration)
 }

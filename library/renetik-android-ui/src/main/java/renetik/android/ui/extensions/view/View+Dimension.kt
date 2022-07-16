@@ -6,69 +6,54 @@ import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
+import renetik.android.core.lang.void
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 
-fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSRegistration? {
-    if (width == 0 || height == 0) return onLayout {
+fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSRegistration? =
+    if (width == 0 || height == 0) onGlobalLayout {
         if (width != 0 && height != 0) {
             onHasSize(this@hasSize)
-            return@onLayout true
+            it.cancel()
         }
-        return@onLayout false
     }
     else {
         onHasSize(this)
-        return null
+        null
     }
+
+fun <T : View> T.afterGlobalLayout(
+    function: (View) -> Unit): CSRegistration = onGlobalLayout {
+    function(this)
+    it.cancel()
 }
 
-fun <T : View> T.afterGlobalLayout(action: (View) -> Unit) = object : CSRegistration {
-    val listener = OnGlobalLayoutListener {
-        if (isActive) {
-            cancel()
-            action(this@afterGlobalLayout)
-        }
+fun <T : View> T.onGlobalFocus(
+    function: (View?, View?) -> Unit): CSRegistration {
+    lateinit var registration: CSRegistration
+    val listener = OnGlobalFocusChangeListener { old, new ->
+        if (registration.isActive) function(old, new)
     }
-    override var isActive = true
-    override fun cancel() {
-        isActive = false
-        viewTreeObserver.removeOnGlobalLayoutListener(listener)
-    }
-
-    init {
-        viewTreeObserver.addOnGlobalLayoutListener(listener)
-    }
-}
-
-fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit) = object : CSRegistration {
-    val listener = OnGlobalFocusChangeListener { old, new -> if (isActive) function(old, new) }
-    override var isActive = true
-    override fun cancel() {
-        isActive = false
-        viewTreeObserver.removeOnGlobalFocusChangeListener(listener)
-    }
-
-    init {
-        viewTreeObserver.addOnGlobalFocusChangeListener(listener)
-    }
+    registration = CSRegistration(
+        onResume = { viewTreeObserver.addOnGlobalFocusChangeListener(listener) },
+        onPause = { viewTreeObserver.removeOnGlobalFocusChangeListener(listener) }
+    )
+    return registration
 }
 
 /**
  * @return true to remove listener
  **/
-fun <T : View> T.onLayout(action: (View) -> Boolean) = object : CSRegistration {
+fun <T : View> T.onGlobalLayout(action: (CSRegistration) -> void): CSRegistration {
+    lateinit var registration: CSRegistration
     val listener = OnGlobalLayoutListener {
-        if (isActive && action(this@onLayout)) cancel()
+        if (registration.isActive) action(registration)
     }
-    override var isActive = true
-    override fun cancel() {
-        isActive = false
-        viewTreeObserver.removeOnGlobalLayoutListener(listener)
-    }
-
-    init {
-        viewTreeObserver.addOnGlobalLayoutListener(listener)
-    }
+    registration = CSRegistration(
+        onResume = { viewTreeObserver.addOnGlobalLayoutListener(listener) },
+        onPause = { viewTreeObserver.removeOnGlobalLayoutListener(listener) }
+    )
+    return registration
 }
 
 fun <T : View> T.margins(left: Int, top: Int, right: Int, bottom: Int) = apply {

@@ -1,5 +1,9 @@
 package renetik.android.controller.base
 
+import android.hardware.SensorManager.SENSOR_DELAY_NORMAL
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
+import android.view.OrientationEventListener
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -7,14 +11,17 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
+import renetik.android.core.extensions.content.CSDisplayOrientation
+import renetik.android.core.extensions.content.screenRotation
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.cancel
 import renetik.android.event.registration.register
-import renetik.android.event.registration.remove
-import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.extensions.widget.onChange
 import renetik.android.ui.extensions.widget.radioGroup
+import renetik.android.ui.protocol.CSViewInterface
 
 fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
 
@@ -80,7 +87,7 @@ fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
     lateinit var registration: CSRegistration
     registration = register(view.afterGlobalLayout {
         function()
-        remove(registration)
+        cancel(registration)
     })
     return registration
 }
@@ -94,7 +101,7 @@ fun <Type> Type.hasSize(function: (Type) -> Unit)
     var registration: CSRegistration? = null
     registration = register(view.hasSize {
         function(this)
-        remove(registration)
+        cancel(registration)
     })
 }
 
@@ -107,5 +114,25 @@ fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: 
 fun View.asCSView() = asCS<CSView<*>>()
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()
 fun <CSViewType : CSView<*>> View.asCS() = this.tag as? CSViewType
+
+val CSView<*>.displayCutout: CSDisplayCutout?
+    get() = (if (VERSION.SDK_INT >= VERSION_CODES.P)
+        view.rootWindowInsets.displayCutout?.let { CSDisplayCutout(it) }
+    else null)
+
+fun CSView<*>.onOrientationChange(
+    function: (CSDisplayOrientation) -> Unit): CSRegistration {
+    var afterGlobalLayoutRegistration: CSRegistration? = null
+    val listener = object : OrientationEventListener(this, SENSOR_DELAY_NORMAL) {
+        override fun onOrientationChanged(orientation: Int) {
+            afterGlobalLayoutRegistration?.cancel()
+            afterGlobalLayoutRegistration = afterGlobalLayout {
+                function(screenRotation)
+            }
+        }
+    }
+    return CSRegistration(onResume = { listener.enable() },
+        onPause = { listener.disable() })
+}
 
 

@@ -5,9 +5,9 @@ import android.widget.CompoundButton
 import androidx.annotation.ColorInt
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSMultiRegistration
-import renetik.android.event.registration.pause
 import renetik.android.event.property.CSProperty
 import renetik.android.core.lang.variable.isTrue
+import renetik.android.event.registration.paused
 
 fun CompoundButton.onCheck(function: (CompoundButton) -> Unit) = apply {
     setOnCheckedChangeListener { buttonView, _ -> function(buttonView) }
@@ -31,7 +31,7 @@ fun CompoundButton.isCheckedIfNot(condition: Boolean) = apply {
 
 fun CompoundButton.isCheckedIfNot(property: CSProperty<Boolean>): CSRegistration {
     val onChangeRegistration = property.onChange(this::isCheckedIfNot)
-    onCheck { onChangeRegistration.pause().use { property.value(!isChecked) } }
+    onCheck { onChangeRegistration.paused { property.value(!isChecked) } }
     isCheckedIfNot(property.isTrue)
     return onChangeRegistration
 }
@@ -39,7 +39,7 @@ fun CompoundButton.isCheckedIfNot(property: CSProperty<Boolean>): CSRegistration
 fun CompoundButton.isCheckedIf(property: CSProperty<Boolean>): CSRegistration {
     val onChangeRegistration = property.onChange(this::isCheckedIf)
     isCheckedIf(property.isTrue)
-    onCheck { onChangeRegistration.pause().use { property.value(isChecked) } }
+    onCheck { onChangeRegistration.paused { property.value(isChecked) } }
     return onChangeRegistration
 }
 
