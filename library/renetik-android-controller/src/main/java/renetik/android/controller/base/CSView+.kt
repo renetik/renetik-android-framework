@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.extensions.content.CSDisplayOrientation
-import renetik.android.core.extensions.content.screenRotation
+import renetik.android.core.extensions.content.orientation
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
@@ -121,18 +121,32 @@ val CSView<*>.displayCutout: CSDisplayCutout?
     else null)
 
 fun CSView<*>.onOrientationChange(
+    function: (CSRegistration, CSDisplayOrientation) -> Unit): CSRegistration {
+    lateinit var registration: CSRegistration
+    registration = onOrientationChange { orientation ->
+        function(registration, orientation)
+    }
+    return registration
+}
+
+fun CSView<*>.onOrientationChange(
     function: (CSDisplayOrientation) -> Unit): CSRegistration {
+    var currentOrientation = orientation
     var afterGlobalLayoutRegistration: CSRegistration? = null
     val listener = object : OrientationEventListener(this, SENSOR_DELAY_NORMAL) {
         override fun onOrientationChanged(orientation: Int) {
             afterGlobalLayoutRegistration?.cancel()
             afterGlobalLayoutRegistration = afterGlobalLayout {
-                function(screenRotation)
+                if (this@onOrientationChange.orientation != currentOrientation) {
+                    currentOrientation = this@onOrientationChange.orientation
+                    function(this@onOrientationChange.orientation)
+                }
             }
         }
     }
-    return CSRegistration(onResume = { listener.enable() },
-        onPause = { listener.disable() })
+    return register(CSRegistration(
+        onResume = { listener.enable() },
+        onPause = { listener.disable() }))
 }
 
 

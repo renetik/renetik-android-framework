@@ -32,9 +32,9 @@ open class CSActivityView<ViewType : View>
     override val eventPause = event<Unit>()
     override val eventBack = event<CSVariable<Boolean>>()
     final override fun activity(): CSActivity = activity!!
-    private var isResumed = false
+    var isResumed = false
+    val isPaused get() = !isResumed
     private var isResumeFirstTime = false
-    private val isPaused get() = !isResumed
     private var parentActivityView: CSActivityView<*>? = null
     var activity: CSActivity? = null
     var showingInPager: Boolean? = null
