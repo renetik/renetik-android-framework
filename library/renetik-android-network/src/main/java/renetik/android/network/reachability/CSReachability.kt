@@ -7,9 +7,10 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import renetik.android.core.extensions.content.asString
 import renetik.android.core.extensions.content.isNetworkConnected
-import renetik.android.event.common.CSContext
-import renetik.android.event.CSEvent.Companion.event
 import renetik.android.core.logging.CSLog.logDebug
+import renetik.android.core.logging.CSLogMessage.Companion.message
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.common.CSContext
 
 class CSReachability : CSContext() {
 
@@ -19,7 +20,7 @@ class CSReachability : CSContext() {
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            logDebug { intent.asString }
+            logDebug { message(intent.asString) }
             onNetworkStateChange()
         }
     }

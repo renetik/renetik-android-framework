@@ -3,11 +3,13 @@ package renetik.android.controller.common
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.ACTION_HEADSET_PLUG
 import android.content.IntentFilter
 import android.view.View
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
+import renetik.android.core.logging.CSLogMessage.Companion.message
 
 class CSHeadsetAudioPlugDetector(
     parent: CSActivityView<*>, val onHeadsetPlugChanged: (isPlugged: Boolean) -> Unit)
@@ -19,7 +21,7 @@ class CSHeadsetAudioPlugDetector(
 
     override fun onResume() {
         super.onResume()
-        registerReceiver(receiver, IntentFilter(Intent.ACTION_HEADSET_PLUG))
+        registerReceiver(receiver, IntentFilter(ACTION_HEADSET_PLUG))
     }
 
     override fun onPause() {
@@ -28,19 +30,21 @@ class CSHeadsetAudioPlugDetector(
     }
 
     fun onReceive(intent: Intent) {
-        if (intent.action == Intent.ACTION_HEADSET_PLUG) {
-            logInfo("ACTION_HEADSET_PLUG isInitialStickyBroadcast",
-                receiver.isInitialStickyBroadcast)
+        if (intent.action == ACTION_HEADSET_PLUG) {
+            logInfo {
+                message("ACTION_HEADSET_PLUG isInitialStickyBroadcast " +
+                        "${receiver.isInitialStickyBroadcast}")
+            }
             when (intent.getIntExtra("state", -1)) {
                 0 -> {
-                    logInfo("ACTION_HEADSET_PLUG isUnplugged")
+                    logInfo { message("ACTION_HEADSET_PLUG isUnplugged ") }
                     onHeadsetPlugChanged(false)
                 }
                 1 -> {
-                    logInfo("ACTION_HEADSET_PLUG isPlugged")
+                    logInfo { message("ACTION_HEADSET_PLUG isPlugged ") }
                     onHeadsetPlugChanged(true)
                 }
-                else -> logWarn("ACTION_HEADSET_PLUG unknown")
+                else -> logWarn { message("ACTION_HEADSET_PLUG unknown ") }
             }
         }
     }

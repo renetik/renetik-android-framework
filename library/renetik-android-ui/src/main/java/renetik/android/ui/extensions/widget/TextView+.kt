@@ -12,7 +12,7 @@ import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.ui.extensions.view.shownIf
-import renetik.android.ui.protocol.CSVisibleEventOwner
+import renetik.android.ui.protocol.CSVisibleHasRegistrations
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
@@ -40,15 +40,15 @@ fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
     setOnFocusChangeListener { _, _ -> onChange(this) }
 }
 
-fun TextView.text(parent: CSVisibleEventOwner, property: CSProperty<*>) =
+fun TextView.text(parent: CSVisibleHasRegistrations, property: CSProperty<*>) =
     text(parent, property) { it.asString }
 
 @JvmName("TextViewTextStringProperty")
-fun TextView.text(parent: CSVisibleEventOwner, property: CSProperty<String>) =
+fun TextView.text(parent: CSVisibleHasRegistrations, property: CSProperty<String>) =
     text(parent, property) { it }
 
 fun <T> TextView.text(
-    parent: CSVisibleEventOwner, property: CSProperty<T>,
+    parent: CSVisibleHasRegistrations, property: CSProperty<T>,
     getText: (T) -> CharSequence
 ) = apply {
     fun updateText() = text(getText(property.value))

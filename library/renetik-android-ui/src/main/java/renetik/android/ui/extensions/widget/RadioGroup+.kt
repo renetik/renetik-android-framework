@@ -6,7 +6,7 @@ import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.ui.R
-import renetik.android.ui.protocol.CSVisibleEventOwner
+import renetik.android.ui.protocol.CSVisibleHasRegistrations
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.core.lang.CSHasTitle
@@ -34,7 +34,7 @@ fun RadioGroup.propertyTrueIfChecked(property: CSProperty<Boolean?>, viewId: Int
 }
 
 fun <T : CSHasTitle> RadioGroup.property(
-    parent: CSVisibleEventOwner, property: CSProperty<T?>,
+    parent: CSVisibleHasRegistrations, property: CSProperty<T?>,
     list: List<T>, @LayoutRes layoutId: Int) = apply {
     val data = mutableMapOf<Int, T>()
     clear()
@@ -47,7 +47,7 @@ fun <T : CSHasTitle> RadioGroup.property(
 }
 
 fun <T : Any> RadioGroup.property(
-    parent: CSVisibleEventOwner, property: CSProperty<T?>, data: Map<Int, T>) = apply {
+    parent: CSVisibleHasRegistrations, property: CSProperty<T?>, data: Map<Int, T>) = apply {
     fun updateChecked() {
         checkedId = data.filterValues { it == property.value }.keys.firstOrNull()
     }

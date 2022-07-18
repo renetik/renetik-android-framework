@@ -83,14 +83,8 @@ fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
 }
 
 fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
-        where  Type : CSView<*>, Type : CSHasRegistrations {
-    lateinit var registration: CSRegistration
-    registration = register(view.afterGlobalLayout {
-        function()
-        cancel(registration)
-    })
-    return registration
-}
+        where  Type : CSView<*>, Type : CSHasRegistrations =
+    view.afterGlobalLayout(this) { function() }
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
         where  Type : CSView<*>, Type : CSHasRegistrations =
@@ -98,11 +92,7 @@ fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
 
 fun <Type> Type.hasSize(function: (Type) -> Unit)
         where  Type : CSView<*>, Type : CSHasRegistrations = apply {
-    var registration: CSRegistration? = null
-    registration = register(view.hasSize {
-        function(this)
-        cancel(registration)
-    })
+    view.hasSize(this) { function(this) }
 }
 
 fun <Type : CSView<*>> Type.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
@@ -135,7 +125,7 @@ fun CSView<*>.onOrientationChange(
     var afterGlobalLayoutRegistration: CSRegistration? = null
     val listener = object : OrientationEventListener(this, SENSOR_DELAY_NORMAL) {
         override fun onOrientationChanged(orientation: Int) {
-            afterGlobalLayoutRegistration?.cancel()
+            cancel(afterGlobalLayoutRegistration)
             afterGlobalLayoutRegistration = afterGlobalLayout {
                 if (this@onOrientationChange.orientation != currentOrientation) {
                     currentOrientation = this@onOrientationChange.orientation
@@ -144,8 +134,7 @@ fun CSView<*>.onOrientationChange(
             }
         }
     }
-    return register(CSRegistration(
-        onResume = { listener.enable() },
+    return register(CSRegistration(onResume = { listener.enable() },
         onPause = { listener.disable() }))
 }
 

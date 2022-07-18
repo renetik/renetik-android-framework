@@ -8,11 +8,12 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSActivityView
+import renetik.android.core.kotlin.unfinished
+import renetik.android.core.logging.CSLog.logError
+import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen
-import renetik.android.core.logging.CSLog.logError
 import renetik.android.maps.extensions.asLatLng
-import renetik.android.core.kotlin.unfinished
 
 private const val DEFAULT_ZOOM = 13f
 
@@ -46,9 +47,9 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
         try {
             function()
         } catch (ex: RuntimeException) {
-            logError(ex)
+            logError { message(ex) }
             if (ex.message?.contains("API key not found") == true) unfinished()
-                  //TODO finish if CSMapView is used ever
+            //TODO finish if CSMapView is used ever
 //                dialog("Error", ex.message!!).cancelable(false).show {
 //                    exitProcess(1)
 //                }
@@ -156,8 +157,8 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
     fun onMapAvailable(parent: CSActivityView<*>, onMapReady: (GoogleMap) -> Unit) {
         map?.let { onMapReady(it) } ?: let {
             parent.whileShowing(onMapReadyEvent.listen { registration, map ->
+                whileShowingCancel(registration)
                 onMapReady(map)
-                registration.cancel()
             })
         }
     }

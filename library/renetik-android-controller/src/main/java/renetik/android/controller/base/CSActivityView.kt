@@ -13,20 +13,20 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarn
+import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrations
 import renetik.android.event.registration.register
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.protocol.CSVisibility
-import renetik.android.ui.protocol.CSVisibleEventOwner
+import renetik.android.ui.protocol.CSVisibleHasRegistrations
 
 open class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations,
-    CSVisibleEventOwner {
+    CSVisibleHasRegistrations {
 
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()
@@ -87,7 +87,7 @@ open class CSActivityView<ViewType : View>
 
     open fun onPause() {
         if (isPaused && isVisible) {
-            logWarn(Throwable(), "Not Resumed while paused, should be resumed first", this)
+            logWarn { traceMessage("Not Resumed while paused, should be resumed first:$this") }
             return
         }
         isResumed = false
@@ -98,7 +98,7 @@ open class CSActivityView<ViewType : View>
     override fun onDestroy() {
         if (isResumed) onPause()
         if (isDestroyed) unexpected("$className $this Already destroyed")
-        whileVisibleEventRegistrations.cancel()
+        visibilityRegistrations.cancel()
 //        isVisibleEventRegistrations.cancel()
         super.onDestroy()
         parentActivityView = null
@@ -187,10 +187,10 @@ open class CSActivityView<ViewType : View>
         if (isVisible == showing) return
         _isVisible = showing
         if (isVisible) {
-            whileVisibleEventRegistrations.setActive(true)
+            visibilityRegistrations.setActive(true)
             onViewShowing()
         } else {
-            whileVisibleEventRegistrations.setActive(false)
+            visibilityRegistrations.setActive(false)
             onViewHiding()
         }
         onViewVisibilityChanged()
@@ -222,13 +222,7 @@ open class CSActivityView<ViewType : View>
 
     protected open fun onViewHidingAgain() {}
 
-//    private val isVisibleEventRegistrations = CSRegistrations()
-//    fun ifVisible(registration: CSRegistration?) =
-//        registration?.let { isVisibleEventRegistrations.add(it) }
-
-    private val whileVisibleEventRegistrations = CSRegistrations()
-    override fun whileShowing(registration: CSRegistration) =
-        registration.let { whileVisibleEventRegistrations.add(it) }
+    override val visibilityRegistrations = CSRegistrations()
 
     open val navigation: CSNavigationView? by lazy {
         var controller: CSActivityView<*>? = this

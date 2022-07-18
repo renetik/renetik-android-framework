@@ -1,12 +1,14 @@
 package renetik.android.ui.view.touch
 
 import android.view.MotionEvent
-import android.view.MotionEvent.*
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_MOVE
 import android.view.View
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.lang.CSEnvironment.app
-import renetik.android.event.CSEvent.Companion.event
 import renetik.android.core.logging.CSLog.logInfo
+import renetik.android.core.logging.CSLogMessage.Companion.message
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.*
 import kotlin.math.abs
 
@@ -32,22 +34,22 @@ class CSSwipeDetector(
 
     private fun onBottomToTopSwipe() {
         eventSwipe.fire(BottomToTop)
-        logInfo("SwipeDetector onBottomToTopSwipe!")
+        logInfo()
     }
 
     private fun onLeftToRightSwipe() {
         eventSwipe.fire(LeftToRight)
-        logInfo("SwipeDetector LeftToRightSwipe!")
+        logInfo()
     }
 
     private fun onRightToLeftSwipe() {
         eventSwipe.fire(RightToLeft)
-        logInfo("SwipeDetector RightToLeftSwipe!")
+        logInfo()
     }
 
     private fun onTopToBottomSwipe() {
         eventSwipe.fire(TopToBottom)
-        logInfo("SwipeDetector onTopToBottomSwipe!")
+        logInfo()
     }
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
@@ -76,9 +78,10 @@ class CSSwipeDetector(
                         return true
                     }
                 } else
-                    logInfo("SwipeDetector Swipe was only " + abs(deltaX) +
-                            " long, need at least " + minDistance)
-
+                    logInfo {
+                        message("Swipe was only ${abs(deltaX)} long, " +
+                                "need at least $minDistance")
+                    }
                 // swipe vertical?
                 if (abs(deltaY) > minDistance) {
                     // top or down
@@ -91,7 +94,10 @@ class CSSwipeDetector(
                         return true
                     }
                 } else {
-                    logInfo("Swipe was only " + abs(deltaX) + " long, need at least " + minDistance)
+                    logInfo {
+                        message("Swipe was only ${abs(deltaX)} long, " +
+                                "need at least $minDistance")
+                    }
                     view.performClick()
                 }
             }

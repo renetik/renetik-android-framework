@@ -26,7 +26,7 @@ import renetik.android.ui.R
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.ui.extensions.widget.*
-import renetik.android.ui.protocol.CSVisibleEventOwner
+import renetik.android.ui.protocol.CSVisibleHasRegistrations
 
 val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")
@@ -188,7 +188,7 @@ fun <T : TextInputLayout> T.onFocusChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onFocusChange { onChange(this) } }
 
 fun <T : Any> TextInputLayout.valueProperty(
-    parent: CSVisibleEventOwner, property: CSProperty<T?>
+    parent: CSVisibleHasRegistrations, property: CSProperty<T?>
 ) = apply {
     onTextChange { if (property.value.notNull) errorClear() }
     onClear { property.value = null }

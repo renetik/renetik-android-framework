@@ -7,7 +7,6 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
-import renetik.android.core.extensions.content.color
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
@@ -15,16 +14,18 @@ import renetik.android.controller.base.onGlobalFocus
 import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.extensions.add
 import renetik.android.controller.extensions.remove
-import renetik.android.core.lang.CSLayoutRes.Companion.layout
-import renetik.android.core.logging.CSLog.logDebug
-import renetik.android.core.kotlin.primitives.isFalse
-import renetik.android.core.kotlin.primitives.isSet
-import renetik.android.ui.extensions.view.background
-import renetik.android.ui.extensions.view.removeFromSuperview
+import renetik.android.core.extensions.content.color
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
 import renetik.android.core.kotlin.notNull
+import renetik.android.core.kotlin.primitives.isFalse
+import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.core.kotlin.unexpected
+import renetik.android.core.lang.CSLayoutRes.Companion.layout
+import renetik.android.core.logging.CSLog.logDebug
+import renetik.android.core.logging.CSLogMessage.Companion.message
+import renetik.android.ui.extensions.view.background
+import renetik.android.ui.extensions.view.removeFromSuperview
 
 class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
@@ -54,7 +55,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     fun <T : View> push(controller: CSActivityView<T>,
                         pushId: String? = null): CSActivityView<T> {
-        logDebug { controller }
+        logDebug { message(controller) }
         val isFullScreen =
             (controller as? CSNavigationItem)?.isFullscreenNavigationItem?.value ?: true
         current?.showingInPager(!isFullScreen)
@@ -70,7 +71,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     fun pop(controller: CSActivityView<*>) {
-        logDebug { controller }
+        logDebug { message(controller) }
         _controllers.remove(controller.toString()).notNull { popController(controller) }
     }
 

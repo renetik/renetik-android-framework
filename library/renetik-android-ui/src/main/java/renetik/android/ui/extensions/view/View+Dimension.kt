@@ -7,26 +7,31 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
 import renetik.android.core.lang.void
+import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.cancel
+import renetik.android.event.registration.register
 
-fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSRegistration? =
-    if (width == 0 || height == 0) onGlobalLayout {
+fun <T : View> T.hasSize(parent: CSHasRegistrations,
+                         onHasSize: (View) -> Unit): CSRegistration? =
+    if (width == 0 || height == 0) parent.register(onGlobalLayout {
         if (width != 0 && height != 0) {
             onHasSize(this@hasSize)
-            it.cancel()
+            parent.cancel(it)
         }
-    }
+    })
     else {
         onHasSize(this)
         null
     }
 
 fun <T : View> T.afterGlobalLayout(
-    function: (View) -> Unit): CSRegistration = onGlobalLayout {
+    parent: CSHasRegistrations, function: (View) -> Unit)
+        : CSRegistration = parent.register(onGlobalLayout {
     function(this)
-    it.cancel()
-}
+    parent.cancel(it)
+})
 
 fun <T : View> T.onGlobalFocus(
     function: (View?, View?) -> Unit): CSRegistration {

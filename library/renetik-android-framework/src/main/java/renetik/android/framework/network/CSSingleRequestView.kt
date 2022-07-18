@@ -4,9 +4,11 @@ import android.widget.ProgressBar
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.lang.CSTimeConstants.Second
 import renetik.android.core.logging.CSLog.logInfo
+import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.cancel
 import renetik.android.network.operation.CSOperation
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.onClick
@@ -29,7 +31,7 @@ open class CSSingleRequestView(parent: CSActivityView<*>, viewId: Int)
     }
 
     open fun <T : Any> send(operation: CSOperation<T>, title: String): CSOperation<T> {
-        retryTimer?.cancel()
+        cancel(retryTimer)
         currentOperation?.cancel()
         view.show()
         currentOperation = operation.onDone { view.gone() }
@@ -41,7 +43,7 @@ open class CSSingleRequestView(parent: CSActivityView<*>, viewId: Int)
     private fun send() {
         currentOperation?.send()?.onFailed {
             eventSendRetry.fire()
-            logInfo("$requestTitle not successful, retrying in $retrySecond sec.")
+            logInfo { message("$requestTitle not successful, retrying in $retrySecond sec.") }
             retryTimer = later(retrySecond * Second) {
                 retryTimer = null
                 send()
