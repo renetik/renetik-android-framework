@@ -48,6 +48,8 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override val view: View get() = window.decorView
     override val context: Context get() = this
 
+    override val registrations = CSRegistrations()
+
     abstract fun createView(): CSActivityView<out ViewGroup>
 
     override fun onCreate(state: Bundle?) {
@@ -92,9 +94,9 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     override fun onDestroy() {
         super.onDestroy()
-        eventDestroy.fire()
+        registrations.cancel()
+        eventDestroy.fire().clear()
         activityView = null
-        System.gc()
     }
 
     @Deprecated("Deprecated in Java")
@@ -175,5 +177,5 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onLowMemory()
     }
 
-    override val registrations = CSRegistrations()
+
 }

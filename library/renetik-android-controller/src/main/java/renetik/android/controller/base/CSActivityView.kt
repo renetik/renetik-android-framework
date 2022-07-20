@@ -99,7 +99,6 @@ open class CSActivityView<ViewType : View>
         if (isResumed) onPause()
         if (isDestroyed) unexpected("$className $this Already destroyed")
         visibilityRegistrations.cancel()
-//        isVisibleEventRegistrations.cancel()
         super.onDestroy()
         parentActivityView = null
         activity = null

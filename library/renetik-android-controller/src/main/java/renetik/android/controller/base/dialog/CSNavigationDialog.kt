@@ -24,24 +24,24 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
+import renetik.android.core.logging.CSLog
+import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.common.onDestroy
 import renetik.android.event.fire
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.register
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 
-open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGroup>)
+open class CSNavigationDialog<ViewType : View>(
+    val parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes)
     : CSActivityView<FrameLayout>(parent.navigation!!, layout(cs_frame_match)),
     CSNavigationItem, Closeable {
 
-    lateinit var dialogContent: ViewType
-
-    constructor(parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes) : this(parent) {
-        dialogContent = inflate<ViewType>(layout.id).also { it.isClickable = true }
-    }
-
+    val dialogContent: ViewType = inflate(layout.id)
     override var isFullscreenNavigationItem = property(false)
     var animation = Fade
     private val marginDp = 5
@@ -51,6 +51,13 @@ open class CSNavigationDialog<ViewType : View>(parent: CSActivityView<out ViewGr
 
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
+
+    init {
+        dialogContent.isClickable = true
+        register(parent.onDestroy {
+            dismiss()
+        })
+    }
 
     override fun onViewReady() {
         super.onViewReady()

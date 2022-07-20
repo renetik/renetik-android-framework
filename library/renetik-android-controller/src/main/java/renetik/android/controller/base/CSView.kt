@@ -13,6 +13,7 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.event.common.CSContext
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.removeFromSuperview
 import renetik.android.ui.protocol.CSHasParent
 import renetik.android.ui.protocol.CSViewInterface
 
@@ -103,6 +104,7 @@ open class CSView<ViewType : View> : CSContext,
         if (isDestroyed) unexpected("$className $this Already destroyed")
         _view?.tag = "tag instance of $className removed, onDestroy called"
         super.onDestroy()
+//        _view?.removeFromSuperview() // Experimental Try ..
         _view = null
     }
 
