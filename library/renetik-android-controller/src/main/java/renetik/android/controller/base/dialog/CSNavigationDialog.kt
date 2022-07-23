@@ -24,11 +24,10 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
-import renetik.android.core.logging.CSLog
-import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.onDestroy
 import renetik.android.event.fire
+import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.register
 import renetik.android.ui.R.color
@@ -47,16 +46,15 @@ open class CSNavigationDialog<ViewType : View>(
     private val marginDp = 5
 
     private val eventOnDismiss = event<Unit>()
-    fun onDismiss(function: () -> Unit) = eventOnDismiss.listen { function() }
+    fun onDismiss(function: () -> Unit) = eventOnDismiss.listen(function)
 
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
 
     init {
         dialogContent.isClickable = true
-        register(parent.onDestroy {
-            dismiss()
-        })
+        // Todo: ??? clarify or change 
+        register(parent.onDestroy { if (lifecycleStopOnRemoveFromParentView) dismiss() })
     }
 
     override fun onViewReady() {
@@ -67,8 +65,8 @@ open class CSNavigationDialog<ViewType : View>(
         view.add(dialogContent)
     }
 
-    override fun onRemovedFromParent() {
-        super.onRemovedFromParent()
+    override fun onRemovedFromParentView() {
+        super.onRemovedFromParentView()
         eventOnDismiss.fire()
     }
 

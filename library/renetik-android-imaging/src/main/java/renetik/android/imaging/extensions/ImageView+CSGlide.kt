@@ -1,37 +1,41 @@
 package renetik.android.imaging.extensions
 
-import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy.ALL
 import com.bumptech.glide.signature.ObjectKey
-import renetik.android.event.registration.CSRegistration
 import renetik.android.event.property.CSProperty
+import renetik.android.event.property.action
+import renetik.android.event.registration.CSHasRegistrations
+import renetik.android.event.registration.CSRegistration
+import renetik.android.ui.extensions.view.hasSize
 import java.io.File
 
+fun <T : ImageView> T.image(@DrawableRes resourceId: Int?) = apply {
+    resourceId?.let(this::setImageResource) ?: run { setImageDrawable(null) }
+}
+
 fun <T : ImageView> T.image(
-    @DrawableRes resourceId: Int?,
-    useAndroidSdk: Boolean = false) = apply {
+    parent: CSHasRegistrations, @DrawableRes resourceId: Int?) = apply {
     resourceId?.let {
-        if (useAndroidSdk) setImageResource(it)
-        else Glide.with(context).load(it).into(this)
+        hasSize(parent) {
+            Glide.with(this@image).load(resourceId)
+                .fitCenter().diskCacheStrategy(ALL).override(width, height)
+                .into(this)
+        }
     } ?: run { setImageDrawable(null) }
 }
 
-fun <T : ImageView> T.image(file: File, useAndroidSdk: Boolean = false) = apply {
-    if (useAndroidSdk)
-        setImageURI(Uri.fromFile(file));
-    else
-    //Cache invalidation https://muyangmin.github.io/glide/doc/caching.html#cache-invalidation
-        Glide.with(context).load(file)
-            .signature(ObjectKey(file.lastModified())).into(this)
+// https://muyangmin.github.io/glide/doc/caching.html#cache-invalidation
+fun <T : ImageView> T.image(parent: CSHasRegistrations, file: File) = apply {
+    hasSize(parent) {
+        Glide.with(this@image).load(file).signature(ObjectKey(file.lastModified()))
+            .fitCenter().diskCacheStrategy(ALL).override(width, height)
+            .into(this)
+    }
 }
 
-fun <T> ImageView.image(property: CSProperty<T>,
-                        useAndroidSdk: Boolean = false,
-                        valueToImage: (T) -> File
-): CSRegistration {
-    fun updateImage() = image(valueToImage(property.value), useAndroidSdk)
-    updateImage()
-    return property.onChange { updateImage() }
-}
+fun <T> ImageView.image(
+    parent: CSHasRegistrations, property: CSProperty<T>, valueToImage: (T) -> File)
+        : CSRegistration = property.action { image(parent, valueToImage(property.value)) }

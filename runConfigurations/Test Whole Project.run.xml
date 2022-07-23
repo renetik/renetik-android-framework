@@ -1,5 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Test Whole Project" type="JUnit" factoryName="JUnit">
+    <selectedOptions>
+      <option name="environmentVariables" visible="false" />
+    </selectedOptions>
     <option name="PACKAGE_NAME" value="" />
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />

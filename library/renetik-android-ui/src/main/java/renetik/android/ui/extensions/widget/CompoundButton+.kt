@@ -2,15 +2,20 @@ package renetik.android.ui.extensions.widget
 
 import android.content.res.ColorStateList
 import android.widget.CompoundButton
+import android.widget.CompoundButton.OnCheckedChangeListener
 import androidx.annotation.ColorInt
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.property.CSProperty
-import renetik.android.core.lang.variable.isTrue
+import renetik.android.event.property.action
+import renetik.android.event.property.onChange
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.paused
+import renetik.android.event.registration.start
 
-fun CompoundButton.onCheck(function: (CompoundButton) -> Unit) = apply {
-    setOnCheckedChangeListener { buttonView, _ -> function(buttonView) }
+fun CompoundButton.onChange(function: (CompoundButton) -> Unit): CSRegistration {
+    val listener = OnCheckedChangeListener { buttonView, _ -> function(buttonView) }
+    return CSRegistration(onResume = { setOnCheckedChangeListener(listener) },
+        onPause = { setOnCheckedChangeListener(null) }).start()
 }
 
 fun CompoundButton.buttonTint(@ColorInt value: Int?) = apply {
@@ -30,17 +35,17 @@ fun CompoundButton.isCheckedIfNot(condition: Boolean) = apply {
 }
 
 fun CompoundButton.isCheckedIfNot(property: CSProperty<Boolean>): CSRegistration {
-    val onChangeRegistration = property.onChange(this::isCheckedIfNot)
-    onCheck { onChangeRegistration.paused { property.value(!isChecked) } }
-    isCheckedIfNot(property.isTrue)
-    return onChangeRegistration
+    lateinit var propertyRegistration: CSRegistration
+    val buttonRegistration = onChange { propertyRegistration.paused { property.value(!isChecked) } }
+    propertyRegistration = property.action { buttonRegistration.paused { isCheckedIfNot(it) } }
+    return CSRegistration(propertyRegistration, buttonRegistration)
 }
 
 fun CompoundButton.isCheckedIf(property: CSProperty<Boolean>): CSRegistration {
-    val onChangeRegistration = property.onChange(this::isCheckedIf)
-    isCheckedIf(property.isTrue)
-    onCheck { onChangeRegistration.paused { property.value(isChecked) } }
-    return onChangeRegistration
+    lateinit var propertyRegistration: CSRegistration
+    val buttonRegistration = onChange { propertyRegistration.paused { property.value(isChecked) } }
+    propertyRegistration = property.action { buttonRegistration.paused { checked(it) } }
+    return CSRegistration(propertyRegistration, buttonRegistration)
 }
 
 fun <T> CompoundButton.isCheckedIf(property1: CSProperty<T>, property2: CSProperty<*>,
@@ -51,9 +56,7 @@ fun <T, V> CompoundButton.isCheckedIf(property1: CSProperty<T>, property2: CSPro
                                       condition: (T, V) -> Boolean): CSRegistration {
     fun update() = isCheckedIf(condition(property1.value, property2.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() })
+    return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
 fun CompoundButton.setOn() {

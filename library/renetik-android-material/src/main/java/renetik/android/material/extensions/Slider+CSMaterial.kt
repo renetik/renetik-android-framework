@@ -5,10 +5,10 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
 import renetik.android.core.kotlin.primitives.roundToStep
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.paused
+import renetik.android.event.registration.start
 import renetik.android.ui.extensions.view.findView
 import kotlin.math.roundToInt
 
@@ -17,7 +17,7 @@ fun View.slider(id: Int) = findView<Slider>(id)!!
 fun <T : Slider> T.onChange(listener: (T) -> Unit): CSRegistration {
     val sliderListener = OnChangeListener { _, _, _ -> listener(this) }
     return CSRegistration(onResume = { addOnChangeListener(sliderListener) },
-        onPause = { removeOnChangeListener(sliderListener) })
+        onPause = { removeOnChangeListener(sliderListener) }).start()
 }
 
 fun <T : Slider> T.onDragStart(listener: (T) -> Unit): CSRegistration {
@@ -26,7 +26,7 @@ fun <T : Slider> T.onDragStart(listener: (T) -> Unit): CSRegistration {
         override fun onStopTrackingTouch(slider: Slider) = Unit
     }
     return CSRegistration(onResume = { addOnSliderTouchListener(sliderListener) },
-        onPause = { removeOnSliderTouchListener(sliderListener) })
+        onPause = { removeOnSliderTouchListener(sliderListener) }).start()
 }
 
 fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSRegistration {
@@ -35,7 +35,7 @@ fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSRegistration {
         override fun onStopTrackingTouch(slider: Slider) = listener(this@onDragStop)
     }
     return CSRegistration(onResume = { addOnSliderTouchListener(sliderListener) },
-        onPause = { removeOnSliderTouchListener(sliderListener) })
+        onPause = { removeOnSliderTouchListener(sliderListener) }).start()
 }
 
 fun <T : Slider> T.value(value: Float) = apply { this.value = value }
@@ -62,7 +62,7 @@ fun Slider.value(property: CSProperty<Float>,
     onSliderChangeRegistration = onChange {
         onChangeRegistration.paused { property.value = value }
     }
-    return CSMultiRegistration(onChangeRegistration, onSliderChangeRegistration)
+    return CSRegistration(onChangeRegistration, onSliderChangeRegistration)
 }
 
 
@@ -73,12 +73,12 @@ fun Slider.value(property: CSProperty<Int>,
     valueTo = max.toFloat()
     stepSize = step.toFloat()
     value(property.value.roundToStep(step))
-    lateinit var onSliderChangeRegistration: CSRegistration
-    val onChangeRegistration = property.onChange {
-        onSliderChangeRegistration.paused { value(property.value.roundToStep(step)) }
+    lateinit var sliderOnChangeRegistration: CSRegistration
+    val propertyOnChangeRegistration = property.onChange {
+        sliderOnChangeRegistration.paused { value(property.value.roundToStep(step)) }
     }
-    onSliderChangeRegistration = onChange {
-        onChangeRegistration.paused { property.value = value.roundToInt() }
+    sliderOnChangeRegistration = onChange {
+        propertyOnChangeRegistration.paused { property.value = value.roundToInt() }
     }
-    return CSMultiRegistration(onChangeRegistration, onSliderChangeRegistration)
+    return CSRegistration(propertyOnChangeRegistration, sliderOnChangeRegistration)
 }

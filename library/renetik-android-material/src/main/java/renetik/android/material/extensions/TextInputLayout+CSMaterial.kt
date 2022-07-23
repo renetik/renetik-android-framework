@@ -15,18 +15,15 @@ import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
-import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.privateField
 import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.property.CSProperty
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.ui.extensions.widget.*
-import renetik.android.ui.protocol.CSVisibleHasRegistrations
 
 val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")
@@ -186,20 +183,3 @@ fun <T : TextInputLayout> T.onTextChange(onChange: (view: T) -> Unit) =
 
 fun <T : TextInputLayout> T.onFocusChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onFocusChange { onChange(this) } }
-
-fun <T : Any> TextInputLayout.valueProperty(
-    parent: CSVisibleHasRegistrations, property: CSProperty<T?>
-) = apply {
-    onTextChange { if (property.value.notNull) errorClear() }
-    onClear { property.value = null }
-    editText!!.text(parent, property)
-}
-
-//@JvmName("propertyString")
-//fun TextInputLayout.textProperty(
-//    parent: CSVisibleEventOwner, property: CSEventProperty<String?>
-//) = apply {
-//    onTextChange { if (property.value.isSet) errorClear() }
-//    onClear { property.value = null }
-//    editText!!.textProperty(parent, property)
-//}

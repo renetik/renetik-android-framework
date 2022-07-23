@@ -17,13 +17,16 @@ import renetik.android.controller.extensions.remove
 import renetik.android.core.extensions.content.color
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
+import renetik.android.core.kotlin.ifNull
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.logging.CSLog.logDebug
+import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
+import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
 import renetik.android.ui.extensions.view.background
 import renetik.android.ui.extensions.view.removeFromSuperview
 
@@ -72,7 +75,9 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     fun pop(controller: CSActivityView<*>) {
         logDebug { message(controller) }
-        _controllers.remove(controller.toString()).notNull { popController(controller) }
+        _controllers.remove(controller.toString()).ifNull {
+            logWarn { traceMessage("Controller $controller not found in navigation") }
+        }.elseDo { popController(controller) }
     }
 
     fun pop() {

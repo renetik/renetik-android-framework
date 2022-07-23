@@ -51,13 +51,6 @@ task sourceJar(type: Jar) {
 }
 dokkaHtml {
     outputDirectory = file("${projectDir}/../docs")
-    dokkaSourceSets {
-        configureEach {
-            includes.from("../README.md")
-        }
-    }
+    dokkaSourceSets { configureEach { includes.from("../README.md") } }
 }
-afterEvaluate {
-    println "afterEvaluate: ${project.name} lint disabled"
-    tasks.findAll { it.name.startsWith('lint') }.each { it.enabled = false }
-}
+afterEvaluate { rootProject.onAfterEvaluate(project, tasks) }

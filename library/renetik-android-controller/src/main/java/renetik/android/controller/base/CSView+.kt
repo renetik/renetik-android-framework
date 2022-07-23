@@ -13,11 +13,9 @@ import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
-import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.CSRegistration
+import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.cancel
-import renetik.android.event.registration.register
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.extensions.widget.onChange
 import renetik.android.ui.extensions.widget.radioGroup
@@ -125,7 +123,8 @@ fun CSView<*>.onOrientationChange(
     var afterGlobalLayoutRegistration: CSRegistration? = null
     val listener = object : OrientationEventListener(this, SENSOR_DELAY_NORMAL) {
         override fun onOrientationChanged(orientation: Int) {
-            cancel(afterGlobalLayoutRegistration)
+            if (afterGlobalLayoutRegistration?.isActive.isTrue)
+                cancel(afterGlobalLayoutRegistration)
             afterGlobalLayoutRegistration = afterGlobalLayout {
                 if (this@onOrientationChange.orientation != currentOrientation) {
                     currentOrientation = this@onOrientationChange.orientation
@@ -135,7 +134,7 @@ fun CSView<*>.onOrientationChange(
         }
     }
     return register(CSRegistration(onResume = { listener.enable() },
-        onPause = { listener.disable() }))
+        onPause = { listener.disable() }).start())
 }
 
 

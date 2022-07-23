@@ -18,15 +18,14 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.CSRegistrations
 import renetik.android.event.registration.register
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.protocol.CSVisibility
-import renetik.android.ui.protocol.CSVisibleHasRegistrations
 
 open class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations,
-    CSVisibleHasRegistrations {
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations
+//    ,    CSVisibleHasRegistrations
+{
 
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()
@@ -98,7 +97,7 @@ open class CSActivityView<ViewType : View>
     override fun onDestroy() {
         if (isResumed) onPause()
         if (isDestroyed) unexpected("$className $this Already destroyed")
-        visibilityRegistrations.cancel()
+//        visibilityRegistrations.cancel()
         super.onDestroy()
         parentActivityView = null
         activity = null
@@ -136,16 +135,16 @@ open class CSActivityView<ViewType : View>
 
     protected open fun onGoBack() = true
 
-    override fun onAddedToParent() {
+    override fun onAddedToParentView() {
         lifecycleUpdate()
         updateVisibility()
-        super.onAddedToParent()
+        super.onAddedToParentView()
     }
 
-    override fun onRemovedFromParent() {
+    override fun onRemovedFromParentView() {
         if (isResumed) onPause()
         updateVisibility()
-        super.onRemovedFromParent()
+        super.onRemovedFromParentView()
     }
 
     fun showingInPager(isShowing: Boolean) = apply {
@@ -186,10 +185,10 @@ open class CSActivityView<ViewType : View>
         if (isVisible == showing) return
         _isVisible = showing
         if (isVisible) {
-            visibilityRegistrations.setActive(true)
+//            visibilityRegistrations.setActive(true)
             onViewShowing()
         } else {
-            visibilityRegistrations.setActive(false)
+//            visibilityRegistrations.setActive(false)
             onViewHiding()
         }
         onViewVisibilityChanged()
@@ -221,7 +220,7 @@ open class CSActivityView<ViewType : View>
 
     protected open fun onViewHidingAgain() {}
 
-    override val visibilityRegistrations = CSRegistrations()
+//    override val visibilityRegistrations = CSRegistrations()
 
     open val navigation: CSNavigationView? by lazy {
         var controller: CSActivityView<*>? = this

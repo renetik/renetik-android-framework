@@ -7,24 +7,19 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
 import renetik.android.core.lang.void
-import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.cancel
-import renetik.android.event.registration.register
 
-fun <T : View> T.hasSize(parent: CSHasRegistrations,
-                         onHasSize: (View) -> Unit): CSRegistration? =
+fun <T : View> T.hasSize(
+    parent: CSHasRegistrations, onHasSize: (View) -> Unit) {
     if (width == 0 || height == 0) parent.register(onGlobalLayout {
         if (width != 0 && height != 0) {
             onHasSize(this@hasSize)
             parent.cancel(it)
         }
     })
-    else {
-        onHasSize(this)
-        null
-    }
+    else onHasSize(this)
+}
 
 fun <T : View> T.afterGlobalLayout(
     parent: CSHasRegistrations, function: (View) -> Unit)
@@ -42,22 +37,22 @@ fun <T : View> T.onGlobalFocus(
     registration = CSRegistration(
         onResume = { viewTreeObserver.addOnGlobalFocusChangeListener(listener) },
         onPause = { viewTreeObserver.removeOnGlobalFocusChangeListener(listener) }
-    )
+    ).start()
     return registration
 }
 
 /**
  * @return true to remove listener
  **/
-fun <T : View> T.onGlobalLayout(action: (CSRegistration) -> void): CSRegistration {
+fun <T : View> T.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnGlobalLayoutListener {
-        if (registration.isActive) action(registration)
+        if (registration.isActive) function(registration)
     }
     registration = CSRegistration(
         onResume = { viewTreeObserver.addOnGlobalLayoutListener(listener) },
         onPause = { viewTreeObserver.removeOnGlobalLayoutListener(listener) }
-    )
+    ).start()
     return registration
 }
 

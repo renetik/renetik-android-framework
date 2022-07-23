@@ -13,17 +13,16 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.event.common.CSContext
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onClick
-import renetik.android.ui.extensions.view.removeFromSuperview
-import renetik.android.ui.protocol.CSHasParent
+import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 
 open class CSView<ViewType : View> : CSContext,
-    CSHasParent, CSViewInterface {
+    CSHasParentView, CSViewInterface {
 
     private val layout: CSLayoutRes?
     private val viewId: Int?
     private var parent: CSViewInterface? = null
-    var lifecycleStopOnRemoveFromParent = true
+    var lifecycleStopOnRemoveFromParentView = true
     private var _group: ViewGroup? = null
     private val group: ViewGroup? by lazy {
         _group ?: parent?.view as? ViewGroup ?: (parent as? CSView<*>)?.group
@@ -108,10 +107,10 @@ open class CSView<ViewType : View> : CSContext,
         _view = null
     }
 
-    override fun onAddedToParent() = Unit
+    override fun onAddedToParentView() = Unit
 
-    override fun onRemovedFromParent() {
-        if (lifecycleStopOnRemoveFromParent && !isDestroyed) onDestroy()
+    override fun onRemovedFromParentView() {
+        if (lifecycleStopOnRemoveFromParentView && !isDestroyed) onDestroy()
     }
 
     open var isActivated

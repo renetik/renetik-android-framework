@@ -12,7 +12,8 @@ import renetik.android.core.kotlin.unfinished
 import renetik.android.core.logging.CSLog.logError
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.listen
+import renetik.android.event.listenOnce
+import renetik.android.event.registration.CSRegistration
 import renetik.android.maps.extensions.asLatLng
 
 private const val DEFAULT_ZOOM = 13f
@@ -154,14 +155,10 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
         animatingCamera = false
     }
 
-    fun onMapAvailable(parent: CSActivityView<*>, onMapReady: (GoogleMap) -> Unit) {
-        map?.let { onMapReady(it) } ?: let {
-            parent.whileShowing(onMapReadyEvent.listen { registration, map ->
-                whileShowingCancel(registration)
-                onMapReady(map)
-            })
+    fun onMapAvailable(onMapReady: (GoogleMap) -> Unit): CSRegistration? =
+        if (map == null) onMapReadyEvent.listenOnce(onMapReady) else {
+            onMapReady(map!!); null
         }
-    }
 
     private fun onCameraMoveStarted() {
         if (animatingCamera) return

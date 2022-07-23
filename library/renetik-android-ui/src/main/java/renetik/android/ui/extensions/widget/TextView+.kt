@@ -8,11 +8,9 @@ import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
-import renetik.android.event.registration.CSMultiRegistration
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.ui.extensions.view.shownIf
-import renetik.android.ui.protocol.CSVisibleHasRegistrations
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
@@ -40,22 +38,6 @@ fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
     setOnFocusChangeListener { _, _ -> onChange(this) }
 }
 
-fun TextView.text(parent: CSVisibleHasRegistrations, property: CSProperty<*>) =
-    text(parent, property) { it.asString }
-
-@JvmName("TextViewTextStringProperty")
-fun TextView.text(parent: CSVisibleHasRegistrations, property: CSProperty<String>) =
-    text(parent, property) { it }
-
-fun <T> TextView.text(
-    parent: CSVisibleHasRegistrations, property: CSProperty<T>,
-    getText: (T) -> CharSequence
-) = apply {
-    fun updateText() = text(getText(property.value))
-    parent.whileShowing(property.onChange { updateText() })
-    updateText()
-}
-
 @JvmName("TextViewTextStringProperty")
 fun TextView.text(property: CSProperty<String>) = text(property) { it }
 
@@ -67,7 +49,7 @@ fun <T, V> TextView.text(parent: CSProperty<T>,
         childRegistration?.cancel()
         childRegistration = text(child(parent.value), getText)
     }
-    return CSRegistration(onCancel = {
+    return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
     })
@@ -86,7 +68,7 @@ fun <T, V> TextView.textNullableChild(
         childRegistration = child(parent.value)?.let { text(it, getText) }
         if (childRegistration == null) text(getText(null))
     }
-    return CSRegistration(onCancel = {
+    return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
     })
@@ -101,7 +83,7 @@ fun <T, V> TextView.text(property1: CSProperty<T>, property2: CSProperty<V>,
                          getText: (T, V) -> Any): CSRegistration {
     fun update() = text(getText(property1.value, property2.value))
     update()
-    return CSMultiRegistration(
+    return CSRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }

@@ -3,11 +3,10 @@ package renetik.android.ui.extensions.view
 import android.view.View
 import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
-import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.protocol.CSVisibility
-import renetik.android.event.property.CSProperty
-import renetik.android.core.kotlin.primitives.isTrue
 
 fun <T : View> T.visible(animated: Boolean = false) = apply {
     if (animated) fadeIn() else {
@@ -62,13 +61,15 @@ fun <T> View.shownIf(property: CSProperty<T>,
 }
 
 fun View.shownIf(property: CSProperty<Boolean>,
-                 animated: Boolean = false) = shownIf(property, animated) { it }
+                 animated: Boolean = false): CSRegistration =
+    shownIf(property, animated) { it }
 
 fun View.shownIfNot(property: CSProperty<Boolean>,
-                    animated: Boolean = false) = shownIf(property, animated) { !it }
+                    animated: Boolean = false): CSRegistration =
+    shownIf(property, animated) { !it }
 
 fun <T> View.shownIf(property1: CSProperty<T>, property2: CSProperty<*>,
-                     animated: Boolean = false, condition: (T) -> Boolean) =
+                     animated: Boolean = false, condition: (T) -> Boolean): CSRegistration =
     shownIf(property1, property2, animated) { first, _ -> condition(first) }
 
 fun <T, V> View.shownIf(property1: CSProperty<T>, property2: CSProperty<V>,
@@ -76,20 +77,18 @@ fun <T, V> View.shownIf(property1: CSProperty<T>, property2: CSProperty<V>,
                         condition: (T, V) -> Boolean): CSRegistration {
     fun update(animated: Boolean) = shownIf(condition(property1.value, property2.value), animated)
     update(animated = false)
-    return CSMultiRegistration(
+    return CSRegistration(
         property1.onChange { update(animated) },
         property2.onChange { update(animated) })
 }
 
-fun <T, V, X> View.shownIf(property1: CSProperty<T>,
-                           property2: CSProperty<V>,
-                           property3: CSProperty<X>,
-                           animated: Boolean = false,
-                           condition: (T, V, X) -> Boolean): CSRegistration {
+fun <T, V, X> View.shownIf(
+    property1: CSProperty<T>, property2: CSProperty<V>, property3: CSProperty<X>,
+    animated: Boolean = false, condition: (T, V, X) -> Boolean): CSRegistration {
     fun update(animated: Boolean) =
         shownIf(condition(property1.value, property2.value, property3.value), animated)
     update(animated = false)
-    return CSMultiRegistration(
+    return CSRegistration(
         property1.onChange { update(animated) },
         property2.onChange { update(animated) },
         property3.onChange { update(animated) },
@@ -98,18 +97,17 @@ fun <T, V, X> View.shownIf(property1: CSProperty<T>,
 
 fun View.goneIf(property1: CSProperty<Boolean>,
                 property2: CSProperty<Boolean>,
-                animated: Boolean = false): CSRegistration {
-    return goneIf(property1, property2, animated) { value1, value2 ->
+                animated: Boolean = false): CSRegistration =
+    goneIf(property1, property2, animated) { value1, value2 ->
         value1.isTrue || value2.isTrue
     }
-}
 
 fun <T, V> View.goneIf(property1: CSProperty<T>, property2: CSProperty<V>,
                        animated: Boolean = false,
                        condition: (T, V) -> Boolean): CSRegistration {
     fun update() = goneIf(condition(property1.value, property2.value), animated)
     update()
-    return CSMultiRegistration(
+    return CSRegistration(
         property1.onChange { update() },
         property2.onChange { update() })
 }
@@ -120,44 +118,46 @@ fun <T> View.goneIf(property: CSProperty<T>,
     return property.onChange { goneIf(condition(property.value), animated) }
 }
 
-fun View.goneIf(property: CSProperty<Boolean>,
-                animated: Boolean = false) = goneIf(property, animated) { it }
+fun View.goneIf(property: CSProperty<Boolean>, animated: Boolean = false)
+        : CSRegistration = goneIf(property, animated) { it }
 
-fun <T> View.visibleIf(property1: CSProperty<T>, property2: CSProperty<*>,
-                       animated: Boolean = false, condition: (T) -> Boolean) =
+fun <T> View.visibleIf(
+    property1: CSProperty<T>, property2: CSProperty<*>,
+    animated: Boolean = false, condition: (T) -> Boolean): CSRegistration =
     visibleIf(property1, property2, animated) { first, _ -> condition(first) }
 
-fun <T, V> View.visibleIf(property1: CSProperty<T>, property2: CSProperty<V>,
-                          animated: Boolean = false,
-                          condition: (T, V) -> Boolean): CSRegistration {
+fun <T, V> View.visibleIf(
+    property1: CSProperty<T>, property2: CSProperty<V>,
+    animated: Boolean = false, condition: (T, V) -> Boolean): CSRegistration {
     fun update() = visibleIf(condition(property1.value, property2.value), animated)
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() })
+    return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
 }
 
-fun <T> View.visibleIf(property: CSProperty<T>,
-                       animated: Boolean = false, condition: (T) -> Boolean): CSRegistration {
+fun <T> View.visibleIf(
+    property: CSProperty<T>, animated: Boolean = false,
+    condition: (T) -> Boolean): CSRegistration {
     visibleIf(condition(property.value))
     return property.onChange { visibleIf(condition(property.value), animated) }
 }
 
-fun View.visibleIf(property: CSProperty<Boolean>,
-                   animated: Boolean = false) = visibleIf(property, animated) { it }
+fun View.visibleIf(
+    property: CSProperty<Boolean>, animated: Boolean = false)
+        : CSRegistration = visibleIf(property, animated) { it }
 
-fun View.visibleIfNot(property: CSProperty<Boolean>,
-                      animated: Boolean = false) = visibleIf(property, animated) { !it }
+fun View.visibleIfNot(property: CSProperty<Boolean>, animated: Boolean = false)
+        : CSRegistration = visibleIf(property, animated) { !it }
 
-fun <T> View.invisibleIf(property: CSProperty<T>,
-                         animated: Boolean = false,
-                         condition: (T) -> Boolean): CSRegistration {
+fun <T> View.invisibleIf(
+    property: CSProperty<T>, animated: Boolean = false,
+    condition: (T) -> Boolean): CSRegistration {
     invisibleIf(condition(property.value))
     return property.onChange { invisibleIf(condition(property.value), animated) }
 }
 
-fun View.invisibleIf(property: CSProperty<Boolean>,
-                     animated: Boolean = false) = invisibleIf(property, animated) { it }
+fun View.invisibleIf(
+    property: CSProperty<Boolean>, animated: Boolean = false)
+        : CSRegistration = invisibleIf(property, animated) { it }
 
 // This had be done because isShown return false in on Resume
 // for main activity view when created

@@ -17,6 +17,12 @@ fun CSVisibility.onHiding(function: () -> Unit): CSRegistration = onHiding { _ -
 fun CSVisibility.onHiding(function: (CSRegistration) -> Unit): CSRegistration =
     eventVisibility.listen { registration, visible -> if (!visible) function(registration) }
 
+fun CSVisibility.onVisibility(function: (Boolean) -> Unit): CSRegistration =
+    eventVisibility.listen(function)
+
+fun CSVisibility.onVisibility(function: (CSRegistration, Boolean) -> Unit): CSRegistration =
+    eventVisibility.listen(function)
+
 fun CSVisibility.whileShowingTrue(function: (Boolean) -> Unit): CSRegistration {
     if (isVisible) function(true)
     return eventVisibility.listen { if (it) function(true) else function(false) }
@@ -37,7 +43,7 @@ fun CSVisibility.task(delay: Int, period: Int, function: Func): CSRegistration {
         task?.cancel(true)
         task = null
     }
-    registration = CSRegistration(onCancel = {
+    registration = CSRegistration(isActive = true, onCancel = {
         onResumeRegistration.cancel()
         onPauseRegistration.cancel()
     })

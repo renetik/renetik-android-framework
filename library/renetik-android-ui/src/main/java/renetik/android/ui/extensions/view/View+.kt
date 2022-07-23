@@ -2,9 +2,10 @@ package renetik.android.ui.extensions.view
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.Bitmap.createBitmap
 import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.Color.WHITE
 import android.graphics.Rect
 import android.os.Build
 import android.view.GestureDetector
@@ -29,9 +30,10 @@ import renetik.android.event.fire
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.CSMultiRegistration
+import renetik.android.event.property.onChange
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.start
 import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
@@ -74,9 +76,7 @@ fun <T, V> View.disabledIf(property1: CSProperty<T>, property2: CSProperty<V>,
                            condition: (T, V) -> Boolean): CSRegistration {
     fun update() = disabledIf(condition(property1.value, property2.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() })
+    return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
 fun <T : View> T.enabled(enabled: Boolean = true) = enabledIf(enabled)
@@ -97,9 +97,9 @@ fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) =
     apply { setOnLongClickListener { onClick(this); true } }
 
 fun <T : View> T.createBitmap(): Bitmap {
-    val bitmap = createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val bitmap = createBitmap(width, height, ARGB_8888)
     Canvas(bitmap).apply {
-        background?.draw(this) ?: this.drawColor(Color.WHITE)
+        background?.draw(this) ?: this.drawColor(WHITE)
         draw(this)
     }
     return bitmap
@@ -190,9 +190,7 @@ fun <T, V> View.activatedIf(property1: CSProperty<T>, property2: CSProperty<V>,
                             condition: (T, V) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() })
+    return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
 fun <T, V, X> View.activatedIf(property1: CSProperty<T>,
@@ -201,10 +199,8 @@ fun <T, V, X> View.activatedIf(property1: CSProperty<T>,
                                condition: (T, V, X) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value, property3.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() },
-        property3.onChange { update() }
+    return CSRegistration(property1.onChange(::update),
+        property2.onChange(::update), property3.onChange(::update)
     )
 }
 
@@ -216,11 +212,8 @@ fun <T, V, X, Y> View.activatedIf(property1: CSProperty<T>,
     fun update() = activated(condition(property1.value, property2.value,
         property3.value, property4.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() },
-        property3.onChange { update() },
-        property4.onChange { update() }
+    return CSRegistration(property1.onChange(::update), property2.onChange(::update),
+        property3.onChange(::update), property4.onChange(::update)
     )
 }
 
@@ -232,9 +225,7 @@ fun <T, V> View.selectedIf(property1: CSProperty<T>, property2: CSProperty<V>,
                            condition: (T, V) -> Boolean): CSRegistration {
     fun update() = selected(condition(property1.value, property2.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() })
+    return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
 fun <T, V, X> View.selectedIf(property1: CSProperty<T>,
@@ -243,10 +234,8 @@ fun <T, V, X> View.selectedIf(property1: CSProperty<T>,
                               condition: (T, V, X) -> Boolean): CSRegistration {
     fun update() = selected(condition(property1.value, property2.value, property3.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() },
-        property3.onChange { update() }
+    return CSRegistration(property1.onChange(::update),
+        property2.onChange(::update), property3.onChange(::update)
     )
 }
 
@@ -258,11 +247,8 @@ fun <T, V, X, Y> View.selectedIf(property1: CSProperty<T>,
     fun update() = selected(condition(property1.value, property2.value,
         property3.value, property4.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() },
-        property3.onChange { update() },
-        property4.onChange { update() }
+    return CSRegistration(property1.onChange(::update), property2.onChange(::update),
+        property3.onChange(::update), property4.onChange(::update)
     )
 }
 
@@ -275,9 +261,7 @@ fun <T, V> View.pressedIf(property1: CSProperty<T>, property2: CSProperty<V>,
                           condition: (T, V) -> Boolean): CSRegistration {
     fun update() = pressedIf(condition(property1.value, property2.value))
     update()
-    return CSMultiRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() })
+    return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
 @Suppress("DEPRECATION")
@@ -296,7 +280,7 @@ fun View.onLayoutChange(function: () -> Unit): CSRegistration {
     val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
     return CSRegistration(
         onResume = { addOnLayoutChangeListener(listener) },
-        onPause = { removeOnLayoutChangeListener(listener) })
+        onPause = { removeOnLayoutChangeListener(listener) }).start()
 }
 
 fun View.onScrollChange(function: (view: View) -> Unit) =

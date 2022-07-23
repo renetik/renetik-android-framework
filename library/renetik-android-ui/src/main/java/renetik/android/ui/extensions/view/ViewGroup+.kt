@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.core.view.iterator
-import renetik.android.ui.protocol.CSHasParent
+import renetik.android.ui.protocol.CSHasParentView
 
 inline fun <R : Comparable<R>> ViewGroup.sortChildren(crossinline selector: (View) -> R?) = apply {
     val sorted = children.toList().sortedBy(selector)
@@ -21,7 +21,7 @@ fun <ViewType : View> ViewGroup.add(
     view: ViewType, index: Int = -1): ViewType {
     view.removeFromSuperview()
     addView(view, index)
-    (view.tag as? CSHasParent)?.onAddedToParent()
+    (view.tag as? CSHasParentView)?.onAddedToParentView()
     return view
 }
 
@@ -30,7 +30,7 @@ fun <ViewType : View> ViewGroup.add(
 ): ViewType {
     view.removeFromSuperview()
     addView(view, index, layout)
-    (view.tag as? CSHasParent)?.onAddedToParent()
+    (view.tag as? CSHasParentView)?.onAddedToParentView()
     return view
 }
 
@@ -51,13 +51,13 @@ fun <ViewType : View> ViewGroup.inflate(@LayoutRes layoutId: Int): ViewType =
 
 fun <T : ViewGroup> T.remove(view: View) = apply {
     removeView(view)
-    (view.tag as? CSHasParent)?.onRemovedFromParent()
+    (view.tag as? CSHasParentView)?.onRemovedFromParentView()
 }
 
 fun <T : ViewGroup> T.removeSubViews() = apply { clear() }
 
 fun <T : ViewGroup> T.clear() = apply {
-    children.forEach { (it.tag as? CSHasParent)?.onRemovedFromParent() }
+    children.forEach { (it.tag as? CSHasParentView)?.onRemovedFromParentView() }
     removeAllViews()
 }
 
