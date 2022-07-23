@@ -6,8 +6,7 @@ dependencies {
     if (rootProject.ext.is_renetik_library_release) implementation "$renetik_android_event"
     else implementation project(':renetik-android-event')
 
-    if (rootProject.ext.is_renetik_library_release) implementation "$renetik_android_ui"
-    else implementation project(':renetik-android-ui')
+    implementation project(':renetik-android-ui')
 
     implementation "androidx.exifinterface:exifinterface:1.3.3"
 
