@@ -13,6 +13,7 @@ import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
+import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
@@ -136,5 +137,7 @@ fun CSView<*>.onOrientationChange(
     return register(CSRegistration(onResume = { listener.enable() },
         onPause = { listener.disable() }).start())
 }
+
+val CSView<*>.hasParentView: Boolean get() = view.parent.notNull
 
 

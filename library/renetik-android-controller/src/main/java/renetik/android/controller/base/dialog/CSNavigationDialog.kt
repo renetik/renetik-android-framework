@@ -53,15 +53,13 @@ open class CSNavigationDialog<ViewType : View>(
 
     init {
         dialogContent.isClickable = true
-        // Todo: ??? clarify or change 
-        register(parent.onDestroy { if (lifecycleStopOnRemoveFromParentView) dismiss() })
+        register(parent.onDestroy { dismiss() })
     }
 
     override fun onViewReady() {
         super.onViewReady()
-        view.background(color(color.cs_dialog_background)).onClick {
-            if (cancelOnTouchOut) dismiss()
-        }
+        view.background(color(color.cs_dialog_background))
+            .onClick { if (cancelOnTouchOut) dismiss() }
         view.add(dialogContent)
     }
 
@@ -83,8 +81,6 @@ open class CSNavigationDialog<ViewType : View>(
             Fade, SlideFade -> FadeOut
             DialogAnimation.None -> None
         }
-
-    fun dismiss() = navigation!!.pop(this)
 
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
         pressed(fromView)

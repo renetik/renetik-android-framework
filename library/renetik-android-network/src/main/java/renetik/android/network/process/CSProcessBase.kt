@@ -1,30 +1,31 @@
 package renetik.android.network.process
 
 import renetik.android.core.kotlin.rootCause
+import renetik.android.core.lang.CSLeakCanary.expectWeaklyReachable
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.logging.CSLog.logError
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
-import renetik.android.core.util.CSSynchronizedProperty.Companion.synchronized
+import renetik.android.core.lang.variable.CSSynchronizedProperty.Companion.synchronized
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSContext
 
 open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
 
-    private val eventSuccess = event<CSProcessBase<Data>>()
+    val eventSuccess = event<CSProcessBase<Data>>()
     fun onSuccess(function: (CSProcessBase<Data>) -> Unit) = apply { eventSuccess.listen(function) }
 
-    private val eventCancel = event<CSProcessBase<Data>>()
+    val eventCancel = event<CSProcessBase<Data>>()
     fun onCancel(function: (CSProcessBase<Data>) -> Unit) = apply { eventCancel.listen(function) }
 
-    private val eventFailed = event<CSProcessBase<*>>()
+    val eventFailed = event<CSProcessBase<*>>()
     fun onFailed(function: (CSProcessBase<*>) -> Unit) = apply { eventFailed.listen(function) }
 
-    private val eventDone = event<CSProcessBase<Data>>()
+    val eventDone = event<CSProcessBase<Data>>()
     fun onDone(function: (CSProcessBase<Data>) -> Unit) = apply { eventDone.listen(function) }
 
-    private val onProgress = event<CSProcessBase<Data>>()
+    val onProgress = event<CSProcessBase<Data>>()
 
     var progress: Long = 0
         set(progress) {
@@ -113,6 +114,7 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
         }
         isDone = true
         eventDone.fire(this)
+        expectWeaklyReachable("CSProcessBase $this onDone")
     }
 
     override fun toString() = "${super.toString()} data:$data"

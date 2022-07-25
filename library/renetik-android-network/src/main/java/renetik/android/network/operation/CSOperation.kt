@@ -2,6 +2,7 @@ package renetik.android.network.operation
 
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.lang.ArgFunc
+import renetik.android.core.lang.CSLeakCanary.expectWeaklyReachable
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSContext
 import renetik.android.network.process.CSProcessBase
@@ -18,9 +19,9 @@ open class CSOperation<Data : Any>() : CSContext() {
         return executeProcess!!.invoke(this)
     }
 
-    private val eventSuccess = event<CSProcessBase<Data>>()
-    private val eventFailed = event<CSProcessBase<*>>()
-    private val eventDone = event<CSProcessBase<Data>>()
+    val eventSuccess = event<CSProcessBase<Data>>()
+    val eventFailed = event<CSProcessBase<*>>()
+    val eventDone = event<CSProcessBase<Data>>()
     var process: CSProcessBase<Data>? = null
     var isRefresh = false
     var isCached = true
@@ -45,7 +46,7 @@ open class CSOperation<Data : Any>() : CSContext() {
         isActive = true
         process.onSuccess {
             eventSuccess.fire(process)
-            eventDone.fire(process)
+            onDone(process)
             isActive = false
         }
     }
@@ -54,13 +55,18 @@ open class CSOperation<Data : Any>() : CSContext() {
         process.notNull {
             if (it.isFailed) {
                 eventFailed.fire(it.failedProcess!!)
-                eventDone.fire(it)
+                onDone(it)
             } else {
                 it.cancel()
-                eventDone.fire(it)
+                onDone(it)
             }
         }
         isActive = false
+    }
+
+    private fun onDone(process: CSProcessBase<Data>) {
+        eventDone.fire(process)
+        expectWeaklyReachable("CSOperation $this onDone")
     }
 }
 

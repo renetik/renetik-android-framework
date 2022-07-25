@@ -23,9 +23,7 @@ import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.protocol.CSVisibility
 
 open class CSActivityView<ViewType : View>
-    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations
-//    ,    CSVisibleHasRegistrations
-{
+    : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations {
 
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()
@@ -97,7 +95,6 @@ open class CSActivityView<ViewType : View>
     override fun onDestroy() {
         if (isResumed) onPause()
         if (isDestroyed) unexpected("$className $this Already destroyed")
-//        visibilityRegistrations.cancel()
         super.onDestroy()
         parentActivityView = null
         activity = null
@@ -153,10 +150,10 @@ open class CSActivityView<ViewType : View>
         updateVisibility()
     }
 
-    override fun hideKeyboardImpl() {
+    final override fun hideKeyboard() {
         activity?.currentFocus?.let {
             input.hideSoftInputFromWindow(it.rootView.windowToken, 0)
-        } ?: super.hideKeyboardImpl()
+        } ?: super.hideKeyboard()
     }
 
     override fun getLifecycle(): Lifecycle = activity().lifecycle
@@ -184,13 +181,7 @@ open class CSActivityView<ViewType : View>
     private fun onViewVisibilityChanged(showing: Boolean) {
         if (isVisible == showing) return
         _isVisible = showing
-        if (isVisible) {
-//            visibilityRegistrations.setActive(true)
-            onViewShowing()
-        } else {
-//            visibilityRegistrations.setActive(false)
-            onViewHiding()
-        }
+        if (isVisible) onViewShowing() else onViewHiding()
         onViewVisibilityChanged()
     }
 
@@ -217,10 +208,7 @@ open class CSActivityView<ViewType : View>
     }
 
     protected open fun onViewHidingFirstTime() {}
-
     protected open fun onViewHidingAgain() {}
-
-//    override val visibilityRegistrations = CSRegistrations()
 
     open val navigation: CSNavigationView? by lazy {
         var controller: CSActivityView<*>? = this

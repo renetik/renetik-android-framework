@@ -12,7 +12,8 @@ import renetik.android.material.extensions.slider
 import renetik.android.ui.extensions.view.findView
 import renetik.android.ui.extensions.view.onClick
 
-fun CSView<*>.textInput(id: Int, onClick: ((TextInputLayout) -> Unit)? = null) =
+fun CSView<*>.textInput(
+    id: Int, onClick: ((TextInputLayout) -> Unit)? = null) =
     view.findView<TextInputLayout>(id)!!.apply {
         onClick?.let { editText?.onClick { onClick(this) } }
     }

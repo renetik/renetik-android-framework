@@ -2,17 +2,16 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import androidx.annotation.LayoutRes
 import renetik.android.core.extensions.content.inflate
 import renetik.android.core.extensions.content.input
 import renetik.android.core.kotlin.className
-import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.event.common.CSContext
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.onDestroy
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 
@@ -87,23 +86,16 @@ open class CSView<ViewType : View> : CSContext,
 
     protected open fun onViewReady() = Unit
 
-    val hasParent get() = view.parent.notNull
-
-    fun hideKeyboard() = hideKeyboardImpl()
-
-    open fun hideKeyboardImpl() {
+    open fun hideKeyboard() {
         input.hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
-
-    fun showKeyboard(view: View, flag: Int) = input.showSoftInput(view, flag)
-
-    fun showKeyboard() = input.toggleSoftInput(SHOW_IMPLICIT, 0)
 
     override fun onDestroy() {
         if (isDestroyed) unexpected("$className $this Already destroyed")
         _view?.tag = "tag instance of $className removed, onDestroy called"
         super.onDestroy()
 //        _view?.removeFromSuperview() // Experimental Try ..
+        _view?.onDestroy()
         _view = null
     }
 

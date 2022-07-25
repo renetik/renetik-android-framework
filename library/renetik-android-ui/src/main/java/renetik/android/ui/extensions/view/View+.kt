@@ -20,9 +20,11 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.core.lang.catchAll
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
@@ -307,3 +309,9 @@ fun <T : View> T.onDoubleTap(function: (T) -> Unit) = apply {
 }
 
 fun View.action(action: CSEvent<Unit>) = onClick { action.fire() }
+
+fun View.onDestroy() {
+    catchAll { setOnClickListener(null) }
+    catchAll { setOnLongClickListener(null) }
+    (this as? ViewGroup)?.children?.forEach(View::onDestroy)
+}
