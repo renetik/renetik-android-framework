@@ -160,8 +160,8 @@ fun <T> View.selectIf(property: CSProperty<T>, value: T)
     return selectedIf(property) { it == value }
 }
 
-fun <T> View.selectedIf(property: CSProperty<T>,
-                        condition: (T) -> Boolean): CSRegistration {
+inline fun <T> View.selectedIf(property: CSProperty<T>,
+                               crossinline condition: (T) -> Boolean): CSRegistration {
     selected(condition(property.value))
     return property.onChange { selected(condition(property.value)) }
 }
@@ -176,16 +176,16 @@ fun <T> View.activateIf(property: CSProperty<T>, value: T)
     return activatedIf(property) { it == value }
 }
 
-fun <T> View.activatedIf(property: CSProperty<T>,
-                         condition: (T) -> Boolean): CSRegistration {
+inline fun <T> View.activatedIf(property: CSProperty<T>,
+                                crossinline condition: (T) -> Boolean): CSRegistration {
     activated(condition(property.value))
     return property.onChange { activated(condition(property.value)) }
 }
 
 fun View.activatedIf(property: CSProperty<Boolean>) = activatedIf(property) { it }
 
-fun <T> View.activatedIf(property1: CSProperty<T>, property2: CSProperty<*>,
-                         condition: (T) -> Boolean) =
+inline fun <T> View.activatedIf(property1: CSProperty<T>, property2: CSProperty<*>,
+                                crossinline condition: (T) -> Boolean) =
     activatedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.activatedIf(property1: CSProperty<T>, property2: CSProperty<V>,
@@ -219,8 +219,8 @@ fun <T, V, X, Y> View.activatedIf(property1: CSProperty<T>,
     )
 }
 
-fun <T> View.selectedIf(property1: CSProperty<T>, property2: CSProperty<*>,
-                        condition: (T) -> Boolean) =
+inline fun <T> View.selectedIf(property1: CSProperty<T>, property2: CSProperty<*>,
+                               crossinline condition: (T) -> Boolean) =
     selectedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.selectedIf(property1: CSProperty<T>, property2: CSProperty<V>,
@@ -278,7 +278,7 @@ fun View.exitFullscreen() {
     systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
 }
 
-fun View.onLayoutChange(function: () -> Unit): CSRegistration {
+inline fun View.onLayoutChange(crossinline function: () -> Unit): CSRegistration {
     val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
     return CSRegistration(
         onResume = { addOnLayoutChangeListener(listener) },
@@ -295,7 +295,7 @@ val View.eventScrollChange
     }
 
 @SuppressLint("ClickableViewAccessibility")
-fun <T : View> T.onDoubleTap(function: (T) -> Unit) = apply {
+inline fun <T : View> T.onDoubleTap(crossinline function: (T) -> Unit) = apply {
     val view = this
     val detector = GestureDetector(context, object : SimpleOnGestureListener() {
         override fun onDoubleTap(e: MotionEvent): Boolean {

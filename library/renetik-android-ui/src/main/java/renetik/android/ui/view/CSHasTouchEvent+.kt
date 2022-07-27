@@ -1,11 +1,13 @@
 import android.view.MotionEvent.*
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.property.CSProperty
+import renetik.android.event.property.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.ui.view.CSHasTouchEvent
 
-fun <T : CSHasTouchEvent> T.onTouch(function: (down: Boolean) -> Unit) = apply {
+inline fun <T : CSHasTouchEvent> T.onTouch(
+    crossinline function: (down: Boolean) -> Unit) = apply {
     onTouchEvent = {
         when (it.actionMasked) {
             ACTION_DOWN -> true.also {
@@ -22,7 +24,8 @@ fun <T : CSHasTouchEvent> T.onTouch(function: (down: Boolean) -> Unit) = apply {
     }
 }
 
-fun <T : CSHasTouchEvent> T.onTouchDown(function: () -> Unit) = apply {
+inline fun <T : CSHasTouchEvent> T.onTouchDown(
+    crossinline function: () -> Unit) = apply {
     onTouch { down -> if (down) function() }
 }
 
@@ -34,9 +37,12 @@ fun <T : CSHasTouchEvent> T.toggleActiveIf(property: CSProperty<Boolean>): CSReg
 }
 
 fun <T : CSHasTouchEvent> T.toggleSelectedIf(property: CSProperty<Boolean>): CSRegistration {
-    setToggleSelected(property.value)
-    val propertyOnChange = property.onChange { setToggleSelected(property.value) }
-    onTouchSelectedToggle { on -> propertyOnChange.paused { property.value(on) } }
+    val propertyOnChange = property.action { setToggleSelected(property.value) }
+    onTouchSelectedToggle { on ->
+        propertyOnChange.paused {
+            property.value(on)
+        }
+    }
     return propertyOnChange
 }
 
@@ -48,7 +54,8 @@ fun <T : CSHasTouchEvent> T.setToggleSelected(pressed: Boolean) = apply {
     self.isSelected = pressed
 }
 
-fun <T : CSHasTouchEvent> T.onTouchActiveToggle(function: (Boolean) -> Unit) = onTouch {
+inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
+    crossinline function: (Boolean) -> Unit) = onTouch {
     if (it.isTrue) {
         if (!self.isActivated) {
             function(true)
@@ -70,7 +77,8 @@ fun <T : CSHasTouchEvent> T.onTouchActiveToggle(function: (Boolean) -> Unit) = o
     }
 }
 
-fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(function: (Boolean) -> Unit) = onTouch {
+inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
+    crossinline function: (Boolean) -> Unit) = onTouch {
     if (it.isTrue) {
         if (!self.isSelected) {
             function(true)

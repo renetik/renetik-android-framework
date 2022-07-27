@@ -94,7 +94,6 @@ open class CSView<ViewType : View> : CSContext,
         if (isDestroyed) unexpected("$className $this Already destroyed")
         _view?.tag = "tag instance of $className removed, onDestroy called"
         super.onDestroy()
-//        _view?.removeFromSuperview() // Experimental Try ..
         _view?.onDestroy()
         _view = null
     }

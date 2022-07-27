@@ -2,12 +2,11 @@ package renetik.android.network.operation
 
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.lang.ArgFunc
-import renetik.android.core.lang.CSLeakCanary.expectWeaklyReachable
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.CSContext
+import renetik.android.event.common.CSModel
 import renetik.android.network.process.CSProcessBase
 
-open class CSOperation<Data : Any>() : CSContext() {
+open class CSOperation<Data : Any>() : CSModel() {
 
     var executeProcess: (CSOperation<Data>.() -> CSProcessBase<Data>)? = null
 
@@ -66,7 +65,6 @@ open class CSOperation<Data : Any>() : CSContext() {
 
     private fun onDone(process: CSProcessBase<Data>) {
         eventDone.fire(process)
-        expectWeaklyReachable("CSOperation $this onDone")
+        onDestroy()
     }
 }
-

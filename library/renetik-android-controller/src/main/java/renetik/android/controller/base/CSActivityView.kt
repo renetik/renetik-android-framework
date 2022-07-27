@@ -174,6 +174,7 @@ open class CSActivityView<ViewType : View>
         if (!view.isVisible) return false
         if (showingInPager == false) return false
         if (showingInPager == true && parentActivityView?.isVisible == true) return true
+        if (showingInPager == true && navigation?.last == this) return true
         if (parentActivityView?.isVisible == false) return false
         return view.isShowing()
     }

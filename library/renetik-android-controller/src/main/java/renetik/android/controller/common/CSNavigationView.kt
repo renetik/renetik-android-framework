@@ -41,6 +41,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
 
     private val _controllers = linkedMapOf<String, CSActivityView<*>>()
     val controllers get() = _controllers.values
+    val last: CSActivityView<*>? get() = _controllers.values.lastOrNull()
 
     private val backgroundView =
         View(this).also { it.background(color(renetik.android.ui.R.color.cs_dialog_background)) }

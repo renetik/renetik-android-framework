@@ -1,17 +1,16 @@
 package renetik.android.network.process
 
 import renetik.android.core.kotlin.rootCause
-import renetik.android.core.lang.CSLeakCanary.expectWeaklyReachable
+import renetik.android.core.lang.variable.CSSynchronizedProperty.Companion.synchronized
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.logging.CSLog.logError
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
-import renetik.android.core.lang.variable.CSSynchronizedProperty.Companion.synchronized
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.CSContext
+import renetik.android.event.common.CSModel
 
-open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
+open class CSProcessBase<Data : Any>(var data: Data? = null) : CSModel() {
 
     val eventSuccess = event<CSProcessBase<Data>>()
     fun onSuccess(function: (CSProcessBase<Data>) -> Unit) = apply { eventSuccess.listen(function) }
@@ -114,7 +113,7 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSContext() {
         }
         isDone = true
         eventDone.fire(this)
-        expectWeaklyReachable("CSProcessBase $this onDone")
+        onDestroy()
     }
 
     override fun toString() = "${super.toString()} data:$data"

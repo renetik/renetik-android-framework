@@ -140,4 +140,6 @@ fun CSView<*>.onOrientationChange(
 
 val CSView<*>.hasParentView: Boolean get() = view.parent.notNull
 
+fun <T : CSView<*>> T.reusable() = apply { lifecycleStopOnRemoveFromParentView = false }
+
 
