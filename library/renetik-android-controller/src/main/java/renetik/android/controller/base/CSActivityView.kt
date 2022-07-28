@@ -211,10 +211,10 @@ open class CSActivityView<ViewType : View>
     protected open fun onViewHidingFirstTime() {}
     protected open fun onViewHidingAgain() {}
 
-    open val navigation: CSNavigationView? by lazy {
-        var controller: CSActivityView<*>? = this
+    open val navigation: CSNavigationView? by lazy {  // Is this ok to keep reference to navigation ?
+        var controller: CSActivityView<*>? = parentActivityView
         do {
-            if (controller is CSNavigationView) return@lazy controller
+            if (controller?.navigation != null) return@lazy controller.navigation
             controller = controller?.parentActivityView
         } while (controller != null)
         null
