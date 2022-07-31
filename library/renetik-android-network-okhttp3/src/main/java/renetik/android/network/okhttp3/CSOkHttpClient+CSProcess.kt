@@ -4,7 +4,7 @@ import com.androidnetworking.AndroidNetworking
 import org.json.JSONObject
 import org.json.JSONTokener
 import renetik.android.core.extensions.content.isNetworkConnected
-import renetik.android.core.kotlin.notNull
+import renetik.android.core.kotlin.isNotNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.CSEnvironment.app
@@ -45,7 +45,7 @@ fun <ServerDataType : CSHttpResponseData> CSOkHttpClient.get(
     val builder = AndroidNetworking.get(process.url!!).addQueryParameter(params)
 
     if (operation?.isCached.isFalse) builder.doNotCacheResponse()
-    operation?.expireMinutes.notNull {
+    operation?.expireMinutes.isNotNull {
         builder.setMaxStaleCacheControl(it * Minute, TimeUnit.MILLISECONDS)
     }
     if (operation?.isRefresh.isTrue) builder.responseOnlyFromNetwork

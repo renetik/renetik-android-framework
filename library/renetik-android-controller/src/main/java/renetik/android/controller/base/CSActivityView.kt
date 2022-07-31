@@ -11,10 +11,12 @@ import renetik.android.core.extensions.content.input
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
+import renetik.android.core.lang.lazyVar
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.common.onDestroy
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
@@ -211,13 +213,17 @@ open class CSActivityView<ViewType : View>
     protected open fun onViewHidingFirstTime() {}
     protected open fun onViewHidingAgain() {}
 
-    open val navigation: CSNavigationView? by lazy {  // Is this ok to keep reference to navigation ?
+    open var navigation: CSNavigationView? by lazyVar {
+        findNavigation().also { it?.onDestroy { navigation = null } }
+    }
+
+    private fun findNavigation(): CSNavigationView? {
         var controller: CSActivityView<*>? = parentActivityView
         do {
-            if (controller?.navigation != null) return@lazy controller.navigation
+            if (controller?.navigation != null) return controller.navigation
             controller = controller?.parentActivityView
         } while (controller != null)
-        null
+        return null
     }
 }
 

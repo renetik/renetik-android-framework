@@ -1,6 +1,7 @@
 package renetik.android.controller.base.dialog
 
 import android.view.View
+import renetik.android.core.kotlin.run
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
     later(50) { button.isPressed = true }
@@ -23,4 +24,4 @@ fun <T : CSNavigationDialog<*>> T.show(animation: DialogAnimation) = apply {
     updateVisibility()
 }
 
-fun CSNavigationDialog<*>.dismiss() = navigation!!.pop(this)
+fun CSNavigationDialog<*>.dismiss() = run { navigation?.pop(this) }

@@ -1,6 +1,6 @@
 package renetik.android.network.operation
 
-import renetik.android.core.kotlin.notNull
+import renetik.android.core.kotlin.isNotNull
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
@@ -51,7 +51,7 @@ open class CSOperation<Data : Any>() : CSModel() {
     }
 
     fun cancel() {
-        process.notNull {
+        process.isNotNull {
             if (it.isFailed) {
                 eventFailed.fire(it.failedProcess!!)
                 onDone(it)

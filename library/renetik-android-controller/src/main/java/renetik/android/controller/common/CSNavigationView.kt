@@ -18,7 +18,7 @@ import renetik.android.core.extensions.content.color
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
 import renetik.android.core.kotlin.ifNull
-import renetik.android.core.kotlin.notNull
+import renetik.android.core.kotlin.isNotNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.core.kotlin.unexpected
@@ -82,7 +82,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     fun pop() {
-        _controllers.deleteLast().notNull { popController(it) }
+        _controllers.deleteLast().isNotNull { popController(it) }
     }
 
     private fun popController(controller: CSActivityView<*>) {
@@ -98,7 +98,7 @@ class CSNavigationView : CSActivityView<FrameLayout>, CSNavigationItem {
     }
 
     fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
-        _controllers.deleteLast().notNull { lastController ->
+        _controllers.deleteLast().isNotNull { lastController ->
             popAnimation(controller)
             view.remove(lastController)
             onViewControllerPop()
