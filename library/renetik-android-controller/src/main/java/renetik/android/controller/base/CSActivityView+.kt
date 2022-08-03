@@ -4,7 +4,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import renetik.android.core.lang.Func
-import renetik.android.event.listen
 
 fun CSActivityView<*>.enterFullScreen() {
     WindowCompat.setDecorFitsSystemWindows(activity().window, false)
@@ -22,4 +21,5 @@ fun CSActivityView<*>.exitFullScreen() {
 fun CSActivityView<*>.onResume(listener: Func) = eventResume.listen { listener() }
 fun CSActivityView<*>.onPause(listener: Func) = eventPause.listen { listener() }
 
+val CSActivityView<*>.isPaused get() = !isResumed
 //val statusBarHeight get() =  activity().activityView!!.view.locationOnScreen.y

@@ -19,12 +19,12 @@ import renetik.android.core.extensions.content.externalFilesDir
 import renetik.android.core.java.io.createDatedFile
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.unfinished
-import renetik.android.core.lang.CSBackground.background
 import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.catchAllError
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
+import renetik.android.event.registration.background
 import renetik.android.imaging.extensions.resizeImage
 import java.io.File
 

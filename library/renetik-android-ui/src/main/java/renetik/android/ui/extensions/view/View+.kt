@@ -8,9 +8,12 @@ import android.graphics.Canvas
 import android.graphics.Color.WHITE
 import android.graphics.Rect
 import android.os.Build
+import android.os.SystemClock.uptimeMillis
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.obtain
 import android.view.View
 import android.view.View.OnLayoutChangeListener
 import android.view.ViewGroup
@@ -315,3 +318,6 @@ fun View.onDestroy() {
     catchAll { setOnLongClickListener(null) }
     (this as? ViewGroup)?.children?.forEach(View::onDestroy)
 }
+
+fun View.performTouchDown() = dispatchTouchEvent(obtain(uptimeMillis(),
+    uptimeMillis() + 700, ACTION_DOWN, 0f, 0f, 0))

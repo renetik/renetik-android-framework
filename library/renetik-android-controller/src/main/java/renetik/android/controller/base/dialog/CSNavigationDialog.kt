@@ -52,7 +52,7 @@ open class CSNavigationDialog<ViewType : View>(
 
     init {
         dialogContent.isClickable = true
-        onDestroy { dismiss() }
+//        onDestroy { dismiss() }
     }
 
     override fun onViewReady() {

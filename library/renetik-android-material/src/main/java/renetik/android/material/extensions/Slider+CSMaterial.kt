@@ -3,6 +3,8 @@ package renetik.android.material.extensions
 import android.view.View
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
+import renetik.android.core.kotlin.primitives.max
+import renetik.android.core.kotlin.primitives.min
 import renetik.android.core.kotlin.primitives.roundToStep
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
@@ -38,15 +40,17 @@ fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSRegistration {
         onPause = { removeOnSliderTouchListener(sliderListener) }).start()
 }
 
-fun <T : Slider> T.value(value: Float) = apply { this.value = value }
-fun <T : Slider> T.value(value: Int) = apply { this.value = value.toFloat() }
+fun <T : Slider> T.value(value: Float) = apply { this.value = value.min(valueFrom).max(valueTo) }
+fun <T : Slider> T.value(value: Int) = apply { this.value(value.toFloat()) }
+
 fun <T : Slider> T.valueFrom(value: Float) = apply { this.valueFrom = value }
 fun <T : Slider> T.valueFrom(value: Int) = apply { this.valueFrom = value.toFloat() }
+
 fun <T : Slider> T.valueTo(value: Float) = apply { this.valueTo = value }
 fun <T : Slider> T.valueTo(value: Int) = apply { this.valueTo = value.toFloat() }
+
 fun <T : Slider> T.stepSize(value: Float) = apply { this.stepSize = value }
 fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat() }
-
 
 @JvmName("valuePropertyDouble")
 fun Slider.value(property: CSProperty<Float>,

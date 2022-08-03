@@ -27,12 +27,11 @@ import renetik.android.ui.protocol.CSVisibility
 open class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations {
 
-    override val eventResume = event<Unit>()
-    override val eventPause = event<Unit>()
-    override val eventBack = event<CSVariable<Boolean>>()
+    override val eventResume by lazy { event<Unit>() }
+    override val eventPause by lazy { event<Unit>() }
+    override val eventBack by lazy { event<CSVariable<Boolean>>() }
     final override fun activity(): CSActivity = activity!!
     var isResumed = false
-    val isPaused get() = !isResumed
     private var isResumeFirstTime = false
     private var parentActivityView: CSActivityView<*>? = null
     var activity: CSActivity? = null
@@ -163,7 +162,7 @@ open class CSActivityView<ViewType : View>
     private var _isVisible = false
     override val isVisible: Boolean get() = _isVisible
     private var onViewShowingCalled = false
-    override val eventVisibility = event<Boolean>()
+    override val eventVisibility by lazy { event<Boolean>() }
 
     override fun updateVisibility() {
         if (checkIfIsShowing()) {
@@ -214,7 +213,7 @@ open class CSActivityView<ViewType : View>
     protected open fun onViewHidingAgain() {}
 
     open var navigation: CSNavigationView? by lazyVar {
-        findNavigation().also { it?.onDestroy { navigation = null } }
+        findNavigation().also { register(it?.onDestroy { navigation = null }) }
     }
 
     private fun findNavigation(): CSNavigationView? {
@@ -227,7 +226,7 @@ open class CSActivityView<ViewType : View>
     }
 }
 
-//TODO: could this be in main View extension ?
+//TODO: could this be in View extension ?
 private fun View.isShowing(): Boolean {
     if (!isVisible) return false
     var view: View = this

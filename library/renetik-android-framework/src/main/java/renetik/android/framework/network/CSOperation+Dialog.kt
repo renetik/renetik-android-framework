@@ -63,7 +63,7 @@ private fun <Data : Any> CSOperation<Data>.onSendFailed(
 //    title: String, onInternetFailed: (() -> Unit)? = null,
 //    onSuccess: ((Data) -> Unit)? = null): CSOperation<Data> = apply {
 //    val process = send()
-//    throw unfinished // TODO!!!
+//    throw unfinished
 //    val progress = parent.dialog().showProgress(title,
 //        cancelTitle = getString(R.string.renetik_android_framework_operation_send_cancel)) { cancel() }
 //    process.onFailed {

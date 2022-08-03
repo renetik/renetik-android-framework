@@ -44,11 +44,11 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     override fun activity(): CSActivity = this
     var activityView: CSActivityView<out ViewGroup>? = null
-    val configuration = Configuration()
+    val configuration by lazy { Configuration() }
     override val view: View get() = window.decorView
     override val context: Context get() = this
 
-    override val registrations = CSRegistrations()
+    final override val registrations by lazy { CSRegistrations(this) }
 
     abstract fun createView(): CSActivityView<out ViewGroup>
 
