@@ -1,42 +1,46 @@
 package renetik.android.material.extensions
 
 import android.view.View
-import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.appcompat.R.attr.colorError
+import androidx.appcompat.R.attr.colorPrimary
+import com.google.android.material.R.attr.colorOnError
+import com.google.android.material.R.attr.colorOnPrimary
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.make
 import renetik.android.core.extensions.content.attributeColor
-import renetik.android.core.lang.CSUserAction
+import renetik.android.core.kotlin.notNull
+import renetik.android.core.lang.CSButtonAction
 
-private fun View.snackBar(text: String) = snackBar(text, LENGTH_LONG)
+fun View.snackBar(title: String) = snackBar(title, time = LENGTH_LONG)
 
-private fun View.snackBar(text: String, time: Int) = make(this, text, time).show()
-
-private fun View.snackBar(
-    text: String, backColor: Int, textColor: Int, action: CSUserAction? = null) =
-    snackBar(text, backColor, textColor, LENGTH_LONG, action)
-
-private fun View.snackBar(
-    text: String, backColor: Int, textColor: Int, time: Int, action: CSUserAction? = null) =
-    make(this, text, if (action == null) time else LENGTH_INDEFINITE).apply {
-        action?.let {
-            this.setAction(action.title) {
-                action.onClick()
-                this.dismiss()
-            }
+fun View.snackBar(
+    title: String, @ColorInt backColor: Int? = null, @ColorInt textColor: Int? = null,
+    time: Int = LENGTH_LONG, action: CSButtonAction? = null): Snackbar {
+    val bar = make(this, title, if (action.notNull) LENGTH_INDEFINITE else time)
+    action?.let {
+        bar.setAction(action.title) {
+            action.onClick()
+            bar.dismiss()
         }
-        view.setBackgroundColor(backColor)
-        (view.findViewById(com.google.android.material.R.id.snackbar_text) as? TextView)?.setTextColor(textColor)
-    }.show()
+    }
+    backColor?.let { bar.view.setBackgroundColor(it) }
+    textColor?.let { bar.setTextColor(it) }
+    textColor?.let { bar.setActionTextColor(it) }
+    bar.show()
+    return bar
+}
 
-fun View.snackBarWarn(text: String, action: CSUserAction? = null) =
-    snackBar(text, context.attributeColor(androidx.appcompat.R.attr.colorError),
-        context.attributeColor(com.google.android.material.R.attr.colorOnError), action)
+fun View.snackBarWarn(title: String, action: CSButtonAction? = null) =
+    snackBar(title, backColor = context.attributeColor(colorError),
+        textColor = context.attributeColor(colorOnError), action = action)
 
-fun View.snackBarError(text: String, action: CSUserAction? = null) =
-    snackBar(text, context.attributeColor(androidx.appcompat.R.attr.colorError),
-        context.attributeColor(com.google.android.material.R.attr.colorOnError), action)
+fun View.snackBarError(title: String, action: CSButtonAction? = null) =
+    snackBar(title, backColor = context.attributeColor(colorError),
+        textColor = context.attributeColor(colorOnError), action = action)
 
-fun View.snackBarInfo(text: String, action: CSUserAction? = null) =
-    snackBar(text, context.attributeColor(androidx.appcompat.R.attr.colorPrimary),
-        context.attributeColor(com.google.android.material.R.attr.colorOnPrimary), action)
+fun View.snackBarInfo(title: String, action: CSButtonAction? = null) =
+    snackBar(title, backColor = context.attributeColor(colorPrimary),
+        textColor = context.attributeColor(colorOnPrimary), action = action)

@@ -131,3 +131,6 @@ fun <T : CSActivityView<*>> T.startActivityForUriAndType(
         onActivityNotFound?.invoke(exception)
     }
 }
+
+fun CSActivityView<*>.openUrl(url: String) =
+    startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
