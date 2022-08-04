@@ -25,7 +25,6 @@ import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.onDestroy
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
@@ -36,7 +35,7 @@ import java.io.Closeable
 
 open class CSNavigationDialog<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes)
-    : CSActivityView<FrameLayout>(parent, layout(cs_frame_match)),
+    : CSActivityView<FrameLayout>(parent.navigation!!, layout(cs_frame_match)),
     CSNavigationItem, Closeable {
 
     val dialogContent: ViewType = inflate(layout.id)
@@ -52,7 +51,7 @@ open class CSNavigationDialog<ViewType : View>(
 
     init {
         dialogContent.isClickable = true
-//        onDestroy { dismiss() }
+        dialogContent.isFocusable = true
     }
 
     override fun onViewReady() {
