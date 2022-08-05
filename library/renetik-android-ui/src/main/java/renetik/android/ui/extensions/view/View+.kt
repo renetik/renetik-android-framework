@@ -321,3 +321,6 @@ fun View.onDestroy() {
 
 fun View.performTouchDown() = dispatchTouchEvent(obtain(uptimeMillis(),
     uptimeMillis() + 700, ACTION_DOWN, 0f, 0f, 0))
+
+val View.firstChild get() = (this as? ViewGroup)?.firstChild
+val View.lastChild get() = (this as? ViewGroup)?.lastChild

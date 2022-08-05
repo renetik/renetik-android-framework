@@ -5,6 +5,7 @@ import androidx.core.view.children
 import renetik.android.controller.base.CSView
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.ui.extensions.view.activated
+import renetik.android.ui.extensions.view.firstChild
 import renetik.android.ui.extensions.view.selected
 
 // Requires item to be wrapped in empty frame layout for now...
@@ -29,15 +30,15 @@ open class CSGridItemView<RowType : Any>(
     }
 
     override var isActivated: Boolean
-        get() = view.children.first().isActivated
+        get() = view.firstChild!!.isActivated
         set(value) {
-            view.children.first().activated(value)
+            view.firstChild!!.activated(value)
         }
 
     override var isSelected: Boolean
-        get() = view.children.first().isSelected
+        get() = view.firstChild!!.isSelected
         set(value) {
-            view.children.first().selected(value)
+            view.firstChild!!.selected(value)
         }
 }
 

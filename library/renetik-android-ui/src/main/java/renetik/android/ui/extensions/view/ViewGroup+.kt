@@ -15,6 +15,7 @@ inline fun <R : Comparable<R>> ViewGroup.sortChildren(crossinline selector: (Vie
 }
 
 val ViewGroup.lastIndex: Int get() = childCount - 1
+val ViewGroup.firstChild get() = if (childCount > 0) getChildAt(0) else null
 val ViewGroup.lastChild get() = if (lastIndex >= 0) getChildAt(lastIndex) else null
 
 fun <ViewType : View> ViewGroup.add(
