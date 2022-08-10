@@ -9,10 +9,20 @@ fun <T> T.registerUntilHide(registration: CSRegistration?)
         where T : CSHasRegistrations, T : CSVisibility {
     if (registration == null) return
     register(registration)
-    onHiding { onHidingRegistration ->
+    register(onHiding { onHidingRegistration ->
         onHidingRegistration.cancel()
         cancel(registration)
-    }
+    })
+}
+
+fun <T> T.registerUntilShow(registration: CSRegistration?)
+        where T : CSHasRegistrations, T : CSVisibility {
+    if (registration == null) return
+    register(registration)
+    register(onShowing { onShowingRegistration ->
+        onShowingRegistration.cancel()
+        cancel(registration)
+    })
 }
 
 //fun <T> T.registerActiveIfVisible(registration: CSRegistration): CSRegistration

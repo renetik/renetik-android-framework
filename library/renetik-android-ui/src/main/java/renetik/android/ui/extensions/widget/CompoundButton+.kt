@@ -35,8 +35,15 @@ fun CompoundButton.isCheckedIfNot(property: CSProperty<Boolean>): CSRegistration
 fun CompoundButton.isCheckedIf(property: CSProperty<Boolean>): CSRegistration {
     lateinit var propertyRegistration: CSRegistration
     val buttonRegistration = onChange { propertyRegistration.paused { property.value(isChecked) } }
-    propertyRegistration = property.action { buttonRegistration.paused { checked(it) } }
+    propertyRegistration = property.action { buttonRegistration.paused { isCheckedIf(it) } }
     return CSRegistration(propertyRegistration, buttonRegistration)
+}
+
+fun <T, V> CompoundButton.isCheckedIf(
+    property: CSProperty<T>, condition: (T) -> Boolean): CSRegistration {
+    fun update() = isCheckedIf(condition(property.value))
+    update()
+    return property.onChange { update() }
 }
 
 fun <T> CompoundButton.isCheckedIf(

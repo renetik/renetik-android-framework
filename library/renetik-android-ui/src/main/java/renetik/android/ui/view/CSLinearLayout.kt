@@ -12,7 +12,6 @@ import renetik.android.ui.R
 import renetik.android.core.kotlin.primitives.Empty
 import renetik.android.core.kotlin.primitives.isSet
 
-
 open class CSLinearLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0

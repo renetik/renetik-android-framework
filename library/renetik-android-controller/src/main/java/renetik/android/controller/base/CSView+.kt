@@ -102,6 +102,8 @@ fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: 
 
 fun View.asCSView() = asCS<CSView<*>>()
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()
+
+@Suppress("UNCHECKED_CAST")
 fun <CSViewType : CSView<*>> View.asCS() = this.tag as? CSViewType
 
 val CSView<*>.displayCutout: CSDisplayCutout?

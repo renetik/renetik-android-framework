@@ -8,10 +8,15 @@ import androidx.core.view.children
 import androidx.core.view.iterator
 import renetik.android.ui.protocol.CSHasParentView
 
-inline fun <R : Comparable<R>> ViewGroup.sortChildren(crossinline selector: (View) -> R?) = apply {
-    val sorted = children.toList().sortedBy(selector)
+inline fun <R : Comparable<R>> ViewGroup.sortChildren(
+    crossinline selector: (View) -> R?) =
+    sortChildren { _, view -> selector(view) }
+
+inline fun <R : Comparable<R>> ViewGroup.sortChildren(
+    crossinline selector: (Int, View) -> R?) = apply {
+    val sorted = children.toList().withIndex().sortedBy { selector(it.index, it.value) }
     removeAllViews()
-    sorted.forEach(::addView)
+    sorted.map(IndexedValue<View>::value).forEach(::addView)
 }
 
 val ViewGroup.lastIndex: Int get() = childCount - 1
@@ -64,7 +69,7 @@ fun <T : ViewGroup> T.clear() = apply {
 
 fun ViewGroup.childAt(condition: (View) -> Boolean) = children.find(condition)
 
-fun ViewGroup.removeViews(start: Int) = removeViews(start, childCount - start)
+fun ViewGroup.removeViews(from: Int) = removeViews(from, childCount - from)
 
 val ViewGroup.subViews
     get() = object : List<View> {

@@ -38,7 +38,11 @@ open class CSNavigationDialog<ViewType : View>(
     : CSActivityView<FrameLayout>(parent.navigation!!, layout(cs_frame_match)),
     CSNavigationItem, Closeable {
 
-    val dialogContent: ViewType = inflate(layout.id)
+    val dialogContent: ViewType = inflate<ViewType>(layout.id).apply {
+        isClickable = true
+        isFocusable = true
+    }
+
     override var isFullscreenNavigationItem = property(false)
     var animation = Fade
     private val marginDp = 5
@@ -48,11 +52,6 @@ open class CSNavigationDialog<ViewType : View>(
 
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
-
-    init {
-        dialogContent.isClickable = true
-        dialogContent.isFocusable = true
-    }
 
     override fun onViewReady() {
         super.onViewReady()
