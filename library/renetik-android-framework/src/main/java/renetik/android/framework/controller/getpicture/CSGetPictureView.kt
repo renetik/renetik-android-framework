@@ -25,6 +25,7 @@ import renetik.android.core.lang.catchAllError
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.registration.background
+import renetik.android.event.registration.onMain
 import renetik.android.imaging.extensions.resizeImage
 import java.io.File
 

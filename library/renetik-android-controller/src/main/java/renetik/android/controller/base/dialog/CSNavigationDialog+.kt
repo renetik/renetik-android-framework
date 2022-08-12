@@ -3,6 +3,7 @@ package renetik.android.controller.base.dialog
 import android.view.View
 import renetik.android.controller.base.dialog.DialogAnimation.Fade
 import renetik.android.core.kotlin.run
+import renetik.android.event.registration.later
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
     later(50) { button.isPressed = true }

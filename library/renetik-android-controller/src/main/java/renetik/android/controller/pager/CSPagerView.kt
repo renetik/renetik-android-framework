@@ -2,9 +2,10 @@ package renetik.android.controller.pager
 
 import android.view.View
 import renetik.android.controller.base.CSActivityView
-import renetik.android.event.CSEvent.Companion.event
-import renetik.android.ui.extensions.view.shownIf
 import renetik.android.core.kotlin.collections.*
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.registration.later
+import renetik.android.ui.extensions.view.shownIf
 
 class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     CSActivityView<CSViewPager>(parent, pagerId)

@@ -15,6 +15,7 @@ import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.listen
 import renetik.android.event.registration.cancel
+import renetik.android.event.registration.later
 import renetik.android.event.registration.register
 
 fun CSActivityView<*>.startActivity(activityClass: Class<out AppCompatActivity>) {

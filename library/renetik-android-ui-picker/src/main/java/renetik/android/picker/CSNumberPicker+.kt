@@ -33,9 +33,9 @@ fun CSNumberPicker.onValueChange(function: Func) = valueProperty.onChange { func
 fun CSNumberPicker.onScroll(function: (Int) -> void) = eventOnScroll.listen(function)
 
 fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selected: Row? = null) =
-    loadData(data, selectedIndex = data.index(selected) ?: 0)
+    loadData(data, selected = data.index(selected) ?: 0)
 
-fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selectedIndex: Int = 0) = apply {
+fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selected: Int = 0) = apply {
     if (data.hasItems) {
         minValue = 0
         valueProperty.value = 0
@@ -47,7 +47,7 @@ fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selectedIndex: Int = 0)
             maxValue = newMaxValue
             displayedValues = data.asStringArray
         }
-        valueProperty.value = selectedIndex
+        valueProperty.value = selected
     }
 }
 
