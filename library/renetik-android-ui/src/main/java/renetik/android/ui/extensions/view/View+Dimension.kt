@@ -1,5 +1,6 @@
 package renetik.android.ui.extensions.view
 
+import android.graphics.Rect
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
@@ -7,6 +8,9 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
 import renetik.android.core.lang.void
+import renetik.android.core.math.CSPoint
+import renetik.android.core.math.left
+import renetik.android.core.math.top
 import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 
@@ -157,5 +161,18 @@ var View.heightDp: Int
     get() = context.toDp(height)
     set(value) {
         height(context.dpToPixel(value))
+    }
+
+val View.rectangle: Rect
+    get() = Rect(left, top, right, bottom)
+
+
+val View.rectangleInWindow: Rect
+    get() {
+        val location: CSPoint<Int> = locationInWindow
+        val rectangle: Rect = rectangle
+        return Rect(location.left, location.top,
+            location.left + rectangle.width(),
+            location.top + rectangle.height())
     }
 
