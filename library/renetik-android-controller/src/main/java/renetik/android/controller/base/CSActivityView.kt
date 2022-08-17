@@ -7,7 +7,7 @@ import androidx.appcompat.widget.ContentFrameLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.controller.common.CSNavigationView
-import renetik.android.core.extensions.content.input
+import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
@@ -153,7 +153,7 @@ open class CSActivityView<ViewType : View>
 
     final override fun hideKeyboard() {
         activity?.currentFocus?.let {
-            input.hideSoftInputFromWindow(it.rootView.windowToken, 0)
+            inputService.hideSoftInputFromWindow(it.rootView.windowToken, 0)
         } ?: super.hideKeyboard()
     }
 

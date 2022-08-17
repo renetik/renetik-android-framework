@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import renetik.android.core.extensions.content.inflate
-import renetik.android.core.extensions.content.input
+import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
@@ -87,7 +87,7 @@ open class CSView<ViewType : View> : CSContext,
     protected open fun onViewReady() = Unit
 
     open fun hideKeyboard() {
-        input.hideSoftInputFromWindow(view.rootView.windowToken, 0)
+        inputService.hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
 
     override fun onDestroy() {
