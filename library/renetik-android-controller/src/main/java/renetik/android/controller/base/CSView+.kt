@@ -24,6 +24,11 @@ import renetik.android.ui.protocol.CSViewInterface
 
 fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
 
+@JvmName("viewOfType")
+inline fun <reified Type : View> CSViewInterface.view(
+    @IdRes id: Int, noinline onClick: ((view: View) -> Unit)? = null) =
+    view.view(id).apply { onClick?.let { this.onClick(it) } } as Type
+
 fun CSViewInterface.view(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
     view.view(id).apply { onClick?.let { this.onClick(it) } }
 
