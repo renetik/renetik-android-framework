@@ -88,8 +88,8 @@ fun <T : View> T.enabled(enabled: Boolean = true) = enabledIf(enabled)
 fun <T : View> T.enabledIf(condition: Boolean) = apply { isEnabled = condition }
 fun <T : View> T.disabled(value: Boolean = true) = disabledIf(value)
 fun <T : View> T.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
-val <T : View> T.superview get() = parent as? View
-val <T : View> T.parentView get() = parent as? View
+val <T : View> T.superview get() = parent as? ViewGroup
+val <T : View> T.parentView get() = parent as? ViewGroup
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
 
 fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
@@ -319,8 +319,8 @@ fun View.onDestroy() {
     (this as? ViewGroup)?.children?.forEach(View::onDestroy)
 }
 
-fun View.performTouchDown() = dispatchTouchEvent(obtain(uptimeMillis(),
-    uptimeMillis() + 700, ACTION_DOWN, 0f, 0f, 0))
+fun View.performTouchDown(time: Int = 700) = dispatchTouchEvent(obtain(uptimeMillis(),
+    uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0))
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild
 val View.lastChild get() = (this as? ViewGroup)?.lastChild
