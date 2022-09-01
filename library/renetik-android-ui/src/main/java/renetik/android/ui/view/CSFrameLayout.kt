@@ -72,6 +72,7 @@ open class CSFrameLayout @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (!isEnabled) return false
         val handled = onTouchEvent?.invoke(event) ?: false
         return if (!handled) super.onTouchEvent(event) else true
     }

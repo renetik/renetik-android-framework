@@ -8,41 +8,42 @@ import android.view.View.MeasureSpec.makeMeasureSpec
 import renetik.android.ui.R
 
 class CSImageView @JvmOverloads constructor(
-	context: Context, attrs: AttributeSet? = null,
-	defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : androidx.appcompat.widget.AppCompatImageView(context, attrs, defStyleAttr),
-	CSHasTouchEvent {
+    CSHasTouchEvent {
 
-	override val self = this
-	private val _maxWidth: Int
-	private val _maxHeight: Int
-	override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    override val self = this
+    private val _maxWidth: Int
+    private val _maxHeight: Int
+    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
-	init {
-		val attributes =
-			context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
-		try {
-			clipToOutline = attributes.getBoolean(R.styleable.CSLayout_clipToOutline, false)
-			_maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
-			_maxHeight = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxHeight, -1)
-		} finally {
-			attributes.recycle()
-		}
-	}
+    init {
+        val attributes =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
+        try {
+            clipToOutline = attributes.getBoolean(R.styleable.CSLayout_clipToOutline, false)
+            _maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
+            _maxHeight = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxHeight, -1)
+        } finally {
+            attributes.recycle()
+        }
+    }
 
-	override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-		var widthMeasure = widthMeasureSpec
-		var heightMeasure = heightMeasureSpec
-		if (_maxWidth != -1 && measuredWidth > _maxWidth)
-			widthMeasure = makeMeasureSpec(_maxWidth, EXACTLY)
-		if (_maxHeight != -1 && measuredHeight > _maxHeight)
-			heightMeasure = makeMeasureSpec(_maxHeight, EXACTLY)
-		super.onMeasure(widthMeasure, heightMeasure)
-	}
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        var widthMeasure = widthMeasureSpec
+        var heightMeasure = heightMeasureSpec
+        if (_maxWidth != -1 && measuredWidth > _maxWidth)
+            widthMeasure = makeMeasureSpec(_maxWidth, EXACTLY)
+        if (_maxHeight != -1 && measuredHeight > _maxHeight)
+            heightMeasure = makeMeasureSpec(_maxHeight, EXACTLY)
+        super.onMeasure(widthMeasure, heightMeasure)
+    }
 
-	override fun onTouchEvent(event: MotionEvent): Boolean {
-		val handled = onTouchEvent?.invoke(event) ?: false
-		return if (!handled) super.onTouchEvent(event) else true
-	}
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (!isEnabled) return false
+        val handled = onTouchEvent?.invoke(event) ?: false
+        return if (!handled) super.onTouchEvent(event) else true
+    }
 }
