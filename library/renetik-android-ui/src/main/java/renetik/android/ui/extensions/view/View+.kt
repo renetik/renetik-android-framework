@@ -27,6 +27,7 @@ import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.core.lang.Func
 import renetik.android.core.lang.catchAll
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent
@@ -288,10 +289,9 @@ inline fun View.onLayoutChange(crossinline function: () -> Unit): CSRegistration
         onPause = { removeOnLayoutChangeListener(listener) }).start()
 }
 
-fun View.onScrollChange(function: (view: View) -> Unit) =
-    eventScrollChange.listen(function)
+fun View.onScrollChange(function: (view: View) -> Unit) = eventScrollChange.listen(function)
 
-val View.eventScrollChange
+private val View.eventScrollChange
     @RequiresApi(Build.VERSION_CODES.M)
     get() = propertyWithTag(renetik.android.ui.R.id.ViewEventOnScrollTag) {
         event<View>().also { setOnScrollChangeListener { _, _, _, _, _ -> it.fire(this) } }
@@ -324,3 +324,9 @@ fun View.performTouchDown(time: Int = 700) = dispatchTouchEvent(obtain(uptimeMil
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild
 val View.lastChild get() = (this as? ViewGroup)?.lastChild
+
+fun View.onSizeChange(function: Func): CSRegistration {
+    val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
+    return CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
+        onPause = { removeOnLayoutChangeListener(listener) }).start()
+}
