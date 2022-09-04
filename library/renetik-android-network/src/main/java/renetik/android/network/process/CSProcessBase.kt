@@ -42,12 +42,14 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSModel() {
 
     fun success() {
         if (isCanceled) return
+        if (isDestroyed) return
         onSuccessImpl()
         onDoneImpl()
     }
 
     fun success(data: Data) {
         if (isCanceled) return
+        if (isDestroyed) return
         this.data = data
         onSuccessImpl()
         onDoneImpl()
@@ -64,12 +66,14 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSModel() {
 
     fun failed(process: CSProcessBase<*>) {
         if (isCanceled) return
+        if (isDestroyed) return
         onFailedImpl(process)
         onDoneImpl()
     }
 
     fun failed(message: String): CSProcessBase<Data> {
         if (isCanceled) return this
+        if (isDestroyed) return this
         this.failedMessage = message
         failed(this)
         return this
@@ -77,6 +81,7 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSModel() {
 
     fun failed(exception: Throwable?, message: String? = null) {
         if (isCanceled) return
+        if (isDestroyed) return
         this.throwable = exception
         this.failedMessage = message
         failed(this)
@@ -96,10 +101,11 @@ open class CSProcessBase<Data : Any>(var data: Data? = null) : CSModel() {
 
     open fun cancel() {
         logDebug {
-            message("Response cancel, $this, isCanceled:$isCanceled, " +
-                    "isDone:$isDone, isSuccess:$isSuccess isFailed:$isFailed")
+            message("Response cancel, $this, isDestroyed:$isDestroyed, " +
+                    "isCanceled:$isCanceled, isDone:$isDone, " +
+                    "isSuccess:$isSuccess, isFailed:$isFailed")
         }
-        if (isCanceled || isDone || isSuccess || isFailed) return
+        if (isDestroyed || isCanceled || isDone || isSuccess || isFailed) return
         isCanceled = true
         eventCancel.fire(this)
         onDoneImpl()

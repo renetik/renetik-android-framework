@@ -1,9 +1,9 @@
 package renetik.android.network.operation
 
-import renetik.android.core.kotlin.isNotNull
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
+import renetik.android.event.common.parent
 import renetik.android.network.process.CSProcessBase
 
 open class CSOperation<Data : Any>() : CSModel() {
@@ -38,29 +38,19 @@ open class CSOperation<Data : Any>() : CSModel() {
     fun onDone(function: ArgFunc<CSProcessBase<Data>>) =
         apply { eventDone.listen(function) }
 
-    var isActive = false
-
     fun send(): CSProcessBase<Data> = executeProcess().also { process ->
-        this.process = process
-        isActive = true
+        this.process = process.parent(this)
         process.onSuccess {
             eventSuccess.fire(process)
             onDone(process)
-            isActive = false
         }
     }
 
     fun cancel() {
-        process.isNotNull {
-            if (it.isFailed) {
-                eventFailed.fire(it.failedProcess!!)
-                onDone(it)
-            } else {
-                it.cancel()
-                onDone(it)
-            }
+        process?.let {
+            if (it.isFailed) eventFailed.fire(it.failedProcess!!) else it.cancel()
+            onDone(it)
         }
-        isActive = false
     }
 
     private fun onDone(process: CSProcessBase<Data>) {

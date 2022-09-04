@@ -116,6 +116,8 @@ fun <T : View> T.size(width: Int, height: Int) = apply {
     height(height)
 }
 
+fun <T : View> T.size(size: Int) = size(size, size)
+
 fun <T : View> T.width(value: Int) = apply {
     val params = layoutParams
     params.width = value
