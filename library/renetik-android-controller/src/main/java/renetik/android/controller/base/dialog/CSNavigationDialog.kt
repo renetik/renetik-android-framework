@@ -7,6 +7,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
+import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.dialog.DialogAnimation.*
 import renetik.android.controller.base.dialog.DialogPopupSide.Bottom
@@ -19,7 +20,6 @@ import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
 import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.dpToPixelF
-import renetik.android.core.extensions.content.statusBarHeight
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.setFalse
@@ -29,13 +29,12 @@ import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.ui.R.color
-import renetik.android.ui.R.layout.cs_frame_match
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 
 open class CSNavigationDialog<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes)
-    : CSActivityView<FrameLayout>(parent.navigation!!, layout(cs_frame_match)),
+    : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
     CSNavigationItem, Closeable {
 
     val dialogContent: ViewType = inflate<ViewType>(layout.id).apply {
@@ -93,7 +92,7 @@ open class CSNavigationDialog<ViewType : View>(
     }
 
     private fun positionDialogContentFromViewBottom(fromView: View) {
-        val fromViewLocation = fromView.locationOnScreen
+        val fromViewLocation = fromView.locationInWindow
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
         var desiredX = fromViewTopCenterX.toFloat() - (dialogContent.width / 2)
         if (desiredX + dialogContent.width > width - dpToPixelF(marginDp))
@@ -101,21 +100,20 @@ open class CSNavigationDialog<ViewType : View>(
         if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
         dialogContent.x = desiredX
 
-        dialogContent.y = fromViewLocation.y.toFloat() + fromView.height - statusBarHeight
+        dialogContent.y = fromViewLocation.y.toFloat() + fromView.height
     }
 
     private fun correctHeight() {
         if (dialogContent.y + dialogContent.height > height - dpToPixelF(marginDp))
-            dialogContent.height(height - statusBarHeight - dpToPixelF(marginDp) - dialogContent.y)
+            dialogContent.height(height - dpToPixelF(marginDp) - dialogContent.y)
     }
 
     private fun positionDialogContentFromViewRight(fromView: View) {
-        val fromViewLocation = fromView.locationOnScreen
+        val fromViewLocation = fromView.locationInWindow
         val fromViewLeftCenterY = fromViewLocation.y + (fromView.height / 2)
         var desiredY = fromViewLeftCenterY.toFloat() - (dialogContent.height / 2)
         if (desiredY + dialogContent.height > height - dpToPixelF(marginDp))
-            desiredY -= (desiredY + dialogContent.height) -
-                    (height - dpToPixelF(marginDp) - statusBarHeight)
+            desiredY -= (desiredY + dialogContent.height) - (height - dpToPixelF(marginDp))
         if (desiredY < dpToPixelF(marginDp)) desiredY = dpToPixelF(marginDp)
         dialogContent.x = fromViewLocation.x.toFloat() + fromView.width
         dialogContent.y = desiredY
