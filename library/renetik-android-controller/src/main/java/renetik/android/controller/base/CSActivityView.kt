@@ -3,7 +3,6 @@ package renetik.android.controller.base
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.appcompat.widget.ContentFrameLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.controller.common.CSNavigationView
@@ -21,6 +20,7 @@ import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.register
+import renetik.android.ui.extensions.view.isShowing
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.protocol.CSVisibility
 
@@ -225,25 +225,3 @@ open class CSActivityView<ViewType : View>
         return null
     }
 }
-
-//TODO: could this be in View extension ?
-private fun View.isShowing(): Boolean {
-    if (!isVisible) return false
-    var view: View = this
-    while (true) {
-        val parent = view.parent
-        when {
-            parent == null -> return false
-            parent !is View -> return true
-            parent is ContentFrameLayout -> return true
-            !parent.isVisible -> return false
-            parent.asCSActivityView()?.isVisible == true -> return true
-            else -> view = parent
-        }
-    }
-}
-
-
-
-
-

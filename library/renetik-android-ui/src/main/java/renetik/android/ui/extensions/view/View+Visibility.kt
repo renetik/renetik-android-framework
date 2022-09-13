@@ -159,12 +159,6 @@ fun View.invisibleIf(
     property: CSProperty<Boolean>, animated: Boolean = false)
         : CSRegistration = invisibleIf(property, animated) { it }
 
-// This had be done because isShown return false in on Resume
-// for main activity view when created
-// because it has not yet attached its DecorView.class to window
-// DecorView is internal class so we cant identify it by class just className DecorView
-// Other solution is to identify ContentFrameLayout instead as top view
-// Previous simple "solution": view.parent?.parent?.parent?.parent != null
 fun View.isShowing(): Boolean {
     if (!isVisible) return false
     var view: View = this
@@ -174,8 +168,8 @@ fun View.isShowing(): Boolean {
             parent == null -> return false
             parent !is View -> return true
             parent is ContentFrameLayout -> return true
-//            parent.className == "DecorView" -> return true
             !parent.isVisible -> return false
+            (parent.tag as? CSVisibility)?.isVisible == true -> return true
             else -> view = parent
         }
     }
