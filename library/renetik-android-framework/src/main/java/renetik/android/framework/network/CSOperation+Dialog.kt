@@ -15,7 +15,7 @@ import renetik.android.core.kotlin.unfinished
 //    onSuccess: ((Data) -> Unit)? = null) = apply {
 //    val process = send()
 //    if (isProgress) {
-//        throw unfinished // TODO!!!
+//        throw unfinished // TODO
 //        val progress = parent.dialog().showProgress(title,
 //            cancelTitle = getString(R.string.renetik_android_framework_operation_send_cancel)) { cancel() }
 //        process.onDone { progress.hide() }
@@ -33,7 +33,7 @@ private fun <Data : Any> CSOperation<Data>.onSendFailed(
     onSuccess: ((Data) -> Unit)?) {
     process.onFailed {
         if (!app.isNetworkConnected && onInternetFailed != null) onInternetFailed()
-        else unfinished() // TODO!!!
+        else unfinished() // TODO
 //            parent.dialog(title,
 //            getString(R.string.renetik_android_framework_operation_send_failed))
 //            .show(getString(R.string.renetik_android_framework_operation_send_cancel), {

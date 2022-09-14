@@ -61,7 +61,7 @@ class CSGetPictureView<T : View>(
         if (!selectPhoto) onTakePhoto()
         else if (!takePhoto) onSelectPhoto()
         unfinished()
-//    TODO!!!  else dialog(title).showChoice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
+//    TODO:  else dialog(title).showChoice("Album", { onSelectPhoto() }, "Camera", { onTakePhoto() })
     }
 
     private fun onImageSelected(input: Uri, onDone: (() -> Unit)? = null) = catchAllError {
