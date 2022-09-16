@@ -6,6 +6,7 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.controller.common.CSNavigationView
+import renetik.android.controller.common.last
 import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
