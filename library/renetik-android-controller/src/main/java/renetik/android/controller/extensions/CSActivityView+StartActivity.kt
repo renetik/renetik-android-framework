@@ -56,6 +56,7 @@ fun CSActivityView<*>.startActivityForResult(
     }
 }
 
+@Suppress("DEPRECATION")
 fun CSActivityView<*>.startActivityForResult(intent: Intent, requestCode: Int) =
     activity().startActivityForResult(intent, requestCode)
 
