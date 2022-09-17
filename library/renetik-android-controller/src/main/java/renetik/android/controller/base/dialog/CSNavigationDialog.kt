@@ -24,6 +24,9 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
+import renetik.android.core.logging.CSLog.logDebug
+import renetik.android.core.logging.CSLogMessage.Companion.message
+import renetik.android.core.util.CSMemory.memoryUsageInfo
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
@@ -57,6 +60,12 @@ open class CSNavigationDialog<ViewType : View>(
         view.background(color(color.cs_dialog_background))
             .onClick { if (cancelOnTouchOut) dismiss() }
         view.add(dialogContent)
+    }
+
+    override fun onViewShowing() {
+        super.onViewShowing()
+        logDebug { message(memoryUsageInfo()) }
+        logDebug { message("Thread Count: ${Thread.activeCount()}") }
     }
 
     override fun onRemovedFromParentView() {
