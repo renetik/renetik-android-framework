@@ -10,9 +10,10 @@ import renetik.android.event.registration.CSRegistration
 
 fun <Item : CSView<*>> MutableList<Item>.updated(
     group: ViewGroup, property: CSProperty<Int>,
+    fromStart: Boolean = false,
     function: (index: Int) -> Item): CSRegistration =
     property.action { value ->
         size.update(value,
-            onAdd = { index -> group.add(put(function(index))) },
+            onAdd = { index -> group.add(put(function(index)), if (fromStart) 0 else -1) },
             onRemove = { index -> group.remove(removeAt(index)) })
     }
