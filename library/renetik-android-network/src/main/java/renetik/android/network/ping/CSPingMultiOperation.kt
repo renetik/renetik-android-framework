@@ -9,7 +9,7 @@ open class CSPingMultiOperation<Data : Any>(
     items: Data,
     onPingDone: CSOperation<*>.(CSMultiProcessBase<Data>) -> Unit)
     : CSOperation<Data>({
-    CSPingMultiProcess(server, items) {
+    CSPingMultiProcess(this, server, items) {
         onPingDone(this@CSPingMultiProcess)
     }
 })

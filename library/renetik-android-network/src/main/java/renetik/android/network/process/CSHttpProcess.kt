@@ -1,8 +1,9 @@
 package renetik.android.network.process
 
+import renetik.android.event.common.CSHasDestroy
+
 open class CSHttpProcess<Data : Any>(
-    url: String,
-    data: Data) : CSProcessBase<Data>(data) {
+    parent: CSHasDestroy, url: String, data: Data) : CSProcessBase<Data>(parent, data) {
 
     var url: String? = url
 

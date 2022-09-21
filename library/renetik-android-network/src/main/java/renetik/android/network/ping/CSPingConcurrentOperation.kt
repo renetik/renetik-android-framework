@@ -8,5 +8,5 @@ open class CSPingConcurrentOperation<T : Any>(
     server: CSServerWithPing,
     onPingDone: CSOperation<*>.(CSConcurrentProcess<T>) -> Unit)
     : CSPingOperation<List<T>>(server, {
-    CSConcurrentProcess<T>().apply { onPingDone(this@apply) }
+    CSConcurrentProcess<T>(this).apply { onPingDone(this@apply) }
 })
