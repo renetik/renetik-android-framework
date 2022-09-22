@@ -8,8 +8,8 @@ import androidx.core.view.GravityCompat.END
 import androidx.core.view.GravityCompat.START
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.*
-import renetik.android.ui.view.adapter.CSDrawerAdapter
 import renetik.android.ui.extensions.view.view
+import renetik.android.ui.view.adapter.CSDrawerAdapter
 
 @IntDef(value = [Gravity.LEFT, Gravity.RIGHT, START, END], flag = true)
 @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
@@ -47,7 +47,7 @@ fun DrawerLayout.close() {
 
 fun DrawerLayout.openRight() = openDrawer(END)
 
-val DrawerLayout.isDrawerOpen get() = isDrawerOpen(START) || isDrawerOpen(END)
+val DrawerLayout.isDrawerOpen get() = isDrawerOpen(START) or isDrawerOpen(END)
 
 fun DrawerLayout.setupLeftPanelSliding(@IdRes viewId: Int, @IdRes contentId: Int) {
     addDrawerListener(CSDrawerAdapter(onDrawerSlide = { drawerView, slideOffset ->
@@ -70,11 +70,11 @@ fun DrawerLayout.onDrawerStateChanged(function: (newState: Int) -> Unit) {
 }
 
 fun DrawerLayout.onOpenStateChanged(function: (DrawerLayout) -> Unit) {
-    var state = isDrawerOpen
+    var state: Boolean = isDrawerOpen
     onDrawerStateChanged {
         if (it == STATE_IDLE && state != isDrawerOpen) {
-            function(this)
             state = isDrawerOpen
+            function(this)
         }
     }
 }
