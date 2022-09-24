@@ -11,6 +11,7 @@ import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
 
+@Deprecated("")
 class CSHeadsetAudioPlugDetector(
     parent: CSActivityView<*>, val onHeadsetPlugChanged: (isPlugged: Boolean) -> Unit)
     : CSActivityView<View>(parent) {
