@@ -1,4 +1,4 @@
-package renetik.android.controller.extensions
+package renetik.android.ui.extensions
 
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams

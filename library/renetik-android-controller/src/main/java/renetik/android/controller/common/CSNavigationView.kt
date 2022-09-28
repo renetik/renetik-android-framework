@@ -9,8 +9,8 @@ import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.onGlobalFocus
 import renetik.android.controller.common.CSNavigationAnimation.*
-import renetik.android.controller.extensions.add
-import renetik.android.controller.extensions.remove
+import renetik.android.ui.extensions.add
+import renetik.android.ui.extensions.remove
 import renetik.android.core.extensions.content.color
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
