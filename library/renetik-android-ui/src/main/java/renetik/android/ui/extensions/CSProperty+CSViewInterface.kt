@@ -9,8 +9,7 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.protocol.CSViewInterface
 
 fun <Item : CSViewInterface> CSProperty<Int>.updates(
-    items: MutableList<Item>, layout: ViewGroup,
-    fromStart: Boolean = false,
+    items: MutableList<Item>, layout: ViewGroup, fromStart: Boolean = false,
     function: (index: Int) -> Item): CSRegistration = action { value ->
     items.size.update(value,
         onAdd = { index -> layout.add(items.put(function(index)), if (fromStart) 0 else -1) },
