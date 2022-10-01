@@ -2,11 +2,13 @@ package renetik.android.ui.extensions.view
 
 import android.graphics.Rect
 import android.view.View
+import android.view.View.OnLayoutChangeListener
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
+import renetik.android.core.lang.Func
 import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
@@ -14,16 +16,27 @@ import renetik.android.core.math.top
 import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 
+val <T : View> T.hasSize get() = width > 0 && height > 0
+
 fun <T : View> T.hasSize(
     parent: CSHasRegistrations, onHasSize: (View) -> Unit) {
     if (width == 0 || height == 0) parent.register(onGlobalLayout {
-        if (width != 0 && height != 0) {
+        if (hasSize) {
             onHasSize(this@hasSize)
             parent.cancel(it)
         }
     })
     else onHasSize(this)
 }
+
+fun View.onSizeChange(function: Func): CSRegistration {
+    val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
+    return CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
+        onPause = { removeOnLayoutChangeListener(listener) }).start()
+}
+
+fun View.onHasSizeChange(function: Func): CSRegistration =
+    onSizeChange { if (hasSize) function() }
 
 fun <T : View> T.afterGlobalLayout(
     parent: CSHasRegistrations, function: (View) -> Unit)

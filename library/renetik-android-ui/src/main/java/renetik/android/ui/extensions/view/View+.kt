@@ -324,9 +324,3 @@ fun View.performTouchDown(time: Int = 700) = dispatchTouchEvent(obtain(uptimeMil
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild
 val View.lastChild get() = (this as? ViewGroup)?.lastChild
-
-fun View.onSizeChange(function: Func): CSRegistration {
-    val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
-    return CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
-        onPause = { removeOnLayoutChangeListener(listener) }).start()
-}
