@@ -32,7 +32,10 @@ import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.ui.R.color
-import renetik.android.ui.extensions.view.*
+import renetik.android.ui.extensions.view.add
+import renetik.android.ui.extensions.view.background
+import renetik.android.ui.extensions.view.height
+import renetik.android.ui.extensions.view.locationInWindow
 import java.io.Closeable
 
 open class CSNavigationDialog<ViewType : View>(
@@ -41,8 +44,8 @@ open class CSNavigationDialog<ViewType : View>(
     CSNavigationItem, Closeable {
 
     val dialogContent: ViewType = inflate<ViewType>(layout.id).apply {
-//        isClickable = true
-//        isFocusable = true
+        isClickable = true
+        isFocusable = true
     }
 
     override var isFullscreenNavigationItem = property(false)
