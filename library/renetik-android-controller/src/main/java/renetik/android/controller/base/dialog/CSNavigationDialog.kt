@@ -41,8 +41,8 @@ open class CSNavigationDialog<ViewType : View>(
     CSNavigationItem, Closeable {
 
     val dialogContent: ViewType = inflate<ViewType>(layout.id).apply {
-        isClickable = true
-        isFocusable = true
+//        isClickable = true
+//        isFocusable = true
     }
 
     override var isFullscreenNavigationItem = property(false)
@@ -58,7 +58,7 @@ open class CSNavigationDialog<ViewType : View>(
     override fun onViewReady() {
         super.onViewReady()
         view.background(color(color.cs_dialog_background))
-            .onClick { if (cancelOnTouchOut) dismiss() }
+//            .onClick { if (cancelOnTouchOut) dismiss() }
         view.add(dialogContent)
     }
 

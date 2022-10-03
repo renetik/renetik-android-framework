@@ -13,19 +13,13 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 import renetik.android.ui.extensions.view.shownIf
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
-fun <T : TextView> T.textPrepend(string: CharSequence?) = text("$string$title")
-fun <T : TextView> T.textAppend(string: CharSequence?) = text("$title$string")
-fun <T : TextView> T.text(value: CSValue<*>) = text(value.value.asString)
+fun <T : TextView> T.textPrepend(value: CharSequence?) = text("$value$text")
+fun <T : TextView> T.textAppend(value: CharSequence?) = text("$text$value")
+fun <T : TextView> T.text(value: CSValue<*>) = text(value.value)
+fun <T : TextView> T.value(value: Any?) = text(value.asString)
 fun <T : TextView> T.text(value: Any?) = text(value.asString)
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
-fun <T : TextView> T.text() = text.asString
-
-var <T : TextView> T.title: String
-    get() = text()
-    set(value) {
-        text(value)
-    }
-
+fun <T : TextView> T.text() = text.toString()
 fun <T : TextView> T.goneIfEmpty() = apply { shownIf(text().isBlank()) }
 
 fun <T : TextView> T.onTextChange(onChange: (view: T) -> Unit) = apply {
@@ -39,15 +33,15 @@ fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
 }
 
 @JvmName("TextViewTextStringProperty")
-fun TextView.text(property: CSProperty<String>) = text(property) { it }
+fun TextView.text(property: CSProperty<String>) = text(property, text = { it })
 
 fun <T, V> TextView.text(parent: CSProperty<T>,
                          child: (T) -> CSProperty<V>,
-                         getText: (V) -> Any): CSRegistration {
+                         text: (V) -> Any): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
-        childRegistration = text(child(parent.value), getText)
+        childRegistration = text(child(parent.value), text)
     }
     return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
@@ -55,18 +49,19 @@ fun <T, V> TextView.text(parent: CSProperty<T>,
     })
 }
 
-fun <T> TextView.textOfChild(
+@JvmName("textPropertyChildTextProperty")
+fun <T> TextView.text(
     parent: CSProperty<T>, child: (T) -> CSProperty<String>) =
-    text(parent, child) { it }
+    this.text(parent, child) { it }
 
 fun <T, V> TextView.textNullableChild(
     parent: CSProperty<T>, child: (T) -> CSProperty<V>?,
-    getText: (V?) -> Any): CSRegistration {
+    text: (V?) -> Any): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
-        childRegistration = child(parent.value)?.let { text(it, getText) }
-        if (childRegistration == null) text(getText(null))
+        childRegistration = child(parent.value)?.let { text(it, text) }
+        if (childRegistration == null) value(text(null))
     }
     return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
@@ -74,14 +69,14 @@ fun <T, V> TextView.textNullableChild(
     })
 }
 
-fun <T> TextView.text(property: CSProperty<T>, getText: (T) -> Any) =
-    property.action { text(getText(property.value)) }
+fun <T> TextView.text(property: CSProperty<T>, text: (T) -> Any) =
+    property.action { value(text(property.value)) }
 
-fun TextView.text(property: CSProperty<*>) = text(property, getText = { it.asString })
+fun TextView.text(property: CSProperty<*>) = text(property, text = { it.asString })
 
 fun <T, V> TextView.text(property1: CSProperty<T>, property2: CSProperty<V>,
-                         getText: (T, V) -> Any): CSRegistration {
-    fun update() = text(getText(property1.value, property2.value))
+                         text: (T, V) -> Any): CSRegistration {
+    fun update() = value(text(property1.value, property2.value))
     update()
     return CSRegistration(
         property1.onChange { update() },

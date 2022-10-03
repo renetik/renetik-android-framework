@@ -23,7 +23,10 @@ import renetik.android.event.listen
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.propertyWithTag
-import renetik.android.ui.extensions.widget.*
+import renetik.android.ui.extensions.widget.onFocusChange
+import renetik.android.ui.extensions.widget.onTextChange
+import renetik.android.ui.extensions.widget.text
+import renetik.android.ui.extensions.widget.typeface
 
 val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")
@@ -118,14 +121,14 @@ fun <T : TextInputLayout> T.withClear(): TextInputLayout = apply {
         endIconMode = END_ICON_CUSTOM
         setEndIconOnClickListener {
 //            restoreState()
-            title = ""
+            text = ""
             eventClear.fire()
         }
     }
 
     fun isClearVisible() = isEndIconVisibleToRestore != null
     fun updateClearIcon() {
-        if (title.isNotEmpty()) {
+        if (text.isNotEmpty()) {
             if (!isClearVisible()) {
                 saveStateToRestore()
                 showClearIcon()
@@ -170,13 +173,13 @@ fun TextInputLayout.textTypeFace(@FontRes font: Int) = apply {
 fun TextInputLayout.text() = editText!!.text()
 fun TextInputLayout.text(value: String) = editText!!.text(value)
 
-var <T : TextInputLayout> T.title: String
-    get() = editText!!.title
+var <T : TextInputLayout> T.text: String
+    get() = editText!!.text()
     set(value) {
-        editText!!.title = value
+        editText!!.text(value)
     }
 
-fun <T : TextInputLayout> T.title(string: String) = apply { title = string }
+fun <T : TextInputLayout> T.title(string: String) = apply { text = string }
 
 fun <T : TextInputLayout> T.onTextChange(onChange: (view: T) -> Unit) =
     apply { editText!!.onTextChange { onChange(this) } }

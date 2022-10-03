@@ -7,16 +7,14 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
-import android.widget.FrameLayout
-import renetik.android.ui.R
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
+import renetik.android.ui.R.styleable.*
 
-
-open class CSDrawView @JvmOverloads constructor(
+open class CSEmptyView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0, defStyleRes: Int = 0
-) : View(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
+    defStyleAttr: Int = 0, defStyleRes: Int = 0)
+    : View(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
 
     private val minWidth: Int
     private val maxWidth: Int
@@ -28,24 +26,19 @@ open class CSDrawView @JvmOverloads constructor(
     var eventOnLayout = event()
 
     init {
-        val attributes =
-            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
-        try {
-            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, -1)
-            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
-            dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
-        } finally {
-            attributes.recycle()
+        context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0).use {
+            minWidth = it.getDimensionPixelSize(CSLayout_minWidth, -1)
+            maxWidth = it.getDimensionPixelSize(CSLayout_maxWidth, -1)
+            dispatchState = it.getBoolean(CSLayout_dispatchState, true)
         }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (minWidth != -1 && measuredWidth < minWidth) {
+        if (minWidth != -1 && measuredWidth < minWidth)
             super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
-        } else if (maxWidth != -1 && measuredWidth > maxWidth) {
+        else if (maxWidth != -1 && measuredWidth > maxWidth)
             super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
-        }
     }
 
     override fun dispatchSetActivated(activated: Boolean) {
