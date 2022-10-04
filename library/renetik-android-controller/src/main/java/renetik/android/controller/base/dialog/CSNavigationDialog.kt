@@ -58,7 +58,7 @@ open class CSNavigationDialog<ViewType : View>(
     override fun onViewReady() {
         super.onViewReady()
         view.background(color(color.cs_dialog_background))
-            .onClick { if (cancelOnTouchOut) dismiss() }
+        if (cancelOnTouchOut) view.onClick { dismiss() }
         view.add(dialogContent)
     }
 
