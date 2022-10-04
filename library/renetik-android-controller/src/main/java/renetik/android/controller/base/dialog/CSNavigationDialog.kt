@@ -32,10 +32,7 @@ import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.ui.R.color
-import renetik.android.ui.extensions.view.add
-import renetik.android.ui.extensions.view.background
-import renetik.android.ui.extensions.view.height
-import renetik.android.ui.extensions.view.locationInWindow
+import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 
 open class CSNavigationDialog<ViewType : View>(
@@ -61,7 +58,7 @@ open class CSNavigationDialog<ViewType : View>(
     override fun onViewReady() {
         super.onViewReady()
         view.background(color(color.cs_dialog_background))
-//            .onClick { if (cancelOnTouchOut) dismiss() }
+            .onClick { if (cancelOnTouchOut) dismiss() }
         view.add(dialogContent)
     }
 
