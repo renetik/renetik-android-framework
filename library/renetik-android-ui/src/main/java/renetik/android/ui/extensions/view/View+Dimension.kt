@@ -178,6 +178,9 @@ var View.heightDp: Int
         height(context.dpToPixel(value))
     }
 
+val View.windowRectangle: Rect
+    get() = Rect().also { getWindowVisibleDisplayFrame(it) }
+
 val View.rectangle: Rect
     get() = Rect(left, top, right, bottom)
 

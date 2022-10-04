@@ -8,6 +8,7 @@ import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
+import renetik.android.core.lang.lazyVar
 import renetik.android.event.common.CSContext
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onClick
@@ -18,13 +19,14 @@ import renetik.android.ui.protocol.CSViewInterface
 open class CSView<ViewType : View> : CSContext,
     CSHasParentView, CSViewInterface {
 
+    var lifecycleStopOnRemoveFromParentView = true
+
     private val layout: CSLayoutRes?
     private val viewId: Int?
     private var parent: CSViewInterface? = null
-    var lifecycleStopOnRemoveFromParentView = true
-    private var _group: ViewGroup? = null
-    private val group: ViewGroup? by lazy {
-        _group ?: parent?.view as? ViewGroup ?: (parent as? CSView<*>)?.group
+
+    private var group: ViewGroup? by lazyVar {
+        parent?.view as? ViewGroup ?: (parent as? CSView<*>)?.group
     }
 
     private var _view: ViewType? = null
@@ -37,7 +39,7 @@ open class CSView<ViewType : View> : CSContext,
 
     constructor(parent: CSViewInterface, group: ViewGroup, layout: CSLayoutRes) : super(parent) {
         this.parent = parent
-        this._group = group
+        this.group = group
         this.layout = layout
         this.viewId = null
     }
