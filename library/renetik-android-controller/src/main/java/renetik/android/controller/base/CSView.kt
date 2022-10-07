@@ -2,6 +2,7 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.core.extensions.content.inflate
 import renetik.android.core.extensions.content.inputService
@@ -22,7 +23,10 @@ open class CSView<ViewType : View> : CSContext,
     var lifecycleStopOnRemoveFromParentView = true
 
     private val layout: CSLayoutRes?
+
+    @IdRes
     private val viewId: Int?
+
     private var parent: CSViewInterface? = null
 
     private var group: ViewGroup? by lazyVar {
@@ -44,7 +48,7 @@ open class CSView<ViewType : View> : CSContext,
         this.viewId = null
     }
 
-    constructor(parent: CSViewInterface, viewId: Int) : super(parent) {
+    constructor(parent: CSViewInterface, @IdRes viewId: Int) : super(parent) {
         this.parent = parent
         this.layout = null
         this.viewId = viewId
