@@ -16,3 +16,7 @@ fun ScrollView.scrollTo(view: CSViewInterface, centered: Boolean = true) {
         height / 2 - view.view.height / 2
     } else 0)
 }
+
+fun ScrollView.smoothScrollX(x: Int) = apply { smoothScrollTo(x, scrollY) }
+
+fun ScrollView.smoothScrollY(y: Int) = apply { smoothScrollTo(scrollY, y) }

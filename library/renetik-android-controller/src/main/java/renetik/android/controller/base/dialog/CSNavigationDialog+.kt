@@ -28,7 +28,7 @@ fun <T : CSNavigationDialog<*>> T.show(animation: DialogAnimation = Fade) = appl
 
 fun CSNavigationDialog<*>.dismiss() = run { navigation?.pop(this) }
 
-fun CSNavigationDialog<*>.passClicksUnder(pass: Boolean) {
+fun <T : CSNavigationDialog<*>> T.passClicksUnder(pass: Boolean = true) = apply {
     dialogContent.apply {
         isClickable = !pass
         isFocusable = !pass
