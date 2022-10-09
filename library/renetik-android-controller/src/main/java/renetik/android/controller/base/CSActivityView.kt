@@ -16,10 +16,10 @@ import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.onDestroy
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
+import renetik.android.event.registration.listenOnce
 import renetik.android.event.registration.register
 import renetik.android.ui.extensions.view.isShowing
 import renetik.android.ui.extensions.view.isVisible
@@ -36,7 +36,7 @@ open class CSActivityView<ViewType : View>
     private var isResumeFirstTime = false
     private var parentActivityView: CSActivityView<*>? = null
     var activity: CSActivity? = null
-    var showingInPager: Boolean? = null
+    private var showingInPager: Boolean? = null
 
     constructor(activity: CSActivity) : super(activity) {
         this.activity = activity
@@ -175,11 +175,13 @@ open class CSActivityView<ViewType : View>
         if (!isResumed) return false
         if (!view.isVisible) return false
         if (showingInPager == false) return false
-        if (showingInPager == true && parentActivityView?.isVisible == true) return true
-        if (showingInPager == true && navigation?.last == this) return true
+        if (isShowingInPager && parentActivityView?.isVisible == true) return true
+        if (isShowingInPager && navigation?.last == this) return true
         if (parentActivityView?.isVisible == false) return false
         return view.isShowing()
     }
+
+    val isShowingInPager get() = showingInPager == true
 
     private fun onViewVisibilityChanged(showing: Boolean) {
         if (isVisible == showing) return
@@ -214,7 +216,7 @@ open class CSActivityView<ViewType : View>
     protected open fun onViewHidingAgain() {}
 
     open var navigation: CSNavigationView? by lazyVar {
-        findNavigation().also { register(it?.onDestroy { navigation = null }) }
+        findNavigation()?.also { listenOnce(it.eventDestroy) { navigation = null } }
     }
 
     private fun findNavigation(): CSNavigationView? {

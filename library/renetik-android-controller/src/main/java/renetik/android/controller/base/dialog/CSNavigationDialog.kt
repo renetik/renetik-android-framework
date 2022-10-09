@@ -20,6 +20,7 @@ import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
 import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.dpToPixelF
+import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.setFalse
@@ -28,9 +29,11 @@ import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.core.util.CSMemory.memoryUsageInfo
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.common.destroy
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
@@ -40,11 +43,7 @@ open class CSNavigationDialog<ViewType : View>(
     : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
     CSNavigationItem, Closeable {
 
-    val dialogContent: ViewType = inflate<ViewType>(layout.id).apply {
-        isClickable = true
-        isFocusable = true
-    }
-
+    val dialogContent: ViewType = inflate(layout.id)
     override var isFullscreenNavigationItem = property(false)
     var animation = Fade
     private val marginDp = 5
@@ -54,6 +53,15 @@ open class CSNavigationDialog<ViewType : View>(
 
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
+
+    init {
+        passClicksUnder(false)
+        listenOnce(parent.eventDestroy) {
+            if (!isShowingInPager && lifecycleStopOnRemoveFromParentView) unexpected()
+            if (isShowingInPager) dismiss()
+            if (!lifecycleStopOnRemoveFromParentView) destroy()
+        }
+    }
 
     override fun onViewReady() {
         super.onViewReady()
