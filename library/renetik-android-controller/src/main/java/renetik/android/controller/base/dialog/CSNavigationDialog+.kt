@@ -34,3 +34,5 @@ fun <T : CSNavigationDialog<*>> T.passClicksUnder(pass: Boolean = true) = apply 
         isFocusable = !pass
     }
 }
+
+val <T : CSNavigationDialog<*>> T.isClicksBlocked get() = dialogContent.isClickable

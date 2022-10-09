@@ -66,7 +66,6 @@ fun CSViewInterface.button(@IdRes id: Int,
 
 fun CSViewInterface.compound(@IdRes id: Int) = view.compound(id)
 
-//fun CSView<*>.switch(@IdRes id: Int) = view.switch(id)
 fun CSViewInterface.checkBox(@IdRes id: Int) = view.checkBox(id)
 fun CSViewInterface.timePicker(@IdRes id: Int) = view.timePicker(id)
 fun CSViewInterface.webView(@IdRes id: Int) = view.webView(id)
@@ -86,13 +85,14 @@ fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
     view.removeFromSuperview()
 }
 
-fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
+fun <Type> Type.afterGlobalLayout(function: () -> Unit)
         where  Type : CSView<*>, Type : CSHasRegistrations =
     view.afterGlobalLayout(this) { function() }
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
-        where  Type : CSView<*>, Type : CSHasRegistrations =
+        where  Type : CSView<*>, Type : CSHasRegistrations {
     register(view.onGlobalFocus { old, new -> function(old, new) })
+}
 
 fun <Type> Type.hasSize(function: (Type) -> Unit)
         where  Type : CSView<*>, Type : CSHasRegistrations = apply {
@@ -100,12 +100,14 @@ fun <Type> Type.hasSize(function: (Type) -> Unit)
 }
 
 fun <Type : CSView<*>> Type.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
+
 fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
     if (disable) disabledIf(condition)
     view.alphaToDisabled(condition)
 }
 
 fun View.asCSView() = asCS<CSView<*>>()
+
 fun View.asCSActivityView() = asCS<CSActivityView<*>>()
 
 @Suppress("UNCHECKED_CAST")
@@ -148,5 +150,3 @@ fun CSView<*>.onOrientationChange(
 val CSView<*>.hasParentView: Boolean get() = view.parent.notNull
 
 fun <T : CSView<*>> T.reusable() = apply { lifecycleStopOnRemoveFromParentView = false }
-
-
