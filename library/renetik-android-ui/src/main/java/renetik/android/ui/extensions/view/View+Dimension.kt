@@ -40,7 +40,6 @@ fun View.onHasSizeChange(function: Func): CSRegistration =
 
 fun <T : View> T.afterGlobalLayout(
     parent: CSHasRegistrations, function: (View) -> Unit): CSRegistration {
-//    val weakParent by weak(parent)
     return parent.register(onGlobalLayout {
         parent.cancel(it)
         function(this)
