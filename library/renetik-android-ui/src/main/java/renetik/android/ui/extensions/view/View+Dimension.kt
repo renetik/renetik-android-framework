@@ -41,8 +41,8 @@ fun View.onHasSizeChange(function: Func): CSRegistration =
 fun <T : View> T.afterGlobalLayout(
     parent: CSHasRegistrations, function: (View) -> Unit)
         : CSRegistration = parent.register(onGlobalLayout {
-    function(this)
     parent.cancel(it)
+    function(this)
 })
 
 fun <T : View> T.onGlobalFocus(
