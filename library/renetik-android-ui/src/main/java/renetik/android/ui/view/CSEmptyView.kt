@@ -26,10 +26,11 @@ open class CSEmptyView @JvmOverloads constructor(
     var eventOnLayout = event()
 
     init {
-        context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0).use {
+        context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0).let {
             minWidth = it.getDimensionPixelSize(CSLayout_minWidth, -1)
             maxWidth = it.getDimensionPixelSize(CSLayout_maxWidth, -1)
             dispatchState = it.getBoolean(CSLayout_dispatchState, true)
+            it.recycle()
         }
     }
 
