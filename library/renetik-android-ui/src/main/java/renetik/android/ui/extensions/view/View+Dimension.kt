@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
 import renetik.android.core.lang.Func
+import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
@@ -39,11 +40,13 @@ fun View.onHasSizeChange(function: Func): CSRegistration =
     onSizeChange { if (hasSize) function() }
 
 fun <T : View> T.afterGlobalLayout(
-    parent: CSHasRegistrations, function: (View) -> Unit)
-        : CSRegistration = parent.register(onGlobalLayout {
-    parent.cancel(it)
-    function(this)
-})
+    parent: CSHasRegistrations, function: (View) -> Unit): CSRegistration {
+//    val weakParent by weak(parent)
+    return parent.register(onGlobalLayout {
+        parent.cancel(it)
+        function(this)
+    })
+}
 
 fun <T : View> T.onGlobalFocus(
     function: (View?, View?) -> Unit): CSRegistration {

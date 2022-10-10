@@ -41,33 +41,33 @@ class CSGridView<ItemType : Any>(
         updateEmptyView()
     }
 
-    private val onItemSelected = event<CSGridItemView<ItemType>>()
-    fun onSelected(function: (CSGridItemView<ItemType>) -> Unit) =
-        apply { onItemSelected.listen { function(it) } }
+    val eventItemSelected = event<CSGridItemView<ItemType>>()
+    fun onItemSelected(function: (CSGridItemView<ItemType>) -> Unit) =
+        apply { eventItemSelected.listen { function(it) } }
 
-    val onReSelected = event<CSGridItemView<ItemType>>()
-    fun onReSelected(function: (CSGridItemView<ItemType>) -> Unit) =
-        apply { onReSelected.listen { function(it) } }
+    val eventItemReSelected = event<CSGridItemView<ItemType>>()
+    fun onItemReSelected(function: (CSGridItemView<ItemType>) -> Unit) =
+        apply { eventItemReSelected.listen { function(it) } }
 
-    val onDisabledItemClick = event<CSGridItemView<ItemType>>()
+    val eventDisabledItemClick = event<CSGridItemView<ItemType>>()
     fun onDisabledItemClick(function: (CSGridItemView<ItemType>) -> Unit) =
-        apply { onDisabledItemClick.listen { function(it) } }
+        apply { eventDisabledItemClick.listen { function(it) } }
 
-    val onItemActivated = event<CSGridItemView<ItemType>>()
-    fun onActive(function: (CSGridItemView<ItemType>) -> Unit) =
-        apply { onItemActivated.listen { function(it) } }
+    val eventItemActivated = event<CSGridItemView<ItemType>>()
+    fun onItemActive(function: (CSGridItemView<ItemType>) -> Unit) =
+        apply { eventItemActivated.listen { function(it) } }
 
     init {
         view.adapter = listAdapter
         view.isFastScrollEnabled = true
-        onItemSelected.listen { selectedItem.value(it.value) }
+        eventItemSelected.listen { selectedItem.value(it.value) }
     }
 
     private fun CSGridItemView<ItemType>.updateSelection() {
         val isActive = selectedItem.value == value
-        isSelected = isActive && onReSelected.isListened
-        isActivated = isActive && !onReSelected.isListened
-        if (isActive) onItemActivated.fire(this)
+        isSelected = isActive && eventItemReSelected.isListened
+        isActivated = isActive && !eventItemReSelected.isListened
+        if (isActive) eventItemActivated.fire(this)
     }
 
     private fun loadView(toReuseView: View?, position: Int): View {
@@ -85,7 +85,7 @@ class CSGridView<ItemType : Any>(
 
     private fun CSGridItemView<ItemType>.updateDisabled() {
         if (itemDisabled) {
-            if (onDisabledItemClick.isListened) view.alphaToDisabled()
+            if (eventDisabledItemClick.isListened) view.alphaToDisabled()
             else view.disabledByAlpha()
         } else {
             view.disabledByAlpha(false)
@@ -95,9 +95,9 @@ class CSGridView<ItemType : Any>(
 
     private fun CSGridItemView<ItemType>.onClick() =
         if (selectedItem.value != this.value) {
-            if (itemDisabled) onDisabledItemClick.fire(this)
-            else onItemSelected.fire(this)
-        } else onReSelected.fire(this)
+            if (itemDisabled) eventDisabledItemClick.fire(this)
+            else eventItemSelected.fire(this)
+        } else eventItemReSelected.fire(this)
 
     private var emptyView: View? = null
     fun emptyView(id: Int) = apply { emptyView = parent.findView(id) }

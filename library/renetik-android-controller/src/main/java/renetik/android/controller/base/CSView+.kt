@@ -81,11 +81,9 @@ fun CSViewInterface.radioGroup(@IdRes id: Int,
 
 fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 
-fun <Type : CSView<*>> Type.removeFromSuperview() = apply {
-    view.removeFromSuperview()
-}
+fun <Type : CSView<*>> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
 
-fun <Type> Type.afterGlobalLayout(function: () -> Unit)
+fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
         where  Type : CSView<*>, Type : CSHasRegistrations =
     view.afterGlobalLayout(this) { function() }
 
