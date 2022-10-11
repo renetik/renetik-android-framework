@@ -27,7 +27,6 @@ import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.core.lang.Func
 import renetik.android.core.lang.catchAll
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent
@@ -241,8 +240,7 @@ fun <T, V, X> View.selectedIf(property1: CSProperty<T>,
     fun update() = selected(condition(property1.value, property2.value, property3.value))
     update()
     return CSRegistration(property1.onChange(::update),
-        property2.onChange(::update), property3.onChange(::update)
-    )
+        property2.onChange(::update), property3.onChange(::update))
 }
 
 fun <T, V, X, Y> View.selectedIf(property1: CSProperty<T>,
