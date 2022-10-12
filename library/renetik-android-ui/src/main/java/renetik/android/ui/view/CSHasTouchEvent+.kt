@@ -38,11 +38,7 @@ fun <T : CSHasTouchEvent> T.toggleActiveIf(property: CSProperty<Boolean>): CSReg
 
 fun <T : CSHasTouchEvent> T.toggleSelectedIf(property: CSProperty<Boolean>): CSRegistration {
     val propertyOnChange = property.action { setToggleSelected(property.value) }
-    onTouchSelectedToggle { on ->
-        propertyOnChange.paused {
-            property.value(on)
-        }
-    }
+    onTouchSelectedToggle { on -> propertyOnChange.paused { property.value(on) } }
     return propertyOnChange
 }
 
