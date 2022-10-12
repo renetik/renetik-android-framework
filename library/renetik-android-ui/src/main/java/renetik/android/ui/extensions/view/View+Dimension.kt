@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
 import renetik.android.core.lang.Func
+import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
@@ -20,10 +21,11 @@ val <T : View> T.hasSize get() = width > 0 && height > 0
 
 fun <T : View> T.hasSize(
     parent: CSHasRegistrations, onHasSize: (View) -> Unit) {
+    val weakParent by weak(parent)
     if (width == 0 || height == 0) parent.register(onGlobalLayout {
         if (hasSize) {
+            weakParent?.cancel(it)
             onHasSize(this@hasSize)
-            parent.cancel(it)
         }
     })
     else onHasSize(this)
