@@ -15,8 +15,11 @@ import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.event.registration.*
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.cancel
+import renetik.android.event.registration.register
+import renetik.android.event.registration.start
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.extensions.widget.onChange
 import renetik.android.ui.extensions.widget.radioGroup
@@ -84,17 +87,26 @@ fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 fun <Type : CSView<*>> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
 
 fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
-        where  Type : CSView<*>, Type : CSHasRegistrations =
+        where  Type : CSView<*> =
     view.afterGlobalLayout(this) { function() }
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
-        where  Type : CSView<*>, Type : CSHasRegistrations {
+        where  Type : CSView<*> {
     register(view.onGlobalFocus { old, new -> function(old, new) })
 }
 
 fun <Type> Type.hasSize(function: (Type) -> Unit)
-        where  Type : CSView<*>, Type : CSHasRegistrations = apply {
+        where  Type : CSView<*> = apply {
     view.hasSize(this) { function(this) }
+}
+
+fun CSViewInterface.onSystemUiVisibilityChangeListener(
+    function: () -> Unit): CSRegistration {
+    @Suppress("DEPRECATION")
+    view.setOnSystemUiVisibilityChangeListener { function() }
+    return CSRegistration(onCancel = {
+        view.setOnSystemUiVisibilityChangeListener(null)
+    })
 }
 
 fun <Type : CSView<*>> Type.disabledIf(condition: Boolean) = apply { isEnabled = !condition }

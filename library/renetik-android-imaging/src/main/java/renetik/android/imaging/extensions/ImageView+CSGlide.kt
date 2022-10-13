@@ -37,6 +37,17 @@ fun <T : ImageView> T.image(parent: CSHasRegistrations, file: File) = apply {
     }
 }
 
+// https://muyangmin.github.io/glide/doc/caching.html#cache-invalidation
+fun <T : ImageView> T.image(file: File): CSRegistration {
+    val registration = CSRegistrations(this)
+    hasSize(registration) {
+        Glide.with(this@image).load(file).signature(ObjectKey(file.lastModified()))
+            .fitCenter().diskCacheStrategy(ALL).override(width, height)
+            .into(this)
+    }
+    return registration
+}
+
 // TODO!!!: There is leak issue when using this form registerUntilHide
 //fun <T> ImageView.image(
 //    parent: CSHasRegistrations, property: CSProperty<T>,

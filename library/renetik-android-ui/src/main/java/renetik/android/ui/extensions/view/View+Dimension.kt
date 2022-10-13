@@ -9,7 +9,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
 import renetik.android.core.lang.Func
-import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
@@ -21,14 +20,27 @@ val <T : View> T.hasSize get() = width > 0 && height > 0
 
 fun <T : View> T.hasSize(
     parent: CSHasRegistrations, onHasSize: (View) -> Unit) {
-    val weakParent by weak(parent)
     if (width == 0 || height == 0) parent.register(onGlobalLayout {
         if (hasSize) {
-            weakParent?.cancel(it)
+            parent.cancel(it)
             onHasSize(this@hasSize)
         }
     })
     else onHasSize(this)
+}
+
+fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSRegistration? {
+    if (width == 0 || height == 0) {
+        val registration = CSRegistrations(this)
+        registration.register(onGlobalLayout {
+            if (hasSize) {
+                registration.cancel(it)
+                onHasSize(this@hasSize)
+            }
+        })
+        return registration
+    } else onHasSize(this)
+    return null
 }
 
 fun View.onSizeChange(function: Func): CSRegistration {
@@ -61,9 +73,6 @@ fun <T : View> T.onGlobalFocus(
     return registration
 }
 
-/**
- * @return true to remove listener
- **/
 fun <T : View> T.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnGlobalLayoutListener {

@@ -77,12 +77,13 @@ open class CSView<ViewType : View> : CSContext,
                 isDestroyed -> unexpected("$className $this Already destroyed")
                 layout != null -> setView(inflate(layout.id))
                 viewId != null -> setView(parent!!.view(viewId) as ViewType)
-                else -> createView()?.let { setView(it) } ?: run {
-                    (parent?.view as? ViewType)?.let {
-                        _view = it
-                        onViewReady()
+                else -> createView()?.let { setView(it) }
+                    ?: run {
+                        (parent?.view as? ViewType)?.let {
+                            _view = it
+                            onViewReady()
+                        }
                     }
-                }
             }
             return _view!!
         }
@@ -109,8 +110,8 @@ open class CSView<ViewType : View> : CSContext,
         if (isDestroyed) unexpected("$className $this Already destroyed")
         _view?.tag = "tag instance of $className removed, onDestroy called"
 
-        val parentGroup = (_view?.parent as? ViewGroup)
-        if (parentGroup !is AdapterView<*>) parentGroup?.remove(view)
+//        val parentGroup = (_view?.parent as? ViewGroup)
+//        if (parentGroup !is AdapterView<*>) parentGroup?.remove(view)
 
         super.onDestroy()
         _view?.onDestroy()
