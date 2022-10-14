@@ -87,8 +87,7 @@ fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
 fun <Type : CSView<*>> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
 
 fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
-        where  Type : CSView<*> =
-    view.afterGlobalLayout(this) { function() }
+        where  Type : CSView<*> = register(view.afterGlobalLayout { function() })
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
         where  Type : CSView<*> {
@@ -97,16 +96,14 @@ fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
 
 fun <Type> Type.hasSize(function: (Type) -> Unit)
         where  Type : CSView<*> = apply {
-    view.hasSize(this) { function(this) }
+    register(view.hasSize { function(this) })
 }
 
 fun CSViewInterface.onSystemUiVisibilityChangeListener(
     function: () -> Unit): CSRegistration {
     @Suppress("DEPRECATION")
     view.setOnSystemUiVisibilityChangeListener { function() }
-    return CSRegistration(onCancel = {
-        view.setOnSystemUiVisibilityChangeListener(null)
-    })
+    return CSRegistration(onCancel = { view.setOnSystemUiVisibilityChangeListener(null) })
 }
 
 fun <Type : CSView<*>> Type.disabledIf(condition: Boolean) = apply { isEnabled = !condition }

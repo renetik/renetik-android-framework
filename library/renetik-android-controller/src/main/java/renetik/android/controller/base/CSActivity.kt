@@ -14,7 +14,7 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destroy
 import renetik.android.event.fire
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.CSRegistrations
+import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.ui.protocol.CSVisibility
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
@@ -49,7 +49,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override val view: View get() = window.decorView
     override val context: Context get() = this
 
-    final override val registrations by lazy { CSRegistrations(this) }
+    final override val registrations by lazy { CSRegistrationsMap(this) }
 
     abstract fun createView(): CSActivityView<out ViewGroup>
 
