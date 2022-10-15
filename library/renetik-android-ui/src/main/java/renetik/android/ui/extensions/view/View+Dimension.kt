@@ -53,30 +53,94 @@ fun <T : View> T.afterGlobalLayout(function: (View) -> Unit): CSRegistration {
     return registration
 }
 
-fun <T : View> T.onGlobalFocus(
-    function: (View?, View?) -> Unit): CSRegistration {
+//fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
+//    val weakFunction by weak(function)
+//    lateinit var registration: CSRegistration
+//    //TODO: Try to remove second weak as doesn't make much sense
+//    val listener = OnGlobalFocusChangeListener { old, new ->
+//        if (registration.isActive) weakFunction?.invoke(old, new)
+//    }
+//    registration = CSRegistration(
+//        onResume = { viewTreeObserver.addOnGlobalFocusChangeListener(listener) },
+//        onPause = { viewTreeObserver.removeOnGlobalFocusChangeListener(listener) }
+//    ).start()
+//    return registration
+//}
+
+fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
+    val weakFunction by weak(function)
     lateinit var registration: CSRegistration
-    val listener by weak(OnGlobalFocusChangeListener { old, new ->
-        if (registration.isActive) function(old, new)
-    })
+    //TODO: Try to remove second weak as doesn't make much sense
+    val listener = OnGlobalFocusChangeListener { old, new ->
+        if (registration.isActive) weakFunction?.invoke(old, new)
+    }
+
+    fun attach() = viewTreeObserver.addOnGlobalFocusChangeListener(listener)
+    fun detach() = viewTreeObserver.removeOnGlobalFocusChangeListener(listener)
+
+    val attachStateListener = object : View.OnAttachStateChangeListener {
+        override fun onViewAttachedToWindow(view: View) = attach()
+        override fun onViewDetachedFromWindow(view: View) = detach()
+    }
+    addOnAttachStateChangeListener(attachStateListener)
+
     registration = CSRegistration(
-        onResume = { viewTreeObserver.addOnGlobalFocusChangeListener(listener) },
-        onPause = { viewTreeObserver.removeOnGlobalFocusChangeListener(listener) }
+        onResume = { if (isAttachedToWindow) attach() },
+        onPause = { detach() },
+        onCancel = { removeOnAttachStateChangeListener(attachStateListener) }
+    ).start()
+
+    return registration
+}
+
+//fun <T : View> T.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
+//    val weakFunction by weak(function)
+//    lateinit var registration: CSRegistration
+//    //TODO: Try to remove second weak as doesn't make much sense
+//    val listener = OnGlobalLayoutListener {
+//        if (registration.isActive) weakFunction?.invoke(registration)
+//    }
+//    registration = CSRegistration(
+//        onResume = { reg ->
+//            viewTreeObserver.addOnGlobalLayoutListener(listener)
+//            addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+//                override fun onViewAttachedToWindow(view: View) {}
+//                override fun onViewDetachedFromWindow(view: View) {
+//                    removeOnAttachStateChangeListener(this)
+//                    reg.pause()
+//                }
+//            })
+//        },
+//        onPause = { viewTreeObserver.removeOnGlobalLayoutListener(listener) },
+//    ).start()
+//    return registration
+//}
+
+fun <T : View> T.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
+    val weakFunction by weak(function)
+    lateinit var registration: CSRegistration
+    //TODO: Try to remove second weak as doesn't make much sense
+    val listener = OnGlobalLayoutListener {
+        if (registration.isActive) weakFunction?.invoke(registration)
+    }
+
+    fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
+    fun detach() = viewTreeObserver.removeOnGlobalLayoutListener(listener)
+
+    val attachStateListener = object : View.OnAttachStateChangeListener {
+        override fun onViewAttachedToWindow(view: View) = attach()
+        override fun onViewDetachedFromWindow(view: View) = detach()
+    }
+    addOnAttachStateChangeListener(attachStateListener)
+
+    registration = CSRegistration(
+        onResume = { if (isAttachedToWindow) attach() },
+        onPause = { detach() },
+        onCancel = { removeOnAttachStateChangeListener(attachStateListener) }
     ).start()
     return registration
 }
 
-fun <T : View> T.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
-    lateinit var registration: CSRegistration
-    val listener by weak(OnGlobalLayoutListener {
-        if (registration.isActive) function(registration)
-    })
-    registration = CSRegistration(
-        onResume = { viewTreeObserver.addOnGlobalLayoutListener(listener) },
-        onPause = { viewTreeObserver.removeOnGlobalLayoutListener(listener) },
-    ).start()
-    return registration
-}
 
 fun <T : View> T.margins(left: Int, top: Int, right: Int, bottom: Int) = apply {
     layoutParams = (layoutParams as MarginLayoutParams).apply {

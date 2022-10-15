@@ -13,5 +13,8 @@ fun <Item : CSViewInterface> CSProperty<Int>.updates(
     function: (index: Int) -> Item): CSRegistration = action { value ->
     items.size.update(value,
         onAdd = { index -> layout.add(items.put(function(index)), if (fromStart) 0 else -1) },
-        onRemove = { index -> layout.remove(items.removeAt(index)) })
+        onRemove = { index ->
+            val view = items.removeAt(index)
+            if (!view.isDestroyed) layout.remove(view)
+        })
 }
