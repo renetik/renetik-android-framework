@@ -2,7 +2,6 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.core.extensions.content.inflate
@@ -15,7 +14,6 @@ import renetik.android.event.common.CSContext
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onDestroy
-import renetik.android.ui.extensions.view.remove
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 
@@ -107,13 +105,13 @@ open class CSView<ViewType : View> : CSContext,
     }
 
     override fun onDestroy() {
-        if (isDestroyed) unexpected("$className $this Already destroyed")
-        _view?.tag = "tag instance of $className removed, onDestroy called"
+//        if (isDestroyed) unexpected("$className $this Already destroyed")
+        super.onDestroy()
 
 //        val parentGroup = (_view?.parent as? ViewGroup)
 //        if (parentGroup !is AdapterView<*>) parentGroup?.remove(view)
 
-        super.onDestroy()
+        _view?.tag = "tag instance of $className removed, onDestroy called"
         _view?.onDestroy()
         _view = null
     }

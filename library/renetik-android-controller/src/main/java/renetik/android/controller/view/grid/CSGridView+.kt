@@ -1,5 +1,6 @@
 package renetik.android.controller.view.grid
 
+import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
 import renetik.android.core.lang.value.isEmpty
@@ -17,7 +18,7 @@ fun <T : CSHasTitle> CSGridView<T>.reload(values: Array<T>, searchText: CSValue<
 
 fun <T : CSHasTitle> CSGridView<T>.reload(
     values: Iterable<T>, searchText: CSValue<String>) = apply {
-    val data = if (searchText.isEmpty) values
+    val data = if (searchText.value.isEmpty) values
     else values.filter { it.title.contains(searchText.value, ignoreCase = true) }
     reload(data)
 }

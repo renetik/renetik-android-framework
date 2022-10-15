@@ -35,9 +35,9 @@ import renetik.android.event.fire
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.property.onChange
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.onChange
 import renetik.android.event.registration.start
 import renetik.android.ui.view.adapter.CSClickAdapter
 

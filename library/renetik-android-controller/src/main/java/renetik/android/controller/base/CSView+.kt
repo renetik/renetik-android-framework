@@ -5,21 +5,18 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.view.OrientationEventListener
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.view.ViewGroup
+import android.widget.*
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.event.registration.CSRegistration
+import renetik.android.event.common.CSHasDestroy
+import renetik.android.event.common.destroy
+import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.cancel
-import renetik.android.event.registration.register
-import renetik.android.event.registration.start
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.extensions.widget.onChange
 import renetik.android.ui.extensions.widget.radioGroup
@@ -94,9 +91,9 @@ fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit)
     register(view.onGlobalFocus { old, new -> function(old, new) })
 }
 
-fun <Type> Type.hasSize(function: (Type) -> Unit)
+fun <Type> Type.hasSize(function: () -> Unit)
         where  Type : CSView<*> = apply {
-    register(view.hasSize { function(this) })
+    register(view.hasSize { function() })
 }
 
 fun CSViewInterface.onSystemUiVisibilityChangeListener(
@@ -157,3 +154,11 @@ fun CSView<*>.onOrientationChange(
 val CSView<*>.hasParentView: Boolean get() = view.parent.notNull
 
 fun <T : CSView<*>> T.reusable() = apply { lifecycleStopOnRemoveFromParentView = false }
+
+fun CSView<*>.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestroy) {
+    listenOnce(parent.eventDestroy) {
+        val parentGroup = (view.parent as? ViewGroup)
+        if (parentGroup !is AdapterView<*>) parentGroup?.removeView(view)
+        destroy()
+    }
+}

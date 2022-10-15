@@ -9,26 +9,29 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
 import renetik.android.core.lang.Func
+import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
 import renetik.android.core.math.top
-import renetik.android.event.registration.*
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.CSRegistrationsList
+import renetik.android.event.registration.start
 
 val <T : View> T.hasSize get() = width > 0 && height > 0
 
-fun <T : View> T.hasSize(onHasSize: (View) -> Unit): CSRegistration? {
+fun <T : View> T.hasSize(onHasSize: () -> Unit): CSRegistration? {
     if (width == 0 || height == 0) {
         val registration = CSRegistrationsList(this)
         registration.register(onGlobalLayout {
             if (hasSize) {
                 registration.cancel(it)
-                onHasSize(this@hasSize)
+                onHasSize()
             }
         })
         return registration
-    } else onHasSize(this)
+    } else onHasSize()
     return null
 }
 
@@ -53,9 +56,9 @@ fun <T : View> T.afterGlobalLayout(function: (View) -> Unit): CSRegistration {
 fun <T : View> T.onGlobalFocus(
     function: (View?, View?) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
-    val listener = OnGlobalFocusChangeListener { old, new ->
+    val listener by weak(OnGlobalFocusChangeListener { old, new ->
         if (registration.isActive) function(old, new)
-    }
+    })
     registration = CSRegistration(
         onResume = { viewTreeObserver.addOnGlobalFocusChangeListener(listener) },
         onPause = { viewTreeObserver.removeOnGlobalFocusChangeListener(listener) }
@@ -65,12 +68,12 @@ fun <T : View> T.onGlobalFocus(
 
 fun <T : View> T.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
     lateinit var registration: CSRegistration
-    val listener = OnGlobalLayoutListener {
+    val listener by weak(OnGlobalLayoutListener {
         if (registration.isActive) function(registration)
-    }
+    })
     registration = CSRegistration(
         onResume = { viewTreeObserver.addOnGlobalLayoutListener(listener) },
-        onPause = { viewTreeObserver.removeOnGlobalLayoutListener(listener) }
+        onPause = { viewTreeObserver.removeOnGlobalLayoutListener(listener) },
     ).start()
     return registration
 }

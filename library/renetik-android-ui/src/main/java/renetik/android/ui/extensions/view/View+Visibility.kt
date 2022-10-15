@@ -5,6 +5,7 @@ import android.view.View.*
 import androidx.appcompat.widget.ContentFrameLayout
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.protocol.CSVisibility
 
@@ -95,14 +96,15 @@ fun <T, V, X> View.shownIf(
     )
 }
 
-fun View.goneIf(property1: CSProperty<Boolean>,
-                property2: CSProperty<Boolean>,
+fun View.goneIf(property1: CSHasChangeValue<Boolean>,
+                property2: CSHasChangeValue<Boolean>,
                 animated: Boolean = false): CSRegistration =
     goneIf(property1, property2, animated) { value1, value2 ->
         value1.isTrue || value2.isTrue
     }
 
-fun <T, V> View.goneIf(property1: CSProperty<T>, property2: CSProperty<V>,
+fun <T, V> View.goneIf(property1: CSHasChangeValue<T>,
+                       property2: CSHasChangeValue<V>,
                        animated: Boolean = false,
                        condition: (T, V) -> Boolean): CSRegistration {
     fun update() = goneIf(condition(property1.value, property2.value), animated)

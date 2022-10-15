@@ -2,7 +2,7 @@ package renetik.android.controller.base.dialog
 
 import android.view.View
 import renetik.android.controller.base.dialog.DialogAnimation.Fade
-import renetik.android.core.kotlin.run
+import renetik.android.core.kotlin.then
 import renetik.android.event.registration.later
 
 fun CSNavigationDialog<*>.pressed(button: View) = apply {
@@ -26,7 +26,7 @@ fun <T : CSNavigationDialog<*>> T.show(animation: DialogAnimation = Fade) = appl
     updateVisibility()
 }
 
-fun CSNavigationDialog<*>.dismiss() = run { navigation?.pop(this) }
+fun CSNavigationDialog<*>.dismiss() = then { navigation?.pop(this) }
 
 fun <T : CSNavigationDialog<*>> T.passClicksUnder(pass: Boolean = true) = apply {
     dialogContent.apply {
