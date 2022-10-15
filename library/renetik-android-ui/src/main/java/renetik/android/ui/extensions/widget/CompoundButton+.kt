@@ -5,9 +5,9 @@ import android.widget.CompoundButton
 import androidx.annotation.ColorInt
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
-import renetik.android.event.registration.onChange
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.onChange
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.start
 
@@ -41,9 +41,7 @@ fun CompoundButton.checkedIf(property: CSProperty<Boolean>): CSRegistration {
 
 fun <T, V> CompoundButton.checkedIf(
     property: CSProperty<T>, condition: (T) -> Boolean): CSRegistration {
-    fun update() = checkedIf(condition(property.value))
-    update()
-    return property.onChange { update() }
+    return property.action { checkedIf(condition(property.value)) }
 }
 
 fun <T> CompoundButton.checkedIf(

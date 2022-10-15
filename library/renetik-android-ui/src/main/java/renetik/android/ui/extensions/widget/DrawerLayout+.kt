@@ -40,11 +40,6 @@ fun DrawerLayout.closeRight() {
     if (isDrawerOpen(END)) closeDrawer(END)
 }
 
-fun DrawerLayout.close() {
-    closeRight()
-    closeLeft()
-}
-
 fun DrawerLayout.openRight() = openDrawer(END)
 
 val DrawerLayout.isDrawerOpen get() = isDrawerOpen(START) or isDrawerOpen(END)
