@@ -21,11 +21,14 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     val onCreate = event<Bundle?>()
     val onSaveInstanceState = event<Bundle>()
     val onStart = event<Unit>()
+
+    //CSActivityViewInterface
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()
-    val onStop = event<Unit>()
-    override val eventDestroy = event<Unit>()
     override val eventBack = event<CSVariable<Boolean>>()
+    override fun activity(): CSActivity = this
+
+    val onStop = event<Unit>()
     val onConfigurationChanged = event<Configuration>()
     val onOrientationChanged = event<Configuration>()
     val onLowMemory = event<Unit>()
@@ -43,12 +46,16 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override val eventVisibility = event<Boolean>()
     override fun updateVisibility() = Unit
 
-    override fun activity(): CSActivity = this
     var activityView: CSActivityView<out ViewGroup>? = null
     val configuration by lazy { Configuration() }
+
+    //CSViewInterface
     override val view: View get() = window.decorView
+
+    //CSHasContext
     override val context: Context get() = this
 
+    //CSHasRegistrations
     final override val registrations by lazy { CSRegistrationsMap(this) }
 
     abstract fun createView(): CSActivityView<out ViewGroup>
@@ -93,10 +100,13 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onStop()
     }
 
-    override fun onDestroy() {
+    // CSHasDestruct
+    override val isDestructed: Boolean get() = isDestroyed
+    override val eventDestruct = event<Unit>()
+    override fun onDestruct() {
         super.onDestroy()
         registrations.cancel()
-        eventDestroy.fire().clear()
+        eventDestruct.fire().clear()
         activityView = null
     }
 
@@ -122,6 +132,8 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onNewIntent(intent)
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val goBack = property(true)
         eventBack.fire(goBack)
@@ -177,6 +189,4 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         onLowMemory.fire()
         super.onLowMemory()
     }
-
-
 }

@@ -11,7 +11,7 @@ import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.lang.CSTimeConstants.Minute
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLogMessage.Companion.message
-import renetik.android.event.common.CSHasDestroy
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.json.obj.CSJsonObject
 import renetik.android.json.obj.toJsonObject
 import renetik.android.json.toJSONArray
@@ -24,7 +24,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 fun <ServerDataType : CSHttpResponseData> CSOkHttpClient.upload(
-    parent: CSHasDestroy,
+    parent: CSHasDestruct,
     service: String,
     file: File,
     data: ServerDataType
@@ -60,7 +60,7 @@ fun <ServerDataType : CSHttpResponseData> CSOkHttpClient.get(
 }
 
 fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
-    parent: CSHasDestroy, service: String,
+    parent: CSHasDestruct, service: String,
     responseData: ResponseData, params: Map<String, String>
 ) = CSHttpProcess(parent, "$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addBodyParameter(params).build()
@@ -69,16 +69,16 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
 }
 
 fun <ResponseData : CSHttpResponseData> CSOkHttpClient.postJson(
-    parent: CSHasDestroy, service: String, responseData: ResponseData, data: Map<String, *>
+    parent: CSHasDestruct, service: String, responseData: ResponseData, data: Map<String, *>
 ) = post(parent, service, responseData, data.toJSONObject())
 
 fun <ResponseData : CSHttpResponseData> CSOkHttpClient.postJsonObject(
-    parent: CSHasDestroy, service: String,
+    parent: CSHasDestruct, service: String,
     responseData: ResponseData, data: String
 ) = post(parent, service, responseData, JSONTokener(data).nextValue() as JSONObject)
 
 fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
-    parent: CSHasDestroy, service: String,
+    parent: CSHasDestruct, service: String,
     responseData: ResponseData, data: JSONObject
 ) = CSHttpProcess(parent, "$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONObjectBody(data).build()
@@ -87,7 +87,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
 }
 
 fun <ResponseData : CSHttpResponseData> CSOkHttpClient.postJson(
-    parent: CSHasDestroy, service: String, responseData: ResponseData, data: List<*>
+    parent: CSHasDestruct, service: String, responseData: ResponseData, data: List<*>
 ) = CSHttpProcess(parent, "$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONArrayBody(data.toJSONArray()).build()
     logInfo { message("post:${request.url} json:${data.toJson(formatted = true)}") }
@@ -95,7 +95,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.postJson(
 }
 
 fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
-    parent: CSHasDestroy, url: String, data: CSJsonObject, responseData: ResponseData
+    parent: CSHasDestruct, url: String, data: CSJsonObject, responseData: ResponseData
 ) = CSHttpProcess(parent, "${this.url}/$url", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONObjectBody(data.toJsonObject()).build()
     logInfo { message("post ${request.url}") }

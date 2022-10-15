@@ -56,7 +56,7 @@ open class CSNavigationDialog<ViewType : View>(
 
     init {
         passClicksUnder(false)
-        listenOnce(parent.eventDestroy) {
+        listenOnce(parent.eventDestruct) {
             if (!isShowingInPager && lifecycleStopOnRemoveFromParentView) unexpected()
             if (isShowingInPager) dismiss()
             if (!lifecycleStopOnRemoveFromParentView) destroy()

@@ -72,7 +72,7 @@ open class CSView<ViewType : View> : CSContext,
         get() {
             when {
                 _view != null -> return _view!!
-                isDestroyed -> unexpected("$className $this Already destroyed")
+                isDestructed -> unexpected("$className $this Already destroyed")
                 layout != null -> setView(inflate(layout.id))
                 viewId != null -> setView(parent!!.view(viewId) as ViewType)
                 else -> createView()?.let { setView(it) }
@@ -104,9 +104,9 @@ open class CSView<ViewType : View> : CSContext,
         inputService.hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
 
-    override fun onDestroy() {
+    override fun onDestruct() {
 //        if (isDestroyed) unexpected("$className $this Already destroyed")
-        super.onDestroy()
+        super.onDestruct()
 
 //        val parentGroup = (_view?.parent as? ViewGroup)
 //        if (parentGroup !is AdapterView<*>) parentGroup?.remove(view)
@@ -119,7 +119,7 @@ open class CSView<ViewType : View> : CSContext,
     override fun onAddedToParentView() = Unit
 
     override fun onRemovedFromParentView() {
-        if (lifecycleStopOnRemoveFromParentView && !isDestroyed) onDestroy()
+        if (lifecycleStopOnRemoveFromParentView && !isDestructed) onDestruct()
     }
 
     open var isActivated

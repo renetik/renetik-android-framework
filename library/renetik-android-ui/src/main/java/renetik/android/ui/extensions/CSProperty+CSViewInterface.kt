@@ -15,6 +15,6 @@ fun <Item : CSViewInterface> CSProperty<Int>.updates(
         onAdd = { index -> layout.add(items.put(function(index)), if (fromStart) 0 else -1) },
         onRemove = { index ->
             val view = items.removeAt(index)
-            if (!view.isDestroyed) layout.remove(view)
+            if (!view.isDestructed) layout.remove(view)
         })
 }

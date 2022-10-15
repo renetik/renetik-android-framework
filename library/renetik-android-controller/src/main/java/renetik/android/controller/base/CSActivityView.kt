@@ -94,10 +94,10 @@ open class CSActivityView<ViewType : View>
         eventPause.fire()
     }
 
-    override fun onDestroy() {
+    override fun onDestruct() {
         if (isResumed) onPause()
-        if (isDestroyed) unexpected("$className $this Already destroyed")
-        super.onDestroy()
+        if (isDestructed) unexpected("$className $this Already destroyed")
+        super.onDestruct()
         parentActivityView = null
         activity = null
     }
@@ -112,7 +112,7 @@ open class CSActivityView<ViewType : View>
 
     fun lifecycleStop() {
         if (isResumed) onPause()
-        onDestroy()
+        onDestruct()
     }
 
     private fun <Parent> initializeParent(parent: Parent)
@@ -216,7 +216,7 @@ open class CSActivityView<ViewType : View>
     protected open fun onViewHidingAgain() {}
 
     open var navigation: CSNavigationView? by lazyVar {
-        findNavigation()?.also { listenOnce(it.eventDestroy) { navigation = null } }
+        findNavigation()?.also { listenOnce(it.eventDestruct) { navigation = null } }
     }
 
     private fun findNavigation(): CSNavigationView? {

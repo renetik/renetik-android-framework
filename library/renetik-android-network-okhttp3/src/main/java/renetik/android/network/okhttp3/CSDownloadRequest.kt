@@ -3,12 +3,12 @@ package renetik.android.network.okhttp3
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.DownloadListener
-import renetik.android.event.common.CSHasDestroy
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.network.process.CSProcessBase
 import java.io.File
 
 class CSDownloadRequest(
-    parent: CSHasDestroy, url: String, file: File)
+    parent: CSHasDestruct, url: String, file: File)
     : CSProcessBase<File>(parent, file) {
     init {
         AndroidNetworking.download(url, file.parent, file.name).build()

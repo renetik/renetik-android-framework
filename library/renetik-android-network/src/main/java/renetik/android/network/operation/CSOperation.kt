@@ -55,6 +55,6 @@ open class CSOperation<Data : Any>() : CSModel() {
 
     private fun onDone(process: CSProcessBase<Data>) {
         eventDone.fire(process)
-        onDestroy()
+        onDestruct()
     }
 }

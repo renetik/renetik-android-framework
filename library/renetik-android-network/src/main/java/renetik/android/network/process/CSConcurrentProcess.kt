@@ -4,17 +4,17 @@ import renetik.android.core.kotlin.collections.isEmpty
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.collections.putAll
-import renetik.android.event.common.CSHasDestroy
+import renetik.android.event.common.CSHasDestruct
 
 open class CSConcurrentProcess<T : Any>(
-    parent: CSHasDestroy,
+    parent: CSHasDestruct,
     data: MutableList<T>) : CSProcessBase<List<T>>(parent, data) {
     private val processes: MutableList<CSProcessBase<T>> = list()
     private val runningProcesses: MutableList<CSProcessBase<T>> = list()
 
-    constructor(parent: CSHasDestroy) : this(parent, list())
+    constructor(parent: CSHasDestruct) : this(parent, list())
 
-    constructor(parent: CSHasDestroy, vararg adding: CSProcessBase<T>) : this(parent) {
+    constructor(parent: CSHasDestruct, vararg adding: CSProcessBase<T>) : this(parent) {
         runningProcesses.putAll(processes.putAll(*adding)).forEach { response ->
             response.onSuccess { onResponseSuccess(it) }
             response.onFailed { onResponseFailed(it) }

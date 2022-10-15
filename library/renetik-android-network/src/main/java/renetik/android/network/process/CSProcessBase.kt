@@ -8,11 +8,11 @@ import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.CSHasDestroy
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.CSModel
 
 open class CSProcessBase<Data : Any>(
-    parent: CSHasDestroy? = null,
+    parent: CSHasDestruct? = null,
     var data: Data? = null) : CSModel(parent) {
 
     val eventSuccess = event<CSProcessBase<Data>>()
@@ -45,14 +45,14 @@ open class CSProcessBase<Data : Any>(
 
     fun success() {
         if (isCanceled) return
-        if (isDestroyed) return
+        if (isDestructed) return
         onSuccessImpl()
         onDoneImpl()
     }
 
     fun success(data: Data) {
         if (isCanceled) return
-        if (isDestroyed) return
+        if (isDestructed) return
         this.data = data
         onSuccessImpl()
         onDoneImpl()
@@ -69,14 +69,14 @@ open class CSProcessBase<Data : Any>(
 
     fun failed(process: CSProcessBase<*>) {
         if (isCanceled) return
-        if (isDestroyed) return
+        if (isDestructed) return
         onFailedImpl(process)
         onDoneImpl()
     }
 
     fun failed(message: String): CSProcessBase<Data> {
         if (isCanceled) return this
-        if (isDestroyed) return this
+        if (isDestructed) return this
         this.failedMessage = message
         failed(this)
         return this
@@ -84,7 +84,7 @@ open class CSProcessBase<Data : Any>(
 
     fun failed(exception: Throwable?, message: String? = null) {
         if (isCanceled) return
-        if (isDestroyed) return
+        if (isDestructed) return
         this.throwable = exception
         this.failedMessage = message
         failed(this)
@@ -104,11 +104,11 @@ open class CSProcessBase<Data : Any>(
 
     open fun cancel() {
         logDebug {
-            message("Response cancel, $this, isDestroyed:$isDestroyed, " +
+            message("Response cancel, $this, isDestroyed:$isDestructed, " +
                     "isCanceled:$isCanceled, isDone:$isDone, " +
                     "isSuccess:$isSuccess, isFailed:$isFailed")
         }
-        if (isDestroyed || isCanceled || isDone || isSuccess || isFailed) return
+        if (isDestructed || isCanceled || isDone || isSuccess || isFailed) return
         isCanceled = true
         eventCancel.fire(this)
         onDoneImpl()
@@ -122,7 +122,7 @@ open class CSProcessBase<Data : Any>(
         }
         isDone = true
         eventDone.fire(this)
-        onDestroy()
+        onDestruct()
     }
 
     override fun toString() = "${super.toString()} data:$data"

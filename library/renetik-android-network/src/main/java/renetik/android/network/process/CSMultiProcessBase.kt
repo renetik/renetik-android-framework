@@ -1,10 +1,10 @@
 package renetik.android.network.process
 
 import renetik.android.core.lang.ArgFunc
-import renetik.android.event.common.CSHasDestroy
+import renetik.android.event.common.CSHasDestruct
 
 open class CSMultiProcessBase<Data : Any>(
-    parent: CSHasDestroy, data: Data? = null) : CSProcessBase<Data>(parent, data) {
+    parent: CSHasDestruct, data: Data? = null) : CSProcessBase<Data>(parent, data) {
 
     protected var addedProcess: CSProcessBase<*>? = null
 

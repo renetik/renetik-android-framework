@@ -13,7 +13,7 @@ import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.event.common.CSHasDestroy
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destroy
 import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
@@ -155,8 +155,8 @@ val CSView<*>.hasParentView: Boolean get() = view.parent.notNull
 
 fun <T : CSView<*>> T.reusable() = apply { lifecycleStopOnRemoveFromParentView = false }
 
-fun CSView<*>.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestroy) {
-    listenOnce(parent.eventDestroy) {
+fun CSView<*>.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruct) {
+    listenOnce(parent.eventDestruct) {
         val parentGroup = (view.parent as? ViewGroup)
         if (parentGroup !is AdapterView<*>) parentGroup?.removeView(view)
         destroy()
