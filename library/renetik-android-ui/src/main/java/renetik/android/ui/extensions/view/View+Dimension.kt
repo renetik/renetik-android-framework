@@ -9,7 +9,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
 import renetik.android.core.lang.Func
-import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
@@ -45,6 +44,7 @@ fun View.onHasSizeChange(function: Func): CSRegistration =
     onSizeChange { if (hasSize) function() }
 
 fun <T : View> T.afterGlobalLayout(function: (View) -> Unit): CSRegistration {
+    //TODO:!!! this should be reverted so nothing stays in parent on cancel
     val registration = CSRegistrationsList(this)
     registration.register(onGlobalLayout {
         registration.cancel(it)
@@ -53,26 +53,10 @@ fun <T : View> T.afterGlobalLayout(function: (View) -> Unit): CSRegistration {
     return registration
 }
 
-//fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
-//    val weakFunction by weak(function)
-//    lateinit var registration: CSRegistration
-//    //TODO: Try to remove second weak as doesn't make much sense
-//    val listener = OnGlobalFocusChangeListener { old, new ->
-//        if (registration.isActive) weakFunction?.invoke(old, new)
-//    }
-//    registration = CSRegistration(
-//        onResume = { viewTreeObserver.addOnGlobalFocusChangeListener(listener) },
-//        onPause = { viewTreeObserver.removeOnGlobalFocusChangeListener(listener) }
-//    ).start()
-//    return registration
-//}
-
-fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
-    val weakFunction by weak(function)
+fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
-    //TODO: Try to remove second weak as doesn't make much sense
     val listener = OnGlobalFocusChangeListener { old, new ->
-        if (registration.isActive) weakFunction?.invoke(old, new)
+        if (registration.isActive) function(old, new)
     }
 
     fun attach() = viewTreeObserver.addOnGlobalFocusChangeListener(listener)
@@ -93,35 +77,10 @@ fun <T : View> T.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
     return registration
 }
 
-//fun <T : View> T.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
-//    val weakFunction by weak(function)
-//    lateinit var registration: CSRegistration
-//    //TODO: Try to remove second weak as doesn't make much sense
-//    val listener = OnGlobalLayoutListener {
-//        if (registration.isActive) weakFunction?.invoke(registration)
-//    }
-//    registration = CSRegistration(
-//        onResume = { reg ->
-//            viewTreeObserver.addOnGlobalLayoutListener(listener)
-//            addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-//                override fun onViewAttachedToWindow(view: View) {}
-//                override fun onViewDetachedFromWindow(view: View) {
-//                    removeOnAttachStateChangeListener(this)
-//                    reg.pause()
-//                }
-//            })
-//        },
-//        onPause = { viewTreeObserver.removeOnGlobalLayoutListener(listener) },
-//    ).start()
-//    return registration
-//}
-
-fun <T : View> T.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
-    val weakFunction by weak(function)
+fun View.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
     lateinit var registration: CSRegistration
-    //TODO: Try to remove second weak as doesn't make much sense
     val listener = OnGlobalLayoutListener {
-        if (registration.isActive) weakFunction?.invoke(registration)
+        if (registration.isActive) function(registration)
     }
 
     fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
