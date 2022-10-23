@@ -72,7 +72,7 @@ fun <T, V> TextView.textNullableChild(
 fun <T> TextView.text(property: CSProperty<T>, text: (T) -> Any) =
     property.action { value(text(property.value)) }
 
-fun TextView.text(property: CSProperty<*>) = text(property, text = { it.asString })
+fun TextView.text(property: CSProperty<*>): CSRegistration = text(property, text = { it.asString })
 
 fun <T, V> TextView.text(property1: CSProperty<T>, property2: CSProperty<V>,
                          text: (T, V) -> Any): CSRegistration {

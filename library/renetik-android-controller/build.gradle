@@ -7,4 +7,7 @@ dependencies {
     else implementation project(':renetik-android-event')
 
     implementation project(':renetik-android-ui')
+
+    api "androidx.recyclerview:recyclerview:1.2.1"
+    api "androidx.recyclerview:recyclerview-selection:1.1.0"
 }

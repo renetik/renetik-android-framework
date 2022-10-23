@@ -37,6 +37,16 @@ fun <T : Any> CSGridView<T>.property(property: CSProperty<T>) = apply {
     })
 }
 
+fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T>) = apply {
+    lateinit var propertyRegistration: CSRegistration
+    val selectedItemRegistration = selectedItem.onChange { item ->
+        propertyRegistration.paused { property.value = item!! }
+    }
+    propertyRegistration = register(property.action {
+        selectedItemRegistration.paused { selectedItem.value(property.value) }
+    })
+}
+
 @JvmName("propertyNullableItem")
 fun <T : Any> CSGridView<T>.property(property: CSProperty<T?>) = apply {
     lateinit var propertyRegistration: CSRegistration
