@@ -34,23 +34,13 @@ fun <T : ImageView> T.image(
 fun <T> ImageView.image(
     property: CSProperty<T>,
     borderWidth: Float = 1f, radius: Float = 2f, color: Int = Color.BLACK,
-    valueToImage: (T) -> File): CSRegistration {
-    val registration = CSRegistrationsList(this)
-    registration.register(property.action {
-        image(valueToImage(property.value), borderWidth, radius, color)
-    })
-    return registration
-}
+    valueToImage: (T) -> File): CSRegistration =
+    property.action { image(valueToImage(property.value), borderWidth, radius, color) }
 
 fun <T> ImageView.image(
     property: CSProperty<T>,
-    valueToImage: (T) -> File): CSRegistration {
-    val registration = CSRegistrationsList(this)
-    registration.register(property.action {
-        image(valueToImage(property.value))
-    })
-    return registration
-}
+    valueToImage: (T) -> File): CSRegistration =
+    property.action { image(valueToImage(property.value)) }
 
 private fun <T : ImageView> T.image(
     file: File, transformation: Transformation<Bitmap>? = null) = apply {
