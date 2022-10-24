@@ -1,5 +1,6 @@
 package renetik.android.controller.view.grid
 
+import androidx.recyclerview.widget.GridLayoutManager
 import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
@@ -46,4 +47,15 @@ fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T?>) = apply {
         selectedItemRegistration.paused { selectedItem.value(property.value) }
     })
     selectedItem.value(property.value)
+}
+
+fun <ItemType : Any> CSRecyclerView<ItemType>.sectionGridLayout(
+    columnsCount: Int, headerViewId: Int) = apply {
+    val layoutManager = GridLayoutManager(this, columnsCount)
+    layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int =
+            if (view.adapter?.getItemViewType(position) == headerViewId)
+                columnsCount else 1
+    }
+    view.layoutManager = layoutManager
 }

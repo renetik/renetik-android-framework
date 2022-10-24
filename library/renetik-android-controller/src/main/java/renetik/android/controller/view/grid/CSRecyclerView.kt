@@ -94,12 +94,6 @@ class CSRecyclerView<ItemType : Any>(
         } else eventItemReSelected.fire(item)
     }
 
-//    private fun CSGridItemView<ItemType>.onClick() =
-//        if (selectedItem.value != this.value) {
-//            if (itemDisabled) eventDisabledItemClick.fire(this)
-//            else eventItemSelected.fire(this)
-//        } else eventItemReSelected.fire(this)
-
     private var emptyView: View? = null
     fun emptyView(id: Int) = apply { emptyView = parent.findView(id) }
     private fun updateEmptyView() {
@@ -121,11 +115,9 @@ class CSRecyclerView<ItemType : Any>(
     private inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
-        // TODO: This could be refactored..
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
             val itemView = createView(this@CSRecyclerView, viewType, viewGroup)
             itemView.register(selectedItem.onChange { itemView.updateSelection() })
-//            itemView.view.onClick { itemView.onClick() }
             return ViewHolder(itemView.view)
         }
 
