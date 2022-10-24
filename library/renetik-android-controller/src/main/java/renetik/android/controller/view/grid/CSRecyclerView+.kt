@@ -1,24 +1,33 @@
 package renetik.android.controller.view.grid
 
 import androidx.recyclerview.widget.GridLayoutManager
+import renetik.android.controller.view.grid.CSRecyclerView.CSRecyclerViewItem
+import renetik.android.core.extensions.content.displayWidth
+import renetik.android.core.kotlin.primitives.isEmpty
+import renetik.android.core.lang.CSHasTitle
+import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.register
 
-//fun <RowType : Any> CSGridView<RowType>.reload(values: Array<out RowType>) =
-//    reload(values.asIterable())
-//
-//fun <T : CSHasTitle> CSGridView<T>.reload(values: Array<T>, searchText: CSValue<String>) =
-//    reload(values.asIterable(), searchText)
-//
-//fun <T : CSHasTitle> CSGridView<T>.reload(
-//    values: Iterable<T>, searchText: CSValue<String>) = apply {
-//    val data = if (searchText.value.isEmpty) values
-//    else values.filter { it.title.contains(searchText.value, ignoreCase = true) }
-//    reload(data)
-//}
+fun <RowType : Any> CSRecyclerView<RowType>.reload(values: Array<out RowType>) =
+    reload(values.asIterable())
+
+fun <RowType : Any> CSRecyclerView<RowType>.reload(values: Iterable<RowType>) =
+    reload(values.map { CSRecyclerViewItem(it) })
+
+fun <T : CSHasTitle> CSRecyclerView<T>.reload(
+    values: Array<T>, search: CSValue<String>, ignoreCase: Boolean = true) =
+    reload(values.asIterable(), search, ignoreCase)
+
+fun <T : CSHasTitle> CSRecyclerView<T>.reload(
+    values: Iterable<T>, search: CSValue<String>, ignoreCase: Boolean = true) = apply {
+    val data: Iterable<T> = if (search.value.isEmpty) values
+    else values.filter { it.title.contains(search.value, ignoreCase) }
+    reload(data.map { CSRecyclerViewItem(it) })
+}
 
 val CSRecyclerView<*>.dataCount get() = data.size
 
@@ -56,3 +65,9 @@ fun <ItemType : Any> CSRecyclerView<ItemType>.sectionGridLayout(
     }
     view.layoutManager = layoutManager
 }
+
+fun <ItemType : Any> CSRecyclerView<ItemType>.autoFitGridLayout(columnWidth: Int) = apply {
+    view.layoutManager = GridLayoutManager(this, displayWidth / columnWidth)
+}
+
+
