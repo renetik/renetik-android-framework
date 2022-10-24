@@ -27,7 +27,7 @@ class CSRecyclerView<ItemType : Any>(
                      parent: ViewGroup) -> CSGridItemView<ItemType>)
     : CSView<RecyclerView>(parent, viewId) {
 
-    class CSRecyclerViewItem<ItemType>(val id: Int, val data: ItemType)
+    class CSRecyclerViewItem<ItemType>(val type: Int, val data: ItemType)
 
     val selectedItem: CSProperty<ItemType?> = property(null)
     private var adapter = Adapter()
@@ -128,7 +128,7 @@ class CSRecyclerView<ItemType : Any>(
             rowView.updateSelection()
         }
 
-        override fun getItemViewType(position: Int): Int = data[position].id
+        override fun getItemViewType(position: Int): Int = data[position].type
 
         override fun getItemCount() = data.size
     }
