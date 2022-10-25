@@ -18,7 +18,7 @@ import renetik.android.json.toJSONArray
 import renetik.android.json.toJSONObject
 import renetik.android.json.toJson
 import renetik.android.network.data.CSHttpResponseData
-import renetik.android.network.operation.CSOperation
+import renetik.android.network.operation.CSHttpOperation
 import renetik.android.network.process.CSHttpProcess
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -37,7 +37,7 @@ fun <ServerDataType : CSHttpResponseData> CSOkHttpClient.upload(
 }
 
 fun <ServerDataType : CSHttpResponseData> CSOkHttpClient.get(
-    operation: CSOperation<*>, service: String, data: ServerDataType,
+    operation: CSHttpOperation<*>, service: String, data: ServerDataType,
     params: Map<String, String> = emptyMap()
 ) = CSHttpProcess(operation, "$url/$service", data).also { process ->
     val builder = AndroidNetworking.get(process.url!!).addQueryParameter(params)
