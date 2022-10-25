@@ -8,24 +8,24 @@ import renetik.android.event.common.CSHasDestruct
 
 open class CSConcurrentProcess<T : Any>(
     parent: CSHasDestruct,
-    data: MutableList<T>) : CSProcessBase<List<T>>(parent, data) {
-    private val processes: MutableList<CSProcessBase<T>> = list()
-    private val runningProcesses: MutableList<CSProcessBase<T>> = list()
+    data: MutableList<T>) : CSProcess<List<T>>(parent, data) {
+    private val processes: MutableList<CSProcess<T>> = list()
+    private val runningProcesses: MutableList<CSProcess<T>> = list()
 
     constructor(parent: CSHasDestruct) : this(parent, list())
 
-    constructor(parent: CSHasDestruct, vararg adding: CSProcessBase<T>) : this(parent) {
+    constructor(parent: CSHasDestruct, vararg adding: CSProcess<T>) : this(parent) {
         runningProcesses.putAll(processes.putAll(*adding)).forEach { response ->
             response.onSuccess { onResponseSuccess(it) }
             response.onFailed { onResponseFailed(it) }
         }
     }
 
-    fun add(process: CSProcessBase<T>) =
+    fun add(process: CSProcess<T>) =
         runningProcesses.put(processes.put(process))
             .onSuccess { onResponseSuccess(it) }.onFailed { onResponseFailed(it) }
 
-    private fun onResponseSuccess(succeededProcess: CSProcessBase<*>) {
+    private fun onResponseSuccess(succeededProcess: CSProcess<*>) {
         runningProcesses.remove(succeededProcess)
         if (runningProcesses.isEmpty) {
             val mutableListData = (data as MutableList)
@@ -34,7 +34,7 @@ open class CSConcurrentProcess<T : Any>(
         }
     }
 
-    private fun onResponseFailed(failedProcess: CSProcessBase<*>) {
+    private fun onResponseFailed(failedProcess: CSProcess<*>) {
         runningProcesses.apply { remove(failedProcess) }.forEach { response -> response.cancel() }
         failed(failedProcess)
     }

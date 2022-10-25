@@ -11,6 +11,7 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.cancel
 import renetik.android.event.registration.later
 import renetik.android.network.operation.CSOperation
+import renetik.android.network.operation.onDone
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.show

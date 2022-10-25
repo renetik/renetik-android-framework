@@ -8,16 +8,16 @@ import renetik.android.json.array.CSJsonArray
 import renetik.android.json.array.load
 
 fun <T : CSJsonObject> T.mockProcessSuccess(data: String) =
-	CSProcessBase<T>().apply {
+	CSProcess<T>().apply {
 		later(1 * Second) { success(load(data)) }
 	}
 
 fun <T : CSJsonObject> T.mockProcessSuccess() =
-	CSProcessBase<T>().apply {
+	CSProcess<T>().apply {
 		later(1 * Second) { success(this@mockProcessSuccess) }
 	}
 
 fun <T : CSJsonArray> T.mockProcessSuccess(data: String) =
-	CSProcessBase<T>().apply {
+	CSProcess<T>().apply {
 		later(1 * Second) { success(load(data)) }
 	}

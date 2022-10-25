@@ -4,12 +4,12 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.DownloadListener
 import renetik.android.event.common.CSHasDestruct
-import renetik.android.network.process.CSProcessBase
+import renetik.android.network.process.CSProcess
 import java.io.File
 
 class CSDownloadRequest(
     parent: CSHasDestruct, url: String, file: File)
-    : CSProcessBase<File>(parent, file) {
+    : CSProcess<File>(parent, file) {
     init {
         AndroidNetworking.download(url, file.parent, file.name).build()
             .startDownload(object : DownloadListener {

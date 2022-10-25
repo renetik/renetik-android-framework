@@ -4,57 +4,53 @@ import renetik.android.core.lang.ArgFunc
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
 import renetik.android.event.common.parent
-import renetik.android.network.process.CSProcessBase
+import renetik.android.network.process.CSProcess
 
-open class CSOperation<Data : Any>() : CSModel() {
+open class CSOperation<Data : Any>(
+    private val createProcess: CSOperation<Data>.() -> CSProcess<Data>)
+    : CSModel() {
 
-    var executeProcess: (CSOperation<Data>.() -> CSProcessBase<Data>)? = null
+    val eventSuccess = event<CSProcess<Data>>()
+    val eventFailed = event<CSProcess<*>>()
+    val eventDone = event<CSProcess<Data>>()
 
-    constructor(function: CSOperation<Data>.() -> CSProcessBase<Data>) : this() {
-        executeProcess = function
-    }
+    lateinit var process: CSProcess<Data>
 
-    open fun executeProcess(): CSProcessBase<Data> {
-        return executeProcess!!.invoke(this)
-    }
-
-    val eventSuccess = event<CSProcessBase<Data>>()
-    val eventFailed = event<CSProcessBase<*>>()
-    val eventDone = event<CSProcessBase<Data>>()
-    var process: CSProcessBase<Data>? = null
+    //TODO: Move to CSHttpRequestOperation....
     var isRefresh = false
     var isCached = true
     var expireMinutes: Int? = 1
     var isJustUseCache = false
 
-    fun refresh() = apply { isRefresh = true }
-
-    fun onSuccess(function: ArgFunc<CSProcessBase<Data>>) =
-        apply { eventSuccess.listen(function) }
-
-    fun onFailed(function: ArgFunc<CSProcessBase<*>>) =
-        apply { eventFailed.listen(function) }
-
-    fun onDone(function: ArgFunc<CSProcessBase<Data>>) =
-        apply { eventDone.listen(function) }
-
-    fun send(): CSProcessBase<Data> = executeProcess().also { process ->
-        this.process = process.parent(this)
-        process.onSuccess {
-            eventSuccess.fire(process)
-            onDone(process)
-        }
+    fun send(): CSProcess<Data> = createProcess(this).also { process ->
+        this.process = process.parent(this).onSuccess { onSuccess() }
     }
 
     fun cancel() {
-        process?.let {
-            if (it.isFailed) eventFailed.fire(it.failedProcess!!) else it.cancel()
-            onDone(it)
-        }
+        if (process.isFailed) eventFailed.fire(process.failedProcess!!)
+        else process.cancel()
+        onDone()
     }
 
-    private fun onDone(process: CSProcessBase<Data>) {
+    private fun onSuccess() {
+        eventSuccess.fire(process)
+        onDone()
+    }
+
+    private fun onDone() {
         eventDone.fire(process)
         onDestruct()
     }
 }
+
+//TODO: Move to CSHttpRequestOperation....
+fun <Data : Any> CSOperation<Data>.refresh() = apply { isRefresh = true }
+
+fun <Data : Any> CSOperation<Data>.onSuccess(function: ArgFunc<CSProcess<Data>>) =
+    apply { eventSuccess.listen(function) }
+
+fun <Data : Any> CSOperation<Data>.onFailed(function: ArgFunc<CSProcess<*>>) =
+    apply { eventFailed.listen(function) }
+
+fun <Data : Any> CSOperation<Data>.onDone(function: ArgFunc<CSProcess<Data>>) =
+    apply { eventDone.listen(function) }

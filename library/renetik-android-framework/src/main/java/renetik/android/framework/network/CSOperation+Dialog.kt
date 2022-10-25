@@ -2,7 +2,7 @@ package renetik.android.framework.network
 
 import android.view.ViewGroup
 import renetik.android.network.operation.CSOperation
-import renetik.android.network.process.CSProcessBase
+import renetik.android.network.process.CSProcess
 import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.lang.CSEnvironment.app
@@ -28,7 +28,7 @@ import renetik.android.core.kotlin.unfinished
 
 private fun <Data : Any> CSOperation<Data>.onSendFailed(
     parent: CSActivityView<out ViewGroup>,
-    process: CSProcessBase<Data>, title: String, isProgress: Boolean,
+    process: CSProcess<Data>, title: String, isProgress: Boolean,
     onInternetFailed: (() -> Unit)?,
     onSuccess: ((Data) -> Unit)?) {
     process.onFailed {
