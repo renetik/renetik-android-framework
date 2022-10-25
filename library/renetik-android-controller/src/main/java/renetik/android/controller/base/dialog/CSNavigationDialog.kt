@@ -29,7 +29,7 @@ import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.core.util.CSMemory.memoryUsageInfo
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.destroy
+import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
@@ -59,7 +59,7 @@ open class CSNavigationDialog<ViewType : View>(
         listenOnce(parent.eventDestruct) {
             if (!isShowingInPager && lifecycleStopOnRemoveFromParentView) unexpected()
             if (isShowingInPager) dismiss()
-            if (!lifecycleStopOnRemoveFromParentView) destroy()
+            if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
     }
 

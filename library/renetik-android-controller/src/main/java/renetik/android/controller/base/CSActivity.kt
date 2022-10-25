@@ -11,7 +11,7 @@ import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.destroy
+import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistrationsMap
@@ -72,7 +72,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     fun recreateView() {
         isRecreateView = true
-        activityView!!.destroy()
+        activityView!!.destruct()
         configuration.updateFrom(resources.configuration)
         activityView = createView()
         setContentView(activityView!!.view)

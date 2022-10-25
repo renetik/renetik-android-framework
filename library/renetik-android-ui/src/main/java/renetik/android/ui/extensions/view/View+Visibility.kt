@@ -52,7 +52,7 @@ fun <T : View> T.shownIf(condition: Boolean, animated: Boolean = false) = apply 
     if (condition) show(animated) else gone(animated)
 }
 
-fun <T : View> T.goneIf(condition: Boolean, animated: Boolean = false) =
+fun <T : View> T.goneIf(condition: Boolean, animated: Boolean = false): T =
     shownIf(!condition, animated)
 
 fun <T> View.shownIf(property: CSProperty<T>,

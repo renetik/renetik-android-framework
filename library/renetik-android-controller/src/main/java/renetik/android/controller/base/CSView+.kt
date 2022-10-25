@@ -14,7 +14,7 @@ import renetik.android.core.extensions.content.orientation
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.common.CSHasDestruct
-import renetik.android.event.common.destroy
+import renetik.android.event.common.destruct
 import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.ui.extensions.view.*
@@ -159,6 +159,6 @@ fun CSView<*>.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruct) {
     listenOnce(parent.eventDestruct) {
         val parentGroup = (view.parent as? ViewGroup)
         if (parentGroup !is AdapterView<*>) parentGroup?.removeView(view)
-        destroy()
+        destruct()
     }
 }
