@@ -14,10 +14,8 @@ import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
 import renetik.android.core.math.top
-import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.*
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.CSRegistrationsList
-import renetik.android.event.registration.start
 
 val <T : View> T.hasSize get() = width > 0 && height > 0
 
@@ -26,11 +24,25 @@ fun <T : View> T.hasSize(onHasSize: () -> Unit): CSRegistration? {
         val registration = CSRegistrationsList(this)
         registration.register(onGlobalLayout {
             if (hasSize) {
-                registration.cancel(it)
                 onHasSize()
+                registration.cancel(it)
             }
         })
         return registration
+    } else onHasSize()
+    return null
+}
+
+fun <T : View> T.hasSize(
+    parent: CSHasRegistrations, onHasSize: () -> Unit): CSRegistration? {
+    if (width == 0 || height == 0) {
+        val registration = parent.register(onGlobalLayout {
+            if (hasSize) {
+                onHasSize()
+                parent.cancel(it)
+            }
+        })
+        return CSRegistration { parent.cancel(registration) }
     } else onHasSize()
     return null
 }
@@ -48,11 +60,18 @@ fun <T : View> T.afterGlobalLayout(function: (View) -> Unit): CSRegistration {
     //TODO:!!! this should be reverted so nothing stays in parent on cancel
     val registration = CSRegistrationsList(this)
     registration.register(onGlobalLayout {
-        registration.cancel(it)
         function(this)
+        registration.cancel(it)
     })
     return registration
 }
+
+fun <T : View> T.afterGlobalLayout(
+    parent: CSHasRegistrations, function: (View) -> Unit): CSRegistration =
+    parent.register(onGlobalLayout {
+        function(this)
+        parent.cancel(it)
+    })
 
 fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration

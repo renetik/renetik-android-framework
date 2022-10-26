@@ -1,4 +1,4 @@
-package renetik.android.controller.base
+package renetik.android.ui
 
 import android.annotation.TargetApi
 import android.graphics.Rect

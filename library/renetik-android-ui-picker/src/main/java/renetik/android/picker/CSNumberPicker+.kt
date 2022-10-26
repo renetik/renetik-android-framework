@@ -3,7 +3,6 @@ package renetik.android.picker
 import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
 import com.shawnlin.numberpicker.NumberPicker
-import renetik.android.controller.base.view
 import renetik.android.core.kotlin.asStringArray
 import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.index
@@ -13,6 +12,7 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
+import renetik.android.ui.extensions.view
 import renetik.android.ui.protocol.CSViewInterface
 
 fun CSViewInterface.numberPicker(viewId: Int) = view(viewId) as CSNumberPicker

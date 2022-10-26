@@ -8,19 +8,27 @@ import renetik.android.event.registration.register
 fun <T> T.registerUntilHide(registration: CSRegistration): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility {
     register(registration)
-    register(onHiding { onHidingRegistration ->
-        cancel(onHidingRegistration)
-        cancel(registration)
-    })
-    return registration
+    return untilHide(registration)
 }
 
 @JvmName("registerUntilHideRegistrationNullable")
 fun <T> T.registerUntilHide(registration: CSRegistration?): CSRegistration?
-        where T : CSHasRegistrations, T : CSVisibility {
-    if (registration == null) return null
-    return registerUntilHide(registration)
+        where T : CSHasRegistrations, T : CSVisibility =
+    registration?.let { registerUntilHide(it) }
+
+@JvmName("untilHideRegistrationNullable")
+fun <T> T.untilHide(registration: CSRegistration?): CSRegistration?
+        where T : CSHasRegistrations, T : CSVisibility = registration?.let {
+    untilHide(it)
 }
+
+fun <T> T.untilHide(registration: CSRegistration): CSRegistration
+        where T : CSHasRegistrations, T : CSVisibility =
+    onHiding { onHidingRegistration ->
+        onHidingRegistration.cancel()
+        cancel(registration)
+    }
+
 
 fun <T> T.registerUntilShow(registration: CSRegistration): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility {

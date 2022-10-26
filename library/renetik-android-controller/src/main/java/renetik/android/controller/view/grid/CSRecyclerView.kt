@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
 import renetik.android.controller.base.asCS
-import renetik.android.controller.base.findView
 import renetik.android.controller.view.grid.CSRecyclerView.Adapter.ViewHolder
 import renetik.android.core.kotlin.collections.index
 import renetik.android.core.kotlin.collections.list
@@ -17,6 +16,7 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.later
+import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.*
 
 @Suppress("UNCHECKED_CAST")

@@ -2,6 +2,7 @@ package renetik.android.imaging.extensions
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Color.DKGRAY
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
@@ -13,11 +14,24 @@ import com.bumptech.glide.signature.ObjectKey
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistrationsList
+import renetik.android.ui.extensions.hasSize
+import renetik.android.ui.extensions.view.hasSize
+import renetik.android.ui.protocol.CSViewInterface
 import java.io.File
 
+// hasSize & override(width, height) needed for WRAP_CONTENT
 fun <T : ImageView> T.image(
-    @DrawableRes resourceId: Int?) = apply {
+    parent: CSViewInterface, @DrawableRes resourceId: Int?)
+        : CSRegistration? = parent.hasSize {
+    resourceId?.let {
+        Glide.with(this@image).load(resourceId)
+            .override(width, height)
+            .fitCenter().diskCacheStrategy(ALL)
+            .into(this)
+    } ?: run { setImageDrawable(null) }
+}
+
+fun <T : ImageView> T.image(@DrawableRes resourceId: Int?) {
     resourceId?.let {
         Glide.with(this@image).load(resourceId)
             .fitCenter().diskCacheStrategy(ALL)
@@ -25,28 +39,38 @@ fun <T : ImageView> T.image(
     } ?: run { setImageDrawable(null) }
 }
 
-fun <T : ImageView> T.image(file: File) = image(file, null)
+fun <T : ImageView> T.image(parent: CSViewInterface, file: File)
+        : CSRegistration? = image(parent, file, null)
 
+//TODO: inner has size registration shall be wrapped together with property registration
 fun <T : ImageView> T.image(
-    file: File, borderWidth: Float, radius: Float = 5f, color: Int = Color.DKGRAY) =
-    image(file, BorderBitmapTransformation(borderWidth, radius, color))
+    parent: CSViewInterface, file: File, borderWidth: Float,
+    radius: Float = 5f, color: Int = DKGRAY): CSRegistration? =
+    image(parent, file, BorderBitmapTransformation(borderWidth, radius, color))
 
+//TODO: inner has size registration shall be wrapped together with property registration
 fun <T> ImageView.image(
-    property: CSProperty<T>,
+    parent: CSViewInterface, property: CSProperty<T>,
     borderWidth: Float = 1f, radius: Float = 2f, color: Int = Color.BLACK,
     valueToImage: (T) -> File): CSRegistration =
-    property.action { image(valueToImage(property.value), borderWidth, radius, color) }
+    property.action { image(parent, valueToImage(property.value), borderWidth, radius, color) }
 
+//TODO: inner has size registration shall be wrapped together with property registration
 fun <T> ImageView.image(
+    parent: CSViewInterface,
     property: CSProperty<T>,
     valueToImage: (T) -> File): CSRegistration =
-    property.action { image(valueToImage(property.value)) }
+    property.action { image(parent, valueToImage(property.value)) }
 
+// hasSize & override(width, height) needed for WRAP_CONTENT
 private fun <T : ImageView> T.image(
-    file: File, transformation: Transformation<Bitmap>? = null) = apply {
-    val builder = Glide.with(context).asBitmap().load(file)
-        .signature(ObjectKey(file.lastModified()))
-        .fitCenter().diskCacheStrategy(DiskCacheStrategy.NONE)
-    transformation?.let { builder.apply(bitmapTransform(it)) }
-    builder.into(this)
-}
+    parent: CSViewInterface, file: File,
+    transformation: Transformation<Bitmap>? = null): CSRegistration? =
+    hasSize(parent) {
+        val builder = Glide.with(context).asBitmap().load(file)
+            .override(width, height)
+            .signature(ObjectKey(file.lastModified()))
+            .fitCenter().diskCacheStrategy(DiskCacheStrategy.NONE)
+        transformation?.let { builder.apply(bitmapTransform(it)) }
+        builder.into(this)
+    }

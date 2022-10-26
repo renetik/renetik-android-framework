@@ -12,7 +12,6 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.dialog.DialogAnimation.*
 import renetik.android.controller.base.dialog.DialogPopupSide.Bottom
 import renetik.android.controller.base.dialog.DialogPopupSide.Right
-import renetik.android.controller.base.hasSize
 import renetik.android.controller.common.CSNavigationAnimation.*
 import renetik.android.controller.common.CSNavigationAnimation.None
 import renetik.android.controller.common.CSNavigationItem
@@ -35,6 +34,7 @@ import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
+import renetik.android.ui.extensions.hasSize
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 

@@ -5,9 +5,9 @@ import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.base.frame
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listen
+import renetik.android.ui.extensions.frame
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.removeFromSuperview
 import renetik.android.ui.extensions.widget.layoutMatch

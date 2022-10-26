@@ -7,7 +7,6 @@ import android.widget.FrameLayout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.base.onGlobalFocus
 import renetik.android.controller.common.CSNavigationAnimation.*
 import renetik.android.ui.extensions.add
 import renetik.android.ui.extensions.remove
@@ -24,6 +23,7 @@ import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
 import renetik.android.ui.R.color.cs_dialog_background
+import renetik.android.ui.extensions.onGlobalFocus
 import renetik.android.ui.extensions.view.background
 import renetik.android.ui.extensions.view.removeFromSuperview
 

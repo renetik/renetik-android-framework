@@ -11,6 +11,7 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazyVar
 import renetik.android.event.common.CSContext
+import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onDestroy
