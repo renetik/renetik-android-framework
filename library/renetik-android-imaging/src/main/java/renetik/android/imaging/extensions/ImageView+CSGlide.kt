@@ -13,22 +13,25 @@ import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.bumptech.glide.signature.ObjectKey
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
+import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
-import renetik.android.ui.extensions.hasSize
-import renetik.android.ui.extensions.view.hasSize
+import renetik.android.ui.extensions.view.onHasSize
 import renetik.android.ui.protocol.CSViewInterface
 import java.io.File
 
 // hasSize & override(width, height) needed for WRAP_CONTENT
 fun <T : ImageView> T.image(
-    parent: CSViewInterface, @DrawableRes resourceId: Int?)
-        : CSRegistration? = parent.hasSize {
-    resourceId?.let {
+    parent: CSHasRegistrations, @DrawableRes resourceId: Int?)
+        : CSRegistration? = resourceId?.let {
+    return onHasSize(parent) {
         Glide.with(this@image).load(resourceId)
             .override(width, height)
             .fitCenter().diskCacheStrategy(ALL)
             .into(this)
-    } ?: run { setImageDrawable(null) }
+    }
+} ?: run {
+    setImageDrawable(null)
+    return null
 }
 
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int?) {
@@ -64,9 +67,9 @@ fun <T> ImageView.image(
 
 // hasSize & override(width, height) needed for WRAP_CONTENT
 private fun <T : ImageView> T.image(
-    parent: CSViewInterface, file: File,
+    parent: CSHasRegistrations, file: File,
     transformation: Transformation<Bitmap>? = null): CSRegistration? =
-    hasSize(parent) {
+    onHasSize(parent) {
         val builder = Glide.with(context).asBitmap().load(file)
             .override(width, height)
             .signature(ObjectKey(file.lastModified()))

@@ -119,4 +119,4 @@ val CSViewInterface.leftMarginInWindow: Int
 
 fun <Type> Type.hasSize(function: () -> Unit): CSRegistration?
         where  Type : CSViewInterface =
-    view.hasSize(this) { function() }
+    view.onHasSize(this) { function() }

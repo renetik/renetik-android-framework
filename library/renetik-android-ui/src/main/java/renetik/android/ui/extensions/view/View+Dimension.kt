@@ -19,30 +19,13 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 
 val <T : View> T.hasSize get() = width > 0 && height > 0
 
-fun <T : View> T.hasSize(onHasSize: () -> Unit): CSRegistration? {
-    if (width == 0 || height == 0) {
-        val registration = CSRegistrationsList(this)
-        registration.register(onGlobalLayout {
-            if (hasSize) {
-                onHasSize()
-                registration.cancel(it)
-            }
-        })
-        return registration
-    } else onHasSize()
-    return null
-}
-
-fun <T : View> T.hasSize(
+fun <T : View> T.onHasSize(
     parent: CSHasRegistrations, onHasSize: () -> Unit): CSRegistration? {
-    if (width == 0 || height == 0) {
-        val registration = parent.register(onGlobalLayout {
-            if (hasSize) {
-                onHasSize()
-                parent.cancel(it)
-            }
-        })
-        return CSRegistration { parent.cancel(registration) }
+    if (!hasSize) return parent.laterEach(10) {
+        if (hasSize) {
+            onHasSize()
+            it.cancel()
+        }
     } else onHasSize()
     return null
 }
