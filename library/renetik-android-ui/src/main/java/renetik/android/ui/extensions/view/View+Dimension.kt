@@ -21,7 +21,7 @@ val <T : View> T.hasSize get() = width > 0 && height > 0
 
 fun <T : View> T.onHasSize(
     parent: CSHasRegistrations, onHasSize: () -> Unit): CSRegistration? {
-    if (!hasSize) return parent.laterEach(10) {
+    if (!hasSize) return parent.laterEach(5) {
         if (hasSize) {
             onHasSize()
             it.cancel()
