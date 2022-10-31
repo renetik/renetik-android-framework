@@ -5,7 +5,10 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AnimationUtils.loadAnimation
 import androidx.appcompat.app.AppCompatActivity
+import renetik.android.controller.R.anim.activity_recreate_fade_in
+import renetik.android.controller.R.anim.activity_recreate_fade_out
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
@@ -16,6 +19,7 @@ import renetik.android.event.fire
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.ui.protocol.CSVisibility
+
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
     val onCreate = event<Bundle?>()
@@ -72,9 +76,11 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     fun recreateView() {
         isRecreateView = true
+        activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_out))
         activityView!!.destruct()
         configuration.updateFrom(resources.configuration)
         activityView = createView()
+        activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_in))
         setContentView(activityView!!.view)
         activityView!!.onResume()
         isRecreateView = false
