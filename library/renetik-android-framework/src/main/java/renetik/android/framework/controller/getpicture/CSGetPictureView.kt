@@ -51,7 +51,7 @@ class CSGetPictureView<T : View>(
 
     fun show(onPermissionsNotGranted: Func? = null) {
         requestPermissions(list(CAMERA, WRITE_EXTERNAL_STORAGE), { showAfterPermissionsGranted() },
-            notGranted = {
+            onNotGranted = {
                 logWarn { message("Some permissions not granted for taking photos") }
                 onPermissionsNotGranted?.invoke()
             })

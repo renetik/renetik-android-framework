@@ -25,7 +25,7 @@ fun CSActivityView<*>.requestPermissionsWithForce(permissions: List<String>,
 
 fun CSActivityView<*>.requestPermissions(
     permissions: List<String>,
-    onGranted: (() -> Unit)? = null, notGranted: (() -> Unit)? = null
+    onGranted: (() -> Unit)? = null, onNotGranted: (() -> Unit)? = null
 ) {
     if (SDK_INT < 23) {
         onGranted?.invoke()
@@ -39,7 +39,7 @@ fun CSActivityView<*>.requestPermissions(
             if (results.requestCode == requestCode) {
                 cancel(registration)
                 for (status in results.statuses) if (PERMISSION_GRANTED != status) {
-                    notGranted?.invoke()
+                    onNotGranted?.invoke()
                     return@listen
                 }
                 onGranted?.invoke()
