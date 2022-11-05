@@ -24,11 +24,14 @@ fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
 
 @JvmName("viewOfType")
 inline fun <reified Type : View> CSViewInterface.view(
-    @IdRes id: Int, noinline onClick: ((view: View) -> Unit)? = null) =
+    @IdRes id: Int, noinline onClick: ((view: View) -> Unit)? = null): Type =
     view.view(id).apply { onClick?.let { this.onClick(it) } } as Type
 
-fun CSViewInterface.view(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+fun CSViewInterface.view(
+    @IdRes id: Int, onClick: ((view: View) -> Unit)? = null): View =
     view.view(id).apply { onClick?.let { this.onClick(it) } }
+
+fun CSViewInterface.viewOrNull(@IdRes id: Int): View? = view.findView(id)
 
 fun CSViewInterface.views(@IdRes vararg ids: Int): List<View> =
     mutableListOf<View>().apply { for (id in ids) add(view(id)) }
