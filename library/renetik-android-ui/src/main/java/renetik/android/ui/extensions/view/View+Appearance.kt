@@ -20,6 +20,7 @@ fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {
     setBackgroundColor(value)
 }
 
+
 fun <T : View> T.background(value: CSColorInt) = apply {
     setBackgroundColor(value.color)
 }
@@ -31,6 +32,8 @@ fun <T : View> T.backgroundTint(@ColorInt value: Int) = apply {
 fun <T : View> T.foregroundTint(@ColorInt value: Int) = apply {
     foregroundTintList = ColorStateList.valueOf(value)
 }
+
+val <T : View> T.foregroundTint: Int get() = foregroundTintList!!.defaultColor
 
 fun <T : View> T.backgroundRoundedWithColor(@ColorInt value: Int, radius: Float = 8f) {
     val shape = GradientDrawable()
