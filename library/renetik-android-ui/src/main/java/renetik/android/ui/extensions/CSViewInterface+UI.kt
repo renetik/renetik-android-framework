@@ -11,7 +11,6 @@ import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.cancel
 import renetik.android.event.registration.listenOnce
 import renetik.android.event.registration.register
 import renetik.android.ui.CSDisplayCutout
@@ -79,19 +78,14 @@ fun CSViewInterface.radioGroup(@IdRes id: Int,
                                onChange: ((buttonId: Int) -> Unit)? = null): RadioGroup =
     view.radioGroup(id).apply { onChange?.let { this.onChange(it) } }
 
-
 fun <Type : CSViewInterface> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
 
-fun <Type> Type.afterGlobalLayout(function: () -> Unit): CSRegistration
-        where  Type : CSViewInterface {
-    val registration = view.afterGlobalLayout(this) { function() }
-    return CSRegistration { cancel(registration) }
-}
+fun CSViewInterface.afterGlobalLayout(function: () -> Unit): CSRegistration =
+    view.afterLayout(this) { function() }
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
         where  Type : CSViewInterface =
     register(view.onGlobalFocus { old, new -> function(old, new) })
-
 
 fun CSViewInterface.onSystemUiVisibilityChangeListener(
     function: () -> Unit): CSRegistration {
@@ -120,6 +114,5 @@ fun CSViewInterface.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruc
 val CSViewInterface.leftMarginInWindow: Int
     get() = view.rectangleInWindow.left
 
-fun <Type> Type.hasSize(function: () -> Unit): CSRegistration?
-        where  Type : CSViewInterface =
+fun CSViewInterface.onHasSize(function: () -> Unit): CSRegistration? =
     view.onHasSize(this) { function() }

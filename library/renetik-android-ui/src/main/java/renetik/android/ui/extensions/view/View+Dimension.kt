@@ -4,105 +4,23 @@ import android.graphics.Rect
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import android.view.View.OnLayoutChangeListener
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
+import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
 import renetik.android.core.math.top
-import renetik.android.event.registration.*
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.start
 
 val <T : View> T.hasSize get() = width > 0 && height > 0
-
-fun <T : View> T.onHasSize(
-    parent: CSHasRegistrations, onHasSize: () -> Unit): CSRegistration? {
-    if (!hasSize) return parent.laterEach(5) {
-        if (hasSize) {
-            onHasSize()
-            it.cancel()
-        }
-    } else onHasSize()
-    return null
-}
-
-fun View.onSizeChange(function: Func): CSRegistration {
-    val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
-    return CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
-        onPause = { removeOnLayoutChangeListener(listener) }).start()
-}
-
-fun View.onHasSizeChange(function: Func): CSRegistration =
-    onSizeChange { if (hasSize) function() }
-
-fun <T : View> T.afterGlobalLayout(function: (View) -> Unit): CSRegistration {
-    //TODO:!!! this should be reverted so nothing stays in parent on cancel
-    val registration = CSRegistrationsList(this)
-    registration.register(onGlobalLayout {
-        function(this)
-        registration.cancel(it)
-    })
-    return registration
-}
-
-fun <T : View> T.afterGlobalLayout(
-    parent: CSHasRegistrations, function: (View) -> Unit): CSRegistration =
-    parent.register(onGlobalLayout {
-        function(this)
-        parent.cancel(it)
-    })
-
-fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
-    lateinit var registration: CSRegistration
-    val listener = OnGlobalFocusChangeListener { old, new ->
-        if (registration.isActive) function(old, new)
-    }
-
-    fun attach() = viewTreeObserver.addOnGlobalFocusChangeListener(listener)
-    fun detach() = viewTreeObserver.removeOnGlobalFocusChangeListener(listener)
-
-    val attachStateListener = object : OnAttachStateChangeListener {
-        override fun onViewAttachedToWindow(view: View) = attach()
-        override fun onViewDetachedFromWindow(view: View) = detach()
-    }
-    addOnAttachStateChangeListener(attachStateListener)
-
-    registration = CSRegistration(
-        onResume = { if (isAttachedToWindow) attach() },
-        onPause = { detach() },
-        onCancel = { removeOnAttachStateChangeListener(attachStateListener) }
-    ).start()
-
-    return registration
-}
-
-fun View.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
-    lateinit var registration: CSRegistration
-    val listener = OnGlobalLayoutListener {
-        if (registration.isActive) function(registration)
-    }
-
-    fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
-    fun detach() = viewTreeObserver.removeOnGlobalLayoutListener(listener)
-
-    val attachStateListener = object : OnAttachStateChangeListener {
-        override fun onViewAttachedToWindow(view: View) = attach()
-        override fun onViewDetachedFromWindow(view: View) = detach()
-    }
-    addOnAttachStateChangeListener(attachStateListener)
-
-    registration = CSRegistration(
-        onResume = { if (isAttachedToWindow) attach() },
-        onPause = { detach() },
-        onCancel = { removeOnAttachStateChangeListener(attachStateListener) }
-    ).start()
-    return registration
-}
-
 
 fun <T : View> T.margins(left: Int, top: Int, right: Int, bottom: Int) = apply {
     layoutParams = (layoutParams as MarginLayoutParams).apply {
@@ -111,9 +29,8 @@ fun <T : View> T.margins(left: Int, top: Int, right: Int, bottom: Int) = apply {
 }
 
 fun <T : View> T.margin(value: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams).apply {
-        setMargins(value, value, value, value)
-    }
+    layoutParams = (layoutParams as MarginLayoutParams)
+        .apply { setMargins(value, value, value, value) }
 }
 
 fun <T : View> T.marginDp(value: Int) = margin(context.dpToPixel(value))
@@ -183,6 +100,12 @@ fun <T : View> T.height(value: Int) = apply {
     layoutParams = params
 }
 
+fun <T : View> T.heightWrap() = apply {
+    val params = layoutParams
+    params.height = WRAP_CONTENT
+    layoutParams = params
+}
+
 fun <T : View> T.height(value: Float) = height(value.toInt())
 
 var View.layoutWidth: Int
@@ -215,7 +138,6 @@ val View.windowRectangle: Rect
 val View.rectangle: Rect
     get() = Rect(left, top, right, bottom)
 
-
 val View.rectangleInWindow: Rect
     get() {
         val location: CSPoint<Int> = locationInWindow
@@ -224,4 +146,3 @@ val View.rectangleInWindow: Rect
             location.left + rectangle.width(),
             location.top + rectangle.height())
     }
-

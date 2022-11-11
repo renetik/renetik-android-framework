@@ -34,7 +34,7 @@ import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
-import renetik.android.ui.extensions.hasSize
+import renetik.android.ui.extensions.onHasSize
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 
@@ -100,10 +100,10 @@ open class CSNavigationDialog<ViewType : View>(
         isFullscreenNavigationItem.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
-        hasSize {
+        onHasSize {  //TODO: maybe onHasSize(dialogContent){...
             if (side == Bottom) positionDialogContentFromViewBottom(fromView)
             else if (side == Right) positionDialogContentFromViewRight(fromView)
-            correctHeight()
+            correctContentHeight()
         }
         view.background(color(color.cs_dialog_popup_background))
     }
@@ -120,7 +120,7 @@ open class CSNavigationDialog<ViewType : View>(
         dialogContent.y = fromViewLocation.y.toFloat() + fromView.height
     }
 
-    private fun correctHeight() {
+    protected fun correctContentHeight() {
         if (dialogContent.y + dialogContent.height > height - dpToPixelF(marginDp))
             dialogContent.height(height - dpToPixelF(marginDp) - dialogContent.y)
     }
