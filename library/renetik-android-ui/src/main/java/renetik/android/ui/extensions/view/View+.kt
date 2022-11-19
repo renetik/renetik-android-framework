@@ -22,8 +22,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
-import renetik.android.core.kotlin.primitives.isFalse
-import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.catchAll
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent
@@ -155,4 +153,24 @@ fun View.performTouchDown(time: Int = 700): Boolean =
         uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0))
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild
+
+val View.nextView get() = (parentView as? ViewGroup)?.children?.findNextAfter(this)
+
+private fun <T> Sequence<T>.findNextAfter(item: T): T? {
+    var index = 0
+    var itemFound = false
+    for (sequenceItem in this) {
+        if (itemFound) return sequenceItem
+        else if (sequenceItem == item) itemFound = true
+        index++
+    }
+    return null
+}
+
+private fun <T> Sequence<T>.firstIndexOf(item: T): Int? =
+    firstIndexOf { it == item }
+
+private fun <T> Sequence<T>.firstIndexOf(predicate: (item: T) -> Boolean): Int? =
+    indexOfFirst(predicate).let { if (it == -1) null else it }
+
 val View.lastChild get() = (this as? ViewGroup)?.lastChild
