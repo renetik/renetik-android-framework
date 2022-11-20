@@ -23,12 +23,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
 import renetik.android.core.lang.catchAll
-import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent
 import renetik.android.event.fire
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.property.start
 import renetik.android.event.registration.*
 import renetik.android.ui.view.adapter.CSClickAdapter
 
@@ -113,7 +113,7 @@ fun View.selectedIf(value: Boolean) = apply { isSelected = value }
 fun View.activated(value: Boolean = true) = activatedIf(value)
 fun View.activatedIf(value: Boolean) = apply { isActivated = value }
 fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
-fun View.onClick(action: CSActionInterface) = onClick { action.toggle() }
+fun View.onClick(action: CSActionInterface) = onClick { action.start() }
 
 @Suppress("DEPRECATION")
 fun View.enterFullScreen() {
