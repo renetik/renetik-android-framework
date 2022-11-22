@@ -99,7 +99,7 @@ open class CSNavigationDialog<ViewType : View>(
         }
 
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
-        this.selected(fromView)
+        selected(fromView)
         isFullscreenNavigationItem.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
