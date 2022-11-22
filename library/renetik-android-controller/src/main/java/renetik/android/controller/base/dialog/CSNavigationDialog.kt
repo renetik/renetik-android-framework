@@ -22,6 +22,7 @@ import renetik.android.core.extensions.content.dpToPixelF
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
+import renetik.android.core.lang.variable.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
 import renetik.android.core.logging.CSLog.logDebug
@@ -31,9 +32,11 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
+import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
+import renetik.android.ui.extensions.afterGlobalLayout
 import renetik.android.ui.extensions.onHasSize
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
@@ -96,14 +99,14 @@ open class CSNavigationDialog<ViewType : View>(
         }
 
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
-        pressed(fromView)
+        this.selected(fromView)
         isFullscreenNavigationItem.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
-        onHasSize {  //TODO: maybe onHasSize(dialogContent){...
+        onHasSize {
             if (side == Bottom) positionDialogContentFromViewBottom(fromView)
             else if (side == Right) positionDialogContentFromViewRight(fromView)
-            correctContentHeight()
+            correctContentOverflow()
         }
         view.background(color(color.cs_dialog_popup_background))
     }
@@ -120,7 +123,7 @@ open class CSNavigationDialog<ViewType : View>(
         dialogContent.y = fromViewLocation.y.toFloat() + fromView.height
     }
 
-    protected fun correctContentHeight() {
+    private fun correctContentOverflow() {
         if (dialogContent.y + dialogContent.height > height - dpToPixelF(marginDp))
             dialogContent.height(height - dpToPixelF(marginDp) - dialogContent.y)
     }
@@ -157,7 +160,13 @@ open class CSNavigationDialog<ViewType : View>(
         }
     }
 
-    val isFullscreen get() = isFullscreenNavigationItem
+    fun wrapContentIfNotFullscreen() {
+        if (isFullscreen.isTrue) return
+        dialogContent.heightWrap()
+        afterGlobalLayout(::correctContentOverflow)
+    }
+
+    val isFullscreen: CSProperty<Boolean> get() = isFullscreenNavigationItem
 
     override fun close() = dismiss()
 }
