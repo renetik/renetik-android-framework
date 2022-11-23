@@ -22,6 +22,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
+import renetik.android.core.lang.Void
 import renetik.android.core.lang.catchAll
 import renetik.android.event.CSEvent
 import renetik.android.event.fire
@@ -114,6 +115,7 @@ fun View.activated(value: Boolean = true) = activatedIf(value)
 fun View.activatedIf(value: Boolean) = apply { isActivated = value }
 fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
 fun View.onClick(action: CSActionInterface) = onClick { action.start() }
+fun View.onClick(action: CSEvent<Void>) = onClick { action.fire() }
 
 @Suppress("DEPRECATION")
 fun View.enterFullScreen() {
