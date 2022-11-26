@@ -75,8 +75,8 @@ open class CSNavigationDialog<ViewType : View>(
 
     override fun onViewShowing() {
         super.onViewShowing()
-        logDebug { message(memoryUsageInfo()) }
-        logDebug { message("Thread Count: ${Thread.activeCount()}") }
+//        logDebug { message(memoryUsageInfo()) }
+//        logDebug { message("Thread Count: ${Thread.activeCount()}") }
     }
 
     override fun onRemovedFromParentView() {
@@ -152,7 +152,7 @@ open class CSNavigationDialog<ViewType : View>(
     }
 
     fun fullScreen() = apply {
-        isFullscreenNavigationItem.setTrue()
+        isFullscreenNavigationItem.setFalse()
         animation = Slide
         dialogContent.updateLayoutParams<LayoutParams> {
             width = MATCH_PARENT

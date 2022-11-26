@@ -51,7 +51,7 @@ class CSNavigationView : CSActivityView<FrameLayout> {
 
     fun <T : View> push(controller: CSActivityView<T>,
                         pushId: String? = null): CSActivityView<T> {
-        logDebug { message(controller) }
+//        logDebug { message(controller) }
         val isFullScreen =
             (controller as? CSNavigationItem)?.isFullscreenNavigationItem?.value ?: true
         current?.showingInPager(!isFullScreen)
@@ -66,7 +66,7 @@ class CSNavigationView : CSActivityView<FrameLayout> {
     }
 
     fun pop(controller: CSActivityView<*>) {
-        logDebug { message(controller) }
+//        logDebug { message(controller) }
         controllersMap.remove(controller.toString()).ifNull {
             logWarn { traceMessage("Controller $controller not found in navigation") }
         }.elseDo { popController(controller) }
