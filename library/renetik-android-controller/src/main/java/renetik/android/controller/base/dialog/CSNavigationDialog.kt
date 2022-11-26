@@ -152,7 +152,7 @@ open class CSNavigationDialog<ViewType : View>(
     }
 
     fun fullScreen() = apply {
-        isFullscreenNavigationItem.setFalse()
+        isFullscreenNavigationItem.setTrue()
         animation = Slide
         dialogContent.updateLayoutParams<LayoutParams> {
             width = MATCH_PARENT
