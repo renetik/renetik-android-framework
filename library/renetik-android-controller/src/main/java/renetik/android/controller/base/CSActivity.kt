@@ -1,5 +1,6 @@
 package renetik.android.controller.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -115,6 +116,9 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         eventDestruct.fire().clear()
         activityView = null
     }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onDestroy() = onDestruct()
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
