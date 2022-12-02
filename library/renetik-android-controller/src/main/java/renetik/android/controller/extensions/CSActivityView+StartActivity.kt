@@ -1,9 +1,6 @@
 package renetik.android.controller.extensions
 
-import android.content.ActivityNotFoundException
-import android.content.ClipData
-import android.content.ComponentName
-import android.content.Intent
+import android.content.*
 import android.content.Intent.*
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -15,29 +12,16 @@ import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.listen
 import renetik.android.event.registration.cancel
-import renetik.android.event.registration.later
 import renetik.android.event.registration.register
 
-@Deprecated("Move to Context+")
-fun CSActivityView<*>.startActivity(activityClass: Class<out AppCompatActivity>,
-                                    extras: Map<String, String>) {
-    val intent = Intent(activity(), activityClass)
-    for ((key, value) in extras)
-        intent.putExtra(key, value)
-    startActivity(intent)
-}
-
-@Deprecated("Move to Context+")
-fun CSActivityView<*>.startActivityForResult(activityClass: Class<out AppCompatActivity>,
-                                             requestCode: Int) =
+fun CSActivityView<*>.startActivityForResult(
+    activityClass: Class<out AppCompatActivity>, requestCode: Int) =
     startActivityForResult(Intent(activity(), activityClass), requestCode)
 
-@Deprecated("Move to Context+")
 enum class CSStartActivityResult {
     Cancel, ActivityNotFound
 }
 
-@Deprecated("Move to Context+")
 fun CSActivityView<*>.startActivityForResult(
     intent: Intent, onSuccess: (Intent?) -> Unit,
     onFailure: ((CSStartActivityResult) -> Unit)? = null) {
@@ -56,22 +40,18 @@ fun CSActivityView<*>.startActivityForResult(
     }
 }
 
-@Deprecated("Move to Context+")
 @Suppress("DEPRECATION")
 fun CSActivityView<*>.startActivityForResult(intent: Intent, requestCode: Int) =
     activity().startActivityForResult(intent, requestCode)
 
-@Deprecated("Move to Context+")
 fun CSActivityView<*>.switchActivity(activityClass: Class<out AppCompatActivity>) =
     switchActivity(Intent(activity(), activityClass))
 
-@Deprecated("Move to Context+")
 fun CSActivityView<*>.switchActivity(intent: Intent) {
     activity().finish()
     startActivity(intent)
 }
 
-@Deprecated("Move to Context+")
 fun CSActivityView<*>.switchActivity(activityClass: Class<out AppCompatActivity>,
                                      resultCode: Int) {
     activity().setResult(resultCode)
@@ -85,11 +65,11 @@ fun CSActivityView<*>.switchActivity(activityClass: Class<out AppCompatActivity>
 //}
 
 @Deprecated("Move to Context+")
-fun CSActivityView<*>.goHome() =
+fun Context.goHome() =
     startActivity(Intent(ACTION_MAIN).addCategory(CATEGORY_HOME))
 
 @Deprecated("Move to Context+")
-fun CSActivityView<*>.startApplication(packageName: String) {
+fun Context.startApplication(packageName: String) {
     try {
         val intent = Intent("android.intent.action.MAIN")
         intent.addCategory("android.intent.category.LAUNCHER")
@@ -107,7 +87,7 @@ fun CSActivityView<*>.startApplication(packageName: String) {
 }
 
 @Deprecated("Move to Context+")
-private fun CSActivityView<*>.launchComponent(packageName: String, name: String) {
+private fun Context.launchComponent(packageName: String, name: String) {
     val intent = Intent("android.intent.action.MAIN")
     intent.addCategory("android.intent.category.LAUNCHER")
     intent.component = ComponentName(packageName, name)
@@ -116,19 +96,19 @@ private fun CSActivityView<*>.launchComponent(packageName: String, name: String)
 }
 
 @Deprecated("Move to Context+")
-private fun CSActivityView<*>.showInMarket(packageName: String?) {
+private fun Context.showInMarket(packageName: String?) {
     val intent = Intent(ACTION_VIEW, Uri.parse("market://details?id=" + packageName!!))
     intent.flags = FLAG_ACTIVITY_NEW_TASK
     startActivity(intent)
 }
 
 @Deprecated("Move to Context+")
-fun <T : CSActivityView<*>> T.startActivityForUri(
+fun Context.startActivityForUri(
     uri: Uri, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) =
     startActivityForUriAndType(uri, null, onActivityNotFound)
 
 @Deprecated("Move to Context+")
-fun <T : CSActivityView<*>> T.startActivityForUriAndType(
+fun Context.startActivityForUriAndType(
     uri: Uri, type: String?, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) {
     val intent = Intent(ACTION_VIEW)
     intent.setDataAndType(uri, type)
@@ -145,5 +125,5 @@ fun <T : CSActivityView<*>> T.startActivityForUriAndType(
 }
 
 @Deprecated("Move to Context+")
-fun CSActivityView<*>.openUrl(url: String) =
+fun Context.openUrl(url: String) =
     startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
