@@ -18,10 +18,7 @@ import renetik.android.event.registration.cancel
 import renetik.android.event.registration.later
 import renetik.android.event.registration.register
 
-fun CSActivityView<*>.startActivity(activityClass: Class<out AppCompatActivity>) {
-    startActivity(Intent(activity(), activityClass))
-}
-
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.startActivity(activityClass: Class<out AppCompatActivity>,
                                     extras: Map<String, String>) {
     val intent = Intent(activity(), activityClass)
@@ -30,14 +27,17 @@ fun CSActivityView<*>.startActivity(activityClass: Class<out AppCompatActivity>,
     startActivity(intent)
 }
 
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.startActivityForResult(activityClass: Class<out AppCompatActivity>,
                                              requestCode: Int) =
     startActivityForResult(Intent(activity(), activityClass), requestCode)
 
+@Deprecated("Move to Context+")
 enum class CSStartActivityResult {
     Cancel, ActivityNotFound
 }
 
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.startActivityForResult(
     intent: Intent, onSuccess: (Intent?) -> Unit,
     onFailure: ((CSStartActivityResult) -> Unit)? = null) {
@@ -56,33 +56,39 @@ fun CSActivityView<*>.startActivityForResult(
     }
 }
 
+@Deprecated("Move to Context+")
 @Suppress("DEPRECATION")
 fun CSActivityView<*>.startActivityForResult(intent: Intent, requestCode: Int) =
     activity().startActivityForResult(intent, requestCode)
 
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.switchActivity(activityClass: Class<out AppCompatActivity>) =
     switchActivity(Intent(activity(), activityClass))
 
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.switchActivity(intent: Intent) {
     activity().finish()
     startActivity(intent)
 }
 
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.switchActivity(activityClass: Class<out AppCompatActivity>,
                                      resultCode: Int) {
     activity().setResult(resultCode)
     switchActivity(Intent(activity(), activityClass))
 }
 
-fun CSActivityView<*>.restartActivity() = later {
-    val intent = activity().intent
-    activity().finish()
-    startActivity(intent)
-}
+//fun CSActivityView<*>.restartActivity() = later {
+//    val intent = activity().intent
+//    activity().finish()
+//    startActivity(intent)
+//}
 
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.goHome() =
     startActivity(Intent(ACTION_MAIN).addCategory(CATEGORY_HOME))
 
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.startApplication(packageName: String) {
     try {
         val intent = Intent("android.intent.action.MAIN")
@@ -100,6 +106,7 @@ fun CSActivityView<*>.startApplication(packageName: String) {
     }
 }
 
+@Deprecated("Move to Context+")
 private fun CSActivityView<*>.launchComponent(packageName: String, name: String) {
     val intent = Intent("android.intent.action.MAIN")
     intent.addCategory("android.intent.category.LAUNCHER")
@@ -108,16 +115,19 @@ private fun CSActivityView<*>.launchComponent(packageName: String, name: String)
     startActivity(intent)
 }
 
+@Deprecated("Move to Context+")
 private fun CSActivityView<*>.showInMarket(packageName: String?) {
     val intent = Intent(ACTION_VIEW, Uri.parse("market://details?id=" + packageName!!))
     intent.flags = FLAG_ACTIVITY_NEW_TASK
     startActivity(intent)
 }
 
+@Deprecated("Move to Context+")
 fun <T : CSActivityView<*>> T.startActivityForUri(
     uri: Uri, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) =
     startActivityForUriAndType(uri, null, onActivityNotFound)
 
+@Deprecated("Move to Context+")
 fun <T : CSActivityView<*>> T.startActivityForUriAndType(
     uri: Uri, type: String?, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) {
     val intent = Intent(ACTION_VIEW)
@@ -134,5 +144,6 @@ fun <T : CSActivityView<*>> T.startActivityForUriAndType(
     }
 }
 
+@Deprecated("Move to Context+")
 fun CSActivityView<*>.openUrl(url: String) =
     startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
