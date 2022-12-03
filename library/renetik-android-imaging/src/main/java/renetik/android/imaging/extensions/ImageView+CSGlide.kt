@@ -23,12 +23,14 @@ import java.io.File
 fun <T : ImageView> T.image(
     parent: CSHasRegistrations, @DrawableRes resourceId: Int?)
         : CSRegistration? = resourceId?.let {
-    return onHasSize(parent) {
-        Glide.with(this@image).load(resourceId)
-            .override(width, height)
-            .fitCenter().diskCacheStrategy(ALL)
-            .into(this)
-    }
+    setImageResource(it)
+    return null
+//    return onHasSize(parent) {
+//        Glide.with(this@image).load(resourceId)
+//            .override(width, height)
+//            .fitCenter().diskCacheStrategy(ALL)
+//            .into(this)
+//    }
 } ?: run {
     setImageDrawable(null)
     return null
@@ -36,9 +38,10 @@ fun <T : ImageView> T.image(
 
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int?) {
     resourceId?.let {
-        Glide.with(this@image).load(resourceId)
-            .fitCenter().diskCacheStrategy(ALL)
-            .into(this)
+        setImageResource(it)
+//        Glide.with(this@image).load(resourceId)
+//            .fitCenter().diskCacheStrategy(ALL)
+//            .into(this)
     } ?: run { setImageDrawable(null) }
 }
 

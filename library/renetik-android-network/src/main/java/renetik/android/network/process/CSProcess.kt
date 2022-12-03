@@ -76,19 +76,11 @@ open class CSProcess<Data : Any>(
         eventSuccess.fire(this)
     }
 
-    fun failed(process: CSProcess<*>) {
+    fun failed(message: String) {
         if (isCanceled) return
         if (isDestructed) return
-        onFailedImpl(process)
-        onDoneImpl()
-    }
-
-    fun failed(message: String): CSProcess<Data> {
-        if (isCanceled) return this
-        if (isDestructed) return this
         this.failedMessage = message
         failed(this)
-        return this
     }
 
     fun failed(exception: Throwable?, message: String? = null) {
@@ -97,6 +89,13 @@ open class CSProcess<Data : Any>(
         this.throwable = exception
         this.failedMessage = message
         failed(this)
+    }
+
+    fun failed(process: CSProcess<*>) {
+        if (isCanceled) return
+        if (isDestructed) return
+        onFailedImpl(process)
+        onDoneImpl()
     }
 
     private fun onFailedImpl(process: CSProcess<*>) {
