@@ -10,6 +10,9 @@ val shortAnimationDuration =
 val mediumAnimationDuration =
     app.resources.getInteger(android.R.integer.config_mediumAnimTime)
 
+val longAnimationDuration =
+    app.resources.getInteger(android.R.integer.config_longAnimTime)
+
 fun <T : View> T.fadeIn(duration: Int = shortAnimationDuration): ViewPropertyAnimator? {
     if (isVisible) return null
     val originalAlpha = alpha; visible(); alpha = 0f
