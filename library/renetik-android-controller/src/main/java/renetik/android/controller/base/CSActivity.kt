@@ -13,6 +13,7 @@ import renetik.android.controller.R.anim.activity_recreate_fade_out
 import renetik.android.controller.menu.CSOnMenu
 import renetik.android.controller.menu.CSOnMenuItem
 import renetik.android.controller.menu.GeneratedMenuItems
+import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
@@ -23,6 +24,11 @@ import renetik.android.ui.protocol.CSVisibility
 
 
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
+
+    companion object {
+        val activity get() = app.activity as? CSActivity
+    }
+
     val onCreate = event<Bundle?>()
     val onSaveInstanceState = event<Bundle>()
     val onStart = event<Unit>()
