@@ -25,9 +25,6 @@ import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
-import renetik.android.core.logging.CSLog.logDebug
-import renetik.android.core.logging.CSLogMessage.Companion.message
-import renetik.android.core.util.CSMemory.memoryUsageInfo
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
@@ -41,7 +38,7 @@ import renetik.android.ui.extensions.onHasSize
 import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 
-open class CSNavigationDialog<ViewType : View>(
+open class CSNavigationWindow<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes)
     : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
     CSNavigationItem, Closeable {

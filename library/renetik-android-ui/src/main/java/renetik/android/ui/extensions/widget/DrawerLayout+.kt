@@ -34,10 +34,16 @@ fun DrawerLayout.closeLeft() {
 
 fun DrawerLayout.openLeft() = openDrawer(START)
 
-fun DrawerLayout.toggleRight() = toggleDrawer(END)
+fun DrawerLayout.toggleRight() =
+    toggleDrawer(END)
 
 fun DrawerLayout.closeRight() {
     if (isDrawerOpen(END)) closeDrawer(END)
+}
+
+fun DrawerLayout.closeAll() {
+    closeRight()
+    closeLeft()
 }
 
 fun DrawerLayout.openRight() = openDrawer(END)

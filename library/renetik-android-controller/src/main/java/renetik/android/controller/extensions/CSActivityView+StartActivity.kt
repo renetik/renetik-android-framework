@@ -58,17 +58,8 @@ fun CSActivityView<*>.switchActivity(activityClass: Class<out AppCompatActivity>
     switchActivity(Intent(activity(), activityClass))
 }
 
-//fun CSActivityView<*>.restartActivity() = later {
-//    val intent = activity().intent
-//    activity().finish()
-//    startActivity(intent)
-//}
+fun Context.goHome() = startActivity(Intent(ACTION_MAIN).addCategory(CATEGORY_HOME))
 
-@Deprecated("Move to Context+")
-fun Context.goHome() =
-    startActivity(Intent(ACTION_MAIN).addCategory(CATEGORY_HOME))
-
-@Deprecated("Move to Context+")
 fun Context.startApplication(packageName: String) {
     try {
         val intent = Intent("android.intent.action.MAIN")
@@ -86,7 +77,6 @@ fun Context.startApplication(packageName: String) {
     }
 }
 
-@Deprecated("Move to Context+")
 private fun Context.launchComponent(packageName: String, name: String) {
     val intent = Intent("android.intent.action.MAIN")
     intent.addCategory("android.intent.category.LAUNCHER")
@@ -95,19 +85,16 @@ private fun Context.launchComponent(packageName: String, name: String) {
     startActivity(intent)
 }
 
-@Deprecated("Move to Context+")
 private fun Context.showInMarket(packageName: String?) {
     val intent = Intent(ACTION_VIEW, Uri.parse("market://details?id=" + packageName!!))
     intent.flags = FLAG_ACTIVITY_NEW_TASK
     startActivity(intent)
 }
 
-@Deprecated("Move to Context+")
 fun Context.startActivityForUri(
     uri: Uri, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) =
     startActivityForUriAndType(uri, null, onActivityNotFound)
 
-@Deprecated("Move to Context+")
 fun Context.startActivityForUriAndType(
     uri: Uri, type: String?, onActivityNotFound: ((ActivityNotFoundException) -> Unit)? = null) {
     val intent = Intent(ACTION_VIEW)
@@ -124,6 +111,5 @@ fun Context.startActivityForUriAndType(
     }
 }
 
-@Deprecated("Move to Context+")
 fun Context.openUrl(url: String) =
     startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
