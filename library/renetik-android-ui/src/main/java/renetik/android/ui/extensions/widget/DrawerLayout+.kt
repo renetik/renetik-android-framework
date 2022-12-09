@@ -97,3 +97,7 @@ fun DrawerLayout.onDrawerOpening(function: (DrawerLayout) -> Unit) {
         }
     })
 }
+
+fun DrawerLayout.fixActivityOnBackPressedNotCalledWhenOpenAndClosedInstead() {
+    setFocusableInTouchMode(false)
+}
