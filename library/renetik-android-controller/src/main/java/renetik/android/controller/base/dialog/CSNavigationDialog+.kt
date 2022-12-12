@@ -4,7 +4,7 @@ import android.view.View
 import renetik.android.controller.base.dialog.DialogAnimation.Fade
 import renetik.android.core.kotlin.then
 
-fun CSNavigationWindow<*>.selected(button: View) = apply {
+fun <T : CSNavigationWindow<*>> T.selected(button: View) = apply {
     button.isSelected = true
     onDismiss { button.isSelected = false }
 }
