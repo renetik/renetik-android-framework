@@ -41,7 +41,7 @@ import java.io.Closeable
 open class CSNavigationWindow<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes)
     : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
-    CSNavigationItem, Closeable {
+        CSNavigationItem, Closeable {
 
     val dialogContent: ViewType = inflate(layout.id)
     override var isFullscreenNavigationItem = property(false)
