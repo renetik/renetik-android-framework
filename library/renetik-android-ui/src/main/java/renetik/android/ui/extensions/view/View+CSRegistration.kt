@@ -8,6 +8,7 @@ import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.variable.CSWeakVariable
+import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.variable.toggle
 import renetik.android.core.lang.void
 import renetik.android.event.CSEvent
@@ -87,7 +88,7 @@ fun View.onHasSizeChange(function: Func): CSRegistration =
 inline fun View.onHasSize(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit): CSRegistration? {
     if (!hasSize) {
-        val registration by CSWeakVariable.weak(parent.register(onSizeChange {
+        val registration by weak(parent.register(onSizeChange {
             if (hasSize) {
                 parent.cancel(it)
                 function(this)
@@ -100,7 +101,7 @@ inline fun View.onHasSize(
 
 inline fun View.afterLayout(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit): CSRegistration {
-    val registration by CSWeakVariable.weak(parent.register(onGlobalLayout {
+    val registration by weak(parent.register(onGlobalLayout {
         parent.cancel(it)
         function(this)
     }))
