@@ -1,12 +1,15 @@
 package renetik.android.imaging.extensions
 
 import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
+import android.graphics.Bitmap.CompressFormat.JPEG
 import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.Matrix
 import android.graphics.RectF
 import java.io.File
 
-fun Bitmap.scale(maxTargetWidth: Int, maxTargetHeight: Int): Bitmap {
+fun Bitmap.scale(
+    maxTargetWidth: Int, maxTargetHeight: Int = maxTargetWidth): Bitmap {
     val matrix = Matrix()
     val inRect = RectF(0f, 0f, width.toFloat(), height.toFloat())
     val outRect = RectF(0f, 0f, maxTargetWidth.toFloat(), maxTargetHeight.toFloat())
@@ -25,7 +28,5 @@ fun Bitmap.scale(maxTargetWidth: Int, maxTargetHeight: Int): Bitmap {
 fun Bitmap.copy(): Bitmap? = copy(config, isMutable)
 
 fun Bitmap.saveTo(
-    file: File,
-    format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
-    quality: Int = 70
-) = apply { file.write(this, format, quality) }
+    file: File, format: CompressFormat = JPEG, quality: Int = 70) =
+    apply { file.write(this, format, quality) }
