@@ -122,6 +122,16 @@ fun <T> View.goneIf(property: CSHasChangeValue<T>,
 fun View.goneIf(property: CSHasChangeValue<Boolean>, animated: Boolean = false)
         : CSRegistration = goneIf(property, animated) { it }
 
+fun View.goneIfNot(property: CSHasChangeValue<Boolean>, animated: Boolean = false)
+    : CSRegistration = goneIf(property, animated) { !it }
+
+fun View.visibleIf(
+    property: CSHasChangeValue<Boolean>, animated: Boolean = false)
+    : CSRegistration = visibleIf(property, animated) { it }
+
+fun View.visibleIfNot(property: CSHasChangeValue<Boolean>, animated: Boolean = false)
+    : CSRegistration = visibleIf(property, animated) { !it }
+
 fun <T> View.visibleIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>,
     animated: Boolean = false, condition: (T) -> Boolean): CSRegistration =
@@ -141,13 +151,6 @@ fun <T> View.visibleIf(
     visibleIf(condition(property.value))
     return property.onChange { visibleIf(condition(property.value), animated) }
 }
-
-fun View.visibleIf(
-    property: CSHasChangeValue<Boolean>, animated: Boolean = false)
-        : CSRegistration = visibleIf(property, animated) { it }
-
-fun View.visibleIfNot(property: CSHasChangeValue<Boolean>, animated: Boolean = false)
-        : CSRegistration = visibleIf(property, animated) { !it }
 
 fun <T> View.invisibleIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,

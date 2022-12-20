@@ -15,6 +15,11 @@ fun CompoundButton.onChange(function: (CompoundButton) -> Unit) = CSRegistration
     setOnCheckedChangeListener { buttonView, _ -> if (it.isActive) function(buttonView) }
 }, onPause = { setOnCheckedChangeListener(null) }).start()
 
+fun CompoundButton.action(function: (CompoundButton) -> Unit): CSRegistration {
+    function(this)
+    return onChange(function)
+}
+
 fun CompoundButton.buttonTint(@ColorInt value: Int?) = apply {
     buttonTintList = value?.let(::valueOf)
 }
@@ -46,7 +51,7 @@ fun <T, V> CompoundButton.checkedIf(
 
 fun <T> CompoundButton.checkedIf(
     property1: CSProperty<T>, property2: CSProperty<*>, condition: (T) -> Boolean)
-        : CSRegistration = checkedIf(property1, property2) { first, _ -> condition(first) }
+    : CSRegistration = checkedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> CompoundButton.checkedIf(
     property1: CSProperty<T>, property2: CSProperty<V>,
