@@ -2,74 +2,57 @@ package renetik.android.ui.extensions.view
 
 import android.graphics.Rect
 import android.view.View
-import android.view.View.OnAttachStateChangeListener
-import android.view.View.OnLayoutChangeListener
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
-import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import androidx.core.view.updateLayoutParams
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.extensions.content.toDp
-import renetik.android.core.lang.ArgFunc
-import renetik.android.core.lang.Func
-import renetik.android.core.lang.void
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
 import renetik.android.core.math.top
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.start
 
 val <T : View> T.hasSize get() = width > 0 && height > 0
 
 fun <T : View> T.margins(left: Int, top: Int, right: Int, bottom: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams).apply {
-        setMargins(left, top, right, bottom)
-    }
+    updateLayoutParams<MarginLayoutParams> { setMargins(left, top, right, bottom) }
 }
 
 fun <T : View> T.margin(value: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams)
-        .apply { setMargins(value, value, value, value) }
+    updateLayoutParams<MarginLayoutParams> { setMargins(value, value, value, value) }
 }
 
 fun <T : View> T.marginDp(value: Int) = margin(context.dpToPixel(value))
 
 fun <T : View> T.bottomMargin(value: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams).apply {
-        setMargins(leftMargin, topMargin, rightMargin, value)
-    }
+    updateLayoutParams<MarginLayoutParams> { setMargins(leftMargin, topMargin, rightMargin, value) }
 }
 
 fun <T : View> T.topMargin(value: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams)
-        .apply { setMargins(leftMargin, value, rightMargin, bottomMargin) }
+    updateLayoutParams<MarginLayoutParams> {
+        setMargins(leftMargin, value, rightMargin, bottomMargin)
+    }
 }
 
 fun <T : View> T.startMargin(value: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams).apply {
+    updateLayoutParams<MarginLayoutParams> {
         setMargins(value, topMargin, rightMargin, bottomMargin)
     }
 }
 
 fun <T : View> T.endMargin(value: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams).apply {
-        setMargins(leftMargin, topMargin, value, bottomMargin)
-    }
+    updateLayoutParams<MarginLayoutParams> { setMargins(leftMargin, topMargin, value, bottomMargin) }
 }
 
 fun <T : View> T.horizontalMarginDp(value: Int) = horizontalMargin(context.dpToPixel(value))
 
 fun <T : View> T.horizontalMargin(value: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams).apply {
-        setMargins(value, topMargin, value, bottomMargin)
-    }
+    updateLayoutParams<MarginLayoutParams> { setMargins(value, topMargin, value, bottomMargin) }
 }
 
 fun <T : View> T.verticalMargin(value: Int) = apply {
-    layoutParams = (layoutParams as MarginLayoutParams).apply {
-        setMargins(leftMargin, value, rightMargin, value)
-    }
+    updateLayoutParams<MarginLayoutParams> { setMargins(leftMargin, value, rightMargin, value) }
 }
 
 fun <T : View> T.size(width: Int, height: Int) = apply {
@@ -80,30 +63,40 @@ fun <T : View> T.size(width: Int, height: Int) = apply {
 fun <T : View> T.size(size: Int) = size(size, size)
 
 fun <T : View> T.width(value: Int) = apply {
-    val params = layoutParams
-    params.width = value
-    layoutParams = params
+    updateLayoutParams<LayoutParams> { width = value }
 }
 
 fun <T : View> T.heightDp(value: Int) = height(context.dpToPixel(value))
 fun <T : View> T.widthDp(value: Int) = widthDp(value.toFloat())
 
 fun <T : View> T.widthDp(value: Float) = apply {
-    val params = layoutParams
-    params.width = context.dpToPixel(value)
-    layoutParams = params
+    updateLayoutParams<LayoutParams> { width = context.dpToPixel(value) }
 }
 
 fun <T : View> T.height(value: Int) = apply {
-    val params = layoutParams
-    params.height = value
-    layoutParams = params
+    updateLayoutParams<LayoutParams> { height = value }
+}
+
+fun <T : View> T.widthWrap() = apply {
+    updateLayoutParams<LayoutParams> { width = WRAP_CONTENT }
 }
 
 fun <T : View> T.heightWrap() = apply {
-    val params = layoutParams
-    params.height = WRAP_CONTENT
-    layoutParams = params
+    updateLayoutParams<LayoutParams> { height = WRAP_CONTENT }
+}
+
+fun <T : View> T.matchParent() = apply {
+    updateLayoutParams<LayoutParams> {
+        width = MATCH_PARENT
+        height = MATCH_PARENT
+    }
+}
+
+fun <T : View> T.wrapContent() = apply {
+    updateLayoutParams<LayoutParams> {
+        width = WRAP_CONTENT
+        height = WRAP_CONTENT
+    }
 }
 
 fun <T : View> T.height(value: Float) = height(value.toInt())

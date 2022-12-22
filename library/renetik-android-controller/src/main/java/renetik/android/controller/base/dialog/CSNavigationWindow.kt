@@ -3,7 +3,6 @@ package renetik.android.controller.base.dialog
 import android.view.Gravity.*
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
@@ -41,7 +40,7 @@ import java.io.Closeable
 open class CSNavigationWindow<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes)
     : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
-        CSNavigationItem, Closeable {
+    CSNavigationItem, Closeable {
 
     val dialogContent: ViewType = inflate(layout.id)
     override var isFullscreenNavigationItem = property(false)
@@ -151,10 +150,7 @@ open class CSNavigationWindow<ViewType : View>(
     fun fullScreen() = apply {
         isFullscreenNavigationItem.setTrue()
         animation = Slide
-        dialogContent.updateLayoutParams<LayoutParams> {
-            width = MATCH_PARENT
-            height = MATCH_PARENT
-        }
+        dialogContent.matchParent()
     }
 
     fun wrapContentIfNotFullscreen() {
