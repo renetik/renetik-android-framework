@@ -43,6 +43,12 @@ open class CSNavigationWindow<ViewType : View>(
     CSNavigationItem, Closeable {
 
     val dialogContent: ViewType = inflate(dialogContentLayout.id)
+
+//    enum class CSNavigationWindowDisplayType {
+//        Popup, FullScreen, Centered
+//    }
+
+    var isPopup = false
     override var isFullscreenNavigationItem = property(false)
     var animation = Fade
     private val marginDp = 5
@@ -95,6 +101,7 @@ open class CSNavigationWindow<ViewType : View>(
         }
 
     fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
+        isPopup = true
         selected(fromView)
         isFullscreenNavigationItem.setFalse()
         animation = Fade
