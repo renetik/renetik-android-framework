@@ -38,11 +38,11 @@ import renetik.android.ui.extensions.view.*
 import java.io.Closeable
 
 open class CSNavigationWindow<ViewType : View>(
-    val parent: CSActivityView<out ViewGroup>, layout: CSLayoutRes)
+    val parent: CSActivityView<out ViewGroup>, dialogContentLayout: CSLayoutRes)
     : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
     CSNavigationItem, Closeable {
 
-    val dialogContent: ViewType = inflate(layout.id)
+    val dialogContent: ViewType = inflate(dialogContentLayout.id)
     override var isFullscreenNavigationItem = property(false)
     var animation = Fade
     private val marginDp = 5
