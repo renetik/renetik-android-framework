@@ -28,7 +28,6 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
@@ -73,12 +72,6 @@ open class CSNavigationWindow<ViewType : View>(
         view.background(color(color.cs_dialog_background))
         if (cancelOnTouchOut) view.onClick { dismiss() }
         view.add(dialogContent)
-    }
-
-    override fun onViewShowing() {
-        super.onViewShowing()
-//        logDebug { message(memoryUsageInfo()) }
-//        logDebug { message("Thread Count: ${Thread.activeCount()}") }
     }
 
     override fun onRemovedFromParentView() {
@@ -161,12 +154,10 @@ open class CSNavigationWindow<ViewType : View>(
     }
 
     fun wrapContentIfNotFullscreen() {
-        if (isFullscreen.isTrue) return
+        if (isFullscreenNavigationItem.isTrue) return
         dialogContent.heightWrap()
         afterGlobalLayout(::correctContentOverflow)
     }
-
-    val isFullscreen: CSProperty<Boolean> get() = isFullscreenNavigationItem
 
     override fun close() = dismiss()
 }

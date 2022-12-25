@@ -1,8 +1,11 @@
 package renetik.android.controller.base.dialog
 
 import android.view.View
+import android.view.ViewGroup
+import renetik.android.controller.base.CSView
 import renetik.android.controller.base.dialog.DialogAnimation.Fade
 import renetik.android.core.kotlin.then
+import renetik.android.ui.extensions.add
 
 fun <T : CSNavigationWindow<*>> T.selected(button: View) = apply {
     button.isSelected = true
