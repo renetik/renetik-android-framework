@@ -13,32 +13,33 @@ import renetik.android.event.property.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.ui.extensions.view
+import renetik.android.ui.extensions.view.fadeIn
+import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.protocol.CSViewInterface
 
 fun CSViewInterface.numberPicker(viewId: Int) = view(viewId) as CSNumberPicker
 
-@JvmName("valuePropertyInt")
-fun CSNumberPicker.value(property: CSProperty<Int>): CSRegistration {
-    val propertyRegistration = value(property) { it }
+fun CSNumberPicker.index(property: CSProperty<Int>): CSRegistration {
+    val propertyRegistration = this.index(property) { it }
     val valueChangeRegistration =
-        onValueChange { propertyRegistration.paused { property.value = value } }
+        onIndexChange { propertyRegistration.paused { property.value = value } }
     return CSRegistration(propertyRegistration, valueChangeRegistration)
 }
 
-fun <T> CSNumberPicker.value(property: CSProperty<T>, function: (T) -> Int): CSRegistration =
-    property.action { valueProperty.value = function(property.value) }
+fun <T> CSNumberPicker.index(property: CSProperty<T>, function: (T) -> Int): CSRegistration =
+    property.action { index.value = function(property.value) }
 
-fun CSNumberPicker.onValueChange(function: Func) = valueProperty.onChange { function() }
+fun CSNumberPicker.onIndexChange(function: Func) = index.onChange { function() }
 
 fun CSNumberPicker.onScroll(function: (Int) -> void) = eventOnScroll.listen(function)
 
-fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selected: Row? = null) =
-    loadData(data, selected = data.index(selected) ?: 0)
+fun <Row : Any> CSNumberPicker.load(data: List<Row>, selected: Row? = null) =
+    load(data, selected = data.index(selected) ?: 0)
 
-fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selected: Int = 0) = apply {
+fun <Row : Any> CSNumberPicker.load(data: List<Row>, selected: Int = 0) = apply {
     if (data.hasItems) {
+        fadeIn()
         minValue = 0
-        valueProperty.value = 0
         val newMaxValue = data.size - 1
         if (newMaxValue > maxValue) {
             displayedValues = data.asStringArray
@@ -47,8 +48,8 @@ fun <Row : Any> CSNumberPicker.loadData(data: List<Row>, selected: Int = 0) = ap
             maxValue = newMaxValue
             displayedValues = data.asStringArray
         }
-        valueProperty.value = selected
-    }
+        index.value = selected
+    } else fadeOut()
 }
 
 fun <T : NumberPicker> T.circulate(circulate: Boolean) = apply {

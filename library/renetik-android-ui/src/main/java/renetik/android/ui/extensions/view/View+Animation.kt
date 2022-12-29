@@ -24,7 +24,7 @@ fun <T : View> T.fadeOut(
     duration: Int = shortAnimationDuration,
     invisible: Boolean = false,
     onDone: (() -> Unit)? = null): ViewPropertyAnimator? = when {
-    isGone -> {
+    isGone || isInvisible -> {
         onDone?.invoke(); null
     }
     alpha == 0f -> {
