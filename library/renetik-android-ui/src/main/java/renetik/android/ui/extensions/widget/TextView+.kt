@@ -18,6 +18,9 @@ fun <T : TextView> T.textAppend(value: CharSequence?) = text("$text$value")
 fun <T : TextView> T.text(value: CSValue<*>) = text(value.value)
 fun <T : TextView> T.value(value: Any?) = text(value.asString)
 fun <T : TextView> T.text(value: Any?) = text(value.asString)
+
+//fun <T : TextView> T.text(@StringRes value: Int) = text(main.getString(value)) //TODO
+
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text() = text.toString()
 fun <T : TextView> T.goneIfEmpty() = apply { shownIf(text().isBlank()) }
