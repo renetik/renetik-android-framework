@@ -18,7 +18,7 @@ open class CSGridItemView<RowType : Any>(
     constructor(
         parent: CSView<out ViewGroup>, layout: CSLayoutRes,
         onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null)
-            : this(parent, parent.view, layout, onLoad)
+        : this(parent, parent.view, layout, onLoad)
 
     lateinit var value: RowType
     var index = -1
@@ -34,16 +34,18 @@ open class CSGridItemView<RowType : Any>(
         onLoad?.invoke(this, value)
     }
 
+    val contentView = view.firstChild!!
+
     override var isActivated: Boolean
-        get() = view.firstChild!!.isActivated
+        get() = contentView.isActivated
         set(value) {
-            view.firstChild!!.activated(value)
+            contentView.activated(value)
         }
 
     override var isSelected: Boolean
-        get() = view.firstChild!!.isSelected
+        get() = contentView.isSelected
         set(value) {
-            view.firstChild!!.selected(value)
+            contentView.selected(value)
         }
 }
 
