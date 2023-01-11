@@ -25,8 +25,6 @@ fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: 
     view.alphaToDisabled(condition)
 }
 
-
-
 fun CSView<*>.onOrientationChange(
     function: (CSRegistration, CSDisplayOrientation) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
