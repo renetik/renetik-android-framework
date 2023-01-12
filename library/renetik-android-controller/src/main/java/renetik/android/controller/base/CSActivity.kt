@@ -201,6 +201,13 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
             results))
     }
 
+    var themeId: Int = 0
+
+    override fun setTheme(resId: Int) {
+        super.setTheme(resId)
+        themeId = resId
+    }
+
     override fun onLowMemory() {
         onLowMemory.fire()
         super.onLowMemory()
