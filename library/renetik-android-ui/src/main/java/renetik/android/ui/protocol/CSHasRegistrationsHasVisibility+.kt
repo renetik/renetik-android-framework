@@ -6,24 +6,25 @@ import renetik.android.event.registration.cancel
 import renetik.android.event.registration.register
 
 fun <T> T.registerUntilHide(registration: CSRegistration): CSRegistration
-        where T : CSHasRegistrations, T : CSVisibility {
+    where T : CSHasRegistrations, T : CSVisibility {
     register(registration)
-    return untilHide(registration)
+    untilHide(registration)
+    return registration
 }
 
 @JvmName("registerUntilHideRegistrationNullable")
 fun <T> T.registerUntilHide(registration: CSRegistration?): CSRegistration?
-        where T : CSHasRegistrations, T : CSVisibility =
+    where T : CSHasRegistrations, T : CSVisibility =
     registration?.let { registerUntilHide(it) }
 
 @JvmName("untilHideRegistrationNullable")
 fun <T> T.untilHide(registration: CSRegistration?): CSRegistration?
-        where T : CSHasRegistrations, T : CSVisibility = registration?.let {
+    where T : CSHasRegistrations, T : CSVisibility = registration?.let {
     untilHide(it)
 }
 
 fun <T> T.untilHide(registration: CSRegistration): CSRegistration
-        where T : CSHasRegistrations, T : CSVisibility =
+    where T : CSHasRegistrations, T : CSVisibility =
     onHiding { onHidingRegistration ->
         onHidingRegistration.cancel()
         cancel(registration)
@@ -31,7 +32,7 @@ fun <T> T.untilHide(registration: CSRegistration): CSRegistration
 
 
 fun <T> T.registerUntilShow(registration: CSRegistration): CSRegistration
-        where T : CSHasRegistrations, T : CSVisibility {
+    where T : CSHasRegistrations, T : CSVisibility {
     register(registration)
     register(onShowing { onShowingRegistration ->
         cancel(onShowingRegistration)
@@ -42,7 +43,7 @@ fun <T> T.registerUntilShow(registration: CSRegistration): CSRegistration
 
 @JvmName("registerUntilShowRegistrationNullable")
 fun <T> T.registerUntilShow(registration: CSRegistration?): CSRegistration?
-        where T : CSHasRegistrations, T : CSVisibility {
+    where T : CSHasRegistrations, T : CSVisibility {
     if (registration == null) return null
     return registerUntilShow(registration)
 }
