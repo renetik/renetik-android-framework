@@ -66,3 +66,6 @@ private fun <T : ImageView> T.image(
         transformation?.let { builder.apply(bitmapTransform(it)) }
         builder.into(this)
     }
+
+fun <T> ImageView.image(property: CSProperty<T>, valueToImageResource: (T) -> Int?)
+    : CSRegistration = property.action { image(valueToImageResource(property.value)) }
