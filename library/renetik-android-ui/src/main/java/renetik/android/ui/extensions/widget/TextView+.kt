@@ -2,6 +2,7 @@ package renetik.android.ui.extensions.widget
 
 import android.text.Editable
 import android.widget.TextView
+import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.asString
 import renetik.android.core.lang.CSHasDrawable
@@ -15,11 +16,11 @@ import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.textPrepend(value: CharSequence?) = text("$value$text")
 fun <T : TextView> T.textAppend(value: CharSequence?) = text("$text$value")
-fun <T : TextView> T.text(value: CSValue<*>) = text(value.value)
+fun <T : TextView> T.text(value: CSValue<*>) = value(value.value)
 fun <T : TextView> T.value(value: Any?) = text(value.asString)
-fun <T : TextView> T.text(value: Any?) = text(value.asString)
 
-//fun <T : TextView> T.text(@StringRes value: Int) = text(main.getString(value)) //TODO
+fun <T : TextView> T.text(@StringRes stringId: Int) =
+    apply { text = context.getString(stringId) }
 
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text() = text.toString()
