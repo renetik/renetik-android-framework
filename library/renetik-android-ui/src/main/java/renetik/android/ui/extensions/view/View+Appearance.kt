@@ -127,3 +127,13 @@ fun <T, V> View.disabledByAlphaIf(property1: CSHasChangeValue<T>, property2: CSH
     update()
     return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
 }
+
+fun <T, V, X> View.disabledByAlphaIf(property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
+                                     property3: CSHasChangeValue<X>, disable: Boolean = true,
+                                     condition: (T, V, X) -> Boolean): CSRegistration {
+    fun update() = disabledByAlpha(condition(property1.value,
+        property2.value, property3.value), disable)
+    update()
+    return CSRegistration(property1.onChange { update() },
+        property2.onChange { update() }, property3.onChange { update() })
+}
