@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.asString
+import renetik.android.core.kotlin.primitives.asIndex
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.CSStringConstants.Ellipsize
 import renetik.android.core.lang.value.CSValue
@@ -109,7 +110,7 @@ fun <T> TextView.startDrawable(property: CSHasChangeValue<T>, getDrawable: (T) -
 fun TextView.ellipsize(lines: Int) = apply {
     fun update() {
         if (layout.lineCount > lines)
-            text = text().substring(0, layout.getLineEnd(lines - 1) - 3) + Ellipsize
+            text = text().substring(0, layout.getLineEnd(lines.asIndex) - 1) + Ellipsize
     }
     invisible()
     post {
