@@ -122,10 +122,4 @@ fun TextView.ellipsize() = apply {
     if (maxLines <= 0) return@apply
     this.maxLines = Int.MAX_VALUE
     ellipsize(maxLines)
-//    onTextChange {
-//        post {
-//            if (layout.lineCount > maxLines)
-//                text = text().substring(0, layout.getLineEnd(maxLines - 1) - 3) + Ellipsize
-//        }
-//    }
 }
