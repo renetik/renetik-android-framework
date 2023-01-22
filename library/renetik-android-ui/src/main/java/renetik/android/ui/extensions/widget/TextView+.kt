@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.asString
 import renetik.android.core.lang.CSHasDrawable
+import renetik.android.core.lang.CSStringConstants.Ellipsize
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
@@ -39,9 +40,11 @@ fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
 @JvmName("TextViewTextStringProperty")
 fun TextView.text(property: CSHasChangeValue<String>) = text(property, text = { it })
 
-fun <T, V> TextView.text(parent: CSHasChangeValue<T>,
-                         child: (T) -> CSHasChangeValue<V>,
-                         text: (V) -> Any): CSRegistration {
+fun <T, V> TextView.text(
+    parent: CSHasChangeValue<T>,
+    child: (T) -> CSHasChangeValue<V>,
+    text: (V) -> Any
+): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
@@ -55,12 +58,14 @@ fun <T, V> TextView.text(parent: CSHasChangeValue<T>,
 
 @JvmName("textPropertyChildTextProperty")
 fun <T> TextView.text(
-    parent: CSHasChangeValue<T>, child: (T) -> CSHasChangeValue<String>) =
+    parent: CSHasChangeValue<T>, child: (T) -> CSHasChangeValue<String>
+) =
     this.text(parent, child) { it }
 
 fun <T, V> TextView.textNullableChild(
     parent: CSHasChangeValue<T>, child: (T) -> CSHasChangeValue<V>?,
-    text: (V?) -> Any): CSRegistration {
+    text: (V?) -> Any
+): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
@@ -79,8 +84,10 @@ fun <T> TextView.text(property: CSHasChangeValue<T>, text: (T) -> Any) =
 fun TextView.text(property: CSHasChangeValue<*>): CSRegistration =
     text(property, text = { it.asString })
 
-fun <T, V> TextView.text(property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-                         text: (T, V) -> Any): CSRegistration {
+fun <T, V> TextView.text(
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
+    text: (T, V) -> Any
+): CSRegistration {
     fun update() = value(text(property1.value, property2.value))
     update()
     return CSRegistration(
@@ -93,3 +100,12 @@ fun <T : CSHasDrawable> TextView.startDrawable(property: CSHasChangeValue<T>) =
 
 fun <T> TextView.startDrawable(property: CSHasChangeValue<T>, getDrawable: (T) -> Int?) =
     property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
+
+fun TextView.ellipsize(lines: Int) = apply {
+    onTextChange {
+        post {
+            if (layout.lineCount > lines)
+                text = text().substring(0, layout.getLineEnd(lines - 1) - 3) + Ellipsize
+        }
+    }
+}
