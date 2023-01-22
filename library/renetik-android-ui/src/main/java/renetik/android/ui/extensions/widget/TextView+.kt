@@ -12,7 +12,10 @@ import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.ui.extensions.view.fadeIn
+import renetik.android.ui.extensions.view.invisible
 import renetik.android.ui.extensions.view.shownIf
+import renetik.android.ui.extensions.view.visible
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.textPrepend(value: CharSequence?) = text("$value$text")
@@ -102,10 +105,27 @@ fun <T> TextView.startDrawable(property: CSHasChangeValue<T>, getDrawable: (T) -
     property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
 
 fun TextView.ellipsize(lines: Int) = apply {
-    onTextChange {
-        post {
-            if (layout.lineCount > lines)
-                text = text().substring(0, layout.getLineEnd(lines - 1) - 3) + Ellipsize
-        }
+    fun update() {
+        if (layout.lineCount > lines)
+            text = text().substring(0, layout.getLineEnd(lines - 1) - 3) + Ellipsize
     }
+    invisible()
+    post {
+        update()
+        visible()
+        onTextChange { update() }
+    }
+}
+
+fun TextView.ellipsize() = apply {
+    val maxLines = this.maxLines
+    if (maxLines <= 0) return@apply
+    this.maxLines = Int.MAX_VALUE
+    ellipsize(maxLines)
+//    onTextChange {
+//        post {
+//            if (layout.lineCount > maxLines)
+//                text = text().substring(0, layout.getLineEnd(maxLines - 1) - 3) + Ellipsize
+//        }
+//    }
 }
