@@ -1,6 +1,8 @@
 package renetik.android.ui.extensions.widget
 
 import android.text.Editable
+import android.text.Layout
+import android.text.TextUtils
 import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
