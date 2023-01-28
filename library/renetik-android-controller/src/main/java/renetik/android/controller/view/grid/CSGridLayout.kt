@@ -10,9 +10,9 @@ import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.collections.reload
 
 class CSGridLayout(
-    parent: CSActivityView<*>, viewId: Int, vararg items: CSView<*>)
-    : CSView<GridView>(parent, viewId) {
-
+    parent: CSActivityView<*>, viewId: Int,
+    vararg items: CSView<*>
+) : CSView<GridView>(parent, viewId) {
     private val items = list(items)
     private var adapter = Adapter()
 

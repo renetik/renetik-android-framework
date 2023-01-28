@@ -13,7 +13,6 @@ import renetik.android.core.lang.lazyVar
 import renetik.android.event.common.CSContext
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.inflate
-import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onDestroy
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
@@ -124,22 +123,22 @@ open class CSView<ViewType : View> : CSContext,
     }
 
     open var isActivated
-        get() = view.isActivated
+        get() = contentView.isActivated
         set(value) {
-            view.isActivated = value
+            contentView.isActivated = value
         }
 
     open var isEnabled
-        get() = view.isEnabled
+        get() = contentView.isEnabled
         set(value) {
-            view.isEnabled = value
+            contentView.isEnabled = value
         }
 
     open var isSelected
-        get() = view.isSelected
+        get() = contentView.isSelected
         set(value) {
-            view.isSelected = value
+            contentView.isSelected = value
         }
 
-    open fun onClick(function: (view: ViewType) -> Unit) = apply { view.onClick(function) }
+    open val contentView: View get() = view
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
+import renetik.android.controller.base.onClick
 import renetik.android.controller.base.asCS
 import renetik.android.controller.view.grid.CSRecyclerView.Adapter.ViewHolder
 import renetik.android.core.kotlin.collections.firstIndex

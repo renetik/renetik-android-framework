@@ -9,6 +9,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.kotlin.notNull
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
+import renetik.android.event.property.CSActionInterface
+import renetik.android.event.property.start
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.listenOnce
@@ -23,11 +25,13 @@ fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
 
 @JvmName("viewOfType")
 inline fun <reified Type : View> CSViewInterface.view(
-    @IdRes id: Int, noinline onClick: ((view: View) -> Unit)? = null): Type =
+    @IdRes id: Int, noinline onClick: ((view: View) -> Unit)? = null
+): Type =
     view.view(id).apply { onClick?.let { this.onClick(it) } } as Type
 
 fun CSViewInterface.view(
-    @IdRes id: Int, onClick: ((view: View) -> Unit)? = null): View =
+    @IdRes id: Int, onClick: ((view: View) -> Unit)? = null
+): View =
     view.view(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSViewInterface.viewOrNull(@IdRes id: Int): View? = view.findView(id)
@@ -59,8 +63,10 @@ fun CSViewInterface.linear(@IdRes id: Int) = view.linear(id)
 fun CSViewInterface.group(@IdRes id: Int) = view.group(id)
 fun CSViewInterface.spinner(@IdRes id: Int) = view.spinner(id)
 fun CSViewInterface.search(@IdRes id: Int) = view.search(id)
-fun CSViewInterface.button(@IdRes id: Int,
-                           onClick: ((view: Button) -> Unit)? = null) =
+fun CSViewInterface.button(
+    @IdRes id: Int,
+    onClick: ((view: Button) -> Unit)? = null
+) =
     view.button(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSViewInterface.compound(@IdRes id: Int) = view.compound(id)
@@ -68,14 +74,18 @@ fun CSViewInterface.compound(@IdRes id: Int) = view.compound(id)
 fun CSViewInterface.checkBox(@IdRes id: Int) = view.checkBox(id)
 fun CSViewInterface.timePicker(@IdRes id: Int) = view.timePicker(id)
 fun CSViewInterface.webView(@IdRes id: Int) = view.webView(id)
-fun CSViewInterface.imageView(@IdRes id: Int,
-                              onClick: ((view: ImageView) -> Unit)? = null) =
+fun CSViewInterface.imageView(
+    @IdRes id: Int,
+    onClick: ((view: ImageView) -> Unit)? = null
+) =
     view.imageView(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSViewInterface.seekBar(@IdRes id: Int) = view.seekBar(id)
 fun CSViewInterface.progress(@IdRes id: Int) = view.progress(id)
-fun CSViewInterface.radioGroup(@IdRes id: Int,
-                               onChange: ((buttonId: Int) -> Unit)? = null): RadioGroup =
+fun CSViewInterface.radioGroup(
+    @IdRes id: Int,
+    onChange: ((buttonId: Int) -> Unit)? = null
+): RadioGroup =
     view.radioGroup(id).apply { onChange?.let { this.onChange(it) } }
 
 fun <Type : CSViewInterface> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
@@ -88,7 +98,8 @@ fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
     register(view.onGlobalFocus { old, new -> function(old, new) })
 
 fun CSViewInterface.onSystemUiVisibilityChangeListener(
-    function: () -> Unit): CSRegistration {
+    function: () -> Unit
+): CSRegistration {
     @Suppress("DEPRECATION")
     view.setOnSystemUiVisibilityChangeListener { function() }
     return CSRegistration(

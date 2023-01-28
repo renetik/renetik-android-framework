@@ -6,6 +6,7 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
+import renetik.android.controller.base.onClick
 import renetik.android.controller.base.asCS
 import renetik.android.core.kotlin.collections.list
 import renetik.android.event.CSEvent.Companion.event

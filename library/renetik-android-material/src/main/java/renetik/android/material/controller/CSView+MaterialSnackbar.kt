@@ -1,6 +1,7 @@
 package renetik.android.material.controller
 
 import renetik.android.controller.base.CSView
+import renetik.android.controller.base.onClick
 import renetik.android.core.lang.CSButtonAction
 import renetik.android.material.extensions.snackBarError
 import renetik.android.material.extensions.snackBarInfo
