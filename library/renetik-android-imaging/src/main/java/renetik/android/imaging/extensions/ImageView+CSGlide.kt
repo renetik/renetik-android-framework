@@ -18,17 +18,12 @@ import renetik.android.ui.extensions.view.onHasSize
 import renetik.android.ui.protocol.CSViewInterface
 import java.io.File
 
-fun <T : ImageView> T.image(@DrawableRes resourceId: Int?)
-    : CSRegistration? = resourceId?.let {
-    setImageResource(it)
-    return null
-} ?: run {
-    setImageDrawable(null)
-    return null
+fun <T : ImageView> T.image(@DrawableRes resourceId: Int?): T = apply {
+    resourceId?.let { setImageResource(it) } ?: run { setImageDrawable(null) }
 }
 
 fun <T : ImageView> T.image(parent: CSViewInterface, file: File)
-    : CSRegistration? = image(parent, file, null)
+        : CSRegistration? = image(parent, file, null)
 
 //TODO: inner has size registration shall be wrapped together with property registration
 fun <T : ImageView> T.image(
@@ -68,4 +63,4 @@ private fun <T : ImageView> T.image(
     }
 
 fun <T> ImageView.image(property: CSProperty<T>, valueToImageResource: (T) -> Int?)
-    : CSRegistration = property.action { image(valueToImageResource(property.value)) }
+        : CSRegistration = property.action { image(valueToImageResource(property.value)) }
