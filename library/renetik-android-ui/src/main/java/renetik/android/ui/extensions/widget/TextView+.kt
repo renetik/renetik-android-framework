@@ -1,8 +1,6 @@
 package renetik.android.ui.extensions.widget
 
 import android.text.Editable
-import android.text.Layout
-import android.text.TextUtils
 import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
@@ -13,9 +11,10 @@ import renetik.android.core.lang.CSStringConstants.Ellipsize
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.ui.extensions.view.fadeIn
+import renetik.android.event.registration.later
 import renetik.android.ui.extensions.view.invisible
 import renetik.android.ui.extensions.view.shownIf
 import renetik.android.ui.extensions.view.visible
@@ -107,22 +106,23 @@ fun <T : CSHasDrawable> TextView.startDrawable(property: CSHasChangeValue<T>) =
 fun <T> TextView.startDrawable(property: CSHasChangeValue<T>, getDrawable: (T) -> Int?) =
     property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
 
-fun TextView.ellipsize(lines: Int) = apply {
+fun TextView.ellipsize(parent: CSHasRegistrations, lines: Int) = apply {
     fun update() {
+        if (layout == null) return
         if (layout.lineCount > lines)
             text = text().substring(0, layout.getLineEnd(lines.asIndex) - 1) + Ellipsize
     }
     invisible()
-    post {
+    parent.later(after = 0) {
         update()
         visible()
         onTextChange { update() }
     }
 }
 
-fun TextView.ellipsize() = apply {
+fun TextView.ellipsize(parent: CSHasRegistrations) = apply {
     val maxLines = this.maxLines
     if (maxLines <= 0) return@apply
     this.maxLines = Int.MAX_VALUE
-    ellipsize(maxLines)
+    ellipsize(parent, maxLines)
 }
