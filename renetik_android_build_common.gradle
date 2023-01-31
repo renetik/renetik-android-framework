@@ -10,7 +10,7 @@ buildscript {
         sdk_version = 32
         min_sdk_version = 24
         appcompat_version = '1.4.2'
-        material_version = '1.6.1'
+        material_version = '1.8.0'
         ktx_version = '1.8.0'
         junit_version = '4.13.2'
         play_version = '18.0.1'
