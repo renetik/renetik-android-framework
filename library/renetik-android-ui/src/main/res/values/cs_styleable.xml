@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="Android">
-        <attr name="title" />
-        <attr name="icon" />
-    </declare-styleable>
     <declare-styleable name="CSLayout">
         <attr name="clipToOutline" format="boolean" />
         <attr name="minWidth" format="dimension" />
@@ -11,11 +7,5 @@
         <attr name="minHeight" format="dimension" />
         <attr name="maxHeight" format="dimension" />
         <attr name="dispatchState" format="boolean" />
-    </declare-styleable>
-    <declare-styleable name="RotaryKnobView">
-        <attr name="minValue" format="integer" />
-        <attr name="maxValue" format="integer" />
-        <attr name="initialValue" format="integer" />
-        <attr name="knobDrawable" format="reference" />
     </declare-styleable>
 </resources>
