@@ -15,12 +15,9 @@ import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.extensions.view.onHasSize
+import renetik.android.ui.extensions.widget.image
 import renetik.android.ui.protocol.CSViewInterface
 import java.io.File
-
-fun <T : ImageView> T.image(@DrawableRes resourceId: Int?): T = apply {
-    resourceId?.let { setImageResource(it) } ?: run { setImageDrawable(null) }
-}
 
 fun <T : ImageView> T.image(parent: CSViewInterface, file: File)
         : CSRegistration? = image(parent, file, null)
@@ -61,6 +58,3 @@ private fun <T : ImageView> T.image(
         transformation?.let { builder.apply(bitmapTransform(it)) }
         builder.into(this)
     }
-
-fun <T> ImageView.image(property: CSProperty<T>, valueToImageResource: (T) -> Int?)
-        : CSRegistration = property.action { image(valueToImageResource(property.value)) }

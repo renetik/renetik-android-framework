@@ -7,11 +7,9 @@ import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
-import renetik.android.core.lang.variable.CSWeakVariable
 import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.variable.toggle
 import renetik.android.core.lang.void
-import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.*
@@ -139,7 +137,7 @@ fun View.toggleSelectedAsTrue(property: CSProperty<Boolean>): CSRegistration {
 
 fun View.toggleActiveAsTrue(property: CSProperty<Boolean>): CSRegistration {
     onClick { property.toggle() }
-    return activatedIf(property) { it.isTrue }
+    return activeIf(property) { it.isTrue }
 }
 
 fun View.toggleAsFalse(property: CSProperty<Boolean>): CSRegistration {
@@ -163,31 +161,31 @@ fun View.selectedIf(property: CSProperty<Boolean>): CSRegistration =
 
 fun <T> View.activateIf(property: CSProperty<T>, value: T): CSRegistration {
     onClick { property.value = value }
-    return activatedIf(property) { it == value }
+    return activeIf(property) { it == value }
 }
 
-inline fun <T> View.activatedIf(property: CSProperty<T>,
-                                crossinline condition: (T) -> Boolean): CSRegistration {
+inline fun <T> View.activeIf(property: CSProperty<T>,
+                             crossinline condition: (T) -> Boolean): CSRegistration {
     activated(condition(property.value))
     return property.onChange { activated(condition(property.value)) }
 }
 
-fun View.activatedIf(property: CSProperty<Boolean>): CSRegistration =
-    activatedIf(property) { it }
+fun View.activeIf(property: CSProperty<Boolean>): CSRegistration =
+    activeIf(property) { it }
 
-inline fun <T> View.activatedIf(
+inline fun <T> View.activeIf(
     property1: CSProperty<T>, property2: CSProperty<*>,
     crossinline condition: (T) -> Boolean): CSRegistration =
-    activatedIf(property1, property2) { first, _ -> condition(first) }
+    activeIf(property1, property2) { first, _ -> condition(first) }
 
-fun <T, V> View.activatedIf(property1: CSProperty<T>, property2: CSProperty<V>,
-                            condition: (T, V) -> Boolean): CSRegistration {
+fun <T, V> View.activeIf(property1: CSProperty<T>, property2: CSProperty<V>,
+                         condition: (T, V) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value))
     update()
     return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
-fun <T, V, X> View.activatedIf(
+fun <T, V, X> View.activeIf(
     property1: CSProperty<T>, property2: CSProperty<V>,
     property3: CSProperty<X>, condition: (T, V, X) -> Boolean): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value, property3.value))
@@ -197,7 +195,7 @@ fun <T, V, X> View.activatedIf(
     )
 }
 
-fun <T, V, X, Y> View.activatedIf(
+fun <T, V, X, Y> View.activeIf(
     property1: CSProperty<T>, property2: CSProperty<V>,
     property3: CSProperty<X>, property4: CSProperty<Y>,
     condition: (T, V, X, Y) -> Boolean): CSRegistration {
