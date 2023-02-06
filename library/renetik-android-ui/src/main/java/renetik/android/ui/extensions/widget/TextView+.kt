@@ -16,6 +16,7 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.later
 import renetik.android.ui.extensions.view.invisible
+import renetik.android.ui.extensions.view.onLayoutChange
 import renetik.android.ui.extensions.view.shownIf
 import renetik.android.ui.extensions.view.visible
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
@@ -117,6 +118,7 @@ fun TextView.ellipsize(parent: CSHasRegistrations, lines: Int) = apply {
         update()
         visible()
         onTextChange { update() }
+        onLayoutChange { update() }
     }
 }
 
