@@ -14,9 +14,7 @@ open class CSEditText @JvmOverloads constructor(
     }
 
     override fun onKeyPreIme(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            clearFocus()
-        }
+        if (keyCode == KeyEvent.KEYCODE_BACK) clearFocus()
         return super.onKeyPreIme(keyCode, event)
     }
 
