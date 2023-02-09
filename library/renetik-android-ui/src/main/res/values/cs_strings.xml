@@ -4,13 +4,15 @@
     <string name="cs_dialog_cancel">Cancel</string>
     <string name="cs_base_yes">Yes</string>
     <string name="cs_base_no">No</string>
-    <string name="cs_base_dummy_number">1</string>
-    <string name="cs_base_dummy_word">Lorem</string>
-    <string name="cs_base_dummy_two_words">Lorem Ipsum</string>
-    <string name="cs_base_dummy_short">Lorem ipsum dolor</string>
-    <string name="cs_base_dummy_medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
-    <string name="cs_base_dummy_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
-    <string name="cs_base_dummy_complete">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet nunc pulvinar, pulvinar nulla nec, suscipit ante. Donec finibus, diam in feugiat venenatis, libero turpis convallis massa, id ullamcorper lacus dui ac metus. Suspendisse potenti. Cras vehicula augue orci, id vulputate sem consectetur a. Nam tincidunt arcu in tellus venenatis consectetur. Aenean placerat, sapien sit amet semper sodales, ex est vehicula nibh, vitae volutpat ipsum orci non eros. Praesent a ante dui. Ut eget efficitur odio, eget congue erat.
+    
+    <string name="cs_base_dummy_number" translatable="false">1</string>
+    <string name="cs_base_dummy_char" translatable="false">A</string>
+    <string name="cs_base_dummy_word" translatable="false">Lorem</string>
+    <string name="cs_base_dummy_two_words" translatable="false">Lorem Ipsum</string>
+    <string name="cs_base_dummy_short" translatable="false">Lorem ipsum dolor</string>
+    <string name="cs_base_dummy_medium" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="cs_base_dummy_long" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="cs_base_dummy_complete" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet nunc pulvinar, pulvinar nulla nec, suscipit ante. Donec finibus, diam in feugiat venenatis, libero turpis convallis massa, id ullamcorper lacus dui ac metus. Suspendisse potenti. Cras vehicula augue orci, id vulputate sem consectetur a. Nam tincidunt arcu in tellus venenatis consectetur. Aenean placerat, sapien sit amet semper sodales, ex est vehicula nibh, vitae volutpat ipsum orci non eros. Praesent a ante dui. Ut eget efficitur odio, eget congue erat.
 
 Morbi ullamcorper hendrerit scelerisque. Mauris eu lobortis magna. Etiam rhoncus ullamcorper nulla, eget cursus tortor efficitur vel. Nunc auctor turpis ut mi fermentum dignissim. Nam a ex porttitor, sollicitudin nibh sit amet, lobortis libero. Cras fermentum tincidunt turpis vel mattis. Curabitur tempor risus urna, quis iaculis justo vulputate ac. Pellentesque erat augue, eleifend mattis ex quis, cursus sagittis diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum ut enim id enim consequat sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
