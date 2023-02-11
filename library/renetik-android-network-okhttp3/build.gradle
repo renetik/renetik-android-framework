@@ -12,5 +12,5 @@ dependencies {
     implementation project(':renetik-android-ui')
     implementation project(':renetik-android-network')
     implementation 'com.github.amitshekhariitbhu:Fast-Android-Networking:1.0.2'
-    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.10.0'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:5.0.0-alpha.11'
 }
