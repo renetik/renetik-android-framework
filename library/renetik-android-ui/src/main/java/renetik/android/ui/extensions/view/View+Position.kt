@@ -18,3 +18,10 @@ val View.locationInWindow: CSPoint<Int>
         getLocationInWindow(location)
         return CSPoint(location[0], location[1])
     }
+
+fun View.registerToLocationOnScreen(): IntArray {
+    val location = IntArray(2)
+    getLocationOnScreen(location)
+    onSizeChange { getLocationOnScreen(location) }
+    return location
+}
