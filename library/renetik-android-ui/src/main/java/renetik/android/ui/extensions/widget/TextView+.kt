@@ -15,10 +15,7 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.later
-import renetik.android.ui.extensions.view.invisible
-import renetik.android.ui.extensions.view.onLayoutChange
-import renetik.android.ui.extensions.view.shownIf
-import renetik.android.ui.extensions.view.visible
+import renetik.android.ui.extensions.view.*
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.textPrepend(value: CharSequence?) = text("$value$text")
@@ -107,6 +104,7 @@ fun <T : CSHasDrawable> TextView.startDrawable(property: CSHasChangeValue<T>) =
 fun <T> TextView.startDrawable(property: CSHasChangeValue<T>, getDrawable: (T) -> Int?) =
     property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
 
+@Deprecated("... Remove wrong approach for now better change font...")
 fun TextView.ellipsize(parent: CSHasRegistrations, lines: Int) = apply {
     fun update() {
         if (layout == null) return
@@ -118,7 +116,7 @@ fun TextView.ellipsize(parent: CSHasRegistrations, lines: Int) = apply {
         update()
         visible()
         onTextChange { update() }
-        onLayoutChange { update() }
+        onBoundsChange { update() }
     }
 }
 

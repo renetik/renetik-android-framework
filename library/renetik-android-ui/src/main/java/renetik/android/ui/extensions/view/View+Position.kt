@@ -25,6 +25,6 @@ fun View.registerToLocationOnScreen(delay: Int = 0): IntArray {
     fun updateLocation() =
         later(delay) { if (isAttachedToWindow) getLocationOnScreen(location) }
     updateLocation()
-    onSizeChange { updateLocation() }
+    onBoundsChange { updateLocation() }
     return location
 }

@@ -1,6 +1,7 @@
 package renetik.android.ui.extensions.view
 
 import android.view.View
+import android.view.View.OnLayoutChangeListener
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import renetik.android.core.kotlin.primitives.isFalse
@@ -63,31 +64,33 @@ fun View.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
     return registration
 }
 
-inline fun View.onLayoutChange(crossinline function: () -> Unit): CSRegistration {
-    val listener = View.OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
+inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
+    val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
     return CSRegistration(
         onResume = { addOnLayoutChangeListener(listener) },
         onPause = { removeOnLayoutChangeListener(listener) }).start()
 }
 
-fun View.onSizeChange(function: ArgFunc<CSRegistration>): CSRegistration {
+fun View.onBoundsChange(function: ArgFunc<CSRegistration>): CSRegistration {
     lateinit var registration: CSRegistration
-    val listener = View.OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-        function(registration)
+
+    @Suppress("UNUSED_ANONYMOUS_PARAMETER")
+    val listener = OnLayoutChangeListener { _, l, t, r, b, nl, nt, nr, nb ->
+        if (l != nl || t != nt || r != nr || b != nb) function(registration)
     }
     registration = CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
         onPause = { removeOnLayoutChangeListener(listener) }).start()
     return registration
 }
 
-fun View.onHasSizeChange(function: Func): CSRegistration =
-    onSizeChange { if (hasSize) function() }
+fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
+    onBoundsChange { if (hasSize) function() }
 
 inline fun View.onHasSize(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration? {
     if (!hasSize) {
-        val registration by weak(parent.register(onSizeChange {
+        val registration by weak(parent.register(onBoundsChange {
             if (hasSize) {
                 parent.cancel(it)
                 function(this)
