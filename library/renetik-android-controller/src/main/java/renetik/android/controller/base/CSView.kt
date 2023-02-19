@@ -74,7 +74,7 @@ open class CSView<ViewType : View> : CSContext,
                 _view != null -> return _view!!
                 isDestructed -> unexpected("$className $this Already destroyed")
                 layout != null -> setView(inflate(layout.id))
-                viewId != null -> setView(parent!!.view(viewId) as ViewType)
+                viewId != null -> setView(parent!!.view<View>(viewId) as ViewType)
                 else -> createView()?.let { setView(it) }
                     ?: run {
                         (parent?.view as? ViewType)?.let {
