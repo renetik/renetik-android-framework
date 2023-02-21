@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
-import renetik.android.controller.base.onClick
 import renetik.android.controller.base.asCS
 import renetik.android.controller.view.grid.CSRecyclerView.Adapter.ViewHolder
 import renetik.android.core.kotlin.collections.firstIndex
@@ -101,7 +100,8 @@ class CSRecyclerView<ItemType : Any>(
     }
 
     fun scrollToActive(
-        smooth: Boolean = true, speedPerPixel: Float = 0.4f) = apply {
+        smooth: Boolean = true, speedPerPixel: Int = shortAnimationDuration
+    ) = apply {
         val position = data.firstIndex { it.data == selectedItem.value } ?: return@apply
         if (smooth) {
             val scroller = CSCenteringRecyclerSmoothScroller(this, speedPerPixel)
