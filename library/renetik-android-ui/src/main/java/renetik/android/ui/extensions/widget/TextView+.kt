@@ -104,7 +104,6 @@ fun <T : CSHasDrawable> TextView.startDrawable(property: CSHasChangeValue<T>) =
 fun <T> TextView.startDrawable(property: CSHasChangeValue<T>, getDrawable: (T) -> Int?) =
     property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
 
-@Deprecated("... Remove wrong approach for now better change font...")
 fun TextView.ellipsize(parent: CSHasRegistrations, lines: Int) = apply {
     fun update() {
         if (layout == null) return
