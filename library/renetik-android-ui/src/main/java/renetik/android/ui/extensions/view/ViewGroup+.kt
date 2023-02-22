@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.core.view.iterator
 import renetik.android.ui.protocol.CSHasParentView
+import renetik.android.ui.protocol.CSViewInterface
 
 inline fun <R : Comparable<R>> ViewGroup.sortChildren(
     crossinline selector: (View) -> R?) =
@@ -40,13 +41,22 @@ fun <ViewType : View> ViewGroup.add(
     return view
 }
 
+//fun <ViewType : CSViewInterface> ViewGroup.add(
+//    view: ViewType, layout: ViewGroup.LayoutParams, index: Int = -1,
+//): ViewType {
+//    add(view.view, layout, index)
+//    return view
+//}
+
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.add(@LayoutRes layoutId: Int, index: Int = -1) =
     add(from(context).inflate(layoutId, this, false) as ViewType, index)
 
 @Suppress("UNCHECKED_CAST")
-fun <ViewType : View> ViewGroup.add(@LayoutRes layoutId: Int,
-                                    layout: ViewGroup.LayoutParams, index: Int = -1) =
+fun <ViewType : View> ViewGroup.add(
+    @LayoutRes layoutId: Int,
+    layout: ViewGroup.LayoutParams, index: Int = -1
+) =
     add(from(context).inflate(layoutId, this, false) as ViewType, layout, index)
 
 fun ViewGroup.removeAt(index: Int): View = getChildAt(index).also { removeViewAt(index) }
