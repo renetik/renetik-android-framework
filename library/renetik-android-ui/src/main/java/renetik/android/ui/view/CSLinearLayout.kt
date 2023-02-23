@@ -11,6 +11,9 @@ import android.widget.LinearLayout
 import renetik.android.ui.R
 import renetik.android.core.kotlin.primitives.Empty
 import renetik.android.core.kotlin.primitives.isSet
+import renetik.android.event.CSEvent
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.fire
 
 open class CSLinearLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
@@ -23,7 +26,8 @@ open class CSLinearLayout @JvmOverloads constructor(
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     override val self: View get() = this
     override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-    var onDraw: ((event: Canvas) -> Unit)? = null
+    val eventOnDraw = event<Canvas>()
+    var eventOnLayout = event()
 
     init {
         val attributes =
@@ -72,6 +76,11 @@ open class CSLinearLayout @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        onDraw?.invoke(canvas)
+        eventOnDraw.fire(canvas)
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        eventOnLayout.fire()
     }
 }
