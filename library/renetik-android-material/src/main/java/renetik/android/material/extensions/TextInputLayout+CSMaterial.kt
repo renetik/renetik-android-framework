@@ -32,12 +32,12 @@ val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")
 
 fun <T : TextInputLayout> T.onCheck(listener: () -> Unit): T = apply {
-    propertyWithTag(R.id.ViewEventOnCheckTag) { event<Unit>() }.listen(listener)
+    propertyWithTag(R.id.ViewEventOnChangeTag) { event<Unit>() }.listen(listener)
 }
 
 @Suppress("UNCHECKED_CAST")
 fun <T : TextInputLayout> T.fireCheck(): T = apply {
-    (getTag(R.id.ViewEventOnCheckTag) as? CSEvent<Unit>)?.fire()
+    (getTag(R.id.ViewEventOnChangeTag) as? CSEvent<Unit>)?.fire()
 }
 
 @SuppressLint("RestrictedApi")

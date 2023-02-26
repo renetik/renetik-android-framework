@@ -1,22 +1,28 @@
 package renetik.android.ui.extensions.widget
 
 import android.content.res.ColorStateList.valueOf
+import android.view.View
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.paused
-import renetik.android.event.registration.start
+import renetik.android.ui.R
+import renetik.android.ui.extensions.view.propertyWithTag
 
-fun CompoundButton.onChange(function: (CompoundButton) -> Unit) = CSRegistration(onResume = {
-    setOnCheckedChangeListener { buttonView, _ -> if (it.isActive) function(buttonView) }
-}, onPause = { setOnCheckedChangeListener(null) }).start()
+private val CompoundButton.eventChange
+    get() = propertyWithTag(R.id.ViewEventOnChangeTag) {
+        event<View>().also { setOnCheckedChangeListener { _, _ -> it.fire(this) } }
+    }
 
-fun CompoundButton.action(function: (CompoundButton) -> Unit): CSRegistration {
-    function(this)
+fun CompoundButton.onChange(function: (Boolean) -> Unit) =
+    eventChange.listen { function(isChecked) }
+
+fun CompoundButton.action(function: (Boolean) -> Unit): CSRegistration {
+    function(isChecked)
     return onChange(function)
 }
 

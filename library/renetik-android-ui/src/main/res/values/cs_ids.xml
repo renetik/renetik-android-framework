@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="ViewEventOnClearTag" type="id" />
-    <item name="ViewEventOnCheckTag" type="id" />
+    <item name="ViewEventOnChangeTag" type="id" />
     <item name="ViewEventOnScrollTag" type="id" />
     <item name="ViewModelTag" type="id" />
 </resources>
