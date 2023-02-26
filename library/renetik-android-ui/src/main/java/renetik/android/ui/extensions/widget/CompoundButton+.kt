@@ -13,10 +13,10 @@ import renetik.android.event.registration.paused
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.propertyWithTag
 
-private val CompoundButton.eventChange
-    get() = propertyWithTag(R.id.ViewEventOnChangeTag) {
-        event<View>().also { setOnCheckedChangeListener { _, _ -> it.fire(this) } }
-    }
+ val CompoundButton.eventChange
+     get() = propertyWithTag(R.id.ViewEventOnChangeTag) {
+         event<View>().also { setOnCheckedChangeListener { _, _ -> it.fire(this) } }
+     }
 
 fun CompoundButton.onChange(function: (Boolean) -> Unit) =
     eventChange.listen { function(isChecked) }
