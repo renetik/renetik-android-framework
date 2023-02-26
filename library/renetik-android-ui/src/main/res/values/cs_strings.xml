@@ -5,7 +5,8 @@
     <string name="cs_base_yes">Yes</string>
     <string name="cs_base_no">No</string>
     
-    <string name="cs_base_dummy_number" translatable="false">1</string>
+    <string name="cs_base_dummy_number_short" translatable="false">1</string>
+    <string name="cs_base_dummy_number_medium" translatable="false">100</string>
     <string name="cs_base_dummy_char" translatable="false">A</string>
     <string name="cs_base_dummy_word" translatable="false">Lorem</string>
     <string name="cs_base_dummy_two_words" translatable="false">Lorem Ipsum</string>
