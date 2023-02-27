@@ -70,6 +70,7 @@ class CSRecyclerView<ItemType : Any>(
     }
 
     private fun CSGridItemView<ItemType>.updateSelection() {
+        if (!isLoaded) return
         val isActive = selectedItem.value == value
         isSelected = isActive && eventItemReSelected.isListened
         isActivated = isActive && !eventItemReSelected.isListened

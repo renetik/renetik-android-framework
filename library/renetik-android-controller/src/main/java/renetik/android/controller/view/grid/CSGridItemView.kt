@@ -2,7 +2,6 @@ package renetik.android.controller.view.grid
 
 import android.view.ViewGroup
 import renetik.android.controller.base.CSView
-import renetik.android.controller.base.onClick
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.ui.extensions.view.firstChild
 
@@ -17,14 +16,13 @@ open class CSGridItemView<RowType : Any>(
     constructor(
         parent: CSView<out ViewGroup>, layout: CSLayoutRes,
         onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
-    )
-            : this(parent, parent.view, layout, onLoad)
+    ) : this(parent, parent.view, layout, onLoad)
 
     lateinit var value: RowType
     var index = -1
     var itemDisabled = false
 
-    fun load(value: RowType, index: Int = 0) {
+    fun load(value: RowType, index: Int) {
         this.index = index
         this.value = value
         onLoad(value)
@@ -35,5 +33,7 @@ open class CSGridItemView<RowType : Any>(
     }
 
     override val contentView get() = view.firstChild!!
+
+    val isLoaded get() = index != -1
 }
 
