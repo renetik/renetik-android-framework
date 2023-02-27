@@ -16,6 +16,7 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.later
+import renetik.android.event.registration.register
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.*
 
@@ -117,8 +118,9 @@ class CSRecyclerView<ItemType : Any>(
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-            val itemView = createView(this@CSRecyclerView, viewType, viewGroup)
-            selectedItem.onChange { itemView.updateSelection() }
+            val itemView: CSGridItemView<ItemType> =
+                createView(this@CSRecyclerView, viewType, viewGroup)
+            register(selectedItem.onChange { itemView.updateSelection() })
             return ViewHolder(itemView.view)
         }
 
