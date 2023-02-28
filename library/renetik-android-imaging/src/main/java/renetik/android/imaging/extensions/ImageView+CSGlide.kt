@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Color.DKGRAY
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -15,7 +14,6 @@ import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.extensions.view.onHasSize
-import renetik.android.ui.extensions.widget.image
 import renetik.android.ui.protocol.CSViewInterface
 import java.io.File
 
@@ -33,9 +31,9 @@ fun <T : ImageView> T.image(
 fun <T> ImageView.image(
     parent: CSViewInterface, property: CSProperty<T>,
     borderWidth: Float = 1f, radius: Float = 2f, color: Int = Color.BLACK,
-    valueToImage: (T) -> File
+    toImageFile: (T) -> File
 ): CSRegistration =
-    property.action { image(parent, valueToImage(property.value), borderWidth, radius, color) }
+    property.action { image(parent, toImageFile(property.value), borderWidth, radius, color) }
 
 //TODO: inner has size registration shall be wrapped together with property registration
 fun <T> ImageView.image(
