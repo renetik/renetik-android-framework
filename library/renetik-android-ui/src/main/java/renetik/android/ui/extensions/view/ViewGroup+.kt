@@ -9,6 +9,8 @@ import androidx.core.view.iterator
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 
+operator fun ViewGroup.get(index: Int): View = getChildAt(index)
+
 inline fun <R : Comparable<R>> ViewGroup.sortChildren(
     crossinline selector: (View) -> R?) =
     sortChildren { _, view -> selector(view) }

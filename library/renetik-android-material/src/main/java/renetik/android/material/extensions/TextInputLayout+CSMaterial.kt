@@ -21,6 +21,7 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.ui.R
+import renetik.android.ui.extensions.view.get
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.ui.extensions.widget.onFocusChange
@@ -147,7 +148,7 @@ fun TextInputLayout.error(hint: String? = null) {
     isErrorEnabled = true
     if (hint == null) {
         error(" ")
-        if (childCount == 2) getChildAt(1).gone()
+        if (childCount == 2) this[1].gone()
     } else error = hint
 }
 
