@@ -3,7 +3,7 @@ package renetik.android.controller.view.grid
 import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
-import renetik.android.core.lang.value.isEmpty
+import renetik.android.core.lang.variable.CSVariable
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSRegistration
@@ -26,6 +26,11 @@ fun <T : CSHasTitle> CSGridView<T>.reload(
 val CSGridView<*>.dataCount get() = data.size
 
 fun <T : Any> CSGridView<T>.value(value: T?) = apply { selectedItem.value(value) }
+
+fun <T : Any> CSGridView<T>.variable(variable: CSVariable<T>) = apply {
+    value(variable.value)
+    onItemSelected { variable.value = it.value }
+}
 
 fun <T : Any> CSGridView<T>.property(property: CSProperty<T>) = apply {
     lateinit var propertyRegistration: CSRegistration
