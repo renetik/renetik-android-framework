@@ -105,23 +105,26 @@ fun <T> TextView.startDrawable(property: CSHasChangeValue<T>, getDrawable: (T) -
     property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
 
 fun TextView.ellipsize(parent: CSHasRegistrations, lines: Int) = apply {
-    fun update() {
-        if (layout == null) return
-        if (layout.lineCount > lines)
-            text = text().substring(0, layout.getLineEnd(lines.asIndex) - 1) + Ellipsize
-    }
-    invisible()
-    parent.later(after = 0) {
-        update()
-        visible()
-        onTextChange { update() }
-        onBoundsChange { update() }
-    }
+    lines(max = lines)
+//    fun update() {
+//        if (layout == null) return
+//        if (layout.lineCount > lines)
+//            text = text().substring(0, layout.getLineEnd(lines.asIndex) - 1) + Ellipsize
+//    }
+//    invisible()
+//    parent.later(after = 0) {
+//        update()
+//        visible()
+//        onTextChange { update() }
+//        onBoundsChange { update() }
+//    }
 }
 
 fun TextView.ellipsize(parent: CSHasRegistrations) = apply {
-    val maxLines = this.maxLines
-    if (maxLines <= 0) return@apply
-    this.maxLines = Int.MAX_VALUE
-    ellipsize(parent, maxLines)
+//    val maxLines = this.maxLines
+//    if (maxLines <= 0) return@apply
+//    this.maxLines = Int.MAX_VALUE
+//    ellipsize(parent, maxLines)
 }
+
+fun <T : TextView> T.lines(max: Int) = apply { maxLines = max }
