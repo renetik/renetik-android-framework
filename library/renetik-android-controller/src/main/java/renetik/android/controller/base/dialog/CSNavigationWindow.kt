@@ -93,15 +93,15 @@ open class CSNavigationWindow<ViewType : View>(
             DialogAnimation.None -> None
         }
 
-    fun from(fromView: View, side: DialogPopupSide = Bottom) = apply {
+    fun from(button: View, side: DialogPopupSide = Bottom) = apply {
         isPopup = true
-        fromButton(fromView)
+        fromButton(button)
         isFullscreenNavigationItem.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
         onHasSize {
-            if (side == Bottom) positionDialogContentFromViewBottom(fromView)
-            else if (side == Right) positionDialogContentFromViewRight(fromView)
+            if (side == Bottom) positionDialogContentFromViewBottom(button)
+            else if (side == Right) positionDialogContentFromViewRight(button)
             correctContentOverflow()
         }
         view.background(color(color.cs_dialog_popup_background))
