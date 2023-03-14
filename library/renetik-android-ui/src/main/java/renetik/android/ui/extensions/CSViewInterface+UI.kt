@@ -69,7 +69,7 @@ fun CSViewInterface.button(
 ) =
     view.button(id).apply { onClick?.let { this.onClick(it) } }
 
-fun CSViewInterface.compound(@IdRes id: Int) = view.compound(id)
+fun CSViewInterface.compound(@IdRes id: Int): CompoundButton = view.compound(id)
 
 fun CSViewInterface.checkBox(@IdRes id: Int) = view.checkBox(id)
 fun CSViewInterface.timePicker(@IdRes id: Int) = view.timePicker(id)
