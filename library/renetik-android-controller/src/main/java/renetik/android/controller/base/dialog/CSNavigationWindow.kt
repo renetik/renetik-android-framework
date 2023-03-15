@@ -1,6 +1,8 @@
 package renetik.android.controller.base.dialog
 
-import android.view.Gravity.*
+import android.view.Gravity.CENTER
+import android.view.Gravity.START
+import android.view.Gravity.TOP
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -8,11 +10,17 @@ import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.base.dialog.DialogAnimation.*
+import renetik.android.controller.base.dialog.DialogAnimation.Fade
+import renetik.android.controller.base.dialog.DialogAnimation.Slide
+import renetik.android.controller.base.dialog.DialogAnimation.SlideFade
 import renetik.android.controller.base.dialog.DialogPopupSide.Bottom
 import renetik.android.controller.base.dialog.DialogPopupSide.Right
-import renetik.android.controller.common.CSNavigationAnimation.*
+import renetik.android.controller.base.dialog.DialogPopupSide.Top
+import renetik.android.controller.common.CSNavigationAnimation.FadeIn
+import renetik.android.controller.common.CSNavigationAnimation.FadeOut
 import renetik.android.controller.common.CSNavigationAnimation.None
+import renetik.android.controller.common.CSNavigationAnimation.SlideInRight
+import renetik.android.controller.common.CSNavigationAnimation.SlideOutLeft
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
@@ -33,12 +41,18 @@ import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
 import renetik.android.ui.extensions.afterGlobalLayout
 import renetik.android.ui.extensions.onHasSize
-import renetik.android.ui.extensions.view.*
+import renetik.android.ui.extensions.view.add
+import renetik.android.ui.extensions.view.background
+import renetik.android.ui.extensions.view.height
+import renetik.android.ui.extensions.view.heightWrap
+import renetik.android.ui.extensions.view.locationInWindow
+import renetik.android.ui.extensions.view.matchParent
+import renetik.android.ui.extensions.view.onClick
 import java.io.Closeable
 
 open class CSNavigationWindow<ViewType : View>(
-    val parent: CSActivityView<out ViewGroup>, dialogContentLayout: CSLayoutRes)
-    : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
+    val parent: CSActivityView<out ViewGroup>, dialogContentLayout: CSLayoutRes
+) : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
     CSNavigationItem, Closeable {
 
     val dialogContent: ViewType = inflate(dialogContentLayout.id)
@@ -95,13 +109,14 @@ open class CSNavigationWindow<ViewType : View>(
 
     fun from(button: View, side: DialogPopupSide = Bottom) = apply {
         isPopup = true
-        fromButton(button)
+        selectedButton(button)
         isFullscreenNavigationItem.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
         onHasSize {
             if (side == Bottom) positionDialogContentFromViewBottom(button)
             else if (side == Right) positionDialogContentFromViewRight(button)
+            else if (side == Top) positionDialogContentFromViewTop(button)
             correctContentOverflow()
         }
         view.background(color(color.cs_dialog_popup_background))
@@ -117,6 +132,18 @@ open class CSNavigationWindow<ViewType : View>(
         dialogContent.x = desiredX
 
         dialogContent.y = fromViewLocation.y.toFloat() + fromView.height
+    }
+
+    private fun positionDialogContentFromViewTop(fromView: View) {
+        val fromViewLocation = fromView.locationInWindow
+        val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
+        var desiredX = fromViewTopCenterX.toFloat() - (dialogContent.width / 2)
+        if (desiredX + dialogContent.width > width - dpToPixelF(marginDp))
+            desiredX -= (desiredX + dialogContent.width) - (width - dpToPixelF(marginDp))
+        if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
+        dialogContent.x = desiredX
+
+        dialogContent.y = fromViewLocation.y.toFloat() - dialogContent.height - dpToPixelF(marginDp)
     }
 
     private fun correctContentOverflow() {
