@@ -11,9 +11,9 @@ import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.actionNullableChild
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.actionNullableChild
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
@@ -89,7 +89,7 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
     crossinline text: (ChildValue?) -> Any
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
-    val parentRegistration: CSRegistration = actionNullableChild(parent,
+    val parentRegistration: CSRegistration = parent.actionNullableChild(
         child = parentChild, onChange = { parentChildValue ->
             childRegistration?.cancel()
             child(parentChildValue)?.let {
