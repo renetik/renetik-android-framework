@@ -98,6 +98,12 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
                 })
             } ?: value(text(null))
         })
+    parent.value?.let { parentValue ->
+        parentChild(parentValue)
+            ?.value?.let { parentChildValue ->
+                child(parentChildValue)?.value?.let { value(text(it)) }
+            } ?: value(text(null))
+    }
     return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
