@@ -11,7 +11,7 @@ import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.onChangeNullableChild
+import renetik.android.event.registration.CSHasChangeValue.Companion.actionNullableChild
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.ui.extensions.view.*
@@ -89,7 +89,7 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
     crossinline text: (ChildValue?) -> Any
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
-    val parentRegistration: CSRegistration = onChangeNullableChild(parent,
+    val parentRegistration: CSRegistration = actionNullableChild(parent,
         child = parentChild, onChange = { parentChildValue ->
             childRegistration?.cancel()
             child(parentChildValue)?.let {
@@ -98,12 +98,6 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
                 })
             } ?: value(text(null))
         })
-    parent.value?.let { parentValue ->
-        parentChild(parentValue)
-            ?.value?.let { parentChildValue ->
-                child(parentChildValue)?.value?.let { value(text(it)) }
-            } ?: value(text(null))
-    }
     return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
