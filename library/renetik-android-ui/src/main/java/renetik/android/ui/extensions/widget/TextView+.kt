@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package renetik.android.ui.extensions.widget
 
 import android.text.Editable
@@ -25,15 +27,18 @@ fun <T : TextView> T.text(@StringRes stringId: Int) =
 
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text() = text.toString()
-fun <T : TextView> T.goneIfEmpty() = apply { shownIf(text().isBlank()) }
 
-fun <T : TextView> T.onTextChange(onChange: (view: T) -> Unit) = apply {
+inline fun <T : TextView> T.onTextChange(
+    crossinline onChange: (view: T) -> Unit
+) = apply {
     addTextChangedListener(object : CSTextWatcherAdapter() {
         override fun afterTextChanged(editable: Editable) = onChange(this@onTextChange)
     })
 }
 
-fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
+inline fun <T : TextView> T.onFocusChange(
+    crossinline onChange: (view: T) -> Unit
+) = apply {
     setOnFocusChangeListener { _, _ -> onChange(this) }
 }
 
@@ -57,8 +62,8 @@ inline fun <T, V> TextView.text(
 }
 
 @JvmName("textPropertyChildTextProperty")
-fun <T> TextView.text(
-    parent: CSHasChangeValue<T>, child: (T) -> CSHasChangeValue<String>
+inline fun <T> TextView.text(
+    parent: CSHasChangeValue<T>, crossinline child: (T) -> CSHasChangeValue<String>
 ) = this.text(parent, child) { it }
 
 inline fun <T, V> TextView.textNullableChild(
@@ -99,27 +104,28 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
     })
 }
 
-fun <T> TextView.text(property: CSHasChangeValue<T>, text: (T) -> Any) =
-    property.action { value(text(property.value)) }
+inline fun <T> TextView.text(
+    property: CSHasChangeValue<T>, crossinline text: (T) -> Any
+) = property.action { value(text(property.value)) }
 
 fun TextView.text(property: CSHasChangeValue<*>): CSRegistration =
     text(property, text = { it.asString })
 
-fun <T, V> TextView.text(
+inline fun <T, V> TextView.text(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    text: (T, V) -> Unit
+    crossinline text: (T, V) -> Unit
 ): CSRegistration {
-    fun update() = value(text(property1.value, property2.value))
-    update()
+    value(text(property1.value, property2.value))
     return CSRegistration(
-        property1.onChange { update() },
-        property2.onChange { update() })
+        property1.onChange { value(text(property1.value, property2.value)) },
+        property2.onChange { value(text(property1.value, property2.value)) })
 }
 
 fun <T : CSHasDrawable> TextView.startDrawable(property: CSHasChangeValue<T>) =
     property.action { startDrawable(context.drawable(property.value.drawable)) }
 
-fun <T> TextView.startDrawable(property: CSHasChangeValue<T>, getDrawable: (T) -> Int?) =
-    property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
+inline fun <T> TextView.startDrawable(
+    property: CSHasChangeValue<T>, crossinline getDrawable: (T) -> Int?
+) = property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
 
 fun <T : TextView> T.lines(max: Int) = apply { maxLines = max }
