@@ -5,16 +5,13 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.asString
-import renetik.android.core.kotlin.primitives.asIndex
 import renetik.android.core.lang.CSHasDrawable
-import renetik.android.core.lang.CSStringConstants.Ellipsize
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasRegistrations
+import renetik.android.event.registration.CSHasChangeValue.Companion.onChangeNullableChild
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.later
 import renetik.android.ui.extensions.view.*
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
@@ -43,10 +40,10 @@ fun <T : TextView> T.onFocusChange(onChange: (view: T) -> Unit) = apply {
 @JvmName("TextViewTextStringProperty")
 fun TextView.text(property: CSHasChangeValue<String>) = text(property, text = { it })
 
-fun <T, V> TextView.text(
+inline fun <T, V> TextView.text(
     parent: CSHasChangeValue<T>,
-    child: (T) -> CSHasChangeValue<V>,
-    text: (V) -> Any
+    crossinline child: (T) -> CSHasChangeValue<V>,
+    noinline text: (V) -> Any
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
@@ -62,12 +59,11 @@ fun <T, V> TextView.text(
 @JvmName("textPropertyChildTextProperty")
 fun <T> TextView.text(
     parent: CSHasChangeValue<T>, child: (T) -> CSHasChangeValue<String>
-) =
-    this.text(parent, child) { it }
+) = this.text(parent, child) { it }
 
-fun <T, V> TextView.textNullableChild(
-    parent: CSHasChangeValue<T>, child: (T) -> CSHasChangeValue<V>?,
-    text: (V?) -> Any
+inline fun <T, V> TextView.textNullableChild(
+    parent: CSHasChangeValue<T>, crossinline child: (T) -> CSHasChangeValue<V>?,
+    noinline text: (V?) -> Any
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
@@ -75,6 +71,28 @@ fun <T, V> TextView.textNullableChild(
         childRegistration = child(parent.value)?.let { text(it, text) }
         if (childRegistration == null) value(text(null))
     }
+    return CSRegistration(isActive = true, onCancel = {
+        parentRegistration.cancel()
+        childRegistration?.cancel()
+    })
+}
+
+inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChild(
+    parent: CSHasChangeValue<ParentValue>,
+    crossinline parentChild: (ParentValue) -> CSHasChangeValue<ParentChildValue>?,
+    crossinline child: (ParentChildValue) -> CSHasChangeValue<ChildValue>?,
+    crossinline text: (ChildValue?) -> Any
+): CSRegistration {
+    var childRegistration: CSRegistration? = null
+    val parentRegistration: CSRegistration = onChangeNullableChild(parent,
+        child = parentChild, onChange = { parentChildValue ->
+            childRegistration?.cancel()
+            child(parentChildValue)?.let {
+                childRegistration = text(it, text = { childValue ->
+                    text(childValue)
+                })
+            } ?: value(text(null))
+        })
     return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
@@ -89,7 +107,7 @@ fun TextView.text(property: CSHasChangeValue<*>): CSRegistration =
 
 fun <T, V> TextView.text(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    text: (T, V) -> Any
+    text: (T, V) -> Unit
 ): CSRegistration {
     fun update() = value(text(property1.value, property2.value))
     update()
