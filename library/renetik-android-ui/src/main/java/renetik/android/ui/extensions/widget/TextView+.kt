@@ -116,7 +116,7 @@ fun TextView.text(property: CSHasChangeValue<*>): CSRegistration =
 
 inline fun <T, V> TextView.text(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    crossinline text: (T, V) -> Unit
+    crossinline text: (T, V) -> Any
 ): CSRegistration {
     value(text(property1.value, property2.value))
     return CSRegistration(
