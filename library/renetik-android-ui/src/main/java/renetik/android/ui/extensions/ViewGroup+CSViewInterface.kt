@@ -18,8 +18,8 @@ fun <View : CSViewInterface> ViewGroup.add(view: View, index: Int = -1): View {
 }
 
 fun <View : CSViewInterface> ViewGroup.add(
-    view: View, layout: LayoutParams, index: Int = -1): View {
-    add(view.view, layout, index)
+    view: View, params: LayoutParams, index: Int = -1): View {
+    add(view.view, params, index)
     return view
 }
 
