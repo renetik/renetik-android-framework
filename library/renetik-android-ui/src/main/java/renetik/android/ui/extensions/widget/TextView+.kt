@@ -61,11 +61,6 @@ inline fun <T, V> TextView.text(
     })
 }
 
-@JvmName("textPropertyChildTextProperty")
-inline fun <T> TextView.text(
-    parent: CSHasChangeValue<T>, crossinline child: (T) -> CSHasChangeValue<String>
-) = this.text(parent, child) { it }
-
 inline fun <T, V> TextView.textNullableChild(
     parent: CSHasChangeValue<T>, crossinline child: (T) -> CSHasChangeValue<V>?,
     noinline text: (V?) -> Any
@@ -81,6 +76,13 @@ inline fun <T, V> TextView.textNullableChild(
         childRegistration?.cancel()
     })
 }
+
+@JvmName("textPropertyChildTextProperty")
+inline fun <T> TextView.text(
+    parent: CSHasChangeValue<T>, crossinline child: (T) -> CSHasChangeValue<String>
+) = this.text(parent, child) { it }
+
+
 
 inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChild(
     parent: CSHasChangeValue<ParentValue>,
