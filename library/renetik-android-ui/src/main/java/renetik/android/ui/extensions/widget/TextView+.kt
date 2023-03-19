@@ -114,14 +114,33 @@ inline fun <T> TextView.text(
 fun TextView.text(property: CSHasChangeValue<*>): CSRegistration =
     text(property, text = { it.asString })
 
-inline fun <T, V> TextView.text(
+// Inline dont support local functions
+fun <T, V> TextView.text(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    crossinline text: (T, V) -> Any
+    text: (T, V) -> Any
 ): CSRegistration {
-    value(text(property1.value, property2.value))
+    fun apply() = value(text(property1.value, property2.value))
+    apply()
     return CSRegistration(
-        property1.onChange { value(text(property1.value, property2.value)) },
-        property2.onChange { value(text(property1.value, property2.value)) })
+        property1.onChange { apply() },
+        property2.onChange { apply() }
+    )
+}
+
+// Inline dont support local functions
+fun <T, V, K> TextView.text(
+    property1: CSHasChangeValue<T>,
+    property2: CSHasChangeValue<V>,
+    property3: CSHasChangeValue<K>,
+    text: (T, V, K) -> Any
+): CSRegistration {
+    fun apply() = value(text(property1.value, property2.value, property3.value))
+    apply()
+    return CSRegistration(
+        property1.onChange { apply() },
+        property2.onChange { apply() },
+        property3.onChange { apply() },
+    )
 }
 
 fun <T : CSHasDrawable> TextView.startDrawable(property: CSHasChangeValue<T>) =
