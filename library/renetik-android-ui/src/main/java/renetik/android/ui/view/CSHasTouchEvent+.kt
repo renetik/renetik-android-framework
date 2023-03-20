@@ -1,3 +1,5 @@
+package renetik.android.ui.view
+
 import android.view.MotionEvent.ACTION_CANCEL
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
@@ -5,9 +7,11 @@ import android.view.MotionEvent.ACTION_UP
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
+import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.cancel
+import renetik.android.event.registration.laterEach
 import renetik.android.event.registration.paused
-import renetik.android.ui.view.CSHasTouchEvent
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline function: (down: Boolean) -> Unit
@@ -88,8 +92,8 @@ inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
 
 inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
     crossinline function: (Boolean) -> Unit
-) = onTouch {
-    if (it.isTrue) {
+) = onTouch { isDown ->
+    if (isDown) {
         if (!self.isSelected) {
             function(true)
             self.isActivated = true
@@ -108,4 +112,33 @@ inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
             self.isActivated = false
         }
     }
+}
+
+fun <T> CSHasTouchEvent.onTouch(
+    parent: CSHasRegistrations,
+    repeat: (step: T) -> Unit,
+    step: (repeatCount: Int) -> T,
+    after: Int, interval: Int,
+    until: (step: T) -> Boolean,
+    onDone: () -> Unit
+) {
+    var repeatCount: Int
+    var repeatRegistration: CSRegistration? = null
+    onTouch(down = {
+        repeatCount = 0
+        repeat(step(repeatCount))
+        parent.cancel(repeatRegistration)
+        if (self.isEnabled) repeatRegistration = parent.laterEach(
+            interval, after, function = {
+                repeat(step(repeatCount))
+                repeatCount++
+                if (!until(step(repeatCount))) {
+                    parent.cancel(repeatRegistration)
+                    onDone()
+                }
+            }
+        )
+    }, up = {
+        parent.cancel(repeatRegistration)
+    })
 }
