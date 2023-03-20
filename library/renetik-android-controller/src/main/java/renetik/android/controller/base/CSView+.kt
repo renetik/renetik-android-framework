@@ -14,6 +14,7 @@ import renetik.android.event.registration.start
 import renetik.android.ui.extensions.afterGlobalLayout
 import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.onLongClick
 
 
 fun <T : CSView<*>> T.reusable() = apply { lifecycleStopOnRemoveFromParentView = false }
@@ -27,6 +28,9 @@ fun <T : CSView<*>> T.onClick(action: CSActionInterface): T =
 
 fun <T : CSView<*>> T.onClick(function: (view: T) -> Unit): T =
     apply { contentView.onClick { function(this) } }
+
+fun <T : CSView<*>> T.onLongClick(function: (view: T) -> Unit): T =
+    apply { contentView.onLongClick { function(this) } }
 
 fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
     if (disable) disabledIf(condition)
@@ -60,7 +64,8 @@ fun CSView<*>.onOrientationChange(
             }
         }
     }
-    return register(CSRegistration.CSRegistration(onResume = { listener.enable() },
-        onPause = { listener.disable() }).start()
+    return register(
+        CSRegistration.CSRegistration(onResume = { listener.enable() },
+            onPause = { listener.disable() }).start()
     )
 }
