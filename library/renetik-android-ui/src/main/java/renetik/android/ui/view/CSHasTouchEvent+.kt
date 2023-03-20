@@ -1,4 +1,7 @@
-import android.view.MotionEvent.*
+import android.view.MotionEvent.ACTION_CANCEL
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.MotionEvent.ACTION_UP
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
@@ -7,7 +10,8 @@ import renetik.android.event.registration.paused
 import renetik.android.ui.view.CSHasTouchEvent
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline function: (down: Boolean) -> Unit) = apply {
+    crossinline function: (down: Boolean) -> Unit
+) = apply {
     onTouchEvent = {
         when (it.actionMasked) {
             ACTION_DOWN -> true.also {
@@ -25,8 +29,16 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouchDown(
-    crossinline function: () -> Unit) = apply {
+    crossinline function: () -> Unit
+) = apply {
     onTouch { down -> if (down) function() }
+}
+
+inline fun <T : CSHasTouchEvent> T.onTouch(
+    crossinline down: () -> Unit,
+    crossinline up: () -> Unit
+) = apply {
+    onTouch { down -> if (down) down() else up() }
 }
 
 fun <T : CSHasTouchEvent> T.toggleActiveIf(property: CSProperty<Boolean>): CSRegistration {
@@ -51,7 +63,8 @@ fun <T : CSHasTouchEvent> T.setToggleSelected(pressed: Boolean) = apply {
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
-    crossinline function: (Boolean) -> Unit) = onTouch {
+    crossinline function: (Boolean) -> Unit
+) = onTouch {
     if (it.isTrue) {
         if (!self.isActivated) {
             function(true)
@@ -74,7 +87,8 @@ inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
-    crossinline function: (Boolean) -> Unit) = onTouch {
+    crossinline function: (Boolean) -> Unit
+) = onTouch {
     if (it.isTrue) {
         if (!self.isSelected) {
             function(true)
