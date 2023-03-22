@@ -38,6 +38,13 @@ inline fun <T : CSHasTouchEvent> T.onTouchDown(
     onTouch { down -> if (down) function() }
 }
 
+
+inline fun <T : CSHasTouchEvent> T.onTouchUp(
+    crossinline function: () -> Unit
+) = apply {
+    onTouch { down -> if (!down) function() }
+}
+
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline down: () -> Unit,
     crossinline up: () -> Unit
