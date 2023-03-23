@@ -12,13 +12,15 @@ val CSViewInterface.layoutWidth get() = this.view.layoutParams.width
 val CSViewInterface.layoutHeight get() = this.view.layoutParams.height
 val CSViewInterface.left get() = this.view.left
 val CSViewInterface.top get() = this.view.top
+val CSViewInterface.bottom get() = this.view.top + this.view.height
 val CSViewInterface.center get() = CSPoint(left + width / 2, top + height / 2)
 val CSViewInterface.width get() = view.width
 val CSViewInterface.height get() = view.height
 val CSViewInterface.locationOnScreen get() = view.locationOnScreen
 
 fun <T : CSViewInterface> T.setPercentAspectWidth(
-    view: View, percent: Int) = apply {
+    view: View, percent: Int
+) = apply {
     val onePercent = context.displayWidth / 100.toFloat()
     val wantedWidth = onePercent * percent
 
@@ -33,7 +35,8 @@ fun <T : CSViewInterface> T.setPercentAspectWidth(
 }
 
 fun <T : CSViewInterface> T.setPercentWidth(
-    view: View, percent: Int, minimal: Int = 0, maximal: Int = 0) = apply {
+    view: View, percent: Int, minimal: Int = 0, maximal: Int = 0
+) = apply {
     val onePercent = (context.displayWidth / 100).toDouble()
     var wantedSize = (onePercent * percent).toInt()
     if (minimal.isSet && wantedSize < minimal)
