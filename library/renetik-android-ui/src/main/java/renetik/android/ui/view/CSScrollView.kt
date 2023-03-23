@@ -25,4 +25,10 @@ class CSScrollView @JvmOverloads constructor(
         return if (!handled) isScrollEnabled && super.onTouchEvent(event) else true
     }
 
+    var isInterceptTouchEvent = false
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        isInterceptTouchEvent = super.onInterceptTouchEvent(ev)
+        return isInterceptTouchEvent
+    }
 }

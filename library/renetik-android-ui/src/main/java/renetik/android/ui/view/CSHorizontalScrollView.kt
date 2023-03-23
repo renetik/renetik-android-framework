@@ -3,7 +3,6 @@ package renetik.android.ui.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_DOWN
 import android.widget.HorizontalScrollView
 
 open class CSHorizontalScrollView @JvmOverloads constructor(
@@ -27,11 +26,15 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
         return isScrollEnabled && super.onTouchEvent(ev)
     }
 
-//    override fun onTouchEvent(ev: MotionEvent) = when (ev.action) {
+    //    override fun onTouchEvent(ev: MotionEvent) = when (ev.action) {
 //        ACTION_DOWN -> isScrollEnabled && super.onTouchEvent(ev)
 //        else -> super.onTouchEvent(ev)
 //    }
 
-//    override fun onInterceptTouchEvent(ev: MotionEvent) =
-//        isScrollEnabled && super.onInterceptTouchEvent(ev)
+    var isInterceptTouchEvent = false
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        isInterceptTouchEvent = super.onInterceptTouchEvent(ev)
+        return isInterceptTouchEvent
+    }
 }
