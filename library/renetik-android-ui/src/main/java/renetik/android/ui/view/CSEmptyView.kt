@@ -9,12 +9,15 @@ import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
-import renetik.android.ui.R.styleable.*
+import renetik.android.ui.R.styleable.CSLayout
+import renetik.android.ui.R.styleable.CSLayout_dispatchState
+import renetik.android.ui.R.styleable.CSLayout_maxWidth
+import renetik.android.ui.R.styleable.CSLayout_minWidth
 
 open class CSEmptyView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0, defStyleRes: Int = 0)
-    : View(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
+    defStyleAttr: Int = 0, defStyleRes: Int = 0
+) : View(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
 
     private val minWidth: Int
     private val maxWidth: Int
