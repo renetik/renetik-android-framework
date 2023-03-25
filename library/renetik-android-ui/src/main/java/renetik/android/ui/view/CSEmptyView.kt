@@ -19,13 +19,13 @@ open class CSEmptyView @JvmOverloads constructor(
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
 
+    override val self: View get() = this
+    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     private val minWidth: Int
     private val maxWidth: Int
     var dispatchState: Boolean
-    val eventOnDraw = event<Canvas>()
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-    override val self: View get() = this
-    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    val eventOnDraw = event<Canvas>()
     var eventOnLayout = event()
 
     init {
@@ -57,11 +57,6 @@ open class CSEmptyView @JvmOverloads constructor(
         if (dispatchState) super.dispatchSetPressed(pressed)
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-        eventOnDraw.fire(canvas)
-    }
-
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return false
         val handled = onDispatchTouchEvent?.invoke(event) ?: false
@@ -77,5 +72,10 @@ open class CSEmptyView @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         eventOnLayout.fire()
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        eventOnDraw.fire(canvas)
     }
 }

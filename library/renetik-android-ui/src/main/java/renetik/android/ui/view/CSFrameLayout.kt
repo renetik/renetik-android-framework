@@ -10,41 +10,40 @@ import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
-import renetik.android.ui.R
+import renetik.android.ui.R.styleable.CSLayout
+import renetik.android.ui.R.styleable.CSLayout_dispatchState
+import renetik.android.ui.R.styleable.CSLayout_maxWidth
+import renetik.android.ui.R.styleable.CSLayout_minWidth
 
 open class CSFrameLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
 
+    override val self: View get() = this
+    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     private val minWidth: Int
     private val maxWidth: Int
     var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-    override val self: View get() = this
-    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     val eventOnDraw = event<Canvas>()
     var eventOnLayout = event()
 
     init {
-        val attributes =
-            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
-        try {
-            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, -1)
-            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, -1)
-            dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
-        } finally {
-            attributes.recycle()
+        context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0).let {
+            minWidth = it.getDimensionPixelSize(CSLayout_minWidth, -1)
+            maxWidth = it.getDimensionPixelSize(CSLayout_maxWidth, -1)
+            dispatchState = it.getBoolean(CSLayout_dispatchState, true)
+            it.recycle()
         }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (minWidth != -1 && measuredWidth < minWidth) {
+        if (minWidth != -1 && measuredWidth < minWidth)
             super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
-        } else if (maxWidth != -1 && measuredWidth > maxWidth) {
+        else if (maxWidth != -1 && measuredWidth > maxWidth)
             super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
-        }
     }
 
     override fun dispatchSetActivated(activated: Boolean) {
@@ -71,13 +70,13 @@ open class CSFrameLayout @JvmOverloads constructor(
         return if (!handled) super.onTouchEvent(event) else true
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-        eventOnDraw.fire(canvas)
-    }
-
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         eventOnLayout.fire()
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        eventOnDraw.fire(canvas)
     }
 }
