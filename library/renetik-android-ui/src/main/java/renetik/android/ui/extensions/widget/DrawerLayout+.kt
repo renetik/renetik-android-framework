@@ -15,8 +15,9 @@ import renetik.android.ui.view.adapter.CSDrawerAdapter
 @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
 annotation class EdgeGravity
 
-private fun DrawerLayout.toggleDrawer(@EdgeGravity gravity: Int) =
-    if (isDrawerOpen(gravity)) closeDrawer(gravity) else openDrawer(gravity)
+private fun DrawerLayout.toggleDrawer(
+    @EdgeGravity gravity: Int, animate: Boolean = true
+) = if (isDrawerOpen(gravity)) closeDrawer(gravity, animate) else openDrawer(gravity, animate)
 
 fun DrawerLayout.toggleLeft() = toggleDrawer(START)
 
@@ -32,10 +33,9 @@ fun DrawerLayout.closeLeft() {
     if (isDrawerOpen(START)) closeDrawer(START)
 }
 
-fun DrawerLayout.openLeft() = openDrawer(START)
+fun DrawerLayout.openLeft(animate: Boolean = true) = openDrawer(START, animate)
 
-fun DrawerLayout.toggleRight() =
-    toggleDrawer(END)
+fun DrawerLayout.toggleRight(animate: Boolean = true) = toggleDrawer(END, animate)
 
 fun DrawerLayout.closeRight() {
     if (isDrawerOpen(END)) closeDrawer(END)
@@ -46,7 +46,7 @@ fun DrawerLayout.closeAll() {
     closeLeft()
 }
 
-fun DrawerLayout.openRight() = openDrawer(END)
+fun DrawerLayout.openRight(animate: Boolean = true) = openDrawer(END, animate)
 
 val DrawerLayout.isDrawerOpen get() = isDrawerOpen(START) or isDrawerOpen(END)
 
