@@ -22,7 +22,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
-import renetik.android.core.kotlin.sequences.findNextAfter
 import renetik.android.core.lang.Void
 import renetik.android.core.lang.catchAll
 import renetik.android.event.CSEvent
@@ -121,7 +120,7 @@ fun View.onClick(action: CSEvent<Void>) = onClick { action.fire() }
 @Suppress("DEPRECATION")
 fun View.enterFullScreen() {
     systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or
-            View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }
 
 @Suppress("DEPRECATION")
@@ -152,13 +151,27 @@ fun View.onDestroy() {
 }
 
 fun View.performTouchDown(time: Int = 700): Boolean =
-    dispatchTouchEvent(obtain(uptimeMillis(),
-        uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0))
+    dispatchTouchEvent(
+        obtain(
+            uptimeMillis(),
+            uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0
+        )
+    )
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild
-
-val View.nextView get() = parentView?.children?.findNextAfter(this)
 
 fun View.description(string: String) = apply { contentDescription = string }
 
 val View.lastChild get() = (this as? ViewGroup)?.lastChild
+
+val View.previousView: View?
+    get() {
+        val index = parentView?.indexOfChild(this)
+        return index?.let { parentView?.getChildAt(it - 1) }
+    }
+
+val View.nextView: View?
+    get() {
+        val index = parentView?.indexOfChild(this)
+        return index?.let { parentView?.getChildAt(it + 1) }
+    }
