@@ -11,7 +11,7 @@ import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
-import renetik.android.core.lang.lazyVar
+import renetik.android.core.lang.nullableLazyVar
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
@@ -215,7 +215,7 @@ open class CSActivityView<ViewType : View>
     protected open fun onViewHidingFirstTime() {}
     protected open fun onViewHidingAgain() {}
 
-    open var navigation: CSNavigationView? by lazyVar {
+    open var navigation: CSNavigationView? by nullableLazyVar {
         findNavigation()?.also { listenOnce(it.eventDestruct) { navigation = null } }
     }
 

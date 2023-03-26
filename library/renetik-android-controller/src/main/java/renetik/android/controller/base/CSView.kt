@@ -9,7 +9,7 @@ import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
-import renetik.android.core.lang.lazyVar
+import renetik.android.core.lang.nullableLazyVar
 import renetik.android.event.common.CSContext
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.inflate
@@ -29,7 +29,7 @@ open class CSView<ViewType : View> : CSContext,
 
     private var parent: CSViewInterface? = null
 
-    private var group: ViewGroup? by lazyVar {
+    private var group: ViewGroup? by nullableLazyVar {
         parent?.view as? ViewGroup ?: (parent as? CSView<*>)?.group
     }
 
