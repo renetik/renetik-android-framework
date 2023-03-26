@@ -9,8 +9,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.kotlin.notNull
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
-import renetik.android.event.property.CSActionInterface
-import renetik.android.event.property.start
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.listenOnce
@@ -94,16 +92,17 @@ fun CSViewInterface.afterGlobalLayout(function: () -> Unit): CSRegistration =
     view.afterLayout(this) { function() }
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
-        where  Type : CSViewInterface =
+    where  Type : CSViewInterface =
     register(view.onGlobalFocus { old, new -> function(old, new) })
 
+@Suppress("DEPRECATION")
 fun CSViewInterface.onSystemUiVisibilityChangeListener(
     function: () -> Unit
 ): CSRegistration {
-    @Suppress("DEPRECATION")
     view.setOnSystemUiVisibilityChangeListener { function() }
-    return CSRegistration(
-        onCancel = { view.setOnSystemUiVisibilityChangeListener(null) })
+    return CSRegistration(onCancel = {
+        view.setOnSystemUiVisibilityChangeListener(null)
+    })
 }
 
 val CSViewInterface.displayCutout: CSDisplayCutout?

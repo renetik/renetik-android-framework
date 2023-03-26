@@ -1,14 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="renetik.android.framework">
-    <!--    <application>-->
-    <!--        <provider-->
-    <!--            android:name=".controller.getpicture.GetPictureFileProvider"-->
-    <!--            android:authorities="${applicationId}.renetik.android.framework.controller.getpicture.fileprovider"-->
-    <!--            android:exported="false"-->
-    <!--            android:grantUriPermissions="true">-->
-    <!--            <meta-data-->
-    <!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-    <!--                android:resource="@xml/file_provider"/>-->
-    <!--        </provider>-->
-    <!--    </application>-->
-</manifest>
+<manifest package="renetik.android.framework" />
