@@ -4,7 +4,7 @@ import renetik.android.event.common.CSHasDestruct
 import renetik.android.network.data.CSServerMapData
 import renetik.android.network.process.CSMultiProcessBase
 import renetik.android.network.process.CSProcess
-import renetik.android.network.process.CSServerWithPing
+import renetik.android.network.CSServerWithPing
 
 open class CSPingMultiProcess<Data : Any> : CSMultiProcessBase<Data> {
 

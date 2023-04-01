@@ -19,7 +19,7 @@ import renetik.android.json.toJSONObject
 import renetik.android.json.toJson
 import renetik.android.network.data.CSHttpResponseData
 import renetik.android.network.operation.CSHttpOperation
-import renetik.android.network.process.CSHttpProcess
+import renetik.android.network.CSHttpProcess
 import java.io.File
 import java.util.concurrent.TimeUnit
 

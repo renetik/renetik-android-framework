@@ -9,13 +9,14 @@ import renetik.android.core.lang.catchErrorReturn
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.network.data.CSHttpResponseData
-import renetik.android.network.process.CSHttpProcess
+import renetik.android.network.CSHttpProcess
 import java.io.IOException
 
 const val APPLICATION_ERROR = "Application error or invalid data"
 
 class CSOkHttpResponseListener<Data : CSHttpResponseData>(
-    private val client: OkHttpClient, private val process: CSHttpProcess<Data>)
+    private val client: OkHttpClient, private val process: CSHttpProcess<Data>
+)
     : OkHttpResponseAndStringRequestListener {
 
     override fun onResponse(http: Response, content: String) {

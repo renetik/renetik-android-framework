@@ -2,7 +2,7 @@ package renetik.android.network.ping
 
 import renetik.android.network.operation.CSOperation
 import renetik.android.network.process.CSProcess
-import renetik.android.network.process.CSServerWithPing
+import renetik.android.network.CSServerWithPing
 
 open class CSPingOperation<Data : Any>(
     server: CSServerWithPing,
