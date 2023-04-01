@@ -11,16 +11,13 @@ import androidx.core.view.updateLayoutParams
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.dialog.DialogAnimation.Fade
+import renetik.android.controller.base.dialog.DialogAnimation.None
 import renetik.android.controller.base.dialog.DialogAnimation.Slide
 import renetik.android.controller.base.dialog.DialogAnimation.SlideFade
 import renetik.android.controller.base.dialog.DialogPopupSide.Bottom
 import renetik.android.controller.base.dialog.DialogPopupSide.Right
 import renetik.android.controller.base.dialog.DialogPopupSide.Top
-import renetik.android.controller.common.CSNavigationAnimation.FadeIn
-import renetik.android.controller.common.CSNavigationAnimation.FadeOut
-import renetik.android.controller.common.CSNavigationAnimation.None
-import renetik.android.controller.common.CSNavigationAnimation.SlideInRight
-import renetik.android.controller.common.CSNavigationAnimation.SlideOutLeft
+import renetik.android.controller.common.CSNavigationAnimation
 import renetik.android.controller.common.CSNavigationItem
 import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
@@ -95,16 +92,16 @@ open class CSNavigationWindow<ViewType : View>(
 
     override val pushAnimation
         get() = when (animation) {
-            Slide, SlideFade -> SlideInRight
-            Fade -> FadeIn
-            DialogAnimation.None -> None
+            Slide, SlideFade -> CSNavigationAnimation.SlideInRight
+            Fade -> CSNavigationAnimation.FadeIn
+            None -> CSNavigationAnimation.None
         }
 
     override val popAnimation
         get() = when (animation) {
-            Slide -> SlideOutLeft
-            Fade, SlideFade -> FadeOut
-            DialogAnimation.None -> None
+            Slide -> CSNavigationAnimation.SlideOutLeft
+            Fade, SlideFade -> CSNavigationAnimation.FadeOut
+            None -> CSNavigationAnimation.None
         }
 
     fun from(button: View, side: DialogPopupSide = Bottom) = apply {
