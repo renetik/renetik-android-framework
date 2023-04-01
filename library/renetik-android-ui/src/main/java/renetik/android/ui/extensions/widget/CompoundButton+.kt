@@ -9,6 +9,7 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.paused
 import renetik.android.ui.R
@@ -80,7 +81,7 @@ inline fun <T> CompoundButton.checkedIf(
         childRegistration?.cancel()
         childRegistration = checkedIf(child(it))
     }
-    return CSRegistration.CSRegistration(isActive = true, onCancel = {
+    return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
     })
@@ -97,7 +98,7 @@ inline fun <T> CompoundButton.checkedIf(
         childRegistration = childNullable(it)?.let { checkedIf(it) }
         if (childRegistration == null) checkedIf(false)
     }
-    return CSRegistration.CSRegistration(isActive = true, onCancel = {
+    return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
         childRegistration?.cancel()
     })
