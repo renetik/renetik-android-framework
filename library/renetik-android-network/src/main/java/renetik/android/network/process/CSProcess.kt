@@ -14,12 +14,14 @@ import renetik.android.event.registration.later
 
 open class CSProcess<Data : Any>(
     parent: CSHasDestruct? = null,
-    var data: Data? = null) : CSModel(parent) {
+    var data: Data? = null
+) : CSModel(parent) {
 
     companion object {
         fun <Data : Any> CSProcess(
-            parent: CSHasDestruct, function: CSProcess<Data>.() -> Unit)
-                : CSProcess<Data> = CSProcess<Data>(parent).also {
+            parent: CSHasDestruct, function: CSProcess<Data>.() -> Unit
+        )
+            : CSProcess<Data> = CSProcess<Data>(parent).also {
             it.later { function(it) }
         }
     }
@@ -68,7 +70,7 @@ open class CSProcess<Data : Any>(
     }
 
     private fun onSuccessImpl() {
-        logDebug { message("Response onSuccessImpl $this, $data") }
+        logDebug { message("onSuccessImpl $this, $data") }
         if (isFailed) logError { traceMessage("already failed") }
         if (isSuccess) logError { traceMessage("already success") }
         if (isDone) logError { traceMessage("already done") }
@@ -112,9 +114,11 @@ open class CSProcess<Data : Any>(
 
     open fun cancel() {
         logDebug {
-            message("Response cancel, $this, isDestroyed:$isDestructed, " +
+            message(
+                "cancel $this, isDestroyed:$isDestructed, " +
                     "isCanceled:$isCanceled, isDone:$isDone, " +
-                    "isSuccess:$isSuccess, isFailed:$isFailed")
+                    "isSuccess:$isSuccess, isFailed:$isFailed"
+            )
         }
         if (isDestructed || isCanceled || isDone || isSuccess || isFailed) return
         isCanceled = true
@@ -123,7 +127,7 @@ open class CSProcess<Data : Any>(
     }
 
     private fun onDoneImpl() {
-        logDebug { message("Response onDone: $this") }
+        logDebug { message("onDoneImpl: $this") }
         if (isDone) {
             logError { traceMessage("already done") }
             return
