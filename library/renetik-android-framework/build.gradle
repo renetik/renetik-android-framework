@@ -15,13 +15,16 @@ dependencies {
     if (rootProject.ext.is_renetik_library_release) api "$renetik_android_preset"
     else api project(':renetik-android-preset')
 
-    api project(':renetik-android-network')
-    api project(':renetik-android-network-okhttp3')
+    if (rootProject.ext.is_renetik_library_network) {
+        api project(':renetik-android-network')
+        api project(':renetik-android-network-okhttp3')
+    }
     api project(':renetik-android-ui')
     api project(':renetik-android-ui-picker')
     api project(':renetik-android-material')
     api project(':renetik-android-imaging')
     api project(':renetik-android-controller')
-    api project(':renetik-android-controller-maps')
-    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    if (rootProject.ext.is_renetik_library_maps) {
+        api project(':renetik-android-controller-maps')
+    }
 }
