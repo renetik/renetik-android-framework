@@ -1,7 +1,7 @@
 package renetik.android.network.ping
 
 import renetik.android.network.operation.CSOperation
-import renetik.android.network.process.CSConcurrentProcess
+import renetik.android.event.process.CSConcurrentProcess
 import renetik.android.network.CSServerWithPing
 
 open class CSPingConcurrentOperation<T : Any>(

@@ -1,6 +1,7 @@
 package renetik.android.network.process
 
 import renetik.android.core.lang.CSTimeConstants.Second
+import renetik.android.event.process.CSProcess
 import renetik.android.event.registration.later
 import renetik.android.json.obj.CSJsonObject
 import renetik.android.json.obj.load

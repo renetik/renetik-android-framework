@@ -4,7 +4,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.DownloadListener
 import renetik.android.event.common.CSHasDestruct
-import renetik.android.network.process.CSProcess
+import renetik.android.event.process.CSProcess
 import java.io.File
 
 class CSDownloadRequest(

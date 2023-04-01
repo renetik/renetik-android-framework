@@ -3,10 +3,11 @@ package renetik.android.network.operation
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
 import renetik.android.event.common.parent
-import renetik.android.network.process.CSProcess
+import renetik.android.event.process.CSProcess
 
 open class CSOperation<Data : Any>(
-    private val createProcess: CSOperation<Data>.() -> CSProcess<Data>)
+    private val createProcess: CSOperation<Data>.() -> CSProcess<Data>
+)
     : CSModel() {
 
     val eventSuccess = event<CSProcess<Data>>()
