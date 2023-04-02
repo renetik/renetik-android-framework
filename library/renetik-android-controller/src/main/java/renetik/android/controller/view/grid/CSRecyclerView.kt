@@ -15,7 +15,7 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.later
+import renetik.android.event.registration.registerLater
 import renetik.android.event.registration.register
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.*
@@ -108,7 +108,7 @@ class CSRecyclerView<ItemType : Any>(
         if (smooth) {
             val scroller = CSCenteringRecyclerSmoothScroller(this, speedPerPixel)
             scroller.targetPosition = position
-            later(shortAnimationDuration) {
+            registerLater(shortAnimationDuration) {
                 view.layoutManager?.startSmoothScroll(scroller) ?: unexpected()
             }
         } else view.scrollToPosition(position)

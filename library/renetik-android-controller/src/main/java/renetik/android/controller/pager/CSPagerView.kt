@@ -4,7 +4,7 @@ import android.view.View
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.kotlin.collections.*
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.registration.later
+import renetik.android.event.registration.registerLater
 import renetik.android.ui.extensions.view.shownIf
 
 class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
@@ -86,7 +86,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
 
     // Bug in pager , animation work just when delayed
     private fun setActive(index: Int, animated: Boolean = true) = apply {
-        if (animated) later { view.setCurrentItem(index, true) }
+        if (animated) registerLater { view.setCurrentItem(index, true) }
         else view.setCurrentItem(index, false)
     }
 
