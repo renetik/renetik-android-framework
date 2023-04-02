@@ -159,17 +159,7 @@ open class CSNavigationWindow<ViewType : View>(
         dialogContent.y = desiredY
     }
 
-    fun center() = this.center(null, null)
 
-    fun center(width: Int? = null, height: Int? = null) = apply {
-        isFullscreenNavigationItem.setFalse()
-        animation = Fade
-        dialogContent.updateLayoutParams<LayoutParams> {
-            gravity = CENTER
-            width?.let { this.width = it }
-            height?.let { this.height = it }
-        }
-    }
 
     fun fullScreen() = apply {
         isFullscreenNavigationItem.setTrue()
