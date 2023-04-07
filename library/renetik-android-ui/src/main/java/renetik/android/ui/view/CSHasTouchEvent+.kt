@@ -9,7 +9,6 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.cancel
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.registerRepeat
 
@@ -125,7 +124,7 @@ fun <T> CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
     repeat: (step: T) -> Unit,
     step: (repeatCount: Int) -> T,
-    after: Int, interval: Int,
+    delay: Int, period: Int,
     until: (step: T) -> Boolean,
     onDone: () -> Unit
 ) {
@@ -134,18 +133,18 @@ fun <T> CSHasTouchEvent.onTouch(
     onTouch(down = {
         repeatCount = 0
         repeat(step(repeatCount))
-        parent.cancel(repeatRegistration)
+        repeatRegistration?.cancel()
         if (self.isEnabled) repeatRegistration = parent.registerRepeat(
-            interval, after, function = {
+            delay, period, function = {
                 repeat(step(repeatCount))
                 repeatCount++
                 if (!until(step(repeatCount))) {
-                    parent.cancel(repeatRegistration)
+                    repeatRegistration?.cancel()
                     onDone()
                 }
             }
         )
     }, up = {
-        parent.cancel(repeatRegistration)
+        repeatRegistration?.cancel()
     })
 }
