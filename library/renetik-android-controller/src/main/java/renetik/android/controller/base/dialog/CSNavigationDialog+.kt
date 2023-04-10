@@ -5,7 +5,9 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.updateLayoutParams
 import renetik.android.controller.base.dialog.DialogAnimation.Fade
+import renetik.android.controller.base.dialog.DialogAnimation.None
 import renetik.android.core.kotlin.then
+import renetik.android.core.lang.CSLeakCanary
 import renetik.android.core.lang.variable.setFalse
 
 fun <T : CSNavigationWindow<*>> T.selectedButton(button: View) = apply {
@@ -14,7 +16,7 @@ fun <T : CSNavigationWindow<*>> T.selectedButton(button: View) = apply {
 }
 
 fun <T : CSNavigationWindow<*>> T.show(animation: DialogAnimation = Fade) = apply {
-    this.animation = animation
+    this.animation = if (CSLeakCanary.enabled) None else animation
     navigation!!.push(this)
     updateVisibility()
 }
