@@ -1,3 +1,4 @@
+rootProject.ext.namespace = 'renetik.android.network'
 apply from: '../../library.gradle'
 dependencies {
     if (rootProject.ext.is_renetik_library_release) implementation "$renetik_android_core"
