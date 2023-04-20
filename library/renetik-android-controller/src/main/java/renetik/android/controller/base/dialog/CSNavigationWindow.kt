@@ -1,6 +1,5 @@
 package renetik.android.controller.base.dialog
 
-import android.view.Gravity.CENTER
 import android.view.Gravity.START
 import android.view.Gravity.TOP
 import android.view.View
@@ -36,7 +35,7 @@ import renetik.android.event.listen
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
-import renetik.android.ui.extensions.afterGlobalLayout
+import renetik.android.ui.extensions.registerAfterGlobalLayout
 import renetik.android.ui.extensions.onHasSize
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.background
@@ -170,7 +169,7 @@ open class CSNavigationWindow<ViewType : View>(
     fun wrapContentIfNotFullscreen() {
         if (isFullscreenNavigationItem.isTrue) return
         dialogContent.heightWrap()
-        afterGlobalLayout(::correctContentOverflow)
+        registerAfterGlobalLayout(::correctContentOverflow)
     }
 
     override fun close() = dismiss()

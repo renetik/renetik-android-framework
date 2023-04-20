@@ -15,19 +15,21 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.registerLater
 import renetik.android.event.registration.register
+import renetik.android.event.registration.registerLater
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.*
 
 @Suppress("UNCHECKED_CAST")
 class CSRecyclerView<ItemType : Any>(
     val parent: CSActivityView<*>, viewId: Int,
-    val createView: (CSRecyclerView<ItemType>, viewType: Int,
-                     parent: ViewGroup) -> CSGridItemView<ItemType>)
-    : CSView<RecyclerView>(parent, viewId) {
+    val createView: (
+        CSRecyclerView<ItemType>, viewType: Int,
+        parent: ViewGroup
+    ) -> CSGridItemView<ItemType>
+) : CSView<RecyclerView>(parent, viewId) {
 
-    class CSRecyclerViewItem<ItemType>(val data: ItemType, val type: Int = 0)
+    data class CSRecyclerViewItem<ItemType>(val data: ItemType, val type: Int = 0)
 
     val selectedItem: CSProperty<ItemType?> = property(null)
     private var adapter = Adapter()
