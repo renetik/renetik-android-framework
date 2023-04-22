@@ -1,5 +1,6 @@
 rootProject.ext.namespace = 'renetik.android.framework'
-apply from: '../../library.gradle'
+if (rootProject.ext.is_renetik_library_module) apply from: '../../library.gradle'
+else apply from: '../../../library.gradle'
 dependencies {
     if (rootProject.ext.is_renetik_library_release) api "$renetik_android_core"
     else api project(':renetik-android-core')
