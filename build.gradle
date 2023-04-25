@@ -1,22 +1,27 @@
 apply from: 'renetik_android_build_common.gradle'
 buildscript {
     ext {
-        kotlin_version = "1.8.0"
+        kotlin_version = "1.8.20"
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath 'com.android.tools.build:gradle:8.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$kotlin_version"
+        if (rootProject.ext.is_renetik_library_release)
+            classpath "org.jetbrains.dokka:dokka-gradle-plugin:$kotlin_version"
     }
 }
-apply plugin: 'org.jetbrains.dokka'
-dokkaHtmlMultiModule {
-    outputDirectory = file("${projectDir}/docs")
-    includes.from("README.md")
-    pluginsMapConfiguration.set(["org.jetbrains.dokka.base.DokkaBase":
-                                         """{ "footerMessage": "Check out www.renetik.com"}"""])
+if (rootProject.ext.is_renetik_library_release) {
+    apply plugin: 'org.jetbrains.dokka'
+
+    dokkaHtmlMultiModule {
+        outputDirectory = file("${projectDir}/docs")
+        includes.from("README.md")
+        pluginsMapConfiguration.set([
+                "org.jetbrains.dokka.base.DokkaBase":
+                        """{ "footerMessage": "Check out www.renetik.com"}"""])
+    }
 }
