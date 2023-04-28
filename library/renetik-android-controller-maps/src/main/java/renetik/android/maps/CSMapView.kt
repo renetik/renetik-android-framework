@@ -48,7 +48,7 @@ open class CSMapView(parent: CSActivityView<*>, private val options: GoogleMapOp
         try {
             function()
         } catch (ex: RuntimeException) {
-            logError { message(ex) }
+            logError(ex)
             if (ex.message?.contains("API key not found") == true) unfinished()
             //TODO finish if CSMapView is used ever
 //                dialog("Error", ex.message!!).cancelable(false).show {

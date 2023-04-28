@@ -20,6 +20,7 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.logging.CSLog.logWarn
+import renetik.android.core.logging.CSLog.logWarnTrace
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
 import renetik.android.ui.R.color.cs_dialog_background
@@ -68,7 +69,7 @@ class CSNavigationView : CSActivityView<FrameLayout> {
     fun pop(controller: CSActivityView<*>) {
 //        logDebug { message(controller) }
         controllersMap.remove(controller.toString()).ifNull {
-            logWarn { traceMessage("Controller $controller not found in navigation") }
+            logWarnTrace { "Controller $controller not found in navigation" }
         }.elseDo { popController(controller) }
     }
 

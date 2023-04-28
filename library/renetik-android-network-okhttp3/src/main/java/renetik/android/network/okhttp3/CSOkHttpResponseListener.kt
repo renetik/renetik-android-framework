@@ -20,7 +20,7 @@ class CSOkHttpResponseListener<Data : CSHttpResponseData>(
     : OkHttpResponseAndStringRequestListener {
 
     override fun onResponse(http: Response, content: String) {
-        logInfo { message("${process.url} ${http.code}, ${http.message}, $content") }
+        logInfo { "${process.url} ${http.code}, ${http.message}, $content" }
         process.data!!.onHttpResponse(http.code, http.message, content)
         catchErrorReturn<Unit, Exception>({
             if (process.data!!.success) process.success()

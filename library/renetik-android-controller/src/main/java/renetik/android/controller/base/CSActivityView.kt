@@ -14,6 +14,7 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.nullableLazyVar
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarn
+import renetik.android.core.logging.CSLog.logWarnTrace
 import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
@@ -86,7 +87,7 @@ open class CSActivityView<ViewType : View>
 
     open fun onPause() {
         if (isPaused && isVisible) {
-            logWarn { traceMessage("Not Resumed while paused, should be resumed first:$this") }
+            logWarnTrace { "Not Resumed while paused, should be resumed first:$this" }
             return
         }
         isResumed = false

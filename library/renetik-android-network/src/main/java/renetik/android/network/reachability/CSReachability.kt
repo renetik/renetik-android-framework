@@ -20,7 +20,7 @@ class CSReachability : CSContext() {
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            logDebug { message(intent.asString) }
+            logDebug { intent.asString }
             onNetworkStateChange()
         }
     }

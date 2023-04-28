@@ -33,19 +33,19 @@ class CSHeadsetAudioPlugDetector(
     fun onReceive(intent: Intent) {
         if (intent.action == ACTION_HEADSET_PLUG) {
             logInfo {
-                message("ACTION_HEADSET_PLUG isInitialStickyBroadcast " +
-                        "${receiver.isInitialStickyBroadcast}")
+                "ACTION_HEADSET_PLUG isInitialStickyBroadcast " +
+                        "${receiver.isInitialStickyBroadcast}"
             }
             when (intent.getIntExtra("state", -1)) {
                 0 -> {
-                    logInfo { message("ACTION_HEADSET_PLUG isUnplugged ") }
+                    logInfo { "ACTION_HEADSET_PLUG isUnplugged " }
                     onHeadsetPlugChanged(false)
                 }
                 1 -> {
-                    logInfo { message("ACTION_HEADSET_PLUG isPlugged ") }
+                    logInfo { "ACTION_HEADSET_PLUG isPlugged " }
                     onHeadsetPlugChanged(true)
                 }
-                else -> logWarn { message("ACTION_HEADSET_PLUG unknown ") }
+                else -> logWarn { "ACTION_HEADSET_PLUG unknown " }
             }
         }
     }

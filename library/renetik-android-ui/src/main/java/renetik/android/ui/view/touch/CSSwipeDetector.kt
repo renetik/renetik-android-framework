@@ -6,15 +6,17 @@ import android.view.MotionEvent.ACTION_MOVE
 import android.view.View
 import renetik.android.core.kotlin.primitives.dp
 import renetik.android.core.logging.CSLog.logInfo
-import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.*
+import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.BottomToTop
+import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.LeftToRight
+import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.RightToLeft
+import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.TopToBottom
 import kotlin.math.abs
 
 class CSSwipeDetector(
     view: View,
     private val minDistance: Int = 30.dp,
-    function: (CSSwipeType) -> Unit
+    function: (CSSwipeType) -> Unit,
 ) : View.OnTouchListener {
 
     private var downX = 0F
@@ -79,10 +81,8 @@ class CSSwipeDetector(
                     }
                 } else
                     logInfo {
-                        message(
-                            "Swipe was only ${abs(deltaX)} long, " +
-                                    "need at least $minDistance"
-                        )
+                        "Swipe was only ${abs(deltaX)} long, " +
+                            "need at least $minDistance"
                     }
                 // swipe vertical?
                 if (abs(deltaY) > minDistance) {
@@ -97,10 +97,8 @@ class CSSwipeDetector(
                     }
                 } else {
                     logInfo {
-                        message(
-                            "Swipe was only ${abs(deltaX)} long, " +
-                                    "need at least $minDistance"
-                        )
+                        "Swipe was only ${abs(deltaX)} long, " +
+                            "need at least $minDistance"
                     }
                     view.performClick()
                 }
@@ -108,6 +106,5 @@ class CSSwipeDetector(
         }
         return false
     }
-
 
 }

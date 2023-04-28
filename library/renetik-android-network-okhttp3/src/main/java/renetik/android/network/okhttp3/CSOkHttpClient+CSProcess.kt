@@ -30,7 +30,7 @@ fun <ServerDataType : CSHttpResponseData> CSOkHttpClient.upload(
     data: ServerDataType
 ) = CSHttpProcess(parent, "$url/$service", data).also { process ->
     val request = AndroidNetworking.upload(process.url).addMultipartFile("file", file).build()
-    logInfo { message("upload ${request.url} $file") }
+    logInfo { "upload ${request.url} $file" }
     request.setUploadProgressListener { uploaded, total ->
         process.progress = total / uploaded
     }.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
@@ -54,7 +54,7 @@ fun <ServerDataType : CSHttpResponseData> CSOkHttpClient.get(
     }
 
     builder.build().apply {
-        logInfo { message("get $url") }
+        logInfo { "get $url" }
         getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
     }
 }
@@ -64,7 +64,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
     responseData: ResponseData, params: Map<String, String>
 ) = CSHttpProcess(parent, "$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addBodyParameter(params).build()
-    logInfo { message("post ${request.url}") }
+    logInfo { "post ${request.url}" }
     request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
 
@@ -82,7 +82,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
     responseData: ResponseData, data: JSONObject
 ) = CSHttpProcess(parent, "$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONObjectBody(data).build()
-    logInfo { message("post:${request.url} json:${data.toJson(formatted = true)}") }
+    logInfo { "post:${request.url} json:${data.toJson(formatted = true)}" }
     request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
 
@@ -90,7 +90,7 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.postJson(
     parent: CSHasDestruct, service: String, responseData: ResponseData, data: List<*>
 ) = CSHttpProcess(parent, "$url/$service", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONArrayBody(data.toJSONArray()).build()
-    logInfo { message("post:${request.url} json:${data.toJson(formatted = true)}") }
+    logInfo { "post:${request.url} json:${data.toJson(formatted = true)}" }
     request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
 
@@ -98,6 +98,6 @@ fun <ResponseData : CSHttpResponseData> CSOkHttpClient.post(
     parent: CSHasDestruct, url: String, data: CSJsonObject, responseData: ResponseData
 ) = CSHttpProcess(parent, "${this.url}/$url", responseData).also { process ->
     val request = AndroidNetworking.post(process.url).addJSONObjectBody(data.toJsonObject()).build()
-    logInfo { message("post ${request.url}") }
+    logInfo { "post ${request.url}" }
     request.getAsOkHttpResponseAndString(CSOkHttpResponseListener(client, process))
 }
