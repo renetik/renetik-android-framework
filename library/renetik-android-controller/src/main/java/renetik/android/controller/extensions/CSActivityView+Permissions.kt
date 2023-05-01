@@ -1,6 +1,5 @@
 package renetik.android.controller.extensions
 
-import android.os.Build.VERSION.SDK_INT
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
@@ -16,21 +15,18 @@ fun CSActivityView<*>.requestPermissions(permissions: List<String>, onGranted: (
     requestPermissions(permissions, onGranted, null)
 }
 
-fun CSActivityView<*>.requestPermissionsWithForce(permissions: List<String>,
-                                                  onGranted: () -> Unit) {
-    requestPermissions(permissions,
-        onGranted,
-        { requestPermissionsWithForce(permissions, onGranted) })
+fun CSActivityView<*>.requestPermissionsWithForce(
+    permissions: List<String>,
+    onGranted: () -> Unit,
+) {
+    requestPermissions(permissions, onGranted,
+        onNotGranted = { requestPermissionsWithForce(permissions, onGranted) })
 }
 
 fun CSActivityView<*>.requestPermissions(
     permissions: List<String>,
-    onGranted: (() -> Unit)? = null, onNotGranted: (() -> Unit)? = null
+    onGranted: (() -> Unit)? = null, onNotGranted: (() -> Unit)? = null,
 ) {
-    if (SDK_INT < 23) {
-        onGranted?.invoke()
-        return
-    }
     val deniedPermissions = getDeniedPermissions(permissions)
     if (deniedPermissions.isSet) {
         val requestCode = randomInt(0, 999)
