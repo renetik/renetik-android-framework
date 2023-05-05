@@ -25,8 +25,8 @@ class CSRecyclerView<ItemType : Any>(
     val parent: CSActivityView<*>, viewId: Int,
     val createView: (
         CSRecyclerView<ItemType>, viewType: Int,
-        parent: ViewGroup
-    ) -> CSGridItemView<ItemType>
+        parent: ViewGroup,
+    ) -> CSGridItemView<ItemType>,
 ) : CSView<RecyclerView>(parent, viewId) {
 
     data class CSRecyclerViewItem<ItemType>(val data: ItemType, val type: Int = 0)
@@ -104,7 +104,7 @@ class CSRecyclerView<ItemType : Any>(
     }
 
     fun scrollToActive(
-        smooth: Boolean = true, speedPerPixel: Int = shortAnimationDuration
+        smooth: Boolean = true, speedPerPixel: Int = shortAnimationDuration,
     ) = apply {
         val position = data.firstIndex { it.data == selectedItem.value } ?: return@apply
         if (smooth) {
