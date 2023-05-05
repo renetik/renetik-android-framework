@@ -127,10 +127,11 @@ class CSRecyclerView<ItemType : Any>(
         }
 
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            val rowView = viewHolder.view.asCS<CSGridItemView<ItemType>>()!!
-            rowView.load(data[position].data, position)
-            rowView.updateDisabled()
-            rowView.updateSelection()
+            viewHolder.view.asCS<CSGridItemView<ItemType>>()?.apply {
+                load(data[position].data, position)
+                updateDisabled()
+                updateSelection()
+            }
         }
 
         override fun getItemViewType(position: Int): Int = data[position].type
