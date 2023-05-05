@@ -127,6 +127,7 @@ class CSRecyclerView<ItemType : Any>(
         }
 
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+            if (isDestructed) return // There was null pointer ex here...
             viewHolder.view.asCS<CSGridItemView<ItemType>>()?.apply {
                 load(data[position].data, position)
                 updateDisabled()
