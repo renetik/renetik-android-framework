@@ -3,6 +3,7 @@ package renetik.android.ui.extensions.view
 import android.view.View
 import android.view.ViewPropertyAnimator
 import renetik.android.core.lang.CSEnvironment.app
+import renetik.android.core.lang.CSLeakCanary
 
 val shortAnimationDuration =
     app.resources.getInteger(android.R.integer.config_shortAnimTime)
@@ -17,6 +18,10 @@ var fadeAnimationDuration = shortAnimationDuration
 
 fun <T : View> T.fadeIn(duration: Int = fadeAnimationDuration): ViewPropertyAnimator? {
     if (isVisible) return null
+    if (CSLeakCanary.isEnabled) {
+        show()
+        return null
+    }
     val originalAlpha = alpha; visible(); alpha = 0f
     return animate().alpha(originalAlpha).setDuration(duration.toLong())
         .onAnimationEnd { updateVisibility() }
@@ -25,8 +30,11 @@ fun <T : View> T.fadeIn(duration: Int = fadeAnimationDuration): ViewPropertyAnim
 fun <T : View> T.fadeOut(
     duration: Int = fadeAnimationDuration,
     invisible: Boolean = false,
-    onDone: (() -> Unit)? = null
+    onDone: (() -> Unit)? = null,
 ): ViewPropertyAnimator? = when {
+    CSLeakCanary.isEnabled -> {
+        hide(); null
+    }
     isGone || isInvisible -> {
         onDone?.invoke(); null
     }
