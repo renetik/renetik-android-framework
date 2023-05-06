@@ -16,7 +16,7 @@ fun <T : CSNavigationWindow<*>> T.selectedButton(button: View) = apply {
 }
 
 fun <T : CSNavigationWindow<*>> T.show(animation: DialogAnimation = Fade) = apply {
-    this.animation = if (CSLeakCanary.enabled) None else animation
+    this.animation = if (CSLeakCanary.isEnabled) None else animation
     navigation!!.push(this)
     updateVisibility()
 }
