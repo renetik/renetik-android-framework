@@ -124,5 +124,5 @@ fun CSViewInterface.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruc
 val CSViewInterface.leftMarginInWindow: Int
     get() = view.rectangleInWindow.left
 
-fun CSViewInterface.onHasSize(function: () -> Unit): CSRegistration? =
+fun CSViewInterface.registerHasSize(function: () -> Unit): CSRegistration? =
     view.onHasSize(this) { function() }

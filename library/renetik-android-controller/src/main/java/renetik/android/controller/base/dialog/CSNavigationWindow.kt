@@ -36,7 +36,7 @@ import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
 import renetik.android.ui.extensions.registerAfterGlobalLayout
-import renetik.android.ui.extensions.onHasSize
+import renetik.android.ui.extensions.registerHasSize
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.background
 import renetik.android.ui.extensions.view.height
@@ -109,7 +109,7 @@ open class CSNavigationWindow<ViewType : View>(
         isFullscreenNavigationItem.setFalse()
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
-        onHasSize {
+        registerHasSize {
             if (side == Bottom) positionDialogContentFromViewBottom(button)
             else if (side == Right) positionDialogContentFromViewRight(button)
             else if (side == Top) positionDialogContentFromViewTop(button)

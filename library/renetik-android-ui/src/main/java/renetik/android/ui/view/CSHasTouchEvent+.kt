@@ -1,5 +1,6 @@
 package renetik.android.ui.view
 
+import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_CANCEL
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
@@ -31,12 +32,32 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     }
 }
 
+inline fun <T : CSHasTouchEvent> T.onTouchMove(
+    crossinline function: (event: MotionEvent) -> Unit
+) = apply {
+    onTouchEvent = { event ->
+        when (event.actionMasked) {
+            ACTION_DOWN -> true.also {
+//                self.isPressed = true
+//                function(true)
+            }
+            ACTION_UP, ACTION_CANCEL -> true.also {
+//                self.isPressed = false
+//                function(false)
+            }
+            ACTION_MOVE -> true.also {
+                function(event)
+            }
+            else -> false
+        }
+    }
+}
+
 inline fun <T : CSHasTouchEvent> T.onTouchDown(
     crossinline function: () -> Unit
 ) = apply {
     onTouch { down -> if (down) function() }
 }
-
 
 inline fun <T : CSHasTouchEvent> T.onTouchUp(
     crossinline function: () -> Unit
