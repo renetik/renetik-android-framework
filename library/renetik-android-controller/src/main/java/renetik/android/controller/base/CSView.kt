@@ -9,7 +9,7 @@ import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
-import renetik.android.core.lang.nullableLazyVar
+import renetik.android.core.lang.lazy.nullableLazyVar
 import renetik.android.event.common.CSContext
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.inflate
