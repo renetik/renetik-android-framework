@@ -62,7 +62,8 @@ inline fun <T, V> TextView.text(
 }
 
 inline fun <T, V> TextView.textNullableChild(
-    parent: CSHasChangeValue<T>, crossinline child: (T) -> CSHasChangeValue<V>?,
+    parent: CSHasChangeValue<T>,
+    crossinline child: (T) -> CSHasChangeValue<V>?,
     noinline text: (V?) -> Any
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
@@ -81,8 +82,6 @@ inline fun <T, V> TextView.textNullableChild(
 inline fun <T> TextView.text(
     parent: CSHasChangeValue<T>, crossinline child: (T) -> CSHasChangeValue<String>
 ) = this.text(parent, child) { it }
-
-
 
 inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChild(
     parent: CSHasChangeValue<ParentValue>,
