@@ -62,6 +62,10 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="CSFillTiny" parent="CSFill">
+        <item name="android:layout_weight">0.05</item>
+    </style>
+
     <style name="CSFillShort" parent="CSFill">
         <item name="android:layout_weight">0.1</item>
     </style>
