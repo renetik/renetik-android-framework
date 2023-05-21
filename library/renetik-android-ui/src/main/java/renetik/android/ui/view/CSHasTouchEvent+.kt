@@ -11,7 +11,7 @@ import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
-import renetik.android.event.registration.registerRepeat
+import renetik.android.event.registration.registerLaterEach
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline function: (down: Boolean) -> Unit
@@ -155,7 +155,7 @@ fun <T> CSHasTouchEvent.onTouch(
         repeatCount = 0
         repeat(step(repeatCount))
         repeatRegistration?.cancel()
-        if (self.isEnabled) repeatRegistration = parent.registerRepeat(
+        if (self.isEnabled) repeatRegistration = parent.registerLaterEach(
             delay, period, function = {
                 repeat(step(repeatCount))
                 repeatCount++
