@@ -170,6 +170,15 @@ fun <T, V> View.visibleIf(
     return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
 }
 
+fun <T, V> View.invisibleIf(
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
+    animated: Boolean = false, condition: (T, V) -> Boolean
+): CSRegistration {
+    fun update() = invisibleIf(condition(property1.value, property2.value), animated)
+    update()
+    return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
+}
+
 fun <T> View.visibleIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
     condition: (T) -> Boolean
