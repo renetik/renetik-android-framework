@@ -12,7 +12,7 @@ import renetik.android.core.lang.variable.setFalse
 
 fun <T : CSNavigationWindow<*>> T.selectedButton(button: View) = apply {
     button.isSelected = true
-    onDismiss { button.isSelected = false }
+    onClose { button.isSelected = false }
 }
 
 fun <T : CSNavigationWindow<*>> T.show(animation: DialogAnimation = Fade) = apply {
@@ -31,7 +31,7 @@ fun <T : CSNavigationWindow<*>> T.center(width: Int? = null, height: Int? = null
     }
 }
 
-fun CSNavigationWindow<*>.dismiss() = then { navigation?.pop(this) }
+fun CSNavigationWindow<*>.close() = then { navigation?.pop(this) }
 
 fun <T : CSNavigationWindow<*>> T.passClicksUnder(pass: Boolean = true) = apply {
     dialogContent.apply {

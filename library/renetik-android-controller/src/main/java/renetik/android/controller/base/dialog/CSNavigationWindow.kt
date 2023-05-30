@@ -44,26 +44,21 @@ import renetik.android.ui.extensions.view.heightWrap
 import renetik.android.ui.extensions.view.locationInWindow
 import renetik.android.ui.extensions.view.matchParent
 import renetik.android.ui.extensions.view.onClick
-import java.io.Closeable
 
 open class CSNavigationWindow<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, dialogContentLayout: CSLayoutRes
-) : CSActivityView<FrameLayout>(parent.navigation!!, layout(R.layout.cs_navigation_dialog)),
-    CSNavigationItem, Closeable {
+) : CSActivityView<FrameLayout>(
+    parent.navigation!!, layout(R.layout.cs_navigation_dialog)
+), CSNavigationItem {
 
     val dialogContent: ViewType = inflate(dialogContentLayout.id)
-
-//    enum class CSNavigationWindowDisplayType {
-//        Popup, FullScreen, Centered
-//    }
-
     var isPopup = false
     override var isFullscreenNavigationItem = property(false)
     var animation = Fade
     private val marginDp = 5
 
-    private val eventOnDismiss = event<Unit>()
-    fun onDismiss(function: () -> Unit) = eventOnDismiss.listen(function)
+    private val eventOnClose = event()
+    fun onClose(function: () -> Unit) = eventOnClose.listen(function)
 
     private var cancelOnTouchOut = true
     fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
@@ -72,7 +67,7 @@ open class CSNavigationWindow<ViewType : View>(
         passClicksUnder(false)
         listenOnce(parent.eventDestruct) {
             if (!isShowingInPager && lifecycleStopOnRemoveFromParentView) unexpected()
-            if (isShowingInPager) dismiss()
+            if (isShowingInPager) close()
             if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
     }
@@ -80,13 +75,19 @@ open class CSNavigationWindow<ViewType : View>(
     override fun onViewReady() {
         super.onViewReady()
         view.background(color(color.cs_dialog_background))
-        if (cancelOnTouchOut) view.onClick { dismiss() }
         view.add(dialogContent)
     }
 
+    override fun onViewShowingFirstTime() {
+        super.onViewShowingFirstTime()
+        if (cancelOnTouchOut) view.onClick { dismiss() }
+    }
+
+    protected open fun dismiss() = close()
+
     override fun onRemovedFromParentView() {
         super.onRemovedFromParentView()
-        eventOnDismiss.fire()
+        eventOnClose.fire()
     }
 
     override val pushAnimation
@@ -158,8 +159,6 @@ open class CSNavigationWindow<ViewType : View>(
         dialogContent.y = desiredY
     }
 
-
-
     fun fullScreen() = apply {
         isFullscreenNavigationItem.setTrue()
         animation = Slide
@@ -172,5 +171,4 @@ open class CSNavigationWindow<ViewType : View>(
         registerAfterGlobalLayout(::correctContentOverflow)
     }
 
-    override fun close() = dismiss()
 }

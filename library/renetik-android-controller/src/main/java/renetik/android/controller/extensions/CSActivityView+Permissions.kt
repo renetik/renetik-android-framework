@@ -26,6 +26,7 @@ fun CSActivityView<*>.requestPermissionsWithForce(
 fun CSActivityView<*>.requestPermissions(
     permissions: List<String>,
     onGranted: (() -> Unit)? = null, onNotGranted: (() -> Unit)? = null,
+    onDone: (() -> Unit)? = null,
 ) {
     val deniedPermissions = getDeniedPermissions(permissions)
     if (deniedPermissions.isSet) {
@@ -36,12 +37,17 @@ fun CSActivityView<*>.requestPermissions(
                 cancel(registration)
                 for (status in results.statuses) if (PERMISSION_GRANTED != status) {
                     onNotGranted?.invoke()
+                    onDone?.invoke()
                     return@listen
                 }
                 onGranted?.invoke()
+                onDone?.invoke()
             }
         })
-    } else onGranted?.invoke()
+    } else {
+        onGranted?.invoke()
+        onDone?.invoke()
+    }
 }
 
 fun CSActivityView<*>.getDeniedPermissions(permissions: List<String>): Array<String> {
