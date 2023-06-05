@@ -20,6 +20,7 @@
     <color name="cs_yellow">#ffea00</color>
     <color name="cs_material_yellow">#FFEB3B</color>
     <color name="cs_button_selection">#b4311b92</color>
+    <color name="cs_drawer_scrim">#4A000000</color>
     <color name="cs_dialog_background">#B7000000</color>
     <color name="cs_dialog_popup_background">#22000000</color>
     <color name="cs_progress_background">#55000000</color>
