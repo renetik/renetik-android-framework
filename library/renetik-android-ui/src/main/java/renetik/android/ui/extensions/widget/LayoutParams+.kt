@@ -27,15 +27,22 @@ fun layoutWrapHeight(dpHeight: Int, gravity: Int? = null) =
     layoutWrapHeight(dpHeight.toFloat(), gravity)
 
 fun layoutWrapHeight(dpHeight: Float, gravity: Int? = null) =
-    LayoutParams(WRAP_CONTENT,
-        app.dpToPixel(dpHeight), gravity ?: NO_GRAVITY)
+    LayoutParams(
+        WRAP_CONTENT,
+        app.dpToPixel(dpHeight), gravity ?: NO_GRAVITY
+    )
 
 fun layoutMatchHeight(dpHeight: Int, gravity: Int? = null) =
     layoutMatchHeight(dpHeight.toFloat(), gravity)
 
 fun layoutMatchHeight(dpHeight: Float, gravity: Int? = null) =
-    LayoutParams(MATCH_PARENT,
-        app.dpToPixel(dpHeight), gravity ?: NO_GRAVITY)
+    LayoutParams(
+        MATCH_PARENT,
+        app.dpToPixel(dpHeight), gravity ?: NO_GRAVITY
+    )
+
+fun layoutMatchHeightPx(height: Int, gravity: Int? = null) =
+    LayoutParams(MATCH_PARENT, height, gravity ?: NO_GRAVITY)
 
 fun layoutMatchHeightPx(pixelHeight: Int) =
     LayoutParams(MATCH_PARENT, pixelHeight)

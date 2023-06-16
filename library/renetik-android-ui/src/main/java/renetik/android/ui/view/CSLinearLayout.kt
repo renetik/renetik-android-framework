@@ -11,7 +11,6 @@ import android.widget.LinearLayout
 import renetik.android.ui.R
 import renetik.android.core.kotlin.primitives.Empty
 import renetik.android.core.kotlin.primitives.isSet
-import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 
