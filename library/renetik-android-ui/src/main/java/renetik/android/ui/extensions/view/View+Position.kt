@@ -6,6 +6,27 @@ import renetik.android.event.util.CSLater.later
 
 val <T : View> T.topFromBottom get() = superview?.let { it.height - top } ?: height
 
+var <T : View> T.topFloat
+    get() = y
+    set(value) {
+        y = value
+    }
+var <T : View> T.bottomFloat
+    get() = y + height
+    set(value) {
+        y = value - height
+    }
+var <T : View> T.leftFloat
+    get() = x
+    set(value) {
+        x = value
+    }
+var <T : View> T.rightFloat
+    get() = x + width
+    set(value) {
+        x = value - width
+    }
+
 val View.locationOnScreen: CSPoint<Int>
     get() {
         val location = IntArray(2)

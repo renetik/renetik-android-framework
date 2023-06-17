@@ -39,11 +39,14 @@ import renetik.android.ui.extensions.registerAfterGlobalLayout
 import renetik.android.ui.extensions.registerHasSize
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.background
-import renetik.android.ui.extensions.view.height
+import renetik.android.ui.extensions.view.bottomFloat
 import renetik.android.ui.extensions.view.heightWrap
+import renetik.android.ui.extensions.view.leftFloat
 import renetik.android.ui.extensions.view.locationInWindow
 import renetik.android.ui.extensions.view.matchParent
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.rightFloat
+import renetik.android.ui.extensions.view.topFloat
 
 open class CSNavigationWindow<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, dialogContentLayout: CSLayoutRes
@@ -131,12 +134,15 @@ open class CSNavigationWindow<ViewType : View>(
         dialogContent.y = fromViewLocation.y.toFloat() + fromView.height
     }
 
+    private val screenAvailableHeight get() = height - dpToPixelF(marginDp)
+    private val screenAvailableWidth get() = width - dpToPixelF(marginDp)
+
     private fun positionDialogContentFromViewTop(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
         var desiredX = fromViewTopCenterX.toFloat() - (dialogContent.width / 2)
-        if (desiredX + dialogContent.width > width - dpToPixelF(marginDp))
-            desiredX -= (desiredX + dialogContent.width) - (width - dpToPixelF(marginDp))
+        if (desiredX + dialogContent.width > screenAvailableWidth)
+            desiredX -= (desiredX + dialogContent.width) - screenAvailableWidth
         if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
         dialogContent.x = desiredX
 
@@ -144,16 +150,19 @@ open class CSNavigationWindow<ViewType : View>(
     }
 
     private fun correctContentOverflow() {
-        if (dialogContent.y + dialogContent.height > height - dpToPixelF(marginDp))
-            dialogContent.height(height - dpToPixelF(marginDp) - dialogContent.y)
+        if (dialogContent.bottomFloat > screenAvailableHeight)
+            dialogContent.topFloat -= dialogContent.bottomFloat - screenAvailableHeight
+
+        if (dialogContent.rightFloat > screenAvailableWidth)
+            dialogContent.leftFloat -= dialogContent.rightFloat - screenAvailableWidth
     }
 
     private fun positionDialogContentFromViewRight(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
         val fromViewLeftCenterY = fromViewLocation.y + (fromView.height / 2)
         var desiredY = fromViewLeftCenterY.toFloat() - (dialogContent.height / 2)
-        if (desiredY + dialogContent.height > height - dpToPixelF(marginDp))
-            desiredY -= (desiredY + dialogContent.height) - (height - dpToPixelF(marginDp))
+        if (desiredY + dialogContent.height > screenAvailableHeight)
+            desiredY -= (desiredY + dialogContent.height) - screenAvailableHeight
         if (desiredY < dpToPixelF(marginDp)) desiredY = dpToPixelF(marginDp)
         dialogContent.x = fromViewLocation.x.toFloat() + fromView.width
         dialogContent.y = desiredY
