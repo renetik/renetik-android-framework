@@ -33,53 +33,56 @@ fun CompoundButton.buttonTint(@ColorInt value: Int?) = apply {
 }
 
 fun CompoundButton.checked(condition: Boolean = true) = apply { isChecked = condition }
-fun CompoundButton.checkedIf(condition: Boolean) = apply { isChecked = condition }
-fun CompoundButton.checkedIfNot(condition: Boolean) = apply { isChecked = !condition }
+fun CompoundButton.checkIf(condition: Boolean) = apply { isChecked = condition }
+fun CompoundButton.checkIfNot(condition: Boolean) = apply { isChecked = !condition }
 fun CompoundButton.setOn() = apply { isChecked = true }
 fun CompoundButton.setOff() = apply { isChecked = false }
 
-fun CompoundButton.checkedIfNot(property: CSProperty<Boolean>): CSRegistration {
+fun CompoundButton.checkIfNot(property: CSProperty<Boolean>): CSRegistration {
     lateinit var propertyRegistration: CSRegistration
     val buttonRegistration = onChange { propertyRegistration.paused { property.value(!isChecked) } }
-    propertyRegistration = property.action { buttonRegistration.paused { checkedIfNot(it) } }
+    propertyRegistration = property.action { buttonRegistration.paused { checkIfNot(it) } }
     return CSRegistration(propertyRegistration, buttonRegistration)
 }
 
-fun CompoundButton.checkedIf(property: CSProperty<Boolean>): CSRegistration {
+fun CompoundButton.checkIf(property: CSProperty<Boolean>): CSRegistration {
     lateinit var propertyRegistration: CSRegistration
     val buttonRegistration = onChange { propertyRegistration.paused { property.value(isChecked) } }
-    propertyRegistration = property.action { buttonRegistration.paused { checkedIf(it) } }
+    propertyRegistration = property.action { buttonRegistration.paused { checkIf(it) } }
     return CSRegistration(propertyRegistration, buttonRegistration)
 }
 
-fun <T, V> CompoundButton.checkedIf(
+fun CompoundButton.checkedIf(property: CSHasChangeValue<Boolean>): CSRegistration =
+    property.action { checkIf(it) }
+
+fun <T, V> CompoundButton.checkIf(
     property: CSProperty<T>, condition: (T) -> Boolean
 ): CSRegistration {
-    return property.action { checkedIf(condition(property.value)) }
+    return property.action { checkIf(condition(property.value)) }
 }
 
-fun <T> CompoundButton.checkedIf(
+fun <T> CompoundButton.checkIf(
     property1: CSProperty<T>, property2: CSProperty<*>, condition: (T) -> Boolean
 )
-    : CSRegistration = checkedIf(property1, property2) { first, _ -> condition(first) }
+    : CSRegistration = checkIf(property1, property2) { first, _ -> condition(first) }
 
-fun <T, V> CompoundButton.checkedIf(
+fun <T, V> CompoundButton.checkIf(
     property1: CSProperty<T>, property2: CSProperty<V>,
     condition: (T, V) -> Boolean
 ): CSRegistration {
-    fun update() = checkedIf(condition(property1.value, property2.value))
+    fun update() = checkIf(condition(property1.value, property2.value))
     update()
     return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
-inline fun <T> CompoundButton.checkedIf(
+inline fun <T> CompoundButton.checkIf(
     parent: CSHasChangeValue<T>,
     crossinline child: (T) -> CSProperty<Boolean>
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
-        childRegistration = checkedIf(child(it))
+        childRegistration = checkIf(child(it))
     }
     return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
@@ -88,15 +91,15 @@ inline fun <T> CompoundButton.checkedIf(
 }
 
 @JvmName("checkedIfChildNullable")
-inline fun <T> CompoundButton.checkedIf(
+inline fun <T> CompoundButton.checkIf(
     parent: CSHasChangeValue<T>,
     crossinline childNullable: (T) -> CSProperty<Boolean>?
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
-        childRegistration = childNullable(it)?.let { checkedIf(it) }
-        if (childRegistration == null) checkedIf(false)
+        childRegistration = childNullable(it)?.let { checkIf(it) }
+        if (childRegistration == null) checkIf(false)
     }
     return CSRegistration(isActive = true, onCancel = {
         parentRegistration.cancel()
