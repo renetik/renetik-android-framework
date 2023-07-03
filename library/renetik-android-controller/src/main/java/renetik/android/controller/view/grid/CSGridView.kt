@@ -6,7 +6,6 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
-import renetik.android.controller.base.onClick
 import renetik.android.controller.base.asCS
 import renetik.android.core.kotlin.collections.list
 import renetik.android.event.CSEvent.Companion.event
@@ -14,10 +13,13 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.register
 import renetik.android.ui.extensions.findView
-import renetik.android.ui.extensions.view.*
+import renetik.android.ui.extensions.view.alphaToDisabled
+import renetik.android.ui.extensions.view.disabledByAlpha
+import renetik.android.ui.extensions.view.fadeIn
+import renetik.android.ui.extensions.view.fadeOut
+import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.widget.scrollToIndex
 
-@Suppress("UNCHECKED_CAST")
 class CSGridView<ItemType : Any>(
     val parent: CSActivityView<*>, viewId: Int,
     val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>
@@ -72,7 +74,7 @@ class CSGridView<ItemType : Any>(
     }
 
     private fun loadView(toReuseView: View?, position: Int): View {
-        var rowView = toReuseView?.asCS<CSGridItemView<ItemType>>()
+        var rowView: CSGridItemView<ItemType>? = toReuseView?.asCS()
         if (rowView == null) {
             rowView = createView(this)
             register(selectedItem.onChange { rowView.updateSelection() })
