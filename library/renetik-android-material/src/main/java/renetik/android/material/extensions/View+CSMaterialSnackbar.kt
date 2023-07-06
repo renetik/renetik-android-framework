@@ -3,9 +3,9 @@ package renetik.android.material.extensions
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.appcompat.R.attr.colorError
-import androidx.appcompat.R.attr.colorPrimary
 import com.google.android.material.R.attr.colorOnError
-import com.google.android.material.R.attr.colorOnPrimary
+import com.google.android.material.R.attr.colorPrimary
+import com.google.android.material.R.attr.colorSurface
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
@@ -49,6 +49,6 @@ fun View.snackBarError(title: String, action: CSButtonAction? = null) =
 
 fun View.snackBarInfo(title: String, action: CSButtonAction? = null) =
     snackBar(
-        title, backColor = context.attributeColor(colorPrimary),
-        textColor = context.attributeColor(colorOnPrimary), action = action
+        title, backColor = context.attributeColor(colorSurface),
+        textColor = context.attributeColor(colorPrimary), action = action
     )
