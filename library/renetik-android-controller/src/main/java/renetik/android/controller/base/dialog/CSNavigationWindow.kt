@@ -60,11 +60,14 @@ open class CSNavigationWindow<ViewType : View>(
     var animation = Fade
     private val marginDp = 5
 
+    private val eventDismiss = event()
+    fun onDismiss(function: () -> Unit) = eventDismiss.listen(function)
+
     private val eventOnClose = event()
     fun onClose(function: () -> Unit) = eventOnClose.listen(function)
 
-    private var cancelOnTouchOut = true
-    fun cancelOnTouchOut(cancel: Boolean = true) = apply { cancelOnTouchOut = cancel }
+    private var dismissOnTouchOut = true
+    fun dismissOnTouchOut(dismiss: Boolean = true) = apply { dismissOnTouchOut = dismiss }
 
     init {
         passClicksUnder(false)
@@ -83,10 +86,15 @@ open class CSNavigationWindow<ViewType : View>(
 
     override fun onViewShowingFirstTime() {
         super.onViewShowingFirstTime()
-        if (cancelOnTouchOut) view.onClick { dismiss() }
+        if (dismissOnTouchOut) view.onClick { onBackgroundClick() }
     }
 
-    protected open fun dismiss() = close()
+    protected open fun onBackgroundClick() = dismiss()
+
+    protected open fun dismiss() {
+        eventDismiss.fire()
+        close()
+    }
 
     override fun onRemovedFromParentView() {
         super.onRemovedFromParentView()
