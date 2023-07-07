@@ -1,20 +1,23 @@
-package renetik.android.ui.extensions
+package renetik.android.framework.extensions
 
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
 import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
 import renetik.android.event.property.CSProperty
-import renetik.android.event.property.action
 import renetik.android.event.registration.CSRegistration
+import renetik.android.preset.Preset
+import renetik.android.preset.extensions.action
+import renetik.android.ui.extensions.add
+import renetik.android.ui.extensions.remove
 import renetik.android.ui.protocol.CSViewInterface
 
 fun <ItemView : CSViewInterface> CSProperty<Int>.updates(
+    preset: Preset,
     items: MutableList<ItemView>,
     layout: ViewGroup, fromStart: Boolean = false,
-    layoutParams: LayoutParams? = null,
+    layoutParams: ViewGroup.LayoutParams? = null,
     createView: (index: Int) -> ItemView
-): CSRegistration = action { value ->
+): CSRegistration = action(preset) { value ->
     items.size.update(value,
         onAdd = { index ->
             val view = items.put(createView(index))
