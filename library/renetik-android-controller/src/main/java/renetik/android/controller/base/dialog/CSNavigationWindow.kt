@@ -56,6 +56,7 @@ open class CSNavigationWindow<ViewType : View>(
 
     val dialogContent: ViewType = inflate(dialogContentLayout.id)
     var isPopup = false
+        private set
     override var isFullscreenNavigationItem = property(false)
     var animation = Fade
     private val marginDp = 5
@@ -91,9 +92,13 @@ open class CSNavigationWindow<ViewType : View>(
 
     protected open fun onBackgroundClick() = dismiss()
 
-    protected open fun dismiss() {
+    fun dismiss() {
         eventDismiss.fire()
         close()
+    }
+
+    private fun close() {
+        navigation?.pop(this)
     }
 
     override fun onRemovedFromParentView() {

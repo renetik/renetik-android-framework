@@ -31,8 +31,6 @@ fun <T : CSNavigationWindow<*>> T.center(width: Int? = null, height: Int? = null
     }
 }
 
-fun CSNavigationWindow<*>.close() = then { navigation?.pop(this) }
-
 fun <T : CSNavigationWindow<*>> T.passClicksUnder(pass: Boolean = true) = apply {
     dialogContent.apply {
         isClickable = !pass
