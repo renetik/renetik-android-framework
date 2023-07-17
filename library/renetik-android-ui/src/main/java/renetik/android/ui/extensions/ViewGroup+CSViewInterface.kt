@@ -2,8 +2,10 @@ package renetik.android.ui.extensions
 
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
+import android.widget.FrameLayout
 import androidx.core.view.contains
 import renetik.android.ui.extensions.view.add
+import renetik.android.ui.extensions.view.clear
 import renetik.android.ui.extensions.view.remove
 import renetik.android.ui.protocol.CSViewInterface
 
