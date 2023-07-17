@@ -8,6 +8,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import renetik.android.core.extensions.content.CSColorInt
 import renetik.android.core.extensions.content.dpToPixel
+import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.R
@@ -19,7 +20,6 @@ fun <T : View> T.background(@DrawableRes value: Int) = apply {
 fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {
     setBackgroundColor(value)
 }
-
 
 fun <T : View> T.background(value: CSColorInt) = apply {
     setBackgroundColor(value.color)
@@ -69,7 +69,8 @@ fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
     setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
 }
 
-fun View.enabledByAlphaIf(condition: Boolean) = disabledByAlpha(!condition)
+fun View.enabledByAlphaIf(condition: Boolean, disable: Boolean = true) =
+    disabledByAlpha(!condition, disable)
 
 fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
     if (disable) disabledIf(condition)
@@ -80,16 +81,11 @@ fun View.alphaToDisabled(value: Boolean = true) {
     alpha = if (value) context.disabledAlpha else 1F
 }
 
-val Context.disabledAlpha
-    get() = getResources().getString(R.string.cs_disabled_alpha).toFloat()
+val Context.disabledAlpha get() = getResources().getString(R.string.cs_disabled_alpha).toFloat()
 
-fun <T> View.enabledByAlphaIf(
-    property: CSHasChangeValue<T>,
-    condition: (T) -> Boolean
-): CSRegistration {
-    enabledByAlphaIf(condition(property.value))
-    return property.onChange { enabledByAlphaIf(condition(property.value)) }
-}
+inline fun <T> View.enabledByAlphaIf(
+    property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean
+): CSRegistration = property.action { enabledByAlphaIf(condition(it)) }
 
 fun View.enabledByAlphaIf(property: CSHasChangeValue<Boolean>) =
     enabledByAlphaIf(property) { it }
@@ -100,31 +96,25 @@ fun View.disabledByAlphaIf(
 
 @Deprecated("Use or")
 fun View.disabledByAlphaIf(
-    property1: CSHasChangeValue<Boolean>,
-    property2: CSHasChangeValue<Boolean>
-) =
-    disabledByAlphaIf(property1, property2) { one, two -> one or two }
+    property1: CSHasChangeValue<Boolean>, property2: CSHasChangeValue<Boolean>
+) = disabledByAlphaIf(property1, property2) { one, two -> one or two }
 
-fun View.disabledByAlphaIfNot(property: CSHasChangeValue<Boolean>, disable: Boolean = true) =
-    disabledByAlphaIf(property, disable) { !it }
+fun View.disabledByAlphaIfNot(
+    property: CSHasChangeValue<Boolean>, disable: Boolean = true
+) = disabledByAlphaIf(property, disable) { !it }
 
-fun <T> View.disabledByAlphaIf(
+inline fun <T> View.disabledByAlphaIf(
     property: CSHasChangeValue<T>, disable: Boolean = true,
-    condition: (T) -> Boolean
-): CSRegistration {
-    disabledByAlpha(condition(property.value), disable)
-    return property.onChange { disabledByAlpha(condition(property.value), disable) }
-}
+    crossinline condition: (T) -> Boolean
+): CSRegistration = property.action { disabledByAlpha(condition(it), disable) }
 
-fun <T> View.enabledByAlphaIf(
+inline fun <T> View.enabledByAlphaIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>,
-    condition: (T) -> Boolean
-) =
-    enabledByAlphaIf(property1, property2) { first, _ -> condition(first) }
+    crossinline condition: (T) -> Boolean
+) = enabledByAlphaIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.enabledByAlphaIf(
-    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    condition: (T, V) -> Boolean
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean
 ): CSRegistration {
     fun update() = enabledByAlphaIf(condition(property1.value, property2.value))
     update()
@@ -133,8 +123,7 @@ fun <T, V> View.enabledByAlphaIf(
 
 fun <T, V> View.disabledByAlphaIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    disable: Boolean = true,
-    condition: (T, V) -> Boolean
+    disable: Boolean = true, condition: (T, V) -> Boolean
 ): CSRegistration {
     fun update() = disabledByAlpha(condition(property1.value, property2.value), disable)
     update()
@@ -147,10 +136,7 @@ fun <T, V, X> View.disabledByAlphaIf(
     condition: (T, V, X) -> Boolean
 ): CSRegistration {
     fun update() = disabledByAlpha(
-        condition(
-            property1.value,
-            property2.value, property3.value
-        ), disable
+        condition(property1.value, property2.value, property3.value), disable
     )
     update()
     return CSRegistration(property1.onChange { update() },

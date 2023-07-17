@@ -284,7 +284,7 @@ fun <T, V> View.pressedIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
     condition: (T, V) -> Boolean
 ): CSRegistration {
-    fun update() = pressedIf(condition(property1.value, property2.value))
+    fun update() = pressed(condition(property1.value, property2.value))
     update()
     return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }

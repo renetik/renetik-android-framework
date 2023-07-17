@@ -12,6 +12,7 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.registerLaterEach
+import renetik.android.ui.extensions.view.pressed
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline function: (down: Boolean) -> Unit
@@ -19,11 +20,11 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     onTouchEvent = {
         when (it.actionMasked) {
             ACTION_DOWN -> true.also {
-                self.isPressed = true
+                self.pressed(true)
                 function(true)
             }
             ACTION_UP, ACTION_CANCEL -> true.also {
-                self.isPressed = false
+                self.pressed(false)
                 function(false)
             }
             ACTION_MOVE -> true
@@ -37,17 +38,9 @@ inline fun <T : CSHasTouchEvent> T.onTouchMove(
 ) = apply {
     onTouchEvent = { event ->
         when (event.actionMasked) {
-            ACTION_DOWN -> true.also {
-//                self.isPressed = true
-//                function(true)
-            }
-            ACTION_UP, ACTION_CANCEL -> true.also {
-//                self.isPressed = false
-//                function(false)
-            }
-            ACTION_MOVE -> true.also {
-                function(event)
-            }
+            ACTION_DOWN -> true
+            ACTION_UP, ACTION_CANCEL -> true
+            ACTION_MOVE -> true.also { function(event) }
             else -> false
         }
     }

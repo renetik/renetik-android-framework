@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.kotlin.notNull
+import renetik.android.core.lang.ArgFunc
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
 import renetik.android.event.registration.CSRegistration
@@ -39,10 +40,11 @@ fun CSViewInterface.views(@IdRes vararg ids: Int): List<View> =
 
 fun CSViewInterface.simpleView(@IdRes id: Int) = view.view(id)
 fun CSViewInterface.editText(@IdRes id: Int) = view.editText(id)
-fun CSViewInterface.textView(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+
+fun CSViewInterface.textView(@IdRes id: Int, onClick: ArgFunc<View>? = null) =
     view.textView(id).apply { onClick?.let { this.onClick(it) } }
 
-fun CSViewInterface.textViewOrNull(@IdRes id: Int, onClick: ((view: View) -> Unit)? = null) =
+fun CSViewInterface.textViewOrNull(@IdRes id: Int, onClick: ArgFunc<View>? = null) =
     view.findView<TextView>(id)?.apply { onClick?.let { this.onClick(it) } }
 
 fun CSViewInterface.scrollView(@IdRes id: Int) = view.scrollView(id)
@@ -72,11 +74,10 @@ fun CSViewInterface.compound(@IdRes id: Int): CompoundButton = view.compound(id)
 fun CSViewInterface.checkBox(@IdRes id: Int) = view.checkBox(id)
 fun CSViewInterface.timePicker(@IdRes id: Int) = view.timePicker(id)
 fun CSViewInterface.webView(@IdRes id: Int) = view.webView(id)
+
 fun CSViewInterface.imageView(
-    @IdRes id: Int,
-    onClick: ((view: ImageView) -> Unit)? = null
-) =
-    view.imageView(id).apply { onClick?.let { this.onClick(it) } }
+    @IdRes id: Int, onClick: ArgFunc<View>? = null
+) = view.imageView(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSViewInterface.seekBar(@IdRes id: Int) = view.seekBar(id)
 fun CSViewInterface.progress(@IdRes id: Int) = view.progress(id)
@@ -109,7 +110,6 @@ val CSViewInterface.displayCutout: CSDisplayCutout?
     get() = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
         view.rootWindowInsets.displayCutout?.let { CSDisplayCutout(it) }
     else null)
-
 
 val CSViewInterface.hasParentView: Boolean get() = view.parent.notNull
 
