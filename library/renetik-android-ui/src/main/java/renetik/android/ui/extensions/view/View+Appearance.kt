@@ -81,7 +81,7 @@ fun View.alphaToDisabled(value: Boolean = true) {
     alpha = if (value) context.disabledAlpha else 1F
 }
 
-val Context.disabledAlpha get() = getResources().getString(R.string.cs_disabled_alpha).toFloat()
+val Context.disabledAlpha get() = resources.getString(R.string.cs_disabled_alpha).toFloat()
 
 inline fun <T> View.enabledByAlphaIf(
     property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean
