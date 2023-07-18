@@ -1,7 +1,7 @@
 package renetik.android.ui.extensions.widget
 
 import android.widget.AbsListView
-import renetik.android.core.lang.CSMainHandler.postOnMain
+import renetik.android.core.lang.CSHandler.postOnMain
 
 fun AbsListView.scrollToIndex(index: Int, smooth: Boolean = true) {
     if (smooth) {

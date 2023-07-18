@@ -33,7 +33,8 @@ fun CSVisibility.task(period: Int, function: Func) = task(period, period, functi
 fun CSVisibility.task(delay: Int, period: Int, function: Func): CSRegistration {
     lateinit var registration: CSRegistration
     fun createScheduler() = scheduleAtFixedRateRunOnUI(
-        delay = delay.toLong(), period = period.toLong()) {
+        delay = delay.toLong(), period = period.toLong()
+    ) {
         if (registration.isActive) function()
     }
 
