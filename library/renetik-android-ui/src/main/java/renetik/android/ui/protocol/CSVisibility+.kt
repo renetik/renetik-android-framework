@@ -1,10 +1,11 @@
 package renetik.android.ui.protocol
 
-import renetik.android.core.java.util.CSTimer.scheduleAtFixedRateRunOnUI
+import renetik.android.core.lang.CSHandler.postOnMain
 import renetik.android.core.lang.Func
 import renetik.android.event.listen
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.task.CSBackground.backgroundRepeat
 import java.util.concurrent.ScheduledFuture
 
 fun CSVisibility.onShowing(function: () -> Unit): CSRegistration = onShowing { _ -> function() }
@@ -32,11 +33,15 @@ fun CSVisibility.task(period: Int, function: Func) = task(period, period, functi
 
 fun CSVisibility.task(delay: Int, period: Int, function: Func): CSRegistration {
     lateinit var registration: CSRegistration
-    fun createScheduler() = scheduleAtFixedRateRunOnUI(
-        delay = delay.toLong(), period = period.toLong()
-    ) {
-        if (registration.isActive) function()
+    fun createScheduler() = backgroundRepeat(interval = period, delay = delay) {
+        if (registration.isActive) postOnMain { if (!registration.isCanceled) function() }
     }
+
+//    fun createScheduler() = scheduleAtFixedRateRunOnUI(
+//        delay = delay.toLong(), period = period.toLong()
+//    ) {
+//        if (registration.isActive) function()
+//    }
 
     var task: ScheduledFuture<*>? = createScheduler()
     val onResumeRegistration = onShowing { -> if (task == null) task = createScheduler() }
