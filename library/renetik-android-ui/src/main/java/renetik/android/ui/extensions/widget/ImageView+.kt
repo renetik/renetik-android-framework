@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import renetik.android.event.property.CSProperty
-import renetik.android.event.property.action
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
 import java.io.File
 

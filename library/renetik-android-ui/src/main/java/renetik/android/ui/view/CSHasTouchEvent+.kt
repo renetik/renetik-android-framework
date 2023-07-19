@@ -7,7 +7,7 @@ import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_UP
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.property.CSProperty
-import renetik.android.event.property.action
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused

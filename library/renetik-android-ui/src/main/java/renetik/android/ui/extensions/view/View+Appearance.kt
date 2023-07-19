@@ -8,8 +8,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import renetik.android.core.extensions.content.CSColorInt
 import renetik.android.core.extensions.content.dpToPixel
-import renetik.android.event.property.action
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.R
 

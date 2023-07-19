@@ -7,7 +7,7 @@ import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.CSProperty
-import renetik.android.event.property.action
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.register

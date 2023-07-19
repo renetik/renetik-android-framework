@@ -9,7 +9,7 @@ import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.asString
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.value.CSValue
-import renetik.android.event.property.action
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration

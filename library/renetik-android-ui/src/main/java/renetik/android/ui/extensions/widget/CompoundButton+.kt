@@ -6,7 +6,7 @@ import android.widget.CompoundButton
 import androidx.annotation.ColorInt
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
-import renetik.android.event.property.action
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
