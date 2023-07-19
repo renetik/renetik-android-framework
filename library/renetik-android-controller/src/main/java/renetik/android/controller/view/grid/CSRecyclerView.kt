@@ -53,19 +53,19 @@ class CSRecyclerView<ItemType : Any>(
 
     val eventItemSelected = event<CSGridItemView<ItemType>>()
     fun onItemSelected(function: (CSGridItemView<ItemType>) -> Unit) =
-        apply { eventItemSelected.listen { function(it) } }
+        apply { eventItemSelected.listen(function) }
 
     val eventItemReSelected = event<CSGridItemView<ItemType>>()
     fun onItemReSelected(function: (CSGridItemView<ItemType>) -> Unit) =
-        apply { eventItemReSelected.listen { function(it) } }
+        apply { eventItemReSelected.listen(function) }
 
     val eventDisabledItemClick = event<CSGridItemView<ItemType>>()
     fun onDisabledItemClick(function: (CSGridItemView<ItemType>) -> Unit) =
-        apply { eventDisabledItemClick.listen { function(it) } }
+        apply { eventDisabledItemClick.listen(function) }
 
     val eventItemActivated = event<CSGridItemView<ItemType>>()
     fun onItemActive(function: (CSGridItemView<ItemType>) -> Unit) =
-        apply { eventItemActivated.listen { function(it) } }
+        apply { eventItemActivated.listen(function) }
 
     init {
         view.adapter = adapter
