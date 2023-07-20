@@ -48,7 +48,7 @@ import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.rightFloat
 import renetik.android.ui.extensions.view.topFloat
 
-open class CSNavigationWindow<ViewType : View>(
+open class CSNavigationItemView<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, dialogContentLayout: CSLayoutRes
 ) : CSActivityView<FrameLayout>(
     parent.navigation!!, layout(R.layout.cs_navigation_dialog)
