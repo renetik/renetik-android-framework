@@ -7,10 +7,9 @@ import android.widget.FrameLayout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.common.CSNavigationAnimation.*
-import renetik.android.ui.extensions.add
-import renetik.android.ui.extensions.remove
-import renetik.android.core.extensions.content.color
+import renetik.android.controller.common.CSNavigationAnimation.None
+import renetik.android.controller.common.CSNavigationAnimation.SlideInRight
+import renetik.android.controller.common.CSNavigationAnimation.SlideOutLeft
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
 import renetik.android.core.kotlin.ifNull
@@ -18,26 +17,19 @@ import renetik.android.core.kotlin.isNotNull
 import renetik.android.core.kotlin.onNotNull
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
-import renetik.android.core.logging.CSLog.logDebug
-import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.core.logging.CSLog.logWarnTrace
-import renetik.android.core.logging.CSLogMessage.Companion.message
-import renetik.android.core.logging.CSLogMessage.Companion.traceMessage
-import renetik.android.ui.R.color.cs_dialog_background
+import renetik.android.ui.extensions.add
 import renetik.android.ui.extensions.onGlobalFocus
-import renetik.android.ui.extensions.view.background
-import renetik.android.ui.extensions.view.removeFromSuperview
+import renetik.android.ui.extensions.remove
 
 class CSNavigationView : CSActivityView<FrameLayout> {
     constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
     constructor(parent: CSActivityView<out ViewGroup>)
-            : super(parent, layout(R.layout.cs_navigation))
+        : super(parent, layout(R.layout.cs_navigation))
 
     private val controllersMap = linkedMapOf<String, CSActivityView<*>>()
 
     val controllers get() = controllersMap.values
-
-    private val backgroundView = View(this).also { it.background(color(cs_dialog_background)) }
 
     // WORKAROUND CODE:
     // I had issue with EditText after focus when removed by pop,Activity.onBackPressed was never fired again
@@ -50,8 +42,10 @@ class CSNavigationView : CSActivityView<FrameLayout> {
         onGlobalFocus { _, newFocus -> focusedView = newFocus }
     }
 
-    fun <T : View> push(controller: CSActivityView<T>,
-                        pushId: String? = null): CSActivityView<T> {
+    fun <T : View> push(
+        controller: CSActivityView<T>,
+        pushId: String? = null
+    ): CSActivityView<T> {
 //        logDebug { message(controller) }
         val isFullScreen =
             (controller as? CSNavigationItem)?.isFullscreenNavigationItem?.value ?: true
@@ -78,7 +72,6 @@ class CSNavigationView : CSActivityView<FrameLayout> {
     }
 
     private fun popController(controller: CSActivityView<*>) {
-        backgroundView.removeFromSuperview()
         focusedView?.clearFocus()
         popAnimation(controller)
         controller.showingInPager(false)
