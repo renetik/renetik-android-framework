@@ -10,9 +10,6 @@ import android.view.animation.AnimationUtils.loadAnimation
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.R.anim.activity_recreate_fade_in
 import renetik.android.controller.R.anim.activity_recreate_fade_out
-import renetik.android.controller.menu.CSOnMenu
-import renetik.android.controller.menu.CSOnMenuItem
-import renetik.android.controller.menu.GeneratedMenuItems
 import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.event.CSEvent.Companion.event
@@ -44,9 +41,6 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     val onOrientationChanged = event<Configuration>()
     val onLowMemory = event<Unit>()
     val onUserLeaveHint = event<Unit>()
-    val onPrepareOptionsMenu = event<CSOnMenu>()
-    val onOptionsItemSelected = event<CSOnMenuItem>()
-    val onCreateOptionsMenu = event<CSOnMenu>()
     val onActivityResult = event<CSActivityResult>()
     val onKeyDown = event<CSOnKeyDownResult>()
     val onNewIntent = event<Intent>()
@@ -165,31 +159,12 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onUserLeaveHint()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val onMenu = CSOnMenu(this, menu)
-        onCreateOptionsMenu.fire(onMenu)
-        return onMenu.showMenu.value
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.removeGroup(GeneratedMenuItems)
-        val onMenu = CSOnMenu(this, menu)
-        onPrepareOptionsMenu.fire(onMenu)
-        return onMenu.showMenu.value
-    }
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         onConfigurationChanged.fire(newConfig)
         if (configuration.orientation != newConfig.orientation)
             onOrientationChanged.fire(newConfig)
         configuration.updateFrom(newConfig)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val onMenuItem = CSOnMenuItem(item)
-        onOptionsItemSelected.fire(onMenuItem)
-        return onMenuItem.isConsumed
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,

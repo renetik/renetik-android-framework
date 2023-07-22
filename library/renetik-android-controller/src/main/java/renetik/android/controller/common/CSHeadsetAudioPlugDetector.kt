@@ -9,7 +9,6 @@ import android.view.View
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
-import renetik.android.core.logging.CSLogMessage.Companion.message
 
 @Deprecated("")
 class CSHeadsetAudioPlugDetector(

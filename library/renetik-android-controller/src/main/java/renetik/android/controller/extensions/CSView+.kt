@@ -1,8 +1,9 @@
-package renetik.android.controller.base
+package renetik.android.controller.extensions
 
 import android.hardware.SensorManager
 import android.view.OrientationEventListener
 import android.view.View
+import renetik.android.controller.base.CSView
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
 import renetik.android.core.kotlin.primitives.isTrue

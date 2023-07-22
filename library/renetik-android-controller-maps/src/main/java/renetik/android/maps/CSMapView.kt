@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.Marker
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.kotlin.unfinished
 import renetik.android.core.logging.CSLog.logError
-import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.listenOnce
 import renetik.android.event.registration.CSRegistration

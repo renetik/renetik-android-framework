@@ -2,14 +2,11 @@ package renetik.android.controller.extensions
 
 import android.content.*
 import android.content.Intent.*
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.CSStartActivityResult.ActivityNotFound
 import renetik.android.controller.extensions.CSStartActivityResult.Cancel
 import renetik.android.core.kotlin.primitives.random
-import renetik.android.core.logging.CSLog.logWarn
-import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.listen
 import renetik.android.event.registration.cancel
 import renetik.android.event.registration.register

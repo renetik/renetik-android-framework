@@ -1,4 +1,4 @@
-package renetik.android.controller.base.navigation
+package renetik.android.controller.navigation
 
 import android.annotation.SuppressLint
 import androidx.annotation.AnimRes

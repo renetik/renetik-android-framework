@@ -1,7 +1,7 @@
-package renetik.android.controller.base.navigation
+package renetik.android.controller.navigation
 
-import renetik.android.controller.base.navigation.CSNavigationAnimation.SlideInRight
-import renetik.android.controller.base.navigation.CSNavigationAnimation.SlideOutLeft
+import renetik.android.controller.navigation.CSNavigationAnimation.SlideInRight
+import renetik.android.controller.navigation.CSNavigationAnimation.SlideOutLeft
 import renetik.android.core.lang.value.CSValue
 import renetik.android.core.lang.value.CSValue.Companion.value
 

@@ -1,4 +1,4 @@
-package renetik.android.controller.base.navigation
+package renetik.android.controller.navigation
 
 import android.view.Gravity.START
 import android.view.Gravity.TOP
@@ -9,13 +9,13 @@ import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.base.navigation.CSNavigationItemAnimation.Fade
-import renetik.android.controller.base.navigation.CSNavigationItemAnimation.None
-import renetik.android.controller.base.navigation.CSNavigationItemAnimation.Slide
-import renetik.android.controller.base.navigation.CSNavigationItemAnimation.SlideFade
-import renetik.android.controller.base.navigation.CSNavigationItemPopupSide.Bottom
-import renetik.android.controller.base.navigation.CSNavigationItemPopupSide.Right
-import renetik.android.controller.base.navigation.CSNavigationItemPopupSide.Top
+import renetik.android.controller.navigation.CSNavigationItemAnimation.Fade
+import renetik.android.controller.navigation.CSNavigationItemAnimation.None
+import renetik.android.controller.navigation.CSNavigationItemAnimation.Slide
+import renetik.android.controller.navigation.CSNavigationItemAnimation.SlideFade
+import renetik.android.controller.navigation.CSNavigationItemPopupSide.Bottom
+import renetik.android.controller.navigation.CSNavigationItemPopupSide.Right
+import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
 import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
 import renetik.android.core.extensions.content.color

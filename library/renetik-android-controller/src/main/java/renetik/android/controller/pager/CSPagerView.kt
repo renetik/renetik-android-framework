@@ -2,14 +2,19 @@ package renetik.android.controller.pager
 
 import android.view.View
 import renetik.android.controller.base.CSActivityView
-import renetik.android.core.kotlin.collections.*
+import renetik.android.core.kotlin.collections.at
+import renetik.android.core.kotlin.collections.hasItems
+import renetik.android.core.kotlin.collections.isEmpty
+import renetik.android.core.kotlin.collections.list
+import renetik.android.core.kotlin.collections.putAll
+import renetik.android.core.kotlin.collections.reload
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.registration.registerLater
+import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.view.shownIf
 
 class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     CSActivityView<CSViewPager>(parent, pagerId)
-        where PageType : CSActivityView<*>, PageType : CSPagerPage {
+    where PageType : CSActivityView<*>, PageType : CSPagerPage {
 
     val eventOnPageChange = event<PageType>()
     fun onPageChange(function: (PageType) -> Unit) = eventOnPageChange.listen(function)
@@ -24,7 +29,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     private var emptyView: View? = null
 
     constructor(parent: CSActivityView<*>, pagerId: Int, pages: List<PageType>)
-            : this(parent, pagerId) {
+        : this(parent, pagerId) {
         controllers.putAll(pages)
     }
 
@@ -86,7 +91,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
 
     // Bug in pager , animation work just when delayed
     private fun setActive(index: Int, animated: Boolean = true) = apply {
-        if (animated) registerLater { view.setCurrentItem(index, true) }
+        if (animated) later { view.setCurrentItem(index, true) }
         else view.setCurrentItem(index, false)
     }
 

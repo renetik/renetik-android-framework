@@ -1,4 +1,4 @@
-package renetik.android.controller.base.navigation
+package renetik.android.controller.navigation
 
 enum class CSNavigationItemPopupSide {
     Bottom, Right, Top

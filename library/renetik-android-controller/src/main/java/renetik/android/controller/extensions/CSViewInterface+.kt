@@ -1,4 +1,4 @@
-package renetik.android.controller.base
+package renetik.android.controller.extensions
 
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES

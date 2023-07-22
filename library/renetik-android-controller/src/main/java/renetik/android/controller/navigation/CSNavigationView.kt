@@ -1,4 +1,4 @@
-package renetik.android.controller.base.navigation
+package renetik.android.controller.navigation
 
 import android.view.View
 import android.view.ViewGroup
@@ -7,9 +7,9 @@ import android.widget.FrameLayout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.base.navigation.CSNavigationAnimation.None
-import renetik.android.controller.base.navigation.CSNavigationAnimation.SlideInRight
-import renetik.android.controller.base.navigation.CSNavigationAnimation.SlideOutLeft
+import renetik.android.controller.navigation.CSNavigationAnimation.None
+import renetik.android.controller.navigation.CSNavigationAnimation.SlideInRight
+import renetik.android.controller.navigation.CSNavigationAnimation.SlideOutLeft
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
 import renetik.android.core.kotlin.ifNull

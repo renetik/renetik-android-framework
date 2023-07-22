@@ -1,11 +1,11 @@
-package renetik.android.controller.base.navigation
+package renetik.android.controller.navigation
 
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.updateLayoutParams
-import renetik.android.controller.base.navigation.CSNavigationItemAnimation.Fade
-import renetik.android.controller.base.navigation.CSNavigationItemAnimation.None
+import renetik.android.controller.navigation.CSNavigationItemAnimation.Fade
+import renetik.android.controller.navigation.CSNavigationItemAnimation.None
 import renetik.android.core.lang.CSLeakCanary
 import renetik.android.core.lang.variable.setFalse
 
