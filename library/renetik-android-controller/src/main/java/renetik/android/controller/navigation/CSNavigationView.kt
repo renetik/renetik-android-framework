@@ -166,4 +166,8 @@ class CSNavigationView : CSActivityView<FrameLayout> {
         if (animation != None)
             controller.view.startAnimation(loadAnimation(this, animation.resource))
     }
+
+    override var navigation: CSNavigationView?
+        get() = this
+        set(_) = unexpected()
 }

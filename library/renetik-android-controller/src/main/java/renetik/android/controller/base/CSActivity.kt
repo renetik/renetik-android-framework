@@ -19,7 +19,6 @@ import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.ui.protocol.CSVisibility
 
-
 abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
 
     companion object {
@@ -87,22 +86,22 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         isRecreateView = false
     }
 
-    override fun onStart() {
+    public override fun onStart() {
         onStart.fire()
         super.onStart()
     }
 
-    override fun onResume() {
+    public override fun onResume() {
         eventResume.fire()
         super.onResume()
     }
 
-    override fun onPause() {
+    public override fun onPause() {
         eventPause.fire()
         super.onPause()
     }
 
-    override fun onStop() {
+    public override fun onStop() {
         onStop.fire()
         super.onStop()
     }
@@ -118,10 +117,10 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     }
 
     @SuppressLint("MissingSuperCall")
-    override fun onDestroy() = onDestruct()
+    public override fun onDestroy() = onDestruct()
 
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         onActivityResult.fire(CSActivityResult(requestCode, resultCode, data))
         @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
@@ -132,12 +131,12 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
+    public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         onSaveInstanceState.fire(outState)
     }
 
-    override fun onNewIntent(intent: Intent) {
+    public override fun onNewIntent(intent: Intent) {
         onNewIntent.fire(intent)
         super.onNewIntent(intent)
     }
@@ -154,7 +153,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         return super.onKeyUp(keyCode, event)
     }
 
-    override fun onUserLeaveHint() {
+    public override fun onUserLeaveHint() {
         onUserLeaveHint.fire()
         super.onUserLeaveHint()
     }
@@ -167,20 +166,15 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         configuration.updateFrom(newConfig)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            results: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        results: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, results)
-        onRequestPermissionsResult.fire(CSRequestPermissionResult(requestCode,
-            permissions,
-            results))
-    }
-
-    var themeId: Int = 0
-
-    override fun setTheme(resId: Int) {
-        super.setTheme(resId)
-        themeId = resId
+        onRequestPermissionsResult.fire(
+            CSRequestPermissionResult(requestCode, permissions, results)
+        )
     }
 
     override fun onLowMemory() {
