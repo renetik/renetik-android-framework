@@ -60,11 +60,11 @@ fun View.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
     return registration
 }
 
-inline fun View.afterLayout(crossinline function: (View) -> Unit): CSRegistration =
+inline fun View.afterGlobalLayout(crossinline function: (View) -> Unit): CSRegistration =
     onGlobalLayout { it.cancel(); function(this) }
 
 @Deprecated("Use simple version")
-inline fun View.afterLayout(
+inline fun View.afterGlobalLayout(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration {
     val registration by weak(parent.register(onGlobalLayout {
