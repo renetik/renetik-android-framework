@@ -1,6 +1,7 @@
 package renetik.android.ui.extensions.view
 
 import android.view.View
+import android.view.View.OnAttachStateChangeListener
 import android.view.View.OnLayoutChangeListener
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -26,7 +27,7 @@ fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     fun attach() = viewTreeObserver.addOnGlobalFocusChangeListener(listener)
     fun detach() = viewTreeObserver.removeOnGlobalFocusChangeListener(listener)
 
-    val attachStateListener = object : View.OnAttachStateChangeListener {
+    val attachStateListener = object : OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(view: View) = attach()
         override fun onViewDetachedFromWindow(view: View) = detach()
     }
@@ -50,7 +51,7 @@ fun View.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
     fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
     fun detach() = viewTreeObserver.removeOnGlobalLayoutListener(listener)
 
-    val attachStateListener = object : View.OnAttachStateChangeListener {
+    val attachStateListener = object : OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(view: View) = attach()
         override fun onViewDetachedFromWindow(view: View) = detach()
     }
