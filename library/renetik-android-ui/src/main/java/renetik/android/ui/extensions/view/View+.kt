@@ -120,7 +120,7 @@ fun View.activated(value: Boolean = true) = activeIf(value)
 fun View.activeIf(value: Boolean) = apply { isActivated = value }
 fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
 fun View.onClick(action: CSActionInterface) = onClick { action.start() }
-fun View.onClick(action: CSEvent<Void>) = onClick { action.fire() }
+fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 
 @Suppress("DEPRECATION")
 fun View.enterFullScreen() {

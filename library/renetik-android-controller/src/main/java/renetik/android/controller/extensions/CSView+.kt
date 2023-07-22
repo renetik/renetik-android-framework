@@ -7,6 +7,7 @@ import renetik.android.controller.base.CSView
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
 import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.cancel
@@ -20,11 +21,12 @@ import renetik.android.ui.extensions.view.onLongClick
 
 fun <T : CSView<*>> T.reusable() = apply { lifecycleStopOnRemoveFromParentView = false }
 
-fun CSView<*>.inflateView(layoutId: Int) = inflate<View>(layoutId)
-
 fun <Type : CSView<*>> Type.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
 
 fun <T : CSView<*>> T.onClick(action: CSActionInterface): T =
+    apply { contentView.onClick(action) }
+
+fun <T : CSView<*>> T.onClick(action: CSEvent<Unit>): T =
     apply { contentView.onClick(action) }
 
 fun <T : CSView<*>> T.onClick(function: (view: T) -> Unit): T =

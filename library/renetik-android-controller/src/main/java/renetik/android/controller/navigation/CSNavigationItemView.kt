@@ -20,12 +20,12 @@ import renetik.android.controller.navigation.CSNavigationItemPopupSide.Right
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
 import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.dpToPixelF
-import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.variable.isTrue
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
+import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
@@ -71,7 +71,8 @@ open class CSNavigationItemView<ViewType : View>(
     init {
         passClicksUnder(false)
         listenOnce(parent.eventDestruct) {
-            if (!isShowingInPager && lifecycleStopOnRemoveFromParentView) unexpected()
+            if (!isShowingInPager && lifecycleStopOnRemoveFromParentView)
+                logErrorTrace { "Unexpected but dont know why now..." }
             if (isShowingInPager) close()
             if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
