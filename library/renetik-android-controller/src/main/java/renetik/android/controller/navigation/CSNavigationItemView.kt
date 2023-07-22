@@ -9,6 +9,8 @@ import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
+import renetik.android.controller.extensions.height
+import renetik.android.controller.extensions.width
 import renetik.android.controller.navigation.CSNavigationItemAnimation.Fade
 import renetik.android.controller.navigation.CSNavigationItemAnimation.None
 import renetik.android.controller.navigation.CSNavigationItemAnimation.Slide
@@ -16,8 +18,6 @@ import renetik.android.controller.navigation.CSNavigationItemAnimation.SlideFade
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Bottom
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Right
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
-import renetik.android.controller.extensions.height
-import renetik.android.controller.extensions.width
 import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.dpToPixelF
 import renetik.android.core.kotlin.unexpected
@@ -49,7 +49,7 @@ import renetik.android.ui.extensions.view.topFloat
 open class CSNavigationItemView<ViewType : View>(
     val parent: CSActivityView<out ViewGroup>, dialogContentLayout: CSLayoutRes
 ) : CSActivityView<FrameLayout>(
-    parent.navigation!!, layout(R.layout.cs_navigation_dialog)
+    parent.navigation!!, R.layout.cs_navigation_dialog.layout
 ), CSNavigationItem {
 
     val dialogContent: ViewType = inflate(dialogContentLayout.id)

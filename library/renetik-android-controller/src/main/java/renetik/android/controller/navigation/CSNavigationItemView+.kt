@@ -17,7 +17,7 @@ fun <T : CSNavigationItemView<*>> T.selectedButton(button: View) = apply {
 fun <T : CSNavigationItemView<*>> T.show(animation: CSNavigationItemAnimation = Fade) = apply {
     this.animation = if (CSLeakCanary.isEnabled) None else animation
     navigation!!.push(this)
-    updateVisibility()
+    updateVisibility() // TODO needed ?
 }
 
 fun <T : CSNavigationItemView<*>> T.center(width: Int? = null, height: Int? = null) = apply {
