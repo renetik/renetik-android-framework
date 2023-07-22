@@ -31,7 +31,7 @@ class CSNavigationViewTest {
     private val navigation by lazy { activity.activityView as CSNavigationView }
 
     @Test
-    fun test() {
+    fun test1() {
         assertTrue(navigation.isResumed)
         val itemView = CSNavigationItemView<View>(navigation, cs_frame_match.layout).show()
 
