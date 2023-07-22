@@ -12,6 +12,7 @@ import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.cancel
 import renetik.android.event.registration.listenOnce
 import renetik.android.event.registration.register
 import renetik.android.ui.CSDisplayCutout
@@ -89,8 +90,17 @@ fun CSViewInterface.radioGroup(
 
 fun <Type : CSViewInterface> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
 
-fun CSViewInterface.registerAfterGlobalLayout(function: () -> Unit): CSRegistration =
-    view.afterLayout(this) { function() }
+//fun CSViewInterface.registerAfterGlobalLayout(function: () -> Unit): CSRegistration =
+//    view.afterLayout(this) { function() }
+
+fun CSViewInterface.registerAfterGlobalLayout(function: () -> Unit): CSRegistration {
+    lateinit var registration: CSRegistration
+    registration = register(view.afterLayout {
+        cancel(registration)
+        function()
+    })
+    return registration
+}
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
     where  Type : CSViewInterface =

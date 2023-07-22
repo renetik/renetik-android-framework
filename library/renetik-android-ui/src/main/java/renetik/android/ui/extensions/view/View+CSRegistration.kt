@@ -44,25 +44,34 @@ fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
 
 fun View.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
     lateinit var registration: CSRegistration
-    val listener = OnGlobalLayoutListener {
-        if (registration.isActive) function(registration)
-    }
-
+    val listener = OnGlobalLayoutListener { if (registration.isActive) function(registration) }
     fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
     fun detach() = viewTreeObserver.removeOnGlobalLayoutListener(listener)
-
     val attachStateListener = object : OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(view: View) = attach()
         override fun onViewDetachedFromWindow(view: View) = detach()
     }
     addOnAttachStateChangeListener(attachStateListener)
-
     registration = CSRegistration(
         onResume = { if (isAttachedToWindow) attach() },
         onPause = { detach() },
         onCancel = { removeOnAttachStateChangeListener(attachStateListener) }
     ).start()
     return registration
+}
+
+inline fun View.afterLayout(crossinline function: (View) -> Unit): CSRegistration =
+    onGlobalLayout { it.cancel(); function(this) }
+
+@Deprecated("Use simple version")
+inline fun View.afterLayout(
+    parent: CSHasRegistrations, crossinline function: (View) -> Unit
+): CSRegistration {
+    val registration by weak(parent.register(onGlobalLayout {
+        parent.cancel(it)
+        function(this)
+    }))
+    return CSRegistration { parent.cancel(registration) }
 }
 
 inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
@@ -100,16 +109,6 @@ inline fun View.onHasSize(
         return CSRegistration { parent.cancel(registration) }
     } else function(this)
     return null
-}
-
-inline fun View.afterLayout(
-    parent: CSHasRegistrations, crossinline function: (View) -> Unit
-): CSRegistration {
-    val registration by weak(parent.register(onGlobalLayout {
-        parent.cancel(it)
-        function(this)
-    }))
-    return CSRegistration { parent.cancel(registration) }
 }
 
 fun View.onScrollChange(function: (view: View) -> Unit): CSRegistration =
