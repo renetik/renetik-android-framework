@@ -41,10 +41,11 @@ val View.locationInWindow: CSPoint<Int>
         return CSPoint(location[0], location[1])
     }
 
-fun View.registerToLocationOnScreen(delay: Int = 0): IntArray {
+fun View.updatedLocationOnScreen(delay: Int = 0): IntArray {
     val location = IntArray(2)
-    fun updateLocation() =
-        later(delay) { if (isAttachedToWindow) getLocationOnScreen(location) }
+    fun updateLocation() = later(delay) {
+        if (isAttachedToWindow) getLocationOnScreen(location)
+    }
     updateLocation()
     onBoundsChange { updateLocation() }
     return location

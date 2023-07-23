@@ -83,8 +83,6 @@ inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
 
 fun View.onBoundsChange(function: ArgFunc<CSRegistration>): CSRegistration {
     lateinit var registration: CSRegistration
-
-    @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     val listener = OnLayoutChangeListener { _, l, t, r, b, nl, nt, nr, nb ->
         if (l != nl || t != nt || r != nr || b != nb) function(registration)
     }
