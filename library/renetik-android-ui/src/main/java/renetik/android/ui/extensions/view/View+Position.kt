@@ -1,6 +1,9 @@
 package renetik.android.ui.extensions.view
 
 import android.view.View
+import renetik.android.core.lang.CSHandler
+import renetik.android.core.lang.CSHandler.mainHandler
+import renetik.android.core.lang.CSHandler.postOnMain
 import renetik.android.core.math.CSPoint
 import renetik.android.event.util.CSLater.later
 
@@ -43,7 +46,7 @@ val View.locationInWindow: CSPoint<Int>
 
 fun View.updatedLocationOnScreen(delay: Int = 0): IntArray {
     val location = IntArray(2)
-    fun updateLocation() = later(delay) {
+    fun updateLocation() = postOnMain(delay) {
         if (isAttachedToWindow) getLocationOnScreen(location)
     }
     updateLocation()

@@ -18,7 +18,6 @@ import renetik.android.ui.extensions.view.disabledByAlpha
 import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.onClick
-import renetik.android.ui.extensions.widget.scrollToIndex
 
 class CSGridView<ItemType : Any>(
     val parent: CSActivityView<*>, viewId: Int,
@@ -108,9 +107,9 @@ class CSGridView<ItemType : Any>(
         emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
     }
 
-    fun scrollToActive(smooth: Boolean = true) = apply {
-        view.scrollToIndex(data.indexOf(selectedItem.value), smooth)
-    }
+//    fun scrollToActive(smooth: Boolean = true) = apply {
+//        view.scrollToIndex(data.indexOf(selectedItem.value), smooth)
+//    }
 
     inner class Adapter : BaseAdapter() {
         override fun getCount() = data.size
