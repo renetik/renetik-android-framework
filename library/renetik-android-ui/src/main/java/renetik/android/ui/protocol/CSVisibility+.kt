@@ -31,13 +31,15 @@ fun CSVisibility.whileShowingTrue(function: (Boolean) -> Unit): CSRegistration {
 fun CSVisibility.task(period: Int, function: Func) = task(period, period, function)
 
 fun CSVisibility.task(delay: Int, period: Int, function: Func): CSRegistration {
-    fun createScheduler() = laterEach(after = delay, period) { function() }
+    lateinit var registration: CSRegistration
+    fun createScheduler() = laterEach(after = delay, period) {
+        if (registration.isActive) function()
+    }
+
     var task: CSRegistration? = isVisible.ifTrueReturn(::createScheduler)
     val onVisibilityRegistration = onVisibility { isShowing ->
         if (isShowing) task = createScheduler() else task?.cancel()
     }
-    return CSRegistration(isActive = true, onCancel = {
-        onVisibilityRegistration.cancel()
-        task?.cancel()
-    })
+    registration = CSRegistration(isActive = true) { onVisibilityRegistration.cancel() }
+    return registration
 }
