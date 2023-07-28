@@ -1,11 +1,12 @@
 package renetik.android.ui.protocol
 
 import renetik.android.core.kotlin.primitives.ifTrueReturn
+import renetik.android.core.lang.CSHandler.main
 import renetik.android.core.lang.Func
 import renetik.android.event.listen
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.util.CSLater.laterEach
+import renetik.android.event.registration.laterEach
 
 fun CSVisibility.onShowing(function: () -> Unit): CSRegistration = onShowing { _ -> function() }
 
@@ -32,7 +33,7 @@ fun CSVisibility.task(period: Int, function: Func) = task(period, period, functi
 
 fun CSVisibility.task(delay: Int, period: Int, function: Func): CSRegistration {
     lateinit var registration: CSRegistration
-    fun createScheduler() = laterEach(after = delay, period) {
+    fun createScheduler() = main.laterEach(after = delay, period) {
         if (registration.isActive) function()
     }
 
