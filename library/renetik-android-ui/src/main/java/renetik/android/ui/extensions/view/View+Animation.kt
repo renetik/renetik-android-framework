@@ -33,7 +33,7 @@ fun <T : View> T.fadeOut(
     onDone: (() -> Unit)? = null,
 ): ViewPropertyAnimator? = when {
     CSLeakCanary.isEnabled -> {
-        hide(); null
+        if (invisible) invisible() else gone(); null
     }
     isGone || isInvisible -> {
         onDone?.invoke(); null
