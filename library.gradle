@@ -52,7 +52,7 @@ if (rootProject.ext.is_renetik_library_release) {
             }
         }
     }
-    task sourceJar(type: Jar) {
+    tasks.register('sourceJar', Jar) {
         classifier 'sources'
         from android.sourceSets.main.java.srcDirs
     }
@@ -61,4 +61,3 @@ if (rootProject.ext.is_renetik_library_release) {
         dokkaSourceSets { configureEach { includes.from("../README.md") } }
     }
 }
-afterEvaluate { rootProject.onAfterEvaluate(project, tasks) }

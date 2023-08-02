@@ -7,7 +7,7 @@ buildscript {
         renetik_android_preset = "com.renetik.library:renetik-android-preset:$renetik_library_version"
         renetik_android_ui = "com.renetik.library:renetik-android-ui:$renetik_library_version"
         renetik_android_framework = "com.renetik.library:renetik-android-framework:$renetik_library_version"
-        sdk_version = 33
+        sdk_version = 34
         min_sdk_version = 24
         appcompat_version = '1.6.1'
         material_version = '1.9.0'
@@ -15,7 +15,6 @@ buildscript {
         junit_version = '4.13.2'
         play_version = '18.0.1'
         kotlin_version = "1.8.0"
-        is_lint_disabled = project.properties["renetik_project_lint_disabled"] == "true"
         is_renetik_library_release = project.properties["renetik_library_release"] == "true"
     }
 //    configurations.all {
@@ -36,16 +35,10 @@ allprojects {
 //        resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
 //    }
 }
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
 wrapper {
     gradleVersion = "8.0.2"
     distributionType = Wrapper.DistributionType.ALL
-}
-ext.onAfterEvaluate = { project, tasks ->
-    if (rootProject.ext.is_lint_disabled) {
-        println "onAfterEvaluate: ${project.name} lint disabled"
-        tasks.findAll { it.name.startsWith('lint') }.each { it.enabled = false }
-    }
 }
