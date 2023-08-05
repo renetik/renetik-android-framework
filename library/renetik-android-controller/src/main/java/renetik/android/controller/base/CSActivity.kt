@@ -79,17 +79,19 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         createActivityView()
     }
 
-    fun destroyActivityView() {
+    fun destroyActivityView(animation: Boolean = false) {
         isRecreateView = true
-        activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_out))
+        if (animation)
+            activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_out))
         activityView!!.destruct()
         configuration.updateFrom(resources.configuration)
         activityView = null
     }
 
-    fun createActivityView() {
+    fun createActivityView(animation: Boolean = false) {
         activityView = createView()
-        activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_in))
+        if (animation)
+            activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_in))
         setContentView(activityView!!.view)
         activityView!!.onResume()
         isRecreateView = false

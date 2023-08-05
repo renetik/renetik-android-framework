@@ -90,9 +90,6 @@ fun CSViewInterface.radioGroup(
 
 fun <Type : CSViewInterface> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
 
-//fun CSViewInterface.registerAfterGlobalLayout(function: () -> Unit): CSRegistration =
-//    view.afterLayout(this) { function() }
-
 fun CSViewInterface.registerAfterGlobalLayout(function: () -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
     registration = register(view.afterGlobalLayout {
