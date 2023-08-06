@@ -31,12 +31,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override val eventBack = event<CSVariable<Boolean>>()
     override fun activity(): CSActivity = this
 
-    val onConfigurationChanged = event<Configuration>()
-    val onOrientationChanged = event<Configuration>()
-    val onUserLeaveHint = event<Unit>()
     val onActivityResult = event<CSActivityResult>()
-    val onKeyDown = event<CSOnKeyDownResult>()
-    val onNewIntent = event<Intent>()
     val onRequestPermissionsResult = event<CSRequestPermissionResult>()
 
     //CSVisibility
@@ -78,7 +73,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         activityView = null
     }
 
-    fun createActivityView(animation: Boolean = false) {
+    private fun createActivityView(animation: Boolean = false) {
         activityView = createView()
         if (animation)
             activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_in))
@@ -118,16 +113,6 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        onKeyDown.fire(CSOnKeyDownResult(keyCode, event))
-        return super.onKeyDown(keyCode, event)
-    }
-
-    public override fun onNewIntent(intent: Intent) {
-        onNewIntent.fire(intent)
-        super.onNewIntent(intent)
-    }
-
     @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
@@ -136,20 +121,8 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         if (goBack.value) super.onBackPressed()
     }
 
-    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        return super.onKeyUp(keyCode, event)
-    }
-
-    public override fun onUserLeaveHint() {
-        onUserLeaveHint.fire()
-        super.onUserLeaveHint()
-    }
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        onConfigurationChanged.fire(newConfig)
-        if (configuration.orientation != newConfig.orientation)
-            onOrientationChanged.fire(newConfig)
         configuration.updateFrom(newConfig)
     }
 
