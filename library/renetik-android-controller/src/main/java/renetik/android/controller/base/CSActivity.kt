@@ -40,7 +40,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override fun updateVisibility() = Unit
 
     var activityView: CSActivityView<out ViewGroup>? = null
-    val configuration by lazy { Configuration() }
+    val configuration = Configuration()
 
     //CSViewInterface
     override val view: View get() = window.decorView
@@ -52,7 +52,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        configuration.updateFrom(resources.configuration)
+        configuration.setTo(resources.configuration)
         activityView = createView()
         setContentView(activityView!!.view)
     }
@@ -69,7 +69,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         if (animation)
             activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_out))
         activityView!!.destruct()
-        configuration.updateFrom(resources.configuration)
+        configuration.setTo(resources.configuration)
         activityView = null
     }
 
@@ -123,7 +123,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        configuration.updateFrom(newConfig)
+        configuration.setTo(newConfig)
     }
 
     override fun onRequestPermissionsResult(
