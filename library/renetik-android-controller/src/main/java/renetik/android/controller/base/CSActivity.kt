@@ -25,20 +25,14 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         val activity get() = app.activity as? CSActivity
     }
 
-    val onCreate = event<Bundle?>()
-    val onSaveInstanceState = event<Bundle>()
-    val onStart = event<Unit>()
-
     //CSActivityViewInterface
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()
     override val eventBack = event<CSVariable<Boolean>>()
     override fun activity(): CSActivity = this
 
-    val onStop = event<Unit>()
     val onConfigurationChanged = event<Configuration>()
     val onOrientationChanged = event<Configuration>()
-    val onLowMemory = event<Unit>()
     val onUserLeaveHint = event<Unit>()
     val onActivityResult = event<CSActivityResult>()
     val onKeyDown = event<CSOnKeyDownResult>()
@@ -66,7 +60,6 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         configuration.updateFrom(resources.configuration)
         activityView = createView()
         setContentView(activityView!!.view)
-        onCreate.fire(state)
     }
 
     var isRecreateView = false
@@ -94,11 +87,6 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         isRecreateView = false
     }
 
-    public override fun onStart() {
-        onStart.fire()
-        super.onStart()
-    }
-
     public override fun onResume() {
         eventResume.fire()
         super.onResume()
@@ -107,11 +95,6 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     public override fun onPause() {
         eventPause.fire()
         super.onPause()
-    }
-
-    public override fun onStop() {
-        onStop.fire()
-        super.onStop()
     }
 
     private val lazyRegistrations = lazy { CSRegistrationsMap(this) }
@@ -138,11 +121,6 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         onKeyDown.fire(CSOnKeyDownResult(keyCode, event))
         return super.onKeyDown(keyCode, event)
-    }
-
-    public override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        onSaveInstanceState.fire(outState)
     }
 
     public override fun onNewIntent(intent: Intent) {
@@ -176,18 +154,11 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        results: IntArray
+        requestCode: Int, permissions: Array<String>, results: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, results)
         onRequestPermissionsResult.fire(
             CSRequestPermissionResult(requestCode, permissions, results)
         )
-    }
-
-    override fun onLowMemory() {
-        onLowMemory.fire()
-        super.onLowMemory()
     }
 }
