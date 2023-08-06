@@ -59,9 +59,6 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     //CSHasContext
     override val context: Context get() = this
 
-    //CSHasRegistrations
-    final override val registrations by lazy { CSRegistrationsMap(this) }
-
     abstract fun createView(): CSActivityView<out ViewGroup>
 
     override fun onCreate(state: Bundle?) {
@@ -117,12 +114,13 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
         super.onStop()
     }
 
-    // CSHasDestruct
+    private val lazyRegistrations = lazy { CSRegistrationsMap(this) }
+    final override val registrations by lazyRegistrations
+    final override val eventDestruct = event<Unit>()
     override val isDestructed: Boolean get() = isDestroyed
-    override val eventDestruct = event<Unit>()
     override fun onDestruct() {
         super.onDestroy()
-        registrations.cancel()
+        if (lazyRegistrations.isInitialized()) registrations.cancel()
         eventDestruct.fire().clear()
         activityView = null
     }
