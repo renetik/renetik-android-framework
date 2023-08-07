@@ -62,11 +62,11 @@ fun <T> T.laterEachIfShowing(delay: Int, period: Int, function: Func): CSRegistr
     return CSRegistration(
         isActive = false,
         onResume = {
-            if (isVisible)
-                registration = registerUntilHide(main.laterEach(delay, period, function))
-            onShowingRegistration = onShowing {
+            fun start() {
                 registration = registerUntilHide(main.laterEach(delay, period, function))
             }
+            if (isVisible) start()
+            onShowingRegistration = onShowing { start() }
         },
         onPause = {
             onShowingRegistration?.cancel()
