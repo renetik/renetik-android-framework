@@ -9,5 +9,5 @@ interface CSActivityViewInterface : CSViewInterface, CSVisibility {
     val eventResume: CSEvent<Unit>
     val eventPause: CSEvent<Unit>
     val eventBack: CSEvent<CSVariable<Boolean>>
-    fun activity(): CSActivity
+    fun activity(): CSActivity<*>
 }

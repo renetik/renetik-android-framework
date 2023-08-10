@@ -23,7 +23,7 @@ import renetik.android.ui.extensions.onGlobalFocus
 import renetik.android.ui.extensions.remove
 
 class CSNavigationView : CSActivityView<FrameLayout> {
-    constructor(activity: CSActivity) : super(activity, layout(R.layout.cs_navigation))
+    constructor(activity: CSActivity<*>) : super(activity, layout(R.layout.cs_navigation))
     constructor(parent: CSActivityView<out ViewGroup>)
         : super(parent, layout(R.layout.cs_navigation))
 

@@ -19,17 +19,18 @@ import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.ui.protocol.CSVisibility
 
-abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisibility {
+abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCompatActivity(),
+    CSActivityViewInterface, CSVisibility {
 
     companion object {
-        val activity get() = app.activity as? CSActivity
+        val activity get() = app.activity as? CSActivity<*>
     }
 
     //CSActivityViewInterface
     override val eventResume = event<Unit>()
     override val eventPause = event<Unit>()
     override val eventBack = event<CSVariable<Boolean>>()
-    override fun activity(): CSActivity = this
+    override fun activity(): CSActivity<ActivityView> = this
 
     val onActivityResult = event<CSActivityResult>()
     val onRequestPermissionsResult = event<CSRequestPermissionResult>()
@@ -39,7 +40,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     override val eventVisibility = event<Boolean>()
     override fun updateVisibility() = Unit
 
-    var activityView: CSActivityView<out ViewGroup>? = null
+    var activityView: ActivityView? = null
     val configuration = Configuration()
 
     //CSViewInterface
@@ -48,7 +49,7 @@ abstract class CSActivity : AppCompatActivity(), CSActivityViewInterface, CSVisi
     //CSHasContext
     override val context: Context get() = this
 
-    abstract fun createView(): CSActivityView<out ViewGroup>
+    abstract fun createView(): ActivityView
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
