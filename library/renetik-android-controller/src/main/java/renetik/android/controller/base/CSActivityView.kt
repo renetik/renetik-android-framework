@@ -120,7 +120,7 @@ open class CSActivityView<ViewType : View>
         register(parent.eventResume.listen(::onResume))
         register(parent.eventPause.listen(::onPause))
         register(parent.eventBack.listen(::onBack))
-        register(parent.eventVisibility.listen { updateVisibility() })
+        register(parent.eventVisibility.listen(::updateVisibility))
     }
 
     protected open fun onBack(goBack: CSVariable<Boolean>) {
