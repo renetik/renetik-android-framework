@@ -2,6 +2,7 @@ package renetik.android.network.operation
 
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
+import renetik.android.event.common.destruct
 import renetik.android.event.common.registerParent
 import renetik.android.event.process.CSProcess
 
@@ -32,6 +33,6 @@ open class CSOperation<Data : Any>(
 
     private fun onDone() {
         eventDone.fire(process)
-        onDestruct()
+        destruct()
     }
 }

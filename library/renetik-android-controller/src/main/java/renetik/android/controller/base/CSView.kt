@@ -11,6 +11,7 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.event.common.CSContext
+import renetik.android.event.common.destruct
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onDestroy
@@ -118,7 +119,7 @@ open class CSView<ViewType : View> : CSContext,
     override fun onAddedToParentView() = Unit
 
     override fun onRemovedFromParentView() {
-        if (lifecycleStopOnRemoveFromParentView && !isDestructed) onDestruct()
+        if (lifecycleStopOnRemoveFromParentView && !isDestructed) destruct()
     }
 
     open var isActivated

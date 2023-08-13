@@ -15,6 +15,7 @@ import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVa
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarnTrace
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
@@ -111,7 +112,7 @@ open class CSActivityView<ViewType : View>
 
     fun lifecycleStop() {
         if (isResumed) onPause()
-        onDestruct()
+        destruct()
     }
 
     private fun <Parent> initializeParent(parent: Parent)
