@@ -11,7 +11,7 @@ import renetik.android.core.kotlin.collections.list
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.register
+import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.disabledByAlpha
@@ -76,7 +76,7 @@ class CSGridView<ItemType : Any>(
         var rowView: CSGridItemView<ItemType>? = toReuseView?.asCS()
         if (rowView == null) {
             rowView = createView(this)
-            register(selectedItem.onChange { rowView.updateSelection() })
+            this + selectedItem.onChange { rowView.updateSelection() }
             rowView.view.onClick { rowView.onClick() }
         }
         rowView.load(data[position], position)

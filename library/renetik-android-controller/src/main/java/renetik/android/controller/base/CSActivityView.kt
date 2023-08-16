@@ -20,7 +20,7 @@ import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.listenOnce
-import renetik.android.event.registration.register
+import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.view.isShowing
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.protocol.CSVisibility
@@ -118,10 +118,10 @@ open class CSActivityView<ViewType : View>
     private fun <Parent> initializeParent(parent: Parent)
         where Parent : CSActivityViewInterface, Parent : CSVisibility {
         activity = parent.activity()
-        register(parent.eventResume.listen(::onResume))
-        register(parent.eventPause.listen(::onPause))
-        register(parent.eventBack.listen(::onBack))
-        register(parent.eventVisibility.listen(::updateVisibility))
+        this + parent.eventResume.listen(::onResume)
+        this + parent.eventPause.listen(::onPause)
+        this + parent.eventBack.listen(::onBack)
+        this + parent.eventVisibility.listen(::updateVisibility)
     }
 
     protected open fun onBack(goBack: CSVariable<Boolean>) {
