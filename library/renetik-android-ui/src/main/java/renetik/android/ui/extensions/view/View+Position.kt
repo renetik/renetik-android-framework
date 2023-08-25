@@ -9,6 +9,9 @@ import renetik.android.core.math.CSPoint.Companion.point
 val <T : View> T.center: CSPoint<Int>
     get() = point(width / 2, height / 2)
 
+val <T : View> T.centerFloat: CSPoint<Float>
+    get() = point(width / 2f, height / 2f)
+
 val <T : View> T.topFromBottom get() = superview?.let { it.height - top } ?: height
 
 var <T : View> T.topFloat
