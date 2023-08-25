@@ -10,7 +10,13 @@ val <T : View> T.center: CSPoint<Int>
     get() = point(width / 2, height / 2)
 
 val <T : View> T.centerFloat: CSPoint<Float>
-    get() = point(width / 2f, height / 2f)
+    get() = point(centerFloatX, centerFloatY)
+
+val <T : View> T.centerFloatX: Float
+    get() = width / 2f
+
+val <T : View> T.centerFloatY: Float
+    get() = height / 2f
 
 val <T : View> T.topFromBottom get() = superview?.let { it.height - top } ?: height
 
