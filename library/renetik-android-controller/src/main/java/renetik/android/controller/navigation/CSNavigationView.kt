@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import renetik.android.controller.R
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
+import renetik.android.controller.navigation.CSNavigationAnimation.FadeIn
 import renetik.android.controller.navigation.CSNavigationAnimation.None
 import renetik.android.controller.navigation.CSNavigationAnimation.SlideInRight
 import renetik.android.controller.navigation.CSNavigationAnimation.SlideOutLeft
@@ -156,7 +157,7 @@ class CSNavigationView : CSActivityView<FrameLayout> {
     }
 
     private fun pushAnimation(controller: CSActivityView<*>) {
-        val animation = (controller as? CSNavigationItem)?.pushAnimation ?: SlideInRight
+        val animation = (controller as? CSNavigationItem)?.pushAnimation ?: FadeIn
         if (animation != None)
             controller.view.startAnimation(loadAnimation(this, animation.resource))
     }

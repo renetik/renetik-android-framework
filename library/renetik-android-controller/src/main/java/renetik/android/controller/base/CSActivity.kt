@@ -6,10 +6,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
-import android.view.animation.AnimationUtils.loadAnimation
 import androidx.appcompat.app.AppCompatActivity
-import renetik.android.controller.R.anim.activity_recreate_fade_in
-import renetik.android.controller.R.anim.activity_recreate_fade_out
 import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.event.CSEvent.Companion.event
@@ -65,19 +62,15 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         createActivityView()
     }
 
-    fun destroyActivityView(animation: Boolean = false) {
+    fun destroyActivityView() {
         isRecreateView = true
-        if (animation)
-            activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_out))
         activityView!!.destruct()
         configuration.setTo(resources.configuration)
         activityView = null
     }
 
-    private fun createActivityView(animation: Boolean = false) {
+    private fun createActivityView() {
         activityView = createView()
-        if (animation)
-            activityView!!.view.startAnimation(loadAnimation(this, activity_recreate_fade_in))
         setContentView(activityView!!.view)
         activityView!!.onResume()
         isRecreateView = false
