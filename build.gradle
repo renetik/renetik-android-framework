@@ -1,14 +1,14 @@
 apply from: 'renetik_android_build_common.gradle'
 buildscript {
     ext {
-        kotlin_version = "1.8.22"
+        kotlin_version = "1.9.10"
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.0'
+        classpath 'com.android.tools.build:gradle:8.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         if (rootProject.ext.is_renetik_library_release)
             classpath "org.jetbrains.dokka:dokka-gradle-plugin:$kotlin_version"
