@@ -1,7 +1,6 @@
 package renetik.android.controller.navigation
 
 import android.view.View
-import android.view.ViewGroup
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -10,7 +9,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
 import renetik.android.controller.base.CSActivity
-import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.isPaused
 import renetik.android.controller.extensions.push
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
@@ -20,8 +18,8 @@ import renetik.android.ui.R.layout.cs_frame_match
 @Config(application = TestApplication::class)
 class CSNavigationViewTest {
 
-    private class Activity : CSActivity() {
-        override fun createView(): CSActivityView<out ViewGroup> = CSNavigationView(this)
+    private class Activity : CSActivity<CSNavigationView>() {
+        override fun createView() = CSNavigationView(this)
     }
 
     private val activityController: ActivityController<Activity> by lazy {
