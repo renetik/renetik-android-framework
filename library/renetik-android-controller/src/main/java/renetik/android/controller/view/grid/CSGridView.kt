@@ -65,6 +65,11 @@ class CSGridView<ItemType : Any>(
         eventItemSelected.listen { selectedItem.value(it.value) }
     }
 
+    override fun onDestruct() {
+        view.adapter = null
+        super.onDestruct()
+    }
+
     private fun CSGridItemView<ItemType>.updateSelection() {
         val isActive = selectedItem.value == value
         isSelected = isActive && eventItemReSelected.isListened

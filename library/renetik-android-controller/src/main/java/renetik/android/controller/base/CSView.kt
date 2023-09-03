@@ -7,9 +7,9 @@ import androidx.annotation.LayoutRes
 import renetik.android.core.extensions.content.inflate
 import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
-import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
+import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
 import renetik.android.ui.extensions.view
@@ -73,7 +73,7 @@ open class CSView<ViewType : View> : CSContext,
         get() {
             when {
                 _view != null -> return _view!!
-                isDestructed -> unexpected("$className $this Already destroyed")
+                isDestructed -> logErrorTrace { "$className $this Already destroyed" }
                 layout != null -> setView(inflate(layout.id))
                 viewId != null -> setView(parent!!.view<View>(viewId) as ViewType)
                 else -> createView()?.let { setView(it) }
@@ -105,12 +105,7 @@ open class CSView<ViewType : View> : CSContext,
     }
 
     override fun onDestruct() {
-//        if (isDestroyed) unexpected("$className $this Already destroyed")
         super.onDestruct()
-
-//        val parentGroup = (_view?.parent as? ViewGroup)
-//        if (parentGroup !is AdapterView<*>) parentGroup?.remove(view)
-
         _view?.tag = "tag instance of $className removed, onDestroy called"
         _view?.onDestroy()
         _view = null
