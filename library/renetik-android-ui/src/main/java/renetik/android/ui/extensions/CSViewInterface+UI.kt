@@ -3,7 +3,11 @@ package renetik.android.ui.extensions
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.kotlin.notNull
@@ -14,9 +18,38 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.cancel
 import renetik.android.event.registration.listenOnce
+import renetik.android.event.registration.plus
 import renetik.android.event.registration.register
 import renetik.android.ui.CSDisplayCutout
-import renetik.android.ui.extensions.view.*
+import renetik.android.ui.extensions.view.afterGlobalLayout
+import renetik.android.ui.extensions.view.button
+import renetik.android.ui.extensions.view.checkBox
+import renetik.android.ui.extensions.view.compound
+import renetik.android.ui.extensions.view.datePicker
+import renetik.android.ui.extensions.view.editText
+import renetik.android.ui.extensions.view.findView
+import renetik.android.ui.extensions.view.frame
+import renetik.android.ui.extensions.view.group
+import renetik.android.ui.extensions.view.horizontalScroll
+import renetik.android.ui.extensions.view.imageView
+import renetik.android.ui.extensions.view.linear
+import renetik.android.ui.extensions.view.listView
+import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.onGlobalFocus
+import renetik.android.ui.extensions.view.onHasSize
+import renetik.android.ui.extensions.view.progress
+import renetik.android.ui.extensions.view.radio
+import renetik.android.ui.extensions.view.rectangleInWindow
+import renetik.android.ui.extensions.view.removeFromSuperview
+import renetik.android.ui.extensions.view.scrollView
+import renetik.android.ui.extensions.view.search
+import renetik.android.ui.extensions.view.seekBar
+import renetik.android.ui.extensions.view.spinner
+import renetik.android.ui.extensions.view.textView
+import renetik.android.ui.extensions.view.timePicker
+import renetik.android.ui.extensions.view.view
+import renetik.android.ui.extensions.view.viewGroup
+import renetik.android.ui.extensions.view.webView
 import renetik.android.ui.extensions.widget.onChange
 import renetik.android.ui.extensions.widget.radioGroup
 import renetik.android.ui.protocol.CSViewInterface
@@ -92,16 +125,16 @@ fun <Type : CSViewInterface> Type.removeFromSuperview() = apply { view.removeFro
 
 fun CSViewInterface.registerAfterGlobalLayout(function: () -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
-    registration = register(view.afterGlobalLayout {
+    registration = this + view.afterGlobalLayout {
         cancel(registration)
         function()
-    })
+    }
     return registration
 }
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
-    where  Type : CSViewInterface =
-    register(view.onGlobalFocus { old, new -> function(old, new) })
+        where  Type : CSViewInterface =
+    this + view.onGlobalFocus { old, new -> function(old, new) }
 
 @Suppress("DEPRECATION")
 fun CSViewInterface.onSystemUiVisibilityChangeListener(

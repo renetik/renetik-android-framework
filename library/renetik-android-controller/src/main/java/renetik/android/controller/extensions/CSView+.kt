@@ -2,7 +2,6 @@ package renetik.android.controller.extensions
 
 import android.hardware.SensorManager
 import android.view.OrientationEventListener
-import android.view.View
 import renetik.android.controller.base.CSView
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
@@ -11,7 +10,7 @@ import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.cancel
-import renetik.android.event.registration.register
+import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import renetik.android.ui.extensions.registerAfterGlobalLayout
 import renetik.android.ui.extensions.view.alphaToDisabled
@@ -67,8 +66,7 @@ fun CSView<*>.onOrientationChange(
             }
         }
     }
-    return register(
-        CSRegistration.CSRegistration(onResume = { listener.enable() },
-            onPause = { listener.disable() }).start()
-    )
+    return this + CSRegistration.CSRegistration(
+        onResume = { listener.enable() },
+        onPause = { listener.disable() }).start()
 }

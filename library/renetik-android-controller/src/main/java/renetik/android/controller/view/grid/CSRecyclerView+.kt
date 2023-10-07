@@ -10,7 +10,7 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
-import renetik.android.event.registration.register
+import renetik.android.event.registration.plus
 
 fun <RowType : Any> CSRecyclerView<RowType>.reload(values: Array<out RowType>) =
     reload(values.asIterable())
@@ -39,9 +39,9 @@ fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T>) = apply {
     val selectedItemRegistration = selectedItem.onChange { item ->
         propertyRegistration.paused { property.value = item!! }
     }
-    propertyRegistration = register(property.action {
+    propertyRegistration = this + property.action {
         selectedItemRegistration.paused { selectedItem.value(property.value) }
-    })
+    }
 }
 
 @JvmName("propertyNullableItem")
@@ -50,9 +50,9 @@ fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T?>) = apply {
     val selectedItemRegistration = selectedItem.onChange {
         propertyRegistration.paused { property.value = it }
     }
-    propertyRegistration = register(property.action {
+    propertyRegistration = this + property.action {
         selectedItemRegistration.paused { selectedItem.value(property.value) }
-    })
+    }
     selectedItem.value(property.value)
 }
 

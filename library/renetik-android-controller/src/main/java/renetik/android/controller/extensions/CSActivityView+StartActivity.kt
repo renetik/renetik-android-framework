@@ -9,7 +9,7 @@ import renetik.android.controller.extensions.CSStartActivityResult.Cancel
 import renetik.android.core.kotlin.primitives.random
 import renetik.android.event.listen
 import renetik.android.event.registration.cancel
-import renetik.android.event.registration.register
+import renetik.android.event.registration.plus
 
 fun CSActivityView<*>.startActivityForResult(
     activityClass: Class<out AppCompatActivity>, requestCode: Int) =
@@ -25,13 +25,13 @@ fun CSActivityView<*>.startActivityForResult(
     try {
         val requestCode = Int.random(0, 9999)
         startActivityForResult(intent, requestCode)
-        register(activity().onActivityResult.listen { registration, result ->
+        this + activity().onActivityResult.listen { registration, result ->
             if (result.requestCode == requestCode) {
                 if (result.isOK()) onSuccess(result.data)
                 else onFailure?.invoke(Cancel)
                 cancel(registration)
             }
-        })
+        }
     } catch (ex: ActivityNotFoundException) {
         onFailure?.invoke(ActivityNotFound)
     }

@@ -15,7 +15,6 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.register
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.*
@@ -31,8 +30,9 @@ class CSRecyclerView<ItemType : Any>(
     data class CSRecyclerViewItem<ItemType>(val data: ItemType, val type: Int = 0)
 
     val selectedItem: CSProperty<ItemType?> = property(null)
-    private var adapter = Adapter()
     val data = list<CSRecyclerViewItem<ItemType>>()
+
+    private val adapter = Adapter()
 
     fun reload(iterable: Iterable<CSRecyclerViewItem<ItemType>>) = apply {
         data.clear()
@@ -121,7 +121,7 @@ class CSRecyclerView<ItemType : Any>(
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
             val itemView: CSGridItemView<ItemType> =
                 createView(this@CSRecyclerView, viewType, viewGroup)
-            register(selectedItem.onChange { itemView.updateSelection() })
+            selectedItem.onChange { itemView.updateSelection() }
             return ViewHolder(itemView.view)
         }
 

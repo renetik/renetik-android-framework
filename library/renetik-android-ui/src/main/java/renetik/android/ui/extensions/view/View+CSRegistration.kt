@@ -67,10 +67,10 @@ inline fun View.afterGlobalLayout(crossinline function: (View) -> Unit): CSRegis
 inline fun View.afterGlobalLayout(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration {
-    val registration by weak(parent.register(onGlobalLayout {
+    val registration by weak(parent + onGlobalLayout {
         parent.cancel(it)
         function(this)
-    }))
+    })
     return CSRegistration { parent.cancel(registration) }
 }
 
@@ -98,12 +98,12 @@ inline fun View.onHasSize(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration? {
     if (!hasSize) {
-        val registration by weak(parent.register(onBoundsChange {
+        val registration by weak(parent + onBoundsChange {
             if (hasSize) {
                 parent.cancel(it)
                 function(this)
             }
-        }))
+        })
         return CSRegistration { parent.cancel(registration) }
     } else function(this)
     return null
