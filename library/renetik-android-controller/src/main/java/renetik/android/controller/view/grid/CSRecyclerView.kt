@@ -69,7 +69,7 @@ class CSRecyclerView<ItemType : Any>(
 
     init {
         view.adapter = adapter
-        eventItemSelected.listen { selectedItem.value(it.value) }
+        this + eventItemSelected.listen { selectedItem.value(it.value) }
     }
 
     private fun CSGridItemView<ItemType>.updateSelection() {
@@ -122,7 +122,7 @@ class CSRecyclerView<ItemType : Any>(
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
             val parent = this@CSRecyclerView
             val itemView: CSGridItemView<ItemType> = createView(parent, viewType, viewGroup)
-            // Somehow updateSelection could get called after view is destroyed, could be investigated further.
+            // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }
             return ViewHolder(itemView.view)
         }
