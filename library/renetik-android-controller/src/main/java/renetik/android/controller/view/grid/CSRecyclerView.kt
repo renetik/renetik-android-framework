@@ -120,10 +120,10 @@ class CSRecyclerView<ItemType : Any>(
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-            val itemView: CSGridItemView<ItemType> =
-                createView(this@CSRecyclerView, viewType, viewGroup)
+            val parent = this@CSRecyclerView
+            val itemView: CSGridItemView<ItemType> = createView(parent, viewType, viewGroup)
             // Somehow updateSelection could get called after view is destroyed, could be investigated further.
-            this@CSRecyclerView + selectedItem.onChange { itemView.updateSelection() }
+            parent + selectedItem.onChange { itemView.updateSelection() }
             return ViewHolder(itemView.view)
         }
 
