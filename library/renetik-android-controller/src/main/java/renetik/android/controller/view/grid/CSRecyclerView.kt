@@ -15,6 +15,7 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.plus
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.*
@@ -121,7 +122,8 @@ class CSRecyclerView<ItemType : Any>(
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
             val itemView: CSGridItemView<ItemType> =
                 createView(this@CSRecyclerView, viewType, viewGroup)
-            selectedItem.onChange { itemView.updateSelection() }
+            // Somehow updateSelection could get called after view is destroyed, could be investigated further.
+            this@CSRecyclerView + selectedItem.onChange { itemView.updateSelection() }
             return ViewHolder(itemView.view)
         }
 
