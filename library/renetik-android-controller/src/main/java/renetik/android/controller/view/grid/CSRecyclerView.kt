@@ -104,7 +104,7 @@ class CSRecyclerView<ItemType : Any>(
     }
 
     fun scrollToActive(
-        smooth: Boolean = true, speedPerPixel: Int = shortAnimationDuration,
+        smooth: Boolean = false, speedPerPixel: Int = shortAnimationDuration,
     ) = apply {
         val position = data.firstIndex { it.data == selectedItem.value } ?: return@apply
         if (smooth) {
