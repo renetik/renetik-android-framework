@@ -104,11 +104,11 @@ class CSRecyclerView<ItemType : Any>(
     }
 
     fun scrollToActive(
-        smooth: Boolean = false, speedPerPixel: Int = shortAnimationDuration,
+        smooth: Boolean = false, animationDuration: Int = mediumAnimationDuration,
     ) = apply {
         val position = data.firstIndex { it.data == selectedItem.value } ?: return@apply
         if (smooth) {
-            val scroller = CSCenteringRecyclerSmoothScroller(this, speedPerPixel)
+            val scroller = CSCenteringRecyclerSmoothScroller(this, animationDuration)
             scroller.targetPosition = position
             later(shortAnimationDuration) {
                 view.layoutManager?.startSmoothScroll(scroller) ?: unexpected()
