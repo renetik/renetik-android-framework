@@ -23,10 +23,14 @@ import renetik.android.ui.extensions.view.*
 class CSRecyclerView<ItemType : Any>(
     val parent: CSActivityView<*>, viewId: Int,
     val createView: (
-        CSRecyclerView<ItemType>, viewType: Int,
-        parent: ViewGroup,
-    ) -> CSGridItemView<ItemType>,
+        CSRecyclerView<ItemType>, viewType: Int, parent: ViewGroup,
+    ) -> CSGridItemView<ItemType>
 ) : CSView<RecyclerView>(parent, viewId) {
+
+    constructor(
+        parent: CSActivityView<*>, viewId: Int,
+        createView: (CSRecyclerView<ItemType>, parent: ViewGroup) -> CSGridItemView<ItemType>
+    ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent, group) })
 
     data class CSRecyclerViewItem<ItemType>(val data: ItemType, val type: Int = 0)
 
