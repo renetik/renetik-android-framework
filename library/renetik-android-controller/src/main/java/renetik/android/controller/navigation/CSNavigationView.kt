@@ -9,13 +9,12 @@ import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.navigation.CSNavigationAnimation.FadeIn
 import renetik.android.controller.navigation.CSNavigationAnimation.None
-import renetik.android.controller.navigation.CSNavigationAnimation.SlideInRight
 import renetik.android.controller.navigation.CSNavigationAnimation.SlideOutLeft
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
 import renetik.android.core.kotlin.ifNull
 import renetik.android.core.kotlin.isNotNull
-import renetik.android.core.kotlin.onNotNull
+import renetik.android.core.kotlin.then
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.logging.CSLog.logWarnTrace
@@ -26,7 +25,7 @@ import renetik.android.ui.extensions.remove
 class CSNavigationView : CSActivityView<FrameLayout> {
     constructor(activity: CSActivity<*>) : super(activity, layout(R.layout.cs_navigation))
     constructor(parent: CSActivityView<out ViewGroup>)
-        : super(parent, layout(R.layout.cs_navigation))
+            : super(parent, layout(R.layout.cs_navigation))
 
     private val controllersMap = linkedMapOf<String, CSActivityView<*>>()
 
@@ -144,8 +143,8 @@ class CSNavigationView : CSActivityView<FrameLayout> {
 
     private val current get() = controllersMap.values.lastOrNull()
     private val currentItem get() = current as? CSNavigationItem
-    private fun onViewControllerPush() = currentItem.onNotNull { it.onViewControllerPush(this) }
-    private fun onViewControllerPop() = currentItem.onNotNull { it.onViewControllerPop(this) }
+    private fun onViewControllerPush() = then { currentItem?.onViewControllerPush(this) }
+    private fun onViewControllerPop() = then { currentItem?.onViewControllerPop(this) }
 
     override fun onGoBack(): Boolean {
         if (controllers.size > 1) {
