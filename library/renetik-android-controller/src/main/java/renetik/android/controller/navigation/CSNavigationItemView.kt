@@ -126,9 +126,11 @@ open class CSNavigationItemView<ViewType : View>(
         animation = Fade
         dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
         registerHasSize {
-            if (side == Bottom) positionDialogContentFromViewBottom(button)
-            else if (side == Right) positionDialogContentFromViewRight(button)
-            else if (side == Top) positionDialogContentFromViewTop(button)
+            when (side) {
+                Bottom -> positionDialogContentFromViewBottom(button)
+                Right -> positionDialogContentFromViewRight(button)
+                Top -> positionDialogContentFromViewTop(button)
+            }
             correctContentOverflow()
         }
         view.background(color(color.cs_dialog_popup_background))
