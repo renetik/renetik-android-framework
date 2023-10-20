@@ -45,7 +45,7 @@ fun <T : EditText> T.withClear(
     onClear?.let { onClear(it) }
 }
 
-fun EditText.textProperty(property: CSProperty<String>): CSRegistration {
+fun EditText.property(property: CSProperty<String>): CSRegistration {
     fun updateText() = text(property.value.asString)
     val propertyOnChange = property.onChange { updateText() }
     onTextChange {

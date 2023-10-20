@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ContextWrapper
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.widget.TextView
 import androidx.annotation.*
 import androidx.core.content.res.ResourcesCompat
@@ -32,7 +31,6 @@ fun TextView.textColorAttr(@AttrRes attribute: Int) = apply {
     setTextColor(context.attributeColor(attribute))
 }
 
-@RequiresApi(Build.VERSION_CODES.M)
 fun TextView.drawableTintAttr(@AttrRes value: Int) = apply {
     setDrawableTint(context.attributeColor(value))
 }
@@ -41,59 +39,60 @@ fun TextView.typeface(@FontRes font: Int) = apply {
     typeface = ResourcesCompat.getFont(context, font)
 }
 
-//all compoundDrawables needs to be set programmatically
-fun <T : TextView> T.startDrawable(drawable: Drawable?) = apply {
+fun <T : TextView> T.drawable(
+    @DrawableRes start: Int? = null, @DrawableRes top: Int? = null,
+    @DrawableRes end: Int? = null, @DrawableRes bottom: Int? = null
+) = apply {
     setCompoundDrawables(
-        drawable, compoundDrawables.at(1),
-        compoundDrawables.at(2), compoundDrawables.at(3)
+        start?.let { context.drawable(it) } ?: compoundDrawables.at(0),
+        top?.let { context.drawable(it) } ?: compoundDrawables.at(1),
+        end?.let { context.drawable(it) } ?: compoundDrawables.at(2),
+        bottom?.let { context.drawable(it) } ?: compoundDrawables.at(3)
     )
 }
 
-//all compoundDrawables needs to be set programmatically
-fun <T : TextView> T.startDrawable(@DrawableRes drawable: Int?) =
-    startDrawable(drawable?.let { context.drawable(it) })
+fun <T : TextView> T.drawable(
+    start: Drawable? = null, top: Drawable? = null,
+    end: Drawable? = null, bottom: Drawable? = null
+) = apply {
+    setCompoundDrawables(
+        start ?: compoundDrawables.at(0), top ?: compoundDrawables.at(1),
+        end ?: compoundDrawables.at(2), bottom ?: compoundDrawables.at(3)
+    )
+}
 
-//all compoundDrawables needs to be set programmatically
 fun <T : TextView> T.startDrawable(
-    property: CSProperty<Boolean>,
-    function: (Boolean) -> Int
+    property: CSProperty<Boolean>, function: (Boolean) -> Int
 ): CSRegistration {
-    fun update(value: Boolean) = startDrawable(function(value))
+    fun update(value: Boolean) = drawable(start = function(value))
     update(property.value)
     return property.onChange { update(it) }
 }
 
-//all compoundDrawables needs to be set programmatically
-fun TextView.topDrawable(@DrawableRes drawable: Int?) =
-    setCompoundDrawables(
-        compoundDrawables.at(0), drawable?.let { context.drawable(it) },
-        compoundDrawables.at(2), compoundDrawables.at(3)
-    )
+@Deprecated("use drawable", ReplaceWith("drawable"))
+fun <T : TextView> T.startDrawable(drawable: Drawable?) = drawable(start = drawable)
 
-//all compoundDrawables needs to be set programmatically
-fun TextView.endDrawable(drawable: Drawable?) =
-    setCompoundDrawables(
-        compoundDrawables.at(0), compoundDrawables.at(1),
-        drawable, compoundDrawables.at(3)
-    )
+@Deprecated("use drawable", ReplaceWith("drawable"))
+fun <T : TextView> T.startDrawable(@DrawableRes drawable: Int?) = drawable(start = drawable)
 
-//all compoundDrawables needs to be set programmatically
-fun TextView.endDrawable(@DrawableRes drawable: Int?) =
-    endDrawable(drawable?.let { context.drawable(it) })
+@Deprecated("use drawable", ReplaceWith("drawable"))
+fun TextView.topDrawable(@DrawableRes drawable: Int?) = drawable(top = drawable)
 
-//all compoundDrawables needs to be set programmatically
-fun TextView.bottomDrawable(@DrawableRes drawable: Int?) =
-    setCompoundDrawables(compoundDrawables.at(0), compoundDrawables.at(1),
-        compoundDrawables.at(2), drawable?.let { context.drawable(it) })
+@Deprecated("use drawable", ReplaceWith("drawable"))
+fun TextView.endDrawable(drawable: Drawable?) = drawable(end = drawable)
+
+@Deprecated("use drawable", ReplaceWith("drawable"))
+fun TextView.endDrawable(@DrawableRes drawable: Int?) = drawable(end = drawable)
+
+@Deprecated("use drawable", ReplaceWith("drawable"))
+fun TextView.bottomDrawable(@DrawableRes drawable: Int?) = drawable(bottom = drawable)
 
 @SuppressLint("UseCompatTextViewDrawableApis")
-@RequiresApi(Build.VERSION_CODES.M)
 fun TextView.setDrawableTint(context: ContextWrapper, @ColorRes iconColor: Int) {
     compoundDrawableTintList = context.getColorStateList(iconColor)
 }
 
 @SuppressLint("UseCompatTextViewDrawableApis")
-@RequiresApi(Build.VERSION_CODES.M)
 fun TextView.setDrawableTint(@ColorInt colorInt: Int) {
     compoundDrawableTintList = ColorStateList.valueOf(colorInt)
 }
