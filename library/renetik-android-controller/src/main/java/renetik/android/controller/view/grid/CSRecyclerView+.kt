@@ -74,4 +74,8 @@ fun <ItemType : Any> CSRecyclerView<ItemType>.autoFitGridLayout(columnWidth: Int
     view.layoutManager = GridLayoutManager(this, displayWidth / columnWidth)
 }
 
+fun <ItemType : Any> CSRecyclerView<ItemType>.columnLayout(columnsCount: Int) = apply {
+    view.layoutManager = GridLayoutManager(this, columnsCount)
+}
+
 

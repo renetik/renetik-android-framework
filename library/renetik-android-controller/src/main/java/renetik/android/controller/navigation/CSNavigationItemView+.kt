@@ -3,6 +3,7 @@ package renetik.android.controller.navigation
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.FrameLayout.LayoutParams
 import androidx.core.view.updateLayoutParams
 import renetik.android.controller.navigation.CSNavigationItemAnimation.Fade
 import renetik.android.controller.navigation.CSNavigationItemAnimation.None
@@ -20,14 +21,10 @@ fun <T : CSNavigationItemView<*>> T.show(animation: CSNavigationItemAnimation = 
     updateVisibility() // TODO needed ?
 }
 
-fun <T : CSNavigationItemView<*>> T.center(width: Int? = null, height: Int? = null) = apply {
+fun <T : CSNavigationItemView<*>> T.center() = apply {
     isFullscreenNavigationItem.setFalse()
     animation = Fade
-    dialogContent.updateLayoutParams<FrameLayout.LayoutParams> {
-        gravity = Gravity.CENTER
-        width?.let { this.width = it }
-        height?.let { this.height = it }
-    }
+    dialogContent.updateLayoutParams<LayoutParams> { gravity = Gravity.CENTER }
 }
 
 fun <T : CSNavigationItemView<*>> T.passClicksUnder(pass: Boolean = true) = apply {
