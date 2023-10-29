@@ -22,7 +22,12 @@ fun CSVisibility.onVisibility(function: (Boolean) -> Unit): CSRegistration =
 fun CSVisibility.onVisibility(function: (CSRegistration, Boolean) -> Unit): CSRegistration =
     eventVisibility.listen(function)
 
-fun CSVisibility.whileShowingTrue(function: (Boolean) -> Unit): CSRegistration {
-    if (isVisible) function(true)
+fun CSVisibility.whileShowing(function: (Boolean) -> Unit): CSRegistration {
+    function(isVisible)
     return eventVisibility.listen { if (it) function(true) else function(false) }
+}
+
+fun CSVisibility.whileShowingTrue(function: () -> Unit): CSRegistration {
+    if (isVisible) function()
+    return eventVisibility.listen { if (it) function() }
 }
