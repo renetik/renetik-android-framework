@@ -69,23 +69,23 @@ fun <T : TextView> T.startDrawable(
     return property.onChange { update(it) }
 }
 
-@Deprecated("use drawable", ReplaceWith("drawable"))
-fun <T : TextView> T.startDrawable(drawable: Drawable?) = drawable(start = drawable)
+//@Deprecated("use drawable", ReplaceWith("drawable"))
+//fun <T : TextView> T.startDrawable(drawable: Drawable?) = drawable(start = drawable)
 
-@Deprecated("use drawable", ReplaceWith("drawable"))
-fun <T : TextView> T.startDrawable(@DrawableRes drawable: Int?) = drawable(start = drawable)
+//@Deprecated("use drawable", ReplaceWith("drawable"))
+//fun <T : TextView> T.startDrawable(@DrawableRes drawable: Int?) = drawable(start = drawable)
 
-@Deprecated("use drawable", ReplaceWith("drawable"))
-fun TextView.topDrawable(@DrawableRes drawable: Int?) = drawable(top = drawable)
+//@Deprecated("use drawable", ReplaceWith("drawable"))
+//fun TextView.topDrawable(@DrawableRes drawable: Int?) = drawable(top = drawable)
 
-@Deprecated("use drawable", ReplaceWith("drawable"))
-fun TextView.endDrawable(drawable: Drawable?) = drawable(end = drawable)
+//@Deprecated("use drawable", ReplaceWith("drawable"))
+//fun TextView.endDrawable(drawable: Drawable?) = drawable(end = drawable)
 
-@Deprecated("use drawable", ReplaceWith("drawable"))
-fun TextView.endDrawable(@DrawableRes drawable: Int?) = drawable(end = drawable)
+//@Deprecated("use drawable", ReplaceWith("drawable"))
+//fun TextView.endDrawable(@DrawableRes drawable: Int?) = drawable(end = drawable)
 
-@Deprecated("use drawable", ReplaceWith("drawable"))
-fun TextView.bottomDrawable(@DrawableRes drawable: Int?) = drawable(bottom = drawable)
+//@Deprecated("use drawable", ReplaceWith("drawable"))
+//fun TextView.bottomDrawable(@DrawableRes drawable: Int?) = drawable(bottom = drawable)
 
 @SuppressLint("UseCompatTextViewDrawableApis")
 fun TextView.setDrawableTint(context: ContextWrapper, @ColorRes iconColor: Int) {

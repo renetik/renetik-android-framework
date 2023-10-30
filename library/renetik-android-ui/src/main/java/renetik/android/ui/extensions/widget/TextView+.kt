@@ -9,12 +9,12 @@ import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.asString
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.value.CSValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.actionNullableChild
-import renetik.android.ui.extensions.view.*
+import renetik.android.ui.extensions.view.goneIf
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.textPrepend(value: CharSequence?) = text("$value$text")
@@ -147,10 +147,10 @@ fun <T, V, K> TextView.text(
 }
 
 fun <T : CSHasDrawable> TextView.startDrawable(property: CSHasChangeValue<T>) =
-    property.action { startDrawable(context.drawable(property.value.drawable)) }
+    property.action { drawable(start = context.drawable(property.value.drawable)) }
 
 inline fun <T> TextView.startDrawable(
     property: CSHasChangeValue<T>, crossinline getDrawable: (T) -> Int?
-) = property.action { startDrawable(getDrawable(property.value)?.let(context::drawable)) }
+) = property.action { drawable(start = getDrawable(property.value)?.let(context::drawable)) }
 
 fun <T : TextView> T.lines(max: Int) = apply { maxLines = max }
