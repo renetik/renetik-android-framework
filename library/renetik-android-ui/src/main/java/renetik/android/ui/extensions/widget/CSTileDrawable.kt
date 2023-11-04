@@ -1,8 +1,10 @@
 package renetik.android.ui.extensions.widget
 
 import android.graphics.Bitmap
+import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.BitmapShader
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.Paint
 import android.graphics.PixelFormat
@@ -55,16 +57,16 @@ class CSTileDrawable(drawable: Drawable, tileMode: Shader.TileMode) : Drawable()
     override fun setColorFilter(colorFilter: ColorFilter?) = Unit
 
     private fun getBitmap(drawable: Drawable): Bitmap {
-        tintColor?.let(drawable::setTint)
-        if (drawable is BitmapDrawable) return drawable.bitmap
+        val constantState = drawable.constantState ?: drawable.mutate().constantState
+        val stateDrawable = constantState?.newDrawable() ?: drawable
+        tintColor?.let(stateDrawable::setTint)
+        if (stateDrawable is BitmapDrawable) return stateDrawable.bitmap
         val bitmap = Bitmap.createBitmap(
-            drawable.intrinsicWidth,
-            drawable.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
+            stateDrawable.intrinsicWidth, stateDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-        drawable.draw(canvas)
+        stateDrawable.setBounds(0, 0, stateDrawable.intrinsicWidth, stateDrawable.intrinsicHeight)
+        stateDrawable.draw(canvas)
         return bitmap
     }
 }
