@@ -12,8 +12,6 @@ import renetik.android.controller.navigation.CSNavigationAnimation.None
 import renetik.android.controller.navigation.CSNavigationAnimation.SlideOutLeft
 import renetik.android.core.kotlin.collections.deleteLast
 import renetik.android.core.kotlin.collections.hasKey
-import renetik.android.core.kotlin.ifNull
-import renetik.android.core.kotlin.isNotNull
 import renetik.android.core.kotlin.then
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
@@ -62,13 +60,12 @@ class CSNavigationView : CSActivityView<FrameLayout> {
 
     fun pop(controller: CSActivityView<*>) {
 //        logDebug { message(controller) }
-        controllersMap.remove(controller.toString()).ifNull {
-            logWarnTrace { "Controller $controller not found in navigation" }
-        }.elseDo { popController(controller) }
+        controllersMap.remove(controller.toString())?.run { popController(controller) }
+            ?: run { logWarnTrace { "Controller $controller not found in navigation" } }
     }
 
     fun pop() {
-        controllersMap.deleteLast().isNotNull { popController(it) }
+        controllersMap.deleteLast()?.also { popController(it) }
     }
 
     private fun popController(controller: CSActivityView<*>) {
@@ -82,12 +79,11 @@ class CSNavigationView : CSActivityView<FrameLayout> {
     }
 
     fun <T : View> pushAsLast(controller: CSActivityView<T>): CSActivityView<T> {
-        controllersMap.deleteLast().isNotNull { lastController ->
+        controllersMap.deleteLast()?.also { lastController ->
             popAnimation(controller)
             view.remove(lastController)
             onViewControllerPop()
         }
-
         controllersMap[controller.toString()] = controller
         pushAnimation(controller)
         view.add(controller)
