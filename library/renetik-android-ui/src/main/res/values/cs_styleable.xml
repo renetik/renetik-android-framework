@@ -8,5 +8,6 @@
         <attr name="maxHeight" format="dimension" />
         <attr name="dispatchState" format="boolean" />
         <attr name="goneIfWidthUntil" format="dimension" />
+        <attr name="goneIfHeightUntil" format="dimension" />
     </declare-styleable>
 </resources>

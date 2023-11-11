@@ -7,12 +7,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
+import renetik.android.core.extensions.graphics.height
 import renetik.android.core.extensions.graphics.width
-import renetik.android.core.kotlin.primitives.dp
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.ui.R.styleable.CSLayout
 import renetik.android.ui.R.styleable.CSLayout_dispatchState
+import renetik.android.ui.R.styleable.CSLayout_goneIfHeightUntil
 import renetik.android.ui.R.styleable.CSLayout_goneIfWidthUntil
 import renetik.android.ui.R.styleable.CSLayout_maxWidth
 import renetik.android.ui.R.styleable.CSLayout_minWidth
@@ -29,7 +30,8 @@ open class CSEmptyView @JvmOverloads constructor(
 
     private val minWidth: Int
     private val maxWidth: Int
-    private val goneIfScreenWidthUntil: Int
+    private val goneIfWidthUntil: Int
+    private val goneIfHeightUntil: Int
 
     var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
@@ -41,11 +43,14 @@ open class CSEmptyView @JvmOverloads constructor(
             minWidth = it.getDimensionPixelSize(CSLayout_minWidth, -1)
             maxWidth = it.getDimensionPixelSize(CSLayout_maxWidth, -1)
             dispatchState = it.getBoolean(CSLayout_dispatchState, true)
-            goneIfScreenWidthUntil = it.getDimensionPixelSize(CSLayout_goneIfWidthUntil, -1)
+            goneIfWidthUntil = it.getDimensionPixelSize(CSLayout_goneIfWidthUntil, -1)
+            goneIfHeightUntil = it.getDimensionPixelSize(CSLayout_goneIfHeightUntil, -1)
             it.recycle()
         }
-        if (goneIfScreenWidthUntil != -1)
-            goneIf(windowRectangle.width <= goneIfScreenWidthUntil)
+        if (goneIfWidthUntil != -1)
+            goneIf(windowRectangle.width <= goneIfWidthUntil)
+        else if (goneIfHeightUntil != -1)
+            goneIf(windowRectangle.height <= goneIfHeightUntil)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

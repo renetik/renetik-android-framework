@@ -146,10 +146,10 @@ fun <T, V, K> TextView.text(
     )
 }
 
-fun <T : CSHasDrawable> TextView.startDrawable(property: CSHasChangeValue<T>) =
+fun <T : CSHasDrawable> TextView.drawableStart(property: CSHasChangeValue<T>) =
     property.action { drawable(start = context.drawable(property.value.drawable)) }
 
-inline fun <T> TextView.startDrawable(
+inline fun <T> TextView.drawableStart(
     property: CSHasChangeValue<T>, crossinline getDrawable: (T) -> Int?
 ) = property.action { drawable(start = getDrawable(property.value)?.let(context::drawable)) }
 

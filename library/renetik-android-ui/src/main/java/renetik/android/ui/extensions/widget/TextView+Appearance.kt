@@ -13,6 +13,7 @@ import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.primitives.at
 import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
 
 fun TextView.textColor(value: CSColorInt) = apply {
@@ -61,13 +62,13 @@ fun <T : TextView> T.drawable(
     )
 }
 
-fun <T : TextView> T.startDrawable(
-    property: CSProperty<Boolean>, function: (Boolean) -> Int
-): CSRegistration {
-    fun update(value: Boolean) = drawable(start = function(value))
-    update(property.value)
-    return property.onChange { update(it) }
-}
+fun <TextViewType : TextView, T> TextViewType.drawableTop(
+    property: CSProperty<T>, function: (T) -> Int
+): CSRegistration = property.action { drawable(top = function(it)) }
+
+fun <TextViewType : TextView, T> TextViewType.drawableStart(
+    property: CSProperty<T>, function: (T) -> Int
+): CSRegistration = property.action { drawable(start = function(it)) }
 
 //@Deprecated("use drawable", ReplaceWith("drawable"))
 //fun <T : TextView> T.startDrawable(drawable: Drawable?) = drawable(start = drawable)
