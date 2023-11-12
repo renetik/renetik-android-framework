@@ -71,11 +71,11 @@
     </style>
 
     <style name="CSFillMedium" parent="CSFill">
-        <item name="android:layout_weight">0.3</item>
+        <item name="android:layout_weight">0.4</item>
     </style>
 
     <style name="CSFillLarge" parent="CSFill">
-        <item name="android:layout_weight">0.5</item>
+        <item name="android:layout_weight">0.6</item>
     </style>
 
     <style name="CSScrollMatch" parent="CSMatch">
