@@ -9,7 +9,7 @@ import renetik.android.controller.navigation.CSNavigationItemAnimation.None
 import renetik.android.core.lang.CSLeakCanary
 import renetik.android.core.lang.variable.setFalse
 
-fun <T : CSNavigationItemView<*>> T.selectedButton(button: View) = apply {
+fun <T : CSNavigationItemView<*>> T.selected(button: View) = apply {
     button.isSelected = true
     onClose { button.isSelected = false }
 }
