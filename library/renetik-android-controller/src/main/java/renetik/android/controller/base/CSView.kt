@@ -93,6 +93,8 @@ open class CSView<ViewType : View> : CSContext,
         onViewReady()
     }
 
+    val isViewReady: Boolean get() = _view != null
+
     fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType =
         group?.inflate(layoutId) ?: context.inflate(layoutId)
 

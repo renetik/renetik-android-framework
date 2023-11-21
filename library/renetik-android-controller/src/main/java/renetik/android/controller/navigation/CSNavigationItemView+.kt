@@ -7,27 +7,33 @@ import androidx.core.view.updateLayoutParams
 import renetik.android.controller.navigation.CSNavigationItemAnimation.Fade
 import renetik.android.controller.navigation.CSNavigationItemAnimation.None
 import renetik.android.core.lang.CSLeakCanary
-import renetik.android.core.lang.variable.setFalse
+import renetik.android.ui.extensions.view.matchParent
+import renetik.android.ui.extensions.view.passClicksUnder
 
-fun <T : CSNavigationItemView<*>> T.selected(button: View) = apply {
+fun <T : CSNavigationItemView> T.selected(button: View) = apply {
     button.isSelected = true
     onClose { button.isSelected = false }
 }
 
-fun <T : CSNavigationItemView<*>> T.show(animation: CSNavigationItemAnimation = Fade) = apply {
+fun <T : CSNavigationItemView> T.show(animation: CSNavigationItemAnimation = Fade) = apply {
     this.animation = if (CSLeakCanary.isEnabled) None else animation
     navigation!!.push(this)
     updateVisibility()
 }
 
-fun <T : CSNavigationItemView<*>> T.center() = apply {
-    isFullscreenNavigationItem.setFalse()
+fun <T : CSNavigationItemView> T.center() = apply {
+    isFullScreen = false
     animation = Fade
-    dialogContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
+    viewContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
 }
 
-fun <T : CSNavigationItemView<*>> T.passClicksUnder(pass: Boolean = true) = apply {
-    dialogContent.apply { isClickable = !pass; isFocusable = !pass }
+fun <T : CSNavigationItemView> T.passClicksUnder(pass: Boolean = true) = apply {
+    viewContent.passClicksUnder(pass)
 }
 
-val <T : CSNavigationItemView<*>> T.isClicksBlocked get() = dialogContent.isClickable
+val <T : CSNavigationItemView> T.isClicksBlocked get() = viewContent.isClickable
+
+fun <T : CSNavigationItemView> T.fullScreen() = apply {
+    isFullScreen = true
+    viewContent.matchParent()
+}

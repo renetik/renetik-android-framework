@@ -45,8 +45,7 @@ class CSNavigationView : CSActivityView<FrameLayout> {
         pushId: String? = null
     ): CSActivityView<T> {
 //        logDebug { message(controller) }
-        val isFullScreen =
-            (controller as? CSNavigationItem)?.isFullscreenNavigationItem?.value ?: true
+        val isFullScreen = (controller as? CSNavigationItem)?.isFullScreen ?: true
         current?.showingInPager(!isFullScreen)
         controllersMap[pushId ?: controller.toString()] = controller
         pushAnimation(controller)
@@ -144,7 +143,7 @@ class CSNavigationView : CSActivityView<FrameLayout> {
 
     override fun onGoBack(): Boolean {
         if (controllers.size > 1) {
-            if (currentItem?.isNavigationBackPressedAllowed == false) return true
+            if (currentItem?.isBackNavigationAllowed == false) return true
             pop()
             return false
         }

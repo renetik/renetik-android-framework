@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
+import androidx.annotation.LayoutRes
 import androidx.core.view.updateLayoutParams
-import renetik.android.controller.R
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.height
 import renetik.android.controller.extensions.width
@@ -19,20 +19,16 @@ import renetik.android.controller.navigation.CSNavigationItemPopupSide.Bottom
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Right
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
 import renetik.android.core.extensions.content.color
-import renetik.android.core.extensions.content.dpToPixelF
-import renetik.android.core.lang.CSLayoutRes
+import renetik.android.core.kotlin.primitives.dpf
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
-import renetik.android.core.lang.variable.isTrue
-import renetik.android.core.lang.variable.setFalse
-import renetik.android.core.lang.variable.setTrue
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.listenOnce
 import renetik.android.ui.R.color
+import renetik.android.ui.R.layout.cs_frame_match
 import renetik.android.ui.extensions.registerAfterGlobalLayout
 import renetik.android.ui.extensions.registerHasSize
 import renetik.android.ui.extensions.view.add
@@ -41,23 +37,45 @@ import renetik.android.ui.extensions.view.bottomFloat
 import renetik.android.ui.extensions.view.heightWrap
 import renetik.android.ui.extensions.view.leftFloat
 import renetik.android.ui.extensions.view.locationInWindow
-import renetik.android.ui.extensions.view.matchParent
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.passClicksUnder
 import renetik.android.ui.extensions.view.rightFloat
 import renetik.android.ui.extensions.view.topFloat
 
-open class CSNavigationItemView<ViewType : View>(
-    val parent: CSActivityView<out ViewGroup>, dialogContentLayout: CSLayoutRes
+open class CSNavigationItemView(
+    val parent: CSActivityView<out ViewGroup>,
+    @LayoutRes private val viewLayout: Int,
+    @LayoutRes private val frameLayout: Int? = null,
+    @LayoutRes private val fullScreenFrameLayout: Int? = null,
 ) : CSActivityView<FrameLayout>(
-    parent.navigation!!, R.layout.cs_navigation_dialog.layout
+    parent.navigation!!, cs_frame_match.layout
 ), CSNavigationItem {
 
-    val dialogContent: ViewType = inflate(dialogContentLayout.id)
+    constructor(
+        parent: CSActivityView<out ViewGroup>,
+        @LayoutRes viewLayout: Int,
+        @LayoutRes frameLayout: Int? = null
+    ) : this(parent, viewLayout, frameLayout, null)
+
+    constructor(
+        parent: CSActivityView<out ViewGroup>,
+        @LayoutRes viewLayout: Int,
+    ) : this(parent, viewLayout, null, null)
+
+    val viewContent: View by lazy {
+        val frameLayout = if (isFullScreen)
+            (fullScreenFrameLayout ?: frameLayout) else frameLayout
+        (frameLayout?.let { inflate<FrameLayout>(it).apply { add<View>(viewLayout) } }
+            ?: inflate<View>(viewLayout)).apply { passClicksUnder(false) }
+    }
+
+    final override var isFullScreen = false
+
     var isPopup = false
         private set
-    override var isFullscreenNavigationItem = property(false)
+
     var animation = Fade
-    private val marginDp = 5
+    private val contentMarginDp = 5
 
     private val eventDismiss = event()
     fun onDismiss(function: () -> Unit) = eventDismiss.listen(function)
@@ -69,10 +87,9 @@ open class CSNavigationItemView<ViewType : View>(
     fun dismissOnTouchOut(dismiss: Boolean = true) = apply { dismissOnTouchOut = dismiss }
 
     init {
-        passClicksUnder(false)
         listenOnce(parent.eventDestruct) {
             if (!isShowingInPager && lifecycleStopOnRemoveFromParentView)
-                logErrorTrace { "Unexpected but dont know why now..." }
+                logErrorTrace { "Unexpected but don't know why now..." }
             if (isShowingInPager) close()
             if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
@@ -81,7 +98,7 @@ open class CSNavigationItemView<ViewType : View>(
     override fun onViewReady() {
         super.onViewReady()
         view.background(color(color.cs_dialog_background))
-        view.add(dialogContent)
+        view.add(viewContent)
     }
 
     override fun onViewShowingFirstTime() {
@@ -122,9 +139,9 @@ open class CSNavigationItemView<ViewType : View>(
     fun from(button: View, side: CSNavigationItemPopupSide = Bottom) = apply {
         isPopup = true
         selected(button)
-        isFullscreenNavigationItem.setFalse()
+        isFullScreen = false
         animation = Fade
-        dialogContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
+        viewContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
         registerHasSize {
             when (side) {
                 Bottom -> positionDialogContentFromViewBottom(button)
@@ -139,59 +156,50 @@ open class CSNavigationItemView<ViewType : View>(
     private fun positionDialogContentFromViewBottom(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
-        var desiredX = fromViewTopCenterX.toFloat() - (dialogContent.width / 2)
-        if (desiredX + dialogContent.width > width - dpToPixelF(marginDp))
-            desiredX -= (desiredX + dialogContent.width) - (width - dpToPixelF(marginDp))
-        if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
-        dialogContent.x = desiredX
-
-        dialogContent.y = fromViewLocation.y.toFloat() + fromView.height
+        var desiredX = fromViewTopCenterX.toFloat() - (viewContent.width / 2)
+        if (desiredX + viewContent.width > width - contentMarginDp.dpf)
+            desiredX -= (desiredX + viewContent.width) - (width - contentMarginDp.dpf)
+        if (desiredX < contentMarginDp.dpf) desiredX = contentMarginDp.dpf
+        viewContent.x = desiredX
+        viewContent.y = fromViewLocation.y.toFloat() + fromView.height
     }
 
-    private val screenAvailableHeight get() = height - dpToPixelF(marginDp)
-    private val screenAvailableWidth get() = width - dpToPixelF(marginDp)
+    private val screenAvailableHeight get() = height - contentMarginDp.dpf
+    private val screenAvailableWidth get() = width - contentMarginDp.dpf
 
     private fun positionDialogContentFromViewTop(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
-        var desiredX = fromViewTopCenterX.toFloat() - (dialogContent.width / 2)
-        if (desiredX + dialogContent.width > screenAvailableWidth)
-            desiredX -= (desiredX + dialogContent.width) - screenAvailableWidth
-        if (desiredX < dpToPixelF(marginDp)) desiredX = dpToPixelF(marginDp)
-        dialogContent.x = desiredX
-
-        dialogContent.y = fromViewLocation.y.toFloat() - dialogContent.height - dpToPixelF(marginDp)
+        var desiredX = fromViewTopCenterX.toFloat() - (viewContent.width / 2)
+        if (desiredX + viewContent.width > screenAvailableWidth)
+            desiredX -= (desiredX + viewContent.width) - screenAvailableWidth
+        if (desiredX < contentMarginDp.dpf) desiredX = contentMarginDp.dpf
+        viewContent.x = desiredX
+        viewContent.y = fromViewLocation.y.toFloat() - viewContent.height - contentMarginDp.dpf
     }
 
     private fun correctContentOverflow() {
-        if (dialogContent.bottomFloat > screenAvailableHeight)
-            dialogContent.topFloat -= dialogContent.bottomFloat - screenAvailableHeight
+        if (viewContent.bottomFloat > screenAvailableHeight)
+            viewContent.topFloat -= viewContent.bottomFloat - screenAvailableHeight
 
-        if (dialogContent.rightFloat > screenAvailableWidth)
-            dialogContent.leftFloat -= dialogContent.rightFloat - screenAvailableWidth
+        if (viewContent.rightFloat > screenAvailableWidth)
+            viewContent.leftFloat -= viewContent.rightFloat - screenAvailableWidth
     }
 
     private fun positionDialogContentFromViewRight(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
         val fromViewLeftCenterY = fromViewLocation.y + (fromView.height / 2)
-        var desiredY = fromViewLeftCenterY.toFloat() - (dialogContent.height / 2)
-        if (desiredY + dialogContent.height > screenAvailableHeight)
-            desiredY -= (desiredY + dialogContent.height) - screenAvailableHeight
-        if (desiredY < dpToPixelF(marginDp)) desiredY = dpToPixelF(marginDp)
-        dialogContent.x = fromViewLocation.x.toFloat() + fromView.width
-        dialogContent.y = desiredY
-    }
-
-    fun fullScreen() = apply {
-        isFullscreenNavigationItem.setTrue()
-        animation = Slide
-        dialogContent.matchParent()
+        var desiredY = fromViewLeftCenterY.toFloat() - (viewContent.height / 2)
+        if (desiredY + viewContent.height > screenAvailableHeight)
+            desiredY -= (desiredY + viewContent.height) - screenAvailableHeight
+        if (desiredY < contentMarginDp.dpf) desiredY = contentMarginDp.dpf
+        viewContent.x = fromViewLocation.x.toFloat() + fromView.width
+        viewContent.y = desiredY
     }
 
     fun wrapContentIfNotFullscreen() {
-        if (isFullscreenNavigationItem.isTrue) return
-        dialogContent.heightWrap()
+        if (isFullScreen) return
+        viewContent.heightWrap()
         registerAfterGlobalLayout(::correctContentOverflow)
     }
-
 }

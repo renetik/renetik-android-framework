@@ -22,7 +22,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
-import renetik.android.core.lang.Void
 import renetik.android.core.lang.catchAll
 import renetik.android.event.CSEvent
 import renetik.android.event.fire
@@ -125,7 +124,7 @@ fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 @Suppress("DEPRECATION")
 fun View.enterFullScreen() {
     systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or
-        View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }
 
 @Suppress("DEPRECATION")
@@ -180,3 +179,7 @@ val View.nextView: View?
         val index = parentView?.indexOfChild(this)
         return index?.let { parentView?.getChildAt(it + 1) }
     }
+
+fun View.passClicksUnder(pass: Boolean) = apply {
+    isClickable = !pass; isFocusable = !pass
+}
