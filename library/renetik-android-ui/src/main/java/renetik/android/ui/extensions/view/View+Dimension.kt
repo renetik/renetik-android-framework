@@ -29,6 +29,12 @@ fun <T : View> T.bottomMargin(value: Int) = apply {
     updateLayoutParams<MarginLayoutParams> { setMargins(leftMargin, topMargin, rightMargin, value) }
 }
 
+var <T : View> T.topMargin: Int
+    get() = (layoutParams as? MarginLayoutParams)?.topMargin ?: 0
+    set(value) {
+        topMargin(value)
+    }
+
 fun <T : View> T.topMargin(value: Int) = apply {
     updateLayoutParams<MarginLayoutParams> {
         setMargins(leftMargin, value, rightMargin, bottomMargin)
@@ -42,7 +48,14 @@ fun <T : View> T.startMargin(value: Int) = apply {
 }
 
 fun <T : View> T.endMargin(value: Int) = apply {
-    updateLayoutParams<MarginLayoutParams> { setMargins(leftMargin, topMargin, value, bottomMargin) }
+    updateLayoutParams<MarginLayoutParams> {
+        setMargins(
+            leftMargin,
+            topMargin,
+            value,
+            bottomMargin
+        )
+    }
 }
 
 fun <T : View> T.horizontalMarginDp(value: Int) = horizontalMargin(context.dpToPixel(value))
@@ -135,7 +148,9 @@ val View.rectangleInWindow: Rect
     get() {
         val location: CSPoint<Int> = locationInWindow
         val rectangle: Rect = rectangle
-        return Rect(location.left, location.top,
+        return Rect(
+            location.left, location.top,
             location.left + rectangle.width(),
-            location.top + rectangle.height())
+            location.top + rectangle.height()
+        )
     }
