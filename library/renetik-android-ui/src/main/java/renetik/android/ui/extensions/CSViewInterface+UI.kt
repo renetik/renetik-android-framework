@@ -19,7 +19,6 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 import renetik.android.event.registration.cancel
 import renetik.android.event.registration.listenOnce
 import renetik.android.event.registration.plus
-import renetik.android.event.registration.register
 import renetik.android.ui.CSDisplayCutout
 import renetik.android.ui.extensions.view.afterGlobalLayout
 import renetik.android.ui.extensions.view.button
@@ -59,8 +58,7 @@ fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
 @JvmName("viewOfType")
 inline fun <reified Type : View> CSViewInterface.view(
     @IdRes id: Int, noinline onClick: ((view: View) -> Unit)? = null
-): Type =
-    view.view(id).apply { onClick?.let { this.onClick(it) } } as Type
+): Type = view.findViewById<Type>(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSViewInterface.view(
     @IdRes id: Int, onClick: ((view: View) -> Unit)? = null
