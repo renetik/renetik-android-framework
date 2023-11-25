@@ -1,6 +1,9 @@
 package renetik.android.controller.extensions
 
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
+import androidx.core.view.updateLayoutParams
 import renetik.android.core.extensions.content.displayWidth
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.core.kotlin.primitives.isSet
@@ -77,3 +80,6 @@ fun <T : CSViewInterface> T.height(value: Int) = apply {
     params.height = value
     view.layoutParams = params
 }
+
+fun CSViewInterface.layoutGravityCenter() =
+    view.updateLayoutParams<FrameLayout.LayoutParams> { gravity = Gravity.CENTER }

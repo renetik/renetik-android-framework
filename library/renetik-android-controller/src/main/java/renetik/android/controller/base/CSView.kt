@@ -28,42 +28,43 @@ open class CSView<ViewType : View> : CSContext,
     @IdRes
     private val viewId: Int?
 
-    private var parent: CSViewInterface? = null
+    var parentView: CSViewInterface? = null
+        private set
 
     private var group: ViewGroup? by lazyNullableVar {
-        parent?.view as? ViewGroup ?: (parent as? CSView<*>)?.group
+        parentView?.view as? ViewGroup ?: (parentView as? CSView<*>)?.group
     }
 
     private var _view: ViewType? = null
 
     constructor(parent: CSViewInterface, view: ViewType) : super(parent) {
-        this.parent = parent
+        this.parentView = parent
         this.layout = null
         this.viewId = null
         setView(view)
     }
 
     constructor(parent: CSViewInterface, layout: CSLayoutRes) : super(parent) {
-        this.parent = parent
+        this.parentView = parent
         this.layout = layout
         this.viewId = null
     }
 
     constructor(parent: CSViewInterface, group: ViewGroup, layout: CSLayoutRes) : super(parent) {
-        this.parent = parent
+        this.parentView = parent
         this.group = group
         this.layout = layout
         this.viewId = null
     }
 
     constructor(parent: CSViewInterface, @IdRes viewId: Int) : super(parent) {
-        this.parent = parent
+        this.parentView = parent
         this.layout = null
         this.viewId = viewId
     }
 
     constructor(parent: CSViewInterface) : super(parent) {
-        this.parent = parent
+        this.parentView = parent
         this.layout = null
         this.viewId = null
     }
@@ -75,10 +76,10 @@ open class CSView<ViewType : View> : CSContext,
                 _view != null -> return _view!!
                 isDestructed -> logErrorTrace { "$className $this Already destroyed" }
                 layout != null -> setView(inflate(layout.id))
-                viewId != null -> setView(parent!!.view<View>(viewId) as ViewType)
+                viewId != null -> setView(parentView!!.view<View>(viewId) as ViewType)
                 else -> createView()?.let { setView(it) }
                     ?: run {
-                        (parent?.view as? ViewType)?.let {
+                        (parentView?.view as? ViewType)?.let {
                             _view = it
                             onViewReady()
                         }

@@ -19,8 +19,9 @@ import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.onClick
 
+@Deprecated("Replace with CSRecyclerView")
 class CSGridView<ItemType : Any>(
-    val parent: CSActivityView<*>, viewId: Int,
+    parent: CSActivityView<*>, viewId: Int,
     val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>
 ) : CSView<GridView>(parent, viewId) {
 
@@ -107,7 +108,7 @@ class CSGridView<ItemType : Any>(
         } else eventItemReSelected.fire(this)
 
     private var emptyView: View? = null
-    fun emptyView(id: Int) = apply { emptyView = parent.findView(id) }
+    fun emptyView(id: Int) = apply { emptyView = parentView?.findView(id) }
     private fun updateEmptyView() {
         emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
     }

@@ -5,6 +5,8 @@ import android.view.OrientationEventListener
 import renetik.android.controller.base.CSView
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
+import renetik.android.core.kotlin.isNull
+import renetik.android.core.kotlin.notNull
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
@@ -17,6 +19,15 @@ import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onLongClick
 
+inline fun <reified Type : Any> CSView<*>.find(): Type? {
+    var type: Type?
+    var parent: CSView<*>? = this
+    do {
+        type = parent as? Type
+        parent = parent?.parentView as? CSView<*>
+    } while (type.isNull && parent.notNull)
+    return type
+}
 
 fun <T : CSView<*>> T.reusable() = apply { lifecycleStopOnRemoveFromParentView = false }
 

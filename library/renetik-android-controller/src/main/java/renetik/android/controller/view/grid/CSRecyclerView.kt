@@ -21,7 +21,7 @@ import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.*
 
 class CSRecyclerView<ItemType : Any>(
-    val parent: CSActivityView<*>, viewId: Int,
+    parent: CSActivityView<*>, viewId: Int,
     val createView: (
         CSRecyclerView<ItemType>, viewType: Int, parent: ViewGroup,
     ) -> CSGridItemView<ItemType>
@@ -102,7 +102,7 @@ class CSRecyclerView<ItemType : Any>(
     }
 
     private var emptyView: View? = null
-    fun emptyView(id: Int) = apply { emptyView = parent.findView(id) }
+    fun emptyView(id: Int) = apply { emptyView = parentView?.findView(id) }
     private fun updateEmptyView() {
         emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
     }

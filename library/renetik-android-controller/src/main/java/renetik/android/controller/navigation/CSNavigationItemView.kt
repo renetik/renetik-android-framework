@@ -43,12 +43,12 @@ import renetik.android.ui.extensions.view.rightFloat
 import renetik.android.ui.extensions.view.topFloat
 
 open class CSNavigationItemView(
-    val parent: CSActivityView<out ViewGroup>,
+    val navigationParent: CSActivityView<out ViewGroup>,
     @LayoutRes private val viewLayout: Int,
     @LayoutRes private val frameLayout: Int? = null,
     @LayoutRes private val fullScreenFrameLayout: Int? = null,
 ) : CSActivityView<FrameLayout>(
-    parent.navigation!!, cs_frame_match.layout
+    navigationParent.navigation!!, cs_frame_match.layout
 ), CSNavigationItem {
 
     constructor(
@@ -87,7 +87,7 @@ open class CSNavigationItemView(
     fun dismissOnTouchOut(dismiss: Boolean = true) = apply { dismissOnTouchOut = dismiss }
 
     init {
-        listenOnce(parent.eventDestruct) {
+        listenOnce(navigationParent.eventDestruct) {
             if (!isShowingInPager && lifecycleStopOnRemoveFromParentView)
                 logErrorTrace { "Unexpected but don't know why now..." }
             if (isShowingInPager) close()

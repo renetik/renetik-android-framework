@@ -34,7 +34,10 @@ open class CSActivityView<ViewType : View>
     final override fun activity(): CSActivity<*> = activity!!
     var isResumed = false
     private var isResumeFirstTime = false
-    private var parentActivityView: CSActivityView<*>? = null
+
+    var parentActivityView: CSActivityView<*>? = null
+        private set
+
     var activity: CSActivity<*>? = null
     private var showingInPager: Boolean? = null
 
@@ -64,7 +67,7 @@ open class CSActivityView<ViewType : View>
     }
 
     constructor(parent: CSActivityView<*>, group: ViewGroup, layout: CSLayoutRes)
-        : super(parent, group, layout) {
+            : super(parent, group, layout) {
         parentActivityView = parent
         initializeParent(parent)
     }
@@ -116,7 +119,7 @@ open class CSActivityView<ViewType : View>
     }
 
     private fun <Parent> initializeParent(parent: Parent)
-        where Parent : CSActivityViewInterface, Parent : CSVisibility {
+            where Parent : CSActivityViewInterface, Parent : CSVisibility {
         activity = parent.activity()
         this + parent.eventResume.listen(::onResume)
         this + parent.eventPause.listen(::onPause)
