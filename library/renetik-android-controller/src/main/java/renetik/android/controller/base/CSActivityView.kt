@@ -161,7 +161,7 @@ open class CSActivityView<ViewType : View>
         } ?: super.hideKeyboard()
     }
 
-    override fun getLifecycle(): Lifecycle = activity().lifecycle
+    override val lifecycle: Lifecycle get() = activity().lifecycle
 
     private var _isVisible = false
     override val isVisible: Boolean get() = _isVisible
