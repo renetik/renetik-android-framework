@@ -145,9 +145,9 @@ fun CSViewInterface.onSystemUiVisibilityChangeListener(
 }
 
 val CSViewInterface.displayCutout: CSDisplayCutout?
-    get() = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-        view.rootWindowInsets.displayCutout?.let { CSDisplayCutout(it) }
-    else null)
+    get() = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        view.rootWindowInsets?.displayCutout?.let { CSDisplayCutout(it) }
+    } else null)
 
 val CSViewInterface.hasParentView: Boolean get() = view.parent.notNull
 
