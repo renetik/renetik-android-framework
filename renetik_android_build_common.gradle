@@ -35,10 +35,7 @@ allprojects {
 //        resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
 //    }
 }
-tasks.register('clean', Delete) {
-    delete rootProject.buildDir
-}
 wrapper {
-    gradleVersion = "8.0.2"
-    distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = "8.3"
+    distributionType = Wrapper.DistributionType.BIN
 }
