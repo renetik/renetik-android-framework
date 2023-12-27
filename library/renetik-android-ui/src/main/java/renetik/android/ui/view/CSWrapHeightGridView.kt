@@ -29,8 +29,7 @@ class CSWrapHeightGridView @JvmOverloads constructor(
 //        super.onMeasure(widthMeasureSpec, heightSpec)
 
         if (layoutParams.height == WRAP_CONTENT) {
-            val expandSpec = makeMeasureSpec(MEASURED_SIZE_MASK, AT_MOST)
-            super.onMeasure(widthMeasureSpec, expandSpec)
+            super.onMeasure(widthMeasureSpec, makeMeasureSpec(MEASURED_SIZE_MASK, AT_MOST))
 //            val params = layoutParams
 //            params.height = measuredHeight
         } else
