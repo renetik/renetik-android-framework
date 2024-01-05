@@ -4,10 +4,12 @@ import android.content.res.ColorStateList.valueOf
 import android.view.View
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
+import renetik.android.core.kotlin.primitives.isFalse
+import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.onChange
@@ -22,6 +24,9 @@ val CompoundButton.eventChange
 
 fun CompoundButton.onChange(function: (Boolean) -> Unit) =
     eventChange.listen { function(isChecked) }
+
+fun CompoundButton.onTrue(function: () -> Unit) = onChange { it.isTrue(function) }
+fun CompoundButton.onFalse(function: () -> Unit) = onChange { it.isFalse(function) }
 
 fun CompoundButton.action(function: (Boolean) -> Unit): CSRegistration {
     function(isChecked)
@@ -64,7 +69,7 @@ fun <T, V> CompoundButton.checkIf(
 fun <T> CompoundButton.checkIf(
     property1: CSProperty<T>, property2: CSProperty<*>, condition: (T) -> Boolean
 )
-    : CSRegistration = checkIf(property1, property2) { first, _ -> condition(first) }
+        : CSRegistration = checkIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> CompoundButton.checkIf(
     property1: CSProperty<T>, property2: CSProperty<V>,
