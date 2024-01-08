@@ -45,5 +45,5 @@ class CSDisplayCutout(private val cutout: DisplayCutout) {
         }
 
     private val Rect.isRoughlyCircular: Boolean
-        get() = width().toFloat() / height().toFloat() in 0.9..1.3
+        get() = width().toFloat() / height().toFloat() in 0.8..1.4
 }
