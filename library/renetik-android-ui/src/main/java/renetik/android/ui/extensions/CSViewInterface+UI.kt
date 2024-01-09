@@ -119,7 +119,9 @@ fun CSViewInterface.radioGroup(
 ): RadioGroup =
     view.radioGroup(id).apply { onChange?.let { this.onChange(it) } }
 
-fun <Type : CSViewInterface> Type.removeFromSuperview() = apply { view.removeFromSuperview() }
+fun <Type : CSViewInterface> Type.removeFromSuperview() = apply {
+    if (!isDestructed) view.removeFromSuperview()
+}
 
 fun CSViewInterface.registerAfterGlobalLayout(function: () -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
