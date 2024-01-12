@@ -79,6 +79,8 @@ fun <T : View> T.width(value: Int) = apply {
     updateLayoutParams<LayoutParams> { width = value }
 }
 
+fun <T : View> T.width(value: Float) = width(value.toInt())
+
 fun <T : View> T.heightDp(value: Int) = height(context.dpToPixel(value))
 fun <T : View> T.widthDp(value: Int) = widthDp(value.toFloat())
 
@@ -89,6 +91,8 @@ fun <T : View> T.widthDp(value: Float) = apply {
 fun <T : View> T.height(value: Int) = apply {
     updateLayoutParams<LayoutParams> { height = value }
 }
+
+fun <T : View> T.height(value: Float) = height(value.toInt())
 
 fun <T : View> T.widthWrap() = apply {
     updateLayoutParams<LayoutParams> { width = WRAP_CONTENT }
@@ -112,8 +116,6 @@ fun <T : View> T.wrapContent() = apply {
     }
 }
 
-fun <T : View> T.height(value: Float) = height(value.toInt())
-
 var View.layoutWidth: Int
     get() = layoutParams.width
     set(value) {
@@ -132,10 +134,22 @@ var View.widthDp: Int
         width(context.dpToPixel(value))
     }
 
+var View.widthFloat: Float
+    get() = width.toFloat()
+    set(value) {
+        width(value)
+    }
+
 var View.heightDp: Int
     get() = context.toDp(height)
     set(value) {
         height(context.dpToPixel(value))
+    }
+
+var View.heightFloat: Float
+    get() = height.toFloat()
+    set(value) {
+        height(value)
     }
 
 val View.windowRectangle: Rect
