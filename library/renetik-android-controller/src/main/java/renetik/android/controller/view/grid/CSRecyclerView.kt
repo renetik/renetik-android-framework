@@ -73,7 +73,6 @@ class CSRecyclerView<ItemType : Any>(
 
     init {
         view.adapter = adapter
-        this + eventItemSelected.listen { selectedItem.value(it.value) }
     }
 
     private fun CSGridItemView<ItemType>.updateSelection() {
@@ -97,7 +96,10 @@ class CSRecyclerView<ItemType : Any>(
     fun onItemClick(item: CSGridItemView<ItemType>) {
         if (selectedItem.value != item.value) {
             if (item.itemDisabled) eventDisabledItemClick.fire(item)
-            else eventItemSelected.fire(item)
+            else {
+                eventItemSelected.fire(item)
+                selectedItem.value(item.value)
+            }
         } else eventItemReSelected.fire(item)
     }
 
