@@ -34,13 +34,14 @@ import renetik.android.ui.extensions.registerHasSize
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.background
 import renetik.android.ui.extensions.view.bottomFloat
+import renetik.android.ui.extensions.view.heightFloat
 import renetik.android.ui.extensions.view.heightWrap
 import renetik.android.ui.extensions.view.leftFloat
 import renetik.android.ui.extensions.view.locationInWindow
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.passClicksUnder
 import renetik.android.ui.extensions.view.rightFloat
-import renetik.android.ui.extensions.view.topFloat
+import renetik.android.ui.extensions.view.widthFloat
 
 open class CSNavigationItemView(
     val navigationParent: CSActivityView<out ViewGroup>,
@@ -75,7 +76,7 @@ open class CSNavigationItemView(
         private set
 
     var animation = Fade
-    private val contentMarginDp = 5
+    private val contentMarginDp = 9
 
     private val eventDismiss = event()
     fun onDismiss(function: () -> Unit) = eventDismiss.listen(function)
@@ -164,8 +165,8 @@ open class CSNavigationItemView(
         viewContent.y = fromViewLocation.y.toFloat() + fromView.height
     }
 
-    private val screenAvailableHeight get() = height - contentMarginDp.dpf
-    private val screenAvailableWidth get() = width - contentMarginDp.dpf
+    private val screenAvailableHeight get() = height - contentMarginDp.dpf * 2
+    private val screenAvailableWidth get() = width - contentMarginDp.dpf * 2
 
     private fun positionDialogContentFromViewTop(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
@@ -180,10 +181,10 @@ open class CSNavigationItemView(
 
     private fun correctContentOverflow() {
         if (viewContent.bottomFloat > screenAvailableHeight)
-            viewContent.topFloat -= viewContent.bottomFloat - screenAvailableHeight
+            viewContent.heightFloat -= viewContent.bottomFloat - screenAvailableHeight
 
         if (viewContent.rightFloat > screenAvailableWidth)
-            viewContent.leftFloat -= viewContent.rightFloat - screenAvailableWidth
+            viewContent.widthFloat -= viewContent.rightFloat - screenAvailableWidth
     }
 
     private fun positionDialogContentFromViewRight(fromView: View) {
