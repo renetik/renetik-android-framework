@@ -27,6 +27,7 @@ import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.listenOnce
+import renetik.android.event.registration.plus
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
 import renetik.android.ui.extensions.registerAfterGlobalLayout
@@ -36,9 +37,9 @@ import renetik.android.ui.extensions.view.background
 import renetik.android.ui.extensions.view.bottomFloat
 import renetik.android.ui.extensions.view.heightFloat
 import renetik.android.ui.extensions.view.heightWrap
-import renetik.android.ui.extensions.view.leftFloat
 import renetik.android.ui.extensions.view.locationInWindow
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.onViewLayout
 import renetik.android.ui.extensions.view.passClicksUnder
 import renetik.android.ui.extensions.view.rightFloat
 import renetik.android.ui.extensions.view.widthFloat
@@ -151,6 +152,7 @@ open class CSNavigationItemView(
             }
             correctContentOverflow()
         }
+        this + view.onViewLayout(::correctContentOverflow)
         view.background(color(color.cs_dialog_popup_background))
     }
 
