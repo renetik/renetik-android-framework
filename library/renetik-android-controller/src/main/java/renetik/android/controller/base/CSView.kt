@@ -46,14 +46,12 @@ open class CSView<ViewType : View> : CSContext,
     }
 
     constructor(parent: CSViewInterface, layout: CSLayoutRes) : super(parent) {
-        this.themeOverride = parent.themeOverride
         this.parentView = parent
         this.layout = layout
         this.viewId = null
     }
 
     constructor(parent: CSViewInterface, group: ViewGroup, layout: CSLayoutRes) : super(parent) {
-        this.themeOverride = parent.themeOverride
         this.parentView = parent
         this.group = group
         this.layout = layout
@@ -99,18 +97,14 @@ open class CSView<ViewType : View> : CSContext,
 
     val isViewReady: Boolean get() = _view != null
 
-    @StyleRes
-    override var themeOverride: Int? = null
-
     fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType {
-        val context = themeOverride?.let { ContextThemeWrapper(this, it) } ?: this
+        val context = CSViewInterface.themeOverride?.let {
+            ContextThemeWrapper(this, it)
+        } ?: this
         val inflater = LayoutInflater.from(context)
-//        if (group != null) {
-            @Suppress("UNCHECKED_CAST")
-            return (group?.let { inflater.inflate(layoutId, it, false) }
-                ?: inflater.inflate(layoutId, null)) as ViewType
-//        }
-//        return inflater.inflate(layoutId, null) as ViewType
+        @Suppress("UNCHECKED_CAST")
+        return (group?.let { inflater.inflate(layoutId, it, false) }
+            ?: inflater.inflate(layoutId, null)) as ViewType
     }
 
     protected open fun createView(): ViewType? = null

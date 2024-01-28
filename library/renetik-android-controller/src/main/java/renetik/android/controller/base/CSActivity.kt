@@ -41,9 +41,6 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     var activityView: ActivityView? = null
     val configuration = Configuration()
 
-    @StyleRes
-    override var themeOverride: Int? = null
-
     //CSViewInterface
     override val view: View get() = window.decorView
 
