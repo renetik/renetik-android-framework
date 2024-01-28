@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.lang.variable.CSVariable
@@ -39,6 +40,9 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
 
     var activityView: ActivityView? = null
     val configuration = Configuration()
+
+    @StyleRes
+    override var themeOverride: Int? = null
 
     //CSViewInterface
     override val view: View get() = window.decorView

@@ -1,10 +1,12 @@
 package renetik.android.controller.base
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import renetik.android.core.extensions.content.inflate
+import androidx.annotation.StyleRes
+import androidx.appcompat.view.ContextThemeWrapper
 import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.lang.CSLayoutRes
@@ -13,7 +15,6 @@ import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
 import renetik.android.ui.extensions.view
-import renetik.android.ui.extensions.view.inflate
 import renetik.android.ui.extensions.view.onDestroy
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
@@ -45,12 +46,14 @@ open class CSView<ViewType : View> : CSContext,
     }
 
     constructor(parent: CSViewInterface, layout: CSLayoutRes) : super(parent) {
+        this.themeOverride = parent.themeOverride
         this.parentView = parent
         this.layout = layout
         this.viewId = null
     }
 
     constructor(parent: CSViewInterface, group: ViewGroup, layout: CSLayoutRes) : super(parent) {
+        this.themeOverride = parent.themeOverride
         this.parentView = parent
         this.group = group
         this.layout = layout
@@ -96,8 +99,19 @@ open class CSView<ViewType : View> : CSContext,
 
     val isViewReady: Boolean get() = _view != null
 
-    fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType =
-        group?.inflate(layoutId) ?: context.inflate(layoutId)
+    @StyleRes
+    override var themeOverride: Int? = null
+
+    fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType {
+        val context = themeOverride?.let { ContextThemeWrapper(this, it) } ?: this
+        val inflater = LayoutInflater.from(context)
+//        if (group != null) {
+            @Suppress("UNCHECKED_CAST")
+            return (group?.let { inflater.inflate(layoutId, it, false) }
+                ?: inflater.inflate(layoutId, null)) as ViewType
+//        }
+//        return inflater.inflate(layoutId, null) as ViewType
+    }
 
     protected open fun createView(): ViewType? = null
 
