@@ -9,9 +9,10 @@ import renetik.android.event.registration.cancel
 import renetik.android.event.registration.laterEach
 import renetik.android.event.registration.register
 import renetik.android.event.registration.start
+import kotlin.time.Duration
 
 fun <T> T.registerUntilHide(registration: CSRegistration): CSRegistration
-    where T : CSHasRegistrations, T : CSVisibility {
+        where T : CSHasRegistrations, T : CSVisibility {
     register(registration)
     untilHide(registration)
     return registration
@@ -19,24 +20,24 @@ fun <T> T.registerUntilHide(registration: CSRegistration): CSRegistration
 
 @JvmName("registerUntilHideRegistrationNullable")
 fun <T> T.registerUntilHide(registration: CSRegistration?): CSRegistration?
-    where T : CSHasRegistrations, T : CSVisibility =
+        where T : CSHasRegistrations, T : CSVisibility =
     registration?.let { registerUntilHide(it) }
 
 @JvmName("untilHideRegistrationNullable")
 fun <T> T.untilHide(registration: CSRegistration?): CSRegistration?
-    where T : CSHasRegistrations, T : CSVisibility = registration?.let {
+        where T : CSHasRegistrations, T : CSVisibility = registration?.let {
     untilHide(it)
 }
 
 fun <T> T.untilHide(registration: CSRegistration): CSRegistration
-    where T : CSHasRegistrations, T : CSVisibility =
+        where T : CSHasRegistrations, T : CSVisibility =
     onHiding { onHidingRegistration ->
         onHidingRegistration.cancel()
         cancel(registration)
     }
 
 fun <T> T.registerUntilShow(registration: CSRegistration): CSRegistration
-    where T : CSHasRegistrations, T : CSVisibility {
+        where T : CSHasRegistrations, T : CSVisibility {
     register(registration)
     register(onShowing { onShowingRegistration ->
         cancel(onShowingRegistration)
@@ -47,16 +48,21 @@ fun <T> T.registerUntilShow(registration: CSRegistration): CSRegistration
 
 @JvmName("registerUntilShowRegistrationNullable")
 fun <T> T.registerUntilShow(registration: CSRegistration?): CSRegistration?
-    where T : CSHasRegistrations, T : CSVisibility {
+        where T : CSHasRegistrations, T : CSVisibility {
     if (registration == null) return null
     return registerUntilShow(registration)
 }
 
+fun <T> T.laterEachIfShowing(period: Duration, function: Func): CSRegistration
+        where T : CSHasRegistrations, T : CSVisibility =
+    laterEachIfShowing(period.inWholeMilliseconds.toInt(), function)
+
 fun <T> T.laterEachIfShowing(period: Int, function: Func): CSRegistration
-    where T : CSHasRegistrations, T : CSVisibility = laterEachIfShowing(period, period, function)
+        where T : CSHasRegistrations, T : CSVisibility =
+    laterEachIfShowing(period, period, function)
 
 fun <T> T.laterEachIfShowing(delay: Int, period: Int, function: Func): CSRegistration
-    where T : CSHasRegistrations, T : CSVisibility {
+        where T : CSHasRegistrations, T : CSVisibility {
     var registration: CSRegistration? = null
     var onShowingRegistration: CSRegistration? = null
     return CSRegistration(
