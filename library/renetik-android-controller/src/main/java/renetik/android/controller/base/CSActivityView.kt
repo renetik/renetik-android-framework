@@ -19,7 +19,7 @@ import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.listenOnce
+import renetik.android.event.registration.registerListenOnce
 import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.view.isShowing
 import renetik.android.ui.extensions.view.isVisible
@@ -219,7 +219,7 @@ open class CSActivityView<ViewType : View>
     protected open fun onViewHidingAgain() {}
 
     open var navigation: CSNavigationView? by lazyNullableVar {
-        findNavigation()?.also { listenOnce(it.eventDestruct) { navigation = null } }
+        findNavigation()?.also { registerListenOnce(it.eventDestruct) { navigation = null } }
     }
 
     private fun findNavigation(): CSNavigationView? {

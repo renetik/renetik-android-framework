@@ -17,7 +17,7 @@ import renetik.android.event.common.destruct
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.cancel
-import renetik.android.event.registration.listenOnce
+import renetik.android.event.registration.registerListenOnce
 import renetik.android.event.registration.plus
 import renetik.android.ui.CSDisplayCutout
 import renetik.android.ui.extensions.view.afterGlobalLayout
@@ -154,7 +154,7 @@ val CSViewInterface.displayCutout: CSDisplayCutout?
 val CSViewInterface.hasParentView: Boolean get() = view.parent.notNull
 
 fun CSViewInterface.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruct) {
-    listenOnce(parent.eventDestruct) {
+    registerListenOnce(parent.eventDestruct) {
         val parentGroup = (view.parent as? ViewGroup)
         if (parentGroup !is AdapterView<*>) parentGroup?.removeView(view)
         destruct()

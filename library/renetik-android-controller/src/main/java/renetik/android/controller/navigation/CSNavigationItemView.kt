@@ -26,7 +26,7 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.registration.listenOnce
+import renetik.android.event.registration.registerListenOnce
 import renetik.android.event.registration.plus
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
@@ -89,7 +89,7 @@ open class CSNavigationItemView(
     fun dismissOnTouchOut(dismiss: Boolean = true) = apply { dismissOnTouchOut = dismiss }
 
     init {
-        listenOnce(navigationParent.eventDestruct) {
+        registerListenOnce(navigationParent.eventDestruct) {
             if (!isShowingInPager && lifecycleStopOnRemoveFromParentView)
                 logErrorTrace { "Unexpected but don't know why now..." }
             if (isShowingInPager) close()

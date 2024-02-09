@@ -67,10 +67,7 @@ fun View.toolbar(@IdRes id: Int) = findView<Toolbar>(id)!!
 fun <T : View> T.enabled(enabled: Boolean = true) = enabledIf(enabled)
 fun <T : View> T.enabledIf(condition: Boolean) = apply { isEnabled = condition }
 fun <T : View> T.disabled(value: Boolean = true) = disabledIf(value)
-fun <T : View> T.disabledIf(condition: Boolean) = apply {
-    isEnabled = !condition
-//    isPressed = false
-}
+fun <T : View> T.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
 
 val <T : View> T.superview get() = parent as? ViewGroup
 val <T : View> T.parentView get() = parent as? ViewGroup
