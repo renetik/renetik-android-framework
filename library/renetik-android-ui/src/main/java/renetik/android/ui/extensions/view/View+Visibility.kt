@@ -4,25 +4,25 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import androidx.appcompat.widget.ContentFrameLayout
-import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.protocol.CSVisibility
 
 fun <T : View> T.visible(animated: Boolean = false) = apply {
-    if (animated) fadeIn() else {
-        visibility = VISIBLE
-        updateVisibility()
-    }
+    if (animated) fadeIn() else
+        if (visibility != VISIBLE) {
+            visibility = VISIBLE
+            updateVisibility()
+        }
 }
 
 fun <T : View> T.invisible(animated: Boolean = false) = apply {
-    if (animated) fadeOut(invisible = true) else {
-        visibility = INVISIBLE
-        updateVisibility()
-    }
+    if (animated) fadeOut(invisible = true) else
+        if (visibility != INVISIBLE) {
+            visibility = INVISIBLE
+            updateVisibility()
+        }
 }
 
 fun <T : View> T.updateVisibility() {
@@ -30,10 +30,11 @@ fun <T : View> T.updateVisibility() {
 }
 
 fun <T : View> T.gone(animated: Boolean = false) = apply {
-    if (animated) fadeOut() else {
-        visibility = GONE
-        updateVisibility()
-    }
+    if (animated) fadeOut() else
+        if (visibility != GONE) {
+            visibility = GONE
+            updateVisibility()
+        }
 }
 
 val <T : View> T.isVisible get() = visibility == VISIBLE
@@ -44,24 +45,24 @@ fun <T : View> T.show(animated: Boolean = false) = apply { visible(animated) }
 fun <T : View> T.hide(animated: Boolean = false) = apply { gone(animated) }
 
 fun <T : View> T.visibleIf(
-    condition: Boolean, animated: Boolean = false
+    condition: Boolean, animated: Boolean = false,
 ) = apply { if (condition) visible(animated) else invisible(animated) }
 
 fun <T : View> T.invisibleIf(
-    condition: Boolean, animated: Boolean = false
+    condition: Boolean, animated: Boolean = false,
 ) = visibleIf(!condition, animated)
 
 fun <T : View> T.shownIf(
-    condition: Boolean, animated: Boolean = false
+    condition: Boolean, animated: Boolean = false,
 ) = apply { if (condition) show(animated) else gone(animated) }
 
 fun <T : View> T.goneIf(
-    condition: Boolean, animated: Boolean = false
+    condition: Boolean, animated: Boolean = false,
 ): T = shownIf(!condition, animated)
 
 fun <T> View.shownIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
-    condition: (T) -> Boolean
+    condition: (T) -> Boolean,
 ): CSRegistration {
     shownIf(condition(property.value))
     return property.onChange { shownIf(condition(property.value), animated) }
@@ -69,24 +70,24 @@ fun <T> View.shownIf(
 
 fun View.shownIf(
     property: CSHasChangeValue<Boolean>,
-    animated: Boolean = false
+    animated: Boolean = false,
 ): CSRegistration = shownIf(property, animated) { it }
 
 fun View.shownIfNot(
     property: CSHasChangeValue<Boolean>,
-    animated: Boolean = false
+    animated: Boolean = false,
 ): CSRegistration = shownIf(property, animated) { !it }
 
 fun <T> View.shownIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>,
-    animated: Boolean = false, condition: (T) -> Boolean
+    animated: Boolean = false, condition: (T) -> Boolean,
 ): CSRegistration =
     shownIf(property1, property2, animated) { first, _ -> condition(first) }
 
 fun <T, V> View.shownIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
     animated: Boolean = false,
-    condition: (T, V) -> Boolean
+    condition: (T, V) -> Boolean,
 ): CSRegistration {
     fun update(animated: Boolean) = shownIf(condition(property1.value, property2.value), animated)
     update(animated = false)
@@ -98,7 +99,7 @@ fun <T, V> View.shownIf(
 
 fun <T, V, X> View.shownIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, property3: CSHasChangeValue<X>,
-    animated: Boolean = false, condition: (T, V, X) -> Boolean
+    animated: Boolean = false, condition: (T, V, X) -> Boolean,
 ): CSRegistration {
     fun update(animated: Boolean) =
         shownIf(condition(property1.value, property2.value, property3.value), animated)
@@ -113,7 +114,7 @@ fun <T, V, X> View.shownIf(
 fun View.goneIf(
     property1: CSHasChangeValue<Boolean>,
     property2: CSHasChangeValue<Boolean>,
-    animated: Boolean = false
+    animated: Boolean = false,
 ): CSRegistration = goneIf(property1, property2, animated) { value1, value2 ->
     value1.isTrue || value2.isTrue
 }
@@ -122,7 +123,7 @@ fun <T, V> View.goneIf(
     property1: CSHasChangeValue<T>,
     property2: CSHasChangeValue<V>,
     animated: Boolean = false,
-    condition: (T, V) -> Boolean
+    condition: (T, V) -> Boolean,
 ): CSRegistration {
     fun update() = goneIf(condition(property1.value, property2.value), animated)
     update()
@@ -134,37 +135,37 @@ fun <T, V> View.goneIf(
 
 fun <T> View.goneIf(
     property: CSHasChangeValue<T>,
-    animated: Boolean = false, condition: (T) -> Boolean
+    animated: Boolean = false, condition: (T) -> Boolean,
 ): CSRegistration {
     goneIf(condition(property.value))
     return property.onChange { goneIf(condition(property.value), animated) }
 }
 
 fun View.goneIf(
-    property: CSHasChangeValue<Boolean>, animated: Boolean = false
+    property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = goneIf(property, animated) { it }
 
 fun View.goneIfNot(
-    property: CSHasChangeValue<Boolean>, animated: Boolean = false
+    property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = goneIf(property, animated) { !it }
 
 fun View.visibleIf(
-    property: CSHasChangeValue<Boolean>, animated: Boolean = false
+    property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = visibleIf(property, animated) { it }
 
 fun View.visibleIfNot(
-    property: CSHasChangeValue<Boolean>, animated: Boolean = false
+    property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = visibleIf(property, animated) { !it }
 
 fun <T> View.visibleIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>,
-    animated: Boolean = false, condition: (T) -> Boolean
+    animated: Boolean = false, condition: (T) -> Boolean,
 ): CSRegistration =
     visibleIf(property1, property2, animated) { first, _ -> condition(first) }
 
 fun <T, V> View.visibleIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    animated: Boolean = false, condition: (T, V) -> Boolean
+    animated: Boolean = false, condition: (T, V) -> Boolean,
 ): CSRegistration {
     fun update() = visibleIf(condition(property1.value, property2.value), animated)
     update()
@@ -173,7 +174,7 @@ fun <T, V> View.visibleIf(
 
 fun <T, V> View.invisibleIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    animated: Boolean = false, condition: (T, V) -> Boolean
+    animated: Boolean = false, condition: (T, V) -> Boolean,
 ): CSRegistration {
     fun update() = invisibleIf(condition(property1.value, property2.value), animated)
     update()
@@ -182,7 +183,7 @@ fun <T, V> View.invisibleIf(
 
 fun <T> View.visibleIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
-    condition: (T) -> Boolean
+    condition: (T) -> Boolean,
 ): CSRegistration {
     visibleIf(condition(property.value))
     return property.onChange { visibleIf(condition(property.value), animated) }
@@ -190,14 +191,14 @@ fun <T> View.visibleIf(
 
 fun <T> View.invisibleIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
-    condition: (T) -> Boolean
+    condition: (T) -> Boolean,
 ): CSRegistration {
     invisibleIf(condition(property.value))
     return property.onChange { invisibleIf(condition(property.value), animated) }
 }
 
 fun View.invisibleIf(
-    property: CSHasChangeValue<Boolean>, animated: Boolean = false
+    property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = invisibleIf(property, animated) { it }
 
 fun View.isShowing(): Boolean {

@@ -5,7 +5,6 @@ import android.view.MotionEvent.ACTION_CANCEL
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_UP
-import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSHasRegistrations
@@ -13,20 +12,25 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.registerLaterEach
 import renetik.android.ui.extensions.view.pressed
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline function: (down: Boolean) -> Unit
+    crossinline press: (down: Boolean) -> Unit,
 ) = apply {
     onTouchEvent = {
         when (it.actionMasked) {
             ACTION_DOWN -> true.also {
                 self.pressed(true)
-                function(true)
+                press(true)
             }
+
             ACTION_UP, ACTION_CANCEL -> true.also {
                 self.pressed(false)
-                function(false)
+                press(false)
             }
+
             ACTION_MOVE -> true
             else -> false
         }
@@ -34,36 +38,58 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouchMove(
-    crossinline function: (event: MotionEvent) -> Unit
+    crossinline move: (event: MotionEvent) -> Unit,
 ) = apply {
     onTouchEvent = { event ->
         when (event.actionMasked) {
             ACTION_DOWN -> true
             ACTION_UP, ACTION_CANCEL -> true
-            ACTION_MOVE -> true.also { function(event) }
+            ACTION_MOVE -> true.also { move(event) }
+            else -> false
+        }
+    }
+}
+
+inline fun <T : CSHasTouchEvent> T.onTouch(
+    crossinline down: (event: MotionEvent) -> Unit,
+    crossinline move: (event: MotionEvent) -> Unit,
+) = apply {
+    onTouchEvent = { event ->
+        when (event.actionMasked) {
+            ACTION_DOWN -> true.also { down(event) }
+            ACTION_UP, ACTION_CANCEL -> true
+            ACTION_MOVE -> true.also { move(event) }
+            else -> false
+        }
+    }
+}
+
+@JvmName("onTouchDownOrMove")
+inline fun <T : CSHasTouchEvent> T.onTouch(
+    crossinline downOrMove: (event: MotionEvent) -> Unit,
+) = apply {
+    onTouchEvent = { event ->
+        when (event.actionMasked) {
+            ACTION_DOWN -> true.also { downOrMove(event) }
+            ACTION_UP, ACTION_CANCEL -> true
+            ACTION_MOVE -> true.also { downOrMove(event) }
             else -> false
         }
     }
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouchDown(
-    crossinline function: () -> Unit
-) = apply {
-    onTouch { down -> if (down) function() }
-}
+    crossinline down: () -> Unit,
+) = onTouch(press = { isDown -> if (isDown) down() })
 
 inline fun <T : CSHasTouchEvent> T.onTouchUp(
-    crossinline function: () -> Unit
-) = apply {
-    onTouch { down -> if (!down) function() }
-}
+    crossinline up: () -> Unit,
+) = onTouch(press = { isDown -> if (!isDown) up() })
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline down: () -> Unit,
-    crossinline up: () -> Unit
-) = apply {
-    onTouch { down -> if (down) down() else up() }
-}
+    crossinline up: () -> Unit,
+) = onTouch(press = { isDown -> if (isDown) down() else up() })
 
 fun <T : CSHasTouchEvent> T.toggleActiveIf(property: CSProperty<Boolean>): CSRegistration {
     setToggleActive(property.value)
@@ -87,9 +113,9 @@ fun <T : CSHasTouchEvent> T.setToggleSelected(pressed: Boolean) = apply {
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
-    crossinline function: (Boolean) -> Unit
-) = onTouch {
-    if (it.isTrue) {
+    crossinline function: (Boolean) -> Unit,
+) = onTouch(press = { isDown ->
+    if (isDown) {
         if (!self.isActivated) {
             function(true)
             self.isSelected = true
@@ -108,11 +134,11 @@ inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
             self.isSelected = false
         }
     }
-}
+})
 
 inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
-    crossinline function: (Boolean) -> Unit
-) = onTouch { isDown ->
+    crossinline function: (Boolean) -> Unit,
+) = onTouch(press = { isDown ->
     if (isDown) {
         if (!self.isSelected) {
             function(true)
@@ -132,7 +158,27 @@ inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
             self.isActivated = false
         }
     }
-}
+})
+
+fun CSHasTouchEvent.onTouch(
+    parent: CSHasRegistrations,
+    delay: Duration = 1.seconds,
+    period: Duration = 250.milliseconds,
+    repeat: () -> Unit,
+) = onTouch(
+    parent, delay.inWholeMilliseconds.toInt(),
+    period.inWholeMilliseconds.toInt(), repeat
+)
+
+fun CSHasTouchEvent.onTouch(
+    parent: CSHasRegistrations,
+    delay: Int, period: Int,
+    repeat: () -> Unit,
+) = onTouch(
+    parent, repeat = { repeat() },
+    step = { }, delay = delay, period = period,
+    until = { true }, onDone = {}
+)
 
 fun <T> CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
@@ -140,7 +186,7 @@ fun <T> CSHasTouchEvent.onTouch(
     step: (repeatCount: Int) -> T,
     delay: Int, period: Int,
     until: (step: T) -> Boolean,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     var repeatCount: Int
     var repeatRegistration: CSRegistration? = null
