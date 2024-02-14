@@ -64,6 +64,23 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     }
 }
 
+
+inline fun <T : CSHasTouchEvent> T.onTouch(
+    crossinline down: (event: MotionEvent) -> Unit,
+    crossinline move: (event: MotionEvent) -> Unit,
+    crossinline up: (event: MotionEvent) -> Unit,
+) = apply {
+    onTouchEvent = { event ->
+        when (event.actionMasked) {
+            ACTION_DOWN -> true.also { down(event) }
+            ACTION_UP, ACTION_CANCEL -> true.also { up(event) }
+            ACTION_MOVE -> true.also { move(event) }
+            else -> false
+        }
+    }
+}
+
+
 @JvmName("onTouchDownOrMove")
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline downOrMove: (event: MotionEvent) -> Unit,
