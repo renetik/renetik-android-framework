@@ -19,8 +19,8 @@ import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.registerListenOnce
 import renetik.android.event.registration.plus
+import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.extensions.view.isShowing
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.protocol.CSVisibility
@@ -95,14 +95,6 @@ open class CSActivityView<ViewType : View>
         isResumed = false
         updateVisibility()
         eventPause.fire()
-    }
-
-    override fun onDestruct() {
-        if (isResumed) onPause()
-        if (isDestructed) unexpected("$className $this Already destroyed")
-        super.onDestruct()
-        parentActivityView = null
-        activity = null
     }
 
     fun lifecycleUpdate() {
@@ -229,5 +221,13 @@ open class CSActivityView<ViewType : View>
             controller = controller?.parentActivityView
         } while (controller != null)
         return null
+    }
+
+    override fun onDestruct() {
+        if (isResumed) onPause()
+        if (isDestructed) unexpected("$className $this Already destroyed")
+        super.onDestruct()
+        parentActivityView = null
+        activity = null
     }
 }

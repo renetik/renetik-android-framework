@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import androidx.annotation.StyleRes
 import androidx.appcompat.view.ContextThemeWrapper
 import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
+import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.logging.CSLog.logErrorTrace
@@ -91,7 +91,7 @@ open class CSView<ViewType : View> : CSContext,
 
     private fun setView(view: ViewType) {
         _view = view
-        _view!!.tag = this@CSView
+        if (view.tag !is CSView<*>) view.tag = this@CSView
         onViewReady()
     }
 
@@ -113,13 +113,6 @@ open class CSView<ViewType : View> : CSContext,
 
     open fun hideKeyboard() {
         inputService.hideSoftInputFromWindow(view.rootView.windowToken, 0)
-    }
-
-    override fun onDestruct() {
-        super.onDestruct()
-        _view?.tag = "tag instance of $className removed, onDestroy called"
-        _view?.onDestroy()
-        _view = null
     }
 
     override fun onAddedToParentView() = Unit
@@ -147,4 +140,15 @@ open class CSView<ViewType : View> : CSContext,
         }
 
     open val contentView: View get() = view
+
+    override fun onDestruct() {
+        super.onDestruct()
+        _view?.let {
+            if (it.tag == this) {
+                it.tag = "tag instance of $className removed, onDestroy called"
+                it.onDestroy()
+            }
+            _view = null
+        } ?: unexpected()
+    }
 }
