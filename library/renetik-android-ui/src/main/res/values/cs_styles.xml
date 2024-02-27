@@ -71,7 +71,7 @@
     </style>
 
     <style name="CSFillMedium" parent="CSFill">
-        <item name="android:layout_weight">0.4</item>
+        <item name="android:layout_weight">0.3</item>
     </style>
 
     <style name="CSFillLarge" parent="CSFill">
