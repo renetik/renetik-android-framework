@@ -15,6 +15,7 @@ import renetik.android.core.lang.void
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.*
+import renetik.android.event.registration.CSHasChangeValue.Companion.action
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.ui.R
 
@@ -123,10 +124,7 @@ fun View.disabledIf(property: CSHasChangeValue<Boolean>): CSRegistration =
 fun <T> View.disabledIf(
     property: CSHasChangeValue<T>,
     condition: (T) -> Boolean
-): CSRegistration {
-    disabledIf(condition(property.value))
-    return property.onChange { disabledIf(condition(property.value)) }
-}
+): CSRegistration = property.action { disabledIf(condition(property.value)) }
 
 fun <T, V> View.disabledIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
