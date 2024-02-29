@@ -162,7 +162,7 @@ inline fun <T> View.selectedIf(
     return property.onChange { selected(condition(property.value)) }
 }
 
-fun View.selectedIf(property: CSProperty<Boolean>): CSRegistration =
+fun View.selectedIf(property: CSHasChangeValue<Boolean>): CSRegistration =
     selectedIf(property) { it.isTrue }
 
 fun <T> View.activateIf(property: CSProperty<T>, value: T): CSRegistration {
