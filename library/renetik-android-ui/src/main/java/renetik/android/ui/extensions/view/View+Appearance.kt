@@ -2,6 +2,11 @@ package renetik.android.ui.extensions.view
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color.argb
+import android.graphics.Color.blue
+import android.graphics.Color.green
+import android.graphics.Color.red
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import androidx.annotation.ColorInt
@@ -30,7 +35,12 @@ fun <T : View> T.backgroundTint(@ColorInt value: Int) = apply {
 }
 
 fun View.backgroundAlpha(alpha: Double) {
-    background.alpha = (255 * alpha).toInt();
+    (background as? ColorDrawable)?.color?.let {
+        val color = argb((256 * alpha).toInt(), red(it), green(it), blue(it))
+        background = ColorDrawable(color)
+    } ?: run {
+        background.alpha = (255 * alpha).toInt();
+    }
 }
 
 fun <T : View> T.foregroundTint(@ColorInt value: Int) = apply {
