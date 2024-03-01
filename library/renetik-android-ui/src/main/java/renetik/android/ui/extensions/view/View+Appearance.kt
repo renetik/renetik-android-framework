@@ -39,7 +39,7 @@ fun View.backgroundAlpha(alpha: Double) {
         val color = argb((256 * alpha).toInt(), red(it), green(it), blue(it))
         background = ColorDrawable(color)
     } ?: run {
-        background.alpha = (255 * alpha).toInt();
+        background?.alpha = (255 * alpha).toInt();
     }
 }
 
