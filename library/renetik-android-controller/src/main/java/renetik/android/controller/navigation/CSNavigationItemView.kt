@@ -105,7 +105,7 @@ open class CSNavigationItemView(
 
     override fun onViewShowingFirstTime() {
         super.onViewShowingFirstTime()
-        if (dismissOnTouchOut) view.onClick { onBackgroundClick() }
+        view.onClick { if (dismissOnTouchOut) onBackgroundClick() }
     }
 
     protected open fun onBackgroundClick() = dismiss()
