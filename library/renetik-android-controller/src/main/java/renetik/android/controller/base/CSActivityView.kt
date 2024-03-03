@@ -155,6 +155,7 @@ open class CSActivityView<ViewType : View>
 
     override val lifecycle: Lifecycle get() = activity().lifecycle
 
+    //TODO!!!! Why don't we have property isVisible:CSProperty<Boolean> ?
     private var _isVisible = false
     override val isVisible: Boolean get() = _isVisible
     private var onViewShowingCalled = false

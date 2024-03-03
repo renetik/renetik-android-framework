@@ -7,13 +7,14 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.cancel
 import renetik.android.event.registration.laterEach
+import renetik.android.event.registration.plus
 import renetik.android.event.registration.register
 import renetik.android.event.registration.start
 import kotlin.time.Duration
 
 fun <T> T.registerUntilHide(registration: CSRegistration): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility {
-    register(registration)
+    this + registration
     untilHide(registration)
     return registration
 }
@@ -38,7 +39,7 @@ fun <T> T.untilHide(registration: CSRegistration): CSRegistration
 
 fun <T> T.registerUntilShow(registration: CSRegistration): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility {
-    register(registration)
+    this + registration
     register(onShowing { onShowingRegistration ->
         cancel(onShowingRegistration)
         cancel(registration)
