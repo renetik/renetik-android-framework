@@ -9,8 +9,9 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import java.io.File
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 
 
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int?): T = apply {

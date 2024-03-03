@@ -5,6 +5,7 @@ import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.core.lang.value.isTrue
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.protocol.CSVisibility
@@ -211,7 +212,7 @@ fun View.isShowing(): Boolean {
             parent !is View -> return true
             parent::class.java.name == "androidx.appcompat.widget.ContentFrameLayout" -> return true
             !parent.isVisible -> return false
-            (parent.tag as? CSVisibility)?.isVisible == true -> return true
+            (parent.tag as? CSVisibility)?.isVisible?.isTrue == true -> return true
             else -> view = parent
         }
     }

@@ -15,7 +15,7 @@ import renetik.android.core.lang.void
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.*
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.ui.R
 

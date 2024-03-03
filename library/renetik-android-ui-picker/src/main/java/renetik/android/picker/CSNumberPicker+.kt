@@ -9,8 +9,9 @@ import renetik.android.core.kotlin.collections.index
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.void
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.fadeIn

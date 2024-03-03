@@ -2,6 +2,7 @@ package renetik.android.ui.protocol
 
 import renetik.android.core.lang.CSHandler.mainHandler
 import renetik.android.core.lang.Func
+import renetik.android.core.lang.value.isTrue
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
@@ -72,7 +73,7 @@ fun <T> T.laterEachIfShowing(delay: Int, period: Int, function: Func): CSRegistr
             fun start() {
                 registration = registerUntilHide(mainHandler.laterEach(delay, period, function))
             }
-            if (isVisible) start()
+            if (isVisible.isTrue) start()
             onShowingRegistration = onShowing { start() }
         },
         onPause = {

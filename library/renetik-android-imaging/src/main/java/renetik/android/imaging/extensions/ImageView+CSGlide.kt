@@ -10,9 +10,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.bumptech.glide.signature.ObjectKey
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.ui.extensions.view.onHasSize
 import renetik.android.ui.protocol.CSViewInterface
 import java.io.File

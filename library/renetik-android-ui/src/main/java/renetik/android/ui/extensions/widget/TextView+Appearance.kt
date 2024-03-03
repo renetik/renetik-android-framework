@@ -13,8 +13,9 @@ import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.primitives.at
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 
 fun TextView.textColor(value: CSColorInt) = apply {
     setTextColor(value.color)

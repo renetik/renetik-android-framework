@@ -6,9 +6,10 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_UP
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.registerLaterEach
 import renetik.android.ui.extensions.view.pressed

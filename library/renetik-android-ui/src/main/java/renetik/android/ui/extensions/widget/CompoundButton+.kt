@@ -9,9 +9,10 @@ import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.paused
 import renetik.android.ui.R

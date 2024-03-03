@@ -1,6 +1,5 @@
 package renetik.android.controller.navigation
 
-import android.view.View
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,7 +10,7 @@ import org.robolectric.annotation.Config
 import renetik.android.controller.base.CSActivity
 import renetik.android.controller.base.isPaused
 import renetik.android.controller.extensions.push
-import renetik.android.core.lang.CSLayoutRes.Companion.layout
+import renetik.android.core.lang.value.isTrue
 import renetik.android.ui.R.layout.cs_frame_match
 
 @RunWith(RobolectricTestRunner::class)
@@ -48,8 +47,8 @@ class CSNavigationViewTest {
             .fullScreen().push()
         val itemView2 = CSNavigationItemView(navigation, cs_frame_match)
             .fullScreen().push()
-        assertTrue(!itemView1.isVisible)
-        assertTrue(itemView2.isVisible)
+        assertTrue(!itemView1.isVisible.isTrue)
+        assertTrue(itemView2.isVisible.isTrue)
     }
 
     @Test
@@ -61,13 +60,13 @@ class CSNavigationViewTest {
             .fullScreen().push()
         val itemView3 = CSNavigationItemView(itemView2, cs_frame_match)
             .fullScreen().push()
-        assertTrue(!itemView1.isVisible)
-        assertTrue(!itemView2.isVisible)
-        assertTrue(itemView3.isVisible)
+        assertTrue(!itemView1.isVisible.isTrue)
+        assertTrue(!itemView2.isVisible.isTrue)
+        assertTrue(itemView3.isVisible.isTrue)
 
         itemView2.dismiss()
 
-        assertTrue(itemView1.isVisible)
+        assertTrue(itemView1.isVisible.isTrue)
         assertTrue(itemView2.isDestructed)
         assertTrue(itemView3.isDestructed)
     }

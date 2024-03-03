@@ -10,9 +10,10 @@ import renetik.android.core.kotlin.asString
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.event.registration.actionNullableChild
 import renetik.android.ui.extensions.view.goneIf
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter

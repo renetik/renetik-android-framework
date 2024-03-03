@@ -13,12 +13,15 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.lang.variable.CSVariable
+import renetik.android.core.lang.variable.isTrue
 import renetik.android.core.logging.CSLog.logWarnTrace
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
+import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasRegistrations
+import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.extensions.view.isShowing
@@ -88,7 +91,7 @@ open class CSActivityView<ViewType : View>
     protected open fun onResumeAgain() {}
 
     open fun onPause() {
-        if (isPaused && isVisible) {
+        if (isPaused && isVisible.isTrue) {
             logWarnTrace { "Not Resumed while paused, should be resumed first:$this" }
             return
         }
@@ -116,12 +119,12 @@ open class CSActivityView<ViewType : View>
         this + parent.eventResume.listen(::onResume)
         this + parent.eventPause.listen(::onPause)
         this + parent.eventBack.listen(::onBack)
-        this + parent.eventVisibility.listen(::updateVisibility)
+        this + parent.isVisible.onChange(::updateVisibility)
     }
 
     protected open fun onBack(goBack: CSVariable<Boolean>) {
         eventBack.fire(goBack)
-        if (goBack.value && isVisible) {
+        if (goBack.value && isVisible.isTrue) {
             hideKeyboard()
             goBack.value = onGoBack()
         }
@@ -155,39 +158,31 @@ open class CSActivityView<ViewType : View>
 
     override val lifecycle: Lifecycle get() = activity().lifecycle
 
-    //TODO!!!! Why don't we have property isVisible:CSProperty<Boolean> ?
-    private var _isVisible = false
-    override val isVisible: Boolean get() = _isVisible
+    override var isVisible = property(false)
     private var onViewShowingCalled = false
-    override val eventVisibility by lazy { event<Boolean>() }
 
     override fun updateVisibility() {
         if (checkIfIsShowing()) {
-            if (!isVisible) onViewVisibilityChanged(true)
-        } else if (isVisible) onViewVisibilityChanged(false)
+            if (!isVisible.isTrue) onViewVisibilityChanged(true)
+        } else if (isVisible.isTrue) onViewVisibilityChanged(false)
     }
 
     private fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (!view.isVisible) return false
         if (showingInPager == false) return false
-        if (isShowingInPager && parentActivityView?.isVisible == true) return true
+        if (isShowingInPager && parentActivityView?.let { it.isVisible.isTrue } == true) return true
         if (isShowingInPager && navigation?.last == this) return true
-        if (parentActivityView?.isVisible == false) return false
+        if (parentActivityView?.let { it.isVisible.isTrue } == false) return false
         return view.isShowing()
     }
 
     val isShowingInPager get() = showingInPager == true
 
     private fun onViewVisibilityChanged(showing: Boolean) {
-        if (isVisible == showing) return
-        _isVisible = showing
-        if (isVisible) onViewShowing() else onViewHiding()
-        onViewVisibilityChanged()
-    }
-
-    protected open fun onViewVisibilityChanged() {
-        eventVisibility.fire(isVisible)
+        if (isVisible.isTrue == showing) return
+        isVisible.value(showing)
+        if (isVisible.isTrue) onViewShowing() else onViewHiding()
     }
 
     protected open fun onViewShowing() {

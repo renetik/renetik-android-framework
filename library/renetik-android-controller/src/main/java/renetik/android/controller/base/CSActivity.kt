@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.*
-import androidx.annotation.StyleRes
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.lang.variable.CSVariable
@@ -34,9 +34,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     val onRequestPermissionsResult = event<CSRequestPermissionResult>()
 
     //CSVisibility
-    override val isVisible: Boolean get() = true
-    override val eventVisibility = event<Boolean>()
-    override fun updateVisibility() = Unit
+    override val isVisible = property(true)
 
     var activityView: ActivityView? = null
     val configuration = Configuration()

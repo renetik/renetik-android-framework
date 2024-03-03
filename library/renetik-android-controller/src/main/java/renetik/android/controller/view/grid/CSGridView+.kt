@@ -5,8 +5,9 @@ import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.CSHasChangeValue.Companion.action
+import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
 
