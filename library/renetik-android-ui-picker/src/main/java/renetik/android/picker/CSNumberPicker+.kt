@@ -9,7 +9,6 @@ import renetik.android.core.kotlin.collections.index
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.void
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
@@ -33,6 +32,13 @@ fun <T> CSNumberPicker.index(property: CSProperty<T>, function: (T) -> Int): CSR
 fun CSNumberPicker.onIndexChange(function: Func) = index.onChange { function() }
 
 fun CSNumberPicker.onScroll(function: (Int) -> void) = eventOnScroll.listen(function)
+
+fun <T> CSNumberPicker.load(
+    property: CSProperty<T>, data: List<Pair<String, T>>
+): CSRegistration {
+    load(data.map { it.first }, data.indexOfFirst { it.second == property.value })
+    return index.onChange { property.value = data[it].second }
+}
 
 fun <Row : Any> CSNumberPicker.load(data: List<Row>, selected: Row? = null) =
     load(data, selected = data.index(selected) ?: 0)

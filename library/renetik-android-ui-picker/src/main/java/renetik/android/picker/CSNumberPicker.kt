@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import com.shawnlin.numberpicker.NumberPicker
 import com.shawnlin.numberpicker.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.ui.R
 
@@ -12,7 +13,7 @@ class CSNumberPicker @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : NumberPicker(context, attrs, defStyleAttr) {
 
-    val index = property(value) { value = it }
+    val index: CSProperty<Int> = property(value) { value = it }
     val eventOnScroll = event<Int>()
     private var isScrolling: Boolean = false
     var dispatchState: Boolean
