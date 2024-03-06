@@ -5,19 +5,18 @@ import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
 
-fun <RowType : Any> CSGridView<RowType>.reload(values: Array<out RowType>) =
+fun <RowType : Any> CSGridView<RowType, *>.reload(values: Array<out RowType>) =
     reload(values.asIterable())
 
-fun <T : CSHasTitle> CSGridView<T>.reload(values: Array<T>, searchText: CSValue<String>) =
+fun <T : CSHasTitle> CSGridView<T, *>.reload(values: Array<T>, searchText: CSValue<String>) =
     reload(values.asIterable(), searchText)
 
-fun <T : CSHasTitle> CSGridView<T>.reload(
+fun <T : CSHasTitle> CSGridView<T, *>.reload(
     values: Iterable<T>, searchText: CSValue<String>
 ) = apply {
     val data = if (searchText.value.isEmpty) values
@@ -25,16 +24,17 @@ fun <T : CSHasTitle> CSGridView<T>.reload(
     reload(data)
 }
 
-val CSGridView<*>.dataCount get() = data.size
+val CSGridView<*, *>.dataCount get() = data.size
 
-fun <T : Any> CSGridView<T>.value(value: T?) = apply { selectedItem.value(value) }
+fun <T : Any, V : CSGridItemView<T>> CSGridView<T, V>.value(value: T?) =
+    apply { selectedItem.value(value) }
 
-fun <T : Any> CSGridView<T>.variable(variable: CSVariable<T>) = apply {
+fun <T : Any, V : CSGridItemView<T>> CSGridView<T, V>.variable(variable: CSVariable<T>) = apply {
     value(variable.value)
     onItemSelected { variable.value = it.value }
 }
 
-fun <T : Any> CSGridView<T>.property(property: CSProperty<T>) = apply {
+fun <T : Any> CSGridView<T, *>.property(property: CSProperty<T>) = apply {
     lateinit var propertyRegistration: CSRegistration
     val selectedItemRegistration = selectedItem.onChange { item ->
         propertyRegistration.paused { property.value = item!! }
@@ -45,7 +45,7 @@ fun <T : Any> CSGridView<T>.property(property: CSProperty<T>) = apply {
 }
 
 @JvmName("propertyNullableItem")
-fun <T : Any> CSGridView<T>.property(property: CSProperty<T?>) = apply {
+fun <T : Any> CSGridView<T, *>.property(property: CSProperty<T?>) = apply {
     lateinit var propertyRegistration: CSRegistration
     val selectedItemRegistration = selectedItem.onChange {
         propertyRegistration.paused { property.value = it }

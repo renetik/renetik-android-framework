@@ -20,9 +20,9 @@ import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.onClick
 
 @Deprecated("Replace with CSRecyclerView")
-class CSGridView<ItemType : Any>(
+class CSGridView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
     parent: CSActivityView<*>, viewId: Int,
-    val createView: (CSGridView<ItemType>) -> CSGridItemView<ItemType>
+    val createView: (CSGridView<ItemType, ViewType>) -> ViewType
 ) : CSView<GridView>(parent, viewId) {
 
     val selectedItem: CSProperty<ItemType?> = property(null)
@@ -44,20 +44,20 @@ class CSGridView<ItemType : Any>(
         updateEmptyView()
     }
 
-    val eventItemSelected = event<CSGridItemView<ItemType>>()
-    fun onItemSelected(function: (CSGridItemView<ItemType>) -> Unit) =
+    val eventItemSelected = event<ViewType>()
+    fun onItemSelected(function: (ViewType) -> Unit) =
         apply { eventItemSelected.listen { function(it) } }
 
-    val eventItemReSelected = event<CSGridItemView<ItemType>>()
-    fun onItemReSelected(function: (CSGridItemView<ItemType>) -> Unit) =
+    val eventItemReSelected = event<ViewType>()
+    fun onItemReSelected(function: (ViewType) -> Unit) =
         apply { eventItemReSelected.listen { function(it) } }
 
-    val eventDisabledItemClick = event<CSGridItemView<ItemType>>()
-    fun onDisabledItemClick(function: (CSGridItemView<ItemType>) -> Unit) =
+    val eventDisabledItemClick = event<ViewType>()
+    fun onDisabledItemClick(function: (ViewType) -> Unit) =
         apply { eventDisabledItemClick.listen { function(it) } }
 
-    val eventItemActivated = event<CSGridItemView<ItemType>>()
-    fun onItemActive(function: (CSGridItemView<ItemType>) -> Unit) =
+    val eventItemActivated = event<ViewType>()
+    fun onItemActive(function: (ViewType) -> Unit) =
         apply { eventItemActivated.listen { function(it) } }
 
     init {
@@ -71,7 +71,7 @@ class CSGridView<ItemType : Any>(
         super.onDestruct()
     }
 
-    private fun CSGridItemView<ItemType>.updateSelection() {
+    private fun ViewType.updateSelection() {
         val isActive = selectedItem.value == value
         isSelected = isActive && eventItemReSelected.isListened
         isActivated = isActive && !eventItemReSelected.isListened
@@ -79,7 +79,7 @@ class CSGridView<ItemType : Any>(
     }
 
     private fun loadView(toReuseView: View?, position: Int): View {
-        var rowView: CSGridItemView<ItemType>? = toReuseView?.asCS()
+        var rowView: ViewType? = toReuseView?.asCS()
         if (rowView == null) {
             rowView = createView(this)
             this + selectedItem.onChange { rowView.updateSelection() }
@@ -101,7 +101,7 @@ class CSGridView<ItemType : Any>(
         }
     }
 
-    private fun CSGridItemView<ItemType>.onClick() =
+    private fun ViewType.onClick() =
         if (selectedItem.value != this.value) {
             if (itemDisabled) eventDisabledItemClick.fire(this)
             else eventItemSelected.fire(this)
