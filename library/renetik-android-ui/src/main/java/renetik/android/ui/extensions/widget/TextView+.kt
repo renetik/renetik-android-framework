@@ -113,7 +113,7 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
 
 inline fun <T> TextView.text(
     property: CSHasChangeValue<T>, crossinline text: (T) -> Any
-) = property.action { value(text(property.value)) }
+): CSRegistration = property.action { value(text(property.value)) }
 
 fun TextView.text(property: CSHasChangeValue<*>): CSRegistration =
     text(property, text = { it.asString })
