@@ -1,13 +1,11 @@
 package renetik.android.controller.view.grid
 
 import androidx.recyclerview.widget.GridLayoutManager
-import renetik.android.controller.view.grid.CSRecyclerView.CSRecyclerViewItem
 import renetik.android.core.extensions.content.displayWidth
 import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
@@ -16,8 +14,9 @@ import renetik.android.event.registration.plus
 fun <RowType : Any> CSRecyclerView<RowType>.reload(values: Array<out RowType>) =
     reload(values.asIterable())
 
-fun <RowType : Any> CSRecyclerView<RowType>.reload(values: Iterable<RowType>) =
-    reload(values.map { CSRecyclerViewItem(it) })
+fun <RowType : Any> CSRecyclerView<RowType>.reload(
+    values: Iterable<RowType>
+): CSRecyclerView<RowType> = reload(values.map { it to 0 })
 
 fun <T : CSHasTitle> CSRecyclerView<T>.reload(
     values: Array<T>, search: CSValue<String>, ignoreCase: Boolean = true,
@@ -28,7 +27,7 @@ fun <T : CSHasTitle> CSRecyclerView<T>.reload(
 ) = apply {
     val data: Iterable<T> = if (search.value.isEmpty) values
     else values.filter { it.title.contains(search.value, ignoreCase) }
-    reload(data.map { CSRecyclerViewItem(it) })
+    reload(data.map { it to 0 })
 }
 
 val CSRecyclerView<*>.dataCount get() = data.size

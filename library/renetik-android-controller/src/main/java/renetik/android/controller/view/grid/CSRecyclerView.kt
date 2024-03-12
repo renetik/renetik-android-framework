@@ -32,19 +32,18 @@ class CSRecyclerView<ItemType : Any>(
         createView: (CSRecyclerView<ItemType>, parent: ViewGroup) -> CSGridItemView<ItemType>
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent, group) })
 
-    data class CSRecyclerViewItem<ItemType>(val data: ItemType, val type: Int = 0)
 
     val selectedItem: CSProperty<ItemType?> = property(null)
-    val data = list<CSRecyclerViewItem<ItemType>>()
+    val data = list<Pair<ItemType, Int>>()
 
     private val adapter = Adapter()
 
-    fun reload(iterable: Iterable<CSRecyclerViewItem<ItemType>>) = apply {
+    fun reload(iterable: Iterable<Pair<ItemType, Int>>) = apply {
         data.clear()
         load(iterable)
     }
 
-    fun load(iterable: Iterable<CSRecyclerViewItem<ItemType>>) = apply {
+    fun load(iterable: Iterable<Pair<ItemType, Int>>) = apply {
         data.addAll(iterable)
         reload()
     }
@@ -112,7 +111,7 @@ class CSRecyclerView<ItemType : Any>(
     fun scrollToActive(
         smooth: Boolean = false, animationDuration: Int = mediumAnimationDuration,
     ) = apply {
-        val position = data.firstIndex { it.data == selectedItem.value } ?: return@apply
+        val position = data.firstIndex { it.first == selectedItem.value } ?: return@apply
         if (smooth) {
             val scroller = CSCenteringRecyclerSmoothScroller(this, animationDuration)
             scroller.targetPosition = position
@@ -136,13 +135,13 @@ class CSRecyclerView<ItemType : Any>(
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
             if (isDestructed) return // There was null pointer ex here...
             viewHolder.view.asCS<CSGridItemView<ItemType>>()?.apply {
-                load(data[position].data, position)
+                load(data[position].first, position)
                 updateDisabled()
                 updateSelection()
             }
         }
 
-        override fun getItemViewType(position: Int): Int = data[position].type
+        override fun getItemViewType(position: Int): Int = data[position].second
 
         override fun getItemCount() = data.size
     }
