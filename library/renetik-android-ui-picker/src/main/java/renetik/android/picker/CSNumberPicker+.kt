@@ -14,7 +14,7 @@ import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.fadeIn
-import renetik.android.ui.extensions.view.fadeOut
+import renetik.android.ui.extensions.view.invisible
 import renetik.android.ui.protocol.CSViewInterface
 
 fun CSViewInterface.numberPicker(viewId: Int) = view(viewId) as CSNumberPicker
@@ -56,7 +56,7 @@ fun <Row : Any> CSNumberPicker.load(data: List<Row>, selected: Int = 0) = apply 
             displayedValues = data.asStringArray
         }
         index.value = selected
-    } else fadeOut()
+    } else invisible()
 }
 
 fun <T : NumberPicker> T.circulate(circulate: Boolean) = apply {

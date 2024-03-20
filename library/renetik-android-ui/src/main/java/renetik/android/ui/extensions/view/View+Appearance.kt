@@ -83,7 +83,7 @@ fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
     setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
 }
 
-fun View.enabledByAlphaIf(condition: Boolean, disable: Boolean = true) =
+fun View.enabledByAlpha(condition: Boolean= true, disable: Boolean = true) =
     disabledByAlpha(!condition, disable)
 
 fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
@@ -99,7 +99,7 @@ val Context.disabledAlpha get() = resources.getString(R.string.cs_disabled_alpha
 
 inline fun <T> View.enabledByAlphaIf(
     property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean,
-): CSRegistration = property.action { enabledByAlphaIf(condition(it)) }
+): CSRegistration = property.action { enabledByAlpha(condition(it)) }
 
 fun View.enabledByAlphaIf(property: CSHasChangeValue<Boolean>) =
     enabledByAlphaIf(property) { it }
@@ -130,7 +130,7 @@ inline fun <T> View.enabledByAlphaIf(
 fun <T, V> View.enabledByAlphaIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean,
 ): CSRegistration {
-    fun update() = enabledByAlphaIf(condition(property1.value, property2.value))
+    fun update() = enabledByAlpha(condition(property1.value, property2.value))
     update()
     return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
 }
