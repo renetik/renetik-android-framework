@@ -83,16 +83,16 @@ fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
     setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
 }
 
-fun View.enabledByAlpha(condition: Boolean= true, disable: Boolean = true) =
+fun View.enabledByAlpha(condition: Boolean = true, disable: Boolean = true) =
     disabledByAlpha(!condition, disable)
 
-fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
+fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true, normal: Float = 1F) {
     if (disable) disabledIf(condition)
-    alphaToDisabled(condition)
+    alphaToDisabled(condition, normal)
 }
 
-fun View.alphaToDisabled(value: Boolean = true) {
-    alpha = if (value) context.disabledAlpha else 1F
+fun View.alphaToDisabled(value: Boolean = true, normal: Float = 1F) {
+    alpha = if (value) context.disabledAlpha else normal
 }
 
 val Context.disabledAlpha get() = resources.getString(R.string.cs_disabled_alpha).toFloat()
@@ -139,7 +139,10 @@ fun <T, V> View.disabledByAlphaIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
     disable: Boolean = true, condition: (T, V) -> Boolean,
 ): CSRegistration {
-    fun update() = disabledByAlpha(condition(property1.value, property2.value), disable)
+    val originalAlpha = alpha
+    fun update() = disabledByAlpha(
+        condition(property1.value, property2.value), disable, originalAlpha
+    )
     update()
     return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
 }
