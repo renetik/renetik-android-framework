@@ -13,10 +13,6 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
     var isScrollEnabled = true
     var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
-//    init {
-//        setOnTouchListener { _, _ -> !isScrollEnabled }
-//    }
-
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         val handled = onTouchEvent?.invoke(event) ?: false
         return if (!handled) super.dispatchTouchEvent(event) else true
@@ -26,15 +22,15 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
         return isScrollEnabled && super.onTouchEvent(ev)
     }
 
-    //    override fun onTouchEvent(ev: MotionEvent) = when (ev.action) {
-//        ACTION_DOWN -> isScrollEnabled && super.onTouchEvent(ev)
-//        else -> super.onTouchEvent(ev)
-//    }
-
-    var isInterceptTouchEvent = false
+    var isInterceptTouchEvent = true
+    var isInterceptedTouchEvent = false
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        isInterceptTouchEvent = super.onInterceptTouchEvent(ev)
-        return isInterceptTouchEvent
+        if (!isInterceptTouchEvent) {
+            isInterceptedTouchEvent = false
+            return false
+        }
+        isInterceptedTouchEvent = super.onInterceptTouchEvent(ev)
+        return isInterceptedTouchEvent
     }
 }

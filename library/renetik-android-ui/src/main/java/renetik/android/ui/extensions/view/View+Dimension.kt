@@ -49,12 +49,7 @@ fun <T : View> T.startMargin(value: Int) = apply {
 
 fun <T : View> T.endMargin(value: Int) = apply {
     updateLayoutParams<MarginLayoutParams> {
-        setMargins(
-            leftMargin,
-            topMargin,
-            value,
-            bottomMargin
-        )
+        setMargins(leftMargin, topMargin, value, bottomMargin)
     }
 }
 
@@ -68,15 +63,12 @@ fun <T : View> T.verticalMargin(value: Int) = apply {
     updateLayoutParams<MarginLayoutParams> { setMargins(leftMargin, value, rightMargin, value) }
 }
 
-fun <T : View> T.size(width: Int, height: Int) = apply {
-    width(width)
-    height(height)
-}
+fun <T : View> T.size(width: Int, height: Int) = apply { width(width); height(height) }
 
 fun <T : View> T.size(size: Int) = size(size, size)
 
 fun <T : View> T.width(value: Int) = apply {
-    updateLayoutParams<LayoutParams> { width = value }
+    if (width != value) updateLayoutParams<LayoutParams> { width = value }
 }
 
 fun <T : View> T.width(value: Float) = width(value.toInt())
@@ -89,31 +81,25 @@ fun <T : View> T.widthDp(value: Float) = apply {
 }
 
 fun <T : View> T.height(value: Int) = apply {
-    updateLayoutParams<LayoutParams> { height = value }
+    if (height != value) updateLayoutParams<LayoutParams> { height = value }
 }
 
 fun <T : View> T.height(value: Float) = height(value.toInt())
 
 fun <T : View> T.widthWrap() = apply {
-    updateLayoutParams<LayoutParams> { width = WRAP_CONTENT }
+    if (width != WRAP_CONTENT) updateLayoutParams<LayoutParams> { width = WRAP_CONTENT }
 }
 
 fun <T : View> T.heightWrap() = apply {
-    updateLayoutParams<LayoutParams> { height = WRAP_CONTENT }
+    if (height != WRAP_CONTENT) updateLayoutParams<LayoutParams> { height = WRAP_CONTENT }
 }
 
 fun <T : View> T.matchParent() = apply {
-    updateLayoutParams<LayoutParams> {
-        width = MATCH_PARENT
-        height = MATCH_PARENT
-    }
+    updateLayoutParams<LayoutParams> { width = MATCH_PARENT; height = MATCH_PARENT }
 }
 
 fun <T : View> T.wrapContent() = apply {
-    updateLayoutParams<LayoutParams> {
-        width = WRAP_CONTENT
-        height = WRAP_CONTENT
-    }
+    updateLayoutParams<LayoutParams> { width = WRAP_CONTENT; height = WRAP_CONTENT }
 }
 
 var View.layoutWidth: Int
