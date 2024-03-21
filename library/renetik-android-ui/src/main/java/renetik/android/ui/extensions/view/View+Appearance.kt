@@ -117,9 +117,9 @@ fun View.disabledByAlphaIfNot(
     property: CSHasChangeValue<Boolean>, disable: Boolean = true,
 ) = disabledByAlphaIf(property, disable) { !it }
 
-inline fun <T> View.disabledByAlphaIf(
+fun <T> View.disabledByAlphaIf(
     property: CSHasChangeValue<T>, disable: Boolean = true,
-    crossinline condition: (T) -> Boolean,
+    condition: (T) -> Boolean,
 ): CSRegistration = property.action { disabledByAlpha(condition(it), disable) }
 
 inline fun <T> View.enabledByAlphaIf(
