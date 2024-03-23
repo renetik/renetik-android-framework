@@ -9,8 +9,6 @@ import renetik.android.ui.R
 import renetik.android.ui.extensions.view.findView
 import renetik.android.ui.extensions.view.propertyWithTag
 
-fun View.radioGroup(@IdRes id: Int) = findView<RadioGroup>(id)!!
-
 val <T : RadioGroup> T.eventChange
     get() = propertyWithTag(R.id.ViewEventOnScrollTag) { event<Int>() }
 

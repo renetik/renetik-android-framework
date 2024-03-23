@@ -4,9 +4,7 @@ import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Button
 import android.widget.CompoundButton
-import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
@@ -17,11 +15,10 @@ import renetik.android.event.common.destruct
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.cancel
-import renetik.android.event.registration.registerListenOnce
 import renetik.android.event.registration.plus
+import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.CSDisplayCutout
 import renetik.android.ui.extensions.view.afterGlobalLayout
-import renetik.android.ui.extensions.view.button
 import renetik.android.ui.extensions.view.checkBox
 import renetik.android.ui.extensions.view.compound
 import renetik.android.ui.extensions.view.datePicker
@@ -49,8 +46,6 @@ import renetik.android.ui.extensions.view.timePicker
 import renetik.android.ui.extensions.view.view
 import renetik.android.ui.extensions.view.viewGroup
 import renetik.android.ui.extensions.view.webView
-import renetik.android.ui.extensions.widget.onChange
-import renetik.android.ui.extensions.widget.radioGroup
 import renetik.android.ui.protocol.CSViewInterface
 
 fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
@@ -58,12 +53,11 @@ fun <T : View> CSViewInterface.findView(@IdRes id: Int): T? = view.findView(id)
 @JvmName("viewOfType")
 inline fun <reified Type : View> CSViewInterface.view(
     @IdRes id: Int, noinline onClick: ((view: View) -> Unit)? = null
-): Type = view.findViewById<Type>(id)!!.apply { onClick?.let { this.onClick(it) } }
+): Type = view.findViewById<Type>(id)!!.apply { onClick?.let { onClick { it(this) } } }
 
 fun CSViewInterface.view(
     @IdRes id: Int, onClick: ((view: View) -> Unit)? = null
-): View =
-    view.view(id).apply { onClick?.let { this.onClick(it) } }
+): View = view.view(id).apply { onClick?.let { onClick { it(this) } } }
 
 fun CSViewInterface.viewOrNull(@IdRes id: Int): View? = view.findView(id)
 
@@ -74,10 +68,10 @@ fun CSViewInterface.simpleView(@IdRes id: Int) = view.view(id)
 fun CSViewInterface.editText(@IdRes id: Int) = view.editText(id)
 
 fun CSViewInterface.textView(@IdRes id: Int, onClick: ArgFunc<View>? = null) =
-    view.textView(id).apply { onClick?.let { this.onClick(it) } }
+    view.textView(id).apply { onClick?.let { onClick { it(this) } } }
 
 fun CSViewInterface.textViewOrNull(@IdRes id: Int, onClick: ArgFunc<View>? = null) =
-    view.findView<TextView>(id)?.apply { onClick?.let { this.onClick(it) } }
+    view.findView<TextView>(id)?.apply { onClick?.let { onClick { it(this) } } }
 
 fun CSViewInterface.scrollView(@IdRes id: Int) = view.scrollView(id)
 fun CSViewInterface.horizontalScroll(@IdRes id: Int) =
@@ -95,11 +89,6 @@ fun CSViewInterface.linear(@IdRes id: Int) = view.linear(id)
 fun CSViewInterface.group(@IdRes id: Int) = view.group(id)
 fun CSViewInterface.spinner(@IdRes id: Int) = view.spinner(id)
 fun CSViewInterface.search(@IdRes id: Int) = view.search(id)
-fun CSViewInterface.button(
-    @IdRes id: Int,
-    onClick: ((view: Button) -> Unit)? = null
-) =
-    view.button(id).apply { onClick?.let { this.onClick(it) } }
 
 fun CSViewInterface.compound(@IdRes id: Int): CompoundButton = view.compound(id)
 
@@ -109,15 +98,10 @@ fun CSViewInterface.webView(@IdRes id: Int) = view.webView(id)
 
 fun CSViewInterface.imageView(
     @IdRes id: Int, onClick: ArgFunc<View>? = null
-) = view.imageView(id).apply { onClick?.let { this.onClick(it) } }
+) = view.imageView(id).apply { onClick?.let { onClick { it(this) } } }
 
 fun CSViewInterface.seekBar(@IdRes id: Int) = view.seekBar(id)
 fun CSViewInterface.progress(@IdRes id: Int) = view.progress(id)
-fun CSViewInterface.radioGroup(
-    @IdRes id: Int,
-    onChange: ((buttonId: Int) -> Unit)? = null
-): RadioGroup =
-    view.radioGroup(id).apply { onChange?.let { this.onChange(it) } }
 
 fun <Type : CSViewInterface> Type.removeFromSuperview() = apply {
     if (!isDestructed) view.removeFromSuperview()

@@ -16,7 +16,25 @@ import android.view.MotionEvent.obtain
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import android.widget.*
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.CompoundButton
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.HorizontalScrollView
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ListView
+import android.widget.NumberPicker
+import android.widget.ProgressBar
+import android.widget.RadioButton
+import android.widget.ScrollView
+import android.widget.SeekBar
+import android.widget.Spinner
+import android.widget.Switch
+import android.widget.TextView
+import android.widget.TimePicker
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -29,7 +47,6 @@ import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.start
-import renetik.android.event.registration.*
 import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
@@ -52,7 +69,6 @@ fun View.linear(@IdRes id: Int) = findView<LinearLayout>(id)!!
 fun View.group(@IdRes id: Int) = findView<ViewGroup>(id)!!
 fun View.spinner(@IdRes id: Int) = findView<Spinner>(id)!!
 fun View.search(@IdRes id: Int) = findView<SearchView>(id)!!
-fun View.button(@IdRes id: Int) = findView<Button>(id)!!
 fun View.compound(@IdRes id: Int) = findView<CompoundButton>(id)!!
 fun View.checkBox(@IdRes id: Int) = findView<CheckBox>(id)!!
 fun View.switch(@IdRes id: Int) = findView<Switch>(id)!!
@@ -76,8 +92,8 @@ fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(
 fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
     ?: parentView?.findViewRecursive(id)
 
-fun <T : View> T.onClick(onClick: (view: T) -> Unit) =
-    apply { setOnClickListener(CSClickAdapter { onClick(this) }) }
+fun <T : View> T.onClick(timeout: Int? = null, onClick: (view: T) -> Unit) =
+    apply { setOnClickListener(CSClickAdapter(timeout) { onClick(this) }) }
 
 fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) =
     apply { setOnLongClickListener { onClick(this); true } }
