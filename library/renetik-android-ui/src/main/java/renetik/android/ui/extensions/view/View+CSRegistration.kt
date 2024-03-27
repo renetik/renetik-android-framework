@@ -14,9 +14,15 @@ import renetik.android.core.lang.variable.toggle
 import renetik.android.core.lang.void
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.*
-import renetik.android.event.registration.action
+import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasRegistrations
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.action
+import renetik.android.event.registration.cancel
+import renetik.android.event.registration.onChange
+import renetik.android.event.registration.plus
+import renetik.android.event.registration.start
 import renetik.android.ui.R
 
 fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
@@ -113,7 +119,7 @@ inline fun View.onHasSize(
 fun View.onScrollChange(function: (view: View) -> Unit): CSRegistration =
     eventScrollChange.listen(function)
 
-private val View.eventScrollChange
+val View.eventScrollChange
     get() = propertyWithTag(R.id.ViewEventOnScrollTag) {
         event<View>().also { setOnScrollChangeListener { _, _, _, _, _ -> it.fire(this) } }
     }

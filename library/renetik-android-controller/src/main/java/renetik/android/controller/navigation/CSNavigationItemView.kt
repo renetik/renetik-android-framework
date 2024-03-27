@@ -30,7 +30,7 @@ import renetik.android.event.registration.plus
 import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
-import renetik.android.ui.extensions.registerAfterGlobalLayout
+import renetik.android.ui.extensions.registerAfterLayout
 import renetik.android.ui.extensions.registerHasSize
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.background
@@ -203,6 +203,6 @@ open class CSNavigationItemView(
     fun wrapContentIfNotFullscreen() {
         if (isFullScreen) return
         viewContent.heightWrap()
-        registerAfterGlobalLayout(::correctContentOverflow)
+        registerAfterLayout(::correctContentOverflow)
     }
 }

@@ -107,7 +107,7 @@ fun <Type : CSViewInterface> Type.removeFromSuperview() = apply {
     if (!isDestructed) view.removeFromSuperview()
 }
 
-fun CSViewInterface.registerAfterGlobalLayout(function: () -> Unit): CSRegistration {
+fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
     registration = this + view.afterGlobalLayout {
         cancel(registration)

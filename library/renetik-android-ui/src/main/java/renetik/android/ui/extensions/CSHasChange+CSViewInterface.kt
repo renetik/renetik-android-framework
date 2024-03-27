@@ -15,7 +15,7 @@ inline fun <Argument> CSHasChange<Argument>.onChangeAfterLayout(
     val registrations = CSRegistrationsList(this)
     val laterOnceFunction = registrations.laterOnce { function() }
     registrations.register(onChange {
-        registrations.register(parent.registerAfterGlobalLayout {
+        registrations.register(parent.registerAfterLayout {
             laterOnceFunction()
         })
     })

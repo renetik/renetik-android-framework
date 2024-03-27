@@ -14,7 +14,7 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.cancel
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
-import renetik.android.ui.extensions.registerAfterGlobalLayout
+import renetik.android.ui.extensions.registerAfterLayout
 import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onLongClick
@@ -69,7 +69,7 @@ fun CSView<*>.onOrientationChange(
         override fun onOrientationChanged(orientation: Int) {
             if (afterGlobalLayoutRegistration?.isActive.isTrue)
                 cancel(afterGlobalLayoutRegistration)
-            afterGlobalLayoutRegistration = registerAfterGlobalLayout {
+            afterGlobalLayoutRegistration = registerAfterLayout {
                 if (this@onOrientationChange.orientation != currentOrientation) {
                     currentOrientation = this@onOrientationChange.orientation
                     function(this@onOrientationChange.orientation)
