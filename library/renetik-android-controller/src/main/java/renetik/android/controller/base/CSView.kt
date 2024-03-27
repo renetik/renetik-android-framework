@@ -8,7 +8,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.view.ContextThemeWrapper
 import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
-import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.logging.CSLog.logErrorTrace
@@ -143,12 +142,13 @@ open class CSView<ViewType : View> : CSContext,
 
     override fun onDestruct() {
         super.onDestruct()
+        // View doesn't have to be created in some cases
         _view?.let {
             if (it.tag == this) {
                 it.tag = "tag instance of $className removed, onDestroy called"
                 it.onDestroy()
             }
             _view = null
-        } ?: unexpected()
+        }
     }
 }
