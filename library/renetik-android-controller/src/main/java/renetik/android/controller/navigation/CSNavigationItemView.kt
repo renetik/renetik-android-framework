@@ -68,7 +68,7 @@ open class CSNavigationItemView(
         val frameLayout = if (isFullScreen)
             (fullScreenFrameLayout ?: frameLayout) else frameLayout
         (frameLayout?.let { inflate<FrameLayout>(it).apply { add<View>(viewLayout) } }
-            ?: inflate<View>(viewLayout)).apply { passClicksUnder(false) }
+            ?: inflate<View>(viewLayout)).passClicksUnder(false)
     }
 
     final override var isFullScreen = false
@@ -105,7 +105,7 @@ open class CSNavigationItemView(
 
     override fun onViewShowingFirstTime() {
         super.onViewShowingFirstTime()
-        view.onClick { if (dismissOnTouchOut) onBackgroundClick() }
+        if (dismissOnTouchOut) view.onClick { onBackgroundClick() }
     }
 
     protected open fun onBackgroundClick() = dismiss()
