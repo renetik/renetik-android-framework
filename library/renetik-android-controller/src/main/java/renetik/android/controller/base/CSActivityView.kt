@@ -30,7 +30,6 @@ import renetik.android.ui.protocol.CSVisibility
 
 open class CSActivityView<ViewType : View>
     : CSView<ViewType>, CSActivityViewInterface, LifecycleOwner, CSHasRegistrations {
-
     override val eventResume by lazy { event<Unit>() }
     override val eventPause by lazy { event<Unit>() }
     override val eventBack by lazy { event<CSVariable<Boolean>>() }

@@ -1,5 +1,7 @@
 package renetik.android.controller.base
 
+import android.view.View
+import androidx.annotation.IdRes
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -22,4 +24,11 @@ fun CSActivityView<*>.onResume(listener: Func) = eventResume.listen { listener()
 fun CSActivityView<*>.onPause(listener: Func) = eventPause.listen { listener() }
 
 val CSActivityView<*>.isPaused get() = !isResumed
-//val statusBarHeight get() =  activity().activityView!!.view.locationOnScreen.y
+
+fun <T : View> CSActivityView<*>.activityView(
+    @IdRes viewId: Int, init: (CSActivityView<T>).() -> Unit
+): CSActivityView<T> = object : CSActivityView<T>(this, viewId) {
+    init {
+        init()
+    }
+}
