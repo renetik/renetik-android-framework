@@ -45,9 +45,8 @@ fun <ViewType : View> ViewGroup.add(
     return view
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.add(@LayoutRes layoutId: Int, index: Int = -1) =
-    add(from(context).inflate(layoutId, this, false) as ViewType, index)
+    add(inflate(layoutId) as ViewType, index)
 
 @Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.add(
