@@ -22,15 +22,15 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
         return isScrollEnabled && super.onTouchEvent(ev)
     }
 
-    var isInterceptTouchEvent = true
-    var isInterceptedTouchEvent = false
+    var isInterceptTouch = true
+    var isInterceptedTouch = false
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        if (!isInterceptTouchEvent) {
-            isInterceptedTouchEvent = false
+        if (!isInterceptTouch) {
+            isInterceptedTouch = false
             return false
         }
-        isInterceptedTouchEvent = super.onInterceptTouchEvent(ev)
-        return isInterceptedTouchEvent
+        isInterceptedTouch = super.onInterceptTouchEvent(ev)
+        return isInterceptedTouch
     }
 }
