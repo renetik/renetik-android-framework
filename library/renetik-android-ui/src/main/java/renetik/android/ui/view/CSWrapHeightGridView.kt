@@ -10,6 +10,7 @@ import android.widget.GridView
 
 // !!! Items in grid view has to have fixed height otherwise
 // it doesn't compute right height for WRAP_CONTENT
+@Deprecated("Can be replaced by recycler view everywhere")
 class CSWrapHeightGridView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0

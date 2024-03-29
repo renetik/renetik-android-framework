@@ -56,6 +56,9 @@ fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T?>) = apply {
     selectedItem.value(property.value)
 }
 
+val CSRecyclerView<*>.columnCount: Int
+    get() = (view.layoutManager as? GridLayoutManager)?.spanCount ?: 1
+
 fun <ItemType : Any> CSRecyclerView<ItemType>.sectionGridLayout(
     columnsCount: Int, headerId: Int,
 ) = apply {
