@@ -1,7 +1,7 @@
 package renetik.android.controller.view.grid
 
-data class SectionViewItem<Item>(
-    val section: String? = null,
+data class SectionViewItem<Section, Item>(
+    val section: Section,
     val index: Int,
     val item: Item? = null
 ) {
