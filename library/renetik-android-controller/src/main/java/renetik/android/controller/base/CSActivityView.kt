@@ -12,8 +12,8 @@ import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
+import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.CSVariable
-import renetik.android.core.lang.variable.isTrue
 import renetik.android.core.logging.CSLog.logWarnTrace
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
@@ -170,16 +170,16 @@ open class CSActivityView<ViewType : View>
         if (!isResumed) return false
         if (!view.isVisible) return false
         if (showingInPager == false) return false
-        if (isShowingInPager && parentActivityView?.let { it.isVisible.isTrue } == true) return true
+        if (isShowingInPager && parentActivityView?.isVisible.isTrue) return true
         if (isShowingInPager && navigation?.last == this) return true
-        if (parentActivityView?.let { it.isVisible.isTrue } == false) return false
+        if (parentActivityView?.isVisible.isTrue) return false
         return view.isShowing()
     }
 
     val isShowingInPager get() = showingInPager == true
 
     private fun onViewVisibilityChanged(showing: Boolean) {
-        if (isVisible.isTrue == showing) return
+        if (isVisible.value == showing) return
         isVisible.value(showing)
         if (isVisible.isTrue) onViewShowing() else onViewHiding()
     }
