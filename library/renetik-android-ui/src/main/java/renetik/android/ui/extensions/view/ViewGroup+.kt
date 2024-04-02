@@ -1,11 +1,11 @@
 package renetik.android.ui.extensions.view
 
-import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.core.view.iterator
+import renetik.android.ui.extensions.inflate
 import renetik.android.ui.protocol.CSHasParentView
 
 operator fun ViewGroup.get(index: Int): View = getChildAt(index)
@@ -48,18 +48,15 @@ fun <ViewType : View> ViewGroup.add(
 fun <ViewType : View> ViewGroup.add(@LayoutRes layoutId: Int, index: Int = -1) =
     add(inflate(layoutId) as ViewType, index)
 
-@Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.add(
     @LayoutRes layoutId: Int,
     layout: ViewGroup.LayoutParams, index: Int = -1
-) =
-    add(from(context).inflate(layoutId, this, false) as ViewType, layout, index)
+) = add(context.inflate(layoutId, this) as ViewType, layout, index)
 
 fun ViewGroup.removeAt(index: Int): View = getChildAt(index).also { removeViewAt(index) }
 
-@Suppress("UNCHECKED_CAST")
 fun <ViewType : View> ViewGroup.inflate(@LayoutRes layoutId: Int): ViewType =
-    from(context).inflate(layoutId, this, false) as ViewType
+    context.inflate(layoutId, this) as ViewType
 
 fun <T : ViewGroup> T.remove(view: View) = apply {
     removeView(view)
