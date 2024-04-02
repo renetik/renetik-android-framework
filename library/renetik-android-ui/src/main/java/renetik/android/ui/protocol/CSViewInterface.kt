@@ -12,8 +12,8 @@ interface CSViewInterface : CSHasContext {
         var themeOverride: Int? = null
 
         fun context(context: Context): Context {
-            if (context is ContextThemeWrapper) return context
-            return themeOverride?.let { ContextThemeWrapper(context, it) } ?: context
+            if ((context as? CSContextThemeWrapper)?.themeResId == themeOverride) return context
+            return themeOverride?.let { CSContextThemeWrapper(context, it) } ?: context
         }
 
         fun context(context: CSHasContext): Context = context(context.context)
@@ -21,3 +21,7 @@ interface CSViewInterface : CSHasContext {
 
     val view: View
 }
+
+class CSContextThemeWrapper(
+    context: Context, @StyleRes val themeResId: Int
+) : ContextThemeWrapper(context, themeResId)
