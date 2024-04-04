@@ -8,9 +8,9 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.cancel
 import renetik.android.event.registration.laterEach
+import renetik.android.event.registration.onFalse
 import renetik.android.event.registration.onTrue
 import renetik.android.event.registration.plus
-import renetik.android.event.registration.register
 import renetik.android.event.registration.start
 import kotlin.time.Duration
 
@@ -43,20 +43,30 @@ fun <T> T.untilHide(registration: CSRegistration): CSRegistration
 
 fun <T> T.registerUntilShow(registration: CSRegistration): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility {
-    this + registration
-    register(onShowing { onShowingRegistration ->
-        cancel(onShowingRegistration)
-        cancel(registration)
-    })
+    untilShow(this + registration)
     return registration
 }
 
 @JvmName("registerUntilShowRegistrationNullable")
 fun <T> T.registerUntilShow(registration: CSRegistration?): CSRegistration?
+        where T : CSHasRegistrations, T : CSVisibility =
+    registration?.let { registerUntilShow(it) }
+
+@JvmName("untilShowRegistrationNullable")
+fun <T> T.untilShow(registration: CSRegistration?): CSRegistration?
+        where T : CSHasRegistrations, T : CSVisibility = registration?.let(::untilShow)
+
+fun <T> T.onHideUntilShow(registration: () -> CSRegistration)
         where T : CSHasRegistrations, T : CSVisibility {
-    if (registration == null) return null
-    return registerUntilShow(registration)
+    isVisible.onFalse { untilShow(registration()) }
 }
+
+fun <T> T.untilShow(registration: CSRegistration): CSRegistration
+        where T : CSHasRegistrations, T : CSVisibility =
+    onShowing { onShowingRegistration ->
+        onShowingRegistration.cancel()
+        cancel(registration)
+    }
 
 fun <T> T.laterEachIfShowing(period: Duration, function: Func): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility =

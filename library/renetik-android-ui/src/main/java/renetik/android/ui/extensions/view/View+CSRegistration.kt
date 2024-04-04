@@ -101,7 +101,7 @@ fun View.onBoundsChange(function: ArgFunc<CSRegistration>): CSRegistration {
 fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
     onBoundsChange { if (hasSize) function() }
 
-inline fun View.onHasSize(
+inline fun View.registerOnHasSize(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration? {
     if (!hasSize) {

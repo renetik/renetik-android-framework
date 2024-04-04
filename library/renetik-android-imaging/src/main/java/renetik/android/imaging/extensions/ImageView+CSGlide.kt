@@ -13,8 +13,7 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.action
-import renetik.android.ui.extensions.view.onHasSize
+import renetik.android.ui.extensions.view.registerOnHasSize
 import renetik.android.ui.protocol.CSViewInterface
 import java.io.File
 
@@ -49,7 +48,7 @@ private fun <T : ImageView> T.image(
     parent: CSHasRegistrations, file: File,
     transformation: Transformation<Bitmap>? = null
 ): CSRegistration? =
-    onHasSize(parent) {
+    registerOnHasSize(parent) {
         val builder = Glide.with(context).asBitmap().load(file)
             .override(width, height)
             .signature(ObjectKey(file.lastModified()))
