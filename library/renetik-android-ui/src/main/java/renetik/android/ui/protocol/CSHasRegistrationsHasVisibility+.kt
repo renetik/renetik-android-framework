@@ -69,12 +69,14 @@ fun <T> T.untilShow(registration: CSRegistration): CSRegistration
         cancel(registration)
     }
 
-fun <T> T.actionShowUntilHide(vararg registration: CSRegistration)
+fun <T> T.actionShowUntilHide(registrations: () -> Array<CSRegistration>)
         where T : CSHasRegistrations, T : CSVisibility {
     isVisible.actionTrue {
-        onHiding { onHidingRegistration ->
-            onHidingRegistration.cancel()
-            registration.forEach(::cancel)
+        registrations().also {
+            onHiding { onHidingRegistration ->
+                onHidingRegistration.cancel()
+                it.forEach(::cancel)
+            }
         }
     }
 }
