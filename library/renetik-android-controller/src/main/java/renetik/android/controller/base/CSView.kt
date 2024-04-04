@@ -11,15 +11,19 @@ import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVa
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
+import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.extensions.view
+import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.extensions.view.onDestroy
+import renetik.android.ui.extensions.view.shownIf
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSViewInterface.Companion.context
+import renetik.android.ui.protocol.CSVisibility
 
 open class CSView<ViewType : View> : CSContext,
-    CSHasParentView, CSViewInterface {
+    CSHasParentView, CSViewInterface, CSVisibility {
 
     var lifecycleStopOnRemoveFromParentView = true
 
@@ -27,6 +31,8 @@ open class CSView<ViewType : View> : CSContext,
 
     @IdRes
     private val viewId: Int?
+
+    override val isVisible by lazy { property(view.isVisible, view::shownIf) }
 
     var parentView: CSViewInterface? = null
         private set

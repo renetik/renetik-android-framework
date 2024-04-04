@@ -1,3 +1,5 @@
+package renetik.android.controller.view.grid
+
 import android.content.Context
 import android.util.DisplayMetrics
 import androidx.recyclerview.widget.LinearSmoothScroller

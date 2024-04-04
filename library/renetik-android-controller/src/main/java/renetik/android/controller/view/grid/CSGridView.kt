@@ -12,11 +12,8 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.plus
-import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.disabledByAlpha
-import renetik.android.ui.extensions.view.fadeIn
-import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.onClick
 
 @Deprecated("Replace with CSRecyclerView")
@@ -41,7 +38,6 @@ class CSGridView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
 
     fun reload() {
         listAdapter.notifyDataSetChanged()
-        updateEmptyView()
     }
 
     val eventItemSelected = event<ViewType>()
@@ -107,21 +103,15 @@ class CSGridView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
             else eventItemSelected.fire(this)
         } else eventItemReSelected.fire(this)
 
-    private var emptyView: View? = null
-    fun emptyView(id: Int) = apply { emptyView = parentView?.findView(id) }
-    private fun updateEmptyView() {
-        emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
-    }
-
-//    fun scrollToActive(smooth: Boolean = true) = apply {
-//        view.scrollToIndex(data.indexOf(selectedItem.value), smooth)
-//    }
-
     inner class Adapter : BaseAdapter() {
-        override fun getCount() = data.size
+        override fun getCount() =
+            data.size
+
         override fun getViewTypeCount() = 1
         override fun isEnabled(position: Int) = true
-        override fun getItem(position: Int) = data[position]
+        override fun getItem(position: Int) =
+            data[position]
+
         override fun getItemViewType(position: Int) = 0
         override fun getItemId(position: Int) = position.toLong()
         override fun getView(position: Int, toReuseView: View?, parent: ViewGroup) =

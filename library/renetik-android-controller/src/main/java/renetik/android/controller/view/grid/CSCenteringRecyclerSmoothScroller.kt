@@ -1,3 +1,5 @@
+package renetik.android.controller.view.grid
+
 import android.content.Context
 import renetik.android.ui.extensions.view.mediumAnimationDuration
 

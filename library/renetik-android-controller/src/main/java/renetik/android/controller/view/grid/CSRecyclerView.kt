@@ -1,6 +1,5 @@
 package renetik.android.controller.view.grid
 
-import CSCenteringRecyclerSmoothScroller
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,12 @@ import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.plus
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.findView
-import renetik.android.ui.extensions.view.*
+import renetik.android.ui.extensions.view.alphaToDisabled
+import renetik.android.ui.extensions.view.disabledByAlpha
+import renetik.android.ui.extensions.view.fadeIn
+import renetik.android.ui.extensions.view.fadeOut
+import renetik.android.ui.extensions.view.mediumAnimationDuration
+import renetik.android.ui.extensions.view.shortAnimationDuration
 
 class CSRecyclerView<ItemType : Any>(
     parent: CSActivityView<*>, viewId: Int,
@@ -31,7 +35,6 @@ class CSRecyclerView<ItemType : Any>(
         parent: CSActivityView<*>, viewId: Int,
         createView: (CSRecyclerView<ItemType>, parent: ViewGroup) -> CSGridItemView<ItemType>
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent, group) })
-
 
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = list<Pair<ItemType, Int>>()
