@@ -5,6 +5,7 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
 import android.view.View
 import renetik.android.core.kotlin.primitives.dp
+import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.BottomToTop
@@ -15,8 +16,8 @@ import kotlin.math.abs
 
 class CSSwipeDetector(
     view: View,
-    private val minDistance: Int = 30.dp,
-    function: (CSSwipeType) -> Unit,
+    private val distance: Int = 30.dp,
+    action: (CSSwipeType) -> Unit,
 ) : View.OnTouchListener {
 
     private var downX = 0F
@@ -27,7 +28,7 @@ class CSSwipeDetector(
 
     init {
         view.setOnTouchListener(this)
-        eventSwipe.listen(function)
+        eventSwipe.listen(action)
     }
 
     enum class CSSwipeType {
@@ -36,22 +37,22 @@ class CSSwipeDetector(
 
     private fun onBottomToTopSwipe() {
         eventSwipe.fire(BottomToTop)
-        logInfo()
+        logDebug()
     }
 
     private fun onLeftToRightSwipe() {
         eventSwipe.fire(LeftToRight)
-        logInfo()
+        logDebug()
     }
 
     private fun onRightToLeftSwipe() {
         eventSwipe.fire(RightToLeft)
-        logInfo()
+        logDebug()
     }
 
     private fun onTopToBottomSwipe() {
         eventSwipe.fire(TopToBottom)
-        logInfo()
+        logDebug()
     }
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
@@ -61,15 +62,15 @@ class CSSwipeDetector(
                 downY = event.y
                 return true
             }
+
             ACTION_MOVE -> {
                 upX = event.x
                 upY = event.y
 
                 val deltaX = downX - upX
-                val deltaY = downY - upY
 
                 // swipe horizontal?
-                if (abs(deltaX) > minDistance) {
+                if (abs(deltaX) > distance) {
                     // left or right
                     if (deltaX < 0) {
                         onLeftToRightSwipe()
@@ -80,12 +81,14 @@ class CSSwipeDetector(
                         return true
                     }
                 } else
-                    logInfo {
+                    logDebug {
                         "Swipe was only ${abs(deltaX)} long, " +
-                            "need at least $minDistance"
+                                "need at least $distance"
                     }
+
+                val deltaY = downY - upY
                 // swipe vertical?
-                if (abs(deltaY) > minDistance) {
+                if (abs(deltaY) > distance) {
                     // top or down
                     if (deltaY < 0) {
                         onTopToBottomSwipe()
@@ -96,9 +99,9 @@ class CSSwipeDetector(
                         return true
                     }
                 } else {
-                    logInfo {
+                    logDebug {
                         "Swipe was only ${abs(deltaX)} long, " +
-                            "need at least $minDistance"
+                                "need at least $distance"
                     }
                     view.performClick()
                 }
