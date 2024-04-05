@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.StyleRes
 import renetik.android.event.common.CSHasContext
 
-interface CSViewInterface : CSHasContext {
+interface CSViewInterface : CSHasContext, CSVisibility {
     companion object {
         @StyleRes
         var themeOverride: Int? = null

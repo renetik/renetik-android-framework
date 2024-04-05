@@ -1,7 +1,5 @@
 package renetik.android.controller.view.grid
 
-import androidx.recyclerview.widget.GridLayoutManager
-import renetik.android.core.extensions.content.displayWidth
 import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
@@ -54,31 +52,6 @@ fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T?>) = apply {
         selectedItemRegistration.paused { selectedItem.value(property.value) }
     }
     selectedItem.value(property.value)
-}
-
-val CSRecyclerView<*>.columnCount: Int
-    get() = (view.layoutManager as? GridLayoutManager)?.spanCount ?: 1
-
-fun <ItemType : Any> CSRecyclerView<ItemType>.sectionGridLayout(
-    columnsCount: Int, headerId: Int,
-) = apply {
-    val layoutManager = GridLayoutManager(this, columnsCount)
-    layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-        override fun getSpanSize(position: Int): Int {
-            if (isDestructed) return 0
-            return if (view.adapter?.getItemViewType(position) == headerId)
-                columnsCount else 1
-        }
-    }
-    view.layoutManager = layoutManager
-}
-
-fun <ItemType : Any> CSRecyclerView<ItemType>.autoFitGridLayout(columnWidth: Int) = apply {
-    view.layoutManager = GridLayoutManager(this, displayWidth / columnWidth)
-}
-
-fun <ItemType : Any> CSRecyclerView<ItemType>.columnLayout(columnsCount: Int) = apply {
-    view.layoutManager = GridLayoutManager(this, columnsCount)
 }
 
 

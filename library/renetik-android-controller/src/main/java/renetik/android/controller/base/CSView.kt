@@ -8,10 +8,13 @@ import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
+import renetik.android.core.lang.value.isTrue
+import renetik.android.core.lang.variable.CSVariable.Companion.variable
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.isVisible
@@ -20,10 +23,9 @@ import renetik.android.ui.extensions.view.shownIf
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSViewInterface.Companion.context
-import renetik.android.ui.protocol.CSVisibility
 
 open class CSView<ViewType : View> : CSContext,
-    CSHasParentView, CSViewInterface, CSVisibility {
+    CSHasParentView, CSViewInterface {
 
     var lifecycleStopOnRemoveFromParentView = true
 
@@ -34,11 +36,10 @@ open class CSView<ViewType : View> : CSContext,
 
     override val isVisible by lazy { property(view.isVisible, view::shownIf) }
 
-    var parentView: CSViewInterface? = null
-        private set
+    var parentView: CSViewInterface by variable()
 
     private var group: ViewGroup? by lazyNullableVar {
-        parentView?.view as? ViewGroup ?: (parentView as? CSView<*>)?.group
+        parentView.view as? ViewGroup ?: (parentView as? CSView<*>)?.group
     }
 
     private var _view: ViewType? = null
@@ -85,10 +86,10 @@ open class CSView<ViewType : View> : CSContext,
                 _view != null -> return _view!!
                 isDestructed -> logErrorTrace { "$className $this Already destroyed" }
                 layout != null -> setView(inflate(layout.id))
-                viewId != null -> setView(parentView!!.view<View>(viewId) as ViewType)
+                viewId != null -> setView(parentView.view<View>(viewId) as ViewType)
                 else -> createView()?.let { setView(it) }
                     ?: run {
-                        (parentView?.view as? ViewType)?.let {
+                        (parentView.view as? ViewType)?.let {
                             _view = it
                             onViewReady()
                         }

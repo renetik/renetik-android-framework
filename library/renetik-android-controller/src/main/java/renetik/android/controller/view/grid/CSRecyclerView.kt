@@ -106,7 +106,7 @@ class CSRecyclerView<ItemType : Any>(
     }
 
     private var emptyView: View? = null
-    fun emptyView(id: Int) = apply { emptyView = parentView?.findView(id) }
+    fun emptyView(id: Int) = apply { emptyView = parentView.findView(id) }
     private fun updateEmptyView() {
         emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
     }
