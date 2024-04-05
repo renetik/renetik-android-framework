@@ -49,7 +49,7 @@ class CSGridLayout(
 class CSRecyclerLayout(
     parent: CSActivityView<*>, viewId: Int,
 ) : CSView<RecyclerView>(parent, viewId) {
-    private val items = mutableListOf<CSView<*>>()
+     val items = mutableListOf<CSView<*>>()
     private var adapter = Adapter().also { view.adapter = it }
 
     fun reload(vararg items: CSView<*>) = reload(items.toList())
