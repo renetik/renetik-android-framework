@@ -13,6 +13,7 @@ import renetik.android.controller.view.grid.CSRecyclerLayout.Adapter.ViewHolder
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.collections.reload
 import renetik.android.ui.extensions.set
+import renetik.android.ui.protocol.CSViewInterface
 
 class CSGridLayout(
     parent: CSActivityView<*>, viewId: Int,
@@ -47,9 +48,9 @@ class CSGridLayout(
 
 @SuppressLint("NotifyDataSetChanged")
 class CSRecyclerLayout(
-    parent: CSActivityView<*>, viewId: Int,
+    parent: CSViewInterface, viewId: Int,
 ) : CSView<RecyclerView>(parent, viewId) {
-     val items = mutableListOf<CSView<*>>()
+    val items = mutableListOf<CSView<*>>()
     private var adapter = Adapter().also { view.adapter = it }
 
     fun reload(vararg items: CSView<*>) = reload(items.toList())
