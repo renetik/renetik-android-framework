@@ -13,7 +13,7 @@ import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
-import renetik.android.event.registration.actionChild
+import renetik.android.event.registration.childAction
 import renetik.android.event.registration.actionNullableChild
 import renetik.android.ui.extensions.view.goneIf
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
@@ -52,7 +52,7 @@ inline fun <T, V> TextView.text(
     parent: CSHasChangeValue<T>,
     crossinline child: (T) -> CSHasChangeValue<V>,
     noinline text: (V) -> Any
-): CSRegistration = parent.actionChild(child, onChange = { value(text(it)) })
+): CSRegistration = parent.childAction(child, action = { value(text(it)) })
 
 inline fun <T, V> TextView.textNullableChild(
     parent: CSHasChangeValue<T>,
