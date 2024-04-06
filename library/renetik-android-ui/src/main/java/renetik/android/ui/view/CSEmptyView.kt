@@ -17,6 +17,7 @@ import renetik.android.ui.R.styleable.CSLayout_goneIfHeightUntil
 import renetik.android.ui.R.styleable.CSLayout_goneIfWidthUntil
 import renetik.android.ui.R.styleable.CSLayout_maxWidth
 import renetik.android.ui.R.styleable.CSLayout_minWidth
+import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.goneIf
 import renetik.android.ui.extensions.view.windowRectangle
 
@@ -48,9 +49,9 @@ open class CSEmptyView @JvmOverloads constructor(
             it.recycle()
         }
         if (goneIfWidthUntil != -1)
-            goneIf(windowRectangle.width <= goneIfWidthUntil)
+            gone(windowRectangle.width <= goneIfWidthUntil)
         else if (goneIfHeightUntil != -1)
-            goneIf(windowRectangle.height <= goneIfHeightUntil)
+            gone(windowRectangle.height <= goneIfHeightUntil)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

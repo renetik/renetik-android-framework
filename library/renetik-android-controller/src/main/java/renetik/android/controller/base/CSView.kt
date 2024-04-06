@@ -8,18 +8,16 @@ import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
-import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.CSVariable.Companion.variable
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.extensions.view.onDestroy
-import renetik.android.ui.extensions.view.shownIf
+import renetik.android.ui.extensions.view.show
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSViewInterface.Companion.context
@@ -34,7 +32,7 @@ open class CSView<ViewType : View> : CSContext,
     @IdRes
     private val viewId: Int?
 
-    override val isVisible by lazy { property(view.isVisible, view::shownIf) }
+    override val isVisible by lazy { property(view.isVisible, view::show) }
 
     var parentView: CSViewInterface by variable()
 

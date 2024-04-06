@@ -5,7 +5,7 @@ import renetik.android.event.property.CSProperty
 import renetik.android.core.lang.CSCondition
 import renetik.android.core.lang.CSCondition.Factory.condition
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.ui.extensions.view.shownIf
+import renetik.android.ui.extensions.view.show
 import renetik.android.ui.extensions.view.superview
 
 fun validate(conditions: (CSPropertyConditionList).() -> Unit, onResult: (Boolean) -> Unit) {
@@ -18,8 +18,8 @@ fun <View : android.view.View> View.shownIf(
     conditions: CSPropertyConditionList.() -> Unit, isInContainer: Boolean = false
 ) = apply {
     validate(conditions) { result ->
-        if (isInContainer) superview!!.shownIf(result)
-        else shownIf(result)
+        if (isInContainer) superview!!.show(result)
+        else show(result)
     }
 }
 

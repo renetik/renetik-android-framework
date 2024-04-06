@@ -10,7 +10,7 @@ import renetik.android.core.kotlin.collections.putAll
 import renetik.android.core.kotlin.collections.reload
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.util.CSLater.later
-import renetik.android.ui.extensions.view.shownIf
+import renetik.android.ui.extensions.view.show
 
 class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     CSActivityView<CSViewPager>(parent, pagerId)
@@ -33,7 +33,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
         controllers.putAll(pages)
     }
 
-    fun emptyView(view: View) = apply { emptyView = view.shownIf(controllers.isEmpty) }
+    fun emptyView(view: View) = apply { emptyView = view.show(controllers.isEmpty) }
 
     fun reload(pages: List<PageType>) = apply {
         val currentIndex = view.currentItem
@@ -74,8 +74,8 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     private fun updateView() {
         view.adapter?.notifyDataSetChanged()
             ?: let { view.adapter = CSPagerAdapter(controllers) }
-        view.shownIf(controllers.hasItems)
-        emptyView?.shownIf(controllers.isEmpty())
+        view.show(controllers.hasItems)
+        emptyView?.show(controllers.isEmpty())
     }
 
     private fun updatePageVisibility(newIndex: Int) {

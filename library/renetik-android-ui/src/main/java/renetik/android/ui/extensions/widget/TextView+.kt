@@ -15,6 +15,7 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 import renetik.android.event.registration.action
 import renetik.android.event.registration.childAction
 import renetik.android.event.registration.actionNullableChild
+import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.goneIf
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
@@ -29,7 +30,7 @@ fun <T : TextView> T.text(@StringRes stringId: Int) =
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text() = text.toString()
 
-fun <T : TextView> T.goneIfBlank() = goneIf(text.isNullOrBlank())
+fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
 
 inline fun <T : TextView> T.onTextChange(
     crossinline onChange: (view: T) -> Unit

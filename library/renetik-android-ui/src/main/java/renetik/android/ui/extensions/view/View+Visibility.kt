@@ -10,63 +10,59 @@ import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.protocol.CSVisibility
 
-fun <T : View> T.visible(animated: Boolean = false) = apply {
-    if (animated) fadeIn() else
-        if (visibility != VISIBLE) {
-            visibility = VISIBLE
-            updateVisibility()
-        }
-}
-
-fun <T : View> T.invisible(animated: Boolean = false) = apply {
-    if (animated) fadeOut(invisible = true) else
-        if (visibility != INVISIBLE) {
-            visibility = INVISIBLE
-            updateVisibility()
-        }
-}
-
 fun <T : View> T.updateVisibility() {
     (tag as? CSVisibility)?.updateVisibility()
-}
-
-fun <T : View> T.gone(animated: Boolean = false) = apply {
-    if (animated) fadeOut() else
-        if (visibility != GONE) {
-            visibility = GONE
-            updateVisibility()
-        }
 }
 
 val <T : View> T.isVisible get() = visibility == VISIBLE
 val <T : View> T.isInvisible get() = visibility == INVISIBLE
 val <T : View> T.isGone get() = visibility == GONE
 
-fun <T : View> T.show(animated: Boolean = false) = apply { visible(animated) }
-fun <T : View> T.hide(animated: Boolean = false) = apply { gone(animated) }
+fun <T : View> T.visible(
+    visible: Boolean = true, animated: Boolean = false,
+) = apply {
+    if (visible) {
+        if (animated) fadeIn() else
+            if (visibility != VISIBLE) {
+                visibility = VISIBLE
+                updateVisibility()
+            }
+    } else {
+        if (animated) fadeOut(invisible = true) else
+            if (visibility != INVISIBLE) {
+                visibility = INVISIBLE
+                updateVisibility()
+            }
+    }
+}
 
-fun <T : View> T.visibleIf(
-    condition: Boolean, animated: Boolean = false,
-) = apply { if (condition) visible(animated) else invisible(animated) }
+fun <T : View> T.invisible(
+    invisible: Boolean = true, animated: Boolean = false,
+) = visible(visible = !invisible, animated)
 
-fun <T : View> T.invisibleIf(
-    condition: Boolean, animated: Boolean = false,
-) = visibleIf(!condition, animated)
+fun <T : View> T.show(
+    show: Boolean = true, animated: Boolean = false,
+) = apply {
+    if (show) visible(animated = animated)
+    else {
+        if (animated) fadeOut() else
+            if (visibility != GONE) {
+                visibility = GONE
+                updateVisibility()
+            }
+    }
+}
 
-fun <T : View> T.shownIf(
-    condition: Boolean, animated: Boolean = false,
-) = apply { if (condition) show(animated) else gone(animated) }
-
-fun <T : View> T.goneIf(
-    condition: Boolean, animated: Boolean = false,
-): T = shownIf(!condition, animated)
+fun <T : View> T.gone(
+    gone: Boolean = true, animated: Boolean = false,
+): T = show(!gone, animated)
 
 fun <T> View.shownIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
     condition: (T) -> Boolean,
 ): CSRegistration {
-    shownIf(condition(property.value))
-    return property.onChange { shownIf(condition(property.value), animated) }
+    show(condition(property.value))
+    return property.onChange { show(condition(property.value), animated) }
 }
 
 fun View.shownIf(
@@ -90,7 +86,8 @@ fun <T, V> View.shownIf(
     animated: Boolean = false,
     condition: (T, V) -> Boolean,
 ): CSRegistration {
-    fun update(animated: Boolean) = shownIf(condition(property1.value, property2.value), animated)
+    fun update(animated: Boolean) =
+        show(condition(property1.value, property2.value), animated)
     update(animated = false)
     return CSRegistration(
         property1.onChange { update(animated) },
@@ -99,11 +96,14 @@ fun <T, V> View.shownIf(
 }
 
 fun <T, V, X> View.shownIf(
-    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, property3: CSHasChangeValue<X>,
-    animated: Boolean = false, condition: (T, V, X) -> Boolean,
+    property1: CSHasChangeValue<T>,
+    property2: CSHasChangeValue<V>,
+    property3: CSHasChangeValue<X>,
+    animated: Boolean = false,
+    condition: (T, V, X) -> Boolean,
 ): CSRegistration {
     fun update(animated: Boolean) =
-        shownIf(condition(property1.value, property2.value, property3.value), animated)
+        show(condition(property1.value, property2.value, property3.value), animated)
     update(animated = false)
     return CSRegistration(
         property1.onChange { update(animated) },
@@ -126,7 +126,7 @@ fun <T, V> View.goneIf(
     animated: Boolean = false,
     condition: (T, V) -> Boolean,
 ): CSRegistration {
-    fun update() = goneIf(condition(property1.value, property2.value), animated)
+    fun update() = gone(condition(property1.value, property2.value), animated)
     update()
     return CSRegistration(
         property1.onChange { update() },
@@ -138,8 +138,8 @@ fun <T> View.goneIf(
     property: CSHasChangeValue<T>,
     animated: Boolean = false, condition: (T) -> Boolean,
 ): CSRegistration {
-    goneIf(condition(property.value))
-    return property.onChange { goneIf(condition(property.value), animated) }
+    gone(condition(property.value))
+    return property.onChange { gone(condition(property.value), animated) }
 }
 
 fun View.goneIf(
@@ -168,7 +168,7 @@ fun <T, V> View.visibleIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
     animated: Boolean = false, condition: (T, V) -> Boolean,
 ): CSRegistration {
-    fun update() = visibleIf(condition(property1.value, property2.value), animated)
+    fun update() = visible(condition(property1.value, property2.value), animated)
     update()
     return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
 }
@@ -177,7 +177,7 @@ fun <T, V> View.invisibleIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
     animated: Boolean = false, condition: (T, V) -> Boolean,
 ): CSRegistration {
-    fun update() = invisibleIf(condition(property1.value, property2.value), animated)
+    fun update() = invisible(condition(property1.value, property2.value), animated)
     update()
     return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
 }
@@ -186,16 +186,16 @@ fun <T> View.visibleIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
     condition: (T) -> Boolean,
 ): CSRegistration {
-    visibleIf(condition(property.value))
-    return property.onChange { visibleIf(condition(property.value), animated) }
+    visible(condition(property.value))
+    return property.onChange { visible(condition(property.value), animated) }
 }
 
 fun <T> View.invisibleIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
     condition: (T) -> Boolean,
 ): CSRegistration {
-    invisibleIf(condition(property.value))
-    return property.onChange { invisibleIf(condition(property.value), animated) }
+    invisible(condition(property.value))
+    return property.onChange { invisible(condition(property.value), animated) }
 }
 
 fun View.invisibleIf(
