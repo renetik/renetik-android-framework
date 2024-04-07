@@ -10,6 +10,7 @@
     <string name="cs_base_dummy_char" translatable="false">A</string>
     <string name="cs_base_dummy_word" translatable="false">Lorem</string>
     <string name="cs_base_dummy_two_words" translatable="false">Lorem Ipsum</string>
+    <string name="cs_base_dummy_two_words_vertical" translatable="false">L/no/nr/ne/nm/n /nI/np/ns/nu/nm/n</string>
     <string name="cs_base_dummy_short" translatable="false">Lorem ipsum dolor</string>
     <string name="cs_base_dummy_medium" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="cs_base_dummy_long" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>

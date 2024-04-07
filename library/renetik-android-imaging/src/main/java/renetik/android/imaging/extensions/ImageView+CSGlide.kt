@@ -31,9 +31,9 @@ fun <T : ImageView> T.image(
 fun <T> ImageView.image(
     parent: CSViewInterface, property: CSProperty<T>,
     borderWidth: Float = 1f, radius: Float = 2f, color: Int = Color.BLACK,
-    toImageFile: (T) -> File
+    file: (T) -> File
 ): CSRegistration =
-    property.action { image(parent, toImageFile(property.value), borderWidth, radius, color) }
+    property.action { image(parent, file(property.value), borderWidth, radius, color) }
 
 //TODO: inner has size registration shall be wrapped together with property registration
 fun <T> ImageView.image(
