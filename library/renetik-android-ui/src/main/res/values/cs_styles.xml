@@ -285,7 +285,7 @@
 
     <!--    <style name="CSActionBar">-->
     <!--        <item name="android:layout_width">match_parent</item>-->
-    <!--        <item name="android:layout_height">?attr/actionBarSize</item>-->
+    <!--        <item name="android:layout_height">@dimen/toolbar_height</item>-->
     <!--        <item name="android:contentInsetStart">0dp</item>-->
     <!--        <item name="android:contentInsetLeft">0dp</item>-->
     <!--        <item name="android:contentInsetEnd">0dp</item>-->
