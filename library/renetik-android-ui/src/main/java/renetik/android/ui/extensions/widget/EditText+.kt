@@ -55,6 +55,17 @@ fun EditText.property(property: CSProperty<String>): CSRegistration {
     return propertyOnChange
 }
 
+@JvmName("propertyOptionalString")
+fun EditText.property(property: CSProperty<String?>): CSRegistration {
+    fun updateText() = text(property.value.asString)
+    val propertyOnChange = property.onChange { updateText() }
+    onTextChange {
+        propertyOnChange.paused { property.value = if (text().isEmpty) "" else text() }
+    }
+    updateText()
+    return propertyOnChange
+}
+
 fun EditText.withKeyboardDone(function: () -> Unit) = apply {
     imeOptions = EditorInfo.IME_ACTION_DONE
     setOnEditorActionListener { _, actionId, _ ->
