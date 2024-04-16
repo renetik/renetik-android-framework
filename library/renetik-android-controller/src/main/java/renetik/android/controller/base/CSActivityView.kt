@@ -19,7 +19,6 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
@@ -157,16 +156,7 @@ open class CSActivityView<ViewType : View>
 
     override val lifecycle: Lifecycle get() = activity().lifecycle
 
-    override var isVisible = property(false)
-    private var onViewShowingCalled = false
-
-    override fun updateVisibility() {
-        if (checkIfIsShowing()) {
-            if (!isVisible.isTrue) onViewVisibilityChanged(true)
-        } else if (isVisible.isTrue) onViewVisibilityChanged(false)
-    }
-
-    private fun checkIfIsShowing(): Boolean {
+    override fun checkIfIsShowing(): Boolean {
         if (!isResumed) return false
         if (!view.isVisible) return false
         if (showingInPager == false) return false
@@ -177,33 +167,6 @@ open class CSActivityView<ViewType : View>
     }
 
     val isShowingInPager get() = showingInPager == true
-
-    private fun onViewVisibilityChanged(showing: Boolean) {
-        if (isVisible.value == showing) return
-        isVisible.value(showing)
-        if (isVisible.isTrue) onViewShowing() else onViewHiding()
-    }
-
-    protected open fun onViewShowing() {
-        if (!onViewShowingCalled) {
-            onViewShowingFirstTime()
-            onViewShowingCalled = true
-        } else onViewShowingAgain()
-    }
-
-    protected open fun onViewShowingFirstTime() {}
-
-    protected open fun onViewShowingAgain() {}
-
-    protected open fun onViewHiding() {
-        if (!onViewShowingCalled) {
-            onViewHidingFirstTime()
-            onViewShowingCalled = true
-        } else onViewHidingAgain()
-    }
-
-    protected open fun onViewHidingFirstTime() {}
-    protected open fun onViewHidingAgain() {}
 
     open var navigation: CSNavigationView? by lazyNullableVar {
         findNavigation()?.also { registerListenOnce(it.eventDestruct) { navigation = null } }

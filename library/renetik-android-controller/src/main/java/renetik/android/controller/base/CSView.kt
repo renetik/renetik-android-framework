@@ -1,3 +1,5 @@
+@file:Suppress("LeakingThis")
+
 package renetik.android.controller.base
 
 import android.view.View
@@ -8,16 +10,19 @@ import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
+import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.CSVariable.Companion.variable
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.onChange
+import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.extensions.view.onDestroy
-import renetik.android.ui.extensions.view.show
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSViewInterface.Companion.context
@@ -32,8 +37,6 @@ open class CSView<ViewType : View> : CSContext,
     @IdRes
     private val viewId: Int?
 
-    override val isVisible by lazy { property(view.isVisible, view::show) }
-
     var parentView: CSViewInterface by variable()
 
     private var group: ViewGroup? by lazyNullableVar {
@@ -45,6 +48,7 @@ open class CSView<ViewType : View> : CSContext,
     constructor(parent: CSViewInterface, view: ViewType) :
             super(parent, view.context) {
         this.parentView = parent
+        this + parentView.isVisible.onChange(::updateVisibility)
         this.layout = null
         this.viewId = null
         setView(view)
@@ -53,6 +57,7 @@ open class CSView<ViewType : View> : CSContext,
     constructor(parent: CSViewInterface, layout: CSLayoutRes) :
             super(parent, context(parent)) {
         this.parentView = parent
+        this + parentView.isVisible.onChange(::updateVisibility)
         this.layout = layout
         this.viewId = null
     }
@@ -60,6 +65,7 @@ open class CSView<ViewType : View> : CSContext,
     constructor(parent: CSViewInterface, group: ViewGroup, layout: CSLayoutRes) :
             super(parent, context(parent)) {
         this.parentView = parent
+        this + parentView.isVisible.onChange(::updateVisibility)
         this.group = group
         this.layout = layout
         this.viewId = null
@@ -67,12 +73,14 @@ open class CSView<ViewType : View> : CSContext,
 
     constructor(parent: CSViewInterface, @IdRes viewId: Int) : super(parent) {
         this.parentView = parent
+        this + parentView.isVisible.onChange(::updateVisibility)
         this.layout = null
         this.viewId = viewId
     }
 
     constructor(parent: CSViewInterface) : super(parent) {
         this.parentView = parent
+        this + parentView.isVisible.onChange(::updateVisibility)
         this.layout = null
         this.viewId = null
     }
@@ -140,6 +148,46 @@ open class CSView<ViewType : View> : CSContext,
         }
 
     open val contentView: View get() = view
+
+    //Visibility
+    private val _isVisible by lazy { property(false) }
+    override val isVisible: CSHasChangeValue<Boolean> get() = _isVisible
+    private var onViewShowingCalled = false
+
+    override fun updateVisibility() {
+        if (checkIfIsShowing()) {
+            if (!isVisible.isTrue) onViewVisibilityChanged(true)
+        } else if (isVisible.isTrue) onViewVisibilityChanged(false)
+    }
+
+    protected open fun checkIfIsShowing(): Boolean = view.isVisible
+
+    private fun onViewVisibilityChanged(showing: Boolean) {
+        if (isVisible.value == showing) return
+        _isVisible.value(showing)
+        if (isVisible.isTrue) onViewShowing() else onViewHiding()
+    }
+
+    protected open fun onViewShowing() {
+        if (!onViewShowingCalled) {
+            onViewShowingFirstTime()
+            onViewShowingCalled = true
+        } else onViewShowingAgain()
+    }
+
+    protected open fun onViewShowingFirstTime() {}
+
+    protected open fun onViewShowingAgain() {}
+
+    protected open fun onViewHiding() {
+        if (!onViewShowingCalled) {
+            onViewHidingFirstTime()
+            onViewShowingCalled = true
+        } else onViewHidingAgain()
+    }
+
+    protected open fun onViewHidingFirstTime() {}
+    protected open fun onViewHidingAgain() {}
 
     override fun onDestruct() {
         super.onDestruct()
