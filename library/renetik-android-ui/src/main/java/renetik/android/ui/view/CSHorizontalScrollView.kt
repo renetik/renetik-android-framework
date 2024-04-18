@@ -1,5 +1,6 @@
 package renetik.android.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -18,6 +19,7 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
         return if (!handled) super.dispatchTouchEvent(event) else true
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         return isScrollEnabled && super.onTouchEvent(ev)
     }
