@@ -11,7 +11,6 @@ import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.variable.toggle
-import renetik.android.core.lang.void
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasChangeValue
@@ -49,7 +48,7 @@ fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     return registration
 }
 
-fun View.onGlobalLayout(function: (CSRegistration) -> void): CSRegistration {
+fun View.onGlobalLayout(function: (CSRegistration) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnGlobalLayoutListener { if (registration.isActive) function(registration) }
     fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
