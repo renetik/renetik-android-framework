@@ -146,6 +146,7 @@ open class CSNavigationItemView(
     fun from(button: View, side: CSNavigationItemPopupSide = Bottom) = apply {
         isPopup = true
         selected(button)
+        dismissOnTouchOut(true)
         isFullScreen = false
         animation = Fade
         viewContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
@@ -186,7 +187,6 @@ open class CSNavigationItemView(
 
     private fun correctContentOverflow() {
         if (viewContent.bottomFloat > screenAvailableHeight) viewContent.topFloat -= viewContent.bottomFloat - screenAvailableHeight
-
         if (viewContent.rightFloat > screenAvailableWidth) viewContent.leftFloat -= viewContent.rightFloat - screenAvailableWidth
     }
 
