@@ -8,11 +8,11 @@ import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
-import renetik.android.ui.R
 import renetik.android.core.kotlin.primitives.Empty
 import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
+import renetik.android.ui.R
 
 open class CSLinearLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
