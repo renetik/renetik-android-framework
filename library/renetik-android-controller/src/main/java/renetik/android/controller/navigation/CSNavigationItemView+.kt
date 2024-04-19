@@ -27,10 +27,6 @@ fun <T : CSNavigationItemView> T.center() = apply {
     viewContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
 }
 
-fun <T : CSNavigationItemView> T.passClicksUnder(pass: Boolean = true) = apply {
-    viewContent.passClicksUnder(pass)
-}
-
 val <T : CSNavigationItemView> T.isClicksBlocked get() = viewContent.isClickable
 
 fun <T : CSNavigationItemView> T.fullScreen() = apply {

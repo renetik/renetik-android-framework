@@ -65,10 +65,9 @@ open class CSNavigationItemView(
     ) : this(parent, viewLayout, null, null)
 
     val viewContent: View by lazy {
-        val frameLayout = if (isFullScreen)
-            (fullScreenFrameLayout ?: frameLayout) else frameLayout
+        val frameLayout = if (isFullScreen) (fullScreenFrameLayout ?: frameLayout) else frameLayout
         (frameLayout?.let { inflate<FrameLayout>(it).apply { add<View>(viewLayout) } }
-            ?: inflate<View>(viewLayout)).passClicksUnder(false)
+            ?: inflate<View>(viewLayout))
     }
 
     final override var isFullScreen = false
@@ -85,13 +84,18 @@ open class CSNavigationItemView(
     private val eventOnClose = event()
     fun onClose(function: () -> Unit) = eventOnClose.listen(function)
 
-    private var dismissOnTouchOut = true
+    private var dismissOnTouchOut = false
     fun dismissOnTouchOut(dismiss: Boolean = true) = apply { dismissOnTouchOut = dismiss }
+
+    private var passClicksUnder = false
+    fun passClicksUnder(pass: Boolean = true) = apply {
+        passClicksUnder = pass
+        view.passClicksUnder(passClicksUnder)
+    }
 
     init {
         registerListenOnce(navigationParent.eventDestruct) {
-            if (!isShowingInPager && lifecycleStopOnRemoveFromParentView)
-                logErrorTrace { "Unexpected but don't know why now..." }
+            if (!isShowingInPager && lifecycleStopOnRemoveFromParentView) logErrorTrace { "Unexpected but don't know why now..." }
             if (isShowingInPager) close()
             if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
@@ -106,6 +110,7 @@ open class CSNavigationItemView(
     override fun onViewShowingFirstTime() {
         super.onViewShowingFirstTime()
         if (dismissOnTouchOut) view.onClick { onBackgroundClick() }
+        else view.passClicksUnder(passClicksUnder)
     }
 
     protected open fun onBackgroundClick() = dismiss()
@@ -160,8 +165,7 @@ open class CSNavigationItemView(
         val fromViewLocation = fromView.locationInWindow
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
         var desiredX = fromViewTopCenterX.toFloat() - (viewContent.width / 2)
-        if (desiredX + viewContent.width > width - contentMarginDp.dpf)
-            desiredX -= (desiredX + viewContent.width) - (width - contentMarginDp.dpf)
+        if (desiredX + viewContent.width > width - contentMarginDp.dpf) desiredX -= (desiredX + viewContent.width) - (width - contentMarginDp.dpf)
         if (desiredX < contentMarginDp.dpf) desiredX = contentMarginDp.dpf
         viewContent.x = desiredX
         viewContent.y = fromViewLocation.y.toFloat() + fromView.height
@@ -174,27 +178,23 @@ open class CSNavigationItemView(
         val fromViewLocation = fromView.locationInWindow
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
         var desiredX = fromViewTopCenterX.toFloat() - (viewContent.width / 2)
-        if (desiredX + viewContent.width > screenAvailableWidth)
-            desiredX -= (desiredX + viewContent.width) - screenAvailableWidth
+        if (desiredX + viewContent.width > screenAvailableWidth) desiredX -= (desiredX + viewContent.width) - screenAvailableWidth
         if (desiredX < contentMarginDp.dpf) desiredX = contentMarginDp.dpf
         viewContent.x = desiredX
         viewContent.y = fromViewLocation.y.toFloat() - viewContent.height - contentMarginDp.dpf
     }
 
     private fun correctContentOverflow() {
-        if (viewContent.bottomFloat > screenAvailableHeight)
-            viewContent.topFloat -= viewContent.bottomFloat - screenAvailableHeight
+        if (viewContent.bottomFloat > screenAvailableHeight) viewContent.topFloat -= viewContent.bottomFloat - screenAvailableHeight
 
-        if (viewContent.rightFloat > screenAvailableWidth)
-            viewContent.leftFloat -= viewContent.rightFloat - screenAvailableWidth
+        if (viewContent.rightFloat > screenAvailableWidth) viewContent.leftFloat -= viewContent.rightFloat - screenAvailableWidth
     }
 
     private fun positionDialogContentFromViewRight(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
         val fromViewLeftCenterY = fromViewLocation.y + (fromView.height / 2)
         var desiredY = fromViewLeftCenterY.toFloat() - (viewContent.height / 2)
-        if (desiredY + viewContent.height > screenAvailableHeight)
-            desiredY -= (desiredY + viewContent.height) - screenAvailableHeight
+        if (desiredY + viewContent.height > screenAvailableHeight) desiredY -= (desiredY + viewContent.height) - screenAvailableHeight
         if (desiredY < contentMarginDp.dpf) desiredY = contentMarginDp.dpf
         viewContent.x = fromViewLocation.x.toFloat() + fromView.width
         viewContent.y = desiredY
