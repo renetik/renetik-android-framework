@@ -127,9 +127,9 @@ class CSRecyclerView<ItemType : Any>(
     private inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
-        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        override fun onCreateViewHolder(group: ViewGroup, type: Int): ViewHolder {
             val parent = this@CSRecyclerView
-            val itemView: CSGridItemView<ItemType> = createView(parent, viewType, viewGroup)
+            val itemView: CSGridItemView<ItemType> = createView(parent, type, group)
             // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }
             return ViewHolder(itemView.view)

@@ -48,4 +48,3 @@ open class CSGridItemView<RowType : Any>(
 
     val isLoaded get() = index != -1
 }
-
