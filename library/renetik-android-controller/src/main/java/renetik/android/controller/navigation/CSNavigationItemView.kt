@@ -21,7 +21,6 @@ import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
 import renetik.android.core.extensions.content.color
 import renetik.android.core.kotlin.primitives.dpf
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
-import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
@@ -117,6 +116,7 @@ open class CSNavigationItemView(
     protected open fun onBackgroundClick() = dismiss()
 
     fun dismiss() {
+        if (isDestructed) return
         eventDismiss.fire()
         close()
     }
