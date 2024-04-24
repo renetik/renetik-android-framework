@@ -27,3 +27,20 @@ fun <ItemView : CSViewInterface> CSProperty<Int>.updates(
             if (!itemView.isDestructed) layout.remove(itemView)
         })
 }
+
+fun <ItemView : CSViewInterface> MutableList<ItemView>.updates(
+    count: Int, layout: ViewGroup, fromStart: Boolean = false,
+    layoutParams: LayoutParams? = null,
+    createView: (index: Int) -> ItemView
+) = size.update(count,
+    onAdd = { index ->
+        val view = put(createView(index))
+        val addIndex = if (fromStart) 0 else -1
+        layoutParams?.let { layout.add(view = view, params = it, index = addIndex) }
+            ?: layout.add(view = view, index = addIndex)
+    },
+    onRemove = { index ->
+        val itemView: ItemView = removeAt(index)
+        if (!itemView.isDestructed) layout.remove(itemView)
+    }
+)
