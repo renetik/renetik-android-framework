@@ -8,6 +8,7 @@ import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.value.isTrue
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.onValue
 import renetik.android.ui.protocol.CSVisibility
 
 fun <T : View> T.updateVisibility() {
@@ -138,7 +139,7 @@ fun <T> View.goneIf(
     property: CSHasChangeValue<T>,
     animated: Boolean = false, condition: (T) -> Boolean,
 ): CSRegistration {
-    gone(condition(property.value))
+    property.onValue { gone(condition(it)) }
     return property.onChange { gone(condition(property.value), animated) }
 }
 

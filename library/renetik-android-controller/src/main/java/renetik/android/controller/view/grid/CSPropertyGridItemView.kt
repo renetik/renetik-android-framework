@@ -14,5 +14,8 @@ open class CSPropertyGridItemView<RowType : Any>(
     onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
 ) : CSGridItemView<RowType>(parent, group, layout.layout, onLoad) {
     protected val property: CSProperty<RowType> = lateProperty()
-    override fun onLoad(value: RowType) = property.value(value)
+    override fun onLoad(value: RowType) {
+        property.value(value)
+        super.onLoad(value)
+    }
 }
