@@ -123,7 +123,9 @@ open class CSView<ViewType : View> : CSContext,
         inputService.hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
 
-    override fun onAddedToParentView() = Unit
+    override fun onAddedToParentView() {
+        updateVisibility()
+    }
 
     override fun onRemovedFromParentView() {
         if (lifecycleStopOnRemoveFromParentView && !isDestructed) destruct()
@@ -160,7 +162,8 @@ open class CSView<ViewType : View> : CSContext,
         } else if (isVisible.isTrue) onViewVisibilityChanged(false)
     }
 
-    protected open fun checkIfIsShowing(): Boolean = view.isVisible
+    protected open fun checkIfIsShowing(): Boolean =
+        view.isVisible && parentView.isVisible.isTrue
 
     private fun onViewVisibilityChanged(showing: Boolean) {
         if (isVisible.value == showing) return
