@@ -13,10 +13,8 @@ import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
-import renetik.android.event.registration.childAction
-import renetik.android.event.registration.actionNullableChild
+import renetik.android.event.registration.actionNullable
 import renetik.android.ui.extensions.view.gone
-import renetik.android.ui.extensions.view.goneIf
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 
 fun <T : TextView> T.textPrepend(value: CharSequence?) = text("$value$text")
@@ -53,13 +51,13 @@ inline fun <T, V> TextView.text(
     parent: CSHasChangeValue<T>,
     crossinline child: (T) -> CSHasChangeValue<V>,
     noinline text: (V) -> Any
-): CSRegistration = parent.childAction(child, action = { value(text(it)) })
+): CSRegistration = parent.action(child = child, action = { value(text(it)) })
 
 inline fun <T, V> TextView.textNullableChild(
     parent: CSHasChangeValue<T>,
     crossinline child: (T) -> CSHasChangeValue<V>?,
     noinline text: (V?) -> Any
-): CSRegistration = parent.actionNullableChild(child, onChange = { value(text(it)) })
+): CSRegistration = parent.actionNullable(child, onChange = { value(text(it)) })
 
 @JvmName("textPropertyChildTextProperty")
 inline fun <T> TextView.text(
@@ -73,7 +71,7 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
     crossinline text: (ChildValue?) -> Any
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
-    val parentRegistration: CSRegistration = parent.actionNullableChild(
+    val parentRegistration: CSRegistration = parent.actionNullable(
         child = parentChild, onChange = { parentChildValue ->
             childRegistration?.cancel()
             parentChildValue?.let(child)?.let { childValue ->
