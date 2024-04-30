@@ -164,7 +164,7 @@ open class CSView<ViewType : View> : CSContext,
 
     protected open fun checkIfIsShowing(): Boolean =
         // Maybe parentView.view.isVisible in some cases will cause problems...
-        view.isVisible && parentView.view.isVisible
+        view.isVisible && parentView.isVisible.isTrue
 
     private fun onViewVisibilityChanged(showing: Boolean) {
         if (isVisible.value == showing) return
