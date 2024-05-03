@@ -22,19 +22,32 @@ import renetik.android.ui.extensions.view.disabledByAlpha
 import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.mediumAnimationDuration
+import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.shortAnimationDuration
 
-class CSRecyclerView<ItemType : Any>(
+typealias RecyclerView<T> = CSRecyclerView<T, out CSGridItemView<T>>
+
+class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
     parent: CSActivityView<*>, viewId: Int,
     val createView: (
-        CSRecyclerView<ItemType>, viewType: Int, parent: ViewGroup,
-    ) -> CSGridItemView<ItemType>
+        CSRecyclerView<ItemType, ViewType>, viewType: Int, parent: ViewGroup,
+    ) -> ViewType
 ) : CSView<RecyclerView>(parent, viewId) {
 
     constructor(
         parent: CSActivityView<*>, viewId: Int,
-        createView: (CSRecyclerView<ItemType>, parent: ViewGroup) -> CSGridItemView<ItemType>
+        createView: (CSRecyclerView<ItemType, ViewType>, parent: ViewGroup) -> ViewType
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent, group) })
+
+    companion object {
+        fun <Item : Any> recyclerView(
+            parent: CSActivityView<*>, viewId: Int,
+            createView: (CSRecyclerView<Item, CSGridItemView<Item>>, parent: ViewGroup) -> CSGridItemView<Item>
+        ): CSRecyclerView<Item, CSGridItemView<Item>> {
+            return CSRecyclerView<Item, CSGridItemView<Item>>(
+                parent, viewId, createView = { grid, group -> createView(grid, group) })
+        }
+    }
 
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = list<Pair<ItemType, Int>>()
@@ -57,27 +70,28 @@ class CSRecyclerView<ItemType : Any>(
         updateEmptyView()
     }
 
-    val eventItemSelected = event<CSGridItemView<ItemType>>()
-    fun onItemSelected(function: (CSGridItemView<ItemType>) -> Unit) =
+    val eventItemSelected = event<ViewType>()
+    fun onItemSelected(function: (ViewType) -> Unit) =
         apply { eventItemSelected.listen(function) }
 
-    val eventItemReSelected = event<CSGridItemView<ItemType>>()
-    fun onItemReSelected(function: (CSGridItemView<ItemType>) -> Unit) =
+    val eventItemReSelected = event<ViewType>()
+    fun onItemReSelected(function: (ViewType) -> Unit) =
         apply { eventItemReSelected.listen(function) }
 
-    val eventDisabledItemClick = event<CSGridItemView<ItemType>>()
-    fun onDisabledItemClick(function: (CSGridItemView<ItemType>) -> Unit) =
+    val eventDisabledItemClick = event<ViewType>()
+    fun onDisabledItemClick(function: (ViewType) -> Unit) =
         apply { eventDisabledItemClick.listen(function) }
 
-    val eventItemActivated = event<CSGridItemView<ItemType>>()
-    fun onItemActive(function: (CSGridItemView<ItemType>) -> Unit) =
+    val eventItemActivated = event<ViewType>()
+    fun onItemActive(function: (ViewType) -> Unit) =
         apply { eventItemActivated.listen(function) }
 
     init {
         view.adapter = adapter
+        eventItemSelected.listen { selectedItem.value(it.value) }
     }
 
-    private fun CSGridItemView<ItemType>.updateSelection() {
+    private fun ViewType.updateSelection() {
         if (!isLoaded) return
         val isActive = selectedItem.value == value
         isSelected = isActive && eventItemReSelected.isListened
@@ -95,13 +109,16 @@ class CSRecyclerView<ItemType : Any>(
         }
     }
 
-    fun onItemClick(item: CSGridItemView<ItemType>) {
+    private fun ViewType.onClick() =
+        if (selectedItem.value != this.value) {
+            if (itemDisabled) eventDisabledItemClick.fire(this)
+            else eventItemSelected.fire(this)
+        } else eventItemReSelected.fire(this)
+
+    fun onItemClick(item: ViewType) {
         if (selectedItem.value != item.value) {
             if (item.itemDisabled) eventDisabledItemClick.fire(item)
-            else {
-                eventItemSelected.fire(item)
-                selectedItem.value(item.value)
-            }
+            else eventItemSelected.fire(item)
         } else eventItemReSelected.fire(item)
     }
 
@@ -129,15 +146,16 @@ class CSRecyclerView<ItemType : Any>(
 
         override fun onCreateViewHolder(group: ViewGroup, type: Int): ViewHolder {
             val parent = this@CSRecyclerView
-            val itemView: CSGridItemView<ItemType> = createView(parent, type, group)
+            val itemView: ViewType = createView(parent, type, group)
             // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }
+            itemView.view.onClick { itemView.onClick() }
             return ViewHolder(itemView.view)
         }
 
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
             if (isDestructed) return // There was null pointer ex here...
-            viewHolder.view.asCS<CSGridItemView<ItemType>>()?.apply {
+            viewHolder.view.asCS<ViewType>()?.apply {
                 load(data[position].first, position)
                 updateDisabled()
                 updateSelection()

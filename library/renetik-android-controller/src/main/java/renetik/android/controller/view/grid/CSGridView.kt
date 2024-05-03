@@ -74,6 +74,16 @@ class CSGridView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         if (isActive) eventItemActivated.fire(this)
     }
 
+    private fun CSGridItemView<ItemType>.updateDisabled() {
+        if (itemDisabled) {
+            if (eventDisabledItemClick.isListened) view.alphaToDisabled()
+            else view.disabledByAlpha()
+        } else {
+            view.disabledByAlpha(false)
+            view.alpha = 1f
+        }
+    }
+
     private fun loadView(toReuseView: View?, position: Int): View {
         var rowView: ViewType? = toReuseView?.asCS()
         if (rowView == null) {
@@ -85,16 +95,6 @@ class CSGridView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         rowView.updateDisabled()
         rowView.updateSelection()
         return rowView.view
-    }
-
-    private fun CSGridItemView<ItemType>.updateDisabled() {
-        if (itemDisabled) {
-            if (eventDisabledItemClick.isListened) view.alphaToDisabled()
-            else view.disabledByAlpha()
-        } else {
-            view.disabledByAlpha(false)
-            view.alpha = 1f
-        }
     }
 
     private fun ViewType.onClick() =

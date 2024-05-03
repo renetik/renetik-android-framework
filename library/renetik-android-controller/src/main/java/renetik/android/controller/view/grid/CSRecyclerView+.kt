@@ -9,18 +9,19 @@ import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
 
-fun <RowType : Any> CSRecyclerView<RowType>.reload(values: Array<out RowType>) =
+fun <RowType : Any, ViewType : CSGridItemView<RowType>>
+        CSRecyclerView<RowType, ViewType>.reload(values: Array<out RowType>) =
     reload(values.asIterable())
 
-fun <RowType : Any> CSRecyclerView<RowType>.reload(
+fun <RowType : Any> RecyclerView<RowType>.reload(
     values: Iterable<RowType>
-): CSRecyclerView<RowType> = reload(values.map { it to 0 })
+) = reload(values.map { it to 0 })
 
-fun <T : CSHasTitle> CSRecyclerView<T>.reload(
+fun <T : CSHasTitle> RecyclerView<T>.reload(
     values: Array<T>, search: CSValue<String>, ignoreCase: Boolean = true,
 ) = reload(values.asIterable(), search, ignoreCase)
 
-fun <T : CSHasTitle> CSRecyclerView<T>.reload(
+fun <T : CSHasTitle> RecyclerView<T>.reload(
     values: Iterable<T>, search: CSValue<String>, ignoreCase: Boolean = true,
 ) = apply {
     val data: Iterable<T> = if (search.value.isEmpty) values
@@ -28,11 +29,11 @@ fun <T : CSHasTitle> CSRecyclerView<T>.reload(
     reload(data.map { it to 0 })
 }
 
-val CSRecyclerView<*>.dataCount get() = data.size
+val RecyclerView<*>.dataCount get() = data.size
 
-fun <T : Any> CSRecyclerView<T>.value(value: T?) = apply { selectedItem.value(value) }
+fun <T : Any> RecyclerView<T>.value(value: T?) = apply { selectedItem.value(value) }
 
-fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T>) = apply {
+fun <T : Any> RecyclerView<T>.property(property: CSProperty<T>) = apply {
     lateinit var propertyRegistration: CSRegistration
     val selectedItemRegistration = selectedItem.onChange { item ->
         propertyRegistration.paused { property.value = item!! }
@@ -43,7 +44,7 @@ fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T>) = apply {
 }
 
 @JvmName("propertyNullableItem")
-fun <T : Any> CSRecyclerView<T>.property(property: CSProperty<T?>) = apply {
+fun <T : Any> RecyclerView<T>.property(property: CSProperty<T?>) = apply {
     lateinit var propertyRegistration: CSRegistration
     val selectedItemRegistration = selectedItem.onChange {
         propertyRegistration.paused { property.value = it }
