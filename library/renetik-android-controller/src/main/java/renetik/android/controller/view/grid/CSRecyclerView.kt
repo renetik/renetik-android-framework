@@ -88,7 +88,7 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
 
     init {
         view.adapter = adapter
-        eventItemSelected.listen { selectedItem.value(it.value) }
+        this + eventItemSelected.listen { selectedItem.value(it.value) }
     }
 
     private fun ViewType.updateSelection() {
