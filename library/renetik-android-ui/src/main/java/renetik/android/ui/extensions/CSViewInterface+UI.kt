@@ -8,6 +8,7 @@ import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
+import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.kotlin.notNull
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.common.CSHasDestruct
@@ -32,10 +33,11 @@ import renetik.android.ui.extensions.view.linear
 import renetik.android.ui.extensions.view.listView
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onGlobalFocus
-import renetik.android.ui.extensions.view.registerOnHasSize
+import renetik.android.ui.extensions.view.onGlobalLayout
 import renetik.android.ui.extensions.view.progress
 import renetik.android.ui.extensions.view.radio
 import renetik.android.ui.extensions.view.rectangleInWindow
+import renetik.android.ui.extensions.view.registerOnHasSize
 import renetik.android.ui.extensions.view.removeFromSuperview
 import renetik.android.ui.extensions.view.scrollView
 import renetik.android.ui.extensions.view.search
@@ -114,6 +116,16 @@ fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration {
         function()
     }
     return registration
+}
+
+suspend fun CSViewInterface.waitForLayout(): Unit = suspendCancellableCoroutine { coroutine ->
+    var registration: CSRegistration? = null
+    registration = view.onGlobalLayout {
+        registration?.cancel()
+        registration = null
+        coroutine.resumeWith(Result.success(Unit))
+    }
+    coroutine.invokeOnCancellation { registration?.cancel() }
 }
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
