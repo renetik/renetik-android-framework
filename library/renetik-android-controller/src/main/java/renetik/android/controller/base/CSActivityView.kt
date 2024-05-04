@@ -156,7 +156,15 @@ open class CSActivityView<ViewType : View>
 
     override val lifecycle: Lifecycle get() = activity().lifecycle
 
+    private var overrideVisibility: Boolean? = null
+
+    fun overrideVisibility(isVisible: Boolean? = null) {
+        overrideVisibility = isVisible
+        updateVisibility()
+    }
+
     override fun checkIfIsShowing(): Boolean {
+        if (overrideVisibility != null) return overrideVisibility!!
         if (!isResumed) return false
         if (!view.isVisible) return false
         if (showingInPager == false) return false
