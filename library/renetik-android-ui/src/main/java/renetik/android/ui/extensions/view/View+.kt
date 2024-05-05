@@ -16,7 +16,6 @@ import android.view.MotionEvent.obtain
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.DatePicker
@@ -94,6 +93,11 @@ fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
 
 fun <T : View> T.onClick(timeout: Int? = null, onClick: (view: T) -> Unit) =
     apply { setOnClickListener(CSClickAdapter(timeout) { onClick(this) }) }
+
+fun <T : View> T.clearClick() = apply {
+    setOnClickListener(null)
+    isClickable = false
+}
 
 fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) =
     apply { setOnLongClickListener { onClick(this); true } }
