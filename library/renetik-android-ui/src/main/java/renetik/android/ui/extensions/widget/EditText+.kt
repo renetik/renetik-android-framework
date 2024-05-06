@@ -11,6 +11,7 @@ import renetik.android.core.lang.ArgFunc
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.event.registration.paused
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.propertyWithTag
@@ -46,24 +47,18 @@ fun <T : EditText> T.withClear(
 }
 
 fun EditText.property(property: CSProperty<String>): CSRegistration {
-    fun updateText() = text(property.value.asString)
-    val propertyOnChange = property.onChange { updateText() }
-    onTextChange {
+    val propertyOnChange = property.action { text(property.value.asString) }
+    return CSRegistration(propertyOnChange, onTextChange {
         propertyOnChange.paused { property.value = if (text().isEmpty) "" else text() }
-    }
-    updateText()
-    return propertyOnChange
+    })
 }
 
 @JvmName("propertyOptionalString")
 fun EditText.property(property: CSProperty<String?>): CSRegistration {
-    fun updateText() = text(property.value.asString)
-    val propertyOnChange = property.onChange { updateText() }
-    onTextChange {
+    val propertyOnChange = property.action { text(property.value.asString) }
+    return CSRegistration(propertyOnChange, onTextChange {
         propertyOnChange.paused { property.value = if (text().isEmpty) "" else text() }
-    }
-    updateText()
-    return propertyOnChange
+    })
 }
 
 fun EditText.withKeyboardDone(function: () -> Unit) = apply {

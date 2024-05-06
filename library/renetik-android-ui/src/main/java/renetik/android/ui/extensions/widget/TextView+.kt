@@ -13,9 +13,9 @@ import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
-import renetik.android.event.registration.action
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
+import kotlin.properties.Delegates.notNull
 
 fun <T : TextView> T.textPrepend(value: CharSequence?) = text("$value$text")
 fun <T : TextView> T.textAppend(value: CharSequence?) = text("$text$value")
@@ -26,16 +26,28 @@ fun <T : TextView> T.text(@StringRes stringId: Int) =
     apply { text = context.getString(stringId) }
 
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
-fun <T : TextView> T.text() = text.toString()
+fun <T : TextView> T.text(): String = text.toString()
 
 fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
 
 inline fun <T : TextView> T.onTextChange(
     crossinline onChange: (view: T) -> Unit
-) = apply {
+): CSRegistration {
+    var registration: CSRegistration by notNull()
+    val listener = object : CSTextWatcherAdapter() {
+        override fun afterTextChanged(editable: Editable) {
+            if (registration.isActive) onChange(this@onTextChange)
+        }
+    }
+    addTextChangedListener(listener)
+    registration = CSRegistration(
+        isActive = true,
+        onCancel = { removeTextChangedListener(listener) },
+    )
     addTextChangedListener(object : CSTextWatcherAdapter() {
         override fun afterTextChanged(editable: Editable) = onChange(this@onTextChange)
     })
+    return registration
 }
 
 inline fun <T : TextView> T.onFocusChange(
