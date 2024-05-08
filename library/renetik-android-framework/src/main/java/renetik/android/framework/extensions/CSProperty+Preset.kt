@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
 import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.preset.Preset
 import renetik.android.preset.extensions.action
@@ -11,7 +12,7 @@ import renetik.android.ui.extensions.add
 import renetik.android.ui.extensions.remove
 import renetik.android.ui.protocol.CSViewInterface
 
-fun <ItemView : CSViewInterface> CSProperty<Int>.updates(
+fun <ItemView : CSViewInterface> CSHasChangeValue<Int>.updates(
     preset: Preset,
     items: MutableList<ItemView>,
     layout: ViewGroup, fromStart: Boolean = false,
