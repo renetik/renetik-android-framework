@@ -5,6 +5,7 @@ import android.view.View.OnAttachStateChangeListener
 import android.view.View.OnLayoutChangeListener
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.ArgFunc
@@ -99,6 +100,16 @@ fun View.onBoundsChange(function: ArgFunc<CSRegistration>): CSRegistration {
 
 fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
     onBoundsChange { if (hasSize) function() }
+
+suspend fun View.waitForSize(): Unit = suspendCancellableCoroutine { coroutine ->
+    var registration: CSRegistration? = null
+    registration = onHasSizeBoundsChange {
+        registration?.cancel()
+        registration = null
+        coroutine.resumeWith(Result.success(Unit))
+    }
+    coroutine.invokeOnCancellation { registration?.cancel() }
+}
 
 inline fun View.registerOnHasSize(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
