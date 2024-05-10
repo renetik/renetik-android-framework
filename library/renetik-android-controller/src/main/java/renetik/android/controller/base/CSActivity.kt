@@ -85,19 +85,20 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         super.onPause()
     }
 
-    private val lazyRegistrations = lazy { CSRegistrationsMap(this) }
-    final override val registrations by lazyRegistrations
+    final override val registrations by lazy { CSRegistrationsMap(this) }
     final override val eventDestruct = event<Unit>()
     override val isDestructed: Boolean get() = isDestroyed
     override fun onDestruct() {
         super.onDestroy()
-        if (lazyRegistrations.isInitialized()) registrations.cancel()
+        registrations.cancel()
         eventDestruct.fire().clear()
         activityView = null
     }
 
     @SuppressLint("MissingSuperCall")
-    public override fun onDestroy() = destruct()
+    public override fun onDestroy() {
+        destruct()
+    }
 
     @Deprecated("Deprecated in Java")
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
