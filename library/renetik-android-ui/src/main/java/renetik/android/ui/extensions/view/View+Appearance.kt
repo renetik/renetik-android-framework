@@ -34,7 +34,7 @@ fun <T : View> T.backgroundTint(@ColorInt value: Int) = apply {
     backgroundTintList = ColorStateList.valueOf(value)
 }
 
-fun View.backgroundAlpha(alpha: Double) {
+fun <T : View> T.backgroundAlpha(alpha: Double) = apply {
     (background as? ColorDrawable)?.color?.let {
         val color = argb((256 * alpha).toInt(), red(it), green(it), blue(it))
         background = ColorDrawable(color)
