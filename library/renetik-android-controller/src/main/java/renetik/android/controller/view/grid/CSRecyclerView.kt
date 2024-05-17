@@ -23,7 +23,9 @@ import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.setHasTouchEventListener
 import renetik.android.ui.extensions.view.shortAnimationDuration
+import renetik.android.ui.view.onLongTouch
 
 typealias RecyclerView<T> = CSRecyclerView<T, out CSGridItemView<T>>
 
@@ -38,16 +40,6 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         parent: CSActivityView<*>, viewId: Int,
         createView: (CSRecyclerView<ItemType, ViewType>, parent: ViewGroup) -> ViewType
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent, group) })
-
-    companion object {
-        fun <Item : Any> recyclerView(
-            parent: CSActivityView<*>, viewId: Int,
-            createView: (CSRecyclerView<Item, CSGridItemView<Item>>, parent: ViewGroup) -> CSGridItemView<Item>
-        ): CSRecyclerView<Item, CSGridItemView<Item>> {
-            return CSRecyclerView<Item, CSGridItemView<Item>>(
-                parent, viewId, createView = { grid, group -> createView(grid, group) })
-        }
-    }
 
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = list<Pair<ItemType, Int>>()
@@ -82,6 +74,10 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
     fun onDisabledItemClick(function: (ViewType) -> Unit) =
         apply { eventDisabledItemClick.listen(function) }
 
+    val eventItemLongTouch = event<Pair<ViewType, Boolean>>()
+    fun onItemLongTouch(function: (Pair<ViewType, Boolean>) -> Unit) =
+        apply { eventItemLongTouch.listen(function) }
+
     val eventItemActivated = event<ViewType>()
     fun onItemActive(function: (ViewType) -> Unit) =
         apply { eventItemActivated.listen(function) }
@@ -109,17 +105,17 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         }
     }
 
-    private fun ViewType.onClick() =
+    private fun ViewType.onClick() {
+        if (!isClickable) return
         if (selectedItem.value != this.value) {
             if (itemDisabled) eventDisabledItemClick.fire(this)
             else eventItemSelected.fire(this)
         } else eventItemReSelected.fire(this)
+    }
 
-    fun onItemClick(item: ViewType) {
-        if (selectedItem.value != item.value) {
-            if (item.itemDisabled) eventDisabledItemClick.fire(item)
-            else eventItemSelected.fire(item)
-        } else eventItemReSelected.fire(item)
+    private fun ViewType.onItemLongTouch(down: Boolean) {
+        if (!isClickable) return
+        eventItemLongTouch.fire(this to down)
     }
 
     private var emptyView: View? = null
@@ -150,6 +146,10 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
             // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }
             itemView.view.onClick { itemView.onClick() }
+            if (eventItemLongTouch.isListened) {
+                parent + itemView.view.setHasTouchEventListener()
+                    .onLongTouch(down = { itemView.onItemLongTouch(it) })
+            }
             return ViewHolder(itemView.view)
         }
 

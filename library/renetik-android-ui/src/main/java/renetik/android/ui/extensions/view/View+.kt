@@ -46,6 +46,7 @@ import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.start
+import renetik.android.ui.view.CSHasTouchEvent
 import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
@@ -109,6 +110,17 @@ fun <T : View> T.createBitmap(): Bitmap {
         draw(this)
     }
     return bitmap
+}
+
+fun View.setHasTouchEventListener(): CSHasTouchEvent {
+    val listener = object : CSHasTouchEvent, View.OnTouchListener {
+        override val self: View get() = this@setHasTouchEventListener
+        override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+        override fun onTouch(v: View, event: MotionEvent): Boolean =
+            onTouchEvent?.invoke(event) ?: false
+    }
+    setOnTouchListener(listener)
+    return listener
 }
 
 fun <T : Any> View.propertyWithTag(@IdRes key: Int, onCreate: () -> T): T {

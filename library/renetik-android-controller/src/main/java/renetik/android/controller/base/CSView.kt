@@ -17,6 +17,7 @@ import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.launch
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.inflate
@@ -83,6 +84,7 @@ open class CSView<ViewType : View> : CSContext,
         this + parentView.isVisible.onChange(::updateVisibility)
         this.layout = null
         this.viewId = null
+        launch {  }
     }
 
     @Suppress("UNCHECKED_CAST")

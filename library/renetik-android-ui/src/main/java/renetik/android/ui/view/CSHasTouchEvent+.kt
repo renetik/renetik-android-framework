@@ -5,11 +5,14 @@ import android.view.MotionEvent.ACTION_CANCEL
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_UP
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.action
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
+import renetik.android.event.registration.launch
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.registerLaterEach
 import renetik.android.ui.extensions.view.pressed
@@ -18,7 +21,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline press: (down: Boolean) -> Unit,
+    crossinline press: (isDown: Boolean) -> Unit,
 ) = apply {
     onTouchEvent = {
         when (it.actionMasked) {
@@ -37,6 +40,25 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
         }
     }
 }
+
+inline fun <T : CSHasTouchEvent> T.onLongTouch(
+    duration: Duration = 2.seconds,
+    crossinline down: (isDown: Boolean) -> Unit,
+): CSRegistration {
+    var registration: CSRegistration? = null
+    onTouch(press = { down ->
+        if (down) registration = Main.launch {
+            delay(duration)
+            if (it.isActive) {
+                down(true)
+                registration = null
+            }
+        }
+        else registration?.cancel() ?: down(false)
+    })
+    return CSRegistration { registration?.cancel() }
+}
+
 
 inline fun <T : CSHasTouchEvent> T.onTouchMove(
     crossinline move: (event: MotionEvent) -> Unit,
