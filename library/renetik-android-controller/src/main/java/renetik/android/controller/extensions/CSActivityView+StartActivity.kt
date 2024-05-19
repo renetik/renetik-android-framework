@@ -1,18 +1,20 @@
 package renetik.android.controller.extensions
 
-import android.content.*
-import android.content.Intent.*
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.CSStartActivityResult.ActivityNotFound
 import renetik.android.controller.extensions.CSStartActivityResult.Cancel
 import renetik.android.core.kotlin.primitives.random
-import renetik.android.event.listen
-import renetik.android.event.registration.cancel
+import renetik.android.core.lang.variable.CSWeakVariable
+import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.plus
 
 fun CSActivityView<*>.startActivityForResult(
-    activityClass: Class<out AppCompatActivity>, requestCode: Int) =
+    activityClass: Class<out AppCompatActivity>, requestCode: Int
+) =
     startActivityForResult(Intent(activity(), activityClass), requestCode)
 
 enum class CSStartActivityResult {
@@ -21,15 +23,17 @@ enum class CSStartActivityResult {
 
 fun CSActivityView<*>.startActivityForResult(
     intent: Intent, onSuccess: (Intent?) -> Unit,
-    onFailure: ((CSStartActivityResult) -> Unit)? = null) {
+    onFailure: ((CSStartActivityResult) -> Unit)? = null
+) {
     try {
         val requestCode = Int.random(0, 9999)
         startActivityForResult(intent, requestCode)
-        this + activity().onActivityResult.listen { registration, result ->
+        var registration: CSRegistration? = null
+        registration = this + activity().onActivityResult.listen { result ->
             if (result.requestCode == requestCode) {
                 if (result.isOK()) onSuccess(result.data)
                 else onFailure?.invoke(Cancel)
-                cancel(registration)
+                registration?.cancel()
             }
         }
     } catch (ex: ActivityNotFoundException) {
@@ -49,8 +53,10 @@ fun CSActivityView<*>.switchActivity(intent: Intent) {
     startActivity(intent)
 }
 
-fun CSActivityView<*>.switchActivity(activityClass: Class<out AppCompatActivity>,
-                                     resultCode: Int) {
+fun CSActivityView<*>.switchActivity(
+    activityClass: Class<out AppCompatActivity>,
+    resultCode: Int
+) {
     activity().setResult(resultCode)
     switchActivity(Intent(activity(), activityClass))
 }

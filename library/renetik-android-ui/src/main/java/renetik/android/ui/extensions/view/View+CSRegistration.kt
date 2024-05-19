@@ -20,7 +20,6 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
-import renetik.android.event.registration.cancel
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
@@ -71,11 +70,11 @@ inline fun View.afterGlobalLayout(crossinline function: (View) -> Unit): CSRegis
 inline fun View.afterGlobalLayout(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration {
-    val registration by weak(parent + onGlobalLayout {
-        parent.cancel(it)
-        function(this)
-    })
-    return CSRegistration { parent.cancel(registration) }
+    var registration: CSRegistration? = null
+    return parent + onGlobalLayout {
+        if (it.isActive) function(this)
+        registration?.cancel()
+    }.also { registration = it }
 }
 
 inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
@@ -116,13 +115,13 @@ inline fun View.registerOnHasSize(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration? {
     if (!hasSize) {
-        val registration by weak(parent + onBoundsChange {
+        var registration: CSRegistration? = null
+        return parent + onBoundsChange {
             if (hasSize) {
-                parent.cancel(it)
+                registration?.cancel()
                 function(this)
             }
-        })
-        return CSRegistration { parent.cancel(registration) }
+        }.also { registration = it }
     } else function(this)
     return null
 }

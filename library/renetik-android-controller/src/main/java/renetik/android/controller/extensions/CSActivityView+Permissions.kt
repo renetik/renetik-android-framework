@@ -6,9 +6,9 @@ import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.primitives.isSet
+import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.math.CSMath.randomInt
-import renetik.android.event.listen
-import renetik.android.event.registration.cancel
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.plus
 
 fun CSActivityView<*>.requestPermissions(permissions: List<String>, onGranted: () -> Unit) {
@@ -32,9 +32,10 @@ fun CSActivityView<*>.requestPermissions(
     if (deniedPermissions.isSet) {
         val requestCode = randomInt(0, 999)
         ActivityCompat.requestPermissions(activity(), deniedPermissions, requestCode)
-        this + activity().onRequestPermissionsResult.listen { registration, results ->
+        var registration: CSRegistration? = null
+        registration = this + activity().onRequestPermissionsResult.listen { results ->
             if (results.requestCode == requestCode) {
-                cancel(registration)
+                registration?.cancel()
                 for (status in results.statuses) if (PERMISSION_GRANTED != status) {
                     onNotGranted?.invoke()
                     onDone?.invoke()

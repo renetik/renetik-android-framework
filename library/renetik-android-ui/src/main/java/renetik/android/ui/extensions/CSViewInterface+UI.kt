@@ -15,7 +15,6 @@ import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.cancel
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.CSDisplayCutout
@@ -109,14 +108,8 @@ fun <Type : CSViewInterface> Type.removeFromSuperview() = apply {
     if (!isDestructed) view.removeFromSuperview()
 }
 
-fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration {
-    lateinit var registration: CSRegistration
-    registration = this + view.afterGlobalLayout {
-        cancel(registration)
-        function()
-    }
-    return registration
-}
+fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration =
+    this + view.afterGlobalLayout { function() }
 
 suspend fun CSViewInterface.waitForLayout(): Unit = suspendCancellableCoroutine { coroutine ->
     var registration: CSRegistration? = null

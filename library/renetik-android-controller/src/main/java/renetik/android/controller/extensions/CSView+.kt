@@ -7,11 +7,10 @@ import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
 import renetik.android.core.kotlin.isNull
 import renetik.android.core.kotlin.notNull
-import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.cancel
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import renetik.android.ui.extensions.registerAfterLayout
@@ -67,8 +66,7 @@ fun CSView<*>.onOrientationChange(
     var afterGlobalLayoutRegistration: CSRegistration? = null
     val listener = object : OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
         override fun onOrientationChanged(orientation: Int) {
-            if (afterGlobalLayoutRegistration?.isActive.isTrue)
-                cancel(afterGlobalLayoutRegistration)
+            afterGlobalLayoutRegistration?.cancel()
             afterGlobalLayoutRegistration = registerAfterLayout {
                 if (this@onOrientationChange.orientation != currentOrientation) {
                     currentOrientation = this@onOrientationChange.orientation
