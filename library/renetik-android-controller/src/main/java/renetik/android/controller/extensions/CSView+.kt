@@ -2,16 +2,17 @@ package renetik.android.controller.extensions
 
 import android.hardware.SensorManager
 import android.view.OrientationEventListener
+import kotlinx.coroutines.delay
 import renetik.android.controller.base.CSView
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
 import renetik.android.core.kotlin.isNull
 import renetik.android.core.kotlin.notNull
-import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.plus
+import renetik.android.event.registration.reLaunch
 import renetik.android.event.registration.start
 import renetik.android.ui.extensions.registerAfterLayout
 import renetik.android.ui.extensions.view.alphaToDisabled
@@ -63,11 +64,10 @@ fun CSView<*>.onOrientationChange(
     function: (CSDisplayOrientation) -> Unit
 ): CSRegistration {
     var currentOrientation = orientation
-    var afterGlobalLayoutRegistration: CSRegistration? = null
     val listener = object : OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
         override fun onOrientationChanged(orientation: Int) {
-            afterGlobalLayoutRegistration?.cancel()
-            afterGlobalLayoutRegistration = registerAfterLayout {
+            reLaunch("onOrientationChange") {
+                delay(50)
                 if (this@onOrientationChange.orientation != currentOrientation) {
                     currentOrientation = this@onOrientationChange.orientation
                     function(this@onOrientationChange.orientation)
@@ -79,3 +79,24 @@ fun CSView<*>.onOrientationChange(
         onResume = { listener.enable() },
         onPause = { listener.disable() }).start()
 }
+
+//fun CSView<*>.onOrientationChangeOld(
+//    function: (CSDisplayOrientation) -> Unit
+//): CSRegistration {
+//    var currentOrientation = orientation
+//    var afterGlobalLayoutRegistration: CSRegistration? = null
+//    val listener = object : OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
+//        override fun onOrientationChanged(orientation: Int) {
+//            afterGlobalLayoutRegistration?.cancel()
+//            afterGlobalLayoutRegistration = registerAfterLayout {
+//                if (this@onOrientationChangeOld.orientation != currentOrientation) {
+//                    currentOrientation = this@onOrientationChangeOld.orientation
+//                    function(this@onOrientationChangeOld.orientation)
+//                }
+//            }
+//        }
+//    }
+//    return this + CSRegistration.CSRegistration(
+//        onResume = { listener.enable() },
+//        onPause = { listener.disable() }).start()
+//}
