@@ -18,7 +18,6 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.CSDisplayCutout
-import renetik.android.ui.extensions.view.afterGlobalLayout
 import renetik.android.ui.extensions.view.checkBox
 import renetik.android.ui.extensions.view.compound
 import renetik.android.ui.extensions.view.datePicker
@@ -108,8 +107,12 @@ fun <Type : CSViewInterface> Type.removeFromSuperview() = apply {
     if (!isDestructed) view.removeFromSuperview()
 }
 
-fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration =
-    this + view.afterGlobalLayout { function() }
+fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration {
+    var registration: CSRegistration? = null
+    return (this + view.onGlobalLayout {
+        registration?.cancel(); function()
+    }).also { registration = it }
+}
 
 suspend fun CSViewInterface.waitForLayout(): Unit = suspendCancellableCoroutine { coroutine ->
     var registration: CSRegistration? = null
