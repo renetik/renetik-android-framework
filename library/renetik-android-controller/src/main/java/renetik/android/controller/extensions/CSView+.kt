@@ -11,10 +11,9 @@ import renetik.android.core.kotlin.notNull
 import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.launch
 import renetik.android.event.registration.plus
-import renetik.android.event.registration.reLaunch
 import renetik.android.event.registration.start
-import renetik.android.ui.extensions.registerAfterLayout
 import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onLongClick
@@ -66,7 +65,7 @@ fun CSView<*>.onOrientationChange(
     var currentOrientation = orientation
     val listener = object : OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
         override fun onOrientationChanged(orientation: Int) {
-            reLaunch("onOrientationChange") {
+            launch("onOrientationChange") {
                 delay(50)
                 if (this@onOrientationChange.orientation != currentOrientation) {
                     currentOrientation = this@onOrientationChange.orientation
