@@ -11,7 +11,6 @@ import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
-import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
@@ -71,10 +70,10 @@ inline fun View.afterGlobalLayout(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration {
     var registration: CSRegistration? = null
-    return parent + onGlobalLayout {
+    return (parent + onGlobalLayout {
         if (it.isActive) function(this)
         registration?.cancel()
-    }.also { registration = it }
+    }).also { registration = it }
 }
 
 inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
@@ -116,12 +115,12 @@ inline fun View.registerOnHasSize(
 ): CSRegistration? {
     if (!hasSize) {
         var registration: CSRegistration? = null
-        return parent + onBoundsChange {
+        return (parent + onBoundsChange {
             if (hasSize) {
                 registration?.cancel()
                 function(this)
             }
-        }.also { registration = it }
+        }).also { registration = it }
     } else function(this)
     return null
 }
