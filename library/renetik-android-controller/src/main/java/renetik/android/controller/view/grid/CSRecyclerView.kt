@@ -105,12 +105,12 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         }
     }
 
-    private fun ViewType.onClick() {
-        if (!isClickable) return
-        if (selectedItem.value != this.value) {
-            if (itemDisabled) eventDisabledItemClick.fire(this)
-            else eventItemSelected.fire(this)
-        } else eventItemReSelected.fire(this)
+    fun onItemClick(item: ViewType) {
+        if (!item.isClickable) return
+        if (selectedItem.value != item.value) {
+            if (item.itemDisabled) eventDisabledItemClick.fire(item)
+            else eventItemSelected.fire(item)
+        } else eventItemReSelected.fire(item)
     }
 
     private fun ViewType.onItemLongTouch(down: Boolean) {
@@ -145,7 +145,7 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
             val itemView: ViewType = createView(parent, type, group)
             // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }
-            itemView.view.onClick { itemView.onClick() }
+            itemView.view.onClick { onItemClick(itemView) }
             if (eventItemLongTouch.isListened) {
                 parent + itemView.view.setHasTouchEventListener()
                     .onLongTouch(down = { itemView.onItemLongTouch(it) })

@@ -13,7 +13,7 @@ fun <RowType : Any, ViewType : CSGridItemView<RowType>>
         CSRecyclerView<RowType, ViewType>.reload(values: Array<out RowType>) =
     reload(values.asIterable())
 
-fun <RowType : Any> RecyclerView<RowType>.reload(
+fun <RowType : Any> CSRecyclerView<RowType, out CSGridItemView<RowType>>.reload(
     values: Iterable<RowType>
 ) = reload(values.map { it to 0 })
 
