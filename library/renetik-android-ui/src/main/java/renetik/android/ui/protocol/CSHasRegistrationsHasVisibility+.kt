@@ -29,7 +29,7 @@ fun <T> T.registerUntilHide(registration: CSRegistration?): CSRegistration?
 fun <T> T.untilHide(registration: CSRegistration?): CSRegistration?
         where T : CSHasRegistrations, T : CSVisibility = registration?.let(::untilHide)
 
-fun <T> T.onShowUntilHide(registration: () -> CSRegistration)
+fun <T> T.onShowUntilHide(registration: () -> CSRegistration?)
         where T : CSHasRegistrations, T : CSVisibility {
     isVisible.onTrue { untilHide(registration()) }
 }
