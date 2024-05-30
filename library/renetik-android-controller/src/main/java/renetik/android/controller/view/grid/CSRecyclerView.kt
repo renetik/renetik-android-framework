@@ -23,9 +23,7 @@ import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.onClick
-import renetik.android.ui.extensions.view.setHasTouchEventListener
 import renetik.android.ui.extensions.view.shortAnimationDuration
-import renetik.android.ui.view.onLongTouch
 
 typealias RecyclerView<T> = CSRecyclerView<T, out CSGridItemView<T>>
 
@@ -74,10 +72,6 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
     fun onDisabledItemClick(function: (ViewType) -> Unit) =
         apply { eventDisabledItemClick.listen(function) }
 
-    val eventItemLongTouch = event<Pair<ViewType, Boolean>>()
-    fun onItemLongTouch(function: (Pair<ViewType, Boolean>) -> Unit) =
-        apply { eventItemLongTouch.listen(function) }
-
     val eventItemActivated = event<ViewType>()
     fun onItemActive(function: (ViewType) -> Unit) =
         apply { eventItemActivated.listen(function) }
@@ -113,11 +107,6 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         } else eventItemReSelected.fire(item)
     }
 
-    private fun ViewType.onItemLongTouch(down: Boolean) {
-        if (!isClickable) return
-        eventItemLongTouch.fire(this to down)
-    }
-
     private var emptyView: View? = null
     fun emptyView(id: Int) = apply { emptyView = parentView.findView(id) }
     private fun updateEmptyView() {
@@ -146,10 +135,6 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
             // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }
             itemView.view.onClick { onItemClick(itemView) }
-            if (eventItemLongTouch.isListened) {
-                parent + itemView.view.setHasTouchEventListener()
-                    .onLongTouch(down = { itemView.onItemLongTouch(it) })
-            }
             return ViewHolder(itemView.view)
         }
 
