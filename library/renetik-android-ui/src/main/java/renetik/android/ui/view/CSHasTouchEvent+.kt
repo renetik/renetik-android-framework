@@ -141,23 +141,23 @@ inline fun <T : CSHasTouchEvent> T.onTouchUp(
 }
 
 inline fun <T : CSHasTouchEvent> T.onLongTouch(
-    crossinline down: (isDown: Boolean) -> Unit,
+    crossinline onTouch: (isDown: Boolean) -> Unit,
     crossinline onClick: () -> Unit,
 ) = apply {
     var isLongTouch = false
     self.onLongClick {
         isLongTouch = true
-        down(true)
+        onTouch(true)
     }
     onTouchUp(up = {
         if (isLongTouch) {
             isLongTouch = false
-            down(false)
+            onTouch(false)
         } else onClick()
     }, cancel = {
         if (isLongTouch) {
             isLongTouch = false
-            down(false)
+            onTouch(false)
         }
     })
 }
