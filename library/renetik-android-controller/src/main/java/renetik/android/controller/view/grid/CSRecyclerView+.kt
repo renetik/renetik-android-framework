@@ -17,11 +17,11 @@ fun <RowType : Any> CSRecyclerView<RowType, out CSGridItemView<RowType>>.reload(
     values: Iterable<RowType>
 ) = reload(values.map { it to 0 })
 
-fun <T : CSHasTitle> RecyclerView<T>.reload(
+fun <T : CSHasTitle> RecyclerViewOut<T>.reload(
     values: Array<T>, search: CSValue<String>, ignoreCase: Boolean = true,
 ) = reload(values.asIterable(), search, ignoreCase)
 
-fun <T : CSHasTitle> RecyclerView<T>.reload(
+fun <T : CSHasTitle> RecyclerViewOut<T>.reload(
     values: Iterable<T>, search: CSValue<String>, ignoreCase: Boolean = true,
 ) = apply {
     val data: Iterable<T> = if (search.value.isEmpty) values
@@ -29,11 +29,11 @@ fun <T : CSHasTitle> RecyclerView<T>.reload(
     reload(data.map { it to 0 })
 }
 
-val RecyclerView<*>.dataCount get() = data.size
+val RecyclerViewOut<*>.dataCount get() = data.size
 
-fun <T : Any> RecyclerView<T>.value(value: T?) = apply { selectedItem.value(value) }
+fun <T : Any> RecyclerViewOut<T>.value(value: T?) = apply { selectedItem.value(value) }
 
-fun <T : Any> RecyclerView<T>.property(property: CSProperty<T>) = apply {
+fun <T : Any> RecyclerViewOut<T>.property(property: CSProperty<T>) = apply {
     lateinit var propertyRegistration: CSRegistration
     val selectedItemRegistration = selectedItem.onChange { item ->
         propertyRegistration.paused { property.value = item!! }
@@ -44,7 +44,7 @@ fun <T : Any> RecyclerView<T>.property(property: CSProperty<T>) = apply {
 }
 
 @JvmName("propertyNullableItem")
-fun <T : Any> RecyclerView<T>.property(property: CSProperty<T?>) = apply {
+fun <T : Any> RecyclerViewOut<T>.property(property: CSProperty<T?>) = apply {
     lateinit var propertyRegistration: CSRegistration
     val selectedItemRegistration = selectedItem.onChange {
         propertyRegistration.paused { property.value = it }

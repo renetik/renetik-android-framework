@@ -25,7 +25,8 @@ import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.shortAnimationDuration
 
-typealias RecyclerView<T> = CSRecyclerView<T, out CSGridItemView<T>>
+typealias RecyclerViewOut<T> = CSRecyclerView<T, out CSGridItemView<T>>
+typealias RecyclerView<T> = CSRecyclerView<T, CSGridItemView<T>>
 
 class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
     parent: CSActivityView<*>, viewId: Int,
