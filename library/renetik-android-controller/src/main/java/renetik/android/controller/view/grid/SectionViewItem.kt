@@ -8,5 +8,6 @@ data class SectionViewItem<Section, Item>(
     companion object {
         const val HeaderViewId = 0
         const val ItemViewId = 1
+        const val EmptyViewId = 2
     }
 }
