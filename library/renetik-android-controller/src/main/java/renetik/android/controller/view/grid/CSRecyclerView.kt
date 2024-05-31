@@ -22,7 +22,6 @@ import renetik.android.ui.extensions.view.disabledByAlpha
 import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.mediumAnimationDuration
-import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.shortAnimationDuration
 
 typealias RecyclerViewOut<T> = CSRecyclerView<T, out CSGridItemView<T>>
@@ -101,7 +100,6 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
     }
 
     fun onItemClick(item: ViewType) {
-        if (!item.isClickable) return
         if (selectedItem.value != item.value) {
             if (item.itemDisabled) eventDisabledItemClick.fire(item)
             else eventItemSelected.fire(item)
@@ -135,7 +133,6 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
             val itemView: ViewType = createView(parent, type, group)
             // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }
-            itemView.view.onClick { onItemClick(itemView) }
             return ViewHolder(itemView.view)
         }
 
