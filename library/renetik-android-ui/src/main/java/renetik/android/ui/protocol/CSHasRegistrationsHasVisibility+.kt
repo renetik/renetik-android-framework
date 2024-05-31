@@ -6,6 +6,7 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.actionFalse
 import renetik.android.event.registration.actionTrue
 import renetik.android.event.registration.laterEach
 import renetik.android.event.registration.onFalse
@@ -31,7 +32,7 @@ fun <T> T.untilHide(registration: CSRegistration?): CSRegistration?
 
 fun <T> T.onShowUntilHide(registration: () -> CSRegistration?)
         where T : CSHasRegistrations, T : CSVisibility {
-    isVisible.onTrue { untilHide(registration()) }
+    isVisible.actionTrue { untilHide(registration()) }
 }
 
 fun <T> T.untilHide(registration: CSRegistration): CSRegistration
@@ -58,7 +59,7 @@ fun <T> T.untilShow(registration: CSRegistration?): CSRegistration?
 
 fun <T> T.onHideUntilShow(registration: () -> CSRegistration)
         where T : CSHasRegistrations, T : CSVisibility {
-    isVisible.onFalse { untilShow(registration()) }
+    isVisible.actionFalse { untilShow(registration()) }
 }
 
 fun <T> T.untilShow(registration: CSRegistration): CSRegistration
