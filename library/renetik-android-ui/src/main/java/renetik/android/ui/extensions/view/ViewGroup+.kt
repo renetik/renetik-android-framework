@@ -12,8 +12,7 @@ operator fun ViewGroup.get(index: Int): View = getChildAt(index)
 
 inline fun <R : Comparable<R>> ViewGroup.sortChildren(
     crossinline selector: (View) -> R?
-) =
-    sortChildren { _, view -> selector(view) }
+) = sortChildren { _, view -> selector(view) }
 
 inline fun <R : Comparable<R>> ViewGroup.sortChildren(
     crossinline selector: (Int, View) -> R?

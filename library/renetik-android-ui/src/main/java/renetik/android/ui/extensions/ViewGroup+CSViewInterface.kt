@@ -2,12 +2,14 @@ package renetik.android.ui.extensions
 
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
-import android.widget.FrameLayout
 import androidx.core.view.contains
 import renetik.android.ui.extensions.view.add
-import renetik.android.ui.extensions.view.clear
 import renetik.android.ui.extensions.view.remove
 import renetik.android.ui.protocol.CSViewInterface
+
+operator fun <View : CSViewInterface> ViewGroup.plusAssign(view: View) {
+    add(view.view)
+}
 
 fun <View : CSViewInterface> ViewGroup.add(view: View): View {
     add(view.view)
@@ -20,7 +22,8 @@ fun <View : CSViewInterface> ViewGroup.add(view: View, index: Int = -1): View {
 }
 
 fun <View : CSViewInterface> ViewGroup.add(
-    view: View, params: LayoutParams, index: Int = -1): View {
+    view: View, params: LayoutParams, index: Int = -1
+): View {
     add(view.view, params, index)
     return view
 }

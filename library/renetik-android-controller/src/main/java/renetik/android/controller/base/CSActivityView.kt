@@ -36,7 +36,7 @@ open class CSActivityView<ViewType : View>
     var isResumed = false
     private var isResumeFirstTime = false
 
-    var parentActivityView: CSActivityView<*>? = null
+    private var parentActivityView: CSActivityView<*>? = null
         private set
 
     var activity: CSActivity<*>? = null
@@ -52,24 +52,24 @@ open class CSActivityView<ViewType : View>
         initializeParent(activity)
     }
 
-    constructor(parent: CSActivityView<*>) : super(parent) {
-        parentActivityView = parent
+    constructor(parent: CSActivityViewInterface) : super(parent) {
+        parentActivityView = parent as CSActivityView<*>
         initializeParent(parent)
     }
 
-    constructor(parent: CSActivityView<*>, @IdRes viewId: Int) : super(parent, viewId) {
-        parentActivityView = parent
+    constructor(parent: CSActivityViewInterface, @IdRes viewId: Int) : super(parent, viewId) {
+        parentActivityView = parent as CSActivityView<*>
         initializeParent(parent)
     }
 
-    constructor(parent: CSActivityView<*>, layout: CSLayoutRes) : super(parent, layout) {
-        parentActivityView = parent
+    constructor(parent: CSActivityViewInterface, layout: CSLayoutRes) : super(parent, layout) {
+        parentActivityView = parent as CSActivityView<*>
         initializeParent(parent)
     }
 
-    constructor(parent: CSActivityView<*>, group: ViewGroup, layout: CSLayoutRes)
+    constructor(parent: CSActivityViewInterface, group: ViewGroup, layout: CSLayoutRes)
             : super(parent, group, layout) {
-        parentActivityView = parent
+        parentActivityView = parent as CSActivityView<*>
         initializeParent(parent)
     }
 
