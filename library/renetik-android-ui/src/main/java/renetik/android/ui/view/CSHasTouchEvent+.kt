@@ -48,8 +48,8 @@ inline fun <T : CSHasTouchEvent> T.onLongTouch(
     crossinline down: (isDown: Boolean) -> Unit,
 ): CSRegistration {
     var registration: CSRegistration? = null
-    onTouch(down = { down ->
-        if (down) registration = Main.launch {
+    onTouch(down = { isDown ->
+        if (isDown) registration = Main.launch {
             delay(duration)
             if (it.isActive) {
                 down(true)
