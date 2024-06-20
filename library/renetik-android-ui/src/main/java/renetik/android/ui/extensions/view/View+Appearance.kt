@@ -101,7 +101,7 @@ inline fun <T> View.enabledByAlphaIf(
     property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean,
 ): CSRegistration = property.action { enabledByAlpha(condition(it)) }
 
-fun View.enabledByAlphaIf(property: CSHasChangeValue<Boolean>) =
+fun View.enabledByAlphaIf(property: CSHasChangeValue<Boolean>): CSRegistration =
     enabledByAlphaIf(property) { it }
 
 fun View.disabledByAlphaIf(
