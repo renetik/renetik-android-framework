@@ -16,6 +16,7 @@ import renetik.android.controller.navigation.CSNavigationItemAnimation.None
 import renetik.android.controller.navigation.CSNavigationItemAnimation.Slide
 import renetik.android.controller.navigation.CSNavigationItemAnimation.SlideFade
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Bottom
+import renetik.android.controller.navigation.CSNavigationItemPopupSide.Left
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Right
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
 import renetik.android.core.extensions.content.color
@@ -155,6 +156,7 @@ open class CSNavigationItemView(
             when (side) {
                 Bottom -> positionDialogContentFromViewBottom(button)
                 Right -> positionDialogContentFromViewRight(button)
+                Left -> positionDialogContentFromViewLeft(button)
                 Top -> positionDialogContentFromViewTop(button)
             }
             correctContentOverflow()
@@ -199,6 +201,12 @@ open class CSNavigationItemView(
         if (desiredY < contentMarginDp.dpf) desiredY = contentMarginDp.dpf
         viewContent.x = fromViewLocation.x.toFloat() + fromView.width
         viewContent.y = desiredY
+    }
+
+    private fun positionDialogContentFromViewLeft(fromView: View) {
+        val fromViewLocation = fromView.locationInWindow
+        viewContent.x = fromViewLocation.x.toFloat() - viewContent.width
+        viewContent.y = fromViewLocation.y.toFloat() - contentMarginDp.dpf
     }
 
     fun wrapContentIfNotFullscreen() {
