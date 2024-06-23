@@ -9,6 +9,7 @@
     <string name="cs_base_dummy_number_medium" translatable="false">100</string>
     <string name="cs_base_dummy_char" translatable="false">A</string>
     <string name="cs_base_dummy_word" translatable="false">Lorem</string>
+    <string name="cs_base_dummy_word_vertical" translatable="false">L\no\nr\ne\nm</string>
     <string name="cs_base_dummy_time" translatable="false">15:40</string>
     <string name="cs_base_dummy_two_words" translatable="false">Lorem Ipsum</string>
     <string name="cs_base_dummy_two_words_vertical" translatable="false">L/no/nr/ne/nm/n /nI/np/ns/nu/nm/n</string>
