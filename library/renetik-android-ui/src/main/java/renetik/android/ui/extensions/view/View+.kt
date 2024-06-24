@@ -14,6 +14,11 @@ import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.obtain
 import android.view.View
+import android.view.View.OnTouchListener
+import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
+import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE
+import android.view.View.SYSTEM_UI_FLAG_VISIBLE
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.CheckBox
@@ -51,8 +56,9 @@ import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 
-@JvmName("viewOfType")
-inline fun <reified Type : View> View.view(@IdRes id: Int): Type = findView(id)!!
+@JvmName("viewOfType") inline fun <reified Type : View> View.view(@IdRes id: Int): Type =
+    findView(id)!!
+
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
 
 fun View.editText(@IdRes id: Int) = findView<EditText>(id)!!
@@ -89,19 +95,48 @@ val <T : View> T.superview get() = parent as? ViewGroup
 val <T : View> T.parentView get() = parent as? ViewGroup
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
 
-fun <T : View> View.findViewRecursive(id: Int): T? = findView(id)
-    ?: parentView?.findViewRecursive(id)
+fun <T : View> View.findViewRecursive(id: Int): T? =
+    findView(id) ?: parentView?.findViewRecursive(id)
 
-fun <T : View> T.onClick(timeout: Int? = null, onClick: (view: T) -> Unit) =
-    apply { setOnClickListener(CSClickAdapter(timeout) { onClick(this) }) }
+fun <T : View> T.onClick(
+    timeout: Int? = null, onClick: (view: T) -> Unit
+) = apply {
+    setOnClickListener(CSClickAdapter(timeout) {
+        onClick(this)
+    })
+}
+
+
+//fun <T : View> T.registerClick(
+//    timeout: Int? = null, onClick: (view: T) -> Unit
+//): CSRegistration {
+//    val wasClickable = isClickable
+//    return CSRegistration(onResume = {
+//        setOnClickListener(CSClickAdapter(timeout) { onClick(this) })
+//    }, onPause = {
+//        setOnClickListener(null)
+//        isClickable = wasClickable
+//    }).start()
+//}
 
 fun <T : View> T.clearClick() = apply {
     setOnClickListener(null)
     isClickable = false
 }
 
-fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) =
-    apply { setOnLongClickListener { onClick(this); true } }
+fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) = apply {
+    setOnLongClickListener { onClick(this); true }
+}
+
+//fun <T : View> T.registerLongClick(onClick: (view: T) -> Unit): CSRegistration {
+//    val wasClickable = isLongClickable
+//    return CSRegistration(onResume = {
+//        setOnLongClickListener { onClick(this); true }
+//    }, onPause = {
+//        setOnLongClickListener(null)
+//        isLongClickable = wasClickable
+//    }).start()
+//}
 
 fun <T : View> T.createBitmap(): Bitmap {
     val bitmap = createBitmap(width, height, ARGB_8888)
@@ -113,7 +148,7 @@ fun <T : View> T.createBitmap(): Bitmap {
 }
 
 fun View.setHasTouchEventListener(): CSHasTouchEvent {
-    val listener = object : CSHasTouchEvent, View.OnTouchListener {
+    val listener = object : CSHasTouchEvent, OnTouchListener {
         override val self: View get() = this@setHasTouchEventListener
         override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
         override fun onTouch(v: View, event: MotionEvent): Boolean =
@@ -124,8 +159,7 @@ fun View.setHasTouchEventListener(): CSHasTouchEvent {
 }
 
 fun <T : Any> View.propertyWithTag(@IdRes key: Int, onCreate: () -> T): T {
-    @Suppress("UNCHECKED_CAST")
-    var value = getTag(key) as? T
+    @Suppress("UNCHECKED_CAST") var value = getTag(key) as? T
     if (value.isNull) {
         value = onCreate()
         setTag(key, value)
@@ -154,19 +188,18 @@ fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
 fun View.onClick(action: CSActionInterface) = onClick { action.start() }
 fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 
-@Suppress("DEPRECATION")
-fun View.enterFullScreen() {
-    systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or
-            View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+@Suppress("DEPRECATION") fun View.enterFullScreen() {
+    systemUiVisibility = SYSTEM_UI_FLAG_IMMERSIVE or
+            SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }
 
-@Suppress("DEPRECATION")
-fun View.exitFullscreen() {
-    systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+@Suppress("DEPRECATION") fun View.exitFullscreen() {
+    systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
 }
 
-@SuppressLint("ClickableViewAccessibility")
-inline fun <T : View> T.onDoubleTap(crossinline function: (T) -> Unit) = apply {
+@SuppressLint("ClickableViewAccessibility") inline fun <T : View> T.onDoubleTap(
+    crossinline function: (T) -> Unit
+) = apply {
     val view = this
     val detector = GestureDetector(context, object : SimpleOnGestureListener() {
         override fun onDoubleTap(e: MotionEvent): Boolean {
@@ -187,13 +220,11 @@ fun View.onDestroy() {
     (this as? ViewGroup)?.children?.forEach(View::onDestroy)
 }
 
-fun View.performTouchDown(time: Int = 700): Boolean =
-    dispatchTouchEvent(
-        obtain(
-            uptimeMillis(),
-            uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0
-        )
+fun View.performTouchDown(time: Int = 700): Boolean = dispatchTouchEvent(
+    obtain(
+        uptimeMillis(), uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0
     )
+)
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild
 

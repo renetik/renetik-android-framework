@@ -4,16 +4,17 @@ import android.view.View
 import java.lang.System.currentTimeMillis
 
 class CSClickAdapter(
-    private val timeout: Int? = null,
-    private val onClickListener: View.OnClickListener
+    timeout: Int? = null,
+    private val onClick: () -> Unit
 ) : View.OnClickListener {
     private var lastTime: Long = 0
+    private val timeout = timeout ?: 400
 
-    override fun onClick(v: View?) {
+    override fun onClick(view: View) {
         val current = currentTimeMillis()
-        if ((current - lastTime) > (timeout ?: 400)) {
-            onClickListener.onClick(v)
+        if ((current - lastTime) > timeout) {
             lastTime = current
+            onClick()
         }
     }
 }
