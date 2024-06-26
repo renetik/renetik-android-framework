@@ -101,9 +101,7 @@ fun <T : View> View.findViewRecursive(id: Int): T? =
 fun <T : View> T.onClick(
     timeout: Int? = null, onClick: (view: T) -> Unit
 ) = apply {
-    setOnClickListener(CSClickAdapter(timeout) {
-        onClick(this)
-    })
+    setOnClickListener(CSClickAdapter(timeout) { onClick(this) })
 }
 
 

@@ -86,7 +86,9 @@ fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
 fun View.enabledByAlpha(condition: Boolean = true, disable: Boolean = true) =
     disabledByAlpha(!condition, disable)
 
-fun View.disabledByAlpha(condition: Boolean = true, disable: Boolean = true, normal: Float = 1F) {
+fun View.disabledByAlpha(
+    condition: Boolean = true, disable: Boolean = true, normal: Float = 1F
+) {
     if (disable) disabledIf(condition)
     alphaToDisabled(condition, normal)
 }
@@ -95,14 +97,17 @@ fun View.alphaToDisabled(value: Boolean = true, normal: Float = 1F) {
     alpha = if (value) context.disabledAlpha else normal
 }
 
-val Context.disabledAlpha get() = resources.getString(R.string.cs_disabled_alpha).toFloat()
+val Context.disabledAlpha
+    get() = resources.getString(R.string.cs_disabled_alpha).toFloat()
 
 inline fun <T> View.enabledByAlphaIf(
-    property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean,
-): CSRegistration = property.action { enabledByAlpha(condition(it)) }
+    property: CSHasChangeValue<T>, disable: Boolean = true,
+    crossinline condition: (T) -> Boolean,
+): CSRegistration = property.action { enabledByAlpha(condition(it), disable) }
 
-fun View.enabledByAlphaIf(property: CSHasChangeValue<Boolean>): CSRegistration =
-    enabledByAlphaIf(property) { it }
+fun View.enabledByAlphaIf(
+    property: CSHasChangeValue<Boolean>, disable: Boolean = true
+): CSRegistration = enabledByAlphaIf(property, disable) { it }
 
 fun View.disabledByAlphaIf(
     property: CSHasChangeValue<Boolean>, disable: Boolean = true,
@@ -128,11 +133,13 @@ inline fun <T> View.enabledByAlphaIf(
 ) = enabledByAlphaIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.enabledByAlphaIf(
-    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean,
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
+    condition: (T, V) -> Boolean,
 ): CSRegistration {
     fun update() = enabledByAlpha(condition(property1.value, property2.value))
     update()
-    return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
+    return CSRegistration(
+        property1.onChange { update() }, property2.onChange { update() })
 }
 
 fun <T, V> View.disabledByAlphaIf(
@@ -144,7 +151,8 @@ fun <T, V> View.disabledByAlphaIf(
         condition(property1.value, property2.value), disable, originalAlpha
     )
     update()
-    return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
+    return CSRegistration(
+        property1.onChange { update() }, property2.onChange { update() })
 }
 
 fun <T, V, X> View.disabledByAlphaIf(
