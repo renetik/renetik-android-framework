@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
-import androidx.core.view.iterator
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.protocol.CSHasParentView
 
@@ -99,7 +98,7 @@ val ViewGroup.subViews
         }
 
         override fun iterator(): Iterator<View> {
-            return (children as ViewGroup).iterator()
+            return children.iterator()
         }
 
         override fun lastIndexOf(element: View): Int {

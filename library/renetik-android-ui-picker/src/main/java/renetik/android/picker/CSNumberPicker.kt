@@ -2,12 +2,17 @@ package renetik.android.picker
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.view.children
 import com.shawnlin.numberpicker.NumberPicker
 import com.shawnlin.numberpicker.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.ui.R
+import renetik.android.ui.extensions.view.subViews
 
 class CSNumberPicker @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -27,7 +32,8 @@ class CSNumberPicker @JvmOverloads constructor(
         setOnValueChangedListener { _, _, newValue ->
             if (!isScrolling) index.value(newValue)
         }
-        val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
+        val attributes =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
         dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
         attributes.recycle()
     }
@@ -43,4 +49,31 @@ class CSNumberPicker @JvmOverloads constructor(
     override fun dispatchSetPressed(pressed: Boolean) {
         if (dispatchState) if (!isSelected) super.dispatchSetPressed(pressed)
     }
+
+//    init {
+//        processView(this)
+//    }
+//
+//    override fun addView(child: View?) {
+//        super.addView(child)
+//        processView(child)
+//    }
+//
+//    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
+//        super.addView(child, index, params)
+//        processView(child)
+//    }
+//
+//    override fun addView(child: View?, params: ViewGroup.LayoutParams?) {
+//        super.addView(child, params)
+//        processView(child)
+//    }
+
+//    private fun processView(view: View?) {
+//        (view as? EditText)?.apply {
+//            maxLines = 2
+//            setSingleLine(false)
+//            ellipsize = null
+//        } ?: (view as? ViewGroup)?.children?.forEach(::processView)
+//    }
 }
