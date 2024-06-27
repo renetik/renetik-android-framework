@@ -8,8 +8,10 @@ import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.asString
 import renetik.android.core.lang.CSHasDrawable
+import renetik.android.core.lang.to
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
@@ -102,36 +104,27 @@ inline fun <T> TextView.text(
 ): CSRegistration = property.action { value(text(property.value)) }
 
 fun TextView.text(property: CSHasChangeValue<*>): CSRegistration =
-    text(property, text = { it.asString })
+    text(property, text = Any?::asString)
 
-// Inline don't support local functions
-fun <T, V> TextView.text(
+inline fun <T, V> TextView.text(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
-    text: (T, V) -> Any
-): CSRegistration {
-    fun apply() = value(text(property1.value, property2.value))
-    apply()
-    return CSRegistration(
-        property1.onChange { apply() },
-        property2.onChange { apply() }
-    )
-}
+    crossinline text: (T, V) -> Any
+): CSRegistration = text(
+    (property1 to property2)
+        .delegate(from = { value1, value2 -> text(value1, value2) })
+)
 
-// Inline dont support local functions
-fun <T, V, K> TextView.text(
+inline fun <T, V, K> TextView.text(
     property1: CSHasChangeValue<T>,
     property2: CSHasChangeValue<V>,
     property3: CSHasChangeValue<K>,
-    text: (T, V, K) -> Any
-): CSRegistration {
-    fun apply() = value(text(property1.value, property2.value, property3.value))
-    apply()
-    return CSRegistration(
-        property1.onChange { apply() },
-        property2.onChange { apply() },
-        property3.onChange { apply() },
-    )
-}
+    crossinline text: (T, V, K) -> Any
+): CSRegistration = text(
+    (property1 to property2 to property3)
+        .delegate(from = { value1, value2, value3 ->
+            text(value1, value2, value3)
+        })
+)
 
 fun <T : CSHasDrawable> TextView.drawableStart(property: CSHasChangeValue<T>) =
     property.action { drawable(start = context.drawable(property.value.drawable)) }
