@@ -73,7 +73,8 @@ inline fun <T, V> TextView.textNullableChild(
 
 @JvmName("textPropertyChildTextProperty")
 inline fun <T> TextView.text(
-    parent: CSHasChangeValue<T>, crossinline child: (T) -> CSHasChangeValue<String>
+    parent: CSHasChangeValue<T>,
+    crossinline child: (T) -> CSHasChangeValue<String>
 ) = this.text(parent, child) { it }
 
 inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChild(
@@ -84,7 +85,7 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration: CSRegistration = parent.action(
-        nullableChild = parentChild, onChange = { parentChildValue ->
+        parentChild, onChange = { parentChildValue ->
             childRegistration?.cancel()
             parentChildValue?.let(child)?.let { childValue ->
                 childRegistration = text(childValue, text = { text(it) })
@@ -137,6 +138,10 @@ fun <T : CSHasDrawable> TextView.drawableStart(property: CSHasChangeValue<T>) =
 
 inline fun <T> TextView.drawableStart(
     property: CSHasChangeValue<T>, crossinline getDrawable: (T) -> Int?
-) = property.action { drawable(start = getDrawable(property.value)?.let(context::drawable)) }
+) = property.action {
+    drawable(
+        start = getDrawable(property.value)?.let(context::drawable)
+    )
+}
 
 fun <T : TextView> T.lines(max: Int) = apply { maxLines = max }
