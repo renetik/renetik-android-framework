@@ -44,6 +44,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import renetik.android.core.kotlin.isNull
+import renetik.android.core.kotlin.primitives.ifTrue
 import renetik.android.core.lang.catchAll
 import renetik.android.event.CSEvent
 import renetik.android.event.fire
@@ -101,7 +102,7 @@ fun <T : View> View.findViewRecursive(id: Int): T? =
 fun <T : View> T.onClick(
     timeout: Int? = null, onClick: (view: T) -> Unit
 ) = apply {
-    setOnClickListener(CSClickAdapter(timeout) { onClick(this) })
+    setOnClickListener(CSClickAdapter(timeout) { if (isClickable) onClick(this) })
 }
 
 
@@ -123,7 +124,7 @@ fun <T : View> T.clearClick() = apply {
 }
 
 fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) = apply {
-    setOnLongClickListener { onClick(this); true }
+    setOnLongClickListener { isLongClickable.ifTrue { onClick(this); true } ?: false }
 }
 
 //fun <T : View> T.registerLongClick(onClick: (view: T) -> Unit): CSRegistration {
