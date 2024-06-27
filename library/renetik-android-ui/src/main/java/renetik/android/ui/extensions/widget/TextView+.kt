@@ -84,7 +84,7 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration: CSRegistration = parent.action(
-        optionalChild = parentChild, onChange = { parentChildValue ->
+        nullableChild = parentChild, onChange = { parentChildValue ->
             childRegistration?.cancel()
             parentChildValue?.let(child)?.let { childValue ->
                 childRegistration = text(childValue, text = { text(it) })
