@@ -53,7 +53,7 @@ fun EditText.property(property: CSProperty<String>): CSRegistration {
     })
 }
 
-@JvmName("propertyOptionalString")
+@JvmName("propertyNullable")
 fun EditText.property(property: CSProperty<String?>): CSRegistration {
     val propertyOnChange = property.action { text(property.value.asString) }
     return CSRegistration(propertyOnChange, onTextChange {
