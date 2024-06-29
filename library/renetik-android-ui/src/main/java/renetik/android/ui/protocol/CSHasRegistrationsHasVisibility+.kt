@@ -9,8 +9,6 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 import renetik.android.event.registration.actionFalse
 import renetik.android.event.registration.actionTrue
 import renetik.android.event.registration.laterEach
-import renetik.android.event.registration.onFalse
-import renetik.android.event.registration.onTrue
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import kotlin.time.Duration
@@ -97,7 +95,8 @@ fun <T> T.laterEachIfShowing(delay: Int, period: Int, function: Func): CSRegistr
         isActive = false,
         onResume = {
             fun start() {
-                registration = registerUntilHide(mainHandler.laterEach(delay, period, function))
+                registration =
+                    registerUntilHide(mainHandler.laterEach(delay, period, function))
             }
             if (isVisible.isTrue) start()
             onShowingRegistration = onShowing { start() }
