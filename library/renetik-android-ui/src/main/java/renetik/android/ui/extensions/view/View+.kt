@@ -179,7 +179,7 @@ fun <T> View.model(): T? = modelProperty<T?>().value
 fun View.id(value: Int) = apply { id = value }
 fun View.pressed(value: Boolean = true) = apply { isPressed = value }
 
-fun View.select(value: Boolean = true) = selectedIf(value)
+fun View.selected(value: Boolean = true) = selectedIf(value)
 fun View.selectedIf(value: Boolean) = apply { isSelected = value }
 fun View.activated(value: Boolean = true) = activeIf(value)
 fun View.activeIf(value: Boolean) = apply { isActivated = value }

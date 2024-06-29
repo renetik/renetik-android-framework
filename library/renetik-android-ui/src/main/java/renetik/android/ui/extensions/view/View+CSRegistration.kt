@@ -171,8 +171,8 @@ fun <T> View.selectIf(property: CSProperty<T>, value: T): CSRegistration {
 inline fun <T> View.selectedIf(
     property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean
 ): CSRegistration {
-    select(condition(property.value))
-    return property.onChange { select(condition(property.value)) }
+    selected(condition(property.value))
+    return property.onChange { selected(condition(property.value)) }
 }
 
 fun View.selectedIf(property: CSHasChangeValue<Boolean>): CSRegistration =
@@ -249,7 +249,7 @@ inline fun <T> View.selectedIf(
 fun <T, V> View.selectedIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean
 ): CSRegistration {
-    fun update() = select(condition(property1.value, property2.value))
+    fun update() = selected(condition(property1.value, property2.value))
     update()
     return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
@@ -260,7 +260,7 @@ fun <T, V, X> View.selectedIf(
     property3: CSHasChangeValue<X>,
     condition: (T, V, X) -> Boolean
 ): CSRegistration {
-    fun update() = select(condition(property1.value, property2.value, property3.value))
+    fun update() = selected(condition(property1.value, property2.value, property3.value))
     update()
     return CSRegistration(
         property1.onChange(::update), property2.onChange(::update), property3.onChange(::update)
@@ -274,7 +274,7 @@ fun <T, V, X, Y> View.selectedIf(
     property4: CSHasChangeValue<Y>,
     condition: (T, V, X, Y) -> Boolean
 ): CSRegistration {
-    fun update() = select(
+    fun update() = selected(
         condition(
             property1.value, property2.value, property3.value, property4.value
         )
