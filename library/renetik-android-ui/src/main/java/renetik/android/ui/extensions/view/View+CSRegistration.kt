@@ -48,7 +48,9 @@ fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
 
 fun View.onGlobalLayout(function: (CSRegistration) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
-    val listener = OnGlobalLayoutListener { if (registration.isActive) function(registration) }
+    val listener =
+        OnGlobalLayoutListener { if (registration.isActive) function(registration) }
+
     fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
     fun detach() = viewTreeObserver.removeOnGlobalLayoutListener(listener)
     val attachStateListener = object : OnAttachStateChangeListener {
@@ -130,7 +132,13 @@ fun View.onScrollChange(function: (view: View) -> Unit): CSRegistration =
 
 val View.eventScrollChange
     get() = propertyWithTag(R.id.ViewEventOnScrollTag) {
-        event<View>().also { setOnScrollChangeListener { _, _, _, _, _ -> it.fire(this) } }
+        event<View>().also {
+            setOnScrollChangeListener { _, _, _, _, _ ->
+                it.fire(
+                    this
+                )
+            }
+        }
     }
 
 fun View.disabledIf(property: CSHasChangeValue<Boolean>): CSRegistration =
@@ -141,7 +149,8 @@ fun <T> View.disabledIf(
 ): CSRegistration = property.action { disabledIf(condition(property.value)) }
 
 fun <T, V> View.disabledIf(
-    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
+    condition: (T, V) -> Boolean
 ): CSRegistration {
     fun update() = disabledIf(condition(property1.value, property2.value))
     update()
@@ -185,12 +194,10 @@ fun <T> View.activateIf(property: CSProperty<T>, value: T): CSRegistration {
 
 inline fun <T> View.activeIf(
     property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean
-): CSRegistration {
-    activated(condition(property.value))
-    return property.onChange { activated(condition(property.value)) }
-}
+): CSRegistration = property.action { activated(condition(property.value)) }
 
-fun View.activeIf(property: CSHasChangeValue<Boolean>): CSRegistration = activeIf(property) { it }
+fun View.activeIf(property: CSHasChangeValue<Boolean>): CSRegistration =
+    activeIf(property) { it }
 
 inline fun <T> View.activeIf(
     property1: CSHasChangeValue<T>,
@@ -199,7 +206,8 @@ inline fun <T> View.activeIf(
 ): CSRegistration = activeIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.activeIf(
-    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
+    condition: (T, V) -> Boolean
 ): CSRegistration {
     fun update() = activated(condition(property1.value, property2.value))
     update()
@@ -215,7 +223,8 @@ fun <T, V, X> View.activeIf(
     fun update() = activated(condition(property1.value, property2.value, property3.value))
     update()
     return CSRegistration(
-        property1.onChange(::update), property2.onChange(::update), property3.onChange(::update)
+        property1.onChange(::update), property2.onChange(::update),
+        property3.onChange(::update)
     )
 }
 
@@ -247,7 +256,8 @@ inline fun <T> View.selectedIf(
 ): CSRegistration = selectedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.selectedIf(
-    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
+    condition: (T, V) -> Boolean
 ): CSRegistration {
     fun update() = selected(condition(property1.value, property2.value))
     update()
@@ -263,7 +273,8 @@ fun <T, V, X> View.selectedIf(
     fun update() = selected(condition(property1.value, property2.value, property3.value))
     update()
     return CSRegistration(
-        property1.onChange(::update), property2.onChange(::update), property3.onChange(::update)
+        property1.onChange(::update), property2.onChange(::update),
+        property3.onChange(::update)
     )
 }
 
@@ -289,11 +300,13 @@ fun <T, V, X, Y> View.selectedIf(
 }
 
 fun <T> View.pressedIf(
-    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>, condition: (T) -> Boolean
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>,
+    condition: (T) -> Boolean
 ): CSRegistration = pressedIf(property1, property2) { first, _ -> condition(first) }
 
 fun <T, V> View.pressedIf(
-    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean
+    property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
+    condition: (T, V) -> Boolean
 ): CSRegistration {
     fun update() = pressed(condition(property1.value, property2.value))
     update()
