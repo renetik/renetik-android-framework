@@ -95,8 +95,6 @@ open class CSNavigationItemView(
 
     init {
         registerListenOnce(navigationParent.eventDestruct) {
-//            if (!isShowingInPager && lifecycleStopOnRemoveFromParentView)
-//                logErrorTrace { "Unexpected but don't know why now..." }
             if (isShowingInPager) close()
             if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
