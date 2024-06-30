@@ -14,7 +14,7 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 import renetik.android.event.registration.action
 import renetik.android.event.registration.launch
 import renetik.android.event.registration.paused
-import renetik.android.event.registration.registerLaterEach
+import renetik.android.event.registration.laterEach
 import renetik.android.ui.extensions.view.onLongClick
 import renetik.android.ui.extensions.view.pressed
 import kotlin.time.Duration
@@ -270,7 +270,7 @@ fun <T> CSHasTouchEvent.onTouch(
         repeatCount = 0
         repeat(step(repeatCount))
         repeatRegistration?.cancel()
-        if (self.isEnabled) repeatRegistration = parent.registerLaterEach(
+        if (self.isEnabled) repeatRegistration = parent.laterEach(
             delay, period, function = {
                 repeat(step(repeatCount))
                 repeatCount++
