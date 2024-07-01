@@ -84,7 +84,7 @@ open class CSView<ViewType : View> : CSContext,
         this + parentView.isVisible.onChange(::updateVisibility)
         this.layout = null
         this.viewId = null
-        launch {  }
+        launch { }
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -154,7 +154,7 @@ open class CSView<ViewType : View> : CSContext,
     open val contentView: View get() = view
 
     //Visibility
-    private val _isVisible by lazy { property(false) }
+    private val _isVisible = property(false)
     override val isVisible: CSHasChangeValue<Boolean> get() = _isVisible
     private var onViewShowingCalled = false
 
