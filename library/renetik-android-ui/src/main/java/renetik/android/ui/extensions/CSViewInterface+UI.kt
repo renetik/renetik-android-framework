@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.CompoundButton
+import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
@@ -65,7 +66,7 @@ fun CSViewInterface.views(@IdRes vararg ids: Int): List<View> =
     mutableListOf<View>().apply { for (id in ids) add(view(id)) }
 
 fun CSViewInterface.simpleView(@IdRes id: Int) = view.view(id)
-fun CSViewInterface.editText(@IdRes id: Int) = view.editText(id)
+fun CSViewInterface.editText(@IdRes id: Int): EditText = view.editText(id)
 
 fun CSViewInterface.textView(@IdRes id: Int, onClick: ArgFunc<View>? = null) =
     view.textView(id).apply { onClick?.let { onClick { it(this) } } }
