@@ -52,6 +52,9 @@ fun layoutMatchHeight(dpHeight: Int) = layoutMatchHeight(dpHeight.toFloat())
 fun layoutWidthMatch(dpWidth: Int) =
     LayoutParams(app.dpToPixel(dpWidth), MATCH_PARENT)
 
+fun layoutWidthMatchPx(dpWidth: Int) =
+    LayoutParams(dpWidth, MATCH_PARENT)
+
 fun layoutWidthHeight(dpWidth: Int, dpHeight: Int) =
     layoutWidthHeight(dpWidth.toFloat(), dpHeight.toFloat())
 
