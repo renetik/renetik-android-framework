@@ -6,7 +6,6 @@ import android.widget.FrameLayout
 import androidx.core.view.updateLayoutParams
 import renetik.android.core.extensions.content.displayWidth
 import renetik.android.core.extensions.content.dpToPixel
-import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.core.math.CSPoint
 import renetik.android.ui.extensions.view.locationOnScreen
 import renetik.android.ui.protocol.CSViewInterface
@@ -42,9 +41,9 @@ fun <T : CSViewInterface> T.setPercentWidth(
 ) = apply {
     val onePercent = (context.displayWidth / 100).toDouble()
     var wantedSize = (onePercent * percent).toInt()
-    if (minimal.isSet && wantedSize < minimal)
+    if (minimal != 0 && wantedSize < minimal)
         wantedSize = minimal
-    else if (maximal.isSet && wantedSize > maximal) wantedSize = maximal
+    else if (maximal != 0 && wantedSize > maximal) wantedSize = maximal
     val layoutParams = view.layoutParams
     layoutParams.width = wantedSize
     view.layoutParams = layoutParams

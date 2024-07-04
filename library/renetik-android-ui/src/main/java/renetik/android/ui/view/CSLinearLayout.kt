@@ -8,19 +8,17 @@ import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
-import renetik.android.core.kotlin.primitives.Empty
-import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.ui.R
 
 open class CSLinearLayout @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0, defStyleRes: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
+    defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
 
-    var minWidth: Int
-    var maxWidth: Int
+    val minWidth: Int?
+    val maxWidth: Int?
     var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     override val self: View get() = this
@@ -31,22 +29,21 @@ open class CSLinearLayout @JvmOverloads constructor(
     init {
         val attributes =
             context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
-        try {
-            clipToOutline = attributes.getBoolean(R.styleable.CSLayout_clipToOutline, false)
-            minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth, Int.Empty)
-            maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth, Int.Empty)
-            dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
-        } finally {
-            attributes.recycle()
-        }
+        clipToOutline = attributes.getBoolean(R.styleable.CSLayout_clipToOutline, false)
+        minWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_minWidth)
+        maxWidth = attributes.getDimensionPixelSize(R.styleable.CSLayout_maxWidth)
+        dispatchState = attributes.getBoolean(R.styleable.CSLayout_dispatchState, true)
+        attributes.recycle()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (minWidth.isSet && measuredWidth < minWidth)
-            super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
-        else if (maxWidth.isSet && measuredWidth > maxWidth)
-            super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
+        if (minWidth != null && measuredWidth < minWidth) super.onMeasure(
+            makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec
+        )
+        else if (maxWidth != null && measuredWidth > maxWidth) super.onMeasure(
+            makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec
+        )
     }
 
     override fun dispatchSetActivated(activated: Boolean) {
@@ -78,7 +75,9 @@ open class CSLinearLayout @JvmOverloads constructor(
         eventOnDraw.fire(canvas)
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+    override fun onLayout(
+        changed: Boolean, left: Int, top: Int, right: Int, bottom: Int
+    ) {
         super.onLayout(changed, left, top, right, bottom)
         eventOnLayout.fire()
     }
