@@ -162,7 +162,7 @@ fun View.toggleSelectedAsTrue(property: CSProperty<Boolean>): CSRegistration {
     return selectedIf(property) { it.isTrue }
 }
 
-fun View.toggleActiveAsTrue(property: CSProperty<Boolean>): CSRegistration {
+fun View.toggleActive(property: CSProperty<Boolean>): CSRegistration {
     onClick { property.toggle() }
     return activeIf(property) { it.isTrue }
 }
