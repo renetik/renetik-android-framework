@@ -43,6 +43,15 @@ fun <T : View> T.backgroundAlpha(alpha: Double) = apply {
     }
 }
 
+fun <T : View> T.foregroundAlpha(alpha: Double) = apply {
+    (foreground as? ColorDrawable)?.color?.let {
+        val color = argb((256 * alpha).toInt(), red(it), green(it), blue(it))
+        foreground = ColorDrawable(color)
+    } ?: run {
+        foreground?.alpha = (255 * alpha).toInt();
+    }
+}
+
 fun <T : View> T.foregroundTint(@ColorInt value: Int) = apply {
     foregroundTintList = ColorStateList.valueOf(value)
 }
