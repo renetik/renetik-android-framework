@@ -43,6 +43,7 @@ import renetik.android.ui.extensions.view.onViewLayout
 import renetik.android.ui.extensions.view.passClicksUnder
 import renetik.android.ui.extensions.view.rightFloat
 import renetik.android.ui.extensions.view.topFloat
+import renetik.android.ui.extensions.widget.layoutMatch
 
 open class CSNavigationItemView(
     val navigationParent: CSActivityView<out ViewGroup>,
@@ -65,9 +66,12 @@ open class CSNavigationItemView(
     ) : this(parent, viewLayout, null, null)
 
     val viewContent: View by lazy {
-        val frameLayout = if (isFullScreen) (fullScreenFrameLayout ?: frameLayout) else frameLayout
-        (frameLayout?.let { inflate<FrameLayout>(it).apply { add<View>(viewLayout) } }
-            ?: inflate<View>(viewLayout))
+        val frameLayout = if (isFullScreen)
+            (fullScreenFrameLayout ?: frameLayout)
+        else frameLayout
+        (frameLayout?.let {
+            inflate<FrameLayout>(it).apply { add<View>(viewLayout, layoutMatch) }
+        } ?: inflate<View>(viewLayout))
     }
 
     final override var isFullScreen = false
@@ -183,7 +187,8 @@ open class CSNavigationItemView(
         if (desiredX + viewContent.width > screenAvailableWidth) desiredX -= (desiredX + viewContent.width) - screenAvailableWidth
         if (desiredX < contentMarginDp.dpf) desiredX = contentMarginDp.dpf
         viewContent.x = desiredX
-        viewContent.y = fromViewLocation.y.toFloat() - viewContent.height - contentMarginDp.dpf
+        viewContent.y =
+            fromViewLocation.y.toFloat() - viewContent.height - contentMarginDp.dpf
     }
 
     private fun correctContentOverflow() {
