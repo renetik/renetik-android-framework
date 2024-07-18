@@ -10,6 +10,7 @@ import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
+import renetik.android.ui.R
 import renetik.android.ui.R.styleable.CSLayout
 import renetik.android.ui.R.styleable.CSLayout_dispatchState
 import renetik.android.ui.R.styleable.CSLayout_maxWidth
@@ -31,6 +32,7 @@ open class CSFrameLayout @JvmOverloads constructor(
 
     init {
         context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0).let {
+            clipToOutline = it.getBoolean(R.styleable.CSLayout_clipToOutline, false)
             minWidth = it.getDimensionPixelSize(CSLayout_minWidth, -1)
             maxWidth = it.getDimensionPixelSize(CSLayout_maxWidth, -1)
             dispatchState = it.getBoolean(CSLayout_dispatchState, true)
