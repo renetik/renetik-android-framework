@@ -1,7 +1,13 @@
 package renetik.android.controller.extensions
 
 import android.content.Intent
-import android.content.Intent.*
+import android.content.Intent.ACTION_SEND
+import android.content.Intent.ACTION_SEND_MULTIPLE
+import android.content.Intent.EXTRA_EMAIL
+import android.content.Intent.EXTRA_STREAM
+import android.content.Intent.EXTRA_SUBJECT
+import android.content.Intent.EXTRA_TEXT
+import android.content.Intent.createChooser
 import android.net.Uri
 import android.os.Environment.getExternalStorageDirectory
 import renetik.android.controller.base.CSActivityView

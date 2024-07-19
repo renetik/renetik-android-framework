@@ -3,7 +3,6 @@ package renetik.android.framework.extensions
 import android.view.ViewGroup
 import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
-import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.preset.Preset

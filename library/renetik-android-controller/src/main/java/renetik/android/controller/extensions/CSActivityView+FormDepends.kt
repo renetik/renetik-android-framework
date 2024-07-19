@@ -1,10 +1,10 @@
 package renetik.android.controller.extensions
 
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.property.CSProperty
+import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.CSCondition
 import renetik.android.core.lang.CSCondition.Factory.condition
-import renetik.android.core.kotlin.primitives.isTrue
+import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSRegistration
 import renetik.android.ui.extensions.view.show
 import renetik.android.ui.extensions.view.superview
 

@@ -3,7 +3,7 @@ package renetik.android.network.operation
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSModel
 import renetik.android.event.common.destruct
-import renetik.android.event.common.registerParent
+import renetik.android.event.common.parent
 import renetik.android.event.process.CSProcess
 
 open class CSOperation<Data : Any>(
@@ -17,7 +17,7 @@ open class CSOperation<Data : Any>(
     lateinit var process: CSProcess<Data>
 
     fun send(): CSProcess<Data> = createProcess(this).also {
-        process = it.registerParent(this).onSuccess { onSuccess() }
+        process = it.parent(this).onSuccess { onSuccess() }
     }
 
     fun cancel() {

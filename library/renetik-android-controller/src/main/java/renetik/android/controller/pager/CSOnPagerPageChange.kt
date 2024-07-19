@@ -1,6 +1,8 @@
 package renetik.android.controller.pager
 
-import androidx.viewpager.widget.ViewPager.*
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING
+import androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.kotlin.ifNotNull
 import renetik.android.core.math.CSMath.between

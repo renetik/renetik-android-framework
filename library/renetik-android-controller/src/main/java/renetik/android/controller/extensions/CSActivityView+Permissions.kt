@@ -6,7 +6,6 @@ import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.primitives.isSet
-import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.core.math.CSMath.randomInt
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.plus

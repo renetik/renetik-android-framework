@@ -7,8 +7,6 @@ import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.CSStartActivityResult.ActivityNotFound
 import renetik.android.controller.extensions.CSStartActivityResult.Cancel
 import renetik.android.core.kotlin.primitives.random
-import renetik.android.core.lang.variable.CSWeakVariable
-import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.plus
 
