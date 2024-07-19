@@ -18,7 +18,6 @@ import renetik.android.ui.R.styleable.CSLayout_goneIfWidthUntil
 import renetik.android.ui.R.styleable.CSLayout_maxWidth
 import renetik.android.ui.R.styleable.CSLayout_minWidth
 import renetik.android.ui.extensions.view.gone
-import renetik.android.ui.extensions.view.goneIf
 import renetik.android.ui.extensions.view.windowRectangle
 
 open class CSEmptyView @JvmOverloads constructor(
@@ -88,7 +87,9 @@ open class CSEmptyView @JvmOverloads constructor(
         return if (!handled) super.onTouchEvent(event) else true
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+    override fun onLayout(
+        changed: Boolean, left: Int, top: Int, right: Int, bottom: Int
+    ) {
         super.onLayout(changed, left, top, right, bottom)
         eventOnLayout.fire()
     }
