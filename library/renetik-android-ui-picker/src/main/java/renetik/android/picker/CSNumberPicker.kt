@@ -1,12 +1,7 @@
 package renetik.android.picker
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
-import androidx.core.view.children
 import com.shawnlin.numberpicker.NumberPicker
 import com.shawnlin.numberpicker.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE
 import renetik.android.event.CSEvent.Companion.event
@@ -49,31 +44,4 @@ class CSNumberPicker @JvmOverloads constructor(
     override fun dispatchSetPressed(pressed: Boolean) {
         if (dispatchState) if (!isSelected) super.dispatchSetPressed(pressed)
     }
-
-//    init {
-//        processView(this)
-//    }
-//
-//    override fun addView(child: View?) {
-//        super.addView(child)
-//        processView(child)
-//    }
-//
-//    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
-//        super.addView(child, index, params)
-//        processView(child)
-//    }
-//
-//    override fun addView(child: View?, params: ViewGroup.LayoutParams?) {
-//        super.addView(child, params)
-//        processView(child)
-//    }
-//
-//    private fun processView(view: View?) {
-//        (view as? EditText)?.apply {
-//            maxLines = 3
-//            setSingleLine(false)
-//            ellipsize = TextUtils.TruncateAt.END
-//        } ?: (view as? ViewGroup)?.children?.forEach(::processView)
-//    }
 }
