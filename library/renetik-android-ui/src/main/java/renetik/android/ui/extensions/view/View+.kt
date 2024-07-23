@@ -57,8 +57,9 @@ import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 
-@JvmName("viewOfType") inline fun <reified Type : View> View.view(@IdRes id: Int): Type =
-    findView(id)!!
+@JvmName("viewOfType") inline fun <reified Type : View> View.view(
+    @IdRes id: Int
+): Type = findView(id)!!
 
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
 
@@ -220,9 +221,7 @@ fun View.onDestroy() {
 }
 
 fun View.performTouchDown(time: Int = 700): Boolean = dispatchTouchEvent(
-    obtain(
-        uptimeMillis(), uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0
-    )
+    obtain(uptimeMillis(), uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0)
 )
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild

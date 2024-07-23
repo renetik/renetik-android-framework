@@ -1,7 +1,12 @@
 package renetik.android.picker
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.AttributeSet
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.view.children
 import com.shawnlin.numberpicker.NumberPicker
 import com.shawnlin.numberpicker.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE
 import renetik.android.event.CSEvent.Companion.event
@@ -63,12 +68,12 @@ class CSNumberPicker @JvmOverloads constructor(
 //        super.addView(child, params)
 //        processView(child)
 //    }
-
+//
 //    private fun processView(view: View?) {
 //        (view as? EditText)?.apply {
-//            maxLines = 2
+//            maxLines = 3
 //            setSingleLine(false)
-//            ellipsize = null
+//            ellipsize = TextUtils.TruncateAt.END
 //        } ?: (view as? ViewGroup)?.children?.forEach(::processView)
 //    }
 }
