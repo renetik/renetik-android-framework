@@ -32,7 +32,7 @@ fun <ItemView : CSViewInterface> MutableList<ItemView>.updates(
     count: Int, layout: ViewGroup, fromStart: Boolean = false,
     layoutParams: LayoutParams? = null,
     createView: (index: Int) -> ItemView
-) = size.update(count,
+): Unit = size.update(count,
     onAdd = { index ->
         val view = put(createView(index))
         val addIndex = if (fromStart) 0 else -1
