@@ -4,7 +4,6 @@ import android.view.View
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.hasItems
-import renetik.android.core.kotlin.collections.isEmpty
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.collections.putAll
 import renetik.android.core.kotlin.collections.reload
@@ -33,7 +32,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
         controllers.putAll(pages)
     }
 
-    fun emptyView(view: View) = apply { emptyView = view.show(controllers.isEmpty) }
+    fun emptyView(view: View) = apply { emptyView = view.show(controllers.isEmpty()) }
 
     fun reload(pages: List<PageType>) = apply {
         val currentIndex = view.currentItem
