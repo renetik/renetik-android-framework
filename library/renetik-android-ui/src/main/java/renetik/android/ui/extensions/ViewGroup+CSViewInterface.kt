@@ -33,3 +33,7 @@ fun ViewGroup.contains(view: CSViewInterface): Boolean = contains(view.view)
 fun <View : CSViewInterface> ViewGroup.remove(view: View): View =
     view.also { remove(it.view) }
 
+operator fun <View : CSViewInterface> ViewGroup.minusAssign(view: View) {
+    remove(view)
+}
+
