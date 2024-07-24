@@ -121,11 +121,14 @@ fun <T : View> T.onClick(
 
 fun <T : View> T.clearClick() = apply {
     setOnClickListener(null)
-    isClickable = false
 }
 
 fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) = apply {
     setOnLongClickListener { isLongClickable.ifTrue { onClick(this); true } ?: false }
+}
+
+fun <T : View> T.clearLongClick() = apply {
+    setOnLongClickListener(null)
 }
 
 //fun <T : View> T.registerLongClick(onClick: (view: T) -> Unit): CSRegistration {
