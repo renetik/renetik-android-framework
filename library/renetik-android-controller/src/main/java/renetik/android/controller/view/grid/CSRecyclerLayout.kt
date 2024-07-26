@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import renetik.android.controller.base.CSView
 import renetik.android.core.kotlin.collections.reload
@@ -14,7 +15,7 @@ import renetik.android.ui.protocol.CSViewInterface
 class CSRecyclerLayout(parent: CSViewInterface, viewId: Int) :
     CSView<RecyclerView>(parent, viewId) {
     val items = mutableListOf<CSView<*>>()
-    private var adapter = Adapter().also { view.adapter = it }
+    private var adapter = CSRecyclerLayoutAdapter()
 
     fun reload(vararg items: CSView<*>) = reload(items.toList())
 
@@ -23,10 +24,15 @@ class CSRecyclerLayout(parent: CSViewInterface, viewId: Int) :
         adapter.notifyDataSetChanged()
     }
 
-    private inner class CSRecyclerLayoutViewHolder(var view: FrameLayout) :
-        ViewHolder(view)
+    private inner class CSRecyclerLayoutViewHolder(
+        var view: FrameLayout
+    ) : ViewHolder(view)
 
-    private inner class Adapter : RecyclerView.Adapter<CSRecyclerLayoutViewHolder>() {
+    private inner class CSRecyclerLayoutAdapter : Adapter<CSRecyclerLayoutViewHolder>() {
+
+        init {
+            view.adapter = this
+        }
 
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int) =
             CSRecyclerLayoutViewHolder(FrameLayout(context))
