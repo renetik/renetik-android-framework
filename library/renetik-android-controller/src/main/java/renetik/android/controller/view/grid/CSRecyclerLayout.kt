@@ -45,4 +45,10 @@ class CSRecyclerLayout(parent: CSViewInterface, viewId: Int) :
 
         override fun getItemCount() = items.size
     }
+
+    override fun onDestruct() {
+        super.onDestruct()
+        items.clear()
+        view.adapter = null
+    }
 }
