@@ -1,10 +1,9 @@
 package renetik.android.ui.extensions
 
 import renetik.android.core.lang.Func
-import renetik.android.event.common.CSLaterOnceFunc.Companion.laterOnce
+import renetik.android.event.common.CSLaterOnceFunc.Companion.funLaterOnce
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistrationsList
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.ui.protocol.CSViewInterface
 
@@ -14,7 +13,7 @@ inline fun <Argument> CSHasChange<Argument>.onChangeAfterLayout(
     crossinline function: Func
 ): CSRegistration {
     val registrations = CSRegistrationsMap(this)
-    val laterOnceFunction = registrations.laterOnce { function() }
+    val laterOnceFunction = registrations.funLaterOnce { function() }
     registrations.register(onChange {
         registrations.register(parent.registerAfterLayout {
             laterOnceFunction()
