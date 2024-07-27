@@ -7,33 +7,35 @@ import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_UP
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
+import renetik.android.core.lang.variable.CSWeakVariable.Companion.weak
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
+import renetik.android.event.registration.laterEach
 import renetik.android.event.registration.launch
 import renetik.android.event.registration.paused
-import renetik.android.event.registration.laterEach
 import renetik.android.ui.extensions.view.onLongClick
 import renetik.android.ui.extensions.view.pressed
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline down: (isDown: Boolean) -> Unit,
+fun <T : CSHasTouchEvent> T.onTouch(
+    down: (isDown: Boolean) -> Unit,
 ) = apply {
+    val function by weak(down) // To fix leakcanary (false?) report
     onTouchEvent = {
         when (it.actionMasked) {
             ACTION_DOWN -> true.also {
                 self.pressed(true)
-                down(true)
+                function?.invoke(true)
             }
 
             ACTION_UP, ACTION_CANCEL -> true.also {
                 self.pressed(false)
-                down(false)
+                function?.invoke(false)
             }
 
             ACTION_MOVE -> true
@@ -167,14 +169,16 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline up: () -> Unit,
 ) = onTouch(down = { isDown -> if (isDown) down() else up() })
 
-fun <T : CSHasTouchEvent> T.toggleActiveIf(property: CSProperty<Boolean>): CSRegistration {
+fun <T : CSHasTouchEvent> T.toggleActiveIf(
+    property: CSProperty<Boolean>): CSRegistration {
     setToggleActive(property.value)
     val propertyOnChange = property.onChange { setToggleActive(property.value) }
     onTouchActiveToggle { on -> propertyOnChange.paused { property.value(on) } }
     return propertyOnChange
 }
 
-fun <T : CSHasTouchEvent> T.toggleSelectedIf(property: CSProperty<Boolean>): CSRegistration {
+fun <T : CSHasTouchEvent> T.toggleSelectedIf(
+    property: CSProperty<Boolean>): CSRegistration {
     val propertyOnChange = property.action { setToggleSelected(property.value) }
     onTouchSelectedToggle { on -> propertyOnChange.paused { property.value(on) } }
     return propertyOnChange
