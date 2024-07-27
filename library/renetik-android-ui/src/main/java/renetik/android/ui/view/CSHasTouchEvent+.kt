@@ -25,17 +25,17 @@ import kotlin.time.Duration.Companion.seconds
 fun <T : CSHasTouchEvent> T.onTouch(
     down: (isDown: Boolean) -> Unit,
 ) = apply {
-    val function by weak(down) // To fix leakcanary (false?) report
+    val onDown by weak(down) // To fix leakcanary (false?) report
     onTouchEvent = {
         when (it.actionMasked) {
             ACTION_DOWN -> true.also {
                 self.pressed(true)
-                function?.invoke(true)
+                onDown?.invoke(true)
             }
 
             ACTION_UP, ACTION_CANCEL -> true.also {
                 self.pressed(false)
-                function?.invoke(false)
+                onDown?.invoke(false)
             }
 
             ACTION_MOVE -> true
@@ -64,59 +64,65 @@ inline fun <T : CSHasTouchEvent> T.onLongTouch(
 }
 
 
-inline fun <T : CSHasTouchEvent> T.onTouchMove(
-    crossinline move: (event: MotionEvent) -> Unit,
+fun <T : CSHasTouchEvent> T.onTouchMove(
+    move: (event: MotionEvent) -> Unit,
 ) = apply {
+    val onMove by weak(move) // To fix leakcanary (false?) report
     onTouchEvent = { event ->
         when (event.actionMasked) {
             ACTION_DOWN -> true
             ACTION_UP, ACTION_CANCEL -> true
-            ACTION_MOVE -> true.also { move(event) }
+            ACTION_MOVE -> true.also { onMove?.invoke(event) }
             else -> false
         }
     }
 }
 
-inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline down: (event: MotionEvent) -> Unit,
-    crossinline move: (event: MotionEvent) -> Unit,
+fun <T : CSHasTouchEvent> T.onTouch(
+    down: (event: MotionEvent) -> Unit,
+    move: (event: MotionEvent) -> Unit,
 ) = apply {
+    val onDown by weak(down) // To fix leakcanary (false?) report
+    val onMove by weak(move) // To fix leakcanary (false?) report
     onTouchEvent = { event ->
         when (event.actionMasked) {
-            ACTION_DOWN -> true.also { down(event) }
+            ACTION_DOWN -> true.also { onDown?.invoke(event) }
             ACTION_UP, ACTION_CANCEL -> true
-            ACTION_MOVE -> true.also { move(event) }
+            ACTION_MOVE -> true.also { onMove?.invoke(event) }
             else -> false
         }
     }
 }
 
 
-inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline down: (event: MotionEvent) -> Unit,
-    crossinline move: (event: MotionEvent) -> Unit,
-    crossinline up: (event: MotionEvent) -> Unit,
+fun <T : CSHasTouchEvent> T.onTouch(
+    down: (event: MotionEvent) -> Unit,
+    move: (event: MotionEvent) -> Unit,
+    up: (event: MotionEvent) -> Unit,
 ) = apply {
+    val onDown by weak(down)
+    val onMove by weak(move)
+    val onUp by weak(up)
     onTouchEvent = { event ->
         when (event.actionMasked) {
-            ACTION_DOWN -> true.also { down(event) }
-            ACTION_UP, ACTION_CANCEL -> true.also { up(event) }
-            ACTION_MOVE -> true.also { move(event) }
+            ACTION_DOWN -> true.also { onDown?.invoke(event) }
+            ACTION_UP, ACTION_CANCEL -> true.also { onUp?.invoke(event) }
+            ACTION_MOVE -> true.also { onMove?.invoke(event) }
             else -> false
         }
     }
 }
 
 
-@JvmName("onTouchDownOrMove")
-inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline downOrMove: (event: MotionEvent) -> Unit,
+@JvmName("onTouchDownOrMove") fun <T : CSHasTouchEvent> T.onTouch(
+    downOrMove: (event: MotionEvent) -> Unit,
 ) = apply {
+    val onDownOrMove by weak(downOrMove)
     onTouchEvent = { event ->
         when (event.actionMasked) {
-            ACTION_DOWN -> true.also { downOrMove(event) }
+            ACTION_DOWN -> true.also { onDownOrMove?.invoke(event) }
             ACTION_UP, ACTION_CANCEL -> true
-            ACTION_MOVE -> true.also { downOrMove(event) }
+            ACTION_MOVE -> true.also { onDownOrMove?.invoke(event) }
             else -> false
         }
     }
@@ -130,13 +136,15 @@ inline fun <T : CSHasTouchEvent> T.onTouchUp(
     crossinline up: () -> Unit,
 ) = onTouch(down = { isDown -> if (!isDown) up() })
 
-inline fun <T : CSHasTouchEvent> T.onTouchUp(
-    crossinline up: () -> Unit, crossinline cancel: () -> Unit,
+fun <T : CSHasTouchEvent> T.onTouchUp(
+    up: () -> Unit, cancel: () -> Unit,
 ) = apply {
+    val onUp by weak(up)
+    val onCancel by weak(cancel)
     onTouchEvent = {
         when (it.actionMasked) {
-            ACTION_UP -> false.also { up() }
-            ACTION_CANCEL -> false.also { cancel() }
+            ACTION_UP -> false.also { onUp?.invoke() }
+            ACTION_CANCEL -> false.also { onCancel?.invoke() }
             else -> false
         }
     }
@@ -245,20 +253,15 @@ fun CSHasTouchEvent.onTouch(
     delay: Duration = 1.seconds,
     period: Duration = 250.milliseconds,
     repeat: () -> Unit,
-) = onTouch(
-    parent, delay.inWholeMilliseconds.toInt(),
-    period.inWholeMilliseconds.toInt(), repeat
-)
+) = onTouch(parent, delay.inWholeMilliseconds.toInt(), period.inWholeMilliseconds.toInt(),
+    repeat)
 
 fun CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
     delay: Int, period: Int,
     repeat: () -> Unit,
-) = onTouch(
-    parent, repeat = { repeat() },
-    step = { }, delay = delay, period = period,
-    until = { true }, onDone = {}
-)
+) = onTouch(parent, repeat = { repeat() }, step = { }, delay = delay, period = period,
+    until = { true }, onDone = {})
 
 fun <T> CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
@@ -274,16 +277,15 @@ fun <T> CSHasTouchEvent.onTouch(
         repeatCount = 0
         repeat(step(repeatCount))
         repeatRegistration?.cancel()
-        if (self.isEnabled) repeatRegistration = parent.laterEach(
-            delay, period, function = {
+        if (self.isEnabled) repeatRegistration =
+            parent.laterEach(delay, period, function = {
                 repeat(step(repeatCount))
                 repeatCount++
                 if (!until(step(repeatCount))) {
                     repeatRegistration?.cancel()
                     onDone()
                 }
-            }
-        )
+            })
     }, up = {
         repeatRegistration?.cancel()
     })
