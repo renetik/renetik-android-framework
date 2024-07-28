@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.view.View
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import renetik.android.core.android.graphics.toAlpha
 import renetik.android.core.extensions.content.CSColorInt
+import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
@@ -21,6 +23,9 @@ fun <T : View> T.background(@DrawableRes value: Int) = apply {
 fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {
     setBackgroundColor(value)
 }
+
+fun <T : View> T.backgroundColorAttr(@AttrRes attribute: Int) =
+    backgroundColor(context.attributeColor(attribute))
 
 fun <T : View> T.background(value: CSColorInt) = apply {
     setBackgroundColor(value.color)
