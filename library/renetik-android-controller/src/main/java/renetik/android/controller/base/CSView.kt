@@ -12,6 +12,7 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.CSVariable.Companion.variable
+import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
@@ -195,6 +196,7 @@ open class CSView<ViewType : View> : CSContext,
 
     override fun onDestruct() {
         super.onDestruct()
+        _isVisible.setFalse()
         // View doesn't have to be created in some cases
         _view?.let {
             if (it.tag == this) {
