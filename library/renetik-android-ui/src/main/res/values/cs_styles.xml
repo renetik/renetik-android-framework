@@ -66,16 +66,32 @@
         <item name="android:layout_weight">0.05</item>
     </style>
 
+    <style name="CSFillTinyMatch" parent="CSFillTiny">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
     <style name="CSFillShort" parent="CSFill">
         <item name="android:layout_weight">0.1</item>
+    </style>
+
+    <style name="CSFillShortMatch" parent="CSFillShort">
+        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="CSFillMedium" parent="CSFill">
         <item name="android:layout_weight">0.3</item>
     </style>
 
+    <style name="CSFillMediumMatch" parent="CSFillMedium">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
     <style name="CSFillLarge" parent="CSFill">
         <item name="android:layout_weight">0.6</item>
+    </style>
+
+    <style name="CSFillLargeMatch" parent="CSFillLarge">
+        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="CSScrollMatch" parent="CSMatch">
