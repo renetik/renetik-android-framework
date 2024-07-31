@@ -16,7 +16,8 @@ import renetik.android.event.registration.paused
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.propertyWithTag
 
-val EditText.eventClear get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<EditText>() }
+val EditText.eventClear
+    get() = propertyWithTag(R.id.ViewEventOnClearTag) { event<EditText>() }
 
 fun <T : EditText> T.onClear(listener: (EditText) -> Unit): T =
     apply { eventClear.listen(listener) }

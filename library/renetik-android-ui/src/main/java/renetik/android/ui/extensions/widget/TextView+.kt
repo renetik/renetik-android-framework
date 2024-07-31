@@ -3,6 +3,7 @@
 package renetik.android.ui.extensions.widget
 
 import android.text.Editable
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
@@ -52,10 +53,10 @@ inline fun <T : TextView> T.onTextChange(
     return registration
 }
 
-inline fun <T : TextView> T.onFocusChange(
-    crossinline onChange: (view: T) -> Unit
+inline fun View.onFocusChange(
+    crossinline onChange: (view: Boolean) -> Unit
 ) = apply {
-    setOnFocusChangeListener { _, _ -> onChange(this) }
+    setOnFocusChangeListener { _, hasFocus -> onChange(hasFocus) }
 }
 
 @JvmName("TextViewTextStringProperty")
