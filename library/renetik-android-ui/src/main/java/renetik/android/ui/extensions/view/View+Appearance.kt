@@ -8,7 +8,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import renetik.android.core.android.graphics.toAlpha
-import renetik.android.core.extensions.content.CSColorInt
+import renetik.android.core.common.CSColor
 import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.event.registration.CSHasChangeValue
@@ -27,7 +27,7 @@ fun <T : View> T.backgroundColor(@ColorInt value: Int) = apply {
 fun <T : View> T.backgroundColorAttr(@AttrRes attribute: Int) =
     backgroundColor(context.attributeColor(attribute))
 
-fun <T : View> T.background(value: CSColorInt) = apply {
+fun <T : View> T.background(value: CSColor) = apply {
     setBackgroundColor(value.color)
 }
 
