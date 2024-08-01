@@ -1,6 +1,7 @@
 package renetik.android.ui.extensions.widget
 
 import android.annotation.SuppressLint
+import renetik.android.core.common.CSColor.Companion.colorRes
 import android.content.ContextWrapper
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
@@ -9,12 +10,11 @@ import androidx.annotation.*
 import androidx.core.content.res.ResourcesCompat
 import renetik.android.core.common.CSColor
 import renetik.android.core.extensions.content.attributeColor
-import renetik.android.core.extensions.content.color
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.primitives.at
 import renetik.android.event.property.CSProperty
-import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.action
 
 fun TextView.textColor(value: CSColor) = apply {
     setTextColor(value.color)
@@ -25,7 +25,7 @@ fun TextView.textColorInt(@ColorInt color: Int) = apply {
 }
 
 fun TextView.textColor(@ColorRes value: Int) = apply {
-    textColor(context.color(value))
+    textColor(context.colorRes(value))
 }
 
 fun TextView.textColorAttr(@AttrRes attribute: Int) = apply {

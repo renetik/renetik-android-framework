@@ -19,7 +19,7 @@ import renetik.android.controller.navigation.CSNavigationItemPopupSide.Bottom
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Left
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Right
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
-import renetik.android.core.extensions.content.color
+import renetik.android.core.common.CSColor.Companion.colorRes
 import renetik.android.core.kotlin.primitives.dpf
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.event.CSEvent.Companion.event
@@ -106,7 +106,7 @@ open class CSNavigationItemView(
 
     override fun onViewReady() {
         super.onViewReady()
-        view.background(color(color.cs_dialog_background))
+        view.background(colorRes(color.cs_dialog_background))
         view.add(viewContent)
     }
 
@@ -164,7 +164,7 @@ open class CSNavigationItemView(
             correctContentOverflow()
         }
         this + view.onViewLayout(::correctContentOverflow)
-        view.background(color(color.cs_dialog_popup_background))
+        view.background(colorRes(color.cs_dialog_popup_background))
     }
 
     private fun positionDialogContentFromViewBottom(fromView: View) {
