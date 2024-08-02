@@ -9,9 +9,9 @@ import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.action
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.paused
 import renetik.android.ui.R
@@ -38,51 +38,50 @@ fun CompoundButton.buttonTint(@ColorInt value: Int?) = apply {
 }
 
 fun CompoundButton.checked(condition: Boolean = true) = apply { isChecked = condition }
-fun CompoundButton.checkedNot(condition: Boolean = true) = apply { isChecked = !condition }
+fun CompoundButton.checkedNot(condition: Boolean = true) =
+    apply { isChecked = !condition }
+
 fun CompoundButton.setOn() = apply { isChecked = true }
 fun CompoundButton.setOff() = apply { isChecked = false }
-
-fun CompoundButton.checkIfNot(property: CSProperty<Boolean>): CSRegistration {
-    lateinit var propertyRegistration: CSRegistration
-    val buttonRegistration = onChange { propertyRegistration.paused { property.value(!isChecked) } }
-    propertyRegistration = property.action { buttonRegistration.paused { checkedNot(it) } }
-    return CSRegistration(propertyRegistration, buttonRegistration)
-}
-
-fun CompoundButton.checkIf(property: CSProperty<Boolean>): CSRegistration {
-    lateinit var propertyRegistration: CSRegistration
-    val buttonRegistration = onChange { propertyRegistration.paused { property.value(isChecked) } }
-    propertyRegistration = property.action { buttonRegistration.paused { this.checked(it) } }
-    return CSRegistration(propertyRegistration, buttonRegistration)
-}
 
 fun CompoundButton.checkedIf(property: CSHasChangeValue<Boolean>): CSRegistration =
     property.action { this.checked(it) }
 
 fun <T, V> CompoundButton.checkedIf(
-    property: CSProperty<T>, condition: (T) -> Boolean
-): CSRegistration {
-    return property.action { this.checked(condition(property.value)) }
-}
+    property: CSHasChangeValue<T>, condition: (T) -> Boolean) =
+    property.action { this.checked(condition(property.value)) }
 
-fun <T> CompoundButton.checkIf(
-    property1: CSProperty<T>, property2: CSProperty<*>, condition: (T) -> Boolean
-)
-        : CSRegistration = checkIf(property1, property2) { first, _ -> condition(first) }
+fun <T> CompoundButton.checkedIf(property1: CSHasChangeValue<T>,
+    property2: CSHasChangeValue<*>, condition: (T) -> Boolean): CSRegistration =
+    checkedIf(property1, property2) { first, _ -> condition(first) }
 
-fun <T, V> CompoundButton.checkIf(
-    property1: CSProperty<T>, property2: CSProperty<V>,
-    condition: (T, V) -> Boolean
-): CSRegistration {
+fun <T, V> CompoundButton.checkedIf(property1: CSHasChangeValue<T>,
+    property2: CSHasChangeValue<V>, condition: (T, V) -> Boolean): CSRegistration {
     fun update() = this.checked(condition(property1.value, property2.value))
     update()
     return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
-inline fun <T> CompoundButton.checkIf(
-    parent: CSHasChangeValue<T>,
-    crossinline child: (T) -> CSProperty<Boolean>
-): CSRegistration {
+fun CompoundButton.checkIfNot(property: CSProperty<Boolean>): CSRegistration {
+    lateinit var propertyRegistration: CSRegistration
+    val buttonRegistration =
+        onChange { propertyRegistration.paused { property.value(!isChecked) } }
+    propertyRegistration =
+        property.action { buttonRegistration.paused { checkedNot(it) } }
+    return CSRegistration(propertyRegistration, buttonRegistration)
+}
+
+fun CompoundButton.checkIf(property: CSProperty<Boolean>): CSRegistration {
+    lateinit var propertyRegistration: CSRegistration
+    val buttonRegistration =
+        onChange { propertyRegistration.paused { property.value(isChecked) } }
+    propertyRegistration =
+        property.action { buttonRegistration.paused { this.checked(it) } }
+    return CSRegistration(propertyRegistration, buttonRegistration)
+}
+
+inline fun <T> CompoundButton.checkIf(parent: CSHasChangeValue<T>,
+    crossinline child: (T) -> CSProperty<Boolean>): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
@@ -94,11 +93,9 @@ inline fun <T> CompoundButton.checkIf(
     })
 }
 
-@JvmName("checkedIfChildNullable")
-inline fun <T> CompoundButton.checkIf(
+@JvmName("checkedIfChildNullable") inline fun <T> CompoundButton.checkIf(
     parent: CSHasChangeValue<T>,
-    crossinline childNullable: (T) -> CSProperty<Boolean>?
-): CSRegistration {
+    crossinline childNullable: (T) -> CSProperty<Boolean>?): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration = parent.action {
         childRegistration?.cancel()
