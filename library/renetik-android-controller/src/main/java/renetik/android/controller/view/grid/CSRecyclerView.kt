@@ -3,6 +3,7 @@ package renetik.android.controller.view.grid
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
@@ -122,7 +123,8 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
     ) = apply {
         val position = data.firstIndex { it.first == selectedItem.value } ?: return@apply
         if (smooth) {
-            val scroller = CSCenteringRecyclerSmoothScroller(this, animationDuration)
+//            val scroller = CSCenteringRecyclerSmoothScroller(this, animationDuration)
+            val scroller = LinearSmoothScroller(this) // Isn't this better?
             scroller.targetPosition = position
             later(shortAnimationDuration) {
                 view.layoutManager?.startSmoothScroll(scroller) ?: unexpected()
