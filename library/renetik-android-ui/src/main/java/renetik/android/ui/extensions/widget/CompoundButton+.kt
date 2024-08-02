@@ -39,14 +39,14 @@ fun CompoundButton.buttonTint(@ColorInt value: Int?) = apply {
 
 fun CompoundButton.checked(condition: Boolean = true) = apply { isChecked = condition }
 fun CompoundButton.checkedIf(condition: Boolean) = apply { isChecked = condition }
-fun CompoundButton.checkIfNot(condition: Boolean) = apply { isChecked = !condition }
+fun CompoundButton.checkedIfNot(condition: Boolean) = apply { isChecked = !condition }
 fun CompoundButton.setOn() = apply { isChecked = true }
 fun CompoundButton.setOff() = apply { isChecked = false }
 
 fun CompoundButton.checkIfNot(property: CSProperty<Boolean>): CSRegistration {
     lateinit var propertyRegistration: CSRegistration
     val buttonRegistration = onChange { propertyRegistration.paused { property.value(!isChecked) } }
-    propertyRegistration = property.action { buttonRegistration.paused { checkIfNot(it) } }
+    propertyRegistration = property.action { buttonRegistration.paused { checkedIfNot(it) } }
     return CSRegistration(propertyRegistration, buttonRegistration)
 }
 
