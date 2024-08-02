@@ -47,7 +47,7 @@ fun CompoundButton.setOff() = apply { isChecked = false }
 fun CompoundButton.checkedIf(property: CSHasChangeValue<Boolean>): CSRegistration =
     property.action { this.checked(it) }
 
-fun <T, V> CompoundButton.checkedIf(
+fun <T> CompoundButton.checkedIf(
     property: CSHasChangeValue<T>, condition: (T) -> Boolean) =
     property.action { this.checked(condition(property.value)) }
 
