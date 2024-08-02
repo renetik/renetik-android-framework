@@ -39,6 +39,11 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         createView: (CSRecyclerView<ItemType, ViewType>, parent: ViewGroup) -> ViewType
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent, group) })
 
+    constructor(
+        parent: CSActivityView<*>, viewId: Int,
+        createView: (CSRecyclerView<ItemType, ViewType>) -> ViewType
+    ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent) })
+
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = list<Pair<ItemType, Int>>()
 

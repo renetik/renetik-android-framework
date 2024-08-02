@@ -3,19 +3,23 @@ package renetik.android.ui.extensions.widget
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri.fromFile
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import java.io.File
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
+import java.io.File
 
 
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int?): T = apply {
     resourceId?.let(::setImageResource) ?: setImageDrawable(null)
+}
+
+fun <T : ImageView> T.drawable(drawable: Drawable?): T = apply {
+    setImageDrawable(drawable)
 }
 
 fun <T : ImageView> T.image(file: File) = apply {
@@ -32,15 +36,15 @@ fun <T : ImageView> T.recycleBitmap() {
 
 @JvmName("imagePropertyResource")
 fun <T> ImageView.image(property: CSHasChangeValue<T>, resource: (T) -> Int?)
-    : CSRegistration = property.action { image(resource(property.value)) }
+        : CSRegistration = property.action { image(resource(property.value)) }
 
 @JvmName("imagePropertyBitmap")
 fun <T> ImageView.image(property: CSHasChangeValue<T>, bitmap: (T) -> Bitmap?)
-    : CSRegistration = property.action { image(bitmap(property.value)) }
+        : CSRegistration = property.action { image(bitmap(property.value)) }
 
 @JvmName("imagePropertyFile")
 fun <T> ImageView.image(property: CSHasChangeValue<T>, file: (T) -> File)
-    : CSRegistration = property.action { image(file(property.value)) }
+        : CSRegistration = property.action { image(file(property.value)) }
 
 fun <T : ImageView> T.iconTint(@ColorInt color: Int) =
     apply { imageTintList = ColorStateList.valueOf(color) }
