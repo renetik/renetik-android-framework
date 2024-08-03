@@ -282,7 +282,9 @@ fun <T> CSHasTouchEvent.onTouch(
     var repeatRegistration: CSRegistration? = null
     onTouch(down = {
         repeatCount = 0
-        repeat(step(repeatCount))
+        step(repeatCount)?.also {
+            if (!until(it)) onDone() else repeat(it)
+        }
         repeatRegistration?.cancel()
         if (self.isEnabled) repeatRegistration = parent.laterEach(
             delay, period, function = {
