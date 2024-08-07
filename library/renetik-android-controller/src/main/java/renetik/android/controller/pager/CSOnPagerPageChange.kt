@@ -4,7 +4,6 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING
 import androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE
 import renetik.android.controller.base.CSActivityView
-import renetik.android.core.kotlin.ifNotNull
 import renetik.android.core.math.CSMath.between
 
 class CSOnPagerPageChange<PageType>(private val pager: CSPagerView<PageType>) :
@@ -35,7 +34,7 @@ class CSOnPagerPageChange<PageType>(private val pager: CSPagerView<PageType>) :
 
     override fun onPageScrolled(firstVisible: Int, offset: Float, offsetPixels: Int) {
         if (SCROLL_STATE_DRAGGING == state && draggingPageIndex != firstVisible) {
-            draggingPageIndex.ifNotNull { onPageReleased() }
+            if (draggingPageIndex != null) onPageReleased()
             draggingPageIndex = firstVisible
             val draggedIndex = if (firstVisible < pager.currentIndex!!)
                 firstVisible else pager.currentIndex!! + 1
@@ -45,11 +44,13 @@ class CSOnPagerPageChange<PageType>(private val pager: CSPagerView<PageType>) :
 
     protected fun onPageDragged(index: Int) {
         draggedPage = index
-        if (between(draggedPage, 0, pager.controllers.size)) onPageDragged?.invoke(draggedPage)
+        if (between(draggedPage, 0, pager.controllers.size))
+            onPageDragged?.invoke(draggedPage)
     }
 
     protected fun onPageReleased() {
-        if (between(draggedPage, 0, pager.controllers.size)) onPageReleased?.invoke(draggedPage)
+        if (between(draggedPage, 0, pager.controllers.size)) onPageReleased?.invoke(
+            draggedPage)
         draggingPageIndex = null
     }
 
