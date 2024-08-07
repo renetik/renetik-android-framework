@@ -6,8 +6,6 @@ import kotlinx.coroutines.delay
 import renetik.android.controller.base.CSView
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
-import renetik.android.core.kotlin.isNull
-import renetik.android.core.kotlin.notNull
 import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
@@ -24,7 +22,7 @@ inline fun <reified Type : Any> CSView<*>.find(): Type? {
     do {
         type = parent as? Type
         parent = parent?.parentView as? CSView<*>
-    } while (type.isNull && parent.notNull)
+    } while (type == null && parent != null)
     return type
 }
 

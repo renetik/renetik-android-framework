@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
 import kotlinx.coroutines.suspendCancellableCoroutine
-import renetik.android.core.kotlin.notNull
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
@@ -115,15 +114,16 @@ fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration {
     }).also { registration = it }
 }
 
-suspend fun CSViewInterface.waitForLayout(): Unit = suspendCancellableCoroutine { coroutine ->
-    var registration: CSRegistration? = null
-    registration = view.onGlobalLayout {
-        registration?.cancel()
-        registration = null
-        coroutine.resumeWith(Result.success(Unit))
+suspend fun CSViewInterface.waitForLayout(): Unit =
+    suspendCancellableCoroutine { coroutine ->
+        var registration: CSRegistration? = null
+        registration = view.onGlobalLayout {
+            registration?.cancel()
+            registration = null
+            coroutine.resumeWith(Result.success(Unit))
+        }
+        coroutine.invokeOnCancellation { registration?.cancel() }
     }
-    coroutine.invokeOnCancellation { registration?.cancel() }
-}
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
         where  Type : CSViewInterface =
@@ -144,7 +144,7 @@ val CSViewInterface.displayCutout: CSDisplayCutout?
         view.rootWindowInsets?.displayCutout?.let { CSDisplayCutout(it) }
     } else null)
 
-val CSViewInterface.hasParentView: Boolean get() = view.parent.notNull
+val CSViewInterface.hasParentView: Boolean get() = view.parent != null
 
 fun CSViewInterface.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruct) {
     registerListenOnce(parent.eventDestruct) {

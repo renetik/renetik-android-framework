@@ -43,7 +43,6 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
-import renetik.android.core.kotlin.isNull
 import renetik.android.core.kotlin.primitives.ifTrue
 import renetik.android.core.lang.catchAll
 import renetik.android.event.CSEvent
@@ -163,11 +162,11 @@ fun View.setHasTouchEventListener(): CSHasTouchEvent {
 
 fun <T : Any> View.propertyWithTag(@IdRes key: Int, onCreate: () -> T): T {
     @Suppress("UNCHECKED_CAST") var value = getTag(key) as? T
-    if (value.isNull) {
+    if (value == null) {
         value = onCreate()
         setTag(key, value)
     }
-    return value!!
+    return value
 }
 
 fun View.getRectangleOnScreen(location: IntArray, rectangle: Rect) {

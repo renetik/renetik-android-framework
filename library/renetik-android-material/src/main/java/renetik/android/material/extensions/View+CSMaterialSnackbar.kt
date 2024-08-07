@@ -11,7 +11,6 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.make
 import renetik.android.core.extensions.content.attributeColor
-import renetik.android.core.kotlin.notNull
 import renetik.android.core.lang.CSButtonAction
 
 fun View.snackBar(title: String) = snackBar(title, time = LENGTH_LONG)
@@ -20,7 +19,7 @@ fun View.snackBar(
     title: String, @ColorInt backColor: Int? = null, @ColorInt textColor: Int? = null,
     time: Int = LENGTH_LONG, action: CSButtonAction? = null
 ): Snackbar {
-    val bar = make(this, title, if (action.notNull) LENGTH_INDEFINITE else time)
+    val bar = make(this, title, if (action != null) LENGTH_INDEFINITE else time)
     action?.let {
         bar.setAction(action.title) {
             action.onClick()
