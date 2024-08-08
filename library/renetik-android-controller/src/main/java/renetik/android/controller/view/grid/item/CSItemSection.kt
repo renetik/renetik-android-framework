@@ -1,4 +1,4 @@
-package renetik.android.framework.items
+package renetik.android.controller.view.grid.item
 
 import renetik.android.store.CSStore
 import renetik.android.store.CSStore.Companion.fileStore

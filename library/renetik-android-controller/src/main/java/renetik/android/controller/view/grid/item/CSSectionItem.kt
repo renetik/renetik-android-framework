@@ -1,4 +1,4 @@
-package renetik.android.framework.items
+package renetik.android.controller.view.grid.item
 
 data class CSSectionItem<Section, Item>(
     val section: Section,

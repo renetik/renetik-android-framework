@@ -1,10 +1,10 @@
-package renetik.android.framework.items
+package renetik.android.controller.view.grid.item
 
 import renetik.android.controller.view.grid.GridViewOut
 import renetik.android.core.lang.value.isFalse
-import renetik.android.framework.items.CSSectionItem.Companion.EmptyViewId
-import renetik.android.framework.items.CSSectionItem.Companion.HeaderViewId
-import renetik.android.framework.items.CSSectionItem.Companion.ItemViewId
+import renetik.android.controller.view.grid.item.CSSectionItem.Companion.EmptyViewId
+import renetik.android.controller.view.grid.item.CSSectionItem.Companion.HeaderViewId
+import renetik.android.controller.view.grid.item.CSSectionItem.Companion.ItemViewId
 
 fun <Item> GridViewOut<CSSectionItem<CSItemSection<Item>, Item>>.reload(
     sections: List<CSItemSection<Item>>,
