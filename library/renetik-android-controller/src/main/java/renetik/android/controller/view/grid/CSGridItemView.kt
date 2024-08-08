@@ -7,7 +7,8 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.ui.extensions.view.firstChild
 
-// Requires item to be wrapped in empty frame layout for now...
+//TODO: Requires item to be wrapped in empty frame layout for now... ?
+// It was like that for some reselection .. Now it is differently done in other places..
 open class CSGridItemView<RowType : Any>(
     parent: CSView<*>,
     group: ViewGroup,
