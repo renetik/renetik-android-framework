@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
-import renetik.android.core.lang.CSGuard.guard
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.clear
 import renetik.android.ui.protocol.CSViewInterface
@@ -15,8 +14,13 @@ fun <View : android.view.View> FrameLayout.set(@LayoutRes layout: Int): View {
 }
 
 fun <View : CSViewInterface> FrameLayout.set(view: View): View {
+    set(view.view)
+    return view
+}
+
+fun FrameLayout.set(view: View): View {
     clear()
-    add(view.view)
+    add(view)
     return view
 }
 
