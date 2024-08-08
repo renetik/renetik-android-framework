@@ -13,7 +13,7 @@ inline fun <Argument> CSHasChange<Argument>.onChangeAfterLayout(
     crossinline function: Func
 ): CSRegistration {
     val registrations = CSRegistrationsMap(this)
-    val laterOnceFunction = registrations.laterOnceFunc({ function() })
+    val laterOnceFunction = registrations.laterOnceFunc { function() }
     registrations.register(onChange {
         registrations.register(parent.registerAfterLayout {
             laterOnceFunction()
