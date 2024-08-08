@@ -1,6 +1,5 @@
 package renetik.android.controller.view.grid
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +10,8 @@ import renetik.android.core.kotlin.collections.reload
 import renetik.android.ui.extensions.set
 import renetik.android.ui.protocol.CSViewInterface
 
-@SuppressLint("NotifyDataSetChanged")
-class CSRecyclerLayout(parent: CSViewInterface, viewId: Int) :
+// TODO: Not used, remove? 8.8.2024...
+class CSGridLayout(parent: CSViewInterface, viewId: Int) :
     CSView<RecyclerView>(parent, viewId) {
     val items = mutableListOf<CSView<*>>()
     private var adapter = CSRecyclerLayoutAdapter()

@@ -1,14 +1,15 @@
-package renetik.android.controller.view.grid
+package renetik.android.controller.view.grid.item
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import renetik.android.controller.view.grid.GridView
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.lateProperty
 import renetik.android.ui.extensions.view.onClick
 
 open class CSPropertyGridItemView<RowType : Any>(
-    gridView: RecyclerView<RowType>, group: ViewGroup,
+    gridView: GridView<RowType>, group: ViewGroup,
     @LayoutRes val layout: Int,
     onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
 ) : CSGridItemView<RowType>(gridView, group, layout.layout, onLoad) {

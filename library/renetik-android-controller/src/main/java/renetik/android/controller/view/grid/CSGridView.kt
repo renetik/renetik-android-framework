@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
 import renetik.android.controller.base.asCS
-import renetik.android.controller.view.grid.CSRecyclerView.Adapter.ViewHolder
+import renetik.android.controller.view.grid.CSGridView.Adapter.ViewHolder
+import renetik.android.controller.view.grid.item.CSGridItemView
 import renetik.android.core.kotlin.collections.firstIndex
 import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.unexpected
@@ -25,24 +26,24 @@ import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.shortAnimationDuration
 
-typealias RecyclerViewOut<T> = CSRecyclerView<T, out CSGridItemView<T>>
-typealias RecyclerView<T> = CSRecyclerView<T, CSGridItemView<T>>
+typealias GridViewOut<T> = CSGridView<T, out CSGridItemView<T>>
+typealias GridView<T> = CSGridView<T, CSGridItemView<T>>
 
-class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
+class CSGridView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
     parent: CSActivityView<*>, viewId: Int,
     val createView: (
-        CSRecyclerView<ItemType, ViewType>, viewType: Int, parent: ViewGroup,
+        CSGridView<ItemType, ViewType>, viewType: Int, parent: ViewGroup,
     ) -> ViewType
 ) : CSView<RecyclerView>(parent, viewId) {
 
     constructor(
         parent: CSActivityView<*>, viewId: Int,
-        createView: (CSRecyclerView<ItemType, ViewType>, parent: ViewGroup) -> ViewType
+        createView: (CSGridView<ItemType, ViewType>, parent: ViewGroup) -> ViewType
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent, group) })
 
     constructor(
         parent: CSActivityView<*>, viewId: Int,
-        createView: (CSRecyclerView<ItemType, ViewType>) -> ViewType
+        createView: (CSGridView<ItemType, ViewType>) -> ViewType
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent) })
 
     val selectedItem: CSProperty<ItemType?> = property(null)
@@ -136,7 +137,7 @@ class CSRecyclerView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
         override fun onCreateViewHolder(group: ViewGroup, type: Int): ViewHolder {
-            val parent = this@CSRecyclerView
+            val parent = this@CSGridView
             val itemView: ViewType = createView(parent, type, group)
             // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }

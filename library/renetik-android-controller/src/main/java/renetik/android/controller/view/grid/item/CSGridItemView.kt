@@ -1,4 +1,4 @@
-package renetik.android.controller.view.grid
+package renetik.android.controller.view.grid.item
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes

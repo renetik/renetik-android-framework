@@ -1,5 +1,6 @@
 package renetik.android.controller.view.grid
 
+import renetik.android.controller.view.grid.item.CSGridItemView
 import renetik.android.core.kotlin.primitives.isEmpty
 import renetik.android.core.lang.CSHasTitle
 import renetik.android.core.lang.value.CSValue
@@ -10,18 +11,19 @@ import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
 
 fun <RowType : Any, ViewType : CSGridItemView<RowType>>
-        CSRecyclerView<RowType, ViewType>.reload(values: Array<out RowType>) =
+        CSGridView<RowType, ViewType>.reload(values: Array<out RowType>) =
     reload(values.asIterable())
 
-fun <RowType : Any> CSRecyclerView<RowType, out CSGridItemView<RowType>>.reload(
+fun <RowType : Any>
+        CSGridView<RowType, out CSGridItemView<RowType>>.reload(
     values: Iterable<RowType>
 ) = reload(values.map { it to 0 })
 
-fun <T : CSHasTitle> RecyclerViewOut<T>.reload(
+fun <T : CSHasTitle> GridViewOut<T>.reload(
     values: Array<T>, search: CSValue<String>, ignoreCase: Boolean = true,
 ) = reload(values.asIterable(), search, ignoreCase)
 
-fun <T : CSHasTitle> RecyclerViewOut<T>.reload(
+fun <T : CSHasTitle> GridViewOut<T>.reload(
     values: Iterable<T>, search: CSValue<String>, ignoreCase: Boolean = true,
 ) = apply {
     val data: Iterable<T> = if (search.value.isEmpty) values
@@ -29,11 +31,11 @@ fun <T : CSHasTitle> RecyclerViewOut<T>.reload(
     reload(data.map { it to 0 })
 }
 
-val RecyclerViewOut<*>.dataCount get() = data.size
+val GridViewOut<*>.dataCount get() = data.size
 
-fun <T : Any> RecyclerViewOut<T>.value(value: T?) = apply { selectedItem.value(value) }
+fun <T : Any> GridViewOut<T>.value(value: T?) = apply { selectedItem.value(value) }
 
-fun <T : Any> RecyclerViewOut<T>.property(property: CSProperty<T>) = apply {
+fun <T : Any> GridViewOut<T>.property(property: CSProperty<T>) = apply {
     lateinit var propertyRegistration: CSRegistration
     val selectedItemRegistration = selectedItem.onChange { item ->
         propertyRegistration.paused { property.value = item!! }
@@ -44,7 +46,7 @@ fun <T : Any> RecyclerViewOut<T>.property(property: CSProperty<T>) = apply {
 }
 
 @JvmName("propertyNullableItem")
-fun <T : Any> RecyclerViewOut<T>.property(property: CSProperty<T?>) = apply {
+fun <T : Any> GridViewOut<T>.property(property: CSProperty<T?>) = apply {
     lateinit var propertyRegistration: CSRegistration
     val selectedItemRegistration = selectedItem.onChange {
         propertyRegistration.paused { property.value = it }

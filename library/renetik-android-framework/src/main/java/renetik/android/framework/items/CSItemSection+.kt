@@ -1,12 +1,12 @@
 package renetik.android.framework.items
 
-import renetik.android.controller.view.grid.RecyclerViewOut
+import renetik.android.controller.view.grid.GridViewOut
 import renetik.android.core.lang.value.isFalse
 import renetik.android.framework.items.CSSectionItem.Companion.EmptyViewId
 import renetik.android.framework.items.CSSectionItem.Companion.HeaderViewId
 import renetik.android.framework.items.CSSectionItem.Companion.ItemViewId
 
-fun <Item> RecyclerViewOut<CSSectionItem<CSItemSection<Item>, Item>>.reload(
+fun <Item> GridViewOut<CSSectionItem<CSItemSection<Item>, Item>>.reload(
     sections: List<CSItemSection<Item>>,
     filter: ((items: List<Item>) -> List<Item>)? = null) {
     val items = mutableListOf<Pair<CSSectionItem<CSItemSection<Item>, Item>, Int>>()
