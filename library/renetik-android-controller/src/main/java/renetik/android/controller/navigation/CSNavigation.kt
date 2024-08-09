@@ -40,7 +40,7 @@ class CSNavigation(
         pushId: String? = null
     ): CSActivityView<T> {
 //        logDebug { message(controller) }
-        val isFullScreen = (controller as? CSNavigationItem)?.isFullScreen ?: true
+        val isFullScreen = (controller as? CSNavigationView)?.isFullScreen ?: true
         current?.showingInPager(!isFullScreen)
         controllersMap[pushId ?: controller.toString()] = controller
         pushAnimation(controller)
@@ -132,7 +132,7 @@ class CSNavigation(
     }
 
     private val current get() = controllersMap.values.lastOrNull()
-    private val currentItem get() = current as? CSNavigationItem
+    private val currentItem get() = current as? CSNavigationView
     private fun onViewControllerPush() = then { currentItem?.onViewControllerPush(this) }
     private fun onViewControllerPop() = then { currentItem?.onViewControllerPop(this) }
 
@@ -146,13 +146,13 @@ class CSNavigation(
     }
 
     private fun pushAnimation(controller: CSActivityView<*>) {
-        val animation = (controller as? CSNavigationItem)?.pushAnimation ?: FadeIn
+        val animation = (controller as? CSNavigationView)?.pushAnimation ?: FadeIn
         if (animation != None)
             controller.view.startAnimation(loadAnimation(this, animation.resource))
     }
 
     private fun popAnimation(controller: CSActivityView<*>) {
-        val animation = (controller as? CSNavigationItem)?.popAnimation ?: SlideOutLeft
+        val animation = (controller as? CSNavigationView)?.popAnimation ?: SlideOutLeft
         if (animation != None)
             controller.view.startAnimation(loadAnimation(this, animation.resource))
     }

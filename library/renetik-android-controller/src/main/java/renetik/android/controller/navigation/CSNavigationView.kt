@@ -52,7 +52,7 @@ open class CSNavigationView(
     @LayoutRes private val fullScreenFrameLayout: Int? = null,
 ) : CSActivityView<FrameLayout>(
     navigationParent.navigation!!, cs_frame_match.layout
-), CSNavigationItem {
+) {
 
     constructor(
         parent: CSActivityView<out ViewGroup>,
@@ -74,10 +74,13 @@ open class CSNavigationView(
         } ?: inflate<View>(viewLayout))
     }
 
-    final override var isFullScreen = false
-
+    open val isBackNavigationAllowed = true
+    var isFullScreen = false
     var isPopup = false
         private set
+
+    open fun onViewControllerPush(navigation: CSNavigation) = Unit
+    open fun onViewControllerPop(navigation: CSNavigation) = Unit
 
     var animation = Fade
     private val contentMarginDp = 9
@@ -133,14 +136,14 @@ open class CSNavigationView(
         eventOnClose.fire()
     }
 
-    override val pushAnimation
+    val pushAnimation
         get() = when (animation) {
             Slide, SlideFade -> CSNavigationAnimation.SlideInRight
             Fade -> CSNavigationAnimation.FadeIn
             None -> CSNavigationAnimation.None
         }
 
-    override val popAnimation
+    val popAnimation
         get() = when (animation) {
             Slide -> CSNavigationAnimation.SlideOutLeft
             Fade, SlideFade -> CSNavigationAnimation.FadeOut
