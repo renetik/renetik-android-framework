@@ -8,6 +8,6 @@ interface CSNavigationItem {
     val isFullScreen: Boolean get() = true
     val pushAnimation: CSNavigationAnimation get() = FadeIn
     val popAnimation: CSNavigationAnimation get() = FadeOut
-    fun onViewControllerPush(navigation: CSNavigationView) = Unit
-    fun onViewControllerPop(navigation: CSNavigationView) = Unit
+    fun onViewControllerPush(navigation: CSNavigation) = Unit
+    fun onViewControllerPop(navigation: CSNavigation) = Unit
 }

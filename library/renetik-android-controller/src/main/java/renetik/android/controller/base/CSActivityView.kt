@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import renetik.android.controller.navigation.CSNavigationView
+import renetik.android.controller.navigation.CSNavigation
 import renetik.android.controller.navigation.last
 import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
@@ -176,11 +176,11 @@ open class CSActivityView<ViewType : View>
 
     val isShowingInPager get() = showingInPager == true
 
-    open var navigation: CSNavigationView? by lazyNullableVar {
+    open var navigation: CSNavigation? by lazyNullableVar {
         findNavigation()?.also { registerListenOnce(it.eventDestruct) { navigation = null } }
     }
 
-    private fun findNavigation(): CSNavigationView? {
+    private fun findNavigation(): CSNavigation? {
         var controller: CSActivityView<*>? = parentActivityView
         do {
             if (controller?.navigation != null) return controller.navigation
