@@ -45,7 +45,7 @@ import renetik.android.ui.extensions.view.rightFloat
 import renetik.android.ui.extensions.view.topFloat
 import renetik.android.ui.extensions.widget.layoutMatch
 
-open class CSNavigationItemView(
+open class CSNavigationView(
     val navigationParent: CSActivityView<out ViewGroup>,
     @LayoutRes private val viewLayout: Int,
     @LayoutRes private val frameLayout: Int? = null,
