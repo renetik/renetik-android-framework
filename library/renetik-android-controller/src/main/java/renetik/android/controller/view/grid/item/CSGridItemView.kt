@@ -42,8 +42,8 @@ open class CSGridItemView<RowType : Any>(
         onLoad(value)
     }
 
-    open fun onLoad(value: RowType) {
-        onLoad?.invoke(this, value)
+    open fun onLoad(data: RowType) {
+        onLoad?.invoke(this, data)
     }
 
     override val contentView get() = view.firstChild!!

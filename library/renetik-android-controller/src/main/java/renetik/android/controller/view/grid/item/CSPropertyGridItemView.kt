@@ -19,8 +19,8 @@ open class CSPropertyGridItemView<RowType : Any>(
         view.onClick { gridView.onItemClick(this) }
     }
 
-    override fun onLoad(value: RowType) {
-        property.value(value)
-        super.onLoad(value)
+    override fun onLoad(data: RowType) {
+        property.value(data)
+        super.onLoad(data)
     }
 }
