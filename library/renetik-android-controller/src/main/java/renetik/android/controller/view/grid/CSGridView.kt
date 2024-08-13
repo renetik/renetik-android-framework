@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSView
 import renetik.android.controller.base.asCS
-import renetik.android.controller.view.grid.CSGridView.Adapter.ViewHolder
 import renetik.android.controller.view.grid.item.CSGridItemView
 import renetik.android.core.kotlin.collections.firstIndex
 import renetik.android.core.kotlin.collections.list
@@ -133,18 +132,18 @@ class CSGridView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
         } else view.scrollToPosition(position)
     }
 
-    private inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
-        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+    private class AdapterViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+    private inner class Adapter : RecyclerView.Adapter<AdapterViewHolder>() {
 
-        override fun onCreateViewHolder(group: ViewGroup, type: Int): ViewHolder {
+        override fun onCreateViewHolder(group: ViewGroup, type: Int): AdapterViewHolder {
             val parent = this@CSGridView
             val itemView: ViewType = createView(parent, type, group)
             // selectedItem will get fired if view is dismissed on selection in subsequent views.
             parent + selectedItem.onChange { itemView.updateSelection() }
-            return ViewHolder(itemView.view)
+            return AdapterViewHolder(itemView.view)
         }
 
-        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        override fun onBindViewHolder(viewHolder: AdapterViewHolder, position: Int) {
             if (isDestructed) return // There was null pointer ex here...
             viewHolder.view.asCS<ViewType>()?.apply {
                 load(data[position].first, position)
