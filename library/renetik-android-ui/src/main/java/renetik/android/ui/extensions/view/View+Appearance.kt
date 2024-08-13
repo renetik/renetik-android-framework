@@ -63,9 +63,14 @@ fun <T : View> T.paddingDp(left: Int, top: Int, right: Int, bottom: Int) = apply
     )
 }
 
-fun <T : View> T.paddingDp(horizontal: Int = -1, vertical: Int = -1) = apply {
+fun <T : View> T.paddingDp(horizontal: Float = -1f, vertical: Float = -1f) = apply {
     if (horizontal >= 0) paddingHorizontal(dp = horizontal)
-    if (vertical >= 0) paddingVertical(dp = horizontal)
+    if (vertical >= 0) paddingVertical(dp = vertical)
+}
+
+fun <T : View> T.paddingPx(horizontal: Int = -1, vertical: Int = -1) = apply {
+    if (horizontal >= 0) paddingHorizontal(px = horizontal)
+    if (vertical >= 0) paddingVertical(px = vertical)
 }
 
 fun <T : View> T.padding(dp: Int = -1, px: Int = -1) = apply {
@@ -73,12 +78,12 @@ fun <T : View> T.padding(dp: Int = -1, px: Int = -1) = apply {
     paddingDp(pixelValue, pixelValue, pixelValue, pixelValue)
 }
 
-fun <T : View> T.paddingHorizontal(dp: Int = -1, px: Int = -1) = apply {
+fun <T : View> T.paddingHorizontal(dp: Float = -1f, px: Int = -1) = apply {
     val pixelValue = if (dp > -0) context.dpToPixel(dp) else if (px >= 0) px else 0
     setPadding(pixelValue, paddingTop, pixelValue, paddingBottom)
 }
 
-fun <T : View> T.paddingVertical(dp: Int = -1, px: Int = -1) = apply {
+fun <T : View> T.paddingVertical(dp: Float = -1f, px: Int = -1) = apply {
     val pixelValue = if (dp > -0) context.dpToPixel(dp) else if (px >= 0) px else 0
     setPadding(paddingLeft, pixelValue, paddingRight, pixelValue)
 }
