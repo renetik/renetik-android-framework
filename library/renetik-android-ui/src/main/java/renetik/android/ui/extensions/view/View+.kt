@@ -232,7 +232,7 @@ fun View.description(string: String) = apply { contentDescription = string }
 
 val View.lastChild get() = (this as? ViewGroup)?.lastChild
 
-val View.previousView: View?
+val View.previous: View?
     get() {
         val index = parentView?.indexOfChild(this)
         return index?.let { parentView?.getChildAt(it - 1) }
