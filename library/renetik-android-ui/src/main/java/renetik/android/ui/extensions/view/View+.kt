@@ -238,7 +238,7 @@ val View.previousView: View?
         return index?.let { parentView?.getChildAt(it - 1) }
     }
 
-val View.nextView: View?
+val View.next: View?
     get() {
         val index = parentView?.indexOfChild(this)
         return index?.let { parentView?.getChildAt(it + 1) }
