@@ -2,8 +2,10 @@ package renetik.android.ui.extensions.widget
 
 import android.view.Gravity.CENTER
 import android.view.Gravity.NO_GRAVITY
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import android.widget.LinearLayout
 import renetik.android.core.extensions.content.dpToPixel
@@ -22,6 +24,22 @@ fun layoutWrap(gravity: Int) = LayoutParams(WRAP_CONTENT, WRAP_CONTENT, gravity)
 val layoutWrapMatch get() = LayoutParams(WRAP_CONTENT, MATCH_PARENT)
 val layoutFillMatch get() = LinearLayout.LayoutParams(0, MATCH_PARENT, 1f)
 val layoutFillWrap get() = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
+
+fun LinearLayout.LayoutParams.toFillMatch() = apply {
+    width = 0; height = MATCH_PARENT; weight = 1f
+}
+
+fun LinearLayout.LayoutParams.toFillWrap() = apply {
+    width = 0; height = WRAP_CONTENT; weight = 1f
+}
+
+fun ViewGroup.LayoutParams.toMatchWrap() = apply {
+    width = MATCH_PARENT; height = WRAP_CONTENT
+}
+
+fun ViewGroup.LayoutParams.toWrapMatch() = apply {
+    width = WRAP_CONTENT; height = MATCH_PARENT
+}
 
 fun layoutWrapHeight(dpHeight: Int, gravity: Int? = null) =
     layoutWrapHeight(dpHeight.toFloat(), gravity)
