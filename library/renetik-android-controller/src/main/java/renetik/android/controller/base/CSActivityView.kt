@@ -180,9 +180,7 @@ open class CSActivityView<ViewType : View>
 
     open var navigation: CSNavigation? by lazyNullableVar {
         findNavigation()?.also {
-            registerListenOnce(it.eventDestruct) {
-                navigation = null
-            }
+            registerListenOnce(it.eventDestruct) { navigation = null }
         }
     }
 
