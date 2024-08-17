@@ -57,12 +57,14 @@ open class CSActivityView<ViewType : View>
         initializeParent(parent)
     }
 
-    constructor(parent: CSActivityViewInterface, @IdRes viewId: Int) : super(parent, viewId) {
+    constructor(parent: CSActivityViewInterface, @IdRes viewId: Int) : super(parent,
+        viewId) {
         parentActivityView = parent as CSActivityView<*>
         initializeParent(parent)
     }
 
-    constructor(parent: CSActivityViewInterface, layout: CSLayoutRes) : super(parent, layout) {
+    constructor(parent: CSActivityViewInterface, layout: CSLayoutRes) : super(parent,
+        layout) {
         parentActivityView = parent as CSActivityView<*>
         initializeParent(parent)
     }
@@ -177,17 +179,16 @@ open class CSActivityView<ViewType : View>
     val isShowingInPager get() = showingInPager == true
 
     open var navigation: CSNavigation? by lazyNullableVar {
-        findNavigation()?.also { registerListenOnce(it.eventDestruct) { navigation = null } }
+        findNavigation()?.also {
+            registerListenOnce(it.eventDestruct) {
+                navigation = null
+            }
+        }
     }
 
-    private fun findNavigation(): CSNavigation? {
-        var controller: CSActivityView<*>? = parentActivityView
-        do {
-            if (controller?.navigation != null) return controller.navigation
-            controller = controller?.parentActivityView
-        } while (controller != null)
-        return null
-    }
+    private fun findNavigation(): CSNavigation? =
+        generateSequence(parentActivityView) { it.parentActivityView }
+            .mapNotNull { it.navigation }.firstOrNull()
 
     override fun onDestruct() {
         if (isResumed) onPause()
