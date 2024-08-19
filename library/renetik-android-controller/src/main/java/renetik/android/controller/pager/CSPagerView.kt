@@ -95,7 +95,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     }
 
     fun showPage(page: PageType, animated: Boolean = true) {
-        if (!controllers.contains(page)) {
+        if (page !in controllers) {
             add(page)
             // OnPageChangeListener onSelected not called for first index
             if (controllers.size == 1) updatePageVisibility(0)
