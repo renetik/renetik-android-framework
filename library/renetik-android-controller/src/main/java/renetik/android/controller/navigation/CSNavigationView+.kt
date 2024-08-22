@@ -2,8 +2,8 @@ package renetik.android.controller.navigation
 
 import renetik.android.controller.base.CSActivityView
 
-fun CSNavigation.popLeave(count: Int) {
+fun CSNavigationView.popLeave(count: Int) {
     while (controllers.size > count) pop()
 }
 
-val CSNavigation.last: CSActivityView<*>? get() = controllers.lastOrNull()
+val CSNavigationView.last: CSActivityView<*>? get() = controllers.lastOrNull()
