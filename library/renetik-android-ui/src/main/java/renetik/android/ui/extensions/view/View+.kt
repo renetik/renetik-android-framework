@@ -56,9 +56,8 @@ import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 
-@JvmName("viewOfType") inline fun <reified Type : View> View.view(
-    @IdRes id: Int
-): Type = findView(id)!!
+@JvmName("viewOfType") inline fun <reified Type : View>
+        View.view(@IdRes id: Int): Type = findView(id)!!
 
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
 
@@ -96,49 +95,27 @@ val <T : View> T.superview get() = parent as? ViewGroup
 val <T : View> T.parentView get() = parent as? ViewGroup
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
 
-fun <T : View> View.findViewRecursive(id: Int): T? =
-    findView(id) ?: parentView?.findViewRecursive(id)
-
 fun <T : View> T.onClick(
     timeout: Int? = null, onClick: (view: T) -> Unit
 ) = apply {
-    setOnClickListener(CSClickAdapter(timeout) { if (isClickable) onClick(this) })
+    setOnClickListener(CSClickAdapter(timeout) {
+        if (isClickable) onClick(this)
+    })
 }
-
-
-//fun <T : View> T.registerClick(
-//    timeout: Int? = null, onClick: (view: T) -> Unit
-//): CSRegistration {
-//    val wasClickable = isClickable
-//    return CSRegistration(onResume = {
-//        setOnClickListener(CSClickAdapter(timeout) { onClick(this) })
-//    }, onPause = {
-//        setOnClickListener(null)
-//        isClickable = wasClickable
-//    }).start()
-//}
 
 fun <T : View> T.clearClick() = apply {
     setOnClickListener(null)
 }
 
 fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) = apply {
-    setOnLongClickListener { isLongClickable.ifTrue { onClick(this); true } ?: false }
+    setOnLongClickListener {
+        isLongClickable.ifTrue { onClick(this); true } ?: false
+    }
 }
 
 fun <T : View> T.clearLongClick() = apply {
     setOnLongClickListener(null)
 }
-
-//fun <T : View> T.registerLongClick(onClick: (view: T) -> Unit): CSRegistration {
-//    val wasClickable = isLongClickable
-//    return CSRegistration(onResume = {
-//        setOnLongClickListener { onClick(this); true }
-//    }, onPause = {
-//        setOnLongClickListener(null)
-//        isLongClickable = wasClickable
-//    }).start()
-//}
 
 fun <T : View> T.createBitmap(): Bitmap {
     val bitmap = createBitmap(width, height, ARGB_8888)

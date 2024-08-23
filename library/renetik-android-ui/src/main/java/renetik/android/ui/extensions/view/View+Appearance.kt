@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.view.View
+import android.widget.FrameLayout
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -13,8 +14,10 @@ import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.extensions.content.dpToPixel
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
 import renetik.android.ui.R
+import renetik.android.ui.extensions.widget.layoutMatch
 
 fun <T : View> T.background(@DrawableRes value: Int) = apply {
     setBackgroundResource(value)
@@ -117,6 +120,23 @@ fun View.enabledByAlphaIf(
 fun View.disabledByAlphaIf(
     property: CSHasChangeValue<Boolean>, disable: Boolean = true,
 ): CSRegistration = disabledByAlphaIf(property, disable) { it }
+
+fun FrameLayout.disabledByOverlayIf(
+    property: CSHasChangeValue<Boolean>): CSRegistration {
+    val overlay = View(context).apply {
+        backgroundColorAttr(android.R.attr.windowBackground)
+        alpha = 0.5f
+        isClickable = true
+    }
+    val registration = property.action { isTrue ->
+        if (isTrue) add(overlay, layoutMatch)
+        else overlay.removeFromSuperview()
+    }
+    return CSRegistration(onCancel = {
+        overlay.removeFromSuperview()
+        registration.cancel()
+    })
+}
 
 @Deprecated("Use or")
 fun View.disabledByAlphaIf(
