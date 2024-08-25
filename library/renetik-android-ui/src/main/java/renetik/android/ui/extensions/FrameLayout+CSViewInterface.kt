@@ -18,9 +18,9 @@ fun <View : CSViewInterface> FrameLayout.set(view: View): View {
     return view
 }
 
-fun FrameLayout.set(view: View): View {
+fun FrameLayout.set(view: View, params: LayoutParams? = null): View {
     clear()
-    add(view)
+    params?.let { add(view, it) } ?: add(view)
     return view
 }
 
