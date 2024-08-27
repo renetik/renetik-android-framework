@@ -117,6 +117,16 @@ open class CSNavigationItemView(
         super.onViewShowingFirstTime()
         if (dismissOnTouchOut) view.onClick { onBackgroundClick() }
         else view.passClicksUnder(passClicksUnder)
+        registerAfterLayout {
+            if (viewContent.height > screenAvailableHeight)
+                viewContent.updateLayoutParams<LayoutParams> {
+                    height = screenAvailableHeight.toInt()
+                }
+            if (viewContent.width > screenAvailableWidth)
+                viewContent.updateLayoutParams<LayoutParams> {
+                    width = screenAvailableHeight.toInt()
+                }
+        }
     }
 
     protected open fun onBackgroundClick() = dismiss()

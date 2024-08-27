@@ -9,9 +9,7 @@ import renetik.android.controller.navigation.CSNavigationItemAnimation.Fade
 import renetik.android.controller.navigation.CSNavigationItemAnimation.None
 import renetik.android.core.lang.CSLeakCanary
 import renetik.android.ui.extensions.registerAfterLayout
-import renetik.android.ui.extensions.view.leftFloat
 import renetik.android.ui.extensions.view.matchParent
-import renetik.android.ui.extensions.view.rightFloat
 
 fun <T : CSNavigationItemView> T.selected(button: CSView<*>) = selected(button.view)
 
@@ -32,16 +30,6 @@ fun <T : CSNavigationItemView> T.center() = apply {
     isFullScreen = false
     animation = Fade
     viewContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
-    registerAfterLayout {
-        if (viewContent.height > screenAvailableHeight)
-            viewContent.updateLayoutParams<LayoutParams> {
-                height = screenAvailableHeight.toInt()
-            }
-        if (viewContent.width > screenAvailableWidth)
-            viewContent.updateLayoutParams<LayoutParams> {
-                width = screenAvailableHeight.toInt()
-            }
-    }
 }
 
 val <T : CSNavigationItemView> T.isClicksBlocked get() = viewContent.isClickable
