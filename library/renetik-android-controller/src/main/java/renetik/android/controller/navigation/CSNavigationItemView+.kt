@@ -30,6 +30,16 @@ fun <T : CSNavigationItemView> T.center() = apply {
     isFullScreen = false
     animation = Fade
     viewContent.updateLayoutParams<LayoutParams> { gravity = CENTER }
+    registerAfterLayout {
+        if (viewContent.height > screenAvailableHeight)
+            viewContent.updateLayoutParams<LayoutParams> {
+                height = screenAvailableHeight.toInt()
+            }
+        if (viewContent.width > screenAvailableWidth)
+            viewContent.updateLayoutParams<LayoutParams> {
+                width = screenAvailableHeight.toInt()
+            }
+    }
 }
 
 val <T : CSNavigationItemView> T.isClicksBlocked get() = viewContent.isClickable
