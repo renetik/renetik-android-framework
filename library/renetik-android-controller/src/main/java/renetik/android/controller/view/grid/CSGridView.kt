@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import renetik.android.controller.base.CSActivityView
+import renetik.android.controller.base.CSActivityViewInterface
 import renetik.android.controller.base.CSView
 import renetik.android.controller.base.asCS
 import renetik.android.controller.view.grid.item.CSGridItemView
@@ -28,20 +28,23 @@ import renetik.android.ui.extensions.view.shortAnimationDuration
 typealias GridViewOut<T> = CSGridView<T, out CSGridItemView<T>>
 typealias GridView<T> = CSGridView<T, CSGridItemView<T>>
 
-class CSGridView<ItemType : Any, ViewType : CSGridItemView<ItemType>>(
-    parent: CSActivityView<*>, viewId: Int,
+class CSGridView<
+        ItemType : Any,
+        ViewType : CSGridItemView<ItemType>
+        >(parent: CSActivityViewInterface, viewId: Int,
     val createView: (
-        CSGridView<ItemType, ViewType>, viewType: Int, parent: ViewGroup,
+        CSGridView<ItemType, ViewType>,
+        viewType: Int, parent: ViewGroup,
     ) -> ViewType
 ) : CSView<RecyclerView>(parent, viewId) {
 
     constructor(
-        parent: CSActivityView<*>, viewId: Int,
+        parent: CSActivityViewInterface, viewId: Int,
         createView: (CSGridView<ItemType, ViewType>, parent: ViewGroup) -> ViewType
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent, group) })
 
     constructor(
-        parent: CSActivityView<*>, viewId: Int,
+        parent: CSActivityViewInterface, viewId: Int,
         createView: (CSGridView<ItemType, ViewType>) -> ViewType
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent) })
 
