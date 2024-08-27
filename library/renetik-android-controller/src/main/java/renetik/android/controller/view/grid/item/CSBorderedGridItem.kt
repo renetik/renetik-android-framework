@@ -13,40 +13,44 @@ interface CSBorderedGridItem {
     val bottomBorder: View
 
     fun updateBorders(grid: GridViewOut<*>, index: Int,
-        isBottomBorder: Boolean = true) =
+        isBottomBorder: Boolean = false) =
         updateBorders(grid.dataCount, grid.columnCount, index, isBottomBorder)
 
     fun updateBorders(grid: GridViewOut<*>,
         item: CSSectionItem<out CSItemSection<*>, *>,
-        isBottomBorder: Boolean = true) =
+        isBottomBorder: Boolean = false) =
         updateBorders(item.section.items.size, grid.columnCount,
             item.index, isBottomBorder)
 
     fun updateBorders(count: Int, columns: Int, index: Int,
-        isBottomBorder: Boolean = true) {
+        isBottomBorder: Boolean = false) {
+        // Hide the top border by default
         topBorder?.gone()
 
-        // Calculate if item is in the last column
+        // Calculate if the item is in the last column
         val isLastInColumn = (index + 1) % columns == 0
 
-        // Calculate if item is in the last row
-        val isLastInRow = index >= count - columns
+        // Calculate the number of full rows
+        val fullRows = count / columns
 
-        // Calculate if there are empty spaces below the item
-        val hasEmptySpaceBelow = index >= count - columns && count % columns != 0
+        val isPerfectGrid = (count % columns == 0)
 
-        // Check if item is the last in a grid where items fit perfectly into columns
-        val isPerfectGridLastItem = count % columns == 0 && (index + 1) == count
+        // Determine if the item is in the last row
+        val isInLastRow = if (isPerfectGrid) index >= count - columns
+        else index >= fullRows * columns
 
-        // Right border visibility
-        rightBorder.visible(
-            !(isLastInColumn || isPerfectGridLastItem)
-        )
+        // Determine if there are empty spaces below the item in the last row
+//        val hasEmptySpaceBelow = isInLastRow && count % columns != 0 && index < count - 1
 
-        // Bottom border visibility
-        bottomBorder.visible(
-            if (isBottomBorder) !isLastInRow || hasEmptySpaceBelow
-            else !isLastInRow && !hasEmptySpaceBelow
-        )
+        // Determine if the grid has a perfect number of items filling all columns
+        val isPerfectGridLastItem = (index + 1 == count) && isPerfectGrid
+
+        // Set right border visibility
+        rightBorder.visible(!(isLastInColumn || isPerfectGridLastItem))
+
+        if (!isBottomBorder) bottomBorder.visible(!isInLastRow)
+        else bottomBorder.visible(true)
+
+        bottomBorder.visible(isBottomBorder || !isInLastRow)
     }
 }
