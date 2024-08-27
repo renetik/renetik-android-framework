@@ -83,7 +83,7 @@ open class CSNavigationItemView(
     open fun onViewControllerPop(navigation: CSNavigationView) = Unit
 
     var animation = Fade
-    private val contentMarginDp = 9
+    private val contentMarginDp = 15
 
     private val eventDismiss = event()
     fun onDismiss(function: () -> Unit) = eventDismiss.listen(function)
@@ -180,8 +180,8 @@ open class CSNavigationItemView(
         viewContent.y = fromViewLocation.y.toFloat() + fromView.height
     }
 
-    private val screenAvailableHeight get() = height - contentMarginDp.dpf * 2
-    private val screenAvailableWidth get() = width - contentMarginDp.dpf * 2
+    val screenAvailableHeight get() = height - contentMarginDp.dpf * 2
+    val screenAvailableWidth get() = width - contentMarginDp.dpf * 2
 
     private fun positionDialogContentFromViewTop(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
@@ -195,8 +195,10 @@ open class CSNavigationItemView(
     }
 
     private fun correctContentOverflow() {
-        if (viewContent.bottomFloat > screenAvailableHeight) viewContent.topFloat -= viewContent.bottomFloat - screenAvailableHeight
-        if (viewContent.rightFloat > screenAvailableWidth) viewContent.leftFloat -= viewContent.rightFloat - screenAvailableWidth
+        if (viewContent.bottomFloat > screenAvailableHeight)
+            viewContent.topFloat -= viewContent.bottomFloat - screenAvailableHeight
+        if (viewContent.rightFloat > screenAvailableWidth)
+            viewContent.leftFloat -= viewContent.rightFloat - screenAvailableWidth
     }
 
     private fun positionDialogContentFromViewRight(fromView: View) {
