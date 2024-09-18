@@ -1,0 +1,24 @@
+<resources>
+    <dimen name="button_height_small">47dp</dimen>
+    <dimen name="button_height">62dp</dimen>
+    <dimen name="button_height_medium">72dp</dimen>
+    <dimen name="button_height_large">77dp</dimen>
+    <dimen name="button_height_xlarge">90dp</dimen>
+    <dimen name="button_height_xxlarge">110dp</dimen>
+    <dimen name="button_height_xxxlarge">150dp</dimen>
+
+    <dimen name="toolbar_size">65dp</dimen>
+    <dimen name="toolbar_header_height">21dp</dimen>
+    <dimen name="toolbar_icon_height">33dp</dimen>
+
+    <dimen name="window_height_small">370dp</dimen>
+    <dimen name="window_height">470dp</dimen>
+
+    <dimen name="vertical_padding_xxxxlarge">23dp</dimen>
+    <dimen name="vertical_padding_xxxlarge">19dp</dimen>
+    <dimen name="vertical_padding_xxlarge">15dp</dimen>
+    <dimen name="vertical_padding_xlarge">12dp</dimen>
+    <dimen name="vertical_padding_large">9dp</dimen>
+    <dimen name="vertical_padding_medium">5dp</dimen>
+    <dimen name="vertical_padding_small">2dp</dimen>
+</resources>

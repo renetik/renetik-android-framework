@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="horizontal_padding_xxxlarge">40dp</dimen>
+    <dimen name="horizontal_padding_xxlarge">32dp</dimen>
+    <dimen name="horizontal_padding_xlarge">24dp</dimen>
+    <dimen name="horizontal_padding_large">17dp</dimen>
+    <dimen name="horizontal_padding_medium">9dp</dimen>
+    <dimen name="horizontal_padding_small">5dp</dimen>
+
+    <dimen name="window_width_small">650dp</dimen>
+    <dimen name="window_width">900dp</dimen>
+    <dimen name="window_width_large">1100dp</dimen>
+
+    <dimen name="toolbar_xxlarge_item_width">300dp</dimen>
+    <dimen name="toolbar_xlarge_item_width">260dp</dimen>
+    <dimen name="toolbar_large_item_width">190dp</dimen>
+    <dimen name="toolbar_medium_item_width">120dp</dimen>
+    <dimen name="toolbar_small_item_width">85dp</dimen>
+    <dimen name="toolbar_tiny_item_width">70dp</dimen>
+    <dimen name="toolbar_mini_item_width">55dp</dimen>
+
+    <dimen name="button_icon_width">50dp</dimen>
+
+    <dimen name="picker_width">400dp</dimen>
+    <dimen name="picker_width_large">500dp</dimen>
+
+</resources>
