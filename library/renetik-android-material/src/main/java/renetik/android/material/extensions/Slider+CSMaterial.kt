@@ -45,14 +45,14 @@ fun <T : Slider> T.value(value: Float) =
 
 fun <T : Slider> T.value(value: Int) = apply { this.value(value.toFloat()) }
 
-fun <T : Slider> T.valueFrom(value: Float) = apply { this.setValueFrom(value) }
-fun <T : Slider> T.valueFrom(value: Int) = apply { this.setValueFrom(value.toFloat()) }
+fun <T : Slider> T.valueFrom(value: Float) = apply { setValueFrom(value) }
+fun <T : Slider> T.valueFrom(value: Int) = apply { setValueFrom(value.toFloat()) }
 
-fun <T : Slider> T.valueTo(value: Float) = apply { this.setValueTo(value) }
-fun <T : Slider> T.valueTo(value: Int) = apply { this.setValueTo(value.toFloat()) }
+fun <T : Slider> T.valueTo(value: Float) = apply { setValueTo(value) }
+fun <T : Slider> T.valueTo(value: Int) = apply { setValueTo(value.toFloat()) }
 
-fun <T : Slider> T.stepSize(value: Float) = apply { this.setStepSize(value) }
-fun <T : Slider> T.stepSize(value: Int) = apply { this.setStepSize(value.toFloat()) }
+fun <T : Slider> T.stepSize(value: Float) = apply { setStepSize(value) }
+fun <T : Slider> T.stepSize(value: Int) = apply { setStepSize(value.toFloat()) }
 
 @JvmName("valuePropertyDouble")
 fun Slider.value(property: CSProperty<Float>,
