@@ -18,15 +18,18 @@ interface CSBorderedGridItem {
 
     fun updateBorders(grid: GridViewOut<*>,
         item: CSSectionItem<out CSItemSection<*>, *>,
-        isBottomBorder: Boolean = false) =
+        isBottomBorder: Boolean = false,
+        isLastRightBorder: Boolean = false) =
         updateBorders(item.section.items.size, grid.columnCount,
-            item.index, isBottomBorder)
+            item.index, isBottomBorder, isLastRightBorder)
 
     fun updateBorders(count: Int, columns: Int, index: Int,
-        isBottomBorder: Boolean = false) {
+        isBottomBorder: Boolean = false,
+        isLastRightBorder: Boolean = false) {
         // Hide the top border by default
         topBorder?.gone()
 
+        val isLast = index == count - 1
         // Calculate if the item is in the last column
         val isLastInColumn = (index + 1) % columns == 0
 
@@ -46,7 +49,9 @@ interface CSBorderedGridItem {
         val isPerfectGridLastItem = (index + 1 == count) && isPerfectGrid
 
         // Set right border visibility
-        rightBorder.visible(!(isLastInColumn || isPerfectGridLastItem))
+        rightBorder.visible(!(isLastInColumn ||
+                isPerfectGridLastItem ||
+                (isLast && !isLastRightBorder)))
 
         if (!isBottomBorder) bottomBorder.visible(!isInLastRow)
         else bottomBorder.visible(true)
