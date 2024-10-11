@@ -4,11 +4,9 @@ import android.view.View
 import renetik.android.controller.view.grid.GridViewOut
 import renetik.android.controller.view.grid.columnCount
 import renetik.android.controller.view.grid.dataCount
-import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.visible
 
 interface CSBorderedGridItem {
-    val topBorder: View? get() = null
     val rightBorder: View
     val bottomBorder: View
 
@@ -26,8 +24,6 @@ interface CSBorderedGridItem {
     fun updateBorders(count: Int, columns: Int, index: Int,
         isBottomBorder: Boolean = false,
         isLastRightBorder: Boolean = false) {
-        // Hide the top border by default
-        topBorder?.gone()
 
         val isLast = index == count - 1
         // Calculate if the item is in the last column
@@ -42,9 +38,6 @@ interface CSBorderedGridItem {
         val isInLastRow = if (isPerfectGrid) index >= count - columns
         else index >= fullRows * columns
 
-        // Determine if there are empty spaces below the item in the last row
-//        val hasEmptySpaceBelow = isInLastRow && count % columns != 0 && index < count - 1
-
         // Determine if the grid has a perfect number of items filling all columns
         val isPerfectGridLastItem = (index + 1 == count) && isPerfectGrid
 
@@ -53,9 +46,9 @@ interface CSBorderedGridItem {
                 isPerfectGridLastItem ||
                 (isLast && !isLastRightBorder)))
 
-        if (!isBottomBorder) bottomBorder.visible(!isInLastRow)
-        else bottomBorder.visible(true)
-
-        bottomBorder.visible(isBottomBorder || !isInLastRow)
+        // Set bottom border visibility based on conditions
+        val hasNextItemBelow = index + columns < count
+        bottomBorder.visible((isBottomBorder && !isInLastRow) || hasNextItemBelow)
+//        bottomBorder.visible(isBottomBorder || (!isInLastRow && hasNextItemBelow))
     }
 }
