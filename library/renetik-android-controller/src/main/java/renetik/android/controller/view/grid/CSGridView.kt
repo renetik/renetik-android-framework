@@ -24,6 +24,7 @@ import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.shortAnimationDuration
+import renetik.android.ui.extensions.widget.layoutMatchWrap
 
 typealias GridViewOut<T> = CSGridView<T, out CSGridItemView<T>>
 typealias GridView<T> = CSGridView<T, CSGridItemView<T>>
