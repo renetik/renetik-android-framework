@@ -11,8 +11,9 @@ interface CSBorderedGridItem {
     val bottomBorder: View
 
     fun updateBorders(grid: GridViewOut<*>, index: Int,
-        isBottomBorder: Boolean = false) =
-        updateBorders(grid.dataCount, grid.columnCount, index, isBottomBorder)
+        isBottomBorder: Boolean = false,isLastRightBorder: Boolean = false) =
+        updateBorders(grid.dataCount, grid.columnCount, index,
+            isBottomBorder,isLastRightBorder)
 
     fun updateBorders(grid: GridViewOut<*>,
         item: CSSectionItem<out CSItemSection<*>, *>,
