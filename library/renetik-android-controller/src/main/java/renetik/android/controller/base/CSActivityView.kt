@@ -166,8 +166,8 @@ open class CSActivityView<ViewType : View>
     }
 
     override fun checkIfIsShowing(): Boolean {
-        if (overrideVisibility != null) return overrideVisibility!!
         if (!isResumed) return false
+        if (overrideVisibility != null) return overrideVisibility!!
         if (!view.isVisible) return false
         if (showingInPager == false) return false
         if (isShowingInPager && parentActivityView?.isVisible.isTrue) return true
