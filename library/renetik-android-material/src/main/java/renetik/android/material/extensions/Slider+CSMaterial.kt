@@ -40,21 +40,23 @@ fun <T : Slider> T.onDragStop(listener: (T) -> Unit): CSRegistration {
         onPause = { removeOnSliderTouchListener(sliderListener) }).start()
 }
 
-fun <T : Slider> T.value(value: Float) = apply { this.value = value.min(valueFrom).max(valueTo) }
+fun <T : Slider> T.value(value: Float) =
+    apply { this.value = value.min(valueFrom).max(valueTo) }
+
 fun <T : Slider> T.value(value: Int) = apply { this.value(value.toFloat()) }
 
-fun <T : Slider> T.valueFrom(value: Float) = apply { this.valueFrom = value }
-fun <T : Slider> T.valueFrom(value: Int) = apply { this.valueFrom = value.toFloat() }
+fun <T : Slider> T.valueFrom(value: Float) = apply { setValueFrom(value) }
+fun <T : Slider> T.valueFrom(value: Int) = apply { setValueFrom(value.toFloat()) }
 
-fun <T : Slider> T.valueTo(value: Float) = apply { this.valueTo = value }
-fun <T : Slider> T.valueTo(value: Int) = apply { this.valueTo = value.toFloat() }
+fun <T : Slider> T.valueTo(value: Float) = apply { setValueTo(value) }
+fun <T : Slider> T.valueTo(value: Int) = apply { setValueTo(value.toFloat()) }
 
-fun <T : Slider> T.stepSize(value: Float) = apply { this.stepSize = value }
-fun <T : Slider> T.stepSize(value: Int) = apply { this.stepSize = value.toFloat() }
+fun <T : Slider> T.stepSize(value: Float) = apply { setStepSize(value) }
+fun <T : Slider> T.stepSize(value: Int) = apply { setStepSize(value.toFloat()) }
 
 @JvmName("valuePropertyDouble")
 fun Slider.value(property: CSProperty<Float>,
-                 min: Float = 0f, max: Float = 1.0f, step: Float = 0.1f): CSRegistration {
+    min: Float = 0f, max: Float = 1.0f, step: Float = 0.1f): CSRegistration {
     valueFrom = min
     valueTo = max
     stepSize = step
@@ -72,7 +74,7 @@ fun Slider.value(property: CSProperty<Float>,
 
 @JvmName("valuePropertyInt")
 fun Slider.value(property: CSProperty<Int>,
-                 min: Int = 0, max: Int = 100, step: Int = 1): CSRegistration {
+    min: Int = 0, max: Int = 100, step: Int = 1): CSRegistration {
     valueFrom = min.toFloat()
     valueTo = max.toFloat()
     stepSize = step.toFloat()
