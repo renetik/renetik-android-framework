@@ -17,19 +17,19 @@ import renetik.android.ui.extensions.view.registerOnHasSize
 import renetik.android.ui.protocol.CSViewInterface
 import java.io.File
 
-fun <T : ImageView> T.image(parent: CSViewInterface, file: File)
+fun <T : ImageView> T.image(parent: CSHasRegistrations, file: File)
         : CSRegistration? = image(parent, file, null)
 
 //TODO: inner has size registration shall be wrapped together with property registration
 fun <T : ImageView> T.image(
-    parent: CSViewInterface, file: File, borderWidth: Float,
+    parent: CSHasRegistrations, file: File, borderWidth: Float,
     radius: Float = 5f, color: Int = DKGRAY
 ): CSRegistration? =
     image(parent, file, BorderBitmapTransformation(borderWidth, radius, color))
 
 //TODO: inner has size registration shall be wrapped together with property registration
 fun <T> ImageView.image(
-    parent: CSViewInterface, property: CSProperty<T>,
+    parent: CSHasRegistrations, property: CSProperty<T>,
     borderWidth: Float = 1f, radius: Float = 2f, color: Int = Color.BLACK,
     file: (T) -> File
 ): CSRegistration =
@@ -37,7 +37,7 @@ fun <T> ImageView.image(
 
 //TODO: inner has size registration shall be wrapped together with property registration
 fun <T> ImageView.image(
-    parent: CSViewInterface,
+    parent: CSHasRegistrations,
     property: CSProperty<T>,
     valueToImage: (T) -> File
 ): CSRegistration =
