@@ -12,47 +12,45 @@ import renetik.android.ui.R.styleable.CSLayout_minHeight
 import renetik.android.ui.R.styleable.CSLayout_minWidth
 
 interface CSAndroidView {
-
     val self: View
-    var csMinWidth: Int
-    var csMaxWidth: Int
-    var csMinHeight: Int
-    var csMaxHeight: Int
-    var csClipToOutline: Boolean
-    var csDispatchState: Boolean
-
-    fun loadCSAttributes(attrs: AttributeSet?) {
-        val attributes =
-            self.context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
-        try {
-            csClipToOutline = attributes.getBoolean(CSLayout_clipToOutline, false)
-            csMinWidth = attributes.getDimensionPixelSize(CSLayout_minWidth, -1)
-            csMaxWidth = attributes.getDimensionPixelSize(CSLayout_maxWidth, -1)
-            csMinHeight = attributes.getDimensionPixelSize(CSLayout_minHeight, -1)
-            csMaxHeight = attributes.getDimensionPixelSize(CSLayout_maxHeight, -1)
-            csDispatchState = attributes.getBoolean(CSLayout_dispatchState, true)
-        } finally {
-            attributes.recycle()
-        }
-    }
+    var minWidthParam: Int
+    var maxWidthParam: Int
+    var minHeightParam: Int
+    var maxHeightParam: Int
+    var dispatchStateParam: Boolean
 
     fun onReMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int): Pair<Int, Int>? {
         var widthMeasure = widthMeasureSpec
         var heightMeasure = heightMeasureSpec
 
-        if (csMinWidth != -1 && self.measuredWidth < csMinWidth) {
-            widthMeasure = makeMeasureSpec(csMinWidth, View.MeasureSpec.EXACTLY)
-        } else if (csMaxWidth != -1 && self.measuredWidth > csMaxWidth) widthMeasure =
-            makeMeasureSpec(csMaxWidth, View.MeasureSpec.EXACTLY)
+        if (minWidthParam != -1 && self.measuredWidth < minWidthParam) {
+            widthMeasure = makeMeasureSpec(minWidthParam, View.MeasureSpec.EXACTLY)
+        } else if (maxWidthParam != -1 && self.measuredWidth > maxWidthParam) widthMeasure =
+            makeMeasureSpec(maxWidthParam, View.MeasureSpec.EXACTLY)
 
-        if (csMinHeight != -1 && self.measuredHeight < csMinHeight)
-            heightMeasure = makeMeasureSpec(csMinHeight, View.MeasureSpec.EXACTLY)
-        else if (csMaxHeight != -1 && self.measuredHeight > csMaxHeight)
-            heightMeasure = makeMeasureSpec(csMaxHeight, View.MeasureSpec.EXACTLY)
+        if (minHeightParam != -1 && self.measuredHeight < minHeightParam)
+            heightMeasure = makeMeasureSpec(minHeightParam, View.MeasureSpec.EXACTLY)
+        else if (maxHeightParam != -1 && self.measuredHeight > maxHeightParam)
+            heightMeasure = makeMeasureSpec(maxHeightParam, View.MeasureSpec.EXACTLY)
 
         if (widthMeasure != widthMeasureSpec || heightMeasure != heightMeasureSpec)
             return widthMeasure to heightMeasure
 
         return null
+    }
+}
+
+fun CSAndroidView.loadCSAttributes(attrs: AttributeSet?) {
+    val attributes =
+        self.context.theme.obtainStyledAttributes(attrs, R.styleable.CSLayout, 0, 0)
+    try {
+        self.clipToOutline = attributes.getBoolean(CSLayout_clipToOutline, self.clipToOutline)
+        minWidthParam = attributes.getDimensionPixelSize(CSLayout_minWidth, -1)
+        maxWidthParam = attributes.getDimensionPixelSize(CSLayout_maxWidth, -1)
+        minHeightParam = attributes.getDimensionPixelSize(CSLayout_minHeight, -1)
+        maxHeightParam = attributes.getDimensionPixelSize(CSLayout_maxHeight, -1)
+        dispatchStateParam = attributes.getBoolean(CSLayout_dispatchState, true)
+    } finally {
+        attributes.recycle()
     }
 }

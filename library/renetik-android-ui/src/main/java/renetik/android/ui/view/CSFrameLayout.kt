@@ -10,54 +10,55 @@ import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
-import renetik.android.ui.R
-import renetik.android.ui.R.styleable.CSLayout
-import renetik.android.ui.R.styleable.CSLayout_dispatchState
-import renetik.android.ui.R.styleable.CSLayout_maxWidth
-import renetik.android.ui.R.styleable.CSLayout_minWidth
+import kotlin.properties.Delegates.notNull
 
 open class CSFrameLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent, CSAndroidView {
 
     override val self: View get() = this
+    override var minWidthParam: Int by notNull()
+    override var maxWidthParam: Int by notNull()
+    override var minHeightParam: Int by notNull()
+    override var maxHeightParam: Int by notNull()
+    override var dispatchStateParam: Boolean by notNull()
+
     override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-    private val minWidth: Int
-    private val maxWidth: Int
-    var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     val eventOnDraw = event<Canvas>()
     var eventOnLayout = event()
 
     init {
-        context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0).let {
-            clipToOutline = it.getBoolean(R.styleable.CSLayout_clipToOutline, false)
-            minWidth = it.getDimensionPixelSize(CSLayout_minWidth, -1)
-            maxWidth = it.getDimensionPixelSize(CSLayout_maxWidth, -1)
-            dispatchState = it.getBoolean(CSLayout_dispatchState, true)
-            it.recycle()
-        }
+        loadCSAttributes(attrs)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (minWidth != -1 && measuredWidth < minWidth)
-            super.onMeasure(makeMeasureSpec(minWidth, EXACTLY), heightMeasureSpec)
-        else if (maxWidth != -1 && measuredWidth > maxWidth)
-            super.onMeasure(makeMeasureSpec(maxWidth, EXACTLY), heightMeasureSpec)
+        var widthMeasure = widthMeasureSpec
+        if (minWidthParam != -1 && measuredWidth < minWidthParam)
+            widthMeasure = makeMeasureSpec(minWidthParam, EXACTLY)
+        else if (maxWidthParam != -1 && measuredWidth > maxWidthParam)
+            widthMeasure = makeMeasureSpec(maxWidthParam, EXACTLY)
+
+        var heightMeasure = heightMeasureSpec
+        if (minHeightParam != -1 && measuredHeight < minHeightParam)
+            heightMeasure = makeMeasureSpec(minHeightParam, EXACTLY)
+        else if (maxHeightParam != -1 && measuredHeight > maxHeightParam)
+            heightMeasure = makeMeasureSpec(maxHeightParam, EXACTLY)
+        super.onMeasure(widthMeasure, heightMeasure)
     }
 
     override fun dispatchSetActivated(activated: Boolean) {
-        if (dispatchState) super.dispatchSetActivated(activated)
+        if (dispatchStateParam) super.dispatchSetActivated(activated)
     }
 
     override fun dispatchSetSelected(selected: Boolean) {
-        if (dispatchState) super.dispatchSetSelected(selected)
+        if (dispatchStateParam) super.dispatchSetSelected(selected)
     }
 
     override fun dispatchSetPressed(pressed: Boolean) {
-        if (dispatchState) super.dispatchSetPressed(pressed)
+        if (dispatchStateParam) super.dispatchSetPressed(pressed)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

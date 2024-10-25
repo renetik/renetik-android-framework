@@ -14,12 +14,11 @@ class CSImageView @JvmOverloads constructor(
 ) : AppCompatImageView(context, attrs, defStyleAttr), CSHasTouchEvent, CSAndroidView {
 
     override val self = this
-    override var csMinWidth: Int by notNull()
-    override var csMaxWidth: Int by notNull()
-    override var csMinHeight: Int by notNull()
-    override var csMaxHeight: Int by notNull()
-    override var csClipToOutline: Boolean by notNull()
-    override var csDispatchState: Boolean by notNull()
+    override var minWidthParam: Int by notNull()
+    override var maxWidthParam: Int by notNull()
+    override var minHeightParam: Int by notNull()
+    override var maxHeightParam: Int by notNull()
+    override var dispatchStateParam: Boolean by notNull()
     override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
 
     init {
@@ -35,15 +34,15 @@ class CSImageView @JvmOverloads constructor(
 
 
     override fun dispatchSetActivated(activated: Boolean) {
-        if (csDispatchState) super.dispatchSetActivated(activated)
+        if (dispatchStateParam) super.dispatchSetActivated(activated)
     }
 
     override fun dispatchSetSelected(selected: Boolean) {
-        if (csDispatchState) super.dispatchSetSelected(selected)
+        if (dispatchStateParam) super.dispatchSetSelected(selected)
     }
 
     override fun dispatchSetPressed(pressed: Boolean) {
-        if (csDispatchState) if (!isSelected) super.dispatchSetPressed(pressed)
+        if (dispatchStateParam) if (!isSelected) super.dispatchSetPressed(pressed)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
