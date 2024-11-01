@@ -48,7 +48,7 @@ private fun <T : ImageView> T.image(
     parent: CSHasRegistrations, file: File,
     transformation: Transformation<Bitmap>? = null
 ): CSRegistration? = registerOnHasSize(parent) {
-    val builder = Glide.with(context).asBitmap().load(file)
+    val builder = Glide.with(this).asBitmap().load(file)
         .override(width, height)
         .signature(ObjectKey(file.lastModified()))
         .fitCenter().diskCacheStrategy(DiskCacheStrategy.NONE)
