@@ -9,7 +9,8 @@ import android.graphics.RectF
 import java.io.File
 
 fun Bitmap.scale(
-    maxTargetWidth: Int, maxTargetHeight: Int = maxTargetWidth): Bitmap {
+    maxTargetWidth: Int, maxTargetHeight: Int = maxTargetWidth
+): Bitmap {
     val matrix = Matrix()
     val inRect = RectF(0f, 0f, width.toFloat(), height.toFloat())
     val outRect = RectF(0f, 0f, maxTargetWidth.toFloat(), maxTargetHeight.toFloat())
@@ -25,8 +26,9 @@ fun Bitmap.scale(
 }
 
 
-fun Bitmap.copy(): Bitmap? = copy(config, isMutable)
+fun Bitmap.copy(): Bitmap? = config?.let { copy(it, isMutable) }
 
 fun Bitmap.saveTo(
-    file: File, format: CompressFormat = JPEG, quality: Int = 70) =
+    file: File, format: CompressFormat = JPEG, quality: Int = 70
+) =
     apply { file.write(this, format, quality) }
