@@ -37,7 +37,6 @@ open class CSActivityView<ViewType : View>
     private var isResumeFirstTime = false
 
     private var parentActivityView: CSActivityView<*>? = null
-        private set
 
     var activity: CSActivity<*>? = null
     private var showingInPager: Boolean? = null
