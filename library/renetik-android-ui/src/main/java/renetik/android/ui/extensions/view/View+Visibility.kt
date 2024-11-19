@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package renetik.android.ui.extensions.view
 
 import android.view.View
@@ -40,6 +42,10 @@ fun <T : View> T.visible(
 fun <T : View> T.invisible(
     invisible: Boolean = true, animated: Boolean = false,
 ) = visible(visible = !invisible, animated)
+
+inline fun <T : View> T.showIf(
+    show: Boolean, animated: Boolean = false,
+) = show(show, animated)
 
 fun <T : View> T.show(
     show: Boolean = true, animated: Boolean = false,
