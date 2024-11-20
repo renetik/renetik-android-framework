@@ -34,9 +34,12 @@ class CSBorderedGridItemTest {
         assertTrue(!item.rightBorder.isVisible)
         assertTrue(item.bottomBorder.isVisible)
 
-        item.updateBorders(count = 7, columns = 2, index = 6, isBottomBorder = true)
+        item.updateBorders(
+            count = 7, columns = 2, index = 6,
+            isBottomBorder = true, isLastRightBorder = true
+        )
         assertTrue(item.rightBorder.isVisible)
-        assertTrue(item.bottomBorder.isVisible)
+        assertTrue(!item.bottomBorder.isVisible)
     }
 
     @Test
@@ -51,10 +54,10 @@ class CSBorderedGridItemTest {
 
         item.updateBorders(count = 7, columns = 2, index = 5, isBottomBorder = false)
         assertTrue(!item.rightBorder.isVisible)
-        assertTrue(item.bottomBorder.isVisible)
+        assertTrue(!item.bottomBorder.isVisible)
 
         item.updateBorders(count = 7, columns = 2, index = 6, isBottomBorder = false)
-        assertTrue(item.rightBorder.isVisible)
+        assertTrue(!item.rightBorder.isVisible)
         assertTrue(!item.bottomBorder.isVisible)
     }
 
