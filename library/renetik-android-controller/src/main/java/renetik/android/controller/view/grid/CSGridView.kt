@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import renetik.android.controller.base.CSActivityViewInterface
 import renetik.android.controller.base.CSView
-import renetik.android.controller.base.asCS
 import renetik.android.controller.view.grid.item.CSGridItemView
 import renetik.android.core.kotlin.collections.firstIndex
 import renetik.android.core.kotlin.collections.list
@@ -15,6 +15,7 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.plus
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.findView
@@ -24,7 +25,6 @@ import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.shortAnimationDuration
-import renetik.android.ui.extensions.widget.layoutMatchWrap
 
 typealias GridViewOut<T> = CSGridView<T, out CSGridItemView<T>>
 typealias GridView<T> = CSGridView<T, CSGridItemView<T>>
@@ -32,7 +32,8 @@ typealias GridView<T> = CSGridView<T, CSGridItemView<T>>
 class CSGridView<
         ItemType : Any,
         ViewType : CSGridItemView<ItemType>
-        >(parent: CSActivityViewInterface, viewId: Int,
+        >(
+    parent: CSActivityViewInterface, viewId: Int,
     val createView: (
         CSGridView<ItemType, ViewType>,
         viewType: Int, parent: ViewGroup,
@@ -136,24 +137,34 @@ class CSGridView<
         } else view.scrollToPosition(position)
     }
 
-    private class AdapterViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+    private inner class AdapterViewHolder(
+        parent: CSGridView<*, *>, val gridItemView: ViewType
+    ) : ViewHolder(gridItemView.view) {
+        // selectedItem will get fired if view is dismissed on selection in subsequent views.
+        val registration: CSRegistration = parent + selectedItem.onChange {
+            gridItemView.updateSelection()
+        }
+    }
+
     private inner class Adapter : RecyclerView.Adapter<AdapterViewHolder>() {
 
         override fun onCreateViewHolder(group: ViewGroup, type: Int): AdapterViewHolder {
-            val parent = this@CSGridView
-            val itemView: ViewType = createView(parent, type, group)
-            // selectedItem will get fired if view is dismissed on selection in subsequent views.
-            parent + selectedItem.onChange { itemView.updateSelection() }
-            return AdapterViewHolder(itemView.view)
+            val itemView: ViewType = createView(this@CSGridView, type, group)
+            return AdapterViewHolder(this@CSGridView, itemView)
         }
 
         override fun onBindViewHolder(viewHolder: AdapterViewHolder, position: Int) {
             if (isDestructed) return // There was null pointer ex here...
-            viewHolder.view.asCS<ViewType>()?.apply {
+            viewHolder.gridItemView.apply {
                 load(data[position].first, position)
                 updateDisabled()
                 updateSelection()
             }
+        }
+
+        override fun onViewRecycled(holder: AdapterViewHolder) {
+            super.onViewRecycled(holder)
+            holder.registration.cancel()
         }
 
         override fun getItemViewType(position: Int): Int = data[position].second
