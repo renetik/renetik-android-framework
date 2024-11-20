@@ -7,8 +7,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
+import android.widget.FrameLayout
 import renetik.android.core.extensions.graphics.height
 import renetik.android.core.extensions.graphics.width
+import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.ui.R.styleable.CSLayout
@@ -23,7 +25,8 @@ import renetik.android.ui.extensions.view.windowRectangle
 open class CSEmptyView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
-) : View(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent {
+) : View(context, attrs, defStyleAttr, defStyleRes),
+    CSHasTouchEvent, CSHasDrawEvent {
 
     override val self: View get() = this
     override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
@@ -35,7 +38,8 @@ open class CSEmptyView @JvmOverloads constructor(
 
     var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-    val eventOnDraw = event<Canvas>()
+    val eventOnDraw: CSEvent<Canvas> = event<Canvas>()
+    override fun listenOnDraw(listener: (Canvas) -> Unit) = eventOnDraw.listen(listener)
     var eventOnLayout = event()
 
     init {

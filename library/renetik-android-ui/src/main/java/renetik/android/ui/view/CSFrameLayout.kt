@@ -10,12 +10,14 @@ import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.FrameLayout
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
+import renetik.android.event.registration.CSRegistration
 import kotlin.properties.Delegates.notNull
 
 open class CSFrameLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), CSHasTouchEvent, CSAndroidView {
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes),
+    CSHasTouchEvent, CSAndroidView, CSHasDrawEvent {
 
     override val self: View get() = this
     override var minWidthParam: Int by notNull()
@@ -26,7 +28,13 @@ open class CSFrameLayout @JvmOverloads constructor(
 
     override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+
     val eventOnDraw = event<Canvas>()
+    override fun listenOnDraw(listener: (Canvas) -> Unit): CSRegistration {
+        setWillNotDraw(false)
+        return eventOnDraw.listen(listener)
+    }
+
     var eventOnLayout = event()
 
     init {
