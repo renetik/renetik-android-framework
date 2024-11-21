@@ -19,11 +19,6 @@ fun <T> T.registerUntilHide(registration: CSRegistration): CSRegistration
     return registration
 }
 
-@JvmName("registerUntilHideRegistrationNullable")
-fun <T> T.registerUntilHide(registration: CSRegistration?): CSRegistration?
-        where T : CSHasRegistrations, T : CSVisibility =
-    registration?.let { registerUntilHide(it) }
-
 @JvmName("untilHideRegistrationNullable")
 fun <T> T.untilHide(registration: CSRegistration?): CSRegistration?
         where T : CSHasRegistrations, T : CSVisibility =
@@ -41,17 +36,6 @@ fun <T> T.untilHide(registration: CSRegistration): CSRegistration
         registration.cancel()
     }
 
-fun <T> T.registerUntilShow(registration: CSRegistration): CSRegistration
-        where T : CSHasRegistrations, T : CSVisibility {
-    untilShow(this + registration)
-    return registration
-}
-
-@JvmName("registerUntilShowRegistrationNullable")
-fun <T> T.registerUntilShow(registration: CSRegistration?): CSRegistration?
-        where T : CSHasRegistrations, T : CSVisibility =
-    registration?.let { registerUntilShow(it) }
-
 @JvmName("untilShowRegistrationNullable")
 fun <T> T.untilShow(registration: CSRegistration?): CSRegistration?
         where T : CSHasRegistrations, T : CSVisibility = registration?.let(::untilShow)
@@ -67,18 +51,6 @@ fun <T> T.untilShow(registration: CSRegistration): CSRegistration
         onShowingRegistration.cancel()
         registration.cancel()
     }
-
-fun <T> T.actionShowUntilHide(registrations: () -> Array<CSRegistration>)
-        where T : CSHasRegistrations, T : CSVisibility {
-    isVisible.actionTrue {
-        registrations().also {
-            onHiding { onHidingRegistration ->
-                onHidingRegistration.cancel()
-                it.forEach(CSRegistration::cancel)
-            }
-        }
-    }
-}
 
 fun <T> T.laterEachIfShowing(period: Duration, function: Func): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility =
