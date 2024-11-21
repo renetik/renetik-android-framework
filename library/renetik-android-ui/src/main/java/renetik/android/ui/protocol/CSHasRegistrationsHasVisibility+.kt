@@ -13,10 +13,9 @@ import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import kotlin.time.Duration
 
-fun <T> T.registerUntilHide(registration: CSRegistration): CSRegistration
+fun <T> T.registerUntilHide(registration: CSRegistration)
         where T : CSHasRegistrations, T : CSVisibility {
     untilHide(this + registration)
-    return registration
 }
 
 @JvmName("untilHideRegistrationNullable")
@@ -68,8 +67,7 @@ fun <T> T.laterEachIfShowing(delay: Int, period: Int, function: Func): CSRegistr
         isActive = false,
         onResume = {
             fun start() {
-                registration =
-                    registerUntilHide(mainHandler.laterEach(delay, period, function))
+                registration = untilHide(this + mainHandler.laterEach(delay, period, function))
             }
             if (isVisible.isTrue) start()
             onShowingRegistration = onShowing { start() }
