@@ -138,20 +138,17 @@ class CSGridView<
     }
 
     private inner class AdapterViewHolder(
-        parent: CSGridView<*, *>, val gridItemView: ViewType
+        val gridItemView: ViewType
     ) : ViewHolder(gridItemView.view) {
-        // selectedItem will get fired if view is dismissed on selection in subsequent views.
-        val registration: CSRegistration = parent + selectedItem.onChange {
+        val registration: CSRegistration = selectedItem.onChange {
             gridItemView.updateSelection()
         }
     }
 
     private inner class Adapter : RecyclerView.Adapter<AdapterViewHolder>() {
 
-        override fun onCreateViewHolder(group: ViewGroup, type: Int): AdapterViewHolder {
-            val itemView: ViewType = createView(this@CSGridView, type, group)
-            return AdapterViewHolder(this@CSGridView, itemView)
-        }
+        override fun onCreateViewHolder(group: ViewGroup, type: Int) =
+            AdapterViewHolder(createView(this@CSGridView, type, group))
 
         override fun onBindViewHolder(viewHolder: AdapterViewHolder, position: Int) {
             if (isDestructed) return // There was null pointer ex here...
