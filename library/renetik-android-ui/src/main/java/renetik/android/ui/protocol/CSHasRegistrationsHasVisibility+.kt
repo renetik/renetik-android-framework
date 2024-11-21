@@ -13,11 +13,6 @@ import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import kotlin.time.Duration
 
-fun <T> T.registerUntilHide(registration: CSRegistration)
-        where T : CSHasRegistrations, T : CSVisibility {
-    untilHide(this + registration)
-}
-
 @JvmName("untilHideRegistrationNullable")
 fun <T> T.untilHide(registration: CSRegistration?): CSRegistration?
         where T : CSHasRegistrations, T : CSVisibility =
