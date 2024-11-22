@@ -167,10 +167,6 @@ fun View.toggleAsActive(property: CSProperty<Boolean>): CSRegistration {
     return activeIf(property)
 }
 
-fun View.toggleAsFalse(property: CSProperty<Boolean>): CSRegistration {
-    onClick { property.toggle() }
-    return selectedIf(property) { it.isFalse }
-}
 
 fun <T> View.selectIf(property: CSProperty<T>, value: T): CSRegistration {
     onClick { property.value = value }
@@ -179,10 +175,7 @@ fun <T> View.selectIf(property: CSProperty<T>, value: T): CSRegistration {
 
 inline fun <T> View.selectedIf(
     property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean
-): CSRegistration {
-    selected(condition(property.value))
-    return property.onChange { selected(condition(property.value)) }
-}
+): CSRegistration = property.action { selected(condition(property.value)) }
 
 fun View.selectedIf(property: CSHasChangeValue<Boolean>): CSRegistration =
     selectedIf(property) { it.isTrue }
