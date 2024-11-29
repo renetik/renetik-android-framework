@@ -50,8 +50,13 @@ inline fun <T : View> T.showIf(
 fun <T : View> T.show(
     show: Boolean = true, animated: Boolean = false,
 ) = apply {
-    if (show) visible(animated = animated)
-    else {
+    if (show) {
+        if (animated) fadeIn() else
+            if (visibility != VISIBLE) {
+                visibility = VISIBLE
+                updateVisibility()
+            }
+    } else {
         if (animated) fadeOut() else
             if (visibility != GONE) {
                 visibility = GONE
