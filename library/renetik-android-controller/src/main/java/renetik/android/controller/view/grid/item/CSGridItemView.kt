@@ -3,7 +3,6 @@ package renetik.android.controller.view.grid.item
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import renetik.android.controller.base.CSView
-import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.ui.extensions.view.firstChild
 
@@ -12,22 +11,12 @@ import renetik.android.ui.extensions.view.firstChild
 open class CSGridItemView<RowType : Any>(
     parent: CSView<*>,
     group: ViewGroup,
-    layout: CSLayoutRes,
+    @LayoutRes layout: Int,
     var onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
-) : CSView<ViewGroup>(parent, group, layout) {
-
-    constructor(
-        parent: CSView<*>, group: ViewGroup, @LayoutRes layout: Int,
-        onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
-    ) : this(parent, group, layout.layout, onLoad)
+) : CSView<ViewGroup>(parent, group, layout.layout) {
 
     constructor(
         parent: CSView<out ViewGroup>, @LayoutRes layout: Int,
-        onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
-    ) : this(parent, parent.view, layout.layout, onLoad)
-
-    constructor(
-        parent: CSView<out ViewGroup>, layout: CSLayoutRes,
         onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
     ) : this(parent, parent.view, layout, onLoad)
 
