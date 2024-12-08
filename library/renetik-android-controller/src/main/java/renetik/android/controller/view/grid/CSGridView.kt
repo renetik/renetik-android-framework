@@ -22,8 +22,12 @@ import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.disabledByAlpha
 import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
+import renetik.android.ui.extensions.view.invisible
 import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.shortAnimationDuration
+import renetik.android.ui.extensions.view.show
+import renetik.android.ui.extensions.view.visible
+import renetik.android.ui.protocol.onShowUntilHide
 
 typealias GridViewOut<T> = CSGridView<T, out CSGridItemView<T>>
 typealias GridView<T> = CSGridView<T, CSGridItemView<T>>
@@ -139,9 +143,14 @@ class CSGridView<
     private inner class AdapterViewHolder(
         val gridItemView: ViewType
     ) : ViewHolder(gridItemView.view) {
-        val registration = this@CSGridView + selectedItem.onChange {
-            gridItemView.updateSelection()
+        init {
+            gridItemView.onShowUntilHide {
+                selectedItem.onChange { gridItemView.updateSelection() }
+            }
         }
+//        val registration = this@CSGridView + selectedItem.onChange {
+//            gridItemView.updateSelection()
+//        }
     }
 
     private inner class Adapter : RecyclerView.Adapter<AdapterViewHolder>() {
@@ -149,9 +158,10 @@ class CSGridView<
         override fun onCreateViewHolder(group: ViewGroup, type: Int) =
             AdapterViewHolder(createView(this@CSGridView, type, group))
 
-        override fun onBindViewHolder(viewHolder: AdapterViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: AdapterViewHolder, position: Int) {
             if (isDestructed) return // There was null pointer ex here...
-            viewHolder.gridItemView.apply {
+            holder.gridItemView.apply {
+                view.visible()
                 load(data[position].first, position)
                 updateDisabled()
                 updateSelection()
@@ -160,7 +170,12 @@ class CSGridView<
 
         override fun onViewRecycled(holder: AdapterViewHolder) {
             super.onViewRecycled(holder)
-            holder.registration.cancel()
+            holder.gridItemView.view.invisible()
+        }
+
+        override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
+            super.onViewDetachedFromWindow(holder)
+            holder.gridItemView.view.invisible()
         }
 
         override fun getItemViewType(position: Int): Int = data[position].second
