@@ -160,11 +160,11 @@ class CSGridView<
 
         override fun onBindViewHolder(holder: AdapterViewHolder, position: Int) {
             if (isDestructed) return // There was null pointer ex here...
-            holder.gridItemView.apply {
-                view.visible()
-                load(data[position].first, position)
-                updateDisabled()
-                updateSelection()
+            holder.gridItemView.let {
+                it.view.visible()
+                it.load(data[position].first, position)
+                it.updateDisabled()
+                it.updateSelection()
             }
         }
 
@@ -176,6 +176,11 @@ class CSGridView<
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
             holder.gridItemView.view.invisible()
+        }
+
+        override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
+            super.onViewDetachedFromWindow(holder)
+            holder.gridItemView.view.visible()
         }
 
         override fun getItemViewType(position: Int): Int = data[position].second
