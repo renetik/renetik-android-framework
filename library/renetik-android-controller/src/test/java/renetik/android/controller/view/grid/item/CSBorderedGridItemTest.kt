@@ -10,7 +10,7 @@ import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
-import renetik.android.controller.navigation.TestApplication
+import renetik.android.testing.TestApplication
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class)

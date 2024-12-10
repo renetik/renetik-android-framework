@@ -14,6 +14,7 @@ import renetik.android.controller.base.isPaused
 import renetik.android.controller.extensions.push
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.value.isTrue
+import renetik.android.testing.TestApplication
 import renetik.android.ui.R.layout.cs_frame_match
 
 @RunWith(RobolectricTestRunner::class)
