@@ -16,5 +16,5 @@ fun CSVisibility.onShowingFirstTime(function: () -> Unit): CSRegistration =
 fun CSVisibility.onHiding(function: (CSRegistration) -> Unit): CSRegistration =
     isVisible.onChange { registration, visible -> if (!visible) function(registration) }
 
-suspend fun CSVisibility.waitForShowing(): Unit = isVisible.waitIsTrue()
-suspend fun CSVisibility.waitForHiding(): Unit = isVisible.waitIsFalse()
+suspend fun CSVisibility.waitForShow(): Unit = isVisible.waitIsTrue()
+suspend fun CSVisibility.waitForGone(): Unit = isVisible.waitIsFalse()
