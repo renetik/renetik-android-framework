@@ -7,6 +7,8 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import renetik.android.core.extensions.content.asString
 import renetik.android.core.extensions.content.isNetworkConnected
+import renetik.android.core.extensions.content.register
+import renetik.android.core.extensions.content.unregister
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.CSEvent.Companion.event
@@ -29,7 +31,7 @@ class CSReachability : CSContext() {
     fun start(): CSReachability {
         if (!started) {
             @Suppress("DEPRECATION")
-            registerReceiver(receiver, IntentFilter(CONNECTIVITY_ACTION))
+            register(receiver, IntentFilter(CONNECTIVITY_ACTION))
             started = true
         }
         return this
@@ -38,7 +40,7 @@ class CSReachability : CSContext() {
     fun stop(): CSReachability {
         if (started) {
             started = false
-            unregisterReceiver(receiver)
+            unregister(receiver)
         }
         return this
     }

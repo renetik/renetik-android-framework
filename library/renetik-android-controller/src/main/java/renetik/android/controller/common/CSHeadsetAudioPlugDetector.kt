@@ -7,6 +7,8 @@ import android.content.Intent.ACTION_HEADSET_PLUG
 import android.content.IntentFilter
 import android.view.View
 import renetik.android.controller.base.CSActivityView
+import renetik.android.core.extensions.content.register
+import renetik.android.core.extensions.content.unregister
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
 
@@ -21,12 +23,12 @@ class CSHeadsetAudioPlugDetector(
 
     override fun onResume() {
         super.onResume()
-        registerReceiver(receiver, IntentFilter(ACTION_HEADSET_PLUG))
+        register(receiver, IntentFilter(ACTION_HEADSET_PLUG))
     }
 
     override fun onPause() {
         super.onPause()
-        unregisterReceiver(receiver)
+        unregister(receiver)
     }
 
     fun onReceive(intent: Intent) {
