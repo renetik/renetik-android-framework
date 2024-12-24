@@ -7,7 +7,6 @@ import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
-import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
