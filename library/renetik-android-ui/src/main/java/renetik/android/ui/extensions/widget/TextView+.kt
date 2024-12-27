@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
+import renetik.android.core.extensions.content.isPhone
 import renetik.android.core.kotlin.asString
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.to
@@ -139,3 +140,7 @@ inline fun <T> TextView.drawableStart(
 }
 
 fun <T : TextView> T.lines(max: Int) = apply { maxLines = max }
+
+fun TextView.hideEndDrawableOnSmallWidth() = apply {
+    if (context.isPhone) drawableEnd(null)
+}
