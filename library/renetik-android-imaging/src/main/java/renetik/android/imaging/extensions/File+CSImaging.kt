@@ -12,7 +12,7 @@ fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int) = apply {
 }
 
 fun File.write(
-    bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, quality: Int = 80
+    bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, quality: Int = 75
 ) = apply {
     createFileAndDirs()
     outputStream().use {

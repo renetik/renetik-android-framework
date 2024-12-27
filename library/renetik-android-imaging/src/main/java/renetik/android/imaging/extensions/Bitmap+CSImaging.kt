@@ -54,6 +54,6 @@ fun Bitmap.toMonochromeManual(): Bitmap {
 fun Bitmap.copy(): Bitmap? = config?.let { copy(it, isMutable) }
 
 fun Bitmap.saveTo(
-    file: File, format: CompressFormat = JPEG, quality: Int = 70
+    file: File, format: CompressFormat = JPEG, quality: Int = 80
 ) =
     apply { file.write(this, format, quality) }
