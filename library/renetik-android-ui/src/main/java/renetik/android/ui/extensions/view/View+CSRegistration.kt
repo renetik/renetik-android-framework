@@ -108,7 +108,7 @@ suspend fun View.waitForSizeOld(): Unit = suspendCancellableCoroutine { coroutin
 }
 
 suspend fun View.waitForSize() {
-    while (!hasSize) delay(50)
+    while (!hasSize) delay(10)
 }
 
 inline fun View.registerOnHasSize(
