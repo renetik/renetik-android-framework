@@ -1,7 +1,7 @@
 package renetik.android.controller.view.grid.item
 
 import renetik.android.store.CSStore
-import renetik.android.store.CSStore.Companion.fileStore
+import renetik.android.store.CSStore.Companion.EmptyStore
 import renetik.android.store.CSStore.Companion.runtimeStore
 import renetik.android.store.extensions.property
 
@@ -10,7 +10,7 @@ data class CSItemSection<Item>(
     val title: String,
     val description: String = "",
     var items: List<Item> = emptyList(),
-    val store: CSStore = fileStore
+    val store: CSStore = EmptyStore
 ) {
     val isCollapsed = store.property(id, false)
 
