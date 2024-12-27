@@ -83,6 +83,10 @@ fun <TextViewType : TextView, T> TextViewType.drawableStart(
     property: CSProperty<T>, function: (T) -> Int
 ): CSRegistration = property.action { drawable(start = function(it)) }
 
+fun <TextViewType : TextView, T> TextViewType.drawableEnd(
+    property: CSProperty<T>, function: (T) -> Int
+): CSRegistration = property.action { drawable(end = function(it)) }
+
 
 //@Deprecated("use drawable", ReplaceWith("drawable"))
 //fun <T : TextView> T.startDrawable(drawable: Drawable?) = drawable(start = drawable)
