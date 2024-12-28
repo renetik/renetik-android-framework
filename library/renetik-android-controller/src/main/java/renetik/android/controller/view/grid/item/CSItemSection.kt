@@ -24,7 +24,7 @@ data class CSItemSection<Item>(
         ) = CSItemSection(title, subtitle, items.asList())
 
         inline fun <reified Item> dialogSection(
-            title: String, subtitle: String, items: List<Item>
+            title: String, subtitle: String = "", items: List<Item>
         ) = CSItemSection(title, subtitle, items)
 
         fun <Item> dialogSection(
