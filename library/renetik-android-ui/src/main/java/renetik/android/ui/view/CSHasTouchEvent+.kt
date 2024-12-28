@@ -179,7 +179,7 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline up: () -> Unit,
 ) = onTouch(down = { isDown -> if (isDown) down() else up() })
 
-fun <T : CSHasTouchEvent> T.toggleActiveIf(
+fun <T : CSHasTouchEvent> T.touchToggleActiveIf(
     property: CSProperty<Boolean>): CSRegistration {
     setToggleActive(property.value)
     val propertyOnChange = property.onChange { setToggleActive(property.value) }
@@ -187,7 +187,7 @@ fun <T : CSHasTouchEvent> T.toggleActiveIf(
     return propertyOnChange
 }
 
-fun <T : CSHasTouchEvent> T.toggleSelectedIf(
+fun <T : CSHasTouchEvent> T.touchToggleSelectedIf(
     property: CSProperty<Boolean>): CSRegistration {
     val propertyOnChange = property.action { setToggleSelected(property.value) }
     onTouchSelectedToggle { on -> propertyOnChange.paused { property.value(on) } }
