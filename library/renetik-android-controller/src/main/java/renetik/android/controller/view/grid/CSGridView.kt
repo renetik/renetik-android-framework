@@ -3,6 +3,9 @@ package renetik.android.controller.view.grid
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -25,7 +28,6 @@ import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.invisible
 import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.shortAnimationDuration
-import renetik.android.ui.extensions.view.show
 import renetik.android.ui.extensions.view.visible
 import renetik.android.ui.protocol.onShowUntilHide
 
@@ -144,6 +146,9 @@ class CSGridView<
         val gridItemView: ViewType
     ) : ViewHolder(gridItemView.view) {
         init {
+            gridItemView.view.updateLayoutParams<ViewGroup.LayoutParams> {
+                width = MATCH_PARENT; height = WRAP_CONTENT
+            }
             gridItemView.onShowUntilHide {
                 selectedItem.onChange { gridItemView.updateSelection() }
             }
