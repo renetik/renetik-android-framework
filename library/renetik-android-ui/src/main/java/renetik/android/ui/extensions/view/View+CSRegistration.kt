@@ -156,7 +156,7 @@ fun <T, V> View.disabledIf(
     return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
 
-fun View.toggleAsSelected(property: CSProperty<Boolean>): CSRegistration {
+fun View.toggleSelected(property: CSProperty<Boolean>): CSRegistration {
     onClick { property.toggle() }
     return selectedIf(property)
 }

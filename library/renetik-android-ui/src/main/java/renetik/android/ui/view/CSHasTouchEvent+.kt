@@ -187,7 +187,7 @@ fun <T : CSHasTouchEvent> T.touchToggleActiveIf(
     return propertyOnChange
 }
 
-fun <T : CSHasTouchEvent> T.touchToggleSelectedIf(
+fun <T : CSHasTouchEvent> T.touchToggleSelected(
     property: CSProperty<Boolean>): CSRegistration {
     val propertyOnChange = property.action { setToggleSelected(property.value) }
     onTouchSelectedToggle { on -> propertyOnChange.paused { property.value(on) } }
