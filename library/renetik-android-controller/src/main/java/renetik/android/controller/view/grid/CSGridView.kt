@@ -3,8 +3,8 @@ package renetik.android.controller.view.grid
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -146,16 +146,11 @@ class CSGridView<
         val gridItemView: ViewType
     ) : ViewHolder(gridItemView.view) {
         init {
-            gridItemView.view.updateLayoutParams<ViewGroup.LayoutParams> {
-                width = MATCH_PARENT; height = WRAP_CONTENT
-            }
+            gridItemView.view.updateLayoutParams<LayoutParams> { width = MATCH_PARENT }
             gridItemView.onShowUntilHide {
                 selectedItem.onChange { gridItemView.updateSelection() }
             }
         }
-//        val registration = this@CSGridView + selectedItem.onChange {
-//            gridItemView.updateSelection()
-//        }
     }
 
     private inner class Adapter : RecyclerView.Adapter<AdapterViewHolder>() {
