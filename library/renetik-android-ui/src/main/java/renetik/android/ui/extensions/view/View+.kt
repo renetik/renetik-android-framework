@@ -56,7 +56,8 @@ import renetik.android.ui.view.adapter.CSClickAdapter
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 
-@JvmName("viewOfType") inline fun <reified Type : View>
+@JvmName("viewOfType")
+inline fun <reified Type : View>
         View.view(@IdRes id: Int): Type = findView(id)!!
 
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
@@ -167,16 +168,19 @@ fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
 fun View.onClick(action: CSActionInterface) = onClick { action.start() }
 fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 
-@Suppress("DEPRECATION") fun View.enterFullScreen() {
+@Suppress("DEPRECATION")
+fun View.enterFullScreen() {
     systemUiVisibility = SYSTEM_UI_FLAG_IMMERSIVE or
             SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }
 
-@Suppress("DEPRECATION") fun View.exitFullscreen() {
+@Suppress("DEPRECATION")
+fun View.exitFullscreen() {
     systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
 }
 
-@SuppressLint("ClickableViewAccessibility") inline fun <T : View> T.onDoubleTap(
+@SuppressLint("ClickableViewAccessibility")
+inline fun <T : View> T.onDoubleTap(
     crossinline function: (T) -> Unit
 ) = apply {
     val view = this
@@ -221,6 +225,10 @@ val View.next: View?
         return index?.let { parentView?.getChildAt(it + 1) }
     }
 
-fun View.passClicksUnder(pass: Boolean) = apply {
-    isClickable = !pass; isFocusable = !pass
+fun View.passClicksUnder(pass: Boolean) = apply { clickable(!pass) }
+
+fun View.clickable(value: Boolean) {
+    isClickable = value
+    isFocusable = value
+    isFocusableInTouchMode = value
 }
