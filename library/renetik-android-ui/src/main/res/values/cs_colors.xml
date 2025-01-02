@@ -24,6 +24,7 @@
     <color name="cs_dialog_background">#B7000000</color>
     <color name="cs_dialog_popup_background">#22000000</color>
     <color name="cs_progress_background">#55000000</color>
+    <color name="cs_progress_background_light">#2D000000</color>
     <color name="cs_border">#5E000000</color>
 
     <color name="colorPrimary">@color/cs_black</color>
