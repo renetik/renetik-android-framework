@@ -149,7 +149,7 @@ class CSNavigationView(
     }
 
     private fun pushAnimation(controller: CSActivityView<*>) {
-        val animation = (controller as? CSNavigationItemView)?.pushAnimation ?: FadeIn
+        val animation = (controller as? CSNavigationItemView)?.pushAnimation ?: None
         if (animation != None)
             controller.view.startAnimation(loadAnimation(this, animation.resource))
     }
