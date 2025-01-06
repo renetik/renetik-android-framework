@@ -209,6 +209,8 @@ fun View.performTouchDown(time: Int = 700): Boolean = dispatchTouchEvent(
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild
 
+inline fun <reified Type : View> View.firstChild(): Type = firstChild as Type
+
 fun View.description(string: String) = apply { contentDescription = string }
 
 val View.lastChild get() = (this as? ViewGroup)?.lastChild
