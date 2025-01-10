@@ -26,26 +26,26 @@ import kotlin.time.Duration.Companion.seconds
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
     parent: CSHasDestruct,
-    crossinline down: (isDown: Boolean) -> Unit,
+    crossinline onTouch: (isDown: Boolean) -> Unit,
 ) = apply {
-    onTouch(down = down)
+    onTouch(onTouch = onTouch)
     // fix canary (false?) report
     parent.onDestructed { onTouchEvent = null }
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline down: (isDown: Boolean) -> Unit,
+    crossinline onTouch: (isDown: Boolean) -> Unit,
 ) = apply {
     onTouchEvent = {
         when (it.actionMasked) {
             ACTION_DOWN -> true.also {
                 self.pressed(true)
-                down(true)
+                onTouch(true)
             }
 
             ACTION_UP, ACTION_CANCEL -> true.also {
                 self.pressed(false)
-                down(false)
+                onTouch(false)
             }
 
             ACTION_MOVE -> true
@@ -60,7 +60,7 @@ inline fun <T : CSHasTouchEvent> T.onLongTouch(
     crossinline down: (isDown: Boolean) -> Unit,
 ): CSRegistration {
     var registration: CSRegistration? = null
-    onTouch(down = { isDown ->
+    onTouch(onTouch = { isDown ->
         if (isDown) registration = Main.launch {
             delay(duration)
             if (it.isActive) {
@@ -134,11 +134,11 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
 
 inline fun <T : CSHasTouchEvent> T.onTouchDown(
     crossinline down: () -> Unit,
-) = onTouch(down = { isDown -> if (isDown) down() })
+) = onTouch(onTouch = { isDown -> if (isDown) down() })
 
 inline fun <T : CSHasTouchEvent> T.onTouchUp(
     crossinline up: () -> Unit,
-) = onTouch(down = { isDown -> if (!isDown) up() })
+) = onTouch(onTouch = { isDown -> if (!isDown) up() })
 
 inline fun <T : CSHasTouchEvent> T.onTouchUp(
     crossinline up: () -> Unit, crossinline cancel: () -> Unit,
@@ -177,7 +177,7 @@ inline fun <T : CSHasTouchEvent> T.onLongTouch(
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline down: () -> Unit,
     crossinline up: () -> Unit,
-) = onTouch(down = { isDown -> if (isDown) down() else up() })
+) = onTouch(onTouch = { isDown -> if (isDown) down() else up() })
 
 fun <T : CSHasTouchEvent> T.touchToggleActiveIf(
     property: CSProperty<Boolean>): CSRegistration {
@@ -204,7 +204,7 @@ fun <T : CSHasTouchEvent> T.setToggleSelected(pressed: Boolean) = apply {
 
 inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
     crossinline function: (Boolean) -> Unit,
-) = onTouch(down = { isDown ->
+) = onTouch(onTouch = { isDown ->
     if (isDown) {
         if (!self.isActivated) {
             function(true)
@@ -228,7 +228,7 @@ inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
 
 inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
     crossinline function: (Boolean) -> Unit,
-) = onTouch(down = { isDown ->
+) = onTouch(onTouch = { isDown ->
     if (isDown) {
         if (!self.isSelected) {
             function(true)

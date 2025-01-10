@@ -77,7 +77,7 @@ open class CSNavigationItemView(
     open val isBackNavigationAllowed = true
     var isFullScreen = false
     var isPopup = false
-        private set
+        internal set
 
     open fun onViewControllerPush(navigation: CSNavigationView) = Unit
     open fun onViewControllerPop(navigation: CSNavigationView) = Unit

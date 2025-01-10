@@ -11,6 +11,8 @@ import renetik.android.core.lang.CSLeakCanary
 import renetik.android.ui.extensions.registerAfterLayout
 import renetik.android.ui.extensions.view.matchParent
 
+fun <T : CSNavigationItemView> T.popup() = apply { isPopup = true }
+
 fun <T : CSNavigationItemView> T.selected(button: CSView<*>) = selected(button.view)
 
 fun <T : CSNavigationItemView> T.selected(button: View) = apply {
