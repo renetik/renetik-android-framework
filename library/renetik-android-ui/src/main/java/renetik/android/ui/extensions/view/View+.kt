@@ -232,5 +232,4 @@ fun View.passClicksUnder(pass: Boolean) = apply { clickable(!pass) }
 fun View.clickable(value: Boolean) {
     isClickable = value
     isFocusable = value
-    isFocusableInTouchMode = value
 }
