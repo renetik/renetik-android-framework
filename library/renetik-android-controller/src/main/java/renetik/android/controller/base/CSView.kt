@@ -105,7 +105,7 @@ open class CSView<ViewType : View> : CSContext,
             return _view!!
         }
 
-    private fun setView(view: ViewType) {
+    protected fun setView(view: ViewType) {
         _view = view
         if (view.tag !is CSView<*>) view.tag = this@CSView
         onViewReady()
