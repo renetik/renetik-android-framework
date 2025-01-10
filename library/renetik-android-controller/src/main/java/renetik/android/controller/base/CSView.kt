@@ -33,7 +33,7 @@ open class CSView<ViewType : View> : CSContext,
 
     var lifecycleStopOnRemoveFromParentView = true
 
-    private val layout: CSLayoutRes?
+    private val layout: Int?
 
     @IdRes
     private val viewId: Int?
@@ -59,7 +59,7 @@ open class CSView<ViewType : View> : CSContext,
             super(parent, context(parent)) {
         this.parentView = parent
         this + parentView.isVisible.onChange(::updateVisibility)
-        this.layout = layout
+        this.layout = layout.id
         this.viewId = null
     }
 
@@ -68,7 +68,7 @@ open class CSView<ViewType : View> : CSContext,
         this.parentView = parent
         this + parentView.isVisible.onChange(::updateVisibility)
         this.group = group
-        this.layout = layout
+        this.layout = layout.id
         this.viewId = null
     }
 
@@ -79,12 +79,23 @@ open class CSView<ViewType : View> : CSContext,
         this.viewId = viewId
     }
 
-    constructor(parent: CSViewInterface) : super(parent) {
+    constructor(
+        parent: CSViewInterface,
+        @IdRes viewId: Int? = null,
+        @LayoutRes layout: Int? = null,
+    ) : super(parent) {
         this.parentView = parent
         this + parentView.isVisible.onChange(::updateVisibility)
-        this.layout = null
-        this.viewId = null
+        this.viewId = viewId
+        this.layout = layout
     }
+
+//    constructor(parent: CSViewInterface) : super(parent) {
+//        this.parentView = parent
+//        this + parentView.isVisible.onChange(::updateVisibility)
+//        this.layout = null
+//        this.viewId = null
+//    }
 
     @Suppress("UNCHECKED_CAST")
     final override val view: ViewType
@@ -92,7 +103,7 @@ open class CSView<ViewType : View> : CSContext,
             when {
                 _view != null -> return _view!!
                 isDestructed -> logErrorTrace { "$className $this Already destroyed" }
-                layout != null -> setView(inflate(layout.id))
+                layout != null -> setView(inflate(layout))
                 viewId != null -> setView(parentView.view<View>(viewId) as ViewType)
                 else -> createView()?.let { setView(it) }
                     ?: run {
