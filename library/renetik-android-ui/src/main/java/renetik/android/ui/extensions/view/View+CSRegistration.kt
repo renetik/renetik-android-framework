@@ -186,7 +186,7 @@ fun <T> View.activateIf(property: CSProperty<T>, value: T): CSRegistration {
 
 inline fun <T> View.activeIf(
     property: CSHasChangeValue<T>, crossinline condition: (T) -> Boolean
-): CSRegistration = property.action { activated(condition(property.value)) }
+): CSRegistration = property.action { active(condition(property.value)) }
 
 fun View.activeIf(property: CSHasChangeValue<Boolean>): CSRegistration =
     activeIf(property) { it }
@@ -201,7 +201,7 @@ fun <T, V> View.activeIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
     condition: (T, V) -> Boolean
 ): CSRegistration {
-    fun update() = activated(condition(property1.value, property2.value))
+    fun update() = active(condition(property1.value, property2.value))
     update()
     return CSRegistration(property1.onChange(::update), property2.onChange(::update))
 }
@@ -212,7 +212,7 @@ fun <T, V, X> View.activeIf(
     property3: CSHasChangeValue<X>,
     condition: (T, V, X) -> Boolean
 ): CSRegistration {
-    fun update() = activated(condition(property1.value, property2.value, property3.value))
+    fun update() = active(condition(property1.value, property2.value, property3.value))
     update()
     return CSRegistration(
         property1.onChange(::update), property2.onChange(::update),
@@ -227,7 +227,7 @@ fun <T, V, X, Y> View.activeIf(
     property4: CSHasChangeValue<Y>,
     condition: (T, V, X, Y) -> Boolean
 ): CSRegistration {
-    fun update() = activated(
+    fun update() = active(
         condition(
             property1.value, property2.value, property3.value, property4.value
         )

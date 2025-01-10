@@ -162,7 +162,7 @@ fun View.pressed(value: Boolean = true) = apply { isPressed = value }
 
 fun View.selected(value: Boolean = true) = selectedIf(value)
 fun View.selectedIf(value: Boolean) = apply { isSelected = value }
-fun View.activated(value: Boolean = true) = activeIf(value)
+fun View.active(value: Boolean = true) = activeIf(value)
 fun View.activeIf(value: Boolean) = apply { isActivated = value }
 fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
 fun View.onClick(action: CSActionInterface) = onClick { action.start() }
