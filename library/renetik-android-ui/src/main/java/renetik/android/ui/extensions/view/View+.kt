@@ -109,6 +109,7 @@ fun <T : View> T.clearClick() = apply {
 }
 
 fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) = apply {
+    longClickable(true)
     setOnLongClickListener {
         isLongClickable.ifTrue { onClick(this); true } ?: false
     }
@@ -231,5 +232,8 @@ fun View.passClicksUnder(pass: Boolean) = apply { clickable(!pass) }
 
 fun View.clickable(value: Boolean) {
     isClickable = value
-    isFocusable = value
+}
+
+fun View.longClickable(value: Boolean) {
+    isLongClickable = value
 }
