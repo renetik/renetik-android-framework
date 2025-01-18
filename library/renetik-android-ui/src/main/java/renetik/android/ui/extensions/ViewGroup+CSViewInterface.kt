@@ -5,15 +5,16 @@ import android.view.ViewGroup.LayoutParams
 import androidx.core.view.contains
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.remove
 import renetik.android.ui.protocol.CSViewInterface
 
 fun ViewGroup.addIf(
-    property: CSHasChangeValue<Boolean>, function: () -> CSViewInterface) {
+    property: CSHasChangeValue<Boolean>, function: () -> CSViewInterface): CSRegistration {
     var addedView: CSViewInterface? = null
-    property.action {
+    return property.action {
         if (it.isTrue) addedView = add(function())
         else {
             addedView?.removeFromSuperview()
