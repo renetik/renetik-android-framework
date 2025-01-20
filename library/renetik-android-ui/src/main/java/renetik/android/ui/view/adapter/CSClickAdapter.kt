@@ -8,7 +8,7 @@ class CSClickAdapter(
     private val onClick: () -> Unit
 ) : View.OnClickListener {
     private var lastTime: Long = 0
-    private val timeout = timeout ?: 300
+    private val timeout = timeout ?: 250
 
     override fun onClick(view: View) {
         val current = currentTimeMillis()
