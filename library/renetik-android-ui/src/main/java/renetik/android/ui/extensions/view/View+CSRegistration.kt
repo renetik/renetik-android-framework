@@ -6,7 +6,6 @@ import android.view.View.OnLayoutChangeListener
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
@@ -18,6 +17,7 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
+import renetik.android.event.registration.launch
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
@@ -96,33 +96,18 @@ fun View.onBoundsChange(function: ArgFunc<CSRegistration>): CSRegistration {
 fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
     onBoundsChange { if (hasSize) function() }
 
-// This was unreliable as somehow onBoundsChange was not called in some case
-suspend fun View.waitForSizeOld(): Unit = suspendCancellableCoroutine { coroutine ->
-    var registration: CSRegistration? = null
-    registration = onHasSizeBoundsChange {
-        registration?.cancel()
-        registration = null
-        coroutine.resumeWith(Result.success(Unit))
-    }
-    coroutine.invokeOnCancellation { registration?.cancel() }
-}
-
 suspend fun View.waitForSize() {
-    while (!hasSize) delay(10)
+    while (!hasSize) delay(20)
 }
 
-inline fun View.registerOnHasSize(
+inline fun View.onHasSize(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration? {
-    if (!hasSize) {
-        var registration: CSRegistration? = null
-        return (parent + onBoundsChange {
-            if (hasSize) {
-                registration?.cancel()
-                function(this)
-            }
-        }).also { registration = it }
-    } else function(this)
+    if (!hasSize) return parent.launch {
+        waitForSize()
+        function(this)
+    }
+    function(this)
     return null
 }
 

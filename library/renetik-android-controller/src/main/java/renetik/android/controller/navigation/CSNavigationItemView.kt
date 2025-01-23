@@ -31,7 +31,7 @@ import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
 import renetik.android.ui.extensions.registerAfterLayout
-import renetik.android.ui.extensions.registerHasSize
+import renetik.android.ui.extensions.onHasSize
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.background
 import renetik.android.ui.extensions.view.bottomFloat
@@ -157,7 +157,7 @@ open class CSNavigationItemView(
         isFullScreen = false
         animation = Fade
         viewContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
-        registerHasSize {
+        onHasSize {
             when (side) {
                 Bottom -> positionDialogContentFromViewBottom(button)
                 Right -> positionDialogContentFromViewRight(button)

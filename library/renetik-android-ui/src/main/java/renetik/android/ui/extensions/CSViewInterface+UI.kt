@@ -32,10 +32,10 @@ import renetik.android.ui.extensions.view.listView
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onGlobalFocus
 import renetik.android.ui.extensions.view.onGlobalLayout
+import renetik.android.ui.extensions.view.onHasSize
 import renetik.android.ui.extensions.view.progress
 import renetik.android.ui.extensions.view.radio
 import renetik.android.ui.extensions.view.rectangleInWindow
-import renetik.android.ui.extensions.view.registerOnHasSize
 import renetik.android.ui.extensions.view.removeFromSuperview
 import renetik.android.ui.extensions.view.scrollView
 import renetik.android.ui.extensions.view.search
@@ -156,5 +156,5 @@ fun CSViewInterface.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruc
 
 val CSViewInterface.leftMarginInWindow: Int get() = view.rectangleInWindow.left
 
-fun CSViewInterface.registerHasSize(function: () -> Unit): CSRegistration? =
-    view.registerOnHasSize(this) { function() }
+fun CSViewInterface.onHasSize(function: () -> Unit): CSRegistration? =
+    view.onHasSize(this) { function() }
