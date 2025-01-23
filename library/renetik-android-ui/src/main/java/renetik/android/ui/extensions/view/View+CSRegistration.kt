@@ -101,7 +101,25 @@ suspend fun View.waitForSize() {
 }
 
 inline fun View.onHasSize(
-    parent: CSHasRegistrations, crossinline function: (View) -> Unit
+    parent: CSHasRegistrations,
+    crossinline function: (View) -> Unit
+): CSRegistration? {
+    if (!hasSize) {
+        var registration: CSRegistration? = null
+        return (parent + onBoundsChange {
+            if (hasSize) {
+                registration?.cancel()
+                function(this)
+            }
+        }).also { registration = it }
+    } else function(this)
+    return null
+}
+
+
+inline fun View.onHasSize2(
+    parent: CSHasRegistrations,
+    crossinline function: (View) -> Unit
 ): CSRegistration? {
     if (!hasSize) return parent.launch {
         waitForSize()
@@ -110,6 +128,7 @@ inline fun View.onHasSize(
     function(this)
     return null
 }
+
 
 fun View.onScrollChange(function: (view: View) -> Unit): CSRegistration =
     eventScrollChange.listen(function)
