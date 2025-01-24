@@ -168,7 +168,6 @@ fun View.toggleAsActive(property: CSProperty<Boolean>, timeout: Int? = null): CS
     return activeIf(property)
 }
 
-
 fun <T> View.selectIf(property: CSProperty<T>, value: T): CSRegistration {
     onClick { property.value = value }
     return selectedIf(property) { it == value }
