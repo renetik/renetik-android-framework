@@ -7,7 +7,6 @@ import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import kotlinx.coroutines.delay
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent.Companion.event
@@ -182,7 +181,10 @@ fun View.selectedIf(property: CSHasChangeValue<Boolean>): CSRegistration =
 
 fun <T> View.activateIf(property: CSProperty<T>, value: T): CSRegistration {
     onClick { property.value = value }
-    return activeIf(property) { it == value }
+    return property.action {
+        isActivated = it == value
+        isClickable = !isActivated
+    }
 }
 
 inline fun <T> View.activeIf(
