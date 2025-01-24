@@ -26,7 +26,6 @@ import renetik.android.ui.extensions.view.disabledByAlpha
 import renetik.android.ui.extensions.view.fadeIn
 import renetik.android.ui.extensions.view.fadeOut
 import renetik.android.ui.extensions.view.invisible
-import renetik.android.ui.extensions.view.mediumAnimationDuration
 import renetik.android.ui.extensions.view.shortAnimationDuration
 import renetik.android.ui.extensions.view.visible
 import renetik.android.ui.protocol.onShowUntilHide
@@ -95,9 +94,9 @@ class CSGridView<
 
     private fun ViewType.updateSelection() {
         if (!isLoaded) return
-        val isActive = selectedItem.value == value
-        isActivated = isActive && eventItemReSelected.isListened
-        isSelected = isActive && !eventItemReSelected.isListened
+        isActivated = selectedItem.value == value
+//        if (isActivated) contentView.isClickable = eventItemReSelected.isListened
+//        else contentView.isClickable = true
     }
 
     private fun CSGridItemView<ItemType>.updateDisabled() {
@@ -123,18 +122,16 @@ class CSGridView<
         emptyView?.let { if (data.isEmpty()) it.fadeIn() else it.fadeOut() }
     }
 
-    fun scrollToActive(
-        smooth: Boolean = false, animationDuration: Int = mediumAnimationDuration,
-    ) = apply {
-        val position = data.firstIndex { it.first == selectedItem.value } ?: return@apply
-        if (smooth) {
-//            val scroller = CSCenteringRecyclerSmoothScroller(this, animationDuration)
-            val scroller = LinearSmoothScroller(this) // Isn't this better?
-            scroller.targetPosition = position
-            later(shortAnimationDuration) {
-                view.layoutManager?.startSmoothScroll(scroller) ?: unexpected()
-            }
-        } else view.scrollToPosition(position)
+    fun scrollToActive(smooth: Boolean = false) = apply {
+        data.firstIndex { it.first == selectedItem.value }?.also { position ->
+            if (smooth) {
+                val scroller = LinearSmoothScroller(this)
+                scroller.targetPosition = position
+                later(shortAnimationDuration) {
+                    view.layoutManager?.startSmoothScroll(scroller) ?: unexpected()
+                }
+            } else view.scrollToPosition(position)
+        }
     }
 
     private inner class AdapterViewHolder(
