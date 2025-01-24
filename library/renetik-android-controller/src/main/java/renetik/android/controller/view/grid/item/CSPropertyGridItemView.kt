@@ -2,6 +2,7 @@ package renetik.android.controller.view.grid.item
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import renetik.android.controller.extensions.onClick
 import renetik.android.controller.view.grid.GridView
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.lateProperty
@@ -15,7 +16,7 @@ open class CSPropertyGridItemView<RowType : Any>(
     protected val property: CSProperty<RowType> = lateProperty()
 
     init {
-        view.onClick { gridView.onItemClick(this) }
+        onClick { gridView.onItemClick(this) }
     }
 
     override fun onLoad(data: RowType) {
