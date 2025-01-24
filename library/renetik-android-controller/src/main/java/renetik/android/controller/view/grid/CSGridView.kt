@@ -88,10 +88,6 @@ class CSGridView<
     fun onDisabledItemClick(function: (ViewType) -> Unit) =
         apply { eventDisabledItemClick.listen(function) }
 
-    val eventItemActivated = event<ViewType>()
-    fun onItemActive(function: (ViewType) -> Unit) =
-        apply { eventItemActivated.listen(function) }
-
     init {
         view.adapter = adapter
         this + eventItemSelected.listen { selectedItem.value(it.value) }
@@ -100,9 +96,8 @@ class CSGridView<
     private fun ViewType.updateSelection() {
         if (!isLoaded) return
         val isActive = selectedItem.value == value
-        isSelected = isActive && eventItemReSelected.isListened
-        isActivated = isActive && !eventItemReSelected.isListened
-        if (isActive) eventItemActivated.fire(this)
+        isActivated = isActive && eventItemReSelected.isListened
+        isSelected = isActive && !eventItemReSelected.isListened
     }
 
     private fun CSGridItemView<ItemType>.updateDisabled() {
