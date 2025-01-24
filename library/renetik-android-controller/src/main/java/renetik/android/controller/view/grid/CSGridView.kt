@@ -2,6 +2,7 @@ package renetik.android.controller.view.grid
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.view.View.OVER_SCROLL_NEVER
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -88,6 +89,7 @@ class CSGridView<
         apply { eventDisabledItemClick.listen(function) }
 
     init {
+        view.overScrollMode = OVER_SCROLL_NEVER
         view.adapter = adapter
         this + eventItemSelected.listen { selectedItem.value(it.value) }
     }
