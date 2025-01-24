@@ -39,7 +39,7 @@ open class CSEmptyView @JvmOverloads constructor(
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     val eventOnDraw: CSEvent<Canvas> = event<Canvas>()
     override fun listenOnDraw(listener: (Canvas) -> Unit) = eventOnDraw.listen(listener)
-    var eventOnLayout = event()
+    val eventOnLayout = event()
 
     init {
         context.theme.obtainStyledAttributes(attrs, CSLayout, 0, 0).let {
@@ -94,7 +94,7 @@ open class CSEmptyView @JvmOverloads constructor(
         changed: Boolean, left: Int, top: Int, right: Int, bottom: Int
     ) {
         super.onLayout(changed, left, top, right, bottom)
-        eventOnLayout.fire()
+         if (changed) eventOnLayout.fire()
     }
 
     override fun onDraw(canvas: Canvas) {
