@@ -75,15 +75,15 @@ class CSGridView<
         updateEmptyView()
     }
 
-    val eventItemSelected = event<ViewType>()
+    private val eventItemSelected = event<ViewType>()
     fun onItemSelected(function: (ViewType) -> Unit) =
         apply { eventItemSelected.listen(function) }
 
-    val eventItemReSelected = event<ViewType>()
+    private val eventItemReSelected = event<ViewType>()
     fun onItemReSelected(function: (ViewType) -> Unit) =
         apply { eventItemReSelected.listen(function) }
 
-    val eventDisabledItemClick = event<ViewType>()
+    private val eventDisabledItemClick = event<ViewType>()
     fun onDisabledItemClick(function: (ViewType) -> Unit) =
         apply { eventDisabledItemClick.listen(function) }
 
