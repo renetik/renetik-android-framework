@@ -106,11 +106,9 @@ inline fun View.onHasSize(
 ): CSRegistration? {
     if (!hasSize) {
         var registration: CSRegistration? = null
-        return (parent + onBoundsChange {
-            if (hasSize) {
-                registration?.cancel()
-                function(this)
-            }
+        return (parent + onHasSizeBoundsChange {
+            registration?.cancel()
+            function(this)
         }).also { registration = it }
     } else function(this)
     return null
