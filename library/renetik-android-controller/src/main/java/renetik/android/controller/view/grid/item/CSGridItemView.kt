@@ -23,7 +23,6 @@ open class CSGridItemView<RowType : Any>(
     lateinit var value: RowType
     var index = -1
     var itemDisabled = false
-    var isClickable = true
 
     fun load(value: RowType, index: Int) {
         this.index = index
