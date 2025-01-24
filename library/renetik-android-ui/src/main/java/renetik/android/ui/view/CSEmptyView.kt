@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
-import android.widget.FrameLayout
 import renetik.android.core.extensions.graphics.height
 import renetik.android.core.extensions.graphics.width
 import renetik.android.event.CSEvent
