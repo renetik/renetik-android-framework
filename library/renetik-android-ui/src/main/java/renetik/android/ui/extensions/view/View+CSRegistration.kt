@@ -5,9 +5,11 @@ import android.view.View.OnAttachStateChangeListener
 import android.view.View.OnLayoutChangeListener
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.Func
+import renetik.android.core.lang.result.context
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
@@ -95,8 +97,8 @@ fun View.onBoundsChange(function: Func): CSRegistration {
 fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
     onBoundsChange { if (hasSize) function() }
 
-suspend fun View.waitForSize() {
-    while (!hasSize) delay(20)
+suspend fun <T : View> T.waitForSize() = apply {
+    Main.context { while (!hasSize) delay(20) }
 }
 
 inline fun View.onHasSize(

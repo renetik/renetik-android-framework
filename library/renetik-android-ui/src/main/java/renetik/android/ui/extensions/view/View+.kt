@@ -43,8 +43,11 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.Main
 import renetik.android.core.kotlin.primitives.ifTrue
 import renetik.android.core.lang.catchAll
+import renetik.android.core.lang.result.context
 import renetik.android.event.CSEvent
 import renetik.android.event.fire
 import renetik.android.event.property.CSActionInterface
@@ -119,13 +122,16 @@ fun <T : View> T.clearLongClick() = apply {
     setOnLongClickListener(null)
 }
 
-fun <T : View> T.createBitmap(): Bitmap {
-    val bitmap = createBitmap(width, height, ARGB_8888)
-    Canvas(bitmap).apply {
-        background?.draw(this) ?: this.drawColor(WHITE)
-        draw(this)
-    }
-    return bitmap
+suspend fun <T : View> T.drawToNewBitmap(): Bitmap = Default.context {
+    createBitmap().also { Main.context { drawToBitmap(it) } }
+}
+
+fun <T : View> T.createBitmap(): Bitmap =
+    createBitmap(width, height, ARGB_8888)
+
+fun <T : View> T.drawToBitmap(bitmap: Bitmap) = Canvas(bitmap).apply {
+    background?.draw(this) ?: this.drawColor(WHITE)
+    draw(this)
 }
 
 fun View.setHasTouchEventListener(): CSHasTouchEvent {
