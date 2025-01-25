@@ -19,11 +19,16 @@ fun Bitmap.scale(
     maxTargetWidth: Int, maxTargetHeight: Int = maxTargetWidth
 ): Bitmap {
     val aspectRatio = width.toFloat() / height.toFloat()
-    val targetWidth: Int = if (width > height) maxTargetWidth
-    else (maxTargetHeight * aspectRatio).toInt()
-    val targetHeight: Int = if (width > height) (maxTargetWidth / aspectRatio).toInt()
-    else maxTargetHeight
-    return createScaledBitmap(this, targetWidth, targetHeight, true).also { recycle() }
+
+    val targetWidth: Int = if (width > height)
+        maxTargetWidth else (maxTargetHeight * aspectRatio).toInt()
+
+    val targetHeight: Int = if (width > height)
+        (maxTargetWidth / aspectRatio).toInt() else maxTargetHeight
+
+    return createScaledBitmap(
+        this, targetWidth, targetHeight, true
+    ).also { this.recycle() }
 }
 
 fun Bitmap.toMonochrome(): Bitmap {
