@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
-import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
@@ -45,6 +44,7 @@ import renetik.android.ui.extensions.view.textView
 import renetik.android.ui.extensions.view.timePicker
 import renetik.android.ui.extensions.view.view
 import renetik.android.ui.extensions.view.viewGroup
+import renetik.android.ui.extensions.view.waitForLayout
 import renetik.android.ui.extensions.view.webView
 import renetik.android.ui.protocol.CSViewInterface
 
@@ -114,16 +114,7 @@ fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration {
     }).also { registration = it }
 }
 
-suspend fun CSViewInterface.waitForLayout(): Unit =
-    suspendCancellableCoroutine { coroutine ->
-        var registration: CSRegistration? = null
-        registration = view.onGlobalLayout {
-            registration?.cancel()
-            registration = null
-            coroutine.resumeWith(Result.success(Unit))
-        }
-        coroutine.invokeOnCancellation { registration?.cancel() }
-    }
+suspend fun CSViewInterface.waitForLayout() = view.waitForLayout()
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
         where  Type : CSViewInterface =
