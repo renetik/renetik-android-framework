@@ -7,12 +7,16 @@ import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.result.context
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
+import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.property.start
+import renetik.android.event.property.stop
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
@@ -48,26 +52,29 @@ fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
 
 fun View.onGlobalLayout(function: (CSRegistration) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
-    val listener =
-        OnGlobalLayoutListener { if (registration.isActive) function(registration) }
+    val listener = OnGlobalLayoutListener {
+        if (registration.isActive) function(registration)
+    }
 
     fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
     fun detach() = viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    val isOnGlobalLayoutAttached = property(false) { if (it) attach() else detach() }
     val attachStateListener = object : OnAttachStateChangeListener {
-        override fun onViewAttachedToWindow(view: View) = attach()
-        override fun onViewDetachedFromWindow(view: View) = detach()
+        override fun onViewAttachedToWindow(view: View) = isOnGlobalLayoutAttached.start()
+        override fun onViewDetachedFromWindow(view: View) = isOnGlobalLayoutAttached.stop()
     }
     addOnAttachStateChangeListener(attachStateListener)
-    registration = CSRegistration(onResume = { if (isAttachedToWindow) attach() },
-        onPause = { detach() },
-        onCancel = { removeOnAttachStateChangeListener(attachStateListener) }).start()
+    registration = CSRegistration(
+        onResume = { if (isAttachedToWindow) isOnGlobalLayoutAttached.start() },
+        onPause = { isOnGlobalLayoutAttached.stop() },
+        onCancel = { removeOnAttachStateChangeListener(attachStateListener) }
+    ).start()
     return registration
 }
 
 inline fun View.afterGlobalLayout(crossinline function: (View) -> Unit): CSRegistration =
     onGlobalLayout { it.cancel(); function(this) }
 
-@Deprecated("Use simple version")
 inline fun View.afterGlobalLayout(
     parent: CSHasRegistrations, crossinline function: (View) -> Unit
 ): CSRegistration {
@@ -77,6 +84,17 @@ inline fun View.afterGlobalLayout(
         registration?.cancel()
     }).also { registration = it }
 }
+
+suspend fun View.waitForLayout(): Unit =
+    suspendCancellableCoroutine { coroutine ->
+        var registration: CSRegistration? = null
+        registration = onGlobalLayout {
+            registration?.cancel()
+            registration = null
+            coroutine.resumeWith(Result.success(Unit))
+        }
+        coroutine.invokeOnCancellation { registration?.cancel() }
+    }
 
 inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
     val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
