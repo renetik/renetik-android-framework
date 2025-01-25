@@ -277,7 +277,7 @@ fun <T> CSHasTouchEvent.onTouch(
     delay: Int, period: Int,
     until: (step: T) -> Boolean,
     onDone: () -> Unit,
-) {
+) = apply {
     var repeatCount: Int
     var repeatRegistration: CSRegistration? = null
     onTouch(down = {
