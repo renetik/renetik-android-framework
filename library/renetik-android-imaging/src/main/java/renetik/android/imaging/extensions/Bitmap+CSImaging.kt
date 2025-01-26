@@ -15,6 +15,10 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import java.io.File
 
+fun Bitmap.destruct() {
+    if (!isRecycled) recycle()
+}
+
 fun Bitmap.scale(
     maxTargetWidth: Int, maxTargetHeight: Int = maxTargetWidth
 ): Bitmap {
@@ -28,7 +32,7 @@ fun Bitmap.scale(
 
     return createScaledBitmap(
         this, targetWidth, targetHeight, true
-    ).also { this.recycle() }
+    ).also { this.destruct() }
 }
 
 fun Bitmap.toMonochrome(): Bitmap {

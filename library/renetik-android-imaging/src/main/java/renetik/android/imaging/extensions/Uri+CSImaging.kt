@@ -36,10 +36,10 @@ fun Uri.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int, output: OutputStr
 					scaledBitmap.width, scaledBitmap.height,
 					createFixOrientationMatrix(), true
 				)
-				scaledBitmap.recycle()
+				scaledBitmap.destruct()
 				output.use {
 					rotatedBitmap.compress(JPEG, 80, it)
-					rotatedBitmap.recycle()
+					rotatedBitmap.destruct()
 				}
 			}
 		}
