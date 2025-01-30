@@ -103,7 +103,7 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
 
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
-    crossinline down: (event: MotionEvent) -> Unit,
+    crossinline down: (event: MotionEvent) -> Unit = {},
     crossinline move: (event: MotionEvent) -> Unit,
     crossinline up: (event: MotionEvent) -> Unit,
 ) = apply {
