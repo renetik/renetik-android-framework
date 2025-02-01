@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.extensions.content.isPhone
 import renetik.android.core.kotlin.asString
+import renetik.android.core.kotlin.primitives.vertical
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.to
 import renetik.android.core.lang.value.CSValue
@@ -31,6 +32,7 @@ fun <T : TextView> T.text(@StringRes stringId: Int) =
 
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text(): String = text.toString()
+fun <T : TextView> T.textToVertical() = text("$text".vertical())
 
 fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
 
