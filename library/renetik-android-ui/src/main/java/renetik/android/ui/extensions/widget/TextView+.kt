@@ -41,13 +41,12 @@ fun <T : TextView> T.textToVertical() = text("$text".vertical())
 fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
 
 fun <T : TextView> T.textChange(
-    parent: CSHasRegistrations? = null,
 ) = object : CSHasChangeValue<String> {
     override val value: String get() = text()
 
     override fun onChange(function: (String) -> Unit): CSRegistration {
         val value = DelegateValue(value, null, function)
-        return CSRegistration(onTextChange { value(text()) }).registerTo(parent)
+        return CSRegistration(onTextChange { value(text()) })
     }
 }
 
