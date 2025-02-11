@@ -10,14 +10,18 @@ import renetik.android.core.extensions.content.drawable
 import renetik.android.core.extensions.content.isPhone
 import renetik.android.core.kotlin.asString
 import renetik.android.core.kotlin.primitives.vertical
+import renetik.android.core.lang.ArgFunc
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.to
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.DelegateValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
+import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
+import renetik.android.event.registration.registerTo
 import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 import kotlin.properties.Delegates.notNull
@@ -35,6 +39,18 @@ fun <T : TextView> T.text(): String = text.toString()
 fun <T : TextView> T.textToVertical() = text("$text".vertical())
 
 fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
+
+fun <T : TextView> T.textChange(
+    parent: CSHasRegistrations? = null,
+    onChange: ArgFunc<String>? = null
+) = object : CSHasChangeValue<String> {
+    override val value: String get() = text()
+
+    override fun onChange(function: (String) -> Unit): CSRegistration {
+        val value = DelegateValue(value, onChange, function)
+        return CSRegistration(onTextChange { value(text()) }).registerTo(parent)
+    }
+}
 
 inline fun <T : TextView> T.onTextChange(
     crossinline onChange: (view: T) -> Unit
