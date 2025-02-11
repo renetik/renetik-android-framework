@@ -40,15 +40,15 @@ fun <T : TextView> T.textToVertical() = text("$text".vertical())
 
 fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
 
-fun <T : TextView> T.textChange(
-) = object : CSHasChangeValue<String> {
-    override val value: String get() = text()
+val <T : TextView> T.textChange
+    get() = object : CSHasChangeValue<String> {
+        override val value: String get() = text()
 
-    override fun onChange(function: (String) -> Unit): CSRegistration {
-        val value = DelegateValue(value, null, function)
-        return CSRegistration(onTextChange { value(text()) })
+        override fun onChange(function: (String) -> Unit): CSRegistration {
+            val value = DelegateValue(value, null, function)
+            return CSRegistration(onTextChange { value(text()) })
+        }
     }
-}
 
 inline fun <T : TextView> T.onTextChange(
     crossinline onChange: (view: T) -> Unit
