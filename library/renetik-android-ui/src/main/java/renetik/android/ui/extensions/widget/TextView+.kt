@@ -42,12 +42,11 @@ fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
 
 fun <T : TextView> T.textChange(
     parent: CSHasRegistrations? = null,
-    onChange: ArgFunc<String>? = null
 ) = object : CSHasChangeValue<String> {
     override val value: String get() = text()
 
     override fun onChange(function: (String) -> Unit): CSRegistration {
-        val value = DelegateValue(value, onChange, function)
+        val value = DelegateValue(value, null, function)
         return CSRegistration(onTextChange { value(text()) }).registerTo(parent)
     }
 }
