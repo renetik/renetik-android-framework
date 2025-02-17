@@ -13,11 +13,14 @@ val AutoCompleteTextView.selectedIndex: Int?
 fun AutoCompleteTextView.setDropDown(
     string: Int, disableEdit: Boolean = true,
     onItemSelected: ((position: Int) -> Unit)? = null) = apply {
-    val categories = resources.getStringArray(string)
-    val adapter = ArrayAdapter(context, simple_spinner_dropdown_item, categories)
+    val strings = resources.getStringArray(string)
+    val adapter = ArrayAdapter(context, simple_spinner_dropdown_item, strings)
     setAdapter(adapter)
     setOnClickListener { showDropDown() }
-    setOnItemClickListener { _, _, position, _ -> onItemSelected?.invoke(position) }
+    setOnItemClickListener { _, _, position, _ ->
+        val selectedItem = adapter.getItem(position) as String
+        onItemSelected?.invoke(strings.indexOf(selectedItem))
+    }
     if (disableEdit) keyListener = null //To disable user editing
 }
 
@@ -27,6 +30,9 @@ fun <T : AutoCompleteTextView> T.setDropDown(
     val adapter = ArrayAdapter(context, simple_spinner_dropdown_item, strings)
     setAdapter(adapter)
     setOnClickListener { showDropDown() }
-    setOnItemClickListener { _, _, position, _ -> onItemSelected?.invoke(position) }
+    setOnItemClickListener { _, _, position, _ ->
+        val selectedItem = adapter.getItem(position) as String
+        onItemSelected?.invoke(strings.indexOf(selectedItem))
+    }
     if (disableEdit) keyListener = null
 }
