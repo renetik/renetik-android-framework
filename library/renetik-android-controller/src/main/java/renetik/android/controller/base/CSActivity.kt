@@ -50,9 +50,9 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        configuration.setTo(resources.configuration)
         activityView = createView()
         setContentView(activityView!!.view)
+        configuration.setTo(resources.configuration)
     }
 
     var isRecreateView = false
