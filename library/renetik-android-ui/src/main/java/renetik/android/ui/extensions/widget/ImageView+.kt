@@ -13,7 +13,6 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import java.io.File
 
-
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int?): T = apply {
     resourceId?.let(::setImageResource) ?: setImageDrawable(null)
 }
