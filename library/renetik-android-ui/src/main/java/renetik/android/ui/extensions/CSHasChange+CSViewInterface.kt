@@ -1,7 +1,7 @@
 package renetik.android.ui.extensions
 
 import renetik.android.core.lang.Func
-import renetik.android.event.common.CSLaterOnceFunc.Companion.debouncer
+import renetik.android.event.common.Debouncer.Companion.debouncer
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistrationsMap
