@@ -61,10 +61,6 @@ inline fun <T : TextView> T.onTextChange(
         isActive = true,
         onCancel = { removeTextChangedListener(listener) },
     )
-    addTextChangedListener(object : CSTextWatcherAdapter() {
-        override fun afterTextChanged(editable: Editable) =
-            onChange(this@onTextChange)
-    })
     return registration
 }
 
