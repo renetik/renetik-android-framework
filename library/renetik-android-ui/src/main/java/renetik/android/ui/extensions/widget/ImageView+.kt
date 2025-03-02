@@ -29,6 +29,8 @@ fun <T : ImageView> T.image(bitmap: Bitmap?) = apply {
     setImageBitmap(bitmap)
 }
 
+val ImageView.hasImage get() = drawable != null
+
 fun <T : ImageView> T.recycleBitmap() {
     (drawable as? BitmapDrawable)?.bitmap?.let { if (!it.isRecycled) it.recycle() }
 }
