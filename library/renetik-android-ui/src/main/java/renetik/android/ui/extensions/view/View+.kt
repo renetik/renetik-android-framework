@@ -54,6 +54,8 @@ import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.start
+import renetik.android.event.registration.CSHasRegistrations
+import renetik.android.event.registration.launch
 import renetik.android.ui.view.CSHasTouchEvent
 import renetik.android.ui.view.adapter.CSClickAdapter
 
@@ -106,6 +108,10 @@ fun <T : View> T.onClick(
         if (isClickable) onClick(this)
     })
 }
+
+fun <T : View> T.onClickLaunch(
+    parent: CSHasRegistrations, timeout: Int? = null, onClick: suspend (view: T) -> Unit
+) = onClick(timeout) { view -> parent.launch { onClick(view) } }
 
 fun <T : View> T.clearClick() = apply {
     setOnClickListener(null)

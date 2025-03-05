@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
+import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.plus
@@ -29,6 +30,7 @@ import renetik.android.ui.extensions.view.imageView
 import renetik.android.ui.extensions.view.linear
 import renetik.android.ui.extensions.view.listView
 import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.extensions.view.onClickLaunch
 import renetik.android.ui.extensions.view.onGlobalFocus
 import renetik.android.ui.extensions.view.onGlobalLayout
 import renetik.android.ui.extensions.view.onHasSize
@@ -58,6 +60,10 @@ inline fun <reified Type : View> CSViewInterface.view(
 fun CSViewInterface.view(
     @IdRes id: Int, onClick: ((view: View) -> Unit)? = null
 ): View = view.view(id).apply { onClick?.let { onClick { it(this) } } }
+
+fun CSViewInterface.onClickLaunch(
+    parent: CSHasRegistrations, timeout: Int? = null, onClick: suspend (view: View) -> Unit
+) = view.onClickLaunch(parent, timeout, onClick)
 
 fun CSViewInterface.viewOrNull(@IdRes id: Int): View? = view.findView(id)
 
