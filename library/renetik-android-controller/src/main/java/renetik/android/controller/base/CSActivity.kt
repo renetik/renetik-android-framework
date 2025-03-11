@@ -64,7 +64,6 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         createActivityView()
     }
 
-
     fun destroyActivityView() {
         isRecreateView = true
         clearContentView()
