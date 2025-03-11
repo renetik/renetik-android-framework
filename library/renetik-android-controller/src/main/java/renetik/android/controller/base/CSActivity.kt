@@ -27,6 +27,8 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
 
     //CSActivityViewInterface
     override val eventResume = event<Unit>()
+    var isResume = false
+        private set
     override val eventPause = event<Unit>()
     override val eventBack = event<CSVariable<Boolean>>()
     override fun activity(): CSActivity<ActivityView> = this
@@ -79,11 +81,13 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     }
 
     public override fun onResume() {
+        isResume = true
         eventResume.fire()
         super.onResume()
     }
 
     public override fun onPause() {
+        isResume = false
         eventPause.fire()
         super.onPause()
     }
