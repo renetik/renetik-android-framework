@@ -164,17 +164,17 @@ class CSGridView<
 
         override fun onViewRecycled(holder: AdapterViewHolder) {
             super.onViewRecycled(holder)
-            holder.gridItemView.view.invisible()
+            if (!isDestructed) holder.gridItemView.view.invisible()
         }
 
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
-            holder.gridItemView.view.invisible()
+            if (!isDestructed) holder.gridItemView.view.invisible()
         }
 
         override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
-            holder.gridItemView.view.visible()
+            if (!isDestructed) holder.gridItemView.view.visible()
         }
 
         override fun getItemViewType(position: Int): Int = data[position].second

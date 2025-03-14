@@ -90,13 +90,6 @@ open class CSView<ViewType : View> : CSContext,
         this.layout = layout
     }
 
-//    constructor(parent: CSViewInterface) : super(parent) {
-//        this.parentView = parent
-//        this + parentView.isVisible.onChange(::updateVisibility)
-//        this.layout = null
-//        this.viewId = null
-//    }
-
     @Suppress("UNCHECKED_CAST")
     final override val view: ViewType
         get() {

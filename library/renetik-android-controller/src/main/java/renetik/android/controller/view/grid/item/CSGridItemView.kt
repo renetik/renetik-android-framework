@@ -3,20 +3,21 @@ package renetik.android.controller.view.grid.item
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import renetik.android.controller.base.CSView
+import renetik.android.controller.view.grid.CSGridView
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.ui.extensions.view.firstChild
 
 //TODO: Requires item to be wrapped in empty frame layout for now... ?
 // It was like that for some reselection .. Now it is differently done in other places..
 open class CSGridItemView<RowType : Any>(
-    parent: CSView<*>,
+    parent: CSGridView<*,*>,
     group: ViewGroup,
     @LayoutRes layout: Int,
     var onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
 ) : CSView<ViewGroup>(parent, group, layout.layout) {
 
     constructor(
-        parent: CSView<out ViewGroup>, @LayoutRes layout: Int,
+        parent: CSGridView<*,*>, @LayoutRes layout: Int,
         onLoad: ((CSGridItemView<RowType>).(RowType) -> Unit)? = null
     ) : this(parent, parent.view, layout, onLoad)
 
