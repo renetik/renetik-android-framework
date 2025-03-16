@@ -13,13 +13,16 @@ import renetik.android.core.kotlin.primitives.vertical
 import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.to
 import renetik.android.core.lang.value.CSValue
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.DelegateValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
+import renetik.android.ui.R
 import renetik.android.ui.extensions.view.gone
+import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 import kotlin.properties.Delegates.notNull
 
@@ -64,11 +67,20 @@ inline fun <T : TextView> T.onTextChange(
     return registration
 }
 
+val View.eventFocus
+    get() = propertyWithTag(R.id.ViewEventOnFocusTag) {
+        event<Boolean>().also { setOnFocusChangeListener { _, isFocus -> it.fire(isFocus) } }
+    }
+
 inline fun View.onFocusChange(
-    crossinline onChange: (view: Boolean) -> Unit
-) = apply {
-    setOnFocusChangeListener { _, hasFocus -> onChange(hasFocus) }
-}
+    crossinline onChange: (hasFocus: Boolean) -> Unit
+) = eventFocus.listen { onChange(it) }
+
+inline fun View.onFocusGained(crossinline onFocusGained: () -> Unit) =
+    onFocusChange { if (it) onFocusGained() }
+
+inline fun View.onFocusLost(crossinline onFocusLost: () -> Unit) =
+    onFocusChange { if (!it) onFocusLost() }
 
 @JvmName("TextViewTextStringProperty")
 fun TextView.text(property: CSHasChangeValue<String>) = text(property, text = { it })
