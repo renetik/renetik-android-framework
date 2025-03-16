@@ -249,3 +249,9 @@ fun View.clickable(value: Boolean) {
 fun View.longClickable(value: Boolean) {
     isLongClickable = value
 }
+
+fun View.focus() {
+    isFocusable = true
+    isFocusableInTouchMode = true
+    requestFocus()
+}
