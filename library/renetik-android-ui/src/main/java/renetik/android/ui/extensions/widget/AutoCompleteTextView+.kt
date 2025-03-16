@@ -4,8 +4,11 @@ import android.R.layout.simple_spinner_dropdown_item
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Filter
+import renetik.android.core.kotlin.collections.contains
+import renetik.android.core.logging.CSLog.logDebug
+import renetik.android.event.registration.CSRegistration
 
-fun AutoCompleteTextView.reset() = apply { setAdapter(null); text("") }
+fun AutoCompleteTextView.reset() = apply { setAdapter(null); text(null) }
 
 val AutoCompleteTextView.selectedIndex: Int?
     get() = if (listSelection >= 0) listSelection else null
@@ -13,14 +16,38 @@ val AutoCompleteTextView.selectedIndex: Int?
 // simple_dropdown_item_1line
 fun AutoCompleteTextView.setDropDown(
     stringArray: Int, disableEdit: Boolean = true, selectedIndex: Int? = null,
-    onItemSelected: ((position: Int) -> Unit)? = null) =
+    onItemSelected: ((position: Int?) -> Unit)? = null) =
     setDropDown(resources.getStringArray(stringArray).toList(),
         disableEdit, selectedIndex, onItemSelected)
 
+//fun <T : AutoCompleteTextView> T.setDropDown(
+//    strings: List<String>, disableEdit: Boolean = true,
+//    selectedIndex: Int? = null, onItemSelected: ((position: Int) -> Unit)? = null) = apply {
+//    val adapter = object : ArrayAdapter<String>(context, simple_spinner_dropdown_item, strings) {
+//        override fun getFilter(): Filter = object : Filter() {
+//            override fun performFiltering(constraint: CharSequence?): FilterResults =
+//                FilterResults().apply { values = strings; count = strings.size }
+//
+//            override fun publishResults(constraint: CharSequence?, results: FilterResults?) =
+//                notifyDataSetChanged()
+//        }
+//    }
+//    selectedIndex?.let(strings::getOrNull)?.also { setText(it, false) }
+//    setAdapter(adapter)
+//    setOnClickListener { showDropDown() }
+//    setOnItemClickListener { _, _, position, _ ->
+//        val selectedItem = adapter.getItem(position) as String
+//        onItemSelected?.invoke(strings.indexOf(selectedItem))
+//    }
+//    if (disableEdit) keyListener = null //To disable user editing
+//}
+
 fun <T : AutoCompleteTextView> T.setDropDown(
     strings: List<String>, disableEdit: Boolean = true,
-    selectedIndex: Int? = null, onItemSelected: ((position: Int) -> Unit)? = null) = apply {
-    val adapter = object : ArrayAdapter<String>(context, simple_spinner_dropdown_item, strings) {
+    selectedIndex: Int? = null,
+    onSelection: ((position: Int?) -> Unit)? = null): CSRegistration {
+    val adapter = if (disableEdit) object :
+        ArrayAdapter<String>(context, simple_spinner_dropdown_item, strings) {
         override fun getFilter(): Filter = object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults =
                 FilterResults().apply { values = strings; count = strings.size }
@@ -28,13 +55,33 @@ fun <T : AutoCompleteTextView> T.setDropDown(
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) =
                 notifyDataSetChanged()
         }
-    }
+    } else ArrayAdapter(context, simple_spinner_dropdown_item, strings)
+
     selectedIndex?.let(strings::getOrNull)?.also { setText(it, false) }
     setAdapter(adapter)
+    var selectedItem: String? = null
+    val onFocus = onFocusLost {
+        if (selectedItem == null) text = null
+        else if (!strings.contains { it == text() }) {
+            selectedItem = null
+            onSelection?.invoke(null)
+            text = null
+        }
+    }
+    val onTextChange = onTextChange {
+        if (text.isBlank()) {
+            selectedItem = null
+            onSelection?.invoke(null)
+        }
+    }
     setOnClickListener { showDropDown() }
     setOnItemClickListener { _, _, position, _ ->
-        val selectedItem = adapter.getItem(position) as String
-        onItemSelected?.invoke(strings.indexOf(selectedItem))
+        selectedItem = adapter.getItem(position)!!
+        onSelection?.invoke(strings.indexOf(selectedItem))
+        logDebug(this)
     }
     if (disableEdit) keyListener = null //To disable user editing
+    isFocusable = true
+    isFocusableInTouchMode = true
+    return CSRegistration(onFocus, onTextChange)
 }
