@@ -65,7 +65,7 @@ inline fun <T : TextView> T.onTextChange(
 }
 
 inline fun View.onFocusChange(
-    crossinline onChange: (view: Boolean) -> Unit
+    crossinline onChange: (hasFocus: Boolean) -> Unit
 ) = apply {
     setOnFocusChangeListener { _, hasFocus -> onChange(hasFocus) }
 }
