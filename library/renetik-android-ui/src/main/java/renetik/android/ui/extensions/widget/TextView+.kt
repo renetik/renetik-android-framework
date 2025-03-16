@@ -70,6 +70,12 @@ inline fun View.onFocusChange(
     setOnFocusChangeListener { _, hasFocus -> onChange(hasFocus) }
 }
 
+inline fun View.onFocusGained(crossinline onFocusGained: () -> Unit) =
+    onFocusChange { if (it) onFocusGained() }
+
+inline fun View.onFocusLost(crossinline onFocusLost: () -> Unit) =
+    onFocusChange { if (!it) onFocusLost() }
+
 @JvmName("TextViewTextStringProperty")
 fun TextView.text(property: CSHasChangeValue<String>) = text(property, text = { it })
 
