@@ -20,28 +20,6 @@ fun AutoCompleteTextView.setDropDown(
     setDropDown(resources.getStringArray(stringArray).toList(),
         disableEdit, selectedIndex, onItemSelected)
 
-//fun <T : AutoCompleteTextView> T.setDropDown(
-//    strings: List<String>, disableEdit: Boolean = true,
-//    selectedIndex: Int? = null, onItemSelected: ((position: Int) -> Unit)? = null) = apply {
-//    val adapter = object : ArrayAdapter<String>(context, simple_spinner_dropdown_item, strings) {
-//        override fun getFilter(): Filter = object : Filter() {
-//            override fun performFiltering(constraint: CharSequence?): FilterResults =
-//                FilterResults().apply { values = strings; count = strings.size }
-//
-//            override fun publishResults(constraint: CharSequence?, results: FilterResults?) =
-//                notifyDataSetChanged()
-//        }
-//    }
-//    selectedIndex?.let(strings::getOrNull)?.also { setText(it, false) }
-//    setAdapter(adapter)
-//    setOnClickListener { showDropDown() }
-//    setOnItemClickListener { _, _, position, _ ->
-//        val selectedItem = adapter.getItem(position) as String
-//        onItemSelected?.invoke(strings.indexOf(selectedItem))
-//    }
-//    if (disableEdit) keyListener = null //To disable user editing
-//}
-
 fun <T : AutoCompleteTextView> T.setDropDown(
     strings: List<String>, disableEdit: Boolean = true,
     selectedIndex: Int? = null,
@@ -61,11 +39,11 @@ fun <T : AutoCompleteTextView> T.setDropDown(
     setAdapter(adapter)
     var selectedItem: String? = null
     val onFocus = onFocusLost {
-        if (selectedItem == null) text = null
+        if (selectedItem == null) clearText()
         else if (!strings.contains { it == text() }) {
             selectedItem = null
             onSelection?.invoke(null)
-            text = null
+            clearText()
         }
     }
     val onTextChange = onTextChange {
