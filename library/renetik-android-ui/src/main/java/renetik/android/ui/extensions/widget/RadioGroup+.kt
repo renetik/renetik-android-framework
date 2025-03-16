@@ -1,12 +1,9 @@
 package renetik.android.ui.extensions.widget
 
-import android.view.View
 import android.widget.RadioGroup
-import androidx.annotation.IdRes
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.ui.R
-import renetik.android.ui.extensions.view.findView
 import renetik.android.ui.extensions.view.propertyWithTag
 
 val <T : RadioGroup> T.eventChange
