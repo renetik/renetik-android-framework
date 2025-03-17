@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.lang.variable.CSVariable
+import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
@@ -55,6 +56,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         activityView = createView()
         setContentView(activityView!!.view)
         configuration.setTo(resources.configuration)
+        logInfo()
     }
 
     var isRecreateView = false
@@ -62,6 +64,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     fun recreateView() {
         destroyActivityView()
         createActivityView()
+        logInfo()
     }
 
     fun destroyActivityView() {
@@ -70,6 +73,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         activityView!!.destruct()
         configuration.setTo(resources.configuration)
         activityView = null
+        logInfo()
     }
 
     private fun createActivityView() {
@@ -77,18 +81,21 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         setContentView(activityView!!.view)
         activityView!!.onResume()
         isRecreateView = false
+        logInfo()
     }
 
     public override fun onResume() {
         isResume = true
         eventResume.fire()
         super.onResume()
+        logInfo()
     }
 
     public override fun onPause() {
         isResume = false
         eventPause.fire()
         super.onPause()
+        logInfo()
     }
 
     final override val registrations by lazy { CSRegistrationsMap(this) }
@@ -99,6 +106,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         registrations.cancel()
         eventDestruct.fire().clear()
         activityView = null
+        logInfo()
     }
 
     @SuppressLint("MissingSuperCall")
@@ -109,21 +117,22 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     @Deprecated("Deprecated in Java")
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         onActivityResult.fire(CSActivityResult(requestCode, resultCode, data))
-        @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
+        logInfo("$requestCode $resultCode $data")
     }
 
-    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val goBack = property(true)
         eventBack.fire(goBack)
         if (goBack.value) super.onBackPressed()
+        logInfo()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         configuration.setTo(newConfig)
+        logInfo(newConfig)
     }
 
     override fun onRequestPermissionsResult(
@@ -133,5 +142,6 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         onRequestPermissionsResult.fire(
             CSRequestPermissionResult(requestCode, permissions, results)
         )
+        logInfo("$requestCode $permissions $results")
     }
 }
