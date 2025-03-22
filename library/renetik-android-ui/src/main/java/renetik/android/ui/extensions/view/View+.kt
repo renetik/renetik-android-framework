@@ -113,8 +113,9 @@ fun <T : View> T.onClickLaunch(
     parent: CSHasRegistrations, timeout: Int? = null, onClick: suspend (view: T) -> Unit
 ) = onClick(timeout) { view -> parent.launch { onClick(view) } }
 
-fun <T : View> T.clearClick() = apply {
+fun <T : View> T.clearClick(andClickable: Boolean = false) = apply {
     setOnClickListener(null)
+    isClickable = false
 }
 
 fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) = apply {
