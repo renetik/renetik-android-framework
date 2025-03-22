@@ -23,7 +23,6 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-
     <style name="CSWrap" parent="CSLayout">
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
