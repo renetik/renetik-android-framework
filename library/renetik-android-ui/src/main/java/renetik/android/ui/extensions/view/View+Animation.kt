@@ -49,10 +49,10 @@ private fun <T : View> T.fadeOut(
 ): ViewPropertyAnimator? = when {
     CSLeakCanary.isEnabled -> {
         if (invisible) invisible() else gone()
-        onDone?.invoke(); null
+        onDone(); null
     }
     isGone || isInvisible -> {
-        onDone?.invoke(); null
+        onDone(); null
     }
     alpha == 0f -> {
         if (invisible) invisible() else gone()
@@ -65,7 +65,7 @@ private fun <T : View> T.fadeOut(
             isClickable = true
             alpha = originalAlpha
             if (invisible) invisible() else gone()
-            onDone?.invoke()
+            onDone()
         }
     }
 }
