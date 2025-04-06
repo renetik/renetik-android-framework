@@ -5,11 +5,8 @@ import android.view.Gravity.NO_GRAVITY
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import android.widget.LinearLayout
-import renetik.android.core.extensions.content.dpToPixel
-import renetik.android.core.lang.CSEnvironment.app
 
 val layoutMatch get() = LayoutParams(MATCH_PARENT, MATCH_PARENT)
 val layoutMatchCenter get() = LayoutParams(MATCH_PARENT, MATCH_PARENT, CENTER)
@@ -41,40 +38,12 @@ fun ViewGroup.LayoutParams.toWrapMatch() = apply {
     width = WRAP_CONTENT; height = MATCH_PARENT
 }
 
-fun layoutWrapHeight(dpHeight: Int, gravity: Int? = null) =
-    layoutWrapHeight(dpHeight.toFloat(), gravity)
+fun layoutWrapHeight(height: Int, gravity: Int? = null) =
+    LayoutParams(WRAP_CONTENT, height, gravity ?: NO_GRAVITY)
 
-fun layoutWrapHeight(dpHeight: Float, gravity: Int? = null) =
-    LayoutParams(
-        WRAP_CONTENT,
-        app.dpToPixel(dpHeight), gravity ?: NO_GRAVITY
-    )
-
-fun layoutMatchHeight(dpHeight: Int, gravity: Int? = null) =
-    layoutMatchHeight(dpHeight.toFloat(), gravity)
-
-fun layoutMatchHeight(dpHeight: Float, gravity: Int? = null) =
-    LayoutParams(
-        MATCH_PARENT,
-        app.dpToPixel(dpHeight), gravity ?: NO_GRAVITY
-    )
-
-fun layoutMatchHeightPx(height: Int, gravity: Int? = null) =
+fun layoutMatchHeight(height: Int, gravity: Int? = null) =
     LayoutParams(MATCH_PARENT, height, gravity ?: NO_GRAVITY)
 
-fun layoutMatchHeightPx(pixelHeight: Int) =
-    LayoutParams(MATCH_PARENT, pixelHeight)
-
-fun layoutMatchHeight(dpHeight: Int) = layoutMatchHeight(dpHeight.toFloat())
-
-fun layoutWidthMatch(dpWidth: Int) =
-    LayoutParams(app.dpToPixel(dpWidth), MATCH_PARENT)
-
-fun layoutWidthMatchPx(width: Int) =
-    LayoutParams(width, MATCH_PARENT)
-
-fun layoutWidthHeight(dpWidth: Int, dpHeight: Int) =
-    layoutWidthHeight(dpWidth.toFloat(), dpHeight.toFloat())
-
-fun layoutWidthHeight(dpWidth: Float, dpHeight: Float) =
-    LayoutParams(app.dpToPixel(dpWidth), app.dpToPixel(dpHeight))
+fun layoutMatchHeight(height: Int) = LayoutParams(MATCH_PARENT, height)
+fun layoutWidthMatch(width: Int) = LayoutParams(width, MATCH_PARENT)
+fun layoutWidthHeight(width: Int, height: Int) = LayoutParams(width, height)
