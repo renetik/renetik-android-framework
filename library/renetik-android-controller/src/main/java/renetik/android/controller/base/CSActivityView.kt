@@ -46,7 +46,8 @@ open class CSActivityView<ViewType : View>
         initializeParent(activity)
     }
 
-    constructor(activity: CSActivity<*>, layout: CSLayoutRes) : super(activity, layout) {
+    constructor(activity: CSActivity<*>, layout: CSLayoutRes)
+            : super(activity, layout) {
         this.activity = activity
         initializeParent(activity)
     }
@@ -56,14 +57,14 @@ open class CSActivityView<ViewType : View>
         initializeParent(parent)
     }
 
-    constructor(parent: CSActivityViewInterface, @IdRes viewId: Int) : super(parent,
-        viewId) {
+    constructor(parent: CSActivityViewInterface, @IdRes viewId: Int)
+            : super(parent, viewId) {
         parentActivityView = parent as CSActivityView<*>
         initializeParent(parent)
     }
 
-    constructor(parent: CSActivityViewInterface, layout: CSLayoutRes) : super(parent,
-        layout) {
+    constructor(parent: CSActivityViewInterface, layout: CSLayoutRes)
+            : super(parent, layout) {
         parentActivityView = parent as CSActivityView<*>
         initializeParent(parent)
     }
