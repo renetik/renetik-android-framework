@@ -97,7 +97,7 @@ open class CSNavigationItemView(
     private var passClicksUnder = false
     fun passClicksUnder(pass: Boolean = true) = apply {
         passClicksUnder = pass
-        view.passClicksUnder(passClicksUnder)
+        viewContent.passClicksUnder(passClicksUnder)
     }
 
     init {
@@ -116,7 +116,7 @@ open class CSNavigationItemView(
     override fun onViewShowingFirstTime() {
         super.onViewShowingFirstTime()
         if (dismissOnTouchOut) view.onClick { onBackgroundClick() }
-        else view.passClicksUnder(passClicksUnder)
+        else viewContent.passClicksUnder(passClicksUnder)
     }
 
     protected open fun onBackgroundClick() = dismiss()
