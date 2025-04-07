@@ -44,7 +44,7 @@ fun <T : CSNavigationItemView> T.center() = apply {
     }
 }
 
-val <T : CSNavigationItemView> T.isClicksBlocked get() = viewContent.isClickable
+val <T : CSNavigationItemView> T.isClicksBlocked get() = view.isClickable
 
 fun <T : CSNavigationItemView> T.fullScreen() = apply {
     isFullScreen = true
