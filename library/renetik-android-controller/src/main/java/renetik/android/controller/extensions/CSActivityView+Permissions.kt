@@ -1,5 +1,6 @@
 package renetik.android.controller.extensions
 
+import android.content.Context
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
@@ -50,14 +51,20 @@ fun CSActivityView<*>.requestPermissions(
     }
 }
 
-fun CSActivityView<*>.getDeniedPermissions(permissions: List<String>): Array<String> {
+fun Context.getDeniedPermissions(permissions: List<String>): Array<String> {
     val deniedPermissions = list<String>()
     for (permission in permissions)
         if (isPermissionGranted(permission)) deniedPermissions.add(permission)
     return deniedPermissions.toTypedArray()
 }
 
-fun CSActivityView<*>.isPermissionGranted(permission: String): Boolean {
+fun Context.isPermissionGranted(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) != PERMISSION_GRANTED
 }
+
+fun Context.isPermissionsGranted(vararg permissions: String): Boolean =
+    permissions.all { isPermissionGranted(it) }
+
+fun Context.isPermissionsGranted(permissions: Iterable<String>): Boolean =
+    permissions.all { isPermissionGranted(it) }
 
