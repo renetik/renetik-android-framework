@@ -8,6 +8,7 @@ import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import android.widget.LinearLayout
+import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.ui.R
@@ -22,7 +23,7 @@ open class CSLinearLayout @JvmOverloads constructor(
     var dispatchState: Boolean
     var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     override val self: View get() = this
-    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    override val eventOnTouch: CSEvent<CSTouchEventArgs> = event<CSTouchEventArgs>()
     val eventOnDraw = event<Canvas>()
     var eventOnLayout = event()
 
@@ -66,8 +67,7 @@ open class CSLinearLayout @JvmOverloads constructor(
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return false
-        val handled = onTouchEvent?.invoke(event) ?: false
-        return if (!handled) super.onTouchEvent(event) else true
+        return if (processTouchEvent(event)) true else super.onTouchEvent(event)
     }
 
     override fun onDraw(canvas: Canvas) {

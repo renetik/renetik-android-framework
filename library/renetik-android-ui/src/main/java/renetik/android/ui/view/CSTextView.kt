@@ -6,6 +6,8 @@ import android.view.MotionEvent
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
 import androidx.appcompat.widget.AppCompatTextView
+import renetik.android.event.CSEvent
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.ui.R
 
 class CSTextView @JvmOverloads constructor(
@@ -15,7 +17,7 @@ class CSTextView @JvmOverloads constructor(
     override val self = this
     private val _maxHeight: Int
     private val dispatchState: Boolean
-    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    override val eventOnTouch: CSEvent<CSTouchEventArgs> = event<CSTouchEventArgs>()
 
     init {
         clipToOutline = false
@@ -63,7 +65,6 @@ class CSTextView @JvmOverloads constructor(
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return false
-        val handled = onTouchEvent?.invoke(event) ?: false
-        return if (!handled) super.onTouchEvent(event) else true
+        return if (processTouchEvent(event)) true else super.onTouchEvent(event)
     }
 }

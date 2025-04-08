@@ -141,16 +141,16 @@ fun <T : View> T.drawToBitmap(bitmap: Bitmap) = Canvas(bitmap).apply {
     draw(this)
 }
 
-fun View.setHasTouchEventListener(): CSHasTouchEvent {
-    val listener = object : CSHasTouchEvent, OnTouchListener {
-        override val self: View get() = this@setHasTouchEventListener
-        override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
-        override fun onTouch(v: View, event: MotionEvent): Boolean =
-            onTouchEvent?.invoke(event) ?: false
-    }
-    setOnTouchListener(listener)
-    return listener
-}
+//fun View.setHasTouchEventListener(): CSHasTouchEvent {
+//    val listener = object : CSHasTouchEvent, OnTouchListener {
+//        override val self: View get() = this@setHasTouchEventListener
+//        override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+//        override fun onTouch(v: View, event: MotionEvent): Boolean =
+//            onTouchEvent?.invoke(event) ?: false
+//    }
+//    setOnTouchListener(listener)
+//    return listener
+//}
 
 fun <T : Any> View.propertyWithTag(@IdRes key: Int, onCreate: () -> T): T {
     @Suppress("UNCHECKED_CAST") var value = getTag(key) as? T

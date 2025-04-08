@@ -28,7 +28,7 @@ open class CSEmptyView @JvmOverloads constructor(
     CSHasTouchEvent, CSHasDrawEvent {
 
     override val self: View get() = this
-    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    override val eventOnTouch: CSEvent<CSTouchEventArgs> = event<CSTouchEventArgs>()
 
     private val minWidth: Int
     private val maxWidth: Int
@@ -86,15 +86,14 @@ open class CSEmptyView @JvmOverloads constructor(
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return false
-        val handled = onTouchEvent?.invoke(event) ?: false
-        return if (!handled) super.onTouchEvent(event) else true
+        return if (processTouchEvent(event)) true else super.onTouchEvent(event)
     }
 
     override fun onLayout(
         changed: Boolean, left: Int, top: Int, right: Int, bottom: Int
     ) {
         super.onLayout(changed, left, top, right, bottom)
-         if (changed) eventOnLayout.fire()
+        if (changed) eventOnLayout.fire()
     }
 
     override fun onDraw(canvas: Canvas) {

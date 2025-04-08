@@ -7,6 +7,8 @@ import android.view.MotionEvent.ACTION_CANCEL
 import android.view.MotionEvent.ACTION_UP
 import androidx.appcompat.widget.AppCompatImageView
 import renetik.android.core.kotlin.equalsNone
+import renetik.android.event.CSEvent
+import renetik.android.event.CSEvent.Companion.event
 import kotlin.properties.Delegates.notNull
 
 class CSImageView @JvmOverloads constructor(
@@ -19,7 +21,7 @@ class CSImageView @JvmOverloads constructor(
     override var minHeightParam: Int by notNull()
     override var maxHeightParam: Int by notNull()
     override var dispatchStateParam: Boolean by notNull()
-    override var onTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    override val eventOnTouch: CSEvent<CSTouchEventArgs> = event<CSTouchEventArgs>()
 
     init {
         loadCSAttributes(attrs)
@@ -48,7 +50,7 @@ class CSImageView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // TODO: make like this everywhere ?
         if (!isEnabled && event.actionMasked.equalsNone(ACTION_UP, ACTION_CANCEL)) return false
-        val handled = onTouchEvent?.invoke(event) ?: false
+        val handled = processTouchEvent(event)
         if (!isEnabled) return handled
         return if (!handled) super.onTouchEvent(event) else true
     }

@@ -7,8 +7,6 @@ import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_UP
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
-import renetik.android.event.common.CSHasDestruct
-import renetik.android.event.common.onDestructed
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
@@ -17,50 +15,42 @@ import renetik.android.event.registration.action
 import renetik.android.event.registration.laterEach
 import renetik.android.event.registration.launch
 import renetik.android.event.registration.paused
+import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.view.onLongClick
 import renetik.android.ui.extensions.view.pressed
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-
 inline fun <T : CSHasTouchEvent> T.onTouch(
-    parent: CSHasDestruct,
+    parent: CSHasRegistrations,
     crossinline onTouch: (isDown: Boolean) -> Unit,
-) = apply {
-    onTouch(onTouch = onTouch)
-    // fix canary (false?) report
-    parent.onDestructed { onTouchEvent = null }
-}
+) = apply { parent + onTouch(onTouch = onTouch) }
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline onTouch: (isDown: Boolean) -> Unit,
-) = apply {
-    onTouchEvent = {
-        when (it.actionMasked) {
-            ACTION_DOWN -> true.also {
-                self.pressed(true)
-                onTouch(true)
-            }
-
-            ACTION_UP, ACTION_CANCEL -> true.also {
-                self.pressed(false)
-                onTouch(false)
-            }
-
-            ACTION_MOVE -> true
-            else -> false
+): CSRegistration = eventOnTouch.listen {
+    when (it.actionMasked) {
+        ACTION_DOWN -> true.also {
+            self.pressed(true)
+            onTouch(true)
         }
+
+        ACTION_UP, ACTION_CANCEL -> true.also {
+            self.pressed(false)
+            onTouch(false)
+        }
+
+        ACTION_MOVE -> it.handled()
     }
 }
-
 
 inline fun <T : CSHasTouchEvent> T.onLongTouch(
     duration: Duration = 2.seconds,
     crossinline down: (isDown: Boolean) -> Unit,
 ): CSRegistration {
     var registration: CSRegistration? = null
-    onTouch(onTouch = { isDown ->
+    val eventRegistration = onTouch(onTouch = { isDown ->
         if (isDown) registration = Main.launch {
             delay(duration)
             if (it.isActive) {
@@ -70,98 +60,89 @@ inline fun <T : CSHasTouchEvent> T.onLongTouch(
         }
         else registration?.cancel() ?: down(false)
     })
-    return CSRegistration { registration?.cancel() }
+    return CSRegistration {
+        eventRegistration.cancel()
+        registration?.cancel()
+    }
 }
 
 
 inline fun <T : CSHasTouchEvent> T.onTouchMove(
     crossinline move: (event: MotionEvent) -> Unit,
-) = apply {
-    onTouchEvent = { event ->
-        when (event.actionMasked) {
-            ACTION_DOWN -> true
-            ACTION_UP, ACTION_CANCEL -> true
-            ACTION_MOVE -> true.also { move(event) }
-            else -> false
-        }
+): CSRegistration = eventOnTouch.listen {
+    when (it.actionMasked) {
+        ACTION_DOWN -> it.handled()
+        ACTION_UP, ACTION_CANCEL -> it.handled()
+        ACTION_MOVE -> it.handled().run { move(it.event) }
     }
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline down: (event: MotionEvent) -> Unit,
     crossinline move: (event: MotionEvent) -> Unit,
-) = apply {
-    onTouchEvent = { event ->
-        when (event.actionMasked) {
-            ACTION_DOWN -> true.also { down(event) }
-            ACTION_UP, ACTION_CANCEL -> true
-            ACTION_MOVE -> true.also { move(event) }
-            else -> false
-        }
+): CSRegistration = eventOnTouch.listen {
+    when (it.actionMasked) {
+        ACTION_DOWN -> it.handled().run { down(it.event) }
+        ACTION_UP, ACTION_CANCEL -> it.handled()
+        ACTION_MOVE -> it.handled().run { move(it.event) }
     }
 }
-
 
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline down: (event: MotionEvent) -> Unit = {},
     crossinline move: (event: MotionEvent) -> Unit,
     crossinline up: (event: MotionEvent) -> Unit,
-) = apply {
-    onTouchEvent = { event ->
-        when (event.actionMasked) {
-            ACTION_DOWN -> true.also { down(event) }
-            ACTION_UP, ACTION_CANCEL -> true.also { up(event) }
-            ACTION_MOVE -> true.also { move(event) }
-            else -> false
-        }
+): CSRegistration = eventOnTouch.listen {
+    when (it.actionMasked) {
+        ACTION_DOWN -> it.handled().run { down(it.event) }
+        ACTION_UP, ACTION_CANCEL -> it.handled().run { up(it.event) }
+        ACTION_MOVE -> it.handled().run { move(it.event) }
     }
 }
-
 
 @JvmName("onTouchDownOrMove")
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline downOrMove: (event: MotionEvent) -> Unit,
-) = apply {
-    onTouchEvent = { event ->
-        when (event.actionMasked) {
-            ACTION_DOWN -> true.also { downOrMove(event) }
-            ACTION_UP, ACTION_CANCEL -> true
-            ACTION_MOVE -> true.also { downOrMove(event) }
-            else -> false
-        }
+): CSRegistration = eventOnTouch.listen {
+    when (it.actionMasked) {
+        ACTION_DOWN -> it.handled().run { downOrMove(it.event) }
+        ACTION_UP, ACTION_CANCEL -> it.handled()
+        ACTION_MOVE -> it.handled().run { downOrMove(it.event) }
     }
 }
 
 inline fun <T : CSHasTouchEvent> T.onTouchDown(
+    parent: CSHasRegistrations,
     crossinline down: () -> Unit,
-) = onTouch(onTouch = { isDown -> if (isDown) down() })
+) = apply { parent + onTouchDown(down) }
+
+inline fun <T : CSHasTouchEvent> T.onTouchDown(
+    crossinline down: () -> Unit,
+): CSRegistration = onTouch(onTouch = { isDown -> if (isDown) down() })
 
 inline fun <T : CSHasTouchEvent> T.onTouchUp(
     crossinline up: () -> Unit,
-) = onTouch(onTouch = { isDown -> if (!isDown) up() })
+): CSRegistration = onTouch(onTouch = { isDown -> if (!isDown) up() })
 
 inline fun <T : CSHasTouchEvent> T.onTouchUp(
     crossinline up: () -> Unit, crossinline cancel: () -> Unit,
-) = apply {
-    onTouchEvent = {
-        when (it.actionMasked) {
-            ACTION_UP -> false.also { up() }
-            ACTION_CANCEL -> false.also { cancel() }
-            else -> false
-        }
+): CSRegistration = eventOnTouch.listen {
+    when (it.actionMasked) {
+        ACTION_UP -> up()
+        ACTION_CANCEL -> cancel()
     }
 }
 
 inline fun <T : CSHasTouchEvent> T.onLongTouch(
     crossinline onTouch: (isDown: Boolean) -> Unit,
     crossinline onClick: () -> Unit,
-) = apply {
+): CSRegistration {
     var isLongTouch = false
     self.onLongClick {
         isLongTouch = true
         onTouch(true)
     }
-    onTouchUp(up = {
+    return onTouchUp(up = {
         if (isLongTouch) {
             isLongTouch = false
             onTouch(false)
@@ -177,21 +158,24 @@ inline fun <T : CSHasTouchEvent> T.onLongTouch(
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline down: () -> Unit,
     crossinline up: () -> Unit,
-) = onTouch(onTouch = { isDown -> if (isDown) down() else up() })
+): CSRegistration = onTouch(onTouch = { isDown -> if (isDown) down() else up() })
 
 fun <T : CSHasTouchEvent> T.touchToggleActiveIf(
-    property: CSProperty<Boolean>): CSRegistration {
+    property: CSProperty<Boolean>
+): CSRegistration {
     setToggleActive(property.value)
     val propertyOnChange = property.onChange { setToggleActive(property.value) }
-    onTouchActiveToggle { on -> propertyOnChange.paused { property.value(on) } }
-    return propertyOnChange
+    val registration = onTouchActiveToggle { on -> propertyOnChange.paused { property.value(on) } }
+    return CSRegistration(propertyOnChange, registration)
 }
 
 fun <T : CSHasTouchEvent> T.touchToggleSelected(
-    property: CSProperty<Boolean>): CSRegistration {
+    property: CSProperty<Boolean>
+): CSRegistration {
     val propertyOnChange = property.action { setToggleSelected(property.value) }
-    onTouchSelectedToggle { on -> propertyOnChange.paused { property.value(on) } }
-    return propertyOnChange
+    val registration =
+        onTouchSelectedToggle { on -> propertyOnChange.paused { property.value(on) } }
+    return CSRegistration(propertyOnChange, registration)
 }
 
 fun <T : CSHasTouchEvent> T.setToggleActive(pressed: Boolean) = apply {
@@ -204,7 +188,7 @@ fun <T : CSHasTouchEvent> T.setToggleSelected(pressed: Boolean) = apply {
 
 inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
     crossinline function: (Boolean) -> Unit,
-) = onTouch(onTouch = { isDown ->
+): CSRegistration = onTouch(onTouch = { isDown ->
     if (isDown) {
         if (!self.isActivated) {
             function(true)
@@ -228,7 +212,7 @@ inline fun <T : CSHasTouchEvent> T.onTouchActiveToggle(
 
 inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
     crossinline function: (Boolean) -> Unit,
-) = onTouch(onTouch = { isDown ->
+): CSRegistration = onTouch(onTouch = { isDown ->
     if (isDown) {
         if (!self.isSelected) {
             function(true)
@@ -255,20 +239,22 @@ fun CSHasTouchEvent.onTouch(
     delay: Duration = 1.seconds,
     period: Duration = 250.milliseconds,
     repeat: () -> Unit,
-) = onTouch(
-    parent, delay.inWholeMilliseconds.toInt(),
-    period.inWholeMilliseconds.toInt(), repeat
-)
+): CSRegistration = onTouch(parent,
+    delay.inWholeMilliseconds.toInt(),
+    period.inWholeMilliseconds.toInt(),
+    repeat)
 
 fun CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
     delay: Int, period: Int,
     repeat: () -> Unit,
-) = onTouch(
-    parent, repeat = { repeat() },
-    step = { }, delay = delay, period = period,
-    until = { true }, onDone = {}
-)
+): CSRegistration = onTouch(parent,
+    repeat = { repeat() },
+    step = { },
+    delay = delay,
+    period = period,
+    until = { true },
+    onDone = {})
 
 fun <T> CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
@@ -277,26 +263,25 @@ fun <T> CSHasTouchEvent.onTouch(
     delay: Int, period: Int,
     until: (step: T) -> Boolean,
     onDone: () -> Unit,
-) = apply {
+): CSRegistration {
     var repeatCount: Int
     var repeatRegistration: CSRegistration? = null
-    onTouch(down = {
+    val registration = onTouch(down = {
         repeatCount = 0
         step(repeatCount)?.also {
             if (!until(it)) onDone() else repeat(it)
         }
         repeatRegistration?.cancel()
-        if (self.isEnabled) repeatRegistration = parent.laterEach(
-            delay, period, function = {
-                repeat(step(repeatCount))
-                repeatCount++
-                if (!until(step(repeatCount))) {
-                    repeatRegistration?.cancel()
-                    onDone()
-                }
+        if (self.isEnabled) repeatRegistration = parent.laterEach(delay, period, function = {
+            repeat(step(repeatCount))
+            repeatCount++
+            if (!until(step(repeatCount))) {
+                repeatRegistration?.cancel()
+                onDone()
             }
-        )
+        })
     }, up = {
         repeatRegistration?.cancel()
     })
+    return CSRegistration(repeatRegistration, registration)
 }
