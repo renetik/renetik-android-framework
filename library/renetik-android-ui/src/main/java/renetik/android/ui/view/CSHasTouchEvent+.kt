@@ -31,12 +31,12 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline onTouch: (isDown: Boolean) -> Unit,
 ): CSRegistration = eventOnTouch.listen {
     when (it.actionMasked) {
-        ACTION_DOWN -> true.also {
+        ACTION_DOWN -> it.handled().also {
             self.pressed(true)
             onTouch(true)
         }
 
-        ACTION_UP, ACTION_CANCEL -> true.also {
+        ACTION_UP, ACTION_CANCEL -> it.handled().also {
             self.pressed(false)
             onTouch(false)
         }
