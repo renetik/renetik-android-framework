@@ -3,10 +3,7 @@ package renetik.android.ui.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_CANCEL
-import android.view.MotionEvent.ACTION_UP
 import androidx.appcompat.widget.AppCompatImageView
-import renetik.android.core.kotlin.equalsNone
 import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import kotlin.properties.Delegates.notNull
@@ -48,10 +45,11 @@ class CSImageView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        // TODO: make like this everywhere ?
-        if (!isEnabled && event.actionMasked.equalsNone(ACTION_UP, ACTION_CANCEL)) return false
-        val handled = processTouchEvent(event)
-        if (!isEnabled) return handled
-        return if (!handled) super.onTouchEvent(event) else true
+        if (!isEnabled) return false
+        return if (processTouchEvent(event)) true else super.onTouchEvent(event)
+//        if (!isEnabled && event.actionMasked.equalsNone(ACTION_UP, ACTION_CANCEL)) return false
+//        val handled = processTouchEvent(event)
+//        if (!isEnabled) return handled
+//        return if (handled) true else super.onTouchEvent(event)
     }
 }

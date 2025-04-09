@@ -7,7 +7,7 @@ import renetik.android.core.kotlin.then
 import renetik.android.event.CSEvent
 import renetik.android.event.registration.CSRegistration
 
-data class CSTouchEventArgs(val event: MotionEvent, var isHandled: Boolean) {
+data class CSTouchEventArgs(val event: MotionEvent, var isHandled: Boolean = false) {
     fun handled() = then { isHandled = true }
     val action get() = event.action
     val actionMasked get() = event.actionMasked
@@ -19,7 +19,7 @@ interface CSHasTouchEvent {
 
     fun processTouchEvent(event: MotionEvent): Boolean {
         if (eventOnTouch.isListened) {
-            val args = CSTouchEventArgs(event, false)
+            val args = CSTouchEventArgs(event)
             eventOnTouch.fire(args)
             return args.isHandled
         }
