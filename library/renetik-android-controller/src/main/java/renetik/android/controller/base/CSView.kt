@@ -199,8 +199,8 @@ open class CSView<ViewType : View> : CSContext,
     protected open fun onViewHidingAgain() {}
 
     override fun onDestruct() {
+//        _isVisible.setFalse()
         super.onDestruct()
-        _isVisible.setFalse()
         // View doesn't have to be created in some cases
         _view?.let {
             if (it.tag == this) {
