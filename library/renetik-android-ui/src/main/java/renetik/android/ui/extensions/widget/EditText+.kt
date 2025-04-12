@@ -1,6 +1,7 @@
 package renetik.android.ui.extensions.widget
 
 import android.annotation.SuppressLint
+import android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
 import android.view.MotionEvent.ACTION_UP
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -21,6 +22,11 @@ val EditText.eventClear
 
 fun <T : EditText> T.onClear(listener: (EditText) -> Unit): T =
     apply { eventClear.listen(listener) }
+
+fun <T : EditText> T.multiline() = apply {
+    inputType = inputType or TYPE_TEXT_FLAG_MULTI_LINE
+    minLines = 0; maxLines = Int.MAX_VALUE; isSingleLine = false
+}
 
 //all compoundDrawables needs to be set programmatically
 @SuppressLint("ClickableViewAccessibility")
