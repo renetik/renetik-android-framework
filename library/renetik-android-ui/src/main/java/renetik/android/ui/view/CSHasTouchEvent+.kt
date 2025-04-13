@@ -31,17 +31,17 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline onTouch: (isDown: Boolean) -> Unit,
 ): CSRegistration = eventOnTouch.listen {
     when (it.actionMasked) {
-        ACTION_DOWN -> it.handled().also {
+        ACTION_DOWN -> it.consume().also {
             self.pressed(true)
             onTouch(true)
         }
 
-        ACTION_UP, ACTION_CANCEL -> it.handled().also {
+        ACTION_UP, ACTION_CANCEL -> it.consume().also {
             self.pressed(false)
             onTouch(false)
         }
 
-        ACTION_MOVE -> it.handled()
+        ACTION_MOVE -> it.consume()
     }
 }
 
@@ -71,9 +71,9 @@ inline fun <T : CSHasTouchEvent> T.onTouchMove(
     crossinline move: (event: MotionEvent) -> Unit,
 ): CSRegistration = eventOnTouch.listen {
     when (it.actionMasked) {
-        ACTION_DOWN -> it.handled()
-        ACTION_UP, ACTION_CANCEL -> it.handled()
-        ACTION_MOVE -> it.handled().run { move(it.event) }
+        ACTION_DOWN -> it.consume()
+        ACTION_UP, ACTION_CANCEL -> it.consume()
+        ACTION_MOVE -> it.consume().run { move(it.event) }
     }
 }
 
@@ -82,9 +82,9 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline move: (event: MotionEvent) -> Unit,
 ): CSRegistration = eventOnTouch.listen {
     when (it.actionMasked) {
-        ACTION_DOWN -> it.handled().run { down(it.event) }
-        ACTION_UP, ACTION_CANCEL -> it.handled()
-        ACTION_MOVE -> it.handled().run { move(it.event) }
+        ACTION_DOWN -> it.consume().run { down(it.event) }
+        ACTION_UP, ACTION_CANCEL -> it.consume()
+        ACTION_MOVE -> it.consume().run { move(it.event) }
     }
 }
 
@@ -94,9 +94,9 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline up: (event: MotionEvent) -> Unit,
 ): CSRegistration = eventOnTouch.listen {
     when (it.actionMasked) {
-        ACTION_DOWN -> it.handled().run { down(it.event) }
-        ACTION_UP, ACTION_CANCEL -> it.handled().run { up(it.event) }
-        ACTION_MOVE -> it.handled().run { move(it.event) }
+        ACTION_DOWN -> it.consume().run { down(it.event) }
+        ACTION_UP, ACTION_CANCEL -> it.consume().run { up(it.event) }
+        ACTION_MOVE -> it.consume().run { move(it.event) }
     }
 }
 
@@ -105,9 +105,9 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline downOrMove: (event: MotionEvent) -> Unit,
 ): CSRegistration = eventOnTouch.listen {
     when (it.actionMasked) {
-        ACTION_DOWN -> it.handled().run { downOrMove(it.event) }
-        ACTION_UP, ACTION_CANCEL -> it.handled()
-        ACTION_MOVE -> it.handled().run { downOrMove(it.event) }
+        ACTION_DOWN -> it.consume().run { downOrMove(it.event) }
+        ACTION_UP, ACTION_CANCEL -> it.consume()
+        ACTION_MOVE -> it.consume().run { downOrMove(it.event) }
     }
 }
 
