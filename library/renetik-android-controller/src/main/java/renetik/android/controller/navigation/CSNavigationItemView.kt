@@ -30,8 +30,8 @@ import renetik.android.event.registration.plus
 import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
-import renetik.android.ui.extensions.registerAfterLayout
 import renetik.android.ui.extensions.onHasSize
+import renetik.android.ui.extensions.registerAfterLayout
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.background
 import renetik.android.ui.extensions.view.bottomFloat
@@ -75,6 +75,7 @@ open class CSNavigationItemView(
     }
 
     open val isBackNavigationAllowed = true
+    open val isBackgroundDimmed = true
     var isFullScreen = false
     var isPopup = false
         internal set
@@ -109,7 +110,6 @@ open class CSNavigationItemView(
 
     override fun onViewReady() {
         super.onViewReady()
-        view.background(colorRes(color.cs_dialog_background))
         view.add(viewContent)
     }
 
@@ -117,6 +117,13 @@ open class CSNavigationItemView(
         super.onViewShowingFirstTime()
         if (dismissOnTouchOut) view.onClick { onBackgroundClick() }
         else view.passClicksUnder(passClicksUnder)
+        if (!isFullScreen && isBackgroundDimmed) {
+            val color = if (isPopup)
+                color.cs_dialog_popup_background
+            else
+                color.cs_dialog_background;
+            view.background(colorRes(color))
+        }
     }
 
     protected open fun onBackgroundClick() = dismiss()
@@ -167,7 +174,6 @@ open class CSNavigationItemView(
             correctContentOverflow()
         }
         this + view.onViewLayout(::correctContentOverflow)
-        view.background(colorRes(color.cs_dialog_popup_background))
     }
 
     private fun positionDialogContentFromViewBottom(fromView: View) {
