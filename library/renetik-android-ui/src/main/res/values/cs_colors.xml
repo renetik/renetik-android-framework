@@ -22,7 +22,7 @@
     <color name="cs_button_selection">#b4311b92</color>
     <color name="cs_drawer_scrim">#4A000000</color>
     <color name="cs_dialog_background">#B7000000</color>
-    <color name="cs_dialog_popup_background">#50000000</color>
+    <color name="cs_dialog_popup_background">#60000000</color>
     <color name="cs_progress_background">#55000000</color>
     <color name="cs_progress_background_light">#2D000000</color>
     <color name="cs_border">#5E000000</color>
