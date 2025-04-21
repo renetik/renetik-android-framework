@@ -16,14 +16,14 @@ val AutoCompleteTextView.selectedIndex: Int?
 // simple_dropdown_item_1line
 fun AutoCompleteTextView.setDropDown(
     stringArray: Int, disableEdit: Boolean = true,
-    selectedIndex: Int? = null,
+    selectedIndex: Int? = null, isAutoClear: Boolean = true,
     onItemSelected: ((position: Int?) -> Unit)? = null
 ) = setDropDown(resources.getStringArray(stringArray).toList(),
-    disableEdit, selectedIndex, onItemSelected)
+    disableEdit, selectedIndex, isAutoClear, onItemSelected)
 
 fun <T : AutoCompleteTextView> T.setDropDown(
     strings: List<String>, disableEdit: Boolean = true,
-    selectedIndex: Int? = null,
+    selectedIndex: Int? = null, isAutoClear: Boolean = true,
     onSelection: ((position: Int?) -> Unit)? = null
 ): CSRegistration {
     val adapter = if (disableEdit) object :
@@ -40,7 +40,7 @@ fun <T : AutoCompleteTextView> T.setDropDown(
     selectedIndex?.let(strings::getOrNull)?.also { setText(it, false) }
     setAdapter(adapter)
     var selectedItem: String? = selectedIndex?.let { adapter.getItem(it) }
-    val onFocus = if (selectedIndex != null) onFocusLost {
+    val onFocus = if (isAutoClear) onFocusLost {
         if (selectedItem == null) clearText()
         else if (!strings.contains { it == text() }) {
             selectedItem = null
@@ -54,7 +54,6 @@ fun <T : AutoCompleteTextView> T.setDropDown(
             onSelection?.invoke(null)
         }
     }
-    setOnClickListener { showDropDown() }
     setOnItemClickListener { _, _, position, _ ->
         selectedItem = adapter.getItem(position)!!
         onSelection?.invoke(strings.indexOf(selectedItem))
