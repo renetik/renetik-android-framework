@@ -15,7 +15,8 @@ val AutoCompleteTextView.selectedIndex: Int?
 
 // simple_dropdown_item_1line
 fun AutoCompleteTextView.setDropDown(
-    stringArray: Int, disableEdit: Boolean = true, selectedIndex: Int? = null,
+    stringArray: Int, disableEdit: Boolean = true,
+    selectedIndex: Int? = null,
     onItemSelected: ((position: Int?) -> Unit)? = null
 ) = setDropDown(resources.getStringArray(stringArray).toList(),
     disableEdit, selectedIndex, onItemSelected)
@@ -39,14 +40,14 @@ fun <T : AutoCompleteTextView> T.setDropDown(
     selectedIndex?.let(strings::getOrNull)?.also { setText(it, false) }
     setAdapter(adapter)
     var selectedItem: String? = selectedIndex?.let { adapter.getItem(it) }
-    val onFocus = onFocusLost {
+    val onFocus = if (selectedIndex != null) onFocusLost {
         if (selectedItem == null) clearText()
         else if (!strings.contains { it == text() }) {
             selectedItem = null
             onSelection?.invoke(null)
             clearText()
         }
-    }
+    } else null
     val onTextChange = onTextChange {
         if (text.isBlank()) {
             selectedItem = null
