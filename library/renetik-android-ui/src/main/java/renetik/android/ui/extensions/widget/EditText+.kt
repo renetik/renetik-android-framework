@@ -76,3 +76,5 @@ fun EditText.withKeyboardDone(function: () -> Unit) = apply {
         } else false
     }
 }
+
+fun EditText.cursorToEnd() = apply { setSelection(text.length) }
