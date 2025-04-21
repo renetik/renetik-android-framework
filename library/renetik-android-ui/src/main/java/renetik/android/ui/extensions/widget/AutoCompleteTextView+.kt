@@ -16,14 +16,15 @@ val AutoCompleteTextView.selectedIndex: Int?
 // simple_dropdown_item_1line
 fun AutoCompleteTextView.setDropDown(
     stringArray: Int, disableEdit: Boolean = true, selectedIndex: Int? = null,
-    onItemSelected: ((position: Int?) -> Unit)? = null) =
-    setDropDown(resources.getStringArray(stringArray).toList(),
-        disableEdit, selectedIndex, onItemSelected)
+    onItemSelected: ((position: Int?) -> Unit)? = null
+) = setDropDown(resources.getStringArray(stringArray).toList(),
+    disableEdit, selectedIndex, onItemSelected)
 
 fun <T : AutoCompleteTextView> T.setDropDown(
     strings: List<String>, disableEdit: Boolean = true,
     selectedIndex: Int? = null,
-    onSelection: ((position: Int?) -> Unit)? = null): CSRegistration {
+    onSelection: ((position: Int?) -> Unit)? = null
+): CSRegistration {
     val adapter = if (disableEdit) object :
         ArrayAdapter<String>(context, simple_spinner_dropdown_item, strings) {
         override fun getFilter(): Filter = object : Filter() {
@@ -37,7 +38,7 @@ fun <T : AutoCompleteTextView> T.setDropDown(
 
     selectedIndex?.let(strings::getOrNull)?.also { setText(it, false) }
     setAdapter(adapter)
-    var selectedItem: String? = null
+    var selectedItem: String? = selectedIndex?.let { adapter.getItem(it) }
     val onFocus = onFocusLost {
         if (selectedItem == null) clearText()
         else if (!strings.contains { it == text() }) {
