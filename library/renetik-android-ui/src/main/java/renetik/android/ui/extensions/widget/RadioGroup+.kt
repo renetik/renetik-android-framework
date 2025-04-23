@@ -1,10 +1,12 @@
 package renetik.android.ui.extensions.widget
 
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.propertyWithTag
+import renetik.android.ui.extensions.view.view
 
 val <T : RadioGroup> T.eventChange
     get() = propertyWithTag(R.id.ViewEventOnScrollTag) { event<Int>() }
@@ -17,6 +19,9 @@ fun RadioGroup.onChange(listener: (buttonId: Int) -> Unit) = apply {
 var RadioGroup.checkedId: Int?
     get() = if (checkedRadioButtonId != -1) checkedRadioButtonId else null
     set(value) = if (value == null) check(-1) else check(value)
+
+val RadioGroup.checkedText: String
+    get() = checkedId?.let { view<RadioButton>(it).text() } ?: ""
 
 val RadioGroup.isChecked get() = checkedId != null
 
