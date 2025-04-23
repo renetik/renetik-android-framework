@@ -15,15 +15,15 @@ val AutoCompleteTextView.selectedIndex: Int?
 
 // simple_dropdown_item_1line
 fun AutoCompleteTextView.setDropDown(
-    stringArray: Int, disableEdit: Boolean = true,
-    selectedIndex: Int? = null, isAutoClear: Boolean = true,
+    stringArray: Int, selectedIndex: Int? = null,
+    disableEdit: Boolean = true, isAutoClear: Boolean = true,
     onItemSelected: ((position: Int?) -> Unit)? = null
 ) = setDropDown(resources.getStringArray(stringArray).toList(),
-    disableEdit, selectedIndex, isAutoClear, onItemSelected)
+    selectedIndex, disableEdit, isAutoClear, onItemSelected)
 
 fun <T : AutoCompleteTextView> T.setDropDown(
-    strings: List<String>, disableEdit: Boolean = true,
-    selectedIndex: Int? = null, isAutoClear: Boolean = true,
+    strings: List<String>, selectedIndex: Int? = null,
+    disableEdit: Boolean = true, isAutoClear: Boolean = true,
     onSelection: ((position: Int?) -> Unit)? = null
 ): CSRegistration {
     val adapter = if (disableEdit) object :
