@@ -16,6 +16,14 @@ import renetik.android.event.registration.action
 import renetik.android.ui.extensions.view.onHasSize
 import java.io.File
 
+fun <T : ImageView> T.image(url: String, transformation: Transformation<Bitmap>? = null) {
+    val builder = Glide.with(this).asBitmap().load(url)
+        .override(width, height)
+        .fitCenter().diskCacheStrategy(DiskCacheStrategy.NONE)
+    transformation?.let { builder.apply(bitmapTransform(it)) }
+    builder.into(this)
+}
+
 fun <T : ImageView> T.image(parent: CSHasRegistrations, file: File)
         : CSRegistration? = image(parent, file, null)
 
