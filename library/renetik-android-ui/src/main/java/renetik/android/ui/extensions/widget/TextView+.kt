@@ -36,6 +36,10 @@ fun <T : TextView> T.text(@StringRes stringId: Int) =
 
 fun <T : TextView> T.text(string: CharSequence?) = apply { text = string }
 fun <T : TextView> T.text(): String = text.toString()
+var <T : TextView> T.string: String
+    get() = text()
+    set(value) = run { text = value }
+
 fun <T : TextView> T.clearText() = text("")
 fun <T : TextView> T.textToVertical() = text("$text".vertical())
 
