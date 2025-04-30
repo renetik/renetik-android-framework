@@ -141,7 +141,7 @@ inline fun <T, V> TextView.text(
 ): CSRegistration {
     val value = text(property1.value, property2.value)
     text(value.asString)
-    val valueFunction = ValueFunction(value) { value: Any -> text(value.asString) }
+    val valueFunction = ValueFunction(value) { text(it.asString) }
     return CSRegistration(
         property1.onChange { valueFunction(text(it, property2.value)) },
         property2.onChange { valueFunction(text(property1.value, it)) },
