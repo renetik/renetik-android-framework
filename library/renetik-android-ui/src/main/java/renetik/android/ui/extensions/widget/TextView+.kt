@@ -138,10 +138,15 @@ fun TextView.text(property: CSHasChangeValue<*>): CSRegistration =
 inline fun <T, V> TextView.text(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<V>,
     crossinline text: (T, V) -> Any
-): CSRegistration = text(
-    (property1 to property2)
-        .delegate(from = { value1, value2 -> text(value1, value2) })
-)
+): CSRegistration {
+    val value = text(property1.value, property2.value)
+    text(value.asString)
+    val valueFunction = DelegateValue(value) { value: Any -> text(value.asString) }
+    return CSRegistration(
+        property1.onChange { valueFunction(text(it, property2.value)) },
+        property2.onChange { valueFunction(text(property1.value, it)) },
+    )
+}
 
 inline fun <T, V, K> TextView.text(
     property1: CSHasChangeValue<T>,

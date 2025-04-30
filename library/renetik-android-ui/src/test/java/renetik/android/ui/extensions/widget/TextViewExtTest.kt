@@ -24,10 +24,10 @@ class TextViewExtTest {
         textView.text(propertyInt, propertyBool, text = { position, inBeat ->
             invocationCount += 1
         })
-        assert(expected = 2, actual = invocationCount)
+        assert(expected = 1, actual = invocationCount)
         propertyBool assign true
-        assert(expected = 3, actual = invocationCount)
+        assert(expected = 2, actual = invocationCount)
         propertyBool assign false
-        assert(expected = 4, actual = invocationCount)
+        assert(expected = 3, actual = invocationCount)
     }
 }
