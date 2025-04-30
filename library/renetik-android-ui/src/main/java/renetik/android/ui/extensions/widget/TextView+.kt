@@ -15,7 +15,7 @@ import renetik.android.core.lang.tuples.to
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.DelegateValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.ValueFunction
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
@@ -50,7 +50,7 @@ val <T : TextView> T.textChange
         override val value: String get() = text()
 
         override fun onChange(function: (String) -> Unit): CSRegistration {
-            val value = DelegateValue(value, function)
+            val value = ValueFunction(value, function)
             return onTextChange { value(text()) }
         }
     }
@@ -141,7 +141,7 @@ inline fun <T, V> TextView.text(
 ): CSRegistration {
     val value = text(property1.value, property2.value)
     text(value.asString)
-    val valueFunction = DelegateValue(value) { value: Any -> text(value.asString) }
+    val valueFunction = ValueFunction(value) { value: Any -> text(value.asString) }
     return CSRegistration(
         property1.onChange { valueFunction(text(it, property2.value)) },
         property2.onChange { valueFunction(text(property1.value, it)) },
