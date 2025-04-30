@@ -11,12 +11,10 @@ import renetik.android.core.extensions.content.isPhone
 import renetik.android.core.kotlin.asString
 import renetik.android.core.kotlin.primitives.vertical
 import renetik.android.core.lang.CSHasDrawable
-import renetik.android.core.lang.tuples.to
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.ValueFunction
-import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
@@ -153,12 +151,16 @@ inline fun <T, V, K> TextView.text(
     property2: CSHasChangeValue<V>,
     property3: CSHasChangeValue<K>,
     crossinline text: (T, V, K) -> Any
-): CSRegistration = text(
-    (property1 to property2 to property3)
-        .delegate(from = { value1, value2, value3 ->
-            text(value1, value2, value3)
-        })
-)
+): CSRegistration {
+    val value = text(property1.value, property2.value, property3.value)
+    text(value.asString)
+    val valueFunction = ValueFunction(value) { text(it.asString) }
+    return CSRegistration(
+        property1.onChange { valueFunction(text(it, property2.value, property3.value)) },
+        property2.onChange { valueFunction(text(property1.value, it, property3.value)) },
+        property3.onChange { valueFunction(text(property1.value, property2.value, it)) },
+    )
+}
 
 fun <T : CSHasDrawable> TextView.drawableStart(property: CSHasChangeValue<T>) =
     property.action { drawable(start = context.drawable(it.drawable)) }
