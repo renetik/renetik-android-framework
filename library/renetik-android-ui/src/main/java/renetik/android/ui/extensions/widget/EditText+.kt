@@ -33,12 +33,10 @@ fun <T : EditText> T.multiline() = apply {
 fun <T : EditText> T.withClear(
     showOnFocus: Boolean = false, onClear: ArgFunc<EditText>? = null
 ) = apply {
-    fun updateClearIcon() {
-        drawable(
-            end = if (editableText.isNotEmpty() || (showOnFocus && isFocused))
-                androidx.appcompat.R.drawable.abc_ic_clear_material else null
-        )
-    }
+    fun updateClearIcon() = drawableEnd(
+        if (editableText.isNotEmpty() || (showOnFocus && isFocused))
+            androidx.appcompat.R.drawable.abc_ic_clear_material else null
+    )
     updateClearIcon()
     if (showOnFocus) onFocusChange { updateClearIcon() }
     doAfterTextChanged { updateClearIcon() }
