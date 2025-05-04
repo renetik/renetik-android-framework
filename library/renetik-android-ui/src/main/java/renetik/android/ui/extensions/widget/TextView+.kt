@@ -49,7 +49,11 @@ fun <T : TextView> T.textToVertical() = text("$text".vertical())
 
 fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
 fun <T : TextView> T.autoLinkAll() = apply {
-    LinkifyCompat.addLinks(this, WEB_URLS or PHONE_NUMBERS or EMAIL_ADDRESSES)
+    onTextChange { //LinkifyCompat works just after text is set
+        LinkifyCompat.addLinks(this, WEB_URLS or PHONE_NUMBERS or EMAIL_ADDRESSES)
+    }
+//    works but maybe not well on api < 28
+//    autoLinkMask = WEB_URLS or PHONE_NUMBERS or EMAIL_ADDRESSES
     movementMethod = LinkMovementMethod.getInstance()
 }
 
