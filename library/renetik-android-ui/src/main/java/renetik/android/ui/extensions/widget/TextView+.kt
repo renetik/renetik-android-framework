@@ -3,9 +3,14 @@
 package renetik.android.ui.extensions.widget
 
 import android.text.Editable
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify.EMAIL_ADDRESSES
+import android.text.util.Linkify.PHONE_NUMBERS
+import android.text.util.Linkify.WEB_URLS
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.text.util.LinkifyCompat
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.extensions.content.isPhone
 import renetik.android.core.kotlin.asString
@@ -23,6 +28,7 @@ import renetik.android.ui.extensions.view.gone
 import renetik.android.ui.extensions.view.propertyWithTag
 import renetik.android.ui.view.adapter.CSTextWatcherAdapter
 import kotlin.properties.Delegates.notNull
+
 
 fun <T : TextView> T.textPrepend(value: CharSequence?) = text("$value$text")
 fun <T : TextView> T.textAppend(value: CharSequence?) = text("$text$value")
@@ -42,6 +48,10 @@ fun <T : TextView> T.clearText() = text("")
 fun <T : TextView> T.textToVertical() = text("$text".vertical())
 
 fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
+fun <T : TextView> T.autoLinkAll() = apply {
+    LinkifyCompat.addLinks(this, WEB_URLS or PHONE_NUMBERS or EMAIL_ADDRESSES)
+    movementMethod = LinkMovementMethod.getInstance()
+}
 
 val <T : TextView> T.textChange
     get() = object : CSHasChangeValue<String> {
