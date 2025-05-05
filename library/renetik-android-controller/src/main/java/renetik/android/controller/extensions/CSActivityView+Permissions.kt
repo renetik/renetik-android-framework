@@ -54,12 +54,12 @@ fun CSActivityView<*>.requestPermissions(
 fun Context.getDeniedPermissions(permissions: List<String>): Array<String> {
     val deniedPermissions = list<String>()
     for (permission in permissions)
-        if (isPermissionGranted(permission)) deniedPermissions.add(permission)
+        if (!isPermissionGranted(permission)) deniedPermissions.add(permission)
     return deniedPermissions.toTypedArray()
 }
 
 fun Context.isPermissionGranted(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(this, permission) != PERMISSION_GRANTED
+    return ContextCompat.checkSelfPermission(this, permission) == PERMISSION_GRANTED
 }
 
 fun Context.isPermissionsGranted(vararg permissions: String): Boolean =
