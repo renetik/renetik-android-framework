@@ -20,6 +20,7 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
+import renetik.android.event.registration.CSHasChangeValue.Companion.hasChangeValue
 import renetik.android.event.registration.plus
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.findView
@@ -59,7 +60,7 @@ class CSGridView<
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = mutableListOf<Pair<ItemType, Int>>()
     val selectedIndex: CSHasChangeValue<Int?> =
-        selectedItem.delegate(from = { item -> data.firstIndex { it.first == item } })
+        selectedItem.hasChangeValue(from = { item -> data.firstIndex { it.first == item } })
 
     private val adapter = Adapter()
 
@@ -167,12 +168,18 @@ class CSGridView<
 
         override fun onViewRecycled(holder: AdapterViewHolder) {
             super.onViewRecycled(holder)
-            if (!isDestructed) holder.gridItemView.view.invisible()
+            if (!isDestructed) {
+                holder.gridItemView.view.invisible()
+                holder.gridItemView.registrations.clear()
+            }
         }
 
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
-            if (!isDestructed) holder.gridItemView.view.invisible()
+            if (!isDestructed) {
+                holder.gridItemView.view.invisible()
+                holder.gridItemView.registrations.clear()
+            }
         }
 
         override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
