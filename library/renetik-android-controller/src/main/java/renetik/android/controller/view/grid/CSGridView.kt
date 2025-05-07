@@ -19,6 +19,8 @@ import renetik.android.core.kotlin.unexpected
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.plus
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.findView
@@ -57,6 +59,8 @@ class CSGridView<
 
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = list<Pair<ItemType, Int>>()
+    val selectedIndex: CSHasChangeValue<Int?> =
+        selectedItem.delegate(from = { data.firstIndex { it.first == it } })
 
     private val adapter = Adapter()
 
