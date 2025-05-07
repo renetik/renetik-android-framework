@@ -47,8 +47,9 @@ fun <T> ImageView.image(property: CSHasChangeValue<T>, bitmap: (T) -> Bitmap?)
 fun <T> ImageView.image(property: CSHasChangeValue<T>, file: (T) -> File)
         : CSRegistration = property.action { image(file(property.value)) }
 
-fun <T : ImageView> T.iconTint(@ColorInt color: Int) =
-    apply { imageTintList = ColorStateList.valueOf(color) }
+fun <T : ImageView> T.iconTint(@ColorInt color: Int?) = apply {
+    imageTintList = color?.let { ColorStateList.valueOf(it) }
+}
 
 @JvmName("imageNullableChildResource")
 inline fun <T, V> ImageView.imageNullableChild(
