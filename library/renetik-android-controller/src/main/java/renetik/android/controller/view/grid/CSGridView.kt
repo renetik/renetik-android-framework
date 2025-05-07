@@ -14,7 +14,6 @@ import renetik.android.controller.base.CSActivityViewInterface
 import renetik.android.controller.base.CSView
 import renetik.android.controller.view.grid.item.CSGridItemView
 import renetik.android.core.kotlin.collections.firstIndex
-import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.unexpected
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
@@ -58,9 +57,9 @@ class CSGridView<
     ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent) })
 
     val selectedItem: CSProperty<ItemType?> = property(null)
-    val data = list<Pair<ItemType, Int>>()
+    val data = mutableListOf<Pair<ItemType, Int>>()
     val selectedIndex: CSHasChangeValue<Int?> =
-        selectedItem.delegate(from = { data.firstIndex { it.first == it } })
+        selectedItem.delegate(from = { item -> data.firstIndex { it.first == item } })
 
     private val adapter = Adapter()
 
