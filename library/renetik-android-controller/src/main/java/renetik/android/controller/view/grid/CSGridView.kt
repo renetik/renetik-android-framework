@@ -176,10 +176,7 @@ class CSGridView<
 
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
-            if (!isDestructed) {
-                holder.gridItemView.view.invisible()
-                holder.gridItemView.registrations.clear()
-            }
+            if (!isDestructed) holder.gridItemView.view.invisible()
         }
 
         override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
