@@ -9,6 +9,7 @@
     <string name="cs_base_dummy_number_medium" translatable="false">100</string>
     <string name="cs_base_dummy_number_long" translatable="false">999000</string>
     <string name="cs_base_dummy_char" translatable="false">A</string>
+    <string name="cs_base_dummy_time_sec" translatable="false">15:40:01</string>
     <string name="cs_base_dummy_datetime" translatable="false">15.3.25 15:40</string>
     <string name="cs_base_dummy_word" translatable="false">Lorem</string>
     <string name="cs_base_dummy_word_vertical" translatable="false">L\no\nr\ne\nm</string>
