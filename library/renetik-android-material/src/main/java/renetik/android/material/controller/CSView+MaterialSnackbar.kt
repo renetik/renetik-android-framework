@@ -9,6 +9,9 @@ import renetik.android.material.extensions.snackBarWarn
 fun CSView<*>.snackBarWarn(text: String, action: CSButtonAction? = null) =
     view.snackBarWarn(text, action)
 
+fun CSView<*>.snackBarError(text: String, title: String, onClick: () -> Unit) =
+    view.snackBarError(text, CSButtonAction(title, onClick))
+
 fun CSView<*>.snackBarError(text: String, action: CSButtonAction? = null) =
     view.snackBarError(text, action)
 
