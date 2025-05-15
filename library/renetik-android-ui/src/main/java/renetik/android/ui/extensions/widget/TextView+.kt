@@ -48,12 +48,16 @@ fun <T : TextView> T.clearText() = text("")
 fun <T : TextView> T.textToVertical() = text("$text".vertical())
 
 fun <T : TextView> T.goneIfBlank() = gone(text.isNullOrBlank())
+
+//LinkifyCompat works just after text is set
+//autoLinkMask works but maybe not well on api < 28
 fun <T : TextView> T.autoLinkAll() = apply {
-    onTextChange { //LinkifyCompat works just after text is set
-        LinkifyCompat.addLinks(this, WEB_URLS or PHONE_NUMBERS or EMAIL_ADDRESSES)
-    }
-//    works but maybe not well on api < 28
-//    autoLinkMask = WEB_URLS or PHONE_NUMBERS or EMAIL_ADDRESSES
+    onTextChange { LinkifyCompat.addLinks(this, WEB_URLS or PHONE_NUMBERS or EMAIL_ADDRESSES) }
+    movementMethod = LinkMovementMethod.getInstance()
+}
+
+fun <T : TextView> T.autoLinkMail() = apply {
+    onTextChange { LinkifyCompat.addLinks(this, EMAIL_ADDRESSES) }
     movementMethod = LinkMovementMethod.getInstance()
 }
 
