@@ -14,7 +14,6 @@ import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.obtain
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE
@@ -56,8 +55,10 @@ import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.start
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.launch
-import renetik.android.ui.view.CSHasTouchEvent
 import renetik.android.ui.view.adapter.CSClickAdapter
+
+suspend fun <T : View, V> T.use( function:suspend (T) -> V): V =
+    function(this).also { removeFromSuperview() }
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 
