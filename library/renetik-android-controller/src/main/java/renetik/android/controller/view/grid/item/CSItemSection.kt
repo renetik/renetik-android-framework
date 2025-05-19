@@ -14,6 +14,8 @@ data class CSItemSection<Item>(
     val isCollapsedDefault: Boolean = false
 ) {
     val isCollapsed = store.property(id, isCollapsedDefault)
+    var header: String? = null
+    fun header(title: String) = apply { header = title }
 
     constructor(
         title: String, description: String = "", items: List<Item>

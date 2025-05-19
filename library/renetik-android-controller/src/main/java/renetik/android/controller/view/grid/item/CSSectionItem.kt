@@ -6,6 +6,7 @@ data class CSSectionItem<Section, Item>(
     val item: Item? = null
 ) {
     companion object {
+        const val SectionHeaderViewId = -1
         const val HeaderViewId = 0
         const val ItemViewId = 1
         const val EmptyViewId = 2

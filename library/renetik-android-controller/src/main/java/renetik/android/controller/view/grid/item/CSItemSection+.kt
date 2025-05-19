@@ -4,6 +4,7 @@ import renetik.android.controller.view.grid.GridViewOut
 import renetik.android.controller.view.grid.item.CSSectionItem.Companion.EmptyViewId
 import renetik.android.controller.view.grid.item.CSSectionItem.Companion.HeaderViewId
 import renetik.android.controller.view.grid.item.CSSectionItem.Companion.ItemViewId
+import renetik.android.controller.view.grid.item.CSSectionItem.Companion.SectionHeaderViewId
 import renetik.android.core.lang.value.isFalse
 
 fun <Item> GridViewOut<CSSectionItem<CSItemSection<Item>, Item>>.reload(
@@ -19,8 +20,10 @@ fun <Item> MutableList<Pair<CSSectionItem<CSItemSection<Item>, Item>, Int>>.load
     section: CSItemSection<Item>, index: Int,
     filter: ((items: List<Item>) -> List<Item>)? = null
 ) {
-    this += CSSectionItem<CSItemSection<Item>, Item>(
-        section, index) to HeaderViewId
+    section.header?.also {
+        this += CSSectionItem<CSItemSection<Item>, Item>(section, index) to SectionHeaderViewId
+    }
+    this += CSSectionItem<CSItemSection<Item>, Item>(section, index) to HeaderViewId
     if (section.isCollapsed.isFalse) {
         if (section.items.isEmpty())
             this += CSSectionItem<CSItemSection<Item>, Item>(
