@@ -30,8 +30,8 @@ data class CSItemSection<Item>(
 
         inline fun <reified Item> dialogSection(
             store: CSStore, id: String, title: String,
-            items: List<Item>, isCollapsedDefault: Boolean = false
-        ) = CSItemSection(id, title, "", items, store, isCollapsedDefault)
+            items: List<Item>, isDefaultCollapsed: Boolean = false
+        ) = CSItemSection(id, title, "", items, store, isDefaultCollapsed)
 
         fun <Item> dialogSection(
             title: String, vararg items: Item

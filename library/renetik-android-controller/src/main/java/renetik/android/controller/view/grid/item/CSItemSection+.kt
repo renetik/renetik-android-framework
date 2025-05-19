@@ -8,7 +8,8 @@ import renetik.android.core.lang.value.isFalse
 
 fun <Item> GridViewOut<CSSectionItem<CSItemSection<Item>, Item>>.reload(
     sections: List<CSItemSection<Item>>,
-    filter: ((items: List<Item>) -> List<Item>)? = null) {
+    filter: ((items: List<Item>) -> List<Item>)? = null
+) {
     val items = mutableListOf<Pair<CSSectionItem<CSItemSection<Item>, Item>, Int>>()
     sections.forEachIndexed { index, section -> items.load(section, index, filter) }
     reload(items)
@@ -16,7 +17,8 @@ fun <Item> GridViewOut<CSSectionItem<CSItemSection<Item>, Item>>.reload(
 
 fun <Item> MutableList<Pair<CSSectionItem<CSItemSection<Item>, Item>, Int>>.load(
     section: CSItemSection<Item>, index: Int,
-    filter: ((items: List<Item>) -> List<Item>)? = null) {
+    filter: ((items: List<Item>) -> List<Item>)? = null
+) {
     this += CSSectionItem<CSItemSection<Item>, Item>(
         section, index) to HeaderViewId
     if (section.isCollapsed.isFalse) {
