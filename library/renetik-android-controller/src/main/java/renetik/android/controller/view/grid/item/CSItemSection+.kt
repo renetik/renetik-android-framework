@@ -1,10 +1,10 @@
 package renetik.android.controller.view.grid.item
 
 import renetik.android.controller.view.grid.GridViewOut
-import renetik.android.controller.view.grid.item.CSSectionItem.Companion.EmptyViewId
-import renetik.android.controller.view.grid.item.CSSectionItem.Companion.HeaderViewId
+import renetik.android.controller.view.grid.item.CSSectionItem.Companion.ItemSectionEmptyViewId
+import renetik.android.controller.view.grid.item.CSSectionItem.Companion.ItemSectionViewId
 import renetik.android.controller.view.grid.item.CSSectionItem.Companion.ItemViewId
-import renetik.android.controller.view.grid.item.CSSectionItem.Companion.SectionHeaderViewId
+import renetik.android.controller.view.grid.item.CSSectionItem.Companion.ItemSectionHeaderViewId
 import renetik.android.core.lang.value.isFalse
 
 fun <Item> GridViewOut<CSSectionItem<CSItemSection<Item>, Item>>.reload(
@@ -21,13 +21,13 @@ fun <Item> MutableList<Pair<CSSectionItem<CSItemSection<Item>, Item>, Int>>.load
     filter: ((items: List<Item>) -> List<Item>)? = null
 ) {
     section.header?.also {
-        this += CSSectionItem<CSItemSection<Item>, Item>(section, index) to SectionHeaderViewId
+        this += CSSectionItem<CSItemSection<Item>, Item>(section, index) to ItemSectionHeaderViewId
     }
-    this += CSSectionItem<CSItemSection<Item>, Item>(section, index) to HeaderViewId
+    this += CSSectionItem<CSItemSection<Item>, Item>(section, index) to ItemSectionViewId
     if (section.isCollapsed.isFalse) {
         if (section.items.isEmpty())
             this += CSSectionItem<CSItemSection<Item>, Item>(
-                section, index) to EmptyViewId
+                section, index) to ItemSectionEmptyViewId
         else (filter?.invoke(section.items)
             ?: section.items).forEachIndexed { itemIndex, item ->
             this += CSSectionItem(section, itemIndex, item) to ItemViewId
