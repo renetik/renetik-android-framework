@@ -13,6 +13,7 @@ import renetik.android.event.registration.launch
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import renetik.android.ui.extensions.view.alphaToDisabled
+import renetik.android.ui.extensions.view.clearLongClick
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onLongClick
 
@@ -41,6 +42,9 @@ fun <T : CSView<*>> T.onClick(function: (view: T) -> Unit): T =
 
 fun <T : CSView<*>> T.onLongClick(function: (view: T) -> Unit): T =
     apply { contentView.onLongClick { function(this) } }
+
+fun <T : CSView<*>> T.clearLongClick() =
+    apply { contentView.clearLongClick() }
 
 fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: Boolean = true) {
     if (disable) disabledIf(condition)
