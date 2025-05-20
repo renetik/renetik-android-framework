@@ -33,7 +33,7 @@ open class CSActivityView<ViewType : View>
     final override val eventPause by lazy { event<Unit>() }
     final override val eventBack by lazy { event<CSVariable<Boolean>>() }
     final override fun activity(): CSActivity<*> = activity!!
-    var isResumed = false
+    var isResume = false
     private var isResumeFirstTime = false
 
     private var parentActivityView: CSActivityView<*>? = null
@@ -76,8 +76,8 @@ open class CSActivityView<ViewType : View>
     }
 
     open fun onResume() {
-        if (isResumed) return
-        isResumed = true
+        if (isResume) return
+        isResume = true
         if (!isResumeFirstTime) {
             onResumeFirstTime()
             isResumeFirstTime = true
@@ -95,21 +95,21 @@ open class CSActivityView<ViewType : View>
             logWarnTrace { "Not Resumed while paused, should be resumed first:$this" }
             return
         }
-        isResumed = false
+        isResume = false
         updateVisibility()
         eventPause.fire()
     }
 
     fun lifecycleUpdate() {
         parentActivityView?.let {
-            if (it.isResumed) {
+            if (it.isResume) {
                 if (isPaused) onResume()
-            } else if (isResumed) onPause()
+            } else if (isResume) onPause()
         }
     }
 
     fun lifecycleStop() {
-        if (isResumed) onPause()
+        if (isResume) onPause()
         destruct()
     }
 
@@ -139,7 +139,7 @@ open class CSActivityView<ViewType : View>
     }
 
     override fun onRemovedFromParentView() {
-        if (isResumed) onPause()
+        if (isResume) onPause()
         updateVisibility()
         super.onRemovedFromParentView()
     }
@@ -166,7 +166,7 @@ open class CSActivityView<ViewType : View>
     }
 
     override fun checkIfIsShowing(): Boolean {
-        if (!isResumed) return false
+        if (!isResume) return false
         if (overrideVisibility != null) return overrideVisibility!!
         if (!view.isVisible) return false
         if (showingInPager == false) return false
@@ -189,7 +189,7 @@ open class CSActivityView<ViewType : View>
             .mapNotNull { it.navigation }.firstOrNull()
 
     override fun onDestruct() {
-        if (isResumed) onPause()
+        if (isResume) onPause()
         if (isDestructed) unexpected("$className $this Already destroyed")
         super.onDestruct()
         parentActivityView = null

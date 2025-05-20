@@ -23,7 +23,7 @@ fun CSActivityView<*>.exitFullScreen() {
 fun CSActivityView<*>.onResume(listener: Func) = eventResume.listen { listener() }
 fun CSActivityView<*>.onPause(listener: Func) = eventPause.listen { listener() }
 
-val CSActivityView<*>.isPaused get() = !isResumed
+val CSActivityView<*>.isPaused get() = !isResume
 
 fun <T : View> CSActivityView<*>.activityView(
     @IdRes viewId: Int, init: (CSActivityView<T>).() -> Unit
