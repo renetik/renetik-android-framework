@@ -4,7 +4,6 @@ import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.navigation.CSNavigationAnimation.FadeIn
 import renetik.android.controller.navigation.CSNavigationAnimation.None
 import renetik.android.controller.navigation.CSNavigationAnimation.SlideOutLeft
 import renetik.android.core.kotlin.collections.deleteLast
@@ -40,12 +39,11 @@ class CSNavigationView(
 
     fun <T : View> push(
         controller: CSActivityView<T>,
-        pushId: String? = null
     ): CSActivityView<T> {
 //        logDebug { message(controller) }
         val isFullScreen = (controller as? CSNavigationItemView)?.isFullScreen ?: true
         current?.showingInPager(!isFullScreen)
-        controllersMap[pushId ?: controller.toString()] = controller
+        controllersMap[controller.toString()] = controller
         pushAnimation(controller)
         view.add(controller)
         controller.showingInPager(true)
