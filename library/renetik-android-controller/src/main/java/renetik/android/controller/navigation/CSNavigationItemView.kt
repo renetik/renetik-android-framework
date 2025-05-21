@@ -24,10 +24,10 @@ import renetik.android.core.kotlin.primitives.dpf
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
-import renetik.android.event.fire
+import renetik.android.event.invoke
 import renetik.android.event.listen
+import renetik.android.event.listenOnce
 import renetik.android.event.registration.plus
-import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
 import renetik.android.ui.extensions.onHasSize
@@ -102,10 +102,14 @@ open class CSNavigationItemView(
     }
 
     init {
-        registerListenOnce(navigationParent.eventDestruct) {
+        this + navigationParent.eventDestruct.listenOnce {
             if (isShowingInPager) close()
             if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
+//        registerListenOnce(navigationParent.eventDestruct) {
+//            if (isShowingInPager) close()
+//            if (!lifecycleStopOnRemoveFromParentView) destruct()
+//        }
     }
 
     override fun onViewReady() {
@@ -118,10 +122,8 @@ open class CSNavigationItemView(
         if (dismissOnTouchOut) view.onClick { onBackgroundClick() }
         else view.passClicksUnder(passClicksUnder)
         if (!isFullScreen && isBackgroundDimmed) {
-            val color = if (isPopup)
-                color.cs_dialog_popup_background
-            else
-                color.cs_dialog_background;
+            val color = if (isPopup) color.cs_dialog_popup_background
+            else color.cs_dialog_background
             view.background(colorRes(color))
         }
     }
@@ -130,7 +132,7 @@ open class CSNavigationItemView(
 
     fun dismiss() {
         if (isDestructed) return
-        eventDismiss.fire()
+        eventDismiss()
         close()
     }
 
@@ -140,7 +142,7 @@ open class CSNavigationItemView(
 
     override fun onRemovedFromParentView() {
         super.onRemovedFromParentView()
-        eventOnClose.fire()
+        eventOnClose()
     }
 
     val pushAnimation

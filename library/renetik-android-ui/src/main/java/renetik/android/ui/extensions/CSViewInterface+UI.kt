@@ -12,11 +12,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
+import renetik.android.event.listenOnce
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.plus
-import renetik.android.event.registration.registerListenOnce
 import renetik.android.ui.CSDisplayCutout
 import renetik.android.ui.extensions.view.checkBox
 import renetik.android.ui.extensions.view.compound
@@ -144,11 +144,16 @@ val CSViewInterface.displayCutout: CSDisplayCutout?
 val CSViewInterface.hasParentView: Boolean get() = view.parent != null
 
 fun CSViewInterface.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruct) {
-    registerListenOnce(parent.eventDestruct) {
+    this + parent.eventDestruct.listenOnce {
         val parentGroup = (view.parent as? ViewGroup)
         if (parentGroup !is AdapterView<*>) parentGroup?.removeView(view)
         destruct()
     }
+//    registerListenOnce(parent.eventDestruct) {
+//        val parentGroup = (view.parent as? ViewGroup)
+//        if (parentGroup !is AdapterView<*>) parentGroup?.removeView(view)
+//        destruct()
+//    }
 }
 
 val CSViewInterface.leftMarginInWindow: Int get() = view.rectangleInWindow.left
