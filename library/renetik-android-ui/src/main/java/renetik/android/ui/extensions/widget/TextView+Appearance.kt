@@ -77,15 +77,6 @@ inline fun <T> TextView.drawableStart(
     drawable(start = getDrawable(it)?.let(context::drawable))
 }
 
-fun <T : TextView> T.drawableEnd(@DrawableRes end: Int?) = apply {
-    setCompoundDrawables(
-        compoundDrawables.at(0),
-        compoundDrawables.at(1),
-        end?.let { context.drawable(it) },
-        compoundDrawables.at(3)
-    )
-}
-
 fun <T : TextView> T.drawable(
     start: Drawable? = null, top: Drawable? = null,
     end: Drawable? = null, bottom: Drawable? = null
@@ -107,6 +98,15 @@ fun <TextViewType : TextView, T> TextViewType.drawableStart(
 fun <TextViewType : TextView, T> TextViewType.drawableEnd(
     property: CSProperty<T>, function: (T) -> Int
 ): CSRegistration = property.action { drawable(end = function(it)) }
+
+fun <T : TextView> T.drawableEnd(@DrawableRes end: Int?) = apply {
+    setCompoundDrawables(
+        compoundDrawables.at(0),
+        compoundDrawables.at(1),
+        end?.let { context.drawable(it) },
+        compoundDrawables.at(3)
+    )
+}
 
 
 //@Deprecated("use drawable", ReplaceWith("drawable"))
