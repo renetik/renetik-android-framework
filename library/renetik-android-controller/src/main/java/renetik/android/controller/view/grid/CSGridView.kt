@@ -173,19 +173,19 @@ class CSGridView<
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
             holder.gridItemView.view.invisible()
-            holder.gridItemView.registrations.clear()
+            holder.gridItemView.loadRegistrations.clear()
         }
 
         // Added to recycler view holder storage
         override fun onViewRecycled(holder: AdapterViewHolder) {
             super.onViewRecycled(holder)
             holder.gridItemView.view.invisible()
-            holder.gridItemView.registrations.clear()
+            holder.gridItemView.loadRegistrations.clear()
         }
 
         override fun onFailedToRecycleView(holder: AdapterViewHolder): Boolean {
             holder.gridItemView.view.invisible()
-            holder.gridItemView.registrations.clear()
+            holder.gridItemView.loadRegistrations.clear()
             return false
         }
 
