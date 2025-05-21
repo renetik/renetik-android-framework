@@ -180,15 +180,6 @@ inline fun <T, V, K> TextView.text(
     )
 }
 
-fun <T : CSHasDrawable> TextView.drawableStart(property: CSHasChangeValue<T>) =
-    property.action { drawable(start = context.drawable(it.drawable)) }
-
-inline fun <T> TextView.drawableStart(
-    property: CSHasChangeValue<T>, crossinline getDrawable: (T) -> Int?
-) = property.action {
-    drawable(start = getDrawable(it)?.let(context::drawable))
-}
-
 fun <T : TextView> T.lines(max: Int) = apply { maxLines = max }
 
 fun TextView.hideEndDrawableOnSmallWidth() = apply {
