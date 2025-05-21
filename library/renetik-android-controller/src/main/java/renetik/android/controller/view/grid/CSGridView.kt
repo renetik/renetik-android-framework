@@ -19,7 +19,6 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.CSHasChangeValue.Companion.hasChangeValue
 import renetik.android.event.registration.plus
 import renetik.android.event.util.CSLater.later
@@ -166,22 +165,28 @@ class CSGridView<
             }
         }
 
-        override fun onViewRecycled(holder: AdapterViewHolder) {
-            super.onViewRecycled(holder)
-            if (!isDestructed) {
-                holder.gridItemView.view.invisible()
-                holder.gridItemView.registrations.clear()
-            }
+        override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
+            super.onViewDetachedFromWindow(holder)
+            if (!isDestructed) holder.gridItemView.view.visible()
         }
 
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
-            if (!isDestructed) holder.gridItemView.view.invisible()
+            holder.gridItemView.view.invisible()
+            holder.gridItemView.registrations.clear()
         }
 
-        override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
-            super.onViewDetachedFromWindow(holder)
-            if (!isDestructed) holder.gridItemView.view.visible()
+        // Added to recycler view holder storage
+        override fun onViewRecycled(holder: AdapterViewHolder) {
+            super.onViewRecycled(holder)
+            holder.gridItemView.view.invisible()
+            holder.gridItemView.registrations.clear()
+        }
+
+        override fun onFailedToRecycleView(holder: AdapterViewHolder): Boolean {
+            holder.gridItemView.view.invisible()
+            holder.gridItemView.registrations.clear()
+            return false
         }
 
         override fun getItemViewType(position: Int): Int = data[position].second
