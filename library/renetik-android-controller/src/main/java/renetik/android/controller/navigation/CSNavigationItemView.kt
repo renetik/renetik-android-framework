@@ -166,7 +166,7 @@ open class CSNavigationItemView(
         isFullScreen = false
         animation = Fade
         viewContent.updateLayoutParams<LayoutParams> { gravity = START or TOP }
-        onHasSize {
+        this + onHasSize {
             when (side) {
                 Bottom -> positionDialogContentFromViewBottom(button)
                 Right -> positionDialogContentFromViewRight(button)
