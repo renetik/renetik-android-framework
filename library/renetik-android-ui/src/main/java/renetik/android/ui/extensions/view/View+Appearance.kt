@@ -2,6 +2,7 @@ package renetik.android.ui.extensions.view
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.FrameLayout
@@ -18,6 +19,10 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 import renetik.android.event.registration.action
 import renetik.android.ui.R
 import renetik.android.ui.extensions.widget.layoutMatch
+
+fun <T : View> T.background(value: Drawable) = apply {
+    background = value
+}
 
 fun <T : View> T.background(@DrawableRes value: Int) = apply {
     setBackgroundResource(value)
@@ -122,7 +127,8 @@ fun View.disabledByAlphaIf(
 ): CSRegistration = disabledByAlphaIf(property, disable) { it }
 
 fun FrameLayout.disabledByOverlayIf(
-    property: CSHasChangeValue<Boolean>): CSRegistration {
+    property: CSHasChangeValue<Boolean>
+): CSRegistration {
     val overlay = View(context).apply {
         backgroundColorAttr(android.R.attr.windowBackground)
         alpha = 0.5f
