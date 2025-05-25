@@ -11,6 +11,7 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.onValue
+import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSVisibility
 
 fun <T : View> T.updateVisibility() {
@@ -214,7 +215,7 @@ fun View.invisibleIf(
     property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = invisibleIf(property, animated) { it }
 
-fun View.isShowing(): Boolean {
+fun View.isVisibleInParentRecursively(): Boolean {
     if (!isVisible) return false
     var view: View = this
     while (true) {
@@ -223,8 +224,8 @@ fun View.isShowing(): Boolean {
             parent == null -> return false
             parent !is View -> return true
             parent::class.java.name == "androidx.appcompat.widget.ContentFrameLayout" -> return true
-            !parent.isVisible -> return false
             (parent.tag as? CSVisibility)?.isVisible?.isTrue == true -> return true
+            !parent.isVisible -> return false
             else -> view = parent
         }
     }

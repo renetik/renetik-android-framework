@@ -23,8 +23,8 @@ import renetik.android.event.listenOnce
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
-import renetik.android.ui.extensions.view.isShowing
 import renetik.android.ui.extensions.view.isVisible
+import renetik.android.ui.extensions.view.isVisibleInParentRecursively
 import renetik.android.ui.protocol.CSVisibility
 
 open class CSActivityView<ViewType : View>
@@ -173,16 +173,13 @@ open class CSActivityView<ViewType : View>
         if (isShowingInPager && parentActivityView?.isVisible.isTrue) return true
         if (isShowingInPager && navigation?.last == this) return true
         if (parentActivityView?.isVisible?.isTrue == false) return false
-        return view.isShowing()
+        return view.isVisibleInParentRecursively()
     }
 
     val isShowingInPager get() = showingInPager == true
 
     open var navigation: CSNavigationView? by lazyNullableVar {
-        findNavigation()?.also {
-            this + it.eventDestruct.listenOnce { navigation = null }
-//            registerListenOnce(it.eventDestruct) { navigation = null }
-        }
+        findNavigation()?.also { this + it.eventDestruct.listenOnce { navigation = null } }
     }
 
     private fun findNavigation(): CSNavigationView? =
