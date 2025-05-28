@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
+import androidx.core.view.isNotEmpty
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.protocol.CSHasParentView
 
@@ -22,7 +23,7 @@ inline fun <R : Comparable<R>> ViewGroup.sortChildren(
 }
 
 val ViewGroup.lastIndex: Int get() = childCount - 1
-val ViewGroup.firstChild get() = if (childCount > 0) getChildAt(0) else null
+val ViewGroup.firstChild get() = if (isNotEmpty()) getChildAt(0) else null
 val ViewGroup.lastChild get() = if (lastIndex >= 0) getChildAt(lastIndex) else null
 
 fun <ViewType : View> ViewGroup.add(
