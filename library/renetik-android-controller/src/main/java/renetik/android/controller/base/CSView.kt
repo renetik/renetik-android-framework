@@ -12,7 +12,6 @@ import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.CSVariable.Companion.variable
-import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
