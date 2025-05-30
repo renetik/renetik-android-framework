@@ -12,7 +12,7 @@ import renetik.android.event.registration.plus
 import renetik.android.preset.Preset
 import renetik.android.preset.extensions.action
 import renetik.android.ui.extensions.add
-import renetik.android.ui.extensions.remove
+import renetik.android.ui.extensions.minusAssign
 import renetik.android.ui.protocol.CSViewInterface
 
 fun <ItemView : CSViewInterface> CSHasChangeValue<Int>.updates(
@@ -31,7 +31,7 @@ fun <ItemView : CSViewInterface> CSHasChangeValue<Int>.updates(
         },
         onRemove = { index ->
             val itemView: ItemView = items.removeAt(index)
-            if (!itemView.isDestructed) layout.remove(itemView)
+            if (!itemView.isDestructed) layout -= itemView
         })
 }
 
@@ -40,14 +40,14 @@ fun <View : CSView<*>, Model> MutableList<View>.viewFactory(
     content: ViewGroup, layoutParams: ViewGroup.LayoutParams? = null,
     fromStart: Boolean = false, create: (Model) -> View
 ) = apply {
-    fun createItemView(model: Model) {
+    fun createView(model: Model) {
         this += create(model).also { view ->
             val addIndex = if (fromStart) 0 else -1
             layoutParams?.let { content.add(view = view, params = it, addIndex) }
                 ?: content.add(view = view, addIndex)
-            view.onDestructed { this -= view; content.remove(view) }
+            view.onDestructed { this -= view; content -= view }
         }
     }
-    list.forEach(::createItemView)
-    parent + eventAdded.listen(::createItemView)
+    list.forEach(::createView)
+    parent + eventAdded.listen(::createView)
 }
