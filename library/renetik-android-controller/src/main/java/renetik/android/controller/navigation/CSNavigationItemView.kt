@@ -20,7 +20,6 @@ import renetik.android.controller.navigation.CSNavigationItemPopupSide.Left
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Right
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
 import renetik.android.core.common.CSColor.Companion.colorRes
-import renetik.android.core.kotlin.primitives.dpf
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
@@ -47,6 +46,8 @@ import renetik.android.ui.extensions.widget.layoutMatch
 
 open class CSNavigationItemView(
     val navigationParent: CSActivityView<out ViewGroup>,
+    private val horizontalPadding: Float,
+    private val verticalPadding: Float,
     @LayoutRes private val viewLayout: Int,
     @LayoutRes private val frameLayout: Int? = null,
     @LayoutRes private val fullScreenFrameLayout: Int? = null,
@@ -56,14 +57,17 @@ open class CSNavigationItemView(
 
     constructor(
         parent: CSActivityView<out ViewGroup>,
-        @LayoutRes viewLayout: Int,
-        @LayoutRes frameLayout: Int? = null
-    ) : this(parent, viewLayout, frameLayout, null)
+        contentWidthMarginDp: Float, contentHeightMarginDp: Float,
+        @LayoutRes viewLayout: Int, @LayoutRes frameLayout: Int? = null
+    ) : this(parent, contentWidthMarginDp, contentHeightMarginDp,
+        viewLayout, frameLayout, null)
 
     constructor(
         parent: CSActivityView<out ViewGroup>,
+        contentWidthMarginDp: Float, contentHeightMarginDp: Float,
         @LayoutRes viewLayout: Int,
-    ) : this(parent, viewLayout, null, null)
+    ) : this(parent, contentWidthMarginDp, contentHeightMarginDp,
+        viewLayout, null, null)
 
     val viewContent: View by lazy {
         val frameLayout = if (isFullScreen)
@@ -84,7 +88,6 @@ open class CSNavigationItemView(
     open fun onViewControllerPop(navigation: CSNavigationView) = Unit
 
     var animation = Fade
-    private val contentMarginDp = 15
 
     private val eventDismiss = event()
     fun onDismiss(function: () -> Unit) = eventDismiss.listen(function)
@@ -182,24 +185,25 @@ open class CSNavigationItemView(
         val fromViewLocation = fromView.locationInWindow
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
         var desiredX = fromViewTopCenterX.toFloat() - (viewContent.width / 2)
-        if (desiredX + viewContent.width > width - contentMarginDp.dpf) desiredX -= (desiredX + viewContent.width) - (width - contentMarginDp.dpf)
-        if (desiredX < contentMarginDp.dpf) desiredX = contentMarginDp.dpf
+        if (desiredX + viewContent.width > width - horizontalPadding)
+            desiredX -= (desiredX + viewContent.width) - (width - horizontalPadding)
+        if (desiredX < horizontalPadding) desiredX = horizontalPadding
         viewContent.x = desiredX
         viewContent.y = fromViewLocation.y.toFloat() + fromView.height
     }
 
-    val screenAvailableHeight get() = height - contentMarginDp.dpf * 2
-    val screenAvailableWidth get() = width - contentMarginDp.dpf * 2
+    val screenAvailableHeight get() = height - verticalPadding * 2
+    val screenAvailableWidth get() = width - horizontalPadding * 2
 
     private fun positionDialogContentFromViewTop(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
         val fromViewTopCenterX = fromViewLocation.x + (fromView.width / 2)
         var desiredX = fromViewTopCenterX.toFloat() - (viewContent.width / 2)
         if (desiredX + viewContent.width > screenAvailableWidth) desiredX -= (desiredX + viewContent.width) - screenAvailableWidth
-        if (desiredX < contentMarginDp.dpf) desiredX = contentMarginDp.dpf
+        if (desiredX < horizontalPadding) desiredX = horizontalPadding
         viewContent.x = desiredX
         viewContent.y =
-            fromViewLocation.y.toFloat() - viewContent.height - contentMarginDp.dpf
+            fromViewLocation.y.toFloat() - viewContent.height - verticalPadding
     }
 
     private fun correctContentOverflow() {
@@ -213,8 +217,9 @@ open class CSNavigationItemView(
         val fromViewLocation = fromView.locationInWindow
         val fromViewLeftCenterY = fromViewLocation.y + (fromView.height / 2)
         var desiredY = fromViewLeftCenterY.toFloat() - (viewContent.height / 2)
-        if (desiredY + viewContent.height > screenAvailableHeight) desiredY -= (desiredY + viewContent.height) - screenAvailableHeight
-        if (desiredY < contentMarginDp.dpf) desiredY = contentMarginDp.dpf
+        if (desiredY + viewContent.height > screenAvailableHeight)
+            desiredY -= (desiredY + viewContent.height) - screenAvailableHeight
+        if (desiredY < verticalPadding) desiredY = verticalPadding
         viewContent.x = fromViewLocation.x.toFloat() + fromView.width
         viewContent.y = desiredY
     }
@@ -222,7 +227,7 @@ open class CSNavigationItemView(
     private fun positionDialogContentFromViewLeft(fromView: View) {
         val fromViewLocation = fromView.locationInWindow
         viewContent.x = fromViewLocation.x.toFloat() - viewContent.width
-        viewContent.y = fromViewLocation.y.toFloat() - contentMarginDp.dpf
+        viewContent.y = fromViewLocation.y.toFloat() - verticalPadding
     }
 
     fun wrapContentIfNotFullscreen() {
