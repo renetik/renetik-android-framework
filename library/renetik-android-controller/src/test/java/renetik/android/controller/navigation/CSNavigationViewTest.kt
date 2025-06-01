@@ -25,8 +25,8 @@ class CSNavigationViewTest {
         override fun createView() = ActivityView(this)
     }
 
-    class ActivityView(activity: CSActivity<CSActivityView<FrameLayout>>)
-        : CSActivityView<FrameLayout>(activity, layout(cs_frame_match)) {
+    class ActivityView(activity: CSActivity<CSActivityView<FrameLayout>>) :
+        CSActivityView<FrameLayout>(activity, layout(cs_frame_match)) {
         override var navigation: CSNavigationView? = CSNavigationView(this)
     }
 
@@ -40,7 +40,7 @@ class CSNavigationViewTest {
     @Test
     fun test1() {
         assertTrue(navigation.isResume)
-        val itemView = CSNavigationItemView(navigation, cs_frame_match).show()
+        val itemView = CSNavigationItemView(navigation, viewLayout = cs_frame_match).show()
 
         activityController.pause()
         assertTrue(navigation.isPaused)
@@ -53,9 +53,9 @@ class CSNavigationViewTest {
     @Test
     fun test2() {
         assertTrue(navigation.isResume)
-        val itemView1 = CSNavigationItemView(navigation, cs_frame_match)
+        val itemView1 = CSNavigationItemView(navigation, viewLayout = cs_frame_match)
             .fullScreen().push()
-        val itemView2 = CSNavigationItemView(navigation, cs_frame_match)
+        val itemView2 = CSNavigationItemView(navigation, viewLayout = cs_frame_match)
             .fullScreen().push()
         assertTrue(!itemView1.isVisible.isTrue)
         assertTrue(itemView2.isVisible.isTrue)
@@ -64,11 +64,11 @@ class CSNavigationViewTest {
     @Test
     fun test3() {
         assertTrue(navigation.isResume)
-        val itemView1 = CSNavigationItemView(navigation, cs_frame_match)
+        val itemView1 = CSNavigationItemView(navigation, viewLayout = cs_frame_match)
             .fullScreen().push()
-        val itemView2 = CSNavigationItemView(itemView1, cs_frame_match)
+        val itemView2 = CSNavigationItemView(itemView1, viewLayout = cs_frame_match)
             .fullScreen().push()
-        val itemView3 = CSNavigationItemView(itemView2, cs_frame_match)
+        val itemView3 = CSNavigationItemView(itemView2, viewLayout = cs_frame_match)
             .fullScreen().push()
         assertTrue(!itemView1.isVisible.isTrue)
         assertTrue(!itemView2.isVisible.isTrue)

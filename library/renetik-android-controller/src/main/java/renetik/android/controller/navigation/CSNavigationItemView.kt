@@ -46,8 +46,8 @@ import renetik.android.ui.extensions.widget.layoutMatch
 
 open class CSNavigationItemView(
     val navigationParent: CSActivityView<out ViewGroup>,
-    private val horizontalPadding: Float,
-    private val verticalPadding: Float,
+    private val horizontalPadding: Float = 0f,
+    private val verticalPadding: Float = 0f,
     @LayoutRes private val viewLayout: Int,
     @LayoutRes private val frameLayout: Int? = null,
     @LayoutRes private val fullScreenFrameLayout: Int? = null,
@@ -109,10 +109,6 @@ open class CSNavigationItemView(
             if (isShowingInPager) close()
             if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
-//        registerListenOnce(navigationParent.eventDestruct) {
-//            if (isShowingInPager) close()
-//            if (!lifecycleStopOnRemoveFromParentView) destruct()
-//        }
     }
 
     override fun onViewReady() {
