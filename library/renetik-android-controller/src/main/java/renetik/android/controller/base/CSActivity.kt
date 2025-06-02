@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -51,8 +50,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
 
     abstract fun createView(): ActivityView
 
-    override fun onCreate(state: Bundle?) {
-        super.onCreate(state)
+    fun createViewAndLoadConfiguration() {
         activityView = createView()
         setContentView(activityView!!.view)
         configuration.setTo(resources.configuration)
