@@ -1,5 +1,6 @@
 package renetik.android.controller.navigation
 
+import android.os.Bundle
 import android.widget.FrameLayout
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -23,6 +24,10 @@ class CSNavigationViewTest {
 
     private class Activity : CSActivity<CSActivityView<FrameLayout>>() {
         override fun createView() = ActivityView(this)
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            createViewAndLoadConfiguration()
+        }
     }
 
     class ActivityView(activity: CSActivity<CSActivityView<FrameLayout>>) :
