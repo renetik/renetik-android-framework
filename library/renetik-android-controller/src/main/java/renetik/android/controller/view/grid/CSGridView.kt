@@ -167,30 +167,36 @@ class CSGridView<
 
         override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
-            if (!isDestructed) holder.gridItemView.view.visible()
+            holder.gridItemView.apply { if (!isDestructed) view.visible() }
         }
 
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
-            if (!isDestructed) {
-                holder.gridItemView.view.invisible()
-                holder.gridItemView.loadRegistrations.clear()
+            holder.gridItemView.apply {
+                if (!isDestructed) {
+                    view.invisible()
+                    loadRegistrations.clear()
+                }
             }
         }
 
         // Added to recycler view holder storage
         override fun onViewRecycled(holder: AdapterViewHolder) {
             super.onViewRecycled(holder)
-            if (!isDestructed) {
-                holder.gridItemView.view.invisible()
-                holder.gridItemView.loadRegistrations.clear()
+            holder.gridItemView.apply {
+                if (!isDestructed) {
+                    view.invisible()
+                    loadRegistrations.clear()
+                }
             }
         }
 
         override fun onFailedToRecycleView(holder: AdapterViewHolder): Boolean {
-            if (!isDestructed) {
-                holder.gridItemView.view.invisible()
-                holder.gridItemView.loadRegistrations.clear()
+            holder.gridItemView.apply {
+                if (!isDestructed) {
+                    view.invisible()
+                    loadRegistrations.clear()
+                }
             }
             return false
         }
