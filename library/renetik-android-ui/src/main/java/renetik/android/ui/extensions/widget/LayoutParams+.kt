@@ -44,6 +44,8 @@ fun layoutWrapHeight(height: Int, gravity: Int? = null) =
 fun layoutMatchHeight(height: Int, gravity: Int? = null) =
     LayoutParams(MATCH_PARENT, height, gravity ?: NO_GRAVITY)
 
-fun layoutMatchHeight(height: Int) = LayoutParams(MATCH_PARENT, height)
-fun layoutWidthMatch(width: Int) = LayoutParams(width, MATCH_PARENT)
 fun layoutWidthHeight(width: Int, height: Int) = LayoutParams(width, height)
+fun layoutWidthMatch(width: Int) = LayoutParams(width, MATCH_PARENT)
+fun layoutWidthFill(width: Int) = LinearLayout.LayoutParams(width, 0, 1f)
+fun layoutMatchHeight(height: Int) = LayoutParams(MATCH_PARENT, height)
+fun layoutFillHeight(height: Int) = LinearLayout.LayoutParams(0, height, 1f)
