@@ -57,7 +57,7 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.launch
 import renetik.android.ui.view.adapter.CSClickAdapter
 
-suspend fun <T : View, V> T.use( function:suspend (T) -> V): V =
+suspend fun <T : View, V> T.use(function: suspend (T) -> V): V =
     function(this).also { removeFromSuperview() }
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
@@ -67,6 +67,8 @@ inline fun <reified Type : View>
         View.view(@IdRes id: Int): Type = findView(id)!!
 
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
+fun View.view(@IdRes id: Int, onClick: ((view: View) -> Unit)): View =
+    view(id).apply { onClick { onClick(this) } }
 
 fun View.editText(@IdRes id: Int) = findView<EditText>(id)!!
 fun View.textView(@IdRes id: Int) = findView<TextView>(id)!!
