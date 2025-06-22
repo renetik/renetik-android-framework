@@ -40,6 +40,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     override val isVisible = property(true)
 
     var activityView: ActivityView? = null
+        private set
     val configuration = Configuration()
 
     //CSViewInterface
@@ -68,7 +69,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     fun destroyActivityView() {
         isRecreateView = true
         clearContentView()
-        activityView!!.destruct()
+        activityView?.destruct()
         configuration.setTo(resources.configuration)
         activityView = null
         logInfo()
