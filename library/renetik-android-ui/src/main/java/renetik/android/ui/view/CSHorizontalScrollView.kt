@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.HorizontalScrollView
+import renetik.android.core.logging.CSLog.logWarn
 
 open class CSHorizontalScrollView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
@@ -20,8 +21,11 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(ev: MotionEvent): Boolean {
-        return isScrollEnabled && super.onTouchEvent(ev)
+    override fun onTouchEvent(ev: MotionEvent): Boolean = try {
+        isScrollEnabled && super.onTouchEvent(ev)
+    } catch (e: IllegalArgumentException) {
+        if (e.isFrameworkBug()) logWarn(e) else throw e
+        false
     }
 
     var isInterceptTouch = true
@@ -32,7 +36,15 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
             isInterceptedTouch = false
             return false
         }
-        isInterceptedTouch = super.onInterceptTouchEvent(ev)
+        try {
+            isInterceptedTouch = super.onInterceptTouchEvent(ev)
+        } catch (e: IllegalArgumentException) {
+            if (e.isFrameworkBug()) logWarn(e) else throw e
+        }
         return isInterceptedTouch
     }
+
+    private fun IllegalArgumentException.isFrameworkBug() =
+        message == "pointerIndex out of range"
+                || message?.startsWith("invalid pointerIndex") == true
 }
