@@ -1,6 +1,5 @@
 package renetik.android.controller.base
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -99,17 +98,18 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
 
     final override val registrations by lazy { CSRegistrationsMap(this) }
     final override val eventDestruct = event<Unit>()
-    override val isDestructed: Boolean get() = isDestroyed
+    override val isDestructed: Boolean get() = registrations.isCanceled
     override fun onDestruct() {
-        super.onDestroy()
         registrations.cancel()
         eventDestruct.fire().clear()
         activityView = null
         logInfo()
     }
 
-    @SuppressLint("MissingSuperCall")
-    public override fun onDestroy() = destruct()
+    public override fun onDestroy() {
+        super.onDestroy()
+        if (!isDestructed) destruct()
+    }
 
     @Deprecated("Deprecated in Java")
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
