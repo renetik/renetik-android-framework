@@ -11,9 +11,9 @@ interface CSBorderedGridItem {
     val bottomBorder: View
 
     fun updateBorders(grid: GridViewOut<*>, index: Int,
-        isBottomBorder: Boolean = false,isLastRightBorder: Boolean = false) =
+        isBottomBorder: Boolean = false, isLastRightBorder: Boolean = false) =
         updateBorders(grid.dataCount, grid.columnCount, index,
-            isBottomBorder,isLastRightBorder)
+            isBottomBorder, isLastRightBorder)
 
     fun updateBorders(grid: GridViewOut<*>,
         item: CSSectionItem<out CSItemSection<*>, *>,
@@ -44,12 +44,12 @@ interface CSBorderedGridItem {
 
         // Set right border visibility
         rightBorder.visible(!(isLastInColumn ||
-                isPerfectGridLastItem ||
-                (isLast && !isLastRightBorder)))
+                isPerfectGridLastItem || (isLast && !isLastRightBorder)))
 
         // Set bottom border visibility based on conditions
         val hasNextItemBelow = index + columns < count
-        bottomBorder.visible((isBottomBorder && !isInLastRow) || hasNextItemBelow)
+        bottomBorder.visible(isBottomBorder || hasNextItemBelow)
+//        bottomBorder.visible((isBottomBorder && !isInLastRow) || hasNextItemBelow)
 //        bottomBorder.visible(isBottomBorder || (!isInLastRow && hasNextItemBelow))
     }
 }
