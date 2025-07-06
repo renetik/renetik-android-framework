@@ -48,8 +48,8 @@ interface CSBorderedGridItem {
 
         // Set bottom border visibility based on conditions
         val hasNextItemBelow = index + columns < count
-        bottomBorder.visible(isBottomBorder || hasNextItemBelow)
-//        bottomBorder.visible((isBottomBorder && !isInLastRow) || hasNextItemBelow)
+//        bottomBorder.visible(isBottomBorder || hasNextItemBelow)
+        bottomBorder.visible((isBottomBorder && !isInLastRow) || hasNextItemBelow)
 //        bottomBorder.visible(isBottomBorder || (!isInLastRow && hasNextItemBelow))
     }
 }
