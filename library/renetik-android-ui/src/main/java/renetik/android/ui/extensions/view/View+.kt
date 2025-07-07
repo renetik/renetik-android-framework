@@ -121,10 +121,10 @@ fun <T : View> T.clearClick(andClickable: Boolean = false) = apply {
     isClickable = false
 }
 
-fun <T : View> T.onLongClick(onClick: (view: T) -> Unit) = apply {
+fun <T : View> T.onLongClick(consume: Boolean = true, onClick: (view: T) -> Unit) = apply {
     longClickable(true)
     setOnLongClickListener {
-        isLongClickable.ifTrue { onClick(this); true } ?: false
+        isLongClickable.ifTrue { post { onClick(this) }; consume } ?: false
     }
 }
 
