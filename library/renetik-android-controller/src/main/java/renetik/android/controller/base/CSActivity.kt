@@ -128,8 +128,8 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        configuration.setTo(newConfig)
         logInfo(newConfig)
+        configuration.setTo(newConfig)
     }
 
     override fun onRequestPermissionsResult(
