@@ -45,6 +45,5 @@ open class CSHorizontalScrollView @JvmOverloads constructor(
     }
 
     private fun IllegalArgumentException.isFrameworkBug() =
-        message == "pointerIndex out of range"
-                || message?.startsWith("invalid pointerIndex") == true
+        this.message?.contains("pointerIndex", ignoreCase = true) == true
 }
