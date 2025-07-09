@@ -10,10 +10,11 @@ import renetik.android.core.kotlin.collections.reload
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.view.show
+import renetik.android.ui.view.CSViewPager
 
 class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     CSActivityView<CSViewPager>(parent, pagerId)
-    where PageType : CSActivityView<*>, PageType : CSPagerPage {
+        where PageType : CSActivityView<*>, PageType : CSPagerPage {
 
     val eventOnPageChange = event<PageType>()
     fun onPageChange(function: (PageType) -> Unit) = eventOnPageChange.listen(function)
@@ -28,7 +29,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     private var emptyView: View? = null
 
     constructor(parent: CSActivityView<*>, pagerId: Int, pages: List<PageType>)
-        : this(parent, pagerId) {
+            : this(parent, pagerId) {
         controllers.putAll(pages)
     }
 
