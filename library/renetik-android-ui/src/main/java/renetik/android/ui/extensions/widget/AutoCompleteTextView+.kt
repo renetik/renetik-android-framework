@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Filter
 import renetik.android.core.kotlin.collections.contains
+import renetik.android.core.kotlin.collections.index
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.event.registration.CSRegistration
 
@@ -50,8 +51,8 @@ fun <T : AutoCompleteTextView> T.setDropDown(
         }
     }
     setOnItemClickListener { _, _, position, _ ->
-        selectedItem = adapter.getItem(position)!!
-        onSelection?.invoke(strings.indexOf(selectedItem))
+        selectedItem = adapter.getItem(position)
+        onSelection?.invoke(strings.index(selectedItem))
         logDebug(this)
     }
     isFocusable = true
