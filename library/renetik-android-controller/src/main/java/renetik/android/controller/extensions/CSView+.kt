@@ -85,24 +85,3 @@ fun CSView<*>.onSensorOrientationChange(
         return null
     }
 }
-
-//fun CSView<*>.onOrientationChangeOld(
-//    function: (CSDisplayOrientation) -> Unit
-//): CSRegistration {
-//    var currentOrientation = orientation
-//    var afterGlobalLayoutRegistration: CSRegistration? = null
-//    val listener = object : OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
-//        override fun onOrientationChanged(orientation: Int) {
-//            afterGlobalLayoutRegistration?.cancel()
-//            afterGlobalLayoutRegistration = registerAfterLayout {
-//                if (this@onOrientationChangeOld.orientation != currentOrientation) {
-//                    currentOrientation = this@onOrientationChangeOld.orientation
-//                    function(this@onOrientationChangeOld.orientation)
-//                }
-//            }
-//        }
-//    }
-//    return this + CSRegistration.CSRegistration(
-//        onResume = { listener.enable() },
-//        onPause = { listener.disable() }).start()
-//}
