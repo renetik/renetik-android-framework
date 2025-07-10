@@ -65,6 +65,11 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         logInfo()
     }
 
+    override fun recreate() {
+        destruct()
+        super.recreate()
+    }
+
     fun destroyActivityView() {
         isRecreateView = true
         clearContentView()
