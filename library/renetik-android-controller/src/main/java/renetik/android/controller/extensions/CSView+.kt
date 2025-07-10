@@ -6,6 +6,7 @@ import kotlinx.coroutines.delay
 import renetik.android.controller.base.CSView
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
+import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
@@ -51,34 +52,38 @@ fun <Type : CSView<*>> Type.disabledByAlpha(condition: Boolean = true, disable: 
     view.alphaToDisabled(condition)
 }
 
-fun CSView<*>.onOrientationChange(
-    function: (CSRegistration, CSDisplayOrientation) -> Unit
-): CSRegistration {
-    lateinit var registration: CSRegistration
-    registration = onOrientationChange { orientation ->
+fun CSView<*>.onSensorOrientationChange(
+    function: (CSRegistration?, CSDisplayOrientation) -> Unit
+): CSRegistration? {
+    var registration: CSRegistration? = null
+    registration = onSensorOrientationChange { orientation ->
         function(registration, orientation)
     }
     return registration
 }
 
-fun CSView<*>.onOrientationChange(
+fun CSView<*>.onSensorOrientationChange(
     function: (CSDisplayOrientation) -> Unit
-): CSRegistration {
+): CSRegistration? {
     var currentOrientation = orientation
     val listener = object : OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
         override fun onOrientationChanged(orientation: Int) {
             launch("onOrientationChange") {
                 delay(50)
-                if (this@onOrientationChange.orientation != currentOrientation) {
-                    currentOrientation = this@onOrientationChange.orientation
-                    function(this@onOrientationChange.orientation)
+                if (this@onSensorOrientationChange.orientation != currentOrientation) {
+                    currentOrientation = this@onSensorOrientationChange.orientation
+                    function(this@onSensorOrientationChange.orientation)
                 }
             }
         }
     }
-    return this + CSRegistration.CSRegistration(
+    if (listener.canDetectOrientation()) return this + CSRegistration.CSRegistration(
         onResume = { listener.enable() },
         onPause = { listener.disable() }).start()
+    else {
+        logInfo { "Cannot detect orientation" }
+        return null
+    }
 }
 
 //fun CSView<*>.onOrientationChangeOld(
