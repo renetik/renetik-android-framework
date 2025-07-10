@@ -118,6 +118,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         logInfo("$requestCode $resultCode $data")
     }
 
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val goBack = property(true)
