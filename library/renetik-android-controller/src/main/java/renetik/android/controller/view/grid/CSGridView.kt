@@ -150,13 +150,19 @@ class CSGridView<
         }
     }
 
+    override fun onDestruct() {
+        view.setAdapter(null)
+        view.setLayoutManager(null)
+        super.onDestruct()
+    }
+
     private inner class Adapter : RecyclerView.Adapter<AdapterViewHolder>() {
 
         override fun onCreateViewHolder(group: ViewGroup, type: Int) =
             AdapterViewHolder(createView(this@CSGridView, type, group))
 
         override fun onBindViewHolder(holder: AdapterViewHolder, position: Int) {
-            if (isDestructed) return // There was null pointer ex here...
+//            if (isDestructed) return // There was null pointer ex here...
             holder.gridItemView.let {
                 it.view.visible()
                 it.load(data[position].first, position)
@@ -173,10 +179,10 @@ class CSGridView<
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
             holder.gridItemView.apply {
-                if (!isDestructed) {
-                    view.invisible()
-                    loadRegistrations.clear()
-                }
+//                if (!isDestructed) {
+                view.invisible()
+                loadRegistrations.clear()
+//                }
             }
         }
 
@@ -184,25 +190,24 @@ class CSGridView<
         override fun onViewRecycled(holder: AdapterViewHolder) {
             super.onViewRecycled(holder)
             holder.gridItemView.apply {
-                if (!isDestructed) {
-                    view.invisible()
-                    loadRegistrations.clear()
-                }
+//                if (!isDestructed) {
+                view.invisible()
+                loadRegistrations.clear()
+//                }
             }
         }
 
         override fun onFailedToRecycleView(holder: AdapterViewHolder): Boolean {
             holder.gridItemView.apply {
-                if (!isDestructed) {
-                    view.invisible()
-                    loadRegistrations.clear()
-                }
+//                if (!isDestructed) {
+                view.invisible()
+                loadRegistrations.clear()
+//                }
             }
             return false
         }
 
         override fun getItemViewType(position: Int): Int = data[position].second
-
         override fun getItemCount() = data.size
     }
 }
