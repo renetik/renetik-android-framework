@@ -53,7 +53,7 @@ fun <T : AutoCompleteTextView> T.setDropDown(
     setOnItemClickListener { _, _, position, _ ->
         selectedItem = adapter.getItem(position)
         onSelection?.invoke(strings.index(selectedItem))
-        logDebug(this)
+        logDebug { this }
     }
     isFocusable = true
     isFocusableInTouchMode = true
