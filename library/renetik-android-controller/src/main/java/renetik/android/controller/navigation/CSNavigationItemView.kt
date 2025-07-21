@@ -78,7 +78,7 @@ open class CSNavigationItemView(
         } ?: inflate<View>(viewLayout))
     }
 
-    open val isBackNavigationAllowed = true
+    open var isBackNavigationAllowed = true
     open val isBackgroundDimmed = true
     var isFullScreen = false
     var isPopup = false
