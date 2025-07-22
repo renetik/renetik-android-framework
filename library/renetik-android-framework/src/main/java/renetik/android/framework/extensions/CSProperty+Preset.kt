@@ -1,10 +1,10 @@
 package renetik.android.framework.extensions
 
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
 import renetik.android.controller.base.CSView
 import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
-import renetik.android.event.CSEvent
 import renetik.android.event.common.onDestructed
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
@@ -20,7 +20,7 @@ fun <ItemView : CSViewInterface> CSHasChangeValue<Int>.updates(
     preset: Preset,
     items: MutableList<ItemView>,
     layout: ViewGroup, fromStart: Boolean = false,
-    layoutParams: ViewGroup.LayoutParams? = null,
+    layoutParams: LayoutParams? = null,
     createView: (index: Int) -> ItemView
 ): CSRegistration = action(preset) { value ->
     items.size.update(value,
@@ -38,7 +38,7 @@ fun <ItemView : CSViewInterface> CSHasChangeValue<Int>.updates(
 
 fun <View : CSViewInterface, Model> MutableList<View>.viewFactory(
     parent: CSView<*>, list: List<Model>, eventAdded: CSHasChange<Model>,
-    content: ViewGroup, layoutParams: ViewGroup.LayoutParams? = null,
+    content: ViewGroup, layoutParams: LayoutParams? = null,
     fromStart: Boolean = false, create: (Model) -> View
 ) = apply {
     fun createView(model: Model) {
