@@ -10,6 +10,7 @@ import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.launch
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
@@ -77,7 +78,7 @@ fun CSView<*>.onSensorOrientationChange(
             }
         }
     }
-    if (listener.canDetectOrientation()) return this + CSRegistration.CSRegistration(
+    if (listener.canDetectOrientation()) return this + CSRegistration(
         onResume = { listener.enable() },
         onPause = { listener.disable() }).start()
     else {
