@@ -6,6 +6,7 @@ import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
 import renetik.android.event.CSEvent
 import renetik.android.event.common.onDestructed
+import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.plus
@@ -35,8 +36,8 @@ fun <ItemView : CSViewInterface> CSHasChangeValue<Int>.updates(
         })
 }
 
-fun <View : CSView<*>, Model> MutableList<View>.viewFactory(
-    parent: CSView<*>, list: List<Model>, eventAdded: CSEvent<Model>,
+fun <View : CSViewInterface, Model> MutableList<View>.viewFactory(
+    parent: CSView<*>, list: List<Model>, eventAdded: CSHasChange<Model>,
     content: ViewGroup, layoutParams: ViewGroup.LayoutParams? = null,
     fromStart: Boolean = false, create: (Model) -> View
 ) = apply {
@@ -49,5 +50,5 @@ fun <View : CSView<*>, Model> MutableList<View>.viewFactory(
         }
     }
     list.forEach(::createView)
-    parent + eventAdded.listen(::createView)
+    parent + eventAdded.onChange(::createView)
 }
