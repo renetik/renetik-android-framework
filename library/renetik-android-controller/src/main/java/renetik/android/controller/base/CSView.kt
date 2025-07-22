@@ -13,8 +13,10 @@ import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVa
 import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.CSVariable.Companion.variable
 import renetik.android.core.logging.CSLog.logErrorTrace
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSContext
 import renetik.android.event.common.destruct
+import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.onChange
@@ -183,7 +185,8 @@ open class CSView<ViewType : View> : CSContext,
         } else onViewShowingAgain()
     }
 
-    protected open fun onViewShowingFirstTime() {}
+    val onViewShowingFirstTime = event()
+    protected open fun onViewShowingFirstTime() = onViewShowingFirstTime.invoke()
 
     protected open fun onViewShowingAgain() {}
 
