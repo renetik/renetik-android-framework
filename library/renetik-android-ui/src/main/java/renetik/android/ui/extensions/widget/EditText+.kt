@@ -51,8 +51,11 @@ fun <T : EditText> T.withClear(
     onClear?.let { onClear(it) }
 }
 
-fun EditText.property(property: CSProperty<String>): CSRegistration {
-    val propertyOnChange = property.action { text(property.value.asString) }
+fun EditText.property(property: CSProperty<String>): CSRegistration =
+    property(property) { it.asString }
+
+fun EditText.property(property: CSProperty<String>, toString: (String) -> String): CSRegistration {
+    val propertyOnChange = property.action { text(toString(property.value)) }
     return CSRegistration(propertyOnChange, onTextChange {
         propertyOnChange.paused { property.value = if (text().isEmpty) "" else text() }
     })
