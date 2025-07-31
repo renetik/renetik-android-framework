@@ -46,7 +46,7 @@ import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.Main
 import renetik.android.core.kotlin.primitives.ifTrue
 import renetik.android.core.lang.catchAll
-import renetik.android.core.lang.result.context
+import renetik.android.core.lang.result.invoke
 import renetik.android.event.CSEvent
 import renetik.android.event.fire
 import renetik.android.event.property.CSActionInterface
@@ -132,8 +132,8 @@ fun <T : View> T.clearLongClick() = apply {
     setOnLongClickListener(null)
 }
 
-suspend fun <T : View> T.drawToNewBitmap(): Bitmap = Default.context {
-    createBitmap().also { Main.context { drawToBitmap(it) } }
+suspend fun <T : View> T.drawToNewBitmap(): Bitmap = Default {
+    createBitmap().also { Main { drawToBitmap(it) } }
 }
 
 fun <T : View> T.createBitmap(): Bitmap =

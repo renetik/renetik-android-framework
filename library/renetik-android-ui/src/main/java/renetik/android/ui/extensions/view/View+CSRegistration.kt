@@ -10,7 +10,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.Func
-import renetik.android.core.lang.result.context
+import renetik.android.core.lang.result.invoke
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
@@ -116,7 +116,7 @@ fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
     onBoundsChange { if (hasSize) function() }
 
 suspend fun <T : View> T.waitForSize() = apply {
-    Main.context { while (!hasSize) delay(20) }
+    Main { while (!hasSize) delay(20) }
 }
 
 inline fun View.onHasSize(
