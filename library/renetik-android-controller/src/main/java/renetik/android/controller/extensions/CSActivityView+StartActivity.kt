@@ -12,12 +12,9 @@ import renetik.android.event.registration.plus
 
 fun CSActivityView<*>.startActivityForResult(
     activityClass: Class<out AppCompatActivity>, requestCode: Int
-) =
-    startActivityForResult(Intent(activity(), activityClass), requestCode)
+) = startActivityForResult(Intent(activity(), activityClass), requestCode)
 
-enum class CSStartActivityResult {
-    Cancel, ActivityNotFound
-}
+enum class CSStartActivityResult { Cancel, ActivityNotFound }
 
 fun CSActivityView<*>.startActivityForResult(
     intent: Intent, onSuccess: (Intent?) -> Unit,
@@ -42,19 +39,3 @@ fun CSActivityView<*>.startActivityForResult(
 @Suppress("DEPRECATION")
 fun CSActivityView<*>.startActivityForResult(intent: Intent, requestCode: Int) =
     activity().startActivityForResult(intent, requestCode)
-
-fun CSActivityView<*>.switchActivity(activityClass: Class<out AppCompatActivity>) =
-    switchActivity(Intent(activity(), activityClass))
-
-fun CSActivityView<*>.switchActivity(intent: Intent) {
-    activity().finish()
-    startActivity(intent)
-}
-
-fun CSActivityView<*>.switchActivity(
-    activityClass: Class<out AppCompatActivity>,
-    resultCode: Int
-) {
-    activity().setResult(resultCode)
-    switchActivity(Intent(activity(), activityClass))
-}
