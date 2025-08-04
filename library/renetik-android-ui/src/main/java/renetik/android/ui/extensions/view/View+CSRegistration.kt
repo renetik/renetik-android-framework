@@ -18,10 +18,12 @@ import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.start
 import renetik.android.event.property.stop
 import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.registration.CSHasChangeValue.Companion.ValueFunction
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
+import renetik.android.event.registration.isActive
 import renetik.android.event.registration.launch
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
@@ -117,6 +119,16 @@ fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
 
 suspend fun <T : View> T.waitForSize() = apply {
     Main { while (!hasSize) delay(20) }
+}
+
+fun <T : View> T.hasSize(
+    parent: CSHasRegistrations? = null
+): CSHasChangeValue<Boolean> = object : CSHasChangeValue<Boolean> {
+    override val value: Boolean get() = hasSize
+    override fun onChange(function: (Boolean) -> Unit): CSRegistration {
+        val value = ValueFunction(value, function)
+        return onBoundsChange { if (parent.isActive) value(hasSize) }
+    }
 }
 
 inline fun View.onHasSize(
