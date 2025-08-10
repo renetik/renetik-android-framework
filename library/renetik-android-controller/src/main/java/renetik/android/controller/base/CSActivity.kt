@@ -15,6 +15,7 @@ import renetik.android.event.fire
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.ui.extensions.clearContentView
+import renetik.android.ui.extensions.fixInputMethodManagerLeakSafe
 import renetik.android.ui.protocol.CSVisibility
 
 abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCompatActivity(),
@@ -109,6 +110,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         eventDestruct.fire().clear()
         activityView = null
         logInfo()
+        fixInputMethodManagerLeakSafe()
     }
 
     public override fun onDestroy() {
