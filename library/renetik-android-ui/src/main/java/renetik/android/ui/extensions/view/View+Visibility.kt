@@ -24,7 +24,7 @@ val <T : View> T.isGone get() = visibility == GONE
 
 fun <T : View> T.visible(
     visible: Boolean = true, animated: Boolean = false,
-) = apply {
+): T = apply {
     if (visible) {
         if (animated) fadeIn() else
             if (visibility != VISIBLE) {
@@ -42,15 +42,15 @@ fun <T : View> T.visible(
 
 fun <T : View> T.invisible(
     invisible: Boolean = true, animated: Boolean = false,
-) = visible(visible = !invisible, animated)
+): T = visible(visible = !invisible, animated)
 
 inline fun <T : View> T.showIf(
     show: Boolean, animated: Boolean = false,
-) = show(show, animated)
+): T = show(show, animated)
 
 fun <T : View> T.show(
     show: Boolean = true, animated: Boolean = false,
-) = apply {
+): T = apply {
     if (show) {
         if (animated) fadeIn() else
             if (visibility != VISIBLE) {
