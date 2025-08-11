@@ -19,7 +19,7 @@ inline fun <R : Comparable<R>> ViewGroup.sortChildren(
 ) = apply {
     val sorted = children.toList().withIndex().sortedBy { selector(it.index, it.value) }
     removeAllViews()
-    sorted.map(IndexedValue<View>::value).forEach { addView(it) }
+    sorted.map(IndexedValue<View>::value).forEach(::addView)
 }
 
 val ViewGroup.lastIndex: Int get() = childCount - 1
