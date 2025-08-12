@@ -11,18 +11,17 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.onValue
-import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSVisibility
 
-fun <T : View> T.updateVisibility() {
+inline fun <T : View> T.updateVisibility() {
     (tag as? CSVisibility)?.updateVisibility()
 }
 
-val <T : View> T.isVisible get() = visibility == VISIBLE
-val <T : View> T.isInvisible get() = visibility == INVISIBLE
-val <T : View> T.isGone get() = visibility == GONE
+inline val <T : View> T.isVisible get() = visibility == VISIBLE
+inline val <T : View> T.isInvisible get() = visibility == INVISIBLE
+inline val <T : View> T.isGone get() = visibility == GONE
 
-fun <T : View> T.visible(
+inline fun <T : View> T.visible(
     visible: Boolean = true, animated: Boolean = false,
 ): T = apply {
     if (visible) {
@@ -40,7 +39,7 @@ fun <T : View> T.visible(
     }
 }
 
-fun <T : View> T.invisible(
+inline fun <T : View> T.invisible(
     invisible: Boolean = true, animated: Boolean = false,
 ): T = visible(visible = !invisible, animated)
 
@@ -48,7 +47,7 @@ inline fun <T : View> T.showIf(
     show: Boolean, animated: Boolean = false,
 ): T = show(show, animated)
 
-fun <T : View> T.show(
+inline fun <T : View> T.show(
     show: Boolean = true, animated: Boolean = false,
 ): T = apply {
     if (show) {
@@ -66,31 +65,31 @@ fun <T : View> T.show(
     }
 }
 
-fun <T : View> T.gone(
+inline fun <T : View> T.gone(
     gone: Boolean = true, animated: Boolean = false,
 ): T = show(!gone, animated)
 
-fun <T> View.shownIf(
+inline fun <T> View.shownIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
-    condition: (T) -> Boolean,
+    crossinline condition: (T) -> Boolean,
 ): CSRegistration {
     show(condition(property.value))
     return property.onChange { show(condition(property.value), animated) }
 }
 
-fun View.shownIf(
+inline fun View.shownIf(
     property: CSHasChangeValue<Boolean>,
     animated: Boolean = false,
 ): CSRegistration = shownIf(property, animated) { it }
 
-fun View.shownIfNot(
+inline fun View.shownIfNot(
     property: CSHasChangeValue<Boolean>,
     animated: Boolean = false,
 ): CSRegistration = shownIf(property, animated) { !it }
 
-fun <T> View.shownIf(
+inline fun <T> View.shownIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>,
-    animated: Boolean = false, condition: (T) -> Boolean,
+    animated: Boolean = false, crossinline condition: (T) -> Boolean,
 ): CSRegistration =
     shownIf(property1, property2, animated) { first, _ -> condition(first) }
 
@@ -125,7 +124,7 @@ fun <T, V, X> View.shownIf(
     )
 }
 
-fun View.goneIf(
+inline fun View.goneIf(
     property1: CSHasChangeValue<Boolean>,
     property2: CSHasChangeValue<Boolean>,
     animated: Boolean = false,
@@ -147,33 +146,33 @@ fun <T, V> View.goneIf(
     )
 }
 
-fun <T> View.goneIf(
+inline fun <T> View.goneIf(
     property: CSHasChangeValue<T>,
-    animated: Boolean = false, condition: (T) -> Boolean,
+    animated: Boolean = false, crossinline condition: (T) -> Boolean,
 ): CSRegistration {
     property.onValue { gone(condition(it)) }
     return property.onChange { gone(condition(property.value), animated) }
 }
 
-fun View.goneIf(
+inline fun View.goneIf(
     property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = goneIf(property, animated) { it }
 
-fun View.goneIfNot(
+inline fun View.goneIfNot(
     property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = goneIf(property, animated) { !it }
 
-fun View.visibleIf(
+inline fun View.visibleIf(
     property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = visibleIf(property, animated) { it }
 
-fun View.visibleIfNot(
+inline fun View.visibleIfNot(
     property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = visibleIf(property, animated) { !it }
 
-fun <T> View.visibleIf(
+inline fun <T> View.visibleIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>,
-    animated: Boolean = false, condition: (T) -> Boolean,
+    animated: Boolean = false, crossinline condition: (T) -> Boolean,
 ): CSRegistration =
     visibleIf(property1, property2, animated) { first, _ -> condition(first) }
 
@@ -195,27 +194,27 @@ fun <T, V> View.invisibleIf(
     return CSRegistration(property1.onChange { update() }, property2.onChange { update() })
 }
 
-fun <T> View.visibleIf(
+inline fun <T> View.visibleIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
-    condition: (T) -> Boolean,
+    crossinline condition: (T) -> Boolean,
 ): CSRegistration {
     visible(condition(property.value))
     return property.onChange { visible(condition(property.value), animated) }
 }
 
-fun <T> View.invisibleIf(
+inline fun <T> View.invisibleIf(
     property: CSHasChangeValue<T>, animated: Boolean = false,
-    condition: (T) -> Boolean,
+    crossinline condition: (T) -> Boolean,
 ): CSRegistration {
     invisible(condition(property.value))
     return property.onChange { invisible(condition(property.value), animated) }
 }
 
-fun View.invisibleIf(
+inline fun View.invisibleIf(
     property: CSHasChangeValue<Boolean>, animated: Boolean = false,
 ): CSRegistration = invisibleIf(property, animated) { it }
 
-fun View.isVisibleInParentRecursively(): Boolean {
+inline fun View.isVisibleInParentRecursively(): Boolean {
     if (!isVisible) return false
     var view: View = this
     while (true) {

@@ -125,6 +125,11 @@ suspend fun <T : View> T.waitForSize() = apply {
     Main { while (!hasSize) delay(20) }
 }
 
+suspend fun <T : View> T.waitForWidth(): Int = Main {
+    while (width <= 0) delay(20)
+    width
+}
+
 fun <T : View> T.hasSize(parent: CSHasRegistrations? = null): CSHasChangeValue<Boolean> =
     object : CSHasChangeValue<Boolean> {
         override val value: Boolean get() = hasSize
