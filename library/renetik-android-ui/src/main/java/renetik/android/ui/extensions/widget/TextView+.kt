@@ -11,11 +11,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
-import renetik.android.core.extensions.content.drawable
 import renetik.android.core.extensions.content.isPhone
 import renetik.android.core.kotlin.asString
 import renetik.android.core.kotlin.primitives.vertical
-import renetik.android.core.lang.CSHasDrawable
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.registration.CSHasChangeValue
@@ -116,7 +114,7 @@ inline fun <T, V> TextView.textNullableChild(
     parent: CSHasChangeValue<T>,
     crossinline child: (T) -> CSHasChangeValue<V>?,
     noinline text: (V?) -> Any
-): CSRegistration = parent.action(child, onChange = { value(text(it)) })
+): CSRegistration = parent.action(child, action = { value(text(it)) })
 
 @JvmName("textPropertyChildTextProperty")
 inline fun <T> TextView.text(
@@ -132,7 +130,7 @@ inline fun <ParentValue, ParentChildValue, ChildValue> TextView.textNullableChil
 ): CSRegistration {
     var childRegistration: CSRegistration? = null
     val parentRegistration: CSRegistration = parent.action(
-        parentChild, onChange = { parentChildValue ->
+        parentChild, action = { parentChildValue ->
             childRegistration?.cancel()
             parentChildValue?.let(child)?.let { childValue ->
                 childRegistration = text(childValue, text = { text(it) })
