@@ -13,7 +13,9 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.ui.extensions.view.view
+import java.lang.reflect.Field
 
 fun Activity.clearContentView() {
     window.decorView.view<ViewGroup>(android.R.id.content).removeAllViews()
@@ -31,8 +33,8 @@ val Activity.windowOrientation: Int
         }
     }
 
-fun Activity.fixInputMethodManagerLeakSafe() {
-    fun findFieldInHierarchy(clazz: Class<*>, name: String): java.lang.reflect.Field? {
+fun Activity.fixInputMethodManagerLeak() {
+    fun findFieldInHierarchy(clazz: Class<*>, name: String): Field? {
         var current: Class<*>? = clazz
         while (current != null) try {
             return current.getDeclaredField(name)
@@ -48,41 +50,38 @@ fun Activity.fixInputMethodManagerLeakSafe() {
         if (ctx is ContextWrapper && ctx.baseContext === this) return true
         return false
     }
-    try {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager ?: return
-        val fieldNames = arrayOf("mCurRootView", "mServedView", "mNextServedView")
-        for (name in fieldNames) {
-            try {
-                val field = findFieldInHierarchy(imm.javaClass, name)
-                    ?.apply { isAccessible = true }
-                val value = field?.get(imm) ?: continue
-
-                // handle direct View
-                if (value is View) {
-                    val viewContext = value.context
-                    if (isContextMatchingActivity(viewContext)) {
-                        field.set(imm, null)
-                    }
-                    continue
-                }
-
-                // handle WeakReference<View> or other refs
-                val referencedView = when (value) {
-                    is java.lang.ref.WeakReference<*> -> value.get()
-                    is kotlin.jvm.internal.Ref.ObjectRef<*> ->
-                        (value as? kotlin.jvm.internal.Ref.ObjectRef<*>)?.element
-                    else -> null
-                }
-                if (referencedView is View) {
-                    if (isContextMatchingActivity(referencedView.context)) {
-                        field.set(imm, null)
-                    }
-                }
-            } catch (e: Throwable) {
-                Log.w("LeakFix", "Failed clearing IMM field $name", e)
-            }
+    runCatching {
+        val manager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager ?: return
+        runCatching {
+            currentFocus?.clearFocus()
+            currentFocus?.windowToken?.let { manager.hideSoftInputFromWindow(it, 0) }
+            window?.decorView?.rootView?.clearFocus()
+        }.onFailure {
+            Log.w("LeakFix", "Public IMM cleanup failed", it)
         }
-    } catch (e: Throwable) {
-        Log.w("LeakFix", "IMM leak fix failed", e)
-    }
+        val fieldNames = arrayOf("mCurRootView", "mServedView", "mNextServedView")
+        for (name in fieldNames) runCatching inner@{
+            val field = findFieldInHierarchy(manager.javaClass, name)
+                ?.apply { isAccessible = true }
+            val value = field?.get(manager) ?: return@inner
+
+            // handle direct View
+            if (value is View) {
+                val viewContext = value.context
+                if (isContextMatchingActivity(viewContext)) field.set(manager, null)
+                return@inner
+            }
+
+            // handle WeakReference<View> or other refs
+            val referencedView = when (value) {
+                is java.lang.ref.WeakReference<*> -> value.get()
+                is kotlin.jvm.internal.Ref.ObjectRef<*> ->
+                    (value as? kotlin.jvm.internal.Ref.ObjectRef<*>)?.element
+                else -> null
+            }
+            if (referencedView is View) {
+                if (isContextMatchingActivity(referencedView.context)) field.set(manager, null)
+            }
+        }.onFailure { logDebug(it) { "LeakFix Failed clearing IMM field $name" } }
+    }.onFailure { logDebug(it) { "LeakFix IMM leak fix failed" } }
 }
