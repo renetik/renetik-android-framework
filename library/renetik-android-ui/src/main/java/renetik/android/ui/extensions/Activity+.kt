@@ -32,6 +32,16 @@ val Activity.windowOrientation: Int
     }
 
 fun Activity.fixInputMethodManagerLeakSafe() {
+    fun findFieldInHierarchy(clazz: Class<*>, name: String): java.lang.reflect.Field? {
+        var current: Class<*>? = clazz
+        while (current != null) try {
+            return current.getDeclaredField(name)
+        } catch (_: NoSuchFieldException) {
+            current = current.superclass
+        }
+        return null
+    }
+
     fun Activity.isContextMatchingActivity(ctx: Context?): Boolean {
         if (ctx == null) return false
         if (ctx === this) return true
@@ -43,8 +53,9 @@ fun Activity.fixInputMethodManagerLeakSafe() {
         val fieldNames = arrayOf("mCurRootView", "mServedView", "mNextServedView")
         for (name in fieldNames) {
             try {
-                val field = imm.javaClass.getDeclaredField(name).apply { isAccessible = true }
-                val value = field.get(imm) ?: continue
+                val field = findFieldInHierarchy(imm.javaClass, name)
+                    ?.apply { isAccessible = true }
+                val value = field?.get(imm) ?: continue
 
                 // handle direct View
                 if (value is View) {
@@ -58,7 +69,8 @@ fun Activity.fixInputMethodManagerLeakSafe() {
                 // handle WeakReference<View> or other refs
                 val referencedView = when (value) {
                     is java.lang.ref.WeakReference<*> -> value.get()
-                    is kotlin.jvm.internal.Ref.ObjectRef<*> -> (value as? kotlin.jvm.internal.Ref.ObjectRef<*>)?.element
+                    is kotlin.jvm.internal.Ref.ObjectRef<*> ->
+                        (value as? kotlin.jvm.internal.Ref.ObjectRef<*>)?.element
                     else -> null
                 }
                 if (referencedView is View) {
