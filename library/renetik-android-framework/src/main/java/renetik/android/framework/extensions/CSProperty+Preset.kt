@@ -5,10 +5,10 @@ import android.view.ViewGroup.LayoutParams
 import renetik.android.controller.base.CSView
 import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
-import renetik.android.event.common.onDestructed
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.invoke
 import renetik.android.event.registration.plus
 import renetik.android.preset.Preset
 import renetik.android.preset.extensions.action
@@ -46,7 +46,7 @@ fun <View : CSViewInterface, Model> MutableList<View>.viewFactory(
             val addIndex = if (fromStart) 0 else -1
             layoutParams?.let { content.add(view = view, params = it, addIndex) }
                 ?: content.add(view = view, addIndex)
-            view.onDestructed { this -= view; content -= view }
+            view.eventDestruct { this -= view; content -= view }
         }
     }
     list.forEach(::createView)

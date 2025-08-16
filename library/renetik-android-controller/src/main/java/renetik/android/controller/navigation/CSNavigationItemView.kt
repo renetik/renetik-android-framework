@@ -25,7 +25,7 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.invoke
 import renetik.android.event.listen
-import renetik.android.event.listenOnce
+import renetik.android.event.registration.invoke
 import renetik.android.event.registration.plus
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
@@ -105,7 +105,7 @@ open class CSNavigationItemView(
     }
 
     init {
-        this + navigationParent.eventDestruct.listenOnce {
+        this + navigationParent.eventDestruct {
             if (isShowingInPager) close()
             if (!lifecycleStopOnRemoveFromParentView) destruct()
         }
