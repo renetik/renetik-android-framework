@@ -13,7 +13,9 @@ import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
 import renetik.android.core.math.top
 
-val <T : View> T.hasSize get() = width > 0 && height > 0
+inline val <T : View> T.hasSize get() = hasWidth && hasHeight
+inline val <T : View> T.hasWidth: Boolean get() = width > 0
+inline val <T : View> T.hasHeight: Boolean get() = height > 0
 
 fun <T : View> T.margins(left: Int, top: Int, right: Int, bottom: Int) = apply {
     updateLayoutParams<MarginLayoutParams> { setMargins(left, top, right, bottom) }

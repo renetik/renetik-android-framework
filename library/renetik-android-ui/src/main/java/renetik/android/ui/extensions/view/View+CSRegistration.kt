@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package renetik.android.ui.extensions.view
 
 import android.view.View
@@ -8,6 +10,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
+import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.result.invoke
@@ -19,14 +22,13 @@ import renetik.android.event.property.start
 import renetik.android.event.property.stop
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.ValueFunction
+import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
-import renetik.android.event.registration.isActive
-import renetik.android.event.registration.launch
 import renetik.android.event.registration.onChange
+import renetik.android.event.registration.onChangeOnce
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import renetik.android.ui.R
@@ -130,38 +132,26 @@ suspend fun <T : View> T.waitForWidth(): Int = Main {
     width
 }
 
-fun <T : View> T.hasSize(parent: CSHasRegistrations? = null): CSHasChangeValue<Boolean> =
-    object : CSHasChangeValue<Boolean> {
-        override val value: Boolean get() = hasSize
-        override fun onChange(function: (Boolean) -> Unit): CSRegistration {
-            val value = ValueFunction(value, function)
-            return onBoundsChange { if (parent.isActive) value(hasSize) }
-        }
-    }
+inline fun <T : View> T.hasWidth(
+    parent: CSHasRegistrations? = null
+): CSHasChangeValue<Boolean> = onBoundsChange.delegate(parent, from = { hasWidth })
 
-inline fun View.onHasSize(parent: CSHasRegistrations,
-    crossinline function: (View) -> Unit): CSRegistration? {
-    if (!hasSize) {
-        var registration: CSRegistration? = null
-        return (parent + onHasSizeBoundsChange {
-            registration?.cancel()
-            function(this)
-        }).also { registration = it }
-    } else function(this)
+inline fun <T : View> T.hasHeight(
+    parent: CSHasRegistrations? = null
+): CSHasChangeValue<Boolean> = onBoundsChange.delegate(parent, from = { hasHeight })
+
+inline fun <T : View> T.hasSize(
+    parent: CSHasRegistrations? = null
+): CSHasChangeValue<Boolean> = onBoundsChange.delegate(parent, from = { hasSize })
+
+inline fun View.onHasSize(
+    parent: CSHasRegistrations,
+    crossinline function: (View) -> Unit
+): CSRegistration? {
+    if (!hasSize) hasSize().onChangeOnce(parent) { -> function(this) }
+    else function(this)
     return null
 }
-
-
-inline fun View.onHasSize2(parent: CSHasRegistrations,
-    crossinline function: (View) -> Unit): CSRegistration? {
-    if (!hasSize) return parent.launch {
-        waitForSize()
-        function(this)
-    }
-    function(this)
-    return null
-}
-
 
 fun View.onScrollChange(function: (view: View) -> Unit): CSRegistration =
     eventScrollChange.listen(function)

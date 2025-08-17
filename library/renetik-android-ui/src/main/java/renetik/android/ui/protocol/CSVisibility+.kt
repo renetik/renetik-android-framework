@@ -10,8 +10,9 @@ fun CSVisibility.onShowing(function: (CSRegistration) -> Unit): CSRegistration =
     isVisible.onChange { registration, visible -> if (visible) function(registration) }
 
 
-fun CSVisibility.onShowingFirstTime(function: () -> Unit): CSRegistration =
-    isVisible.onChangeOnce(function)
+fun CSVisibility.onShowingFirstTime(function: () -> Unit) {
+    isVisible.onChangeOnce(parent = null, function)
+}
 
 fun CSVisibility.onHiding(function: (CSRegistration) -> Unit): CSRegistration =
     isVisible.onChange { registration, visible -> if (!visible) function(registration) }
