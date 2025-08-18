@@ -10,7 +10,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
-import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.result.invoke
@@ -115,10 +114,10 @@ fun View.onBoundsChange(function: Func): CSRegistration {
     return registration
 }
 
-fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
+@Suppress("DEPRECATION") fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
     onBoundsChange { if (hasSize) function() }
 
-val View.onBoundsChange: CSHasChange<Unit>
+@Suppress("DEPRECATION") val View.onBoundsChange: CSHasChange<Unit>
     get() = object : CSHasChange<Unit> {
         override fun onChange(function: (Unit) -> Unit) = onBoundsChange { function(Unit) }
     }
