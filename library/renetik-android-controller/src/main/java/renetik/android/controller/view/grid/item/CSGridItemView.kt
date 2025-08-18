@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import renetik.android.controller.base.CSView
 import renetik.android.controller.view.grid.CSGridView
+import renetik.android.core.kotlin.className
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistrationsMap
@@ -25,7 +26,7 @@ open class CSGridItemView<RowType : Any>(
     var index = -1
     val isLoaded get() = index != -1
     var itemDisabled = false
-    val loadRegistrations = CSRegistrationsMap(this).also { this + it }
+    val loadRegistrations = CSRegistrationsMap(className).also { this + it }
 
     fun load(value: RowType, index: Int) {
         this.index = index

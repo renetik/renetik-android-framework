@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import renetik.android.core.base.CSApplication.Companion.app
+import renetik.android.core.kotlin.className
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
@@ -102,7 +103,7 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         logInfo()
     }
 
-    final override val registrations by lazy { CSRegistrationsMap(this) }
+    final override val registrations = CSRegistrationsMap(className)
     final override val eventDestruct = event<Unit>()
     override val isDestructed: Boolean get() = registrations.isCanceled
     override fun onDestruct() {

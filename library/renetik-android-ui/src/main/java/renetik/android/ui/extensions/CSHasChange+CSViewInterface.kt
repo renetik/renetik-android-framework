@@ -1,5 +1,6 @@
 package renetik.android.ui.extensions
 
+import renetik.android.core.kotlin.className
 import renetik.android.core.lang.Func
 import renetik.android.event.common.CSDebouncer.Companion.debouncer
 import renetik.android.event.registration.CSHasChange
@@ -12,7 +13,7 @@ inline fun <Argument> CSHasChange<Argument>.onChangeAfterLayout(
     parent: CSViewInterface,
     crossinline function: Func
 ): CSRegistration {
-    val registrations = CSRegistrationsMap(this)
+    val registrations = CSRegistrationsMap(className)
     val laterOnceFunction = registrations.debouncer { function() }
     registrations.register(onChange {
         registrations.register(parent.registerAfterLayout {
