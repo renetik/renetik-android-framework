@@ -107,7 +107,7 @@ inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
 fun View.onBoundsChange(function: Func): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnLayoutChangeListener { _, l, t, r, b, nl, nt, nr, nb ->
-        if (l != nl || t != nt || r != nr || b != nb) function()
+        if (l != nl || t != nt || r != nr || b != nb) if (registration.isActive) function()
     }
     registration = CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
         onPause = { removeOnLayoutChangeListener(listener) }).start()
