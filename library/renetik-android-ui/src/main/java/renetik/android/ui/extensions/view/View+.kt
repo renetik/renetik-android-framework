@@ -214,10 +214,10 @@ inline fun <T : View> T.onDoubleTap(
 
 fun View.action(action: CSEvent<Unit>) = onClick { action.fire() }
 
-fun View.onDestroy() {
+fun View.onDestruct() {
     catchAll { setOnClickListener(null) }
     catchAll { setOnLongClickListener(null) }
-    (this as? ViewGroup)?.children?.forEach(View::onDestroy)
+    (this as? ViewGroup)?.children?.forEach(View::onDestruct)
 }
 
 fun View.performTouchDown(time: Int = 700): Boolean = dispatchTouchEvent(

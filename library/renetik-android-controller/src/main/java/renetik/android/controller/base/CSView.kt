@@ -8,6 +8,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
+import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
 import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
 import renetik.android.core.lang.value.isTrue
@@ -24,20 +25,18 @@ import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.isVisible
-import renetik.android.ui.extensions.view.onDestroy
+import renetik.android.ui.extensions.view.onDestruct
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSViewInterface.Companion.context
 
-open class CSView<ViewType : View> : CSContext,
-    CSHasParentView, CSViewInterface {
+open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface {
 
     var lifecycleStopOnRemoveFromParentView = true
 
-    private val layout: Int?
+    private var layout: Int? = null
 
-    @IdRes
-    private val viewId: Int?
+    @IdRes private var viewId: Int? = null
 
     var parentView: CSViewInterface by variable()
 
@@ -82,41 +81,31 @@ open class CSView<ViewType : View> : CSContext,
 
     constructor(
         parent: CSViewInterface,
-        @IdRes viewId: Int? = null,
         @LayoutRes layout: Int? = null,
     ) : super(parent) {
         this.parentView = parent
         this + parentView.isVisible.onChange(::updateVisibility)
-        this.viewId = viewId
         this.layout = layout
     }
 
     @Suppress("UNCHECKED_CAST")
     final override val view: ViewType
         get() {
-            when {
-                _view != null -> return _view!!
-                isDestructed -> logErrorTrace { "$className $this Already destroyed" }
-                layout != null -> setView(inflate(layout))
-                viewId != null -> setView(parentView.view<View>(viewId) as ViewType)
-                else -> createView()?.let { setView(it) }
-                    ?: run {
-                        (parentView.view as? ViewType)?.let {
-                            _view = it
-                            onViewReady()
-                        }
-                    }
-            }
-            return _view!!
+            if (isDestructed) logErrorTrace { "$className $this Already destroyed" }
+            return _view
+                ?: layout?.let { setView(inflate(it)) }
+                ?: viewId?.let { setView(parentView.view<View>(viewId!!) as ViewType) }
+                ?: createView()?.let { setView(it) }
+                ?: (parentView.view as? ViewType).also { _view = it; onViewReady() }
+                ?: unexpected("$className: view could not be created")
         }
 
-    protected fun setView(view: ViewType) {
+    protected fun setView(view: ViewType): ViewType {
         _view = view
         if (view.tag !is CSView<*>) view.tag = this@CSView
         onViewReady()
+        return view
     }
-
-    val isViewReady: Boolean get() = _view != null
 
     fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType =
         context.inflate(layoutId, group)
@@ -129,9 +118,7 @@ open class CSView<ViewType : View> : CSContext,
         inputService.hideSoftInputFromWindow(view.rootView.windowToken, 0)
     }
 
-    override fun onAddedToParentView() {
-        updateVisibility()
-    }
+    override fun onAddedToParentView() = updateVisibility()
 
     override fun onRemovedFromParentView() {
         if (lifecycleStopOnRemoveFromParentView && !isDestructed) destruct()
@@ -201,13 +188,12 @@ open class CSView<ViewType : View> : CSContext,
     protected open fun onViewHidingAgain() {}
 
     override fun onDestruct() {
-//        _isVisible.setFalse()
         super.onDestruct()
         // View doesn't have to be created in some cases
         _view?.let {
             if (it.tag == this) {
                 it.tag = "tag instance of $className removed, onDestroy called"
-                it.onDestroy()
+                it.onDestruct()
             }
             _view = null
         }
