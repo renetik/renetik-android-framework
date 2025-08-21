@@ -10,9 +10,6 @@ import renetik.android.event.registration.CSRegistration
 
 fun AutoCompleteTextView.reset() = apply { setAdapter(null); text(null) }
 
-val AutoCompleteTextView.selectedIndex: Int?
-    get() = if (listSelection >= 0) listSelection else null
-
 // simple_dropdown_item_1line
 fun AutoCompleteTextView.setDropDown(
     stringArray: Int, selectedIndex: Int? = null,
@@ -30,7 +27,7 @@ fun <T : AutoCompleteTextView> T.setDropDown(
         context, simple_spinner_dropdown_item, strings.toList()) {
         override fun getFilter(): Filter = filter?.let {
             StringArrayAdapterFilter(this, strings, it)
-        } ?: super.filter
+        } ?: super.getFilter()
     }
     selectedIndex?.let(strings::getOrNull)?.also { setText(it, false) }
     setAdapter(adapter)
@@ -39,7 +36,6 @@ fun <T : AutoCompleteTextView> T.setDropDown(
         if (selectedItem == null) clearText()
         else if (!strings.contains { it == text() }) {
             selectedItem = null
-            onSelection?.invoke(null)
             clearText()
         }
     } else null
