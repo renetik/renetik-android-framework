@@ -4,17 +4,11 @@ package renetik.android.imaging.extensions
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Color.DKGRAY
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable.LARGE
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.bumptech.glide.signature.ObjectKey
 import renetik.android.core.kotlin.changeIf
@@ -23,44 +17,9 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
-import renetik.android.ui.extensions.view.hasSize
 import renetik.android.ui.extensions.view.onHasSize
-import renetik.android.ui.extensions.widget.CSImaging
 import renetik.android.ui.extensions.widget.image
 import java.io.File
-
-class CSGlideImaging : CSImaging {
-    companion object {
-        fun initialize() = CSGlideImaging().also { CSImaging.instance = it }
-    }
-
-    private fun ImageView.showProgress() = CircularProgressDrawable(context).also {
-        it.setStyle(LARGE); it.start(); setImageDrawable(it)
-    }
-
-    private fun ImageView.load(data: Any?) {
-        setImageDrawable(null)
-        val glide = Glide.with(this)
-        glide.clear(this)
-        if (data == null) return
-        val request = glide.load(data)
-        fun load() = request.apply(RequestOptions().override(width, height)).into(this)
-        if (hasSize) load()
-        else {
-            val spinner = showProgress()
-            post {
-                if (hasSize) load() else request.into(this)
-                spinner.stop()
-            }
-        }
-    }
-
-    override fun load(view: ImageView, @DrawableRes resourceId: Int?) = view.load(resourceId)
-    override fun load(view: ImageView, file: File) = view.load(file)
-    override fun load(view: ImageView, bitmap: Bitmap?) = view.load(bitmap)
-    override fun load(view: ImageView, drawable: Drawable?) = view.load(drawable)
-    override fun load(view: ImageView, uri: Uri?) = view.load(uri)
-}
 
 fun <T : ImageView> T.image(
     url: String, progress: View? = null,
