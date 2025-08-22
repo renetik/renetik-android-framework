@@ -1,5 +1,6 @@
 package renetik.android.imaging.extensions
 
+//import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Color.DKGRAY
@@ -8,6 +9,8 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable.LARGE
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -31,17 +34,25 @@ class CSGlideImaging : CSImaging {
         fun initialize() = CSGlideImaging().also { CSImaging.instance = it }
     }
 
-    private fun ImageView.clearImage() {
-        Glide.with(this).clear(this)
-        setImageDrawable(null)
+    private fun ImageView.showProgress() = CircularProgressDrawable(context).also {
+        it.setStyle(LARGE); it.start(); setImageDrawable(it)
     }
 
     private fun ImageView.load(data: Any?) {
-        if (data == null) clearImage().also { return }
-        val request = Glide.with(this).load(data)
+        setImageDrawable(null)
+        val glide = Glide.with(this)
+        glide.clear(this)
+        if (data == null) return
+        val request = glide.load(data)
         fun load() = request.apply(RequestOptions().override(width, height)).into(this)
         if (hasSize) load()
-        else post { if (hasSize) load() else request.into(this) }
+        else {
+            val spinner = showProgress()
+            post {
+                if (hasSize) load() else request.into(this)
+                spinner.stop()
+            }
+        }
     }
 
     override fun load(view: ImageView, @DrawableRes resourceId: Int?) = view.load(resourceId)

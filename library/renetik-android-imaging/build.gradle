@@ -14,4 +14,7 @@ dependencies {
 
     // https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+
+    // For circular progress
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
