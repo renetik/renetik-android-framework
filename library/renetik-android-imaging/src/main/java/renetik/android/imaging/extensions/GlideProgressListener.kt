@@ -7,22 +7,20 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import renetik.android.core.lang.Func
-import renetik.android.ui.extensions.view.gone
-import renetik.android.ui.extensions.view.show
 
 class CSGlideProgressListener(
     private val progress: View,
     private val onFailed: Func? = null
 ) : RequestListener<Drawable> {
     init {
-        progress.show()
+        progress.visibility = View.VISIBLE
     }
 
     override fun onLoadFailed(
         e: GlideException?, model: Any?, target: Target<Drawable>,
         isFirstResource: Boolean
     ): Boolean {
-        progress.gone()
+        progress.visibility = View.GONE
         onFailed?.invoke()
         return false
     }
@@ -31,7 +29,7 @@ class CSGlideProgressListener(
         resource: Drawable, model: Any, target: Target<Drawable>?,
         dataSource: DataSource, isFirstResource: Boolean
     ): Boolean {
-        progress.gone()
+        progress.visibility = View.GONE
         return false
     }
 }

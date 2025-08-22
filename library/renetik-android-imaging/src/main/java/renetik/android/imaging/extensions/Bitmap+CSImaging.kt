@@ -14,6 +14,9 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import java.io.File
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.get
+import androidx.core.graphics.set
 
 fun Bitmap.destruct() {
     if (!isRecycled) recycle()
@@ -36,7 +39,7 @@ fun Bitmap.scale(
 }
 
 fun Bitmap.toMonochrome(): Bitmap {
-    val grayscaleBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val grayscaleBitmap = createBitmap(width, height)
     val canvas = Canvas(grayscaleBitmap)
     val paint = Paint()
     val colorMatrix = ColorMatrix()
@@ -51,9 +54,9 @@ fun Bitmap.toMonochromeManual(): Bitmap {
     val monochromeBitmap = copy(Bitmap.Config.ARGB_8888, true)
     for (y in 0 until monochromeBitmap.height) {
         for (x in 0 until monochromeBitmap.width) {
-            val pixel = monochromeBitmap.getPixel(x, y)
+            val pixel = monochromeBitmap[x, y]
             val gray = (0.299 * red(pixel) + 0.587 * green(pixel) + 0.114 * blue(pixel)).toInt()
-            monochromeBitmap.setPixel(x, y, argb(alpha(pixel), gray, gray, gray))
+            monochromeBitmap[x, y] = argb(alpha(pixel), gray, gray, gray)
         }
     }
     return monochromeBitmap

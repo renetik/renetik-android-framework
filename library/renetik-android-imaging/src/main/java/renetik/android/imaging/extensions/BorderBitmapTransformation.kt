@@ -1,12 +1,18 @@
 package renetik.android.imaging.extensions
 
-import android.graphics.*
+import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.Bitmap.createBitmap
+import android.graphics.Canvas
 import android.graphics.Color.BLACK
+import android.graphics.Paint
 import android.graphics.Paint.Style.STROKE
 import android.graphics.PorterDuff.Mode.SRC_IN
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
+import android.graphics.RectF
 import androidx.annotation.ColorInt
+import androidx.core.graphics.scale
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import renetik.android.core.kotlin.className
@@ -19,7 +25,7 @@ class BorderBitmapTransformation(
     @ColorInt private val color: Int = BLACK) : BitmapTransformation() {
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) =
-        messageDigest.update(className!!.toByteArray(CHARSET))
+        messageDigest.update(className.toByteArray(CHARSET))
 
     private val paint1 = Paint().apply {
         isAntiAlias = true
@@ -45,8 +51,9 @@ class BorderBitmapTransformation(
     }
 
     override fun transform(pool: BitmapPool, bmp: Bitmap, outWidth: Int,
-                           outHeight: Int): Bitmap {
-        val bitmap = Bitmap.createScaledBitmap(bmp, (bmp.getWidth() - borderWidth * 2).toInt(),
+        outHeight: Int): Bitmap {
+        val bitmap = bmp.scale(
+            (bmp.getWidth() - borderWidth * 2).toInt(),
             (bmp.getHeight() - borderWidth * 2).toInt(), false)
         val output = createBitmap(bmp.width, bmp.height, ARGB_8888)
         val canvas = Canvas(output)

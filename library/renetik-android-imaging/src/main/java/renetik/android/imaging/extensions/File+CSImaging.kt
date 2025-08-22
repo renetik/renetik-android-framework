@@ -8,7 +8,8 @@ import java.io.File
 import java.io.FileOutputStream
 
 fun File.resizeImage(maxTargetWidth: Int, maxTargetHeight: Int) = apply {
-    fromFile(this).resizeImage(maxTargetWidth, maxTargetHeight, FileOutputStream(this))
+    fromFile(this).resizeImage(maxTargetWidth, maxTargetHeight,
+        FileOutputStream(this))
 }
 
 fun File.write(
