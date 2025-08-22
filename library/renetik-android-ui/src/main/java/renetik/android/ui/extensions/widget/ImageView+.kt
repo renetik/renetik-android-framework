@@ -4,7 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.net.Uri.fromFile
+import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -13,20 +13,33 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import java.io.File
 
+
+interface CSImaging {
+    companion object {
+        lateinit var instance: CSImaging
+    }
+
+    fun load(view: ImageView, @DrawableRes resourceId: Int?)
+    fun load(view: ImageView, file: File)
+    fun load(view: ImageView, bitmap: Bitmap?)
+    fun load(view: ImageView, drawable: Drawable?)
+    fun load(view: ImageView, uri: Uri?)
+}
+
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int?): T = apply {
-    resourceId?.let(::setImageResource) ?: setImageDrawable(null)
+    CSImaging.instance.load(this, resourceId)
 }
 
 fun <T : ImageView> T.drawable(drawable: Drawable?): T = apply {
-    setImageDrawable(drawable)
+    CSImaging.instance.load(this, drawable)
 }
 
 fun <T : ImageView> T.image(file: File) = apply {
-    setImageURI(fromFile(file))
+    CSImaging.instance.load(this, file)
 }
 
 fun <T : ImageView> T.image(bitmap: Bitmap?) = apply {
-    setImageBitmap(bitmap)
+    CSImaging.instance.load(this, bitmap)
 }
 
 val ImageView.hasImage get() = drawable != null
