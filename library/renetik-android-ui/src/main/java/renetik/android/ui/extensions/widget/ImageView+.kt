@@ -15,9 +15,9 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import java.io.File
 
-class AndroidImaging() : CSImaging {
+class CSAndroidImaging() : CSImaging {
     companion object {
-        fun initialize() = AndroidImaging().also { CSImaging.instance = it }
+        fun initialize() = CSAndroidImaging().also { CSImaging.instance = it }
     }
 
     override fun load(view: ImageView, uri: Uri?): Unit = unexpected()
