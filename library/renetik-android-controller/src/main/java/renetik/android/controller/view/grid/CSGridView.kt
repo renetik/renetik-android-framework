@@ -35,15 +35,11 @@ import renetik.android.ui.protocol.onShowUntilHide
 typealias GridViewOut<T> = CSGridView<T, out CSGridItemView<T>>
 typealias GridView<T> = CSGridView<T, CSGridItemView<T>>
 
-class CSGridView<
-        ItemType : Any,
-        ViewType : CSGridItemView<ItemType>
-        >(
+class CSGridView<ItemType : Any,
+        ViewType : CSGridItemView<ItemType>>(
     parent: CSActivityViewInterface, viewId: Int,
-    val createView: (
-        CSGridView<ItemType, ViewType>,
-        viewType: Int, parent: ViewGroup,
-    ) -> ViewType
+    val createView: (CSGridView<ItemType, ViewType>,
+        viewType: Int, parent: ViewGroup) -> ViewType
 ) : CSView<RecyclerView>(parent, viewId) {
 
     constructor(
@@ -54,7 +50,7 @@ class CSGridView<
     constructor(
         parent: CSActivityViewInterface, viewId: Int,
         createView: (CSGridView<ItemType, ViewType>) -> ViewType
-    ) : this(parent, viewId, { viewParent, _, group -> createView(viewParent) })
+    ) : this(parent, viewId, { viewParent, _, _ -> createView(viewParent) })
 
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = mutableListOf<Pair<ItemType, Int>>()
