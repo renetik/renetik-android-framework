@@ -2,11 +2,13 @@ package renetik.android.controller.extensions
 
 import android.hardware.SensorManager
 import android.view.OrientationEventListener
+import androidx.core.view.doOnAttach
 import kotlinx.coroutines.delay
 import renetik.android.controller.base.CSView
 import renetik.android.core.extensions.content.CSDisplayOrientation
 import renetik.android.core.extensions.content.orientation
 import renetik.android.core.logging.CSLog.logInfo
+import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.event.CSEvent
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.registration.CSRegistration
@@ -78,11 +80,21 @@ fun CSView<*>.onSensorOrientationChange(
             }
         }
     }
-    if (listener.canDetectOrientation()) return this + CSRegistration(
-        onResume = { listener.enable() },
-        onPause = { listener.disable() }).start()
-    else {
+    if (!listener.canDetectOrientation()) {
         logInfo { "Cannot detect orientation" }
         return null
     }
+    var sensorUsable = true
+    return this + CSRegistration(onResume = {
+        if (sensorUsable) view.doOnAttach {
+            runCatching { listener.enable() }.onFailure {
+                sensorUsable = false
+                logWarn(it) { "Failed to enable OrientationEventListener — disabling sensor use" }
+                runCatching { listener.disable() }
+            }
+        }
+    }, onPause = {
+        if (sensorUsable) runCatching { listener.disable() }
+            .onFailure { logWarn(it) { "Failed to disable listener" } }
+    }).start()
 }
