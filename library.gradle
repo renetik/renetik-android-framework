@@ -8,10 +8,10 @@ if (rootProject.ext.is_renetik_library_release) {
 android {
     namespace rootProject.ext.namespace
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
-    kotlin { jvmToolchain(17) }
+    kotlin { jvmToolchain(21) }
     compileSdk project.properties.sdk_version
     defaultConfig {
         minSdkVersion project.properties.min_sdk_version
