@@ -29,11 +29,6 @@ fun <T : View> T.fadeIn(duration: Int = fadeAnimationDuration): ViewPropertyAnim
 }
 
 fun <T : View> T.fadeOut(
-    duration: Int = fadeAnimationDuration,
-    invisible: Boolean = false,
-) = fadeOut(duration, invisible, onDone = { })
-
-fun <T : View> T.fadeOut(
     parent: CSHasDestruct,
     duration: Int = fadeAnimationDuration,
     invisible: Boolean = false,
@@ -42,10 +37,10 @@ fun <T : View> T.fadeOut(
     if (!parent.isDestructed) onDone()
 })
 
-private fun <T : View> T.fadeOut(
+fun <T : View> T.fadeOut(
     duration: Int = fadeAnimationDuration,
     invisible: Boolean = false,
-    onDone: (() -> Unit)
+    onDone: (() -> Unit) = {}
 ): ViewPropertyAnimator? = when {
     CSLeakCanary.isEnabled -> {
         if (invisible) invisible() else gone()
@@ -65,7 +60,7 @@ private fun <T : View> T.fadeOut(
             isClickable = true
             alpha = originalAlpha
             if (invisible) invisible() else gone()
-            onDone()
+            if (isAttachedToWindow) onDone()
         }
     }
 }
