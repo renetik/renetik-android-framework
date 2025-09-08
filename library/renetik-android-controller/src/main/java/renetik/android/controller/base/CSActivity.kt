@@ -138,12 +138,12 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, results: IntArray
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, results)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         onRequestPermissionsResult.fire(
-            CSRequestPermissionResult(requestCode, permissions, results)
+            CSRequestPermissionResult(requestCode, permissions, grantResults)
         )
-        logInfo("$requestCode $permissions $results")
+        logInfo("$requestCode $permissions $grantResults")
     }
 }
