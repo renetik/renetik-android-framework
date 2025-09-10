@@ -32,27 +32,27 @@ open class CSActivityView<ViewType : View>
     final override val eventResume by lazy { event<Unit>() }
     final override val eventPause by lazy { event<Unit>() }
     final override val eventBack by lazy { event<CSVariable<Boolean>>() }
-    final override fun activity(): CSActivity<*> = activity!!
+    final override fun activity(): CSViewActivity<*> = activity!!
     var isResume = false
     private var isResumeFirstTime = false
 
     private var parentActivityView: CSActivityView<*>? = null
 
-    var activity: CSActivity<*>? = null
+    var activity: CSViewActivity<*>? = null
     private var showingInPager: Boolean? = null
 
-    constructor(activity: CSActivity<*>) : super(activity) {
+    constructor(activity: CSViewActivity<*>) : super(activity) {
         this.activity = activity
         initializeParent(activity)
     }
 
-    constructor(activity: CSActivity<*>, layout: CSLayoutRes)
+    constructor(activity: CSViewActivity<*>, layout: CSLayoutRes)
             : super(activity, layout) {
         this.activity = activity
         initializeParent(activity)
     }
 
-    constructor(activity: CSActivity<*>, view: ViewType)
+    constructor(activity: CSViewActivity<*>, view: ViewType)
             : super(activity, view) {
         this.activity = activity
         initializeParent(activity)

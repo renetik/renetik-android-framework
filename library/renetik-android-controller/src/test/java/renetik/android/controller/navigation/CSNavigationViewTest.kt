@@ -9,7 +9,7 @@ import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
-import renetik.android.controller.base.CSActivity
+import renetik.android.controller.base.CSViewActivity
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.isPaused
 import renetik.android.controller.extensions.push
@@ -22,7 +22,7 @@ import renetik.android.ui.R.layout.cs_frame_match
 @Config(application = TestApplication::class)
 class CSNavigationViewTest {
 
-    private class Activity : CSActivity<CSActivityView<FrameLayout>>() {
+    private class Activity : CSViewActivity<CSActivityView<FrameLayout>>() {
         override fun createView() = ActivityView(this)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class CSNavigationViewTest {
         }
     }
 
-    class ActivityView(activity: CSActivity<CSActivityView<FrameLayout>>) :
+    class ActivityView(activity: CSViewActivity<CSActivityView<FrameLayout>>) :
         CSActivityView<FrameLayout>(activity, layout(cs_frame_match)) {
         override var navigation: CSNavigationView? = CSNavigationView(this)
     }

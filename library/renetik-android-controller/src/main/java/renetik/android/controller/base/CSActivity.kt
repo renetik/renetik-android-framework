@@ -4,42 +4,25 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.kotlin.className
-import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.common.CSHasContext
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistrationsMap
-import renetik.android.ui.extensions.clearContentView
 import renetik.android.ui.extensions.fixInputMethodManagerLeak
+import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSVisibility
 
-abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCompatActivity(),
-    CSActivityViewInterface, CSVisibility {
-
-    companion object {
-        val activity get() = app.activity as? CSActivity<*>
-    }
-
-    //CSActivityViewInterface
-    override val eventResume = event<Unit>()
-    override val eventPause = event<Unit>()
-    override val eventBack = event<CSVariable<Boolean>>()
-    override fun activity(): CSActivity<ActivityView> = this
-
+abstract class CSActivity : AppCompatActivity(), CSVisibility, CSHasContext, CSViewInterface {
     val onActivityResult = event<CSActivityResult>()
     val onRequestPermissionsResult = event<CSRequestPermissionResult>()
 
     //CSVisibility
     override val isVisible = property(true)
-
-    var activityView: ActivityView? = null
-        private set
     val configuration = Configuration()
 
     //CSViewInterface
@@ -48,55 +31,9 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     //CSHasContext
     override val context: Context get() = this
 
-    abstract fun createView(): ActivityView
-
-    fun createViewAndLoadConfiguration() {
-        activityView = createView()
-        setContentView(activityView!!.view)
-        configuration.setTo(resources.configuration)
-        logInfo()
-    }
-
-    var isRecreateView = false
-
-    fun recreateView() {
-        destroyActivityView()
-        createActivityView()
-        logInfo()
-    }
-
     override fun recreate() {
         destruct()
         super.recreate()
-    }
-
-    fun destroyActivityView() {
-        isRecreateView = true
-        clearContentView()
-        activityView?.destruct()
-        configuration.setTo(resources.configuration)
-        activityView = null
-        logInfo()
-    }
-
-    private fun createActivityView() {
-        activityView = createView()
-        setContentView(activityView!!.view)
-        activityView!!.onResume()
-        isRecreateView = false
-        logInfo()
-    }
-
-    public override fun onResume() {
-        eventResume.fire()
-        super.onResume()
-        logInfo()
-    }
-
-    public override fun onPause() {
-        eventPause.fire()
-        super.onPause()
-        logInfo()
     }
 
     final override val registrations = CSRegistrationsMap(className)
@@ -105,7 +42,6 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
     override fun onDestruct() {
         registrations.cancel()
         eventDestruct.fire().clear()
-        activityView = null
         logInfo()
         fixInputMethodManagerLeak()
     }
@@ -120,15 +56,6 @@ abstract class CSActivity<ActivityView : CSActivityView<out ViewGroup>> : AppCom
         onActivityResult.fire(CSActivityResult(requestCode, resultCode, data))
         super.onActivityResult(requestCode, resultCode, data)
         logInfo("$requestCode $resultCode $data")
-    }
-
-    @Suppress("DEPRECATION")
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        val goBack = property(true)
-        eventBack.fire(goBack)
-        if (goBack.value) super.onBackPressed()
-        logInfo()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
