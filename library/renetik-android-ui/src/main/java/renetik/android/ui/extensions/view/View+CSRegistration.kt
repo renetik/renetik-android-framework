@@ -14,12 +14,12 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.Func
 import renetik.android.core.lang.result.invoke
+import renetik.android.core.lang.variable.setFalse
+import renetik.android.core.lang.variable.setTrue
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.event.property.start
-import renetik.android.event.property.stop
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
@@ -32,7 +32,6 @@ import renetik.android.event.registration.onChangeOnce
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import renetik.android.ui.R
-import java.util.concurrent.atomic.AtomicBoolean
 
 fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
@@ -56,44 +55,37 @@ fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     return registration
 }
 
+// TODO: Evaluate if it is issue that listener can be called event in current layout pass
+//  while point of this code is to postpone action to next layout pass and what are
+//  other solutions to postpone actio for next layout pass
 fun View.onGlobalLayout(function: (CSRegistration) -> Unit): CSRegistration {
-    var attachedObserver: ViewTreeObserver? = null
     lateinit var registration: CSRegistration
     val listener = OnGlobalLayoutListener {
         if (registration.isActive) function(registration)
     }
-    val isObserverAttached = AtomicBoolean(false)
-
-    fun attach() {
-        if (isObserverAttached.compareAndSet(false, true))
-            attachedObserver = viewTreeObserver.also {
-                it.addOnGlobalLayoutListener(listener)
-            }
-    }
-
-    fun detach() {
-        if (isObserverAttached.compareAndSet(true, false)) {
-            runCatching {
-                (attachedObserver?.takeIf { it.isAlive } ?: viewTreeObserver)
-                    .removeOnGlobalLayoutListener(listener)
-            }
+    var attachedObserver: ViewTreeObserver? = null
+    val isAttach = property(false) { isAttach ->
+        if (isAttach) attachedObserver = viewTreeObserver.also {
+            it.addOnGlobalLayoutListener(listener)
+        }
+        else (attachedObserver?.takeIf { it.isAlive } ?: viewTreeObserver).also {
+            runCatching { it.removeOnGlobalLayoutListener(listener) }
             attachedObserver = null
         }
     }
-
     val attachStateListener = object : OnAttachStateChangeListener {
-        override fun onViewAttachedToWindow(v: View) = attach()
-        override fun onViewDetachedFromWindow(v: View) = detach()
+        override fun onViewAttachedToWindow(v: View) = isAttach.setTrue()
+        override fun onViewDetachedFromWindow(v: View) = isAttach.setFalse()
     }
-    addOnAttachStateChangeListener(attachStateListener)
     registration = CSRegistration(
-        onResume = { if (isAttachedToWindow) attach() },
-        onPause = { detach() },
+        onResume = { if (isAttachedToWindow) isAttach.setTrue() },
+        onPause = { isAttach.setFalse() },
         onCancel = {
-            detach()
+            isAttach.setFalse()
             removeOnAttachStateChangeListener(attachStateListener)
         }
     )
+    addOnAttachStateChangeListener(attachStateListener)
     registration.start()
     return registration
 }
