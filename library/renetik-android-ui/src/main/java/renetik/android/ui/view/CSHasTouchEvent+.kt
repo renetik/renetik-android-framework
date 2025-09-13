@@ -12,13 +12,17 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
+import renetik.android.event.registration.invoke
 import renetik.android.event.registration.laterEach
 import renetik.android.event.registration.launch
+import renetik.android.event.registration.launchLaterEach
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
+import renetik.android.ui.extensions.view.enabledChange
 import renetik.android.ui.extensions.view.onLongClick
 import renetik.android.ui.extensions.view.pressed
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
@@ -236,9 +240,9 @@ inline fun <T : CSHasTouchEvent> T.onTouchSelectedToggle(
 
 fun CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
-    delay: Duration = 1.seconds,
+    delay: Duration = ZERO,
     period: Duration = 250.milliseconds,
-    repeat: () -> Unit,
+    repeat: suspend () -> Unit,
 ): CSRegistration = onTouch(parent,
     delay.inWholeMilliseconds.toInt(),
     period.inWholeMilliseconds.toInt(),
@@ -247,17 +251,22 @@ fun CSHasTouchEvent.onTouch(
 fun CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
     delay: Int, period: Int,
-    repeat: () -> Unit,
+    repeat: suspend () -> Unit,
 ): CSRegistration {
     var repeatRegistration: CSRegistration? = null
-    val registration = onTouch(down = {
+    val touchRegistration = onTouch(down = {
         repeatRegistration?.cancel()
-        repeatRegistration = parent.laterEach(
-            after = delay, period = period) { repeat() }
+        repeatRegistration = parent.launchLaterEach(
+            after = delay, period = period) {
+            repeat()
+        }
     }, up = {
         repeatRegistration?.cancel()
     })
-    return CSRegistration(repeatRegistration, registration)
+    val enabledRegistration = self.enabledChange { isEnabled ->
+        if (!isEnabled) repeatRegistration?.cancel()
+    }
+    return CSRegistration(repeatRegistration, touchRegistration, enabledRegistration)
 }
 
 fun <T> CSHasTouchEvent.onTouch(

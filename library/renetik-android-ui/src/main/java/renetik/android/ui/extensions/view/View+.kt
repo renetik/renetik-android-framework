@@ -48,13 +48,16 @@ import renetik.android.core.kotlin.primitives.ifTrue
 import renetik.android.core.lang.catchAll
 import renetik.android.core.lang.result.invoke
 import renetik.android.event.CSEvent
+import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
+import renetik.android.event.invoke
 import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.property.start
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.launch
+import renetik.android.ui.R
 import renetik.android.ui.view.adapter.CSClickAdapter
 
 suspend fun <T : View, V> T.use(function: suspend (T) -> V): V =
@@ -62,9 +65,8 @@ suspend fun <T : View, V> T.use(function: suspend (T) -> V): V =
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 
-@JvmName("viewOfType")
-inline fun <reified Type : View>
-        View.view(@IdRes id: Int): Type = findView(id)!!
+@JvmName("viewOfType") inline fun <reified Type : View> View.view(@IdRes id: Int): Type =
+    findView(id)!!
 
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
 fun View.view(@IdRes id: Int, onClick: ((view: View) -> Unit)): View =
@@ -95,26 +97,32 @@ fun View.seekBar(@IdRes id: Int) = findView<SeekBar>(id)!!
 fun View.progress(@IdRes id: Int) = findView<ProgressBar>(id)!!
 fun View.toolbar(@IdRes id: Int) = findView<Toolbar>(id)!!
 
-fun <T : View> T.enabled(enabled: Boolean = true) = enabledIf(enabled)
-fun <T : View> T.enabledIf(condition: Boolean) = apply { isEnabled = condition }
-fun <T : View> T.disabled(value: Boolean = true) = disabledIf(value)
-fun <T : View> T.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
+val <T : View> T.enabledChange
+    get() = propertyWithTag(R.id.ViewEventOnEnabledTag) { event<Boolean>() }
+
+fun <T : View> T.enabled(value: Boolean = true) = apply {
+    isEnabled = value
+    enabledChange(value)
+}
+
+fun <T : View> T.enabledIf(condition: Boolean) = enabled(condition)
+fun <T : View> T.disabled(value: Boolean = true) = enabled(!value)
+fun <T : View> T.disabledIf(condition: Boolean) = enabled(!condition)
 
 val <T : View> T.superview get() = parent as? ViewGroup
 val <T : View> T.parentView get() = parent as? ViewGroup
 fun <T : View> T.removeFromSuperview() = apply { (parent as? ViewGroup)?.remove(this) }
 
-fun <T : View> T.onClick(
-    timeout: Int? = null, onClick: (view: T) -> Unit
-) = apply {
+fun <T : View> T.onClick(timeout: Int? = null, onClick: (view: T) -> Unit) = apply {
     setOnClickListener(CSClickAdapter(timeout) {
         if (isClickable) onClick(this)
     })
 }
 
-fun <T : View> T.onClickLaunch(
-    parent: CSHasRegistrations, timeout: Int? = null, onClick: suspend (view: T) -> Unit
-) = onClick(timeout) { view -> parent.launch { onClick(view) } }
+fun <T : View> T.onClickLaunch(parent: CSHasRegistrations,
+    timeout: Int? = null,
+    onClick: suspend (view: T) -> Unit) =
+    onClick(timeout) { view -> parent.launch { onClick(view) } }
 
 fun <T : View> T.clearClick(andClickable: Boolean = false) = apply {
     setOnClickListener(null)
@@ -136,8 +144,7 @@ suspend fun <T : View> T.drawToNewBitmap(): Bitmap = Default {
     createBitmap().also { Main { drawToBitmap(it) } }
 }
 
-fun <T : View> T.createBitmap(): Bitmap =
-    createBitmap(width, height, ARGB_8888)
+fun <T : View> T.createBitmap(): Bitmap = createBitmap(width, height, ARGB_8888)
 
 fun <T : View> T.drawToBitmap(bitmap: Bitmap) = Canvas(bitmap).apply {
     background?.draw(this) ?: this.drawColor(WHITE)
@@ -185,21 +192,17 @@ fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
 fun View.onClick(action: CSActionInterface) = onClick { action.start() }
 fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 
-@Suppress("DEPRECATION")
-fun View.enterFullScreen() {
-    systemUiVisibility = SYSTEM_UI_FLAG_IMMERSIVE or
-            SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION
+@Suppress("DEPRECATION") fun View.enterFullScreen() {
+    systemUiVisibility =
+        SYSTEM_UI_FLAG_IMMERSIVE or SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }
 
-@Suppress("DEPRECATION")
-fun View.exitFullscreen() {
+@Suppress("DEPRECATION") fun View.exitFullscreen() {
     systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
 }
 
 @SuppressLint("ClickableViewAccessibility")
-inline fun <T : View> T.onDoubleTap(
-    crossinline function: (T) -> Unit
-) = apply {
+inline fun <T : View> T.onDoubleTap(crossinline function: (T) -> Unit) = apply {
     val view = this
     val detector = GestureDetector(context, object : SimpleOnGestureListener() {
         override fun onDoubleTap(e: MotionEvent): Boolean {
@@ -220,9 +223,8 @@ fun View.onDestruct() {
     (this as? ViewGroup)?.children?.forEach(View::onDestruct)
 }
 
-fun View.performTouchDown(time: Int = 700): Boolean = dispatchTouchEvent(
-    obtain(uptimeMillis(), uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0)
-)
+fun View.performTouchDown(time: Int = 700): Boolean =
+    dispatchTouchEvent(obtain(uptimeMillis(), uptimeMillis() + time, ACTION_DOWN, 0f, 0f, 0))
 
 val View.firstChild get() = (this as? ViewGroup)?.firstChild
 

@@ -112,6 +112,32 @@ suspend fun View.waitForLayout(): Unit = suspendCancellableCoroutine { coroutine
     coroutine.invokeOnCancellation { registration?.cancel() }
 }
 
+suspend fun View.waitForIsViewLayout() {
+    if (isLaidOut && !isLayoutRequested) return
+    suspendCancellableCoroutine { coroutine ->
+        var registration: CSRegistration? = null
+        registration = onViewLayout {
+            registration?.cancel()
+            registration = null
+            coroutine.resumeWith(Result.success(Unit))
+        }
+        coroutine.invokeOnCancellation { registration?.cancel() }
+    }
+}
+
+suspend fun View.waitForViewLayout() {
+    if (!isLayoutRequested) return
+    suspendCancellableCoroutine { coroutine ->
+        var registration: CSRegistration? = null
+        registration = onViewLayout {
+            registration?.cancel()
+            registration = null
+            coroutine.resumeWith(Result.success(Unit))
+        }
+        coroutine.invokeOnCancellation { registration?.cancel() }
+    }
+}
+
 inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
     val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
     return CSRegistration(onResume = { addOnLayoutChangeListener(listener) },

@@ -4,5 +4,6 @@
     <item name="ViewEventOnFocusTag" type="id" />
     <item name="ViewEventOnChangeTag" type="id" />
     <item name="ViewEventOnScrollTag" type="id" />
+    <item name="ViewEventOnEnabledTag" type="id" />
     <item name="ViewModelTag" type="id" />
 </resources>
