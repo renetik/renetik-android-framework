@@ -248,13 +248,17 @@ fun CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
     delay: Int, period: Int,
     repeat: () -> Unit,
-): CSRegistration = onTouch(parent,
-    repeat = { repeat() },
-    step = { },
-    delay = delay,
-    period = period,
-    until = { true },
-    onDone = {})
+): CSRegistration {
+    var repeatRegistration: CSRegistration? = null
+    val registration = onTouch(down = {
+        repeatRegistration?.cancel()
+        repeatRegistration = parent.laterEach(
+            after = delay, period = period) { repeat() }
+    }, up = {
+        repeatRegistration?.cancel()
+    })
+    return CSRegistration(repeatRegistration, registration)
+}
 
 fun <T> CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
@@ -268,8 +272,8 @@ fun <T> CSHasTouchEvent.onTouch(
     var repeatRegistration: CSRegistration? = null
     val registration = onTouch(down = {
         repeatCount = 0
-        step(repeatCount)?.also {
-            if (!until(it)) onDone() else repeat(it)
+        step(repeatCount).also { step ->
+            if (!until(step)) onDone() else repeat(step)
         }
         repeatRegistration?.cancel()
         if (self.isEnabled) repeatRegistration = parent.laterEach(delay, period, function = {
