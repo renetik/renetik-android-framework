@@ -5,6 +5,7 @@ package renetik.android.ui.extensions.view
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import android.view.View.OnLayoutChangeListener
+import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import kotlinx.coroutines.Dispatchers.Main
@@ -31,6 +32,7 @@ import renetik.android.event.registration.onChangeOnce
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import renetik.android.ui.R
+import java.util.concurrent.atomic.AtomicBoolean
 
 fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
@@ -55,23 +57,44 @@ fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
 }
 
 fun View.onGlobalLayout(function: (CSRegistration) -> Unit): CSRegistration {
+    var attachedObserver: ViewTreeObserver? = null
     lateinit var registration: CSRegistration
     val listener = OnGlobalLayoutListener {
         if (registration.isActive) function(registration)
     }
+    val isObserverAttached = AtomicBoolean(false)
 
-    fun attach() = viewTreeObserver.addOnGlobalLayoutListener(listener)
-    fun detach() = viewTreeObserver.removeOnGlobalLayoutListener(listener)
-    val isOnGlobalLayoutAttached = property(false) { if (it) attach() else detach() }
+    fun attach() {
+        if (isObserverAttached.compareAndSet(false, true))
+            attachedObserver = viewTreeObserver.also {
+                it.addOnGlobalLayoutListener(listener)
+            }
+    }
+
+    fun detach() {
+        if (isObserverAttached.compareAndSet(true, false)) {
+            runCatching {
+                (attachedObserver?.takeIf { it.isAlive } ?: viewTreeObserver)
+                    .removeOnGlobalLayoutListener(listener)
+            }
+            attachedObserver = null
+        }
+    }
+
     val attachStateListener = object : OnAttachStateChangeListener {
-        override fun onViewAttachedToWindow(view: View) = isOnGlobalLayoutAttached.start()
-        override fun onViewDetachedFromWindow(view: View) = isOnGlobalLayoutAttached.stop()
+        override fun onViewAttachedToWindow(v: View) = attach()
+        override fun onViewDetachedFromWindow(v: View) = detach()
     }
     addOnAttachStateChangeListener(attachStateListener)
-    registration =
-        CSRegistration(onResume = { if (isAttachedToWindow) isOnGlobalLayoutAttached.start() },
-            onPause = { isOnGlobalLayoutAttached.stop() },
-            onCancel = { removeOnAttachStateChangeListener(attachStateListener) }).start()
+    registration = CSRegistration(
+        onResume = { if (isAttachedToWindow) attach() },
+        onPause = { detach() },
+        onCancel = {
+            detach()
+            removeOnAttachStateChangeListener(attachStateListener)
+        }
+    )
+    registration.start()
     return registration
 }
 
