@@ -142,7 +142,7 @@ suspend fun <T : View> T.waitForSize() = apply {
 }
 
 suspend fun <T : View> T.waitForWidth(): Int = Main {
-    while (width <= 0) delay(20)
+    while (width <= 0) delay(5)
     width
 }
 
