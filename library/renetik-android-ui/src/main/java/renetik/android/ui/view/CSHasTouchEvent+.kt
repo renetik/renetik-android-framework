@@ -296,5 +296,8 @@ fun <T> CSHasTouchEvent.onTouch(
     }, up = {
         repeatRegistration?.cancel()
     })
-    return CSRegistration(repeatRegistration, registration)
+    val enabledRegistration = self.enabledChange { isEnabled ->
+        if (!isEnabled) repeatRegistration?.cancel()
+    }
+    return CSRegistration(repeatRegistration, registration, enabledRegistration)
 }

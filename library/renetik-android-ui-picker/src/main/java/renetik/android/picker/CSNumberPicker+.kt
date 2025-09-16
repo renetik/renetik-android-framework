@@ -7,7 +7,7 @@ import com.shawnlin.numberpicker.NumberPicker.ASCENDING
 import renetik.android.core.kotlin.asStringArray
 import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.index
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.variable.assign
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
@@ -20,24 +20,16 @@ import renetik.android.ui.protocol.CSViewInterface
 fun CSViewInterface.numberPicker(viewId: Int) = view(viewId) as CSNumberPicker
 
 fun CSNumberPicker.index(property: CSProperty<Int>): CSRegistration {
-    val propertyRegistration = this.index(property) {
-        if (order == ASCENDING) it else it + 1
+    val propertyRegistration = property.action {
+        index assign if (order == ASCENDING) it else it + 1
     }
-    val valueChangeRegistration = onIndexChange {
+    val indexRegistration = index.onChange {
         propertyRegistration.paused {
-            property.value = if (order == ASCENDING)
-                value else value - 1
+            property assign if (order == ASCENDING) it else it - 1
         }
     }
-    return CSRegistration(propertyRegistration, valueChangeRegistration)
+    return CSRegistration(propertyRegistration, indexRegistration)
 }
-
-fun <T> CSNumberPicker.index(property: CSProperty<T>, function: (T) -> Int): CSRegistration =
-    property.action { index.value = function(property.value) }
-
-fun CSNumberPicker.onIndexChange(function: Func) = index.onChange { function() }
-
-fun CSNumberPicker.onScroll(function: (Int) -> Unit) = eventOnScroll.listen(function)
 
 fun <T> CSNumberPicker.load(
     property: CSProperty<T>, data: List<Pair<String, T>>
