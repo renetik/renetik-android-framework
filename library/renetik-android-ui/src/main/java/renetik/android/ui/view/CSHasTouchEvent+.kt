@@ -162,7 +162,18 @@ inline fun <T : CSHasTouchEvent> T.onLongTouch(
 inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline down: () -> Unit,
     crossinline up: () -> Unit,
-): CSRegistration = onTouch(onTouch = { isDown -> if (isDown) down() else up() })
+): CSRegistration {
+    val touchRegistration = onTouch(onTouch = { isDown ->
+        if (isDown) down() else up()
+    })
+    val enabledRegistration = self.enabledChange { isEnabled ->
+        if (!isEnabled) {
+            up()
+            self.pressed(false)
+        }
+    }
+    return CSRegistration(touchRegistration, enabledRegistration)
+}
 
 fun <T : CSHasTouchEvent> T.touchToggleActiveIf(
     property: CSProperty<Boolean>
@@ -257,16 +268,11 @@ fun CSHasTouchEvent.onTouch(
     val touchRegistration = onTouch(down = {
         repeatRegistration?.cancel()
         repeatRegistration = parent.launchLaterEach(
-            after = delay, period = period) {
-            repeat()
-        }
+            after = delay, period = period, function = repeat)
     }, up = {
         repeatRegistration?.cancel()
     })
-    val enabledRegistration = self.enabledChange { isEnabled ->
-        if (!isEnabled) repeatRegistration?.cancel()
-    }
-    return CSRegistration(repeatRegistration, touchRegistration, enabledRegistration)
+    return CSRegistration(repeatRegistration, touchRegistration)
 }
 
 fun <T> CSHasTouchEvent.onTouch(
@@ -285,7 +291,7 @@ fun <T> CSHasTouchEvent.onTouch(
             if (!until(step)) onDone() else repeat(step)
         }
         repeatRegistration?.cancel()
-        if (self.isEnabled) repeatRegistration = parent.laterEach(delay, period, function = {
+        repeatRegistration = parent.laterEach(delay, period, function = {
             repeat(step(repeatCount))
             repeatCount++
             if (!until(step(repeatCount))) {
@@ -296,8 +302,5 @@ fun <T> CSHasTouchEvent.onTouch(
     }, up = {
         repeatRegistration?.cancel()
     })
-    val enabledRegistration = self.enabledChange { isEnabled ->
-        if (!isEnabled) repeatRegistration?.cancel()
-    }
-    return CSRegistration(repeatRegistration, registration, enabledRegistration)
+    return CSRegistration(repeatRegistration, registration)
 }
