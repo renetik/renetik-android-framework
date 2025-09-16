@@ -23,13 +23,12 @@ fun CSNumberPicker.index(property: CSProperty<Int>): CSRegistration {
     val propertyRegistration = this.index(property) {
         if (order == ASCENDING) it else it + 1
     }
-    val valueChangeRegistration =
-        onIndexChange {
-            propertyRegistration.paused {
-                property.value = if (order == ASCENDING)
-                    value else value - 1
-            }
+    val valueChangeRegistration = onIndexChange {
+        propertyRegistration.paused {
+            property.value = if (order == ASCENDING)
+                value else value - 1
         }
+    }
     return CSRegistration(propertyRegistration, valueChangeRegistration)
 }
 
