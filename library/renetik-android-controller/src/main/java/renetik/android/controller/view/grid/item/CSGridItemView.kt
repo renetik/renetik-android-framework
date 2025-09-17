@@ -6,6 +6,8 @@ import renetik.android.controller.base.CSView
 import renetik.android.controller.view.grid.CSGridView
 import renetik.android.core.kotlin.className
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
+import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.invoke
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.event.registration.plus
@@ -19,22 +21,30 @@ open class CSGridItemView<RowType : Any>(
     @LayoutRes layout: Int,
 ) : CSView<ViewGroup>(parent, group, layout.layout) {
 
-    constructor(parent: CSGridView<*, *>, @LayoutRes layout: Int)
-            : this(parent, parent.view, layout)
+    constructor(parent: CSGridView<*, *>, @LayoutRes layout: Int) : this(parent,
+        parent.view,
+        layout)
 
     lateinit var value: RowType
     var index = -1
     val isLoaded get() = index != -1
     var itemDisabled = false
     val loadRegistrations = CSRegistrationsMap(className).also { this + it }
+    val eventLoad = event<RowType>()
 
     fun load(value: RowType, index: Int) {
         this.index = index
         this.value = value
         loadRegistrations.onLoad(value)
+        eventLoad(value)
     }
 
-    open fun CSHasRegistrations.onLoad(data: RowType) = Unit
+    protected open fun CSHasRegistrations.onLoad(data: RowType) = Unit
 
     override val contentView get() = view.firstChild!!
+}
+
+fun <RowType : Any, Item : CSGridItemView<RowType>> Item.onLoad(
+    function: (Item).(value: RowType) -> Unit) = apply {
+    this.eventLoad.listen { function(it) }
 }
