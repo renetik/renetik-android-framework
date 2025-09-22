@@ -53,7 +53,7 @@ inline fun <T : CSHasTouchEvent> T.onTouch(
     crossinline move: (event: MotionEvent) -> Unit,
     crossinline up: (event: MotionEvent?) -> Unit,
 ): CSRegistration {
-    val touchRegistration =  eventOnTouch.listen {
+    val touchRegistration = eventOnTouch.listen {
         when (it.actionMasked) {
             ACTION_DOWN -> it.consume().run { down(it.event) }
             ACTION_UP, ACTION_CANCEL -> it.consume().run { up(it.event) }
@@ -107,6 +107,7 @@ inline fun <T : CSHasTouchEvent> T.onLongTouch(
                     onTouch(false)
                 } else onClick()
             }
+
             ACTION_CANCEL -> {
                 if (isLongTouch) {
                     isLongTouch = false
@@ -203,10 +204,12 @@ fun CSHasTouchEvent.onTouch(
     delay: Duration = ZERO,
     period: Duration = 250.milliseconds,
     repeat: suspend () -> Unit,
-): CSRegistration = onTouch(parent,
+): CSRegistration = onTouch(
+    parent,
     delay.inWholeMilliseconds.toInt(),
     period.inWholeMilliseconds.toInt(),
-    repeat)
+    repeat
+)
 
 fun CSHasTouchEvent.onTouch(
     parent: CSHasRegistrations,
@@ -217,7 +220,8 @@ fun CSHasTouchEvent.onTouch(
     val touchRegistration = onTouch(down = {
         repeatRegistration?.cancel()
         repeatRegistration = parent.launchLaterEach(
-            after = delay, period = period, function = repeat)
+            after = delay, period = period, function = repeat
+        )
     }, up = {
         repeatRegistration?.cancel()
     })
@@ -232,22 +236,24 @@ fun <T> CSHasTouchEvent.onTouch(
     until: (step: T) -> Boolean,
     onDone: () -> Unit,
 ): CSRegistration {
-    var repeatCount: Int
     var repeatRegistration: CSRegistration? = null
     val registration = onTouch(down = {
-        repeatCount = 0
-        step(repeatCount).also { step ->
-            if (!until(step)) onDone() else repeat(step)
-        }
-        repeatRegistration?.cancel()
-        repeatRegistration = parent.laterEach(delay, period, function = {
-            repeat(step(repeatCount))
+        var repeatCount = 0
+        val stepValue = step(repeatCount)
+        if (!until(stepValue)) onDone() else {
+            repeat(stepValue)
             repeatCount++
-            if (!until(step(repeatCount))) {
-                repeatRegistration?.cancel()
-                onDone()
-            }
-        })
+            repeatRegistration?.cancel()
+            repeatRegistration = parent.laterEach(delay, period, function = {
+                if (!until(step(repeatCount))) {
+                    repeatRegistration?.cancel()
+                    onDone()
+                } else {
+                    repeat(step(repeatCount))
+                    repeatCount++
+                }
+            })
+        }
     }, up = {
         repeatRegistration?.cancel()
     })
