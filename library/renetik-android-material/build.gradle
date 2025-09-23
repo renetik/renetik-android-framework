@@ -10,5 +10,5 @@ dependencies {
 
     implementation project(':renetik-android-ui')
     implementation project(':renetik-android-controller')
-    api 'com.google.android.material:material:1.12.0'
+    api 'com.google.android.material:material:1.13.0'
 }
