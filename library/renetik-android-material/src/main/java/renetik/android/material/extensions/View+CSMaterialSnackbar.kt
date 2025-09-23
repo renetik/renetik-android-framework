@@ -7,9 +7,9 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.appcompat.R.attr.colorError
+import androidx.appcompat.R.attr.colorPrimary
 import androidx.core.view.updateLayoutParams
 import com.google.android.material.R.attr.colorOnError
-import com.google.android.material.R.attr.colorPrimary
 import com.google.android.material.R.attr.colorSurface
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
@@ -28,20 +28,26 @@ import kotlin.time.Duration.Companion.seconds
 fun View.snackbarWarn(
     parent: CSHasRegistrations, title: String,
     time: Duration? = null, action: CSButtonAction? = null
-) = snackbar(parent, title, backColor = context.attributeColor(colorError),
-    textColor = context.attributeColor(colorOnError), action = action, time)
+) = snackbar(
+    parent, title, backColor = context.attributeColor(colorError),
+    textColor = context.attributeColor(colorOnError), action = action, time
+)
 
 fun View.snackbarError(
     parent: CSHasRegistrations, title: String,
     time: Duration? = null, action: CSButtonAction? = null
-) = snackbar(parent, title, backColor = context.attributeColor(colorError),
-    textColor = context.attributeColor(colorOnError), action = action, time)
+) = snackbar(
+    parent, title, backColor = context.attributeColor(colorError),
+    textColor = context.attributeColor(colorOnError), action = action, time
+)
 
 fun View.snackbarInfo(
     parent: CSHasRegistrations, title: String,
     time: Duration? = null, action: CSButtonAction? = null
-) = snackbar(parent, title, backColor = context.attributeColor(colorSurface),
-    textColor = context.attributeColor(colorPrimary), action = action, time)
+) = snackbar(
+    parent, title, backColor = context.attributeColor(colorSurface),
+    textColor = context.attributeColor(colorPrimary), action = action, time
+)
 
 fun View.snackbar(parent: CSHasRegistrations, title: String) =
     snackbar(parent, title, time = 5.seconds)
@@ -58,7 +64,8 @@ fun View.snackbar(
         FrameLayout(context).apply {
             id = android.R.id.content
             it.addView(this, layoutMatch)
-            showBar(parent, title, backColor, textColor, time,
+            showBar(
+                parent, title, backColor, textColor, time,
                 action, onDismiss = { removeFromSuperview() }
             ).view.updateLayoutParams<FrameLayout.LayoutParams> {
                 gravity = CENTER or BOTTOM; width = WRAP_CONTENT
