@@ -7,7 +7,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.core.kotlin.asString
-import renetik.android.core.kotlin.primitives.isEmpty
+import renetik.android.core.kotlin.primitives.isBlank
 import renetik.android.core.lang.ArgFunc
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
@@ -57,7 +57,7 @@ fun EditText.property(property: CSProperty<String>): CSRegistration =
 fun EditText.property(property: CSProperty<String>, toString: (String) -> String): CSRegistration {
     val propertyOnChange = property.action { text(toString(property.value)) }
     return CSRegistration(propertyOnChange, onTextChange {
-        propertyOnChange.paused { property.value = if (text().isEmpty) "" else text() }
+        propertyOnChange.paused { property.value = if (text().isBlank) "" else text() }
     })
 }
 
@@ -65,7 +65,7 @@ fun EditText.property(property: CSProperty<String>, toString: (String) -> String
 fun EditText.property(property: CSProperty<String?>): CSRegistration {
     val propertyOnChange = property.action { text(property.value.asString) }
     return CSRegistration(propertyOnChange, onTextChange {
-        propertyOnChange.paused { property.value = if (text().isEmpty) "" else text() }
+        propertyOnChange.paused { property.value = if (text().isBlank) "" else text() }
     })
 }
 
