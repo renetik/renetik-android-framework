@@ -15,7 +15,7 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import java.io.File
 
-class CSAndroidImaging() : CSImaging {
+class CSAndroidImaging : CSImaging {
     companion object {
         fun initialize() = CSAndroidImaging().also { CSImaging.instance = it }
     }
