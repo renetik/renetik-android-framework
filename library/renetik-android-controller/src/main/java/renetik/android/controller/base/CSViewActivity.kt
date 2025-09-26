@@ -43,7 +43,6 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
         logInfo()
     }
 
-
     fun destroyActivityView() {
         isRecreateView = true
         clearContentView()
