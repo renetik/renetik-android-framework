@@ -32,10 +32,7 @@ class CSGlideImaging : CSImaging {
             glide.clear(this)
             doOnLayout {
                 if (hasSize) overrideSize().into(this)
-                else doOnLayout {
-                    if (hasSize) overrideSize().into(this)
-                    else request.into(this)
-                }
+                else request.into(this)
             }
         }
     }
