@@ -25,16 +25,17 @@ class CSGlideImaging : CSImaging {
             glide.clear(this)
             return
         }
-        var request = glide.load(data).diskCacheStrategy(AUTOMATIC).dontAnimate()
-        if (hasSize) {
-            request.apply(RequestOptions().override(width, height)).into(this)
-        } else {
+        val request = glide.load(data).diskCacheStrategy(AUTOMATIC).dontAnimate()
+        fun overrideSize() = request.apply(RequestOptions().override(width, height))
+        if (hasSize) overrideSize().into(this) else {
             setImageDrawable(null)
             glide.clear(this)
             doOnLayout {
-                if (hasSize)
-                    request = request.apply(RequestOptions().override(width, height))
-                request.into(this)
+                if (hasSize) overrideSize().into(this)
+                else doOnLayout {
+                    if (hasSize) overrideSize().into(this)
+                    else request.into(this)
+                }
             }
         }
     }
