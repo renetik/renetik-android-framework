@@ -90,15 +90,13 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
 
     @Suppress("UNCHECKED_CAST")
     final override val view: ViewType
-        get() {
-            return _view ?: run {
-                if (isDestructed) logErrorTrace { "$className $this Already destroyed" }
-                layout?.let { setView(inflate(it)) }
-                    ?: viewId?.let { setView(parentView.view<View>(viewId!!) as ViewType) }
-                    ?: createView()?.let { setView(it) }
-                    ?: (parentView.view as? ViewType).also { _view = it; onViewReady() }
-                    ?: unexpected("$className: view could not be created")
-            }
+        get() = _view ?: run {
+            if (isDestructed) logErrorTrace { "$className $this Already destroyed" }
+            layout?.let { setView(inflate(it)) }
+                ?: viewId?.let { setView(parentView.view<View>(viewId!!) as ViewType) }
+                ?: createView()?.let { setView(it) }
+                ?: (parentView.view as? ViewType).also { _view = it; onViewReady() }
+                ?: unexpected("$className: view could not be created")
         }
 
     private fun setView(view: ViewType): ViewType {
