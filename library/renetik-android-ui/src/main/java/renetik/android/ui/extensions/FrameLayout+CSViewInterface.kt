@@ -18,6 +18,11 @@ fun <View : CSViewInterface> FrameLayout.set(view: View): View {
     return view
 }
 
+suspend fun <View : CSViewInterface> FrameLayout.suspendSet(view: View): View {
+    set(view.view())
+    return view
+}
+
 fun FrameLayout.set(view: View, params: LayoutParams? = null): View {
     clear()
     params?.let { add(view, it) } ?: add(view)

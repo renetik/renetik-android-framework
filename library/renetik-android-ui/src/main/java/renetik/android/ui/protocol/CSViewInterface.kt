@@ -20,6 +20,8 @@ interface CSViewInterface : CSHasContext, CSVisibility {
     }
 
     val view: View
+
+    suspend fun view(): View = view
 }
 
 class CSContextThemeWrapper(

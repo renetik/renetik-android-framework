@@ -23,6 +23,7 @@ import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.inflate
+import renetik.android.ui.extensions.inflateAsync
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.extensions.view.onDestruct
@@ -98,6 +99,16 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
                 ?: (parentView.view as? ViewType).also { _view = it; onViewReady() }
                 ?: unexpected("$className: view could not be created")
         }
+
+    @Suppress("UNCHECKED_CAST")
+    override suspend fun view(): View = _view ?: run {
+        if (isDestructed) logErrorTrace { "$className $this Already destroyed" }
+        layout?.let { setView(context.inflateAsync(it, group)) }
+            ?: viewId?.let { setView(parentView.view<View>(viewId!!) as ViewType) }
+            ?: createView()?.let { setView(it) }
+            ?: (parentView.view as? ViewType).also { _view = it; onViewReady() }
+            ?: unexpected("$className: view could not be created")
+    }
 
     private fun setView(view: ViewType): ViewType {
         _view = view
