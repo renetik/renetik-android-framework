@@ -1,8 +1,10 @@
 package renetik.android.controller.extensions
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.extensions.CSStartActivityResult.ActivityNotFound
 import renetik.android.controller.extensions.CSStartActivityResult.Cancel
@@ -39,3 +41,13 @@ fun CSActivityView<*>.startActivityForResult(
 @Suppress("DEPRECATION")
 fun CSActivityView<*>.startActivityForResult(intent: Intent, requestCode: Int) =
     activity().startActivityForResult(intent, requestCode)
+
+fun Context.openUri(uri: String, appPackage: String? = null): Boolean =
+    Intent(Intent.ACTION_VIEW, uri.toUri()).apply {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        appPackage?.let(::setPackage)
+    }.let { intent ->
+        intent.resolveActivity(packageManager)?.run {
+            runCatching { startActivity(intent); true }.getOrDefault(false)
+        } ?: false
+    }
