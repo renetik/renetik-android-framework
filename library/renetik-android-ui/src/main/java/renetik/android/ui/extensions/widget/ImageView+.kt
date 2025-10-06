@@ -4,40 +4,13 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.net.Uri.fromFile
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import renetik.android.core.kotlin.unexpected
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import java.io.File
-
-class CSAndroidImaging : CSImaging {
-    companion object {
-        fun initialize() = CSAndroidImaging().also { CSImaging.instance = it }
-    }
-
-    override fun load(view: ImageView, uri: Uri?): Unit = unexpected()
-    override fun load(view: ImageView, file: File) = view.setImageURI(fromFile(file))
-    override fun load(view: ImageView, bitmap: Bitmap?) = view.setImageBitmap(bitmap)
-    override fun load(view: ImageView, drawable: Drawable?) = view.setImageDrawable(drawable)
-    override fun load(view: ImageView, resourceId: Int?) =
-        resourceId?.let(view::setImageResource) ?: view.setImageDrawable(null)
-}
-
-interface CSImaging {
-    companion object {
-        lateinit var instance: CSImaging
-    }
-
-    fun load(view: ImageView, uri: Uri?)
-    fun load(view: ImageView, file: File)
-    fun load(view: ImageView, bitmap: Bitmap?)
-    fun load(view: ImageView, drawable: Drawable?)
-    fun load(view: ImageView, @DrawableRes resourceId: Int?)
-}
 
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int?): T = apply {
     CSImaging.instance.load(this, resourceId)
