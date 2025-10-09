@@ -26,9 +26,9 @@ class CSTileDrawable(
 
     companion object {
         fun ImageView.imagePattern(
-            @DrawableRes drawableRes: Int, alpha: Float = 1f,
+            @DrawableRes drawable: Int, alpha: Float = 1f,
             @ColorInt tint: Int? = null, mode: TileMode = REPEAT
-        ) = setImageDrawable(CSTileDrawable(context.drawable(drawableRes), mode)
+        ) = setImageDrawable(CSTileDrawable(context.drawable(drawable), mode)
             .apply { setAlpha(alpha.alphaInt); tint?.let(::setTint) })
     }
 
