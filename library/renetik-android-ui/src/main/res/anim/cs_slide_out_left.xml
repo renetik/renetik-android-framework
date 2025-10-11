@@ -1,5 +1,5 @@
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@android:integer/config_shortAnimTime"
+    android:duration="200"
     android:fromXDelta="0"
     android:interpolator="@android:anim/accelerate_interpolator"
     android:toXDelta="-50%p" />
