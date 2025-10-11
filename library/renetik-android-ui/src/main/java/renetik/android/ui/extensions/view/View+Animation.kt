@@ -2,20 +2,13 @@ package renetik.android.ui.extensions.view
 
 import android.view.View
 import android.view.ViewPropertyAnimator
-import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.lang.CSLeakCanary
 import renetik.android.event.common.CSHasDestruct
 
-val shortAnimationDuration =
-    app.resources.getInteger(android.R.integer.config_shortAnimTime)
-
-val mediumAnimationDuration =
-    app.resources.getInteger(android.R.integer.config_mediumAnimTime)
-
-val longAnimationDuration =
-    app.resources.getInteger(android.R.integer.config_longAnimTime)
-
-var fadeAnimationDuration = shortAnimationDuration
+const val shortAnimationDuration = 200
+const val mediumAnimationDuration = 400
+const val longAnimationDuration = 500
+const val fadeAnimationDuration = shortAnimationDuration
 
 fun <T : View> T.fadeIn(duration: Int = fadeAnimationDuration): ViewPropertyAnimator? {
     if (isVisible) return null
