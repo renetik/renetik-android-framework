@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.drawerlayout.widget.DrawerLayout
-import renetik.android.core.lang.ArgFunc
+import renetik.android.core.lang.ArgFun
 import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
 import renetik.android.event.registration.CSHasRegistrations
@@ -73,10 +73,10 @@ fun CSViewInterface.views(@IdRes vararg ids: Int): List<View> =
 fun CSViewInterface.simpleView(@IdRes id: Int) = view.view(id)
 fun CSViewInterface.editText(@IdRes id: Int): EditText = view.editText(id)
 
-fun CSViewInterface.textView(@IdRes id: Int, onClick: ArgFunc<View>? = null) =
+fun CSViewInterface.textView(@IdRes id: Int, onClick: ArgFun<View>? = null) =
     view.textView(id).apply { onClick?.let { onClick { it(this) } } }
 
-fun CSViewInterface.textViewOrNull(@IdRes id: Int, onClick: ArgFunc<View>? = null) =
+fun CSViewInterface.textViewOrNull(@IdRes id: Int, onClick: ArgFun<View>? = null) =
     view.findView<TextView>(id)?.apply { onClick?.let { onClick { it(this) } } }
 
 fun CSViewInterface.scrollView(@IdRes id: Int) = view.scrollView(id)
@@ -103,7 +103,7 @@ fun CSViewInterface.timePicker(@IdRes id: Int) = view.timePicker(id)
 fun CSViewInterface.webView(@IdRes id: Int) = view.webView(id)
 
 fun CSViewInterface.imageView(
-    @IdRes id: Int, onClick: ArgFunc<View>? = null
+    @IdRes id: Int, onClick: ArgFun<View>? = null
 ) = view.imageView(id).apply { onClick?.let { onClick { it(this) } } }
 
 fun CSViewInterface.seekBar(@IdRes id: Int) = view.seekBar(id)

@@ -5,11 +5,11 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 
 open class DrawableRequestAdapter(
-    val onFailed: Func? = null,
-    val onReady: Func? = null
+    val onFailed: Fun? = null,
+    val onReady: Fun? = null
 ) : RequestListener<Drawable> {
     override fun onLoadFailed(
         e: GlideException?, model: Any?,

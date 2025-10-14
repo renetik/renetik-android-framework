@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 import renetik.android.core.lang.result.invoke
 import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
@@ -145,7 +145,7 @@ inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
 }
 
 @Deprecated("Use View.onBoundsChange: CSHasChange<Unit>")
-fun View.onBoundsChange(function: Func): CSRegistration {
+fun View.onBoundsChange(function: Fun): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnLayoutChangeListener { _, l, t, r, b, nl, nt, nr, nb ->
         if (l != nl || t != nt || r != nr || b != nb) if (registration.isActive) function()
@@ -155,7 +155,7 @@ fun View.onBoundsChange(function: Func): CSRegistration {
     return registration
 }
 
-@Suppress("DEPRECATION") fun View.onHasSizeBoundsChange(function: Func): CSRegistration =
+@Suppress("DEPRECATION") fun View.onHasSizeBoundsChange(function: Fun): CSRegistration =
     onBoundsChange { if (hasSize) function() }
 
 @Suppress("DEPRECATION") val View.onBoundsChange: CSHasChange<Unit>

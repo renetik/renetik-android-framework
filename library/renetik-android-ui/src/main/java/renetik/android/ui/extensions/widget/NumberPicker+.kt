@@ -6,7 +6,7 @@ import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS
 import renetik.android.core.kotlin.asStringArray
 import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.index
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
@@ -30,7 +30,7 @@ fun <Row : Any> NumberPicker.loadData(data: List<Row>, selectedIndex: Int = 0) =
     }
 }
 
-fun NumberPicker.onValueChange(function: Func) = apply {
+fun NumberPicker.onValueChange(function: Fun) = apply {
     setOnValueChangedListener { _, _, _ -> function() }
 }
 

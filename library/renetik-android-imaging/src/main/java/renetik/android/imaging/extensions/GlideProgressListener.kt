@@ -6,11 +6,11 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 
 class CSGlideProgressListener(
     private val progress: View,
-    private val onFailed: Func? = null
+    private val onFailed: Fun? = null
 ) : RequestListener<Drawable> {
     init {
         progress.visibility = View.VISIBLE

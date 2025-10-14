@@ -5,7 +5,7 @@ import androidx.annotation.IdRes
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 
 fun CSActivityView<*>.enterFullScreen() {
     WindowCompat.setDecorFitsSystemWindows(activity().window, false)
@@ -20,8 +20,8 @@ fun CSActivityView<*>.exitFullScreen() {
     WindowInsetsControllerCompat(activity().window, view).show(WindowInsetsCompat.Type.systemBars())
 }
 
-fun CSActivityView<*>.onResume(listener: Func) = eventResume.listen { listener() }
-fun CSActivityView<*>.onPause(listener: Func) = eventPause.listen { listener() }
+fun CSActivityView<*>.onResume(listener: Fun) = eventResume.listen { listener() }
+fun CSActivityView<*>.onPause(listener: Fun) = eventPause.listen { listener() }
 
 val CSActivityView<*>.isPaused get() = !isResume
 

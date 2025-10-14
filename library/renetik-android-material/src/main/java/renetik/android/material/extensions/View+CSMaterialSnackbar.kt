@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar.Callback
 import com.google.android.material.snackbar.Snackbar.make
 import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.lang.CSButtonAction
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.view.removeFromSuperview
@@ -77,7 +77,7 @@ fun View.snackbar(
 private fun View.showBar(
     parent: CSHasRegistrations,
     title: String, @ColorInt backColor: Int? = null, @ColorInt textColor: Int? = null,
-    time: Duration?, action: CSButtonAction? = null, onDismiss: Func? = null
+    time: Duration?, action: CSButtonAction? = null, onDismiss: Fun? = null
 ): Snackbar {
     val snackbar = make(this, title, LENGTH_INDEFINITE)
     action?.also { snackbar.setAction(action.title) { action.onClick(); snackbar.dismiss() } }

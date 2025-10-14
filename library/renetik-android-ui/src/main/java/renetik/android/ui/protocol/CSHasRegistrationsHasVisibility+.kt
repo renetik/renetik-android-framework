@@ -1,16 +1,14 @@
 package renetik.android.ui.protocol
 
 import renetik.android.core.lang.CSHandler.mainHandler
-import renetik.android.core.lang.Func
+import renetik.android.core.lang.Fun
 import renetik.android.core.lang.value.isTrue
-import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.actionFalse
 import renetik.android.event.registration.actionTrue
 import renetik.android.event.registration.laterEach
-import renetik.android.event.registration.onFalse
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import kotlin.time.Duration
@@ -48,15 +46,15 @@ fun <T> T.untilShow(registration: CSRegistration): CSRegistration
         registration.cancel()
     }
 
-fun <T> T.laterEachIfShowing(period: Duration, function: Func): CSRegistration
+fun <T> T.laterEachIfShowing(period: Duration, function: Fun): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility =
     laterEachIfShowing(period.inWholeMilliseconds.toInt(), function)
 
-fun <T> T.laterEachIfShowing(period: Int, function: Func): CSRegistration
+fun <T> T.laterEachIfShowing(period: Int, function: Fun): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility =
     laterEachIfShowing(period, period, function)
 
-fun <T> T.laterEachIfShowing(delay: Int, period: Int, function: Func): CSRegistration
+fun <T> T.laterEachIfShowing(delay: Int, period: Int, function: Fun): CSRegistration
         where T : CSHasRegistrations, T : CSVisibility {
     var registration: CSRegistration? = null
     var onShowingRegistration: CSRegistration? = null

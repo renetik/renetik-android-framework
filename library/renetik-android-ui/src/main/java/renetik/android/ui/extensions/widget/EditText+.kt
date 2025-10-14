@@ -8,7 +8,7 @@ import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import renetik.android.core.kotlin.asString
 import renetik.android.core.kotlin.primitives.isBlank
-import renetik.android.core.lang.ArgFunc
+import renetik.android.core.lang.ArgFun
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
@@ -31,7 +31,7 @@ fun <T : EditText> T.multiline() = apply {
 //all compoundDrawables needs to be set programmatically
 @SuppressLint("ClickableViewAccessibility")
 fun <T : EditText> T.withClear(
-    showOnFocus: Boolean = false, onClear: ArgFunc<EditText>? = null
+    showOnFocus: Boolean = false, onClear: ArgFun<EditText>? = null
 ) = apply {
     fun updateClearIcon() = drawableEnd(
         if (editableText.isNotEmpty() || (showOnFocus && isFocused))
