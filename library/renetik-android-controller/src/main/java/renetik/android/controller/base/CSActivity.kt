@@ -23,7 +23,7 @@ abstract class CSActivity : AppCompatActivity(), CSVisibility, CSHasContext, CSV
 
     //CSVisibility
     override val isVisible = property(true)
-    val configuration = Configuration()
+//    val configuration = Configuration()
 
     //CSViewInterface
     override val view: View get() = window.decorView
@@ -58,11 +58,11 @@ abstract class CSActivity : AppCompatActivity(), CSVisibility, CSHasContext, CSV
         logInfo("$requestCode $resultCode $data")
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        logInfo(newConfig)
-        configuration.setTo(newConfig)
-    }
+//    override fun onConfigurationChanged(newConfig: Configuration) {
+//        super.onConfigurationChanged(newConfig)
+//        logInfo(newConfig)
+//        configuration.setTo(newConfig)
+//    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray

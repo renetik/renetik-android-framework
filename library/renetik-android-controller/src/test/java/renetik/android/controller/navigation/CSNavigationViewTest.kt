@@ -26,7 +26,7 @@ class CSNavigationViewTest {
         override fun createView() = ActivityView(this)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            createViewAndLoadConfiguration()
+            setContentView()
         }
     }
 
