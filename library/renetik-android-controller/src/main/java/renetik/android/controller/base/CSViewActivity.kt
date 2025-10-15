@@ -25,34 +25,7 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
 
     fun setContentView() {
         setContentView(activityView.view)
-//        configuration.setTo(resources.configuration)
-//        logInfo()
     }
-
-//    var isRecreateView = false
-
-//    fun recreateView() {
-//        destroyActivityView()
-//        createActivityView()
-//        logInfo()
-//    }
-
-//    fun destroyActivityView() {
-//        isRecreateView = true
-//        clearContentView()
-//        activityView?.destruct()
-//        configuration.setTo(resources.configuration)
-//        activityView = null
-//        logInfo()
-//    }
-
-//    private fun createActivityView() {
-//        activityView = createView()
-//        setContentView(activityView!!.view)
-//        activityView!!.onResume()
-//        isRecreateView = false
-//        logInfo()
-//    }
 
     public override fun onResume() {
         eventResume.fire()
@@ -73,9 +46,4 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
         if (goBack.value) super.onBackPressed()
         logInfo()
     }
-
-//    override fun onDestruct() {
-//        super.onDestruct()
-//        activityView = null
-//    }
 }
