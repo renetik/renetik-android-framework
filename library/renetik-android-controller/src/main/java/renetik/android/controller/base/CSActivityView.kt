@@ -11,7 +11,7 @@ import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
-import renetik.android.core.lang.lazy.CSLazyNullableVar.Companion.lazyNullableVar
+import renetik.android.core.lang.lazy.CSLazyVal.Companion.lazyVal
 import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarnTrace
@@ -19,7 +19,6 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
-import renetik.android.event.listenOnce
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.plus
@@ -190,13 +189,11 @@ open class CSActivityView<ViewType : View>
 
     val isShowingInPager get() = showingInPager == true
 
-    open var navigation: CSNavigationView? by lazyNullableVar {
-        findNavigation()?.also { this + it.eventDestruct.listenOnce { navigation = null } }
-    }
+    open val navigation: CSNavigationView? by lazyVal { findNavigation() }
 
     private fun findNavigation(): CSNavigationView? =
         generateSequence(parentActivityView) { it.parentActivityView }
-            .mapNotNull { it.navigation }.firstOrNull()
+            .map { it.navigation }.firstOrNull()
 
     override fun onDestruct() {
         if (isResume) onPause()
