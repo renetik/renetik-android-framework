@@ -23,9 +23,7 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
     abstract fun createView(): ActivityView
     val activityView: ActivityView by lazy { createView() }
 
-    fun setContentView() {
-        setContentView(activityView.view)
-    }
+    fun setContentView() = setContentView(activityView.view)
 
     public override fun onResume() {
         eventResume.fire()
