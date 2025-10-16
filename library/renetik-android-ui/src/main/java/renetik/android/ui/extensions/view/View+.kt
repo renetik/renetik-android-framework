@@ -42,8 +42,8 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
-import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.Main
+import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.kotlin.primitives.ifTrue
 import renetik.android.core.lang.catchAll
 import renetik.android.core.lang.result.invoke
@@ -65,7 +65,8 @@ suspend fun <T : View, V> T.use(function: suspend (T) -> V): V =
 
 fun <T : View> View.findView(@IdRes id: Int): T? = findViewById(id)
 
-@JvmName("viewOfType") inline fun <reified Type : View> View.view(@IdRes id: Int): Type =
+@JvmName("viewOfType")
+inline fun <reified Type : View> View.view(@IdRes id: Int): Type =
     findView(id)!!
 
 fun View.view(@IdRes id: Int) = findView<View>(id)!!
@@ -120,13 +121,13 @@ fun <T : View> T.onClick(timeout: Int? = null, onClick: (view: T) -> Unit) = app
 }
 
 fun <T : View> T.onClickLaunch(parent: CSHasRegistrations,
-    timeout: Int? = null,
-    onClick: suspend (view: T) -> Unit) =
+                               timeout: Int? = null,
+                               onClick: suspend (view: T) -> Unit) =
     onClick(timeout) { view -> parent.launch { onClick(view) } }
 
-fun <T : View> T.clearClick(andClickable: Boolean = false) = apply {
+fun <T : View> T.clearClick(isClickable: Boolean = false) = apply {
     setOnClickListener(null)
-    isClickable = false
+    this.isClickable = isClickable
 }
 
 fun <T : View> T.onLongClick(consume: Boolean = true, onClick: (view: T) -> Unit) = apply {
@@ -140,7 +141,7 @@ fun <T : View> T.clearLongClick() = apply {
     setOnLongClickListener(null)
 }
 
-suspend fun <T : View> T.drawToNewBitmap(): Bitmap = Default {
+suspend fun <T : View> T.drawToNewBitmap(): Bitmap = app.Default {
     createBitmap().also { Main { drawToBitmap(it) } }
 }
 
@@ -166,7 +167,7 @@ fun View.getRectangleOnScreen(location: IntArray, rectangle: Rect) {
 }
 
 fun <T> View.modelProperty(): CSProperty<T?> =
-    propertyWithTag(renetik.android.ui.R.id.ViewModelTag) { property(null) }
+    propertyWithTag(R.id.ViewModelTag) { property(null) }
 
 fun <T> View.model(value: T?) = apply { modelProperty<T?>().value(value) }
 fun <T> View.model(): T? = modelProperty<T?>().value
@@ -181,12 +182,14 @@ fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
 fun View.onClick(action: CSActionInterface) = onClick { action.start() }
 fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 
-@Suppress("DEPRECATION") fun View.enterFullScreen() {
+@Suppress("DEPRECATION")
+fun View.enterFullScreen() {
     systemUiVisibility =
         SYSTEM_UI_FLAG_IMMERSIVE or SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION
 }
 
-@Suppress("DEPRECATION") fun View.exitFullscreen() {
+@Suppress("DEPRECATION")
+fun View.exitFullscreen() {
     systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
 }
 
