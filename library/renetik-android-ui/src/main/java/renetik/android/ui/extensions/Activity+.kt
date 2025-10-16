@@ -9,6 +9,8 @@ import android.content.ContextWrapper
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.content.res.Configuration.ORIENTATION_SQUARE
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.TIRAMISU
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +18,11 @@ import android.view.inputmethod.InputMethodManager
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.ui.extensions.view.view
 import java.lang.reflect.Field
+
+fun Activity.disablePendingAnimations() {
+    if (SDK_INT >= TIRAMISU) overridePendingTransition(0, 0, 0)
+    else overridePendingTransition(0, 0)
+}
 
 fun Activity.clearContentView() {
     window.decorView.view<ViewGroup>(android.R.id.content).removeAllViews()
