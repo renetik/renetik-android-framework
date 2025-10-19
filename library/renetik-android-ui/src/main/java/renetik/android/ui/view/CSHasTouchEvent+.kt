@@ -219,7 +219,7 @@ fun CSHasTouchEvent.onTouch(
     val touchRegistration = onTouch(down = {
         repeatRegistration?.cancel()
         repeatRegistration = parent.launchRepeat(
-            after = delay, period = period, function = repeat
+            after = delay, delay = period, function = repeat
         )
     }, up = {
         repeatRegistration?.cancel()
