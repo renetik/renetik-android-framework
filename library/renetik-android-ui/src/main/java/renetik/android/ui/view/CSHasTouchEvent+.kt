@@ -10,7 +10,6 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import renetik.android.event.registration.invoke
-import renetik.android.event.registration.laterEach
 import renetik.android.event.registration.launchEach
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
@@ -244,7 +243,7 @@ fun <T> CSHasTouchEvent.onTouch(
             repeat(stepValue)
             repeatCount++
             repeatRegistration?.cancel()
-            repeatRegistration = parent.laterEach(delay, period, function = {
+            repeatRegistration = parent.launchEach(delay, period, function = {
                 if (!until(step(repeatCount))) {
                     repeatRegistration?.cancel()
                     onDone()
