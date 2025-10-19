@@ -10,7 +10,7 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.action
 import renetik.android.event.registration.invoke
-import renetik.android.event.registration.launchEach
+import renetik.android.event.registration.launchRepeat
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.view.enabledChange
@@ -218,7 +218,7 @@ fun CSHasTouchEvent.onTouch(
     var repeatRegistration: CSRegistration? = null
     val touchRegistration = onTouch(down = {
         repeatRegistration?.cancel()
-        repeatRegistration = parent.launchEach(
+        repeatRegistration = parent.launchRepeat(
             after = delay, period = period, function = repeat
         )
     }, up = {
@@ -243,7 +243,7 @@ fun <T> CSHasTouchEvent.onTouch(
             repeat(stepValue)
             repeatCount++
             repeatRegistration?.cancel()
-            repeatRegistration = parent.launchEach(delay, period, function = {
+            repeatRegistration = parent.launchRepeat(delay, period, function = {
                 if (!until(step(repeatCount))) {
                     repeatRegistration?.cancel()
                     onDone()
