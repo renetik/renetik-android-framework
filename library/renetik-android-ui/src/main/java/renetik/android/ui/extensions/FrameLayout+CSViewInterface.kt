@@ -13,7 +13,7 @@ fun <View : android.view.View> FrameLayout.set(@LayoutRes layout: Int): View {
     return add(layoutId = layout)
 }
 
-fun <View : CSViewInterface> FrameLayout.set(view: View): View {
+infix fun <View : CSViewInterface> FrameLayout.set(view: View): View {
     set(view.view)
     return view
 }
