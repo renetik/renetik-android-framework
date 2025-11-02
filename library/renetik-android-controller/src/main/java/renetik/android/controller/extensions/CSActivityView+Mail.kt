@@ -14,17 +14,16 @@ import android.net.Uri
 import android.os.Environment.getExternalStorageDirectory
 import androidx.core.net.toUri
 import renetik.android.controller.base.CSActivityView
-import renetik.android.core.kotlin.collections.list
 import renetik.android.core.logging.CSLog.logError
 import java.io.File
 
 fun <T : CSActivityView<*>> T.sendMail(email: String, subject: String, text: String) {
-    sendMail(list(email), subject, text, mutableListOf())
+    sendMail(listOf(email), subject, text, listOf())
 }
 
-fun <T : CSActivityView<*>> T.sendMail(emails: List<String>, subject: String, body: CharSequence,
-                                       attachment: File) {
-    sendMail(emails, subject, body, list(attachment))
+fun <T : CSActivityView<*>> T.sendMail(
+    emails: List<String>, subject: String, body: CharSequence, attachment: File) {
+    sendMail(emails, subject, body, listOf(attachment))
 }
 
 fun <T : CSActivityView<*>> T.sendMail(
