@@ -4,9 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import renetik.android.controller.base.CSActivityView
-import renetik.android.core.kotlin.collections.list
 
-class CSPagerAdapter<PagerPageType>(val controllers: List<PagerPageType> = list())
+class CSPagerAdapter<PagerPageType>(val controllers: List<PagerPageType> = mutableListOf())
     : PagerAdapter() where PagerPageType : CSActivityView<*>, PagerPageType : CSPagerPage {
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) =

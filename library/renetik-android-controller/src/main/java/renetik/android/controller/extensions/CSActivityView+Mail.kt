@@ -19,7 +19,7 @@ import renetik.android.core.logging.CSLog.logError
 import java.io.File
 
 fun <T : CSActivityView<*>> T.sendMail(email: String, subject: String, text: String) {
-    sendMail(list(email), subject, text, list())
+    sendMail(list(email), subject, text, mutableListOf())
 }
 
 fun <T : CSActivityView<*>> T.sendMail(emails: List<String>, subject: String, body: CharSequence,

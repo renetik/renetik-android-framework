@@ -4,7 +4,6 @@ import android.view.View
 import renetik.android.controller.base.CSActivityView
 import renetik.android.core.kotlin.collections.at
 import renetik.android.core.kotlin.collections.hasItems
-import renetik.android.core.kotlin.collections.list
 import renetik.android.core.kotlin.collections.putAll
 import renetik.android.core.kotlin.collections.reload
 import renetik.android.event.CSEvent.Companion.event
@@ -19,7 +18,7 @@ class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :
     val eventOnPageChange = event<PageType>()
     fun onPageChange(function: (PageType) -> Unit) = eventOnPageChange.listen(function)
     val pageCount: Int get() = controllers.size
-    val controllers = list<PageType>()
+    val controllers = mutableListOf<PageType>()
     var currentIndex: Int? = null
     var isSwipePagingEnabled
         get() = view.isSwipePagingEnabled
