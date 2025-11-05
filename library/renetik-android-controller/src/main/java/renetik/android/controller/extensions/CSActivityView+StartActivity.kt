@@ -12,12 +12,15 @@ import renetik.android.core.kotlin.primitives.random
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.plus
 
+@Deprecated("DEPRECATION")
 fun CSActivityView<*>.startActivityForResult(
     activityClass: Class<out AppCompatActivity>, requestCode: Int
 ) = startActivityForResult(Intent(activity(), activityClass), requestCode)
 
+@Deprecated("DEPRECATION")
 enum class CSStartActivityResult { Cancel, ActivityNotFound }
 
+@Deprecated("DEPRECATION")
 fun CSActivityView<*>.startActivityForResult(
     intent: Intent, onSuccess: (Intent?) -> Unit,
     onFailure: ((CSStartActivityResult) -> Unit)? = null
@@ -38,7 +41,7 @@ fun CSActivityView<*>.startActivityForResult(
     }
 }
 
-@Suppress("DEPRECATION")
+@Deprecated("DEPRECATION")
 fun CSActivityView<*>.startActivityForResult(intent: Intent, requestCode: Int) =
     activity().startActivityForResult(intent, requestCode)
 
