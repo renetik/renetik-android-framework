@@ -76,7 +76,10 @@ class CSGridView<ItemType : Any,
         updateEmptyView()
     }
 
-    private val eventItemSelected = event<ViewType>()
+    private val eventItemSelected = event<ViewType>().apply {
+        listen { selectedItem.value(it.value) }
+    }
+
     fun onItemSelected(function: (ViewType) -> Unit) =
         apply { eventItemSelected.listen(function) }
 
@@ -91,7 +94,6 @@ class CSGridView<ItemType : Any,
     init {
         view.overScrollMode = OVER_SCROLL_NEVER
         view.adapter = adapter
-        this + eventItemSelected.listen { selectedItem.value(it.value) }
     }
 
     private fun ViewType.updateSelection() {
