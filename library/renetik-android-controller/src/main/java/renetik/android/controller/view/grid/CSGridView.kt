@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import renetik.android.controller.base.CSActivityViewInterface
 import renetik.android.controller.base.CSView
+import renetik.android.controller.extensions.reusable
 import renetik.android.controller.view.grid.item.CSGridItemView
 import renetik.android.core.kotlin.collections.firstIndex
 import renetik.android.core.kotlin.unexpected
@@ -21,7 +22,6 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.hasChangeValue
-import renetik.android.event.registration.plus
 import renetik.android.event.util.CSLater.later
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.alphaToDisabled
@@ -142,6 +142,7 @@ class CSGridView<ItemType : Any,
         val gridItemView: ViewType
     ) : ViewHolder(gridItemView.view) {
         init {
+            gridItemView.reusable()
             gridItemView.view.updateLayoutParams<LayoutParams> { width = MATCH_PARENT }
             gridItemView.onShowUntilHide {
                 selectedItem.onChange { gridItemView.updateSelection() }
@@ -171,11 +172,13 @@ class CSGridView<ItemType : Any,
 
         override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
+            holder.gridItemView.onAddedToParentView()
             holder.gridItemView.apply { if (!isDestructed) view.visible() }
         }
 
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
             super.onViewDetachedFromWindow(holder)
+            holder.gridItemView.onRemovedFromParentView()
             holder.gridItemView.apply {
                 view.invisible()
                 loadRegistrations.clear()

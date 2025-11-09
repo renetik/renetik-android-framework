@@ -21,9 +21,8 @@ open class CSGridItemView<RowType : Any>(
     @LayoutRes layout: Int,
 ) : CSView<ViewGroup>(parent, group, layout.layout) {
 
-    constructor(parent: CSGridView<*, *>, @LayoutRes layout: Int) : this(parent,
-        parent.view,
-        layout)
+    constructor(parent: CSGridView<*, *>, @LayoutRes layout: Int)
+            : this(parent, parent.view, layout)
 
     lateinit var value: RowType
     var index = -1
