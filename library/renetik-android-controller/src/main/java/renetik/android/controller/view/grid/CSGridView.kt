@@ -16,6 +16,7 @@ import renetik.android.controller.view.grid.item.CSGridItemView
 import renetik.android.core.kotlin.collections.firstIndex
 import renetik.android.core.kotlin.unexpected
 import renetik.android.event.CSEvent.Companion.event
+import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChangeValue
@@ -112,9 +113,9 @@ class CSGridView<ItemType : Any,
 
     fun onItemClick(item: ViewType) {
         if (selectedItem.value != item.value) {
-            if (item.itemDisabled) eventDisabledItemClick.fire(item)
-            else eventItemSelected.fire(item)
-        } else eventItemReSelected.fire(item)
+            if (item.itemDisabled) eventDisabledItemClick(item)
+            else eventItemSelected(item)
+        } else eventItemReSelected(item)
     }
 
     private var emptyView: View? = null
