@@ -240,11 +240,11 @@ val View.next: View?
 
 fun View.passClicksUnder(pass: Boolean) = apply { clickable(!pass) }
 
-fun View.clickable(value: Boolean) {
+fun View.clickable(value: Boolean = true) {
     isClickable = value
 }
 
-fun View.longClickable(value: Boolean) {
+fun View.longClickable(value: Boolean = true) {
     isLongClickable = value
 }
 
