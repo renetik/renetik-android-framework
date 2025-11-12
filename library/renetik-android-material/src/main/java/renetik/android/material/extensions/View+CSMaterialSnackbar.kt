@@ -25,7 +25,7 @@ import renetik.android.ui.extensions.widget.layoutMatch
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
-fun View.snackbarWarn(
+fun View.snackWarn(
     parent: CSHasRegistrations, title: String,
     time: Duration? = null, action: CSButtonAction? = null
 ) = snackbar(
@@ -33,7 +33,7 @@ fun View.snackbarWarn(
     textColor = context.attributeColor(colorOnError), action = action, time
 )
 
-fun View.snackbarError(
+fun View.snackError(
     parent: CSHasRegistrations, title: String,
     time: Duration? = null, action: CSButtonAction? = null
 ) = snackbar(
@@ -41,7 +41,7 @@ fun View.snackbarError(
     textColor = context.attributeColor(colorOnError), action = action, time
 )
 
-fun View.snackbarInfo(
+fun View.snackInfo(
     parent: CSHasRegistrations, title: String,
     time: Duration? = null, action: CSButtonAction? = null
 ) = snackbar(
