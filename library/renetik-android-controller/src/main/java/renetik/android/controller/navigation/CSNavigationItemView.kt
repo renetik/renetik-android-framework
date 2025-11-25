@@ -45,7 +45,7 @@ import renetik.android.ui.extensions.view.topFloat
 import renetik.android.ui.extensions.widget.layoutMatch
 
 open class CSNavigationItemView(
-    val navigationParent: CSActivityView<out ViewGroup>,
+    navigationParent: CSActivityView<out ViewGroup>,
     private val horizontalPadding: Float = 0f,
     private val verticalPadding: Float = 0f,
     @LayoutRes private val viewLayout: Int,
