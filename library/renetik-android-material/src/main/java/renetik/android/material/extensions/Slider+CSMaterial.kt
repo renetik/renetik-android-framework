@@ -7,12 +7,20 @@ import renetik.android.core.kotlin.primitives.max
 import renetik.android.core.kotlin.primitives.min
 import renetik.android.core.kotlin.primitives.roundToStep
 import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.start
 import renetik.android.ui.extensions.view.findView
 import kotlin.math.roundToInt
+
+class CSSlider(val slider: Slider) : CSHasChangeValue<Float> {
+    override val value: Float get() = slider.value
+
+    override fun onChange(function: (Float) -> Unit): CSRegistration =
+        slider.onChange { function(value) }
+}
 
 fun View.slider(id: Int) = findView<Slider>(id)!!
 
@@ -56,7 +64,7 @@ fun <T : Slider> T.stepSize(value: Int) = apply { setStepSize(value.toFloat()) }
 
 @JvmName("valuePropertyDouble")
 fun Slider.value(property: CSProperty<Float>,
-    min: Float = 0f, max: Float = 1.0f, step: Float = 0.1f): CSRegistration {
+                 min: Float = 0f, max: Float = 1.0f, step: Float = 0.1f): CSRegistration {
     valueFrom = min
     valueTo = max
     stepSize = step
@@ -74,7 +82,7 @@ fun Slider.value(property: CSProperty<Float>,
 
 @JvmName("valuePropertyInt")
 fun Slider.value(property: CSProperty<Int>,
-    min: Int = 0, max: Int = 100, step: Int = 1): CSRegistration {
+                 min: Int = 0, max: Int = 100, step: Int = 1): CSRegistration {
     valueFrom = min.toFloat()
     valueTo = max.toFloat()
     stepSize = step.toFloat()

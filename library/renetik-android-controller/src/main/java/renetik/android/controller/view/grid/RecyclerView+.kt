@@ -2,15 +2,27 @@ package renetik.android.controller.view.grid
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import renetik.android.core.kotlin.unexpected
 
 val RecyclerView.scrollOffsetX get() = computeHorizontalScrollOffset()
-val RecyclerView.viewport get() = computeHorizontalScrollExtent()
-val RecyclerView.scrollOffsetCenterX get() = scrollOffsetX + (viewport / 2)
+val RecyclerView.viewportWidth get() = computeHorizontalScrollExtent()
+val RecyclerView.scrollOffsetCenterX get() = scrollOffsetX + (viewportWidth / 2)
+
+private fun RecyclerView.itemWidth(): Int {
+    val firstChild = getChildAt(0) ?: unexpected()
+    val itemWidth = linearLayout.getDecoratedMeasuredWidth(firstChild)
+    return itemWidth
+}
 
 fun RecyclerView.scrollToOffset(offsetPx: Int) {
-    val layout = layoutManager as LinearLayoutManager
-    val itemWidth = getChildAt(0)?.width ?: return
+    val itemWidth = itemWidth()
     val position = offsetPx / itemWidth
     val offsetInside = -(offsetPx % itemWidth)
-    layout.scrollToPositionWithOffset(position, offsetInside)
+    linearLayout.scrollToPositionWithOffset(position, offsetInside)
 }
+
+private val RecyclerView.linearLayout
+    get() = layoutManager as LinearLayoutManager
+
+val RecyclerView.scrollWidth: Int
+    get() = itemWidth() * (adapter ?: unexpected()).itemCount
