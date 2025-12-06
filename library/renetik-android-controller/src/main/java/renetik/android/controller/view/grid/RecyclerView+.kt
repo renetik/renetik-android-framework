@@ -4,10 +4,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import renetik.android.core.kotlin.unexpected
 
-val RecyclerView.scrollOffsetX get() = computeHorizontalScrollOffset()
+val RecyclerView.scrolledX get() = computeHorizontalScrollOffset()
 //val RecyclerView.viewportWidth get() = computeHorizontalScrollExtent()
 val RecyclerView.viewportWidth get() = width
-val RecyclerView.centerScrollX get() = scrollOffsetX + (viewportWidth / 2)
+val RecyclerView.centerScrollX get() = scrolledX + (viewportWidth / 2)
 
 val RecyclerView.itemWidth: Int
     get() {
