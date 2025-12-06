@@ -8,14 +8,15 @@ val RecyclerView.scrollOffsetX get() = computeHorizontalScrollOffset()
 val RecyclerView.viewportWidth get() = computeHorizontalScrollExtent()
 val RecyclerView.scrollOffsetCenterX get() = scrollOffsetX + (viewportWidth / 2)
 
-private fun RecyclerView.itemWidth(): Int {
-    val firstChild = getChildAt(0) ?: unexpected()
-    val itemWidth = linearLayout.getDecoratedMeasuredWidth(firstChild)
-    return itemWidth
-}
+val RecyclerView.itemWidth: Int
+    get() {
+        val firstChild = getChildAt(0) ?: unexpected()
+        val itemWidth = linearLayout.getDecoratedMeasuredWidth(firstChild)
+        return itemWidth
+    }
 
 fun RecyclerView.scrollToOffset(offsetPx: Int) {
-    val itemWidth = itemWidth()
+    val itemWidth = itemWidth
     val position = offsetPx / itemWidth
     val offsetInside = -(offsetPx % itemWidth)
     linearLayout.scrollToPositionWithOffset(position, offsetInside)
@@ -24,5 +25,8 @@ fun RecyclerView.scrollToOffset(offsetPx: Int) {
 private val RecyclerView.linearLayout
     get() = layoutManager as LinearLayoutManager
 
-val RecyclerView.scrollWidth: Int
-    get() = itemWidth() * (adapter ?: unexpected()).itemCount
+//val RecyclerView.scrollWidth: Int get() = itemWidth * itemCount
+val RecyclerView.scrollWidth get() = computeHorizontalScrollRange()
+
+val RecyclerView.itemCount: Int
+    get() = (adapter ?: unexpected()).itemCount
