@@ -16,13 +16,13 @@ val RecyclerView.itemWidth: Int
         return itemWidth
     }
 
-fun RecyclerView.scrollCenterToX(offsetPx: Int) =
-    scrollToOffset(offsetPx - (viewportWidth / 2))
+fun RecyclerView.scrollCenterToX(x: Int) =
+    scrollToX(x - (viewportWidth / 2))
 
-fun RecyclerView.scrollToOffset(offsetPx: Int) {
+fun RecyclerView.scrollToX(x: Int) {
     val itemWidth = itemWidth
-    val position = offsetPx / itemWidth
-    val offsetInside = -(offsetPx % itemWidth)
+    val position = x / itemWidth
+    val offsetInside = -(x % itemWidth)
     linearLayout.scrollToPositionWithOffset(position, offsetInside)
 }
 
