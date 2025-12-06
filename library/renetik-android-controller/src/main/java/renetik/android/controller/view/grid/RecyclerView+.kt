@@ -25,8 +25,8 @@ fun RecyclerView.scrollToOffset(offsetPx: Int) {
 private val RecyclerView.linearLayout
     get() = layoutManager as LinearLayoutManager
 
-//val RecyclerView.scrollWidth: Int get() = itemWidth * itemCount
-val RecyclerView.scrollWidth get() = computeHorizontalScrollRange()
+val RecyclerView.scrollWidth: Int get() = itemWidth * itemCount
+//val RecyclerView.scrollWidth get() = computeHorizontalScrollRange()
 
 val RecyclerView.itemCount: Int
     get() = (adapter ?: unexpected()).itemCount
