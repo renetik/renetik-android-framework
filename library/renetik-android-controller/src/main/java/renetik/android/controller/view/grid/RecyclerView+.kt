@@ -6,6 +6,7 @@ import renetik.android.core.kotlin.unexpected
 
 val RecyclerView.scrolledX get() = computeHorizontalScrollOffset()
 val RecyclerView.centerScrollX get() = scrolledX + (viewportWidth / 2)
+
 //val RecyclerView.viewportWidth get() = computeHorizontalScrollExtent()
 val RecyclerView.viewportWidth get() = width
 
@@ -15,6 +16,22 @@ val RecyclerView.itemWidth: Int
         val itemWidth = linearLayout.getDecoratedMeasuredWidth(firstChild)
         return itemWidth
     }
+
+fun RecyclerView.isScrolledToEnd(): Boolean {
+    val lm = layoutManager as? LinearLayoutManager ?: return false
+    val adapterCount = adapter?.itemCount ?: 0
+    if (adapterCount == 0) return true
+    val lastCompletely = lm.findLastCompletelyVisibleItemPosition()
+    return lastCompletely == adapterCount - 1
+}
+
+fun RecyclerView.scrollToEnd() {
+    val last = (adapter?.itemCount ?: 1) - 1
+    if (last >= 0) {
+        scrollToPosition(last)
+//        smoothScrollToPosition(last)
+    }
+}
 
 fun RecyclerView.scrollCenterToX(x: Int) =
     scrollToX(x - (viewportWidth / 2))
