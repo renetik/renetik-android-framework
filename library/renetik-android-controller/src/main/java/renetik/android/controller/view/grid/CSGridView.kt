@@ -40,7 +40,7 @@ class CSGridView<ItemType : Any,
         ViewType : CSGridItemView<ItemType>>(
     parent: CSActivityViewInterface, viewId: Int,
     val createView: (CSGridView<ItemType, ViewType>,
-        viewType: Int, parent: ViewGroup) -> ViewType
+                     viewType: Int, parent: ViewGroup) -> ViewType
 ) : CSView<RecyclerView>(parent, viewId) {
 
     constructor(
@@ -171,9 +171,12 @@ class CSGridView<ItemType : Any,
         }
 
         override fun onViewAttachedToWindow(holder: AdapterViewHolder) {
-            super.onViewDetachedFromWindow(holder)
+            super.onViewAttachedToWindow(holder)
             holder.gridItemView.onAddedToParentView()
-            holder.gridItemView.apply { if (!isDestructed) view.visible() }
+            holder.gridItemView.apply {
+                if (!isDestructed) view.visible()
+                loadRegistrations.resume()
+            }
         }
 
         override fun onViewDetachedFromWindow(holder: AdapterViewHolder) {
@@ -181,24 +184,25 @@ class CSGridView<ItemType : Any,
             holder.gridItemView.onRemovedFromParentView()
             holder.gridItemView.apply {
                 view.invisible()
-                loadRegistrations.clear()
+                loadRegistrations.pause()
             }
         }
 
         override fun onViewRecycled(holder: AdapterViewHolder) {
             super.onViewRecycled(holder)
-            holder.gridItemView.apply {
-                view.invisible()
-                loadRegistrations.clear()
-            }
+            unbind(holder)
         }
 
         override fun onFailedToRecycleView(holder: AdapterViewHolder): Boolean {
+            unbind(holder)
+            return false
+        }
+
+        private fun unbind(holder: CSGridView<ItemType, ViewType>.AdapterViewHolder) {
             holder.gridItemView.apply {
                 view.invisible()
                 loadRegistrations.clear()
             }
-            return false
         }
 
         override fun getItemViewType(position: Int): Int = data[position].second
