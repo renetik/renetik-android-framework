@@ -123,8 +123,9 @@ fun View.enabledByAlphaIf(
 ): CSRegistration = enabledByAlphaIf(property, disable) { it }
 
 fun View.disabledByAlphaIf(
-    property: CSHasChangeValue<Boolean>, disable: Boolean = true,
-): CSRegistration = disabledByAlphaIf(property, disable) { it }
+    property: CSHasChangeValue<Boolean>,
+    disable: Boolean = true, normal: Float = 1F
+): CSRegistration = disabledByAlphaIf(property, disable, normal) { it }
 
 fun FrameLayout.disabledByOverlayIf(
     property: CSHasChangeValue<Boolean>
@@ -155,8 +156,8 @@ fun View.disabledByAlphaIfNot(
 
 fun <T> View.disabledByAlphaIf(
     property: CSHasChangeValue<T>, disable: Boolean = true,
-    condition: (T) -> Boolean,
-): CSRegistration = property.action { disabledByAlpha(condition(it), disable) }
+    normal: Float = 1F, condition: (T) -> Boolean,
+): CSRegistration = property.action { disabledByAlpha(condition(it), disable, normal) }
 
 inline fun <T> View.enabledByAlphaIf(
     property1: CSHasChangeValue<T>, property2: CSHasChangeValue<*>,
