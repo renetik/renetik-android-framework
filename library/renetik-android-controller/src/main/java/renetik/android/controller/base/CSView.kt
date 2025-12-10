@@ -2,6 +2,7 @@
 
 package renetik.android.controller.base
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
@@ -16,6 +17,7 @@ import renetik.android.core.lang.variable.CSVariable.Companion.variable
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSContext
+import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
 import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty.Companion.property
@@ -37,7 +39,8 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
 
     private var layout: Int? = null
 
-    @IdRes private var viewId: Int? = null
+    @IdRes
+    private var viewId: Int? = null
 
     var parentView: CSViewInterface by variable()
 
@@ -80,10 +83,7 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
         this.viewId = viewId
     }
 
-    constructor(
-        parent: CSViewInterface,
-        @LayoutRes layout: Int? = null,
-    ) : super(parent) {
+    constructor(parent: CSViewInterface, @LayoutRes layout: Int? = null) : super(parent) {
         this.parentView = parent
         this + parentView.isVisible.onChange(::updateVisibility)
         this.layout = layout

@@ -2,6 +2,7 @@ rootProject.ext.namespace = 'renetik.android.ui'
 if (rootProject.ext.is_renetik_library_module) apply from: '../../library.gradle'
 else apply from: '../../../library.gradle'
 dependencies {
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation 'androidx.asynclayoutinflater:asynclayoutinflater:1.1.0'
     if (rootProject.ext.is_renetik_library_release) implementation "$renetik_android_core"
     else implementation project(':renetik-android-core')
