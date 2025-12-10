@@ -12,6 +12,7 @@ import renetik.android.core.extensions.content.toDp
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
 import renetik.android.core.math.top
+import renetik.android.event.registration.CSHasChangeValue.Companion.delegate
 
 inline val <T : View> T.hasSize get() = hasWidth && hasHeight
 inline val <T : View> T.hasWidth: Boolean get() = width > 0
@@ -156,3 +157,6 @@ val View.rectangleInWindow: Rect
             location.top + rectangle.height()
         )
     }
+
+val View.widthProp get() = onBoundsChange.delegate(from = { width })
+val View.heightProp get() = onBoundsChange.delegate(from = { height })
