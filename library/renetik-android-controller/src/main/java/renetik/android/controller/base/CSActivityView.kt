@@ -2,12 +2,14 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import androidx.annotation.IdRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import renetik.android.controller.navigation.CSNavigationView
 import renetik.android.controller.navigation.last
-import renetik.android.core.extensions.content.inputService
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
@@ -162,9 +164,12 @@ open class CSActivityView<ViewType : View>
     }
 
     final override fun hideKeyboard() {
-        activity?.currentFocus?.let {
-            inputService.hideSoftInputFromWindow(it.rootView.windowToken, 0)
-        } ?: super.hideKeyboard()
+        val focused = activity?.currentFocus
+        val rootView = focused?.rootView
+            ?: activity?.window?.decorView ?: view.rootView ?: return
+        val insets = ViewCompat.getRootWindowInsets(rootView) ?: return
+        if (!insets.isVisible(WindowInsetsCompat.Type.ime())) return
+        rootView.windowInsetsController?.hide(WindowInsets.Type.ime())
     }
 
     override val lifecycle: Lifecycle get() = activity().lifecycle

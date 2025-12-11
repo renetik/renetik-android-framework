@@ -2,12 +2,13 @@
 
 package renetik.android.controller.base
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import renetik.android.core.extensions.content.inputService
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import renetik.android.core.kotlin.className
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes
@@ -17,7 +18,6 @@ import renetik.android.core.lang.variable.CSVariable.Companion.variable
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.common.CSContext
-import renetik.android.event.common.CSHasDestruct
 import renetik.android.event.common.destruct
 import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty.Companion.property
@@ -125,7 +125,10 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
     protected open fun onViewReady() = Unit
 
     open fun hideKeyboard() {
-        inputService.hideSoftInputFromWindow(view.rootView.windowToken, 0)
+        val rootView = view.rootView ?: return
+        val insets = ViewCompat.getRootWindowInsets(rootView) ?: return
+        if (!insets.isVisible(WindowInsetsCompat.Type.ime())) return
+        rootView.windowInsetsController?.hide(WindowInsets.Type.ime())
     }
 
     override fun onAddedToParentView() = updateVisibility()
