@@ -48,7 +48,7 @@ class CSNavigationView(
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
-        hideKeyboard()
+//        hideKeyboard()
         onViewControllerPush()
         return controller
     }
@@ -69,7 +69,7 @@ class CSNavigationView(
         controller.showingInPager(false)
         view.remove(controller)
         current?.showingInPager(true)
-        hideKeyboard()
+//        hideKeyboard()
         onViewControllerPop()
     }
 
@@ -84,7 +84,7 @@ class CSNavigationView(
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
-        hideKeyboard()
+//        hideKeyboard()
         onViewControllerPush()
         return controller
     }
@@ -105,7 +105,7 @@ class CSNavigationView(
         view.add(controller)
         controller.showingInPager(true)
         controller.lifecycleUpdate()
-        hideKeyboard()
+//        hideKeyboard()
         onViewControllerPush()
         return controller
     }
