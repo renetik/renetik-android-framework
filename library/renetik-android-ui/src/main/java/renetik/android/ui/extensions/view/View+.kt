@@ -179,6 +179,7 @@ fun View.selectedIf(value: Boolean) = apply { isSelected = value }
 fun View.active(value: Boolean = true) = activeIf(value)
 fun View.activeIf(value: Boolean) = apply { isActivated = value }
 fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
+fun View.activateIf(property: CSProperty<Boolean>) = activateIf(property, true)
 fun View.onClick(action: CSActionInterface) = onClick { action.start() }
 fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 
