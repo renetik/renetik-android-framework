@@ -12,7 +12,6 @@ import renetik.android.event.common.destruct
 import renetik.android.event.fire
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistrationsMap
-import renetik.android.ui.extensions.fixInputMethodManagerLeak
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSVisibility
 
@@ -41,7 +40,6 @@ abstract class CSActivity : AppCompatActivity(), CSVisibility, CSHasContext, CSV
         registrations.cancel()
         eventDestruct.fire().clear()
         logInfo()
-        fixInputMethodManagerLeak()
     }
 
     public override fun onDestroy() {
