@@ -5,17 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
+import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.extensions.content.asString
 import renetik.android.core.extensions.content.isNetworkConnected
 import renetik.android.core.extensions.content.register
 import renetik.android.core.extensions.content.unregister
 import renetik.android.core.logging.CSLog.logDebug
-import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.CSContext
+import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.common.CSModel
 
-class CSReachability : CSContext() {
-
+class CSReachability(parent: CSHasDestruct) : CSModel(parent) {
     val eventOnConnected = event<CSReachability>()
     val eventOnDisConnected = event<CSReachability>()
     val eventOnStateChanged = event<CSReachability>()
@@ -31,7 +31,7 @@ class CSReachability : CSContext() {
     fun start(): CSReachability {
         if (!started) {
             @Suppress("DEPRECATION")
-            register(receiver, IntentFilter(CONNECTIVITY_ACTION))
+            app.register(receiver, IntentFilter(CONNECTIVITY_ACTION))
             started = true
         }
         return this
@@ -40,13 +40,13 @@ class CSReachability : CSContext() {
     fun stop(): CSReachability {
         if (started) {
             started = false
-            unregister(receiver)
+            app.unregister(receiver)
         }
         return this
     }
 
     private fun onNetworkStateChange() {
-        if (isNetworkConnected) onNetworkConnected()
+        if (app.isNetworkConnected) onNetworkConnected()
         else onNetworkDisconnected()
         eventOnStateChanged.fire(this)
     }
@@ -57,5 +57,10 @@ class CSReachability : CSContext() {
 
     protected fun onNetworkDisconnected() {
         eventOnDisConnected.fire(this)
+    }
+
+    override fun onDestruct() {
+        super.onDestruct()
+        stop()
     }
 }
