@@ -1,5 +1,6 @@
 package renetik.android.framework.extensions
 
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import renetik.android.controller.base.CSView
@@ -14,6 +15,8 @@ import renetik.android.preset.Preset
 import renetik.android.preset.extensions.action
 import renetik.android.ui.extensions.add
 import renetik.android.ui.extensions.minusAssign
+import renetik.android.ui.extensions.view.add
+import renetik.android.ui.extensions.view.removeAt
 import renetik.android.ui.protocol.CSViewInterface
 
 fun <ItemView : CSViewInterface> CSHasChangeValue<Int>.updates(
@@ -47,6 +50,36 @@ fun <View : CSViewInterface, Model> MutableList<View>.viewFactory(
             layoutParams?.let { content.add(view = view, params = it, addIndex) }
                 ?: content.add(view = view, addIndex)
             view.eventDestruct { this -= view; content -= view }
+        }
+    }
+    list.forEach(::createView)
+    parent + eventAdded.onChange(::createView)
+}
+
+fun <V : CSViewInterface, M> MutableList<V>.viewFactory(
+    parent: CSView<*>, list: List<M>, eventAdded: CSHasChange<M>,
+    content: ViewGroup, layoutParams: LayoutParams? = null,
+    fromStart: Boolean = false, separator: () -> View, create: (M) -> V,
+) = apply {
+    fun removeSeparator(view: V) {
+        val separatorOffset = if (fromStart) 1 else -1
+        val indexOfView = content.indexOfChild(view.view)
+        val separatorIndex = indexOfView + separatorOffset
+        content.removeAt(separatorIndex)
+    }
+
+    fun createView(model: M) {
+        this += create(model).also { view ->
+            val addIndex = if (fromStart) 0 else -1
+            if (isNotEmpty()) content.add(separator(), addIndex)
+            layoutParams?.let {
+                content.add(view = view, params = it, addIndex)
+            } ?: content.add(view = view, addIndex)
+            view.eventDestruct {
+                if (size > 1) removeSeparator(view)
+                content -= view
+                this -= view
+            }
         }
     }
     list.forEach(::createView)
