@@ -6,8 +6,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.CompoundButton
 import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.IdRes
+import androidx.appcompat.widget.SearchView
 import androidx.drawerlayout.widget.DrawerLayout
 import renetik.android.core.lang.ArgFun
 import renetik.android.event.common.CSHasDestruct
@@ -23,11 +27,8 @@ import renetik.android.ui.extensions.view.compound
 import renetik.android.ui.extensions.view.datePicker
 import renetik.android.ui.extensions.view.editText
 import renetik.android.ui.extensions.view.findView
-import renetik.android.ui.extensions.view.frame
-import renetik.android.ui.extensions.view.group
 import renetik.android.ui.extensions.view.horizontalScroll
 import renetik.android.ui.extensions.view.imageView
-import renetik.android.ui.extensions.view.linear
 import renetik.android.ui.extensions.view.listView
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onClickLaunch
@@ -39,13 +40,10 @@ import renetik.android.ui.extensions.view.radio
 import renetik.android.ui.extensions.view.rectangleInWindow
 import renetik.android.ui.extensions.view.removeFromSuperview
 import renetik.android.ui.extensions.view.scrollView
-import renetik.android.ui.extensions.view.search
 import renetik.android.ui.extensions.view.seekBar
-import renetik.android.ui.extensions.view.spinner
 import renetik.android.ui.extensions.view.textView
 import renetik.android.ui.extensions.view.timePicker
 import renetik.android.ui.extensions.view.view
-import renetik.android.ui.extensions.view.viewGroup
 import renetik.android.ui.extensions.view.waitForLayout
 import renetik.android.ui.extensions.view.webView
 import renetik.android.ui.protocol.CSViewInterface
@@ -88,13 +86,13 @@ fun CSViewInterface.radio(@IdRes id: Int) = view.radio(id)
 
 fun CSViewInterface.datePicker(@IdRes id: Int) = view.datePicker(id)
 
-fun CSViewInterface.viewGroup(@IdRes id: Int) = view.viewGroup(id)
-fun CSViewInterface.frame(@IdRes id: Int) = view.frame(id)
-fun CSViewInterface.drawer(@IdRes id: Int) = view.view(id) as DrawerLayout
-fun CSViewInterface.linear(@IdRes id: Int) = view.linear(id)
-fun CSViewInterface.group(@IdRes id: Int) = view.group(id)
-fun CSViewInterface.spinner(@IdRes id: Int) = view.spinner(id)
-fun CSViewInterface.search(@IdRes id: Int) = view.search(id)
+fun CSViewInterface.viewGroup(@IdRes id: Int) = view.view<ViewGroup>(id)
+fun CSViewInterface.frame(@IdRes id: Int) = view.view<FrameLayout>(id)
+fun CSViewInterface.drawer(@IdRes id: Int) = view.view<DrawerLayout>(id)
+fun CSViewInterface.linear(@IdRes id: Int) = view.view<LinearLayout>(id)
+fun CSViewInterface.group(@IdRes id: Int) = view.view<ViewGroup>(id)
+fun CSViewInterface.spinner(@IdRes id: Int) = view.view<Spinner>(id)
+fun CSViewInterface.search(@IdRes id: Int) = view.view<SearchView>(id)
 
 fun CSViewInterface.compound(@IdRes id: Int): CompoundButton = view.compound(id)
 
