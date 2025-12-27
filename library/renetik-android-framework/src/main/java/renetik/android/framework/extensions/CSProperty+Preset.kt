@@ -45,20 +45,25 @@ fun <View : CSViewInterface, Model> MutableList<View>.viewFactory(
     content: ViewGroup, layoutParams: LayoutParams? = null,
     fromStart: Boolean = false, create: (Model) -> View
 ) = apply {
-    fun createView(model: Model) {
-        create(model).also { view ->
-            val addIndex = if (fromStart) 0 else -1
-            layoutParams?.let { content.add(view = view, params = it, addIndex) }
-                ?: content.add(view = view, addIndex)
-            this + view
-            view.eventDestruct {
-                content -= view
-                this - view
-            }
+    fun addView(model: Model) = addView(model, content, layoutParams, fromStart, create)
+    list.forEach(::addView)
+    parent + eventAdded.onChange(::addView)
+}
+
+fun <View : CSViewInterface, Model> MutableList<View>.addView(
+    model: Model, content: ViewGroup, layoutParams: LayoutParams? = null,
+    fromStart: Boolean = false, create: (Model) -> View
+) {
+    create(model).also { view ->
+        val addIndex = if (fromStart) 0 else -1
+        layoutParams?.let { content.add(view = view, params = it, addIndex) }
+            ?: content.add(view = view, addIndex)
+        this += view
+        view.eventDestruct {
+            content -= view
+            this -= view
         }
     }
-    list.forEach(::createView)
-    parent + eventAdded.onChange(::createView)
 }
 
 fun <View : CSViewInterface, Model> List<Model>.viewFactory(
