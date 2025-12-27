@@ -18,10 +18,10 @@ val RecyclerView.itemWidth: Int
     }
 
 fun RecyclerView.isScrolledToEnd(): Boolean {
-    val lm = layoutManager as? LinearLayoutManager ?: return false
+    val manager = layoutManager as? LinearLayoutManager ?: return false
     val adapterCount = adapter?.itemCount ?: 0
     if (adapterCount == 0) return true
-    val lastCompletely = lm.findLastCompletelyVisibleItemPosition()
+    val lastCompletely = manager.findLastCompletelyVisibleItemPosition()
     return lastCompletely == adapterCount - 1
 }
 

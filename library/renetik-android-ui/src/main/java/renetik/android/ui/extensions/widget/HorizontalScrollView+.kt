@@ -8,6 +8,6 @@ fun HorizontalScrollView.setTouchEnabled(enabled: Boolean) {
     if (enabled) setOnTouchListener(null) else setOnTouchListener { _, _ -> true }
 }
 
-fun HorizontalScrollView.scrollX(x: Int) = apply { smoothScrollTo(x, scrollY) }
+fun HorizontalScrollView.scrollX(x: Int) = smoothScrollTo(x, scrollY)
 
-fun HorizontalScrollView.scrollY(y: Int) = apply { smoothScrollTo(scrollY, y) }
+fun HorizontalScrollView.scrollY(y: Int) = smoothScrollTo(scrollY, y)
