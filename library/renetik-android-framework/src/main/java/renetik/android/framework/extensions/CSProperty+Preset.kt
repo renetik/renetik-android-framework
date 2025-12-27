@@ -6,7 +6,6 @@ import android.view.ViewGroup.LayoutParams
 import renetik.android.controller.base.CSView
 import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
-import renetik.android.event.common.CSHasRegistrationsHasDestruct
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasRegistrations
@@ -46,34 +45,33 @@ fun <View : CSViewInterface, Model> MutableList<View>.viewFactory(
     content: ViewGroup, layoutParams: LayoutParams? = null,
     fromStart: Boolean = false, create: (Model) -> View
 ) = apply {
-    fun createView(model: Model) {
-        this += create(model).also { view ->
-            val addIndex = if (fromStart) 0 else -1
-            layoutParams?.let { content.add(view = view, params = it, addIndex) }
-                ?: content.add(view = view, addIndex)
-            view.eventDestruct { this -= view; content -= view }
-        }
-    }
+    fun createView(model: Model) =
+        content.addView(model, layoutParams, fromStart, create)
     list.forEach(::createView)
     parent + eventAdded.onChange(::createView)
 }
-
 
 fun <View : CSViewInterface, Model> List<Model>.viewFactory(
     parent: CSHasRegistrations, eventAdded: CSHasChange<Model>,
     content: ViewGroup, layoutParams: LayoutParams? = null,
     fromStart: Boolean = false, create: (Model) -> View
 ) {
-    fun createView(model: Model) {
-        create(model).also { view ->
-            val addIndex = if (fromStart) 0 else -1
-            layoutParams?.let { content.add(view = view, params = it, addIndex) }
-                ?: content.add(view = view, addIndex)
-            view.eventDestruct { content -= view }
-        }
-    }
+    fun createView(model: Model) =
+        content.addView(model, layoutParams, fromStart, create)
     forEach(::createView)
     parent + eventAdded.onChange(::createView)
+}
+
+fun <View : CSViewInterface, Model> ViewGroup.addView(
+    model: Model, layoutParams: LayoutParams? = null,
+    fromStart: Boolean = false, create: (Model) -> View
+) {
+    create(model).also { view ->
+        val addIndex = if (fromStart) 0 else -1
+        layoutParams?.let { add(view = view, params = it, addIndex) }
+            ?: add(view = view, addIndex)
+        view.eventDestruct { this -= view }
+    }
 }
 
 fun <V : CSViewInterface, M> MutableList<V>.viewFactory(
