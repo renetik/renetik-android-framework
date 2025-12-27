@@ -29,11 +29,11 @@ fun RecyclerView.isScrolledToEnd(): Boolean {
     return lastCompletely == adapterCount - 1
 }
 
-fun RecyclerView.scrollToEnd() {
+fun RecyclerView.scrollToEnd(smooth: Boolean = false) {
     val last = (adapter?.itemCount ?: 1) - 1
     if (last >= 0) {
-        scrollToPosition(last)
-//        smoothScrollToPosition(last)
+        if (smooth) smoothScrollToPosition(last)
+        else scrollToPosition(last)
     }
 }
 
