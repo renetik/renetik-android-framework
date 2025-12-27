@@ -4,18 +4,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import renetik.android.core.kotlin.unexpected
 
-val RecyclerView.scrolledX get() = computeHorizontalScrollOffset()
-val RecyclerView.centerScrollX get() = scrolledX + (viewportWidth / 2)
-
 //val RecyclerView.viewportWidth get() = computeHorizontalScrollExtent()
 val RecyclerView.viewportWidth get() = width
-
+val RecyclerView.itemCount: Int get() = (adapter ?: unexpected()).itemCount
 val RecyclerView.itemWidth: Int
     get() {
         val firstChild = getChildAt(0) ?: unexpected()
         val itemWidth = linearLayout.getDecoratedMeasuredWidth(firstChild)
         return itemWidth
     }
+
+val RecyclerView.displayWidth: Int get() = itemWidth * itemCount
+val RecyclerView.displayWidthComputed get() = computeHorizontalScrollRange()
+val RecyclerView.displayScale get() = displayWidth / viewportWidth.toDouble()
+
+val RecyclerView.scrolledX get() = computeHorizontalScrollOffset()
+val RecyclerView.centerScrollX get() = scrolledX + (viewportWidth / 2)
 
 fun RecyclerView.isScrolledToEnd(): Boolean {
     val manager = layoutManager as? LinearLayoutManager ?: return false
@@ -44,11 +48,4 @@ fun RecyclerView.scrollToX(x: Int, itemWidth: Int) {
     linearLayout.scrollToPositionWithOffset(position, offsetInside)
 }
 
-private val RecyclerView.linearLayout
-    get() = layoutManager as LinearLayoutManager
-
-val RecyclerView.displayWidth: Int get() = itemWidth * itemCount
-val RecyclerView.displayWidthComputed get() = computeHorizontalScrollRange()
-
-val RecyclerView.itemCount: Int
-    get() = (adapter ?: unexpected()).itemCount
+private val RecyclerView.linearLayout get() = layoutManager as LinearLayoutManager
