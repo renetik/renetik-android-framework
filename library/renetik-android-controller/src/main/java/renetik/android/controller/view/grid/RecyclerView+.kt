@@ -1,5 +1,6 @@
 package renetik.android.controller.view.grid
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import renetik.android.core.kotlin.unexpected
@@ -49,3 +50,6 @@ fun RecyclerView.scrollToX(x: Int, itemWidth: Int) {
 }
 
 private val RecyclerView.linearLayout get() = layoutManager as LinearLayoutManager
+
+fun RecyclerView.visibleChildViews(): List<View> =
+    (0 until childCount).mapNotNull { getChildAt(it) }
