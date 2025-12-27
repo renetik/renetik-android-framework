@@ -41,12 +41,22 @@ fun <ItemView : CSViewInterface> CSHasChangeValue<Int>.updates(
 }
 
 fun <View : CSViewInterface, Model> MutableList<View>.viewFactory(
-    parent: CSView<*>, list: List<Model>, eventAdded: CSHasChange<Model>,
+    parent: CSHasRegistrations, list: List<Model>, eventAdded: CSHasChange<Model>,
     content: ViewGroup, layoutParams: LayoutParams? = null,
     fromStart: Boolean = false, create: (Model) -> View
 ) = apply {
-    fun createView(model: Model) =
-        content.addView(model, layoutParams, fromStart, create)
+    fun createView(model: Model) {
+        create(model).also { view ->
+            val addIndex = if (fromStart) 0 else -1
+            layoutParams?.let { content.add(view = view, params = it, addIndex) }
+                ?: content.add(view = view, addIndex)
+            this + view
+            view.eventDestruct {
+                content -= view
+                this - view
+            }
+        }
+    }
     list.forEach(::createView)
     parent + eventAdded.onChange(::createView)
 }
