@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
 
 //val RecyclerView.viewportWidth get() = computeHorizontalScrollExtent()
-val RecyclerView.viewportWidth: Int get() = width
-val RecyclerView.viewportHeight: Int get() = height
-val RecyclerView.viewportSize: Int
-    get() = if (isHorizontal) viewportWidth else viewportHeight
+val RecyclerView.viewWidth: Int get() = width
+val RecyclerView.viewHeight: Int get() = height
+val RecyclerView.viewSize: Int
+    get() = if (isHorizontal) viewWidth else viewHeight
 
 val RecyclerView.itemCount: Int get() = adapter?.itemCount ?: 0
 val RecyclerView.itemWidth: Int
@@ -29,8 +29,8 @@ val RecyclerView.displayHeightComputed: Int get() = computeVerticalScrollRange()
 val RecyclerView.displaySizeComputed: Int
     get() = if (isHorizontal) displayWidthComputed else displayHeightComputed
 
-val RecyclerView.displayWidthScale: Double get() = displayWidth / viewportWidth.toDouble()
-val RecyclerView.displayHeightScale: Double get() = displayHeight / viewportHeight.toDouble()
+val RecyclerView.displayWidthScale: Double get() = displayWidth / viewWidth.toDouble()
+val RecyclerView.displayHeightScale: Double get() = displayHeight / viewHeight.toDouble()
 val RecyclerView.displayScale: Double
     get() = if (isHorizontal) displayWidthScale else displayHeightScale
 
@@ -38,8 +38,8 @@ val RecyclerView.scrolledX: Int get() = computeHorizontalScrollOffset()
 val RecyclerView.scrolledY: Int get() = computeVerticalScrollOffset()
 val RecyclerView.scrolled: Int get() = if (isHorizontal) scrolledX else scrolledY
 
-val RecyclerView.centerScrollX get() = scrolledX + (viewportWidth / 2)
-val RecyclerView.centerScrollY get() = scrolledY + (viewportHeight / 2)
+val RecyclerView.centerScrollX get() = scrolledX + (viewWidth / 2)
+val RecyclerView.centerScrollY get() = scrolledY + (viewHeight / 2)
 val RecyclerView.centerScroll: Int get() = if (isHorizontal) centerScrollX else centerScrollY
 
 fun RecyclerView.isScrolledToEnd(): Boolean {
@@ -58,10 +58,10 @@ fun RecyclerView.scrollToEnd(smooth: Boolean = false) {
 }
 
 fun RecyclerView.scrollCenterToX(x: Int) =
-    scrollToX(x - (viewportWidth / 2))
+    scrollToX(x - (viewWidth / 2))
 
 fun RecyclerView.scrollCenterToY(y: Int) =
-    scrollToY(y - (viewportHeight / 2))
+    scrollToY(y - (viewHeight / 2))
 
 fun RecyclerView.scrollToX(x: Int) = scrollToPosition(x, itemWidth)
 fun RecyclerView.scrollToY(y: Int) = scrollToPosition(y, itemHeight)
