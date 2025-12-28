@@ -138,11 +138,19 @@ suspend fun View.waitForViewLayout() {
     }
 }
 
+
+@Deprecated("Use View.onViewLayout: CSHasChange<Unit>")
 inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
     val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
     return CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
         onPause = { removeOnLayoutChangeListener(listener) }).start()
 }
+
+
+val View.onViewLayout: CSHasChange<Unit>
+    get() = object : CSHasChange<Unit> {
+        override fun onChange(function: (Unit) -> Unit) = onViewLayout { function(Unit) }
+    }
 
 @Deprecated("Use View.onBoundsChange: CSHasChange<Unit>")
 fun View.onBoundsChange(function: Fun): CSRegistration {
