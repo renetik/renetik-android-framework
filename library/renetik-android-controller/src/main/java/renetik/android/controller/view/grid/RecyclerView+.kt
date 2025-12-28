@@ -1,45 +1,51 @@
 package renetik.android.controller.view.grid
 
 import android.view.View
+import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
-import renetik.android.core.kotlin.unexpected
 
 //val RecyclerView.viewportWidth get() = computeHorizontalScrollExtent()
-val RecyclerView.viewportWidth get() = width
-val RecyclerView.viewportHeight get() = height
-val RecyclerView.itemCount: Int get() = (adapter ?: unexpected()).itemCount
+val RecyclerView.viewportWidth: Int get() = width
+val RecyclerView.viewportHeight: Int get() = height
+val RecyclerView.viewportSize: Int
+    get() = if (isHorizontal) viewportWidth else viewportHeight
+
+val RecyclerView.itemCount: Int get() = adapter?.itemCount ?: 0
 val RecyclerView.itemWidth: Int
-    get() {
-        val firstChild = getChildAt(0) ?: unexpected()
-        val itemWidth = linearLayout.getDecoratedMeasuredWidth(firstChild)
-        return itemWidth
-    }
+    get() = getChildAt(0)?.let { linearLayout.getDecoratedMeasuredWidth(it) } ?: 0
 
 val RecyclerView.itemHeight: Int
-    get() {
-        val firstChild = getChildAt(0) ?: unexpected()
-        val itemHeight = linearLayout.getDecoratedMeasuredHeight(firstChild)
-        return itemHeight
-    }
+    get() = getChildAt(0)?.let { linearLayout.getDecoratedMeasuredHeight(it) } ?: 0
 
 val RecyclerView.displayWidth: Int get() = itemWidth * itemCount
 val RecyclerView.displayHeight: Int get() = itemHeight * itemCount
-val RecyclerView.displayWidthComputed get() = computeHorizontalScrollRange()
-val RecyclerView.displayHeightComputed get() = computeVerticalScrollRange()
-val RecyclerView.displayWidthScale get() = displayWidth / viewportWidth.toDouble()
-val RecyclerView.displayHeightScale get() = displayHeight / viewportHeight.toDouble()
+val RecyclerView.displaySize: Int
+    get() = if (isHorizontal) displayWidth else displayHeight
 
-val RecyclerView.scrolledX get() = computeHorizontalScrollOffset()
-val RecyclerView.scrolledY get() = computeVerticalScrollOffset()
+val RecyclerView.displayWidthComputed: Int get() = computeHorizontalScrollRange()
+val RecyclerView.displayHeightComputed: Int get() = computeVerticalScrollRange()
+val RecyclerView.displaySizeComputed: Int
+    get() = if (isHorizontal) displayWidthComputed else displayHeightComputed
+
+val RecyclerView.displayWidthScale: Double get() = displayWidth / viewportWidth.toDouble()
+val RecyclerView.displayHeightScale: Double get() = displayHeight / viewportHeight.toDouble()
+val RecyclerView.displayScale: Double
+    get() = if (isHorizontal) displayWidthScale else displayHeightScale
+
+val RecyclerView.scrolledX: Int get() = computeHorizontalScrollOffset()
+val RecyclerView.scrolledY: Int get() = computeVerticalScrollOffset()
+val RecyclerView.scrolled: Int get() = if (isHorizontal) scrolledX else scrolledY
+
 val RecyclerView.centerScrollX get() = scrolledX + (viewportWidth / 2)
 val RecyclerView.centerScrollY get() = scrolledY + (viewportHeight / 2)
+val RecyclerView.centerScroll: Int get() = if (isHorizontal) centerScrollX else centerScrollY
 
 fun RecyclerView.isScrolledToEnd(): Boolean {
-    val manager = layoutManager as? LinearLayoutManager ?: return false
     val adapterCount = adapter?.itemCount ?: 0
     if (adapterCount == 0) return true
-    val lastCompletely = manager.findLastCompletelyVisibleItemPosition()
+    val lastCompletely = linearLayout.findLastCompletelyVisibleItemPosition()
     return lastCompletely == adapterCount - 1
 }
 
@@ -59,6 +65,8 @@ fun RecyclerView.scrollCenterToY(y: Int) =
 
 fun RecyclerView.scrollToX(x: Int) = scrollToPosition(x, itemWidth)
 fun RecyclerView.scrollToY(y: Int) = scrollToPosition(y, itemHeight)
+fun RecyclerView.scrollTo(position: Int) =
+    if (isHorizontal) scrollToX(position) else scrollToY(position)
 
 fun RecyclerView.scrollToPosition(position: Int, itemSize: Int) {
     val positionStart = position / itemSize
@@ -67,6 +75,6 @@ fun RecyclerView.scrollToPosition(position: Int, itemSize: Int) {
 }
 
 private val RecyclerView.linearLayout get() = layoutManager as LinearLayoutManager
+private val RecyclerView.isHorizontal get() = linearLayout.orientation == HORIZONTAL
 
-fun RecyclerView.visibleChildViews(): List<View> =
-    (0 until childCount).mapNotNull { getChildAt(it) }
+fun RecyclerView.visibleChildViews(): List<View> = children.toList()
