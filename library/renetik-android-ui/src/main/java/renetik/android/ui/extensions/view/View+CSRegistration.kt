@@ -9,7 +9,6 @@ import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.Fun
@@ -31,6 +30,7 @@ import renetik.android.event.registration.onChange
 import renetik.android.event.registration.onChangeOnce
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
+import renetik.android.event.registration.wait
 import renetik.android.ui.R
 
 fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
@@ -172,11 +172,11 @@ fun View.onBoundsChange(function: Fun): CSRegistration {
     }
 
 suspend fun <T : View> T.waitForSize() = apply {
-    Main { while (!hasSize) delay(20) }
+    Main { while (!hasSize) onViewLayout.wait() }
 }
 
 suspend fun <T : View> T.waitForWidth(): Int = Main {
-    while (width <= 0) delay(5)
+    while (width <= 0) onViewLayout.wait()
     width
 }
 
