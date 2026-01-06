@@ -4,11 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
+import androidx.core.view.isEmpty
 import androidx.core.view.isNotEmpty
-import androidx.core.view.size
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.protocol.CSHasParentView
-import androidx.core.view.isEmpty
 
 operator fun ViewGroup.get(index: Int): View = getChildAt(index)
 
@@ -72,8 +71,14 @@ fun <T : ViewGroup> T.clear() = apply {
     removeAllViews()
 }
 
-fun ViewGroup.childAt(condition: (View) -> Boolean) = children.find(condition)
+inline fun ViewGroup.childAt(condition: (View) -> Boolean) = children.find(condition)
 
 fun ViewGroup.removeViews(from: Int) = removeViews(from, childCount - from)
 
-val ViewGroup.subViews: List<View> get() = children.toList()
+inline val ViewGroup.subViews: List<View> get() = children.toList()
+
+inline fun ViewGroup.forEachIndexedReverse(action: (index: Int, view: View) -> Unit) {
+    for (index in childCount - 1 downTo 0) {
+        action(index, getChildAt(index))
+    }
+}
