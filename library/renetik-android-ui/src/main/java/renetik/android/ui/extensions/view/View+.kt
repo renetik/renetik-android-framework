@@ -120,9 +120,11 @@ fun <T : View> T.onClick(timeout: Int? = null, onClick: (view: T) -> Unit) = app
     })
 }
 
-fun <T : View> T.onClickLaunch(parent: CSHasRegistrations,
-                               timeout: Int? = null,
-                               onClick: suspend (view: T) -> Unit) =
+fun <T : View> T.onClickLaunch(
+    parent: CSHasRegistrations,
+    timeout: Int? = null,
+    onClick: suspend (view: T) -> Unit
+) =
     onClick(timeout) { view -> parent.launch { onClick(view) } }
 
 fun <T : View> T.clearClick(isClickable: Boolean = false) = apply {
@@ -201,6 +203,23 @@ inline fun <T : View> T.onDoubleTap(crossinline function: (T) -> Unit) = apply {
         override fun onDoubleTap(e: MotionEvent): Boolean {
             function(view)
             return true
+        }
+
+        override fun onDown(e: MotionEvent): Boolean = true
+    })
+    setOnTouchListener { _, event -> detector.onTouchEvent(event) }
+}
+
+@SuppressLint("ClickableViewAccessibility")
+inline fun <T : View> T.onDoubleTapUp(crossinline function: (T) -> Unit) = apply {
+    val view = this
+    val detector = GestureDetector(context, object : SimpleOnGestureListener() {
+        override fun onDoubleTapEvent(e: MotionEvent): Boolean {
+            if (e.actionMasked == MotionEvent.ACTION_UP) {
+                function(view)
+                return true
+            }
+            return false
         }
 
         override fun onDown(e: MotionEvent): Boolean = true
