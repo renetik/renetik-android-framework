@@ -5,6 +5,7 @@ import renetik.android.core.lang.CSHandler.mainHandler
 import renetik.android.core.lang.send
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.CSPoint.Companion.point
+import renetik.android.event.registration.invoke
 
 val <T : View> T.center: CSPoint<Int>
     get() = point(width / 2, height / 2)
@@ -61,6 +62,6 @@ fun View.updatedLocationOnScreen(delay: Int = 0): IntArray {
         if (isAttachedToWindow) getLocationOnScreen(location)
     }
     updateLocation()
-    onBoundsChange { updateLocation() }
+    onBoundsChange.invoke { updateLocation() }
     return location
 }

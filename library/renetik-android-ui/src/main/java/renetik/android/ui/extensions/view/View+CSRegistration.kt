@@ -139,29 +139,30 @@ suspend fun View.waitForViewLayout() {
     }
 }
 
-
-@Deprecated("Use View.onViewLayout: CSHasChange<Unit>")
-inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
-    val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
-    return CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
-        onPause = { removeOnLayoutChangeListener(listener) }).start()
-}
-
-
-@Deprecated("Use View.onBoundsChange: CSHasChange<Unit>")
-fun View.onBoundsChange(function: Fun): CSRegistration {
+private fun View.onBoundsChange(function: Fun): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnLayoutChangeListener { _, l, t, r, b, nl, nt, nr, nb ->
-        if (l != nl || t != nt || r != nr || b != nb) if (registration.isActive) function()
+        if (l != nl || t != nt || r != nr || b != nb)
+            if (registration.isActive) function()
     }
     registration = CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
         onPause = { removeOnLayoutChangeListener(listener) }).start()
     return registration
 }
 
+val View.onBoundsChange: CSHasChange<Unit>
+    get() = object : CSHasChange<Unit> {
+        override fun onChange(function: (Unit) -> Unit) =
+            onBoundsChange { function(Unit) }
+    }
 
-@Deprecated("Use View.onSizeChange: CSHasChange<Unit>")
-fun View.onSizeChange(function: Fun): CSRegistration {
+val View.onHasSizeBoundsChange: CSHasChange<Unit>
+    get() = object : CSHasChange<Unit> {
+        override fun onChange(function: (Unit) -> Unit) =
+            onBoundsChange { if (hasSize) function(Unit) }
+    }
+
+private fun View.onSizeChange(function: Fun): CSRegistration {
     lateinit var registration: CSRegistration
     val listener =
         OnLayoutChangeListener { _, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
@@ -176,20 +177,17 @@ fun View.onSizeChange(function: Fun): CSRegistration {
     return registration
 }
 
-@Suppress("DEPRECATION") fun View.onHasSizeBoundsChange(function: Fun): CSRegistration =
-    onBoundsChange { if (hasSize) function() }
-
-@Suppress("DEPRECATION") val View.onBoundsChange: CSHasChange<Unit>
-    get() = object : CSHasChange<Unit> {
-        override fun onChange(function: (Unit) -> Unit) = onBoundsChange { function(Unit) }
-    }
-
-@Suppress("DEPRECATION") val View.onSizeChange: CSHasChange<Unit>
+val View.onSizeChange: CSHasChange<Unit>
     get() = object : CSHasChange<Unit> {
         override fun onChange(function: (Unit) -> Unit) = onSizeChange { function(Unit) }
     }
 
-@Suppress("DEPRECATION")
+private inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
+    val listener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> function() }
+    return CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
+        onPause = { removeOnLayoutChangeListener(listener) }).start()
+}
+
 val View.onLayoutChange: CSHasChange<Unit>
     get() = object : CSHasChange<Unit> {
         override fun onChange(function: (Unit) -> Unit) = onViewLayout { function(Unit) }
