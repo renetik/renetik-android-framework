@@ -158,5 +158,5 @@ val View.rectangleInWindow: Rect
         )
     }
 
-val View.widthProp get() = onBoundsChange.delegate(from = { width })
-val View.heightProp get() = onBoundsChange.delegate(from = { height })
+val View.widthProp get() = onSizeChange.delegate(from = { width })
+val View.heightProp get() = onSizeChange.delegate(from = { height })

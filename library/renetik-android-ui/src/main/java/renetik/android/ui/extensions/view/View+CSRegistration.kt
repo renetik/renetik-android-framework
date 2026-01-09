@@ -33,6 +33,7 @@ import renetik.android.event.registration.start
 import renetik.android.event.registration.wait
 import renetik.android.ui.R
 
+
 fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnGlobalFocusChangeListener { old, new ->
@@ -147,17 +148,29 @@ inline fun View.onViewLayout(crossinline function: () -> Unit): CSRegistration {
 }
 
 
-val View.onViewLayout: CSHasChange<Unit>
-    get() = object : CSHasChange<Unit> {
-        override fun onChange(function: (Unit) -> Unit) = onViewLayout { function(Unit) }
-    }
-
 @Deprecated("Use View.onBoundsChange: CSHasChange<Unit>")
 fun View.onBoundsChange(function: Fun): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnLayoutChangeListener { _, l, t, r, b, nl, nt, nr, nb ->
         if (l != nl || t != nt || r != nr || b != nb) if (registration.isActive) function()
     }
+    registration = CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
+        onPause = { removeOnLayoutChangeListener(listener) }).start()
+    return registration
+}
+
+
+@Deprecated("Use View.onSizeChange: CSHasChange<Unit>")
+fun View.onSizeChange(function: Fun): CSRegistration {
+    lateinit var registration: CSRegistration
+    val listener =
+        OnLayoutChangeListener { _, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            val newW: Int = right - left
+            val newH: Int = bottom - top
+            val oldW: Int = oldRight - oldLeft
+            val oldH: Int = oldBottom - oldTop
+            if (newW != oldW || newH != oldH) if (registration.isActive) function()
+        }
     registration = CSRegistration(onResume = { addOnLayoutChangeListener(listener) },
         onPause = { removeOnLayoutChangeListener(listener) }).start()
     return registration
@@ -171,12 +184,23 @@ fun View.onBoundsChange(function: Fun): CSRegistration {
         override fun onChange(function: (Unit) -> Unit) = onBoundsChange { function(Unit) }
     }
 
+@Suppress("DEPRECATION") val View.onSizeChange: CSHasChange<Unit>
+    get() = object : CSHasChange<Unit> {
+        override fun onChange(function: (Unit) -> Unit) = onSizeChange { function(Unit) }
+    }
+
+@Suppress("DEPRECATION")
+val View.onLayoutChange: CSHasChange<Unit>
+    get() = object : CSHasChange<Unit> {
+        override fun onChange(function: (Unit) -> Unit) = onViewLayout { function(Unit) }
+    }
+
 suspend fun <T : View> T.waitForSize() = apply {
-    Main { while (!hasSize) onViewLayout.wait() }
+    Main { while (!hasSize) onLayoutChange.wait() }
 }
 
 suspend fun <T : View> T.waitForWidth(): Int = Main {
-    while (width <= 0) onViewLayout.wait()
+    while (width <= 0) onLayoutChange.wait()
     width
 }
 

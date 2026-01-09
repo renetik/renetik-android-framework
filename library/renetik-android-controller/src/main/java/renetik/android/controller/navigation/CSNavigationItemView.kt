@@ -38,7 +38,7 @@ import renetik.android.ui.extensions.view.heightWrap
 import renetik.android.ui.extensions.view.leftFloat
 import renetik.android.ui.extensions.view.locationInWindow
 import renetik.android.ui.extensions.view.onClick
-import renetik.android.ui.extensions.view.onViewLayout
+import renetik.android.ui.extensions.view.onLayoutChange
 import renetik.android.ui.extensions.view.passClicksUnder
 import renetik.android.ui.extensions.view.rightFloat
 import renetik.android.ui.extensions.view.topFloat
@@ -174,7 +174,7 @@ open class CSNavigationItemView(
             }
             correctContentOverflow()
         }
-        this + view.onViewLayout(::correctContentOverflow)
+        this + view.onLayoutChange(::correctContentOverflow)
     }
 
     private fun positionDialogContentFromViewBottom(fromView: View) {
