@@ -28,7 +28,6 @@ import renetik.android.event.registration.CSRegistration.Companion.CSRegistratio
 import renetik.android.event.registration.action
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.onChangeOnce
-import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import renetik.android.event.registration.wait
 import renetik.android.ui.R
@@ -56,10 +55,7 @@ fun View.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration {
     return registration
 }
 
-// TODO: Evaluate if it is issue that listener can be called event in current layout pass
-//  while point of this code is to postpone action to next layout pass and what are
-//  other solutions to postpone actio for next layout pass
-fun View.onGlobalLayout(function: (CSRegistration) -> Unit): CSRegistration {
+private fun View.onGlobalLayout(function: (CSRegistration) -> Unit): CSRegistration {
     lateinit var registration: CSRegistration
     val listener = OnGlobalLayoutListener {
         if (registration.isActive) function(registration)
@@ -91,27 +87,10 @@ fun View.onGlobalLayout(function: (CSRegistration) -> Unit): CSRegistration {
     return registration
 }
 
-inline fun View.afterGlobalLayout(crossinline function: (View) -> Unit): CSRegistration =
-    onGlobalLayout { it.cancel(); function(this) }
-
-inline fun View.afterGlobalLayout(parent: CSHasRegistrations,
-                                  crossinline function: (View) -> Unit): CSRegistration {
-    var registration: CSRegistration? = null
-    return (parent + onGlobalLayout {
-        if (it.isActive) function(this)
-        registration?.cancel()
-    }).also { registration = it }
-}
-
-suspend fun View.waitForLayout(): Unit = suspendCancellableCoroutine { coroutine ->
-    var registration: CSRegistration? = null
-    registration = onGlobalLayout {
-        registration?.cancel()
-        registration = null
-        coroutine.resumeWith(Result.success(Unit))
+val View.onGlobalLayoutChange: CSHasChange<Unit>
+    get() = object : CSHasChange<Unit> {
+        override fun onChange(function: (Unit) -> Unit) = onGlobalLayout { function(Unit) }
     }
-    coroutine.invokeOnCancellation { registration?.cancel() }
-}
 
 suspend fun View.waitForIsViewLayout() {
     if (isLaidOut && !isLayoutRequested) return

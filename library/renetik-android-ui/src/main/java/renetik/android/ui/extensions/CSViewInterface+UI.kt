@@ -20,7 +20,9 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.invoke
+import renetik.android.event.registration.onChangeOnce
 import renetik.android.event.registration.plus
+import renetik.android.event.registration.wait
 import renetik.android.ui.CSDisplayCutout
 import renetik.android.ui.extensions.view.checkBox
 import renetik.android.ui.extensions.view.compound
@@ -33,7 +35,7 @@ import renetik.android.ui.extensions.view.listView
 import renetik.android.ui.extensions.view.onClick
 import renetik.android.ui.extensions.view.onClickLaunch
 import renetik.android.ui.extensions.view.onGlobalFocus
-import renetik.android.ui.extensions.view.onGlobalLayout
+import renetik.android.ui.extensions.view.onGlobalLayoutChange
 import renetik.android.ui.extensions.view.onHasSize
 import renetik.android.ui.extensions.view.progress
 import renetik.android.ui.extensions.view.radio
@@ -44,7 +46,6 @@ import renetik.android.ui.extensions.view.seekBar
 import renetik.android.ui.extensions.view.textView
 import renetik.android.ui.extensions.view.timePicker
 import renetik.android.ui.extensions.view.view
-import renetik.android.ui.extensions.view.waitForLayout
 import renetik.android.ui.extensions.view.webView
 import renetik.android.ui.protocol.CSViewInterface
 
@@ -111,14 +112,11 @@ fun <Type : CSViewInterface> Type.removeFromSuperview() = apply {
     if (!isDestructed) view.removeFromSuperview()
 }
 
-fun CSViewInterface.registerAfterLayout(function: () -> Unit): CSRegistration {
-    var registration: CSRegistration? = null
-    return (this + view.onGlobalLayout {
-        registration?.cancel(); function()
-    }).also { registration = it }
+fun CSViewInterface.registerAfterLayout(function: () -> Unit) {
+    view.onGlobalLayoutChange.onChangeOnce(this, function)
 }
 
-suspend fun CSViewInterface.waitForLayout() = view.waitForLayout()
+suspend fun CSViewInterface.waitForGlobalLayout() = view.onGlobalLayoutChange.wait()
 
 fun <Type> Type.onGlobalFocus(function: (View?, View?) -> Unit): CSRegistration
         where  Type : CSViewInterface =
