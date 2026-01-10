@@ -22,11 +22,11 @@ class CSTwoFingerSwipeDetector(
     private val action: (CSSwipeType) -> Unit,
 ) : View.OnTouchListener {
 
-
     private var pointerId1 = -1
     private var pointerId2 = -1
     private var startMidX = 0f
     private var startMidY = 0f
+    private var consumed = false
 
     init {
         view.setOnTouchListener(this)
@@ -54,7 +54,8 @@ class CSTwoFingerSwipeDetector(
         when (event.actionMasked) {
             ACTION_DOWN -> {
                 resetTwoFinger()
-                return true
+                consumed = false
+                return false
             }
 
             ACTION_POINTER_DOWN -> {
@@ -70,7 +71,7 @@ class CSTwoFingerSwipeDetector(
                     startMidX = (x1 + x2) / 2f
                     startMidY = (y1 + y2) / 2f
                 }
-                return true
+                return false
             }
 
             ACTION_MOVE -> {
@@ -90,6 +91,12 @@ class CSTwoFingerSwipeDetector(
                     val distanceY = startMidY - midY
 
                     if (abs(distanceX) > distance) {
+                        if (!consumed) {
+                            consumed = true
+                            view.parent?.requestDisallowInterceptTouchEvent(true)
+                            view.cancelPendingInputEvents()
+                            view.isPressed = false
+                        }
                         if (distanceX < 0) notifyIfTracked(LeftToRight)
                         else notifyIfTracked(RightToLeft)
                         resetTwoFinger()
@@ -97,16 +104,27 @@ class CSTwoFingerSwipeDetector(
                     }
 
                     if (abs(distanceY) > distance) {
+                        if (!consumed) {
+                            consumed = true
+                            view.parent?.requestDisallowInterceptTouchEvent(true)
+                            view.cancelPendingInputEvents()
+                            view.isPressed = false
+                        }
                         if (distanceY < 0) notifyIfTracked(TopToBottom)
                         else notifyIfTracked(BottomToTop)
                         resetTwoFinger()
                         return true
                     }
                 }
-                return true
+                return false
             }
 
-            ACTION_POINTER_UP, ACTION_UP, ACTION_CANCEL -> resetTwoFinger()
+            ACTION_POINTER_UP, ACTION_UP, ACTION_CANCEL -> {
+                resetTwoFinger()
+                val wasConsumed = consumed
+                consumed = false
+                return wasConsumed
+            }
         }
         return false
     }
