@@ -6,7 +6,6 @@ import android.view.MotionEvent.ACTION_MOVE
 import android.view.View
 import renetik.android.core.kotlin.primitives.dp
 import renetik.android.core.logging.CSLog.logDebug
-import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.BottomToTop
 import renetik.android.ui.view.touch.CSSwipeDetector.CSSwipeType.LeftToRight
@@ -111,3 +110,5 @@ class CSSwipeDetector(
     }
 
 }
+
+
