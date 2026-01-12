@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
@@ -198,4 +199,9 @@ fun <T, V, X> View.disabledByAlphaIf(
     update()
     return CSRegistration(property1.onChange { update() },
         property2.onChange { update() }, property3.onChange { update() })
+}
+
+fun View.layoutToMatchParent() = apply {
+    layoutParams.width = MATCH_PARENT
+    layoutParams.height = MATCH_PARENT
 }
