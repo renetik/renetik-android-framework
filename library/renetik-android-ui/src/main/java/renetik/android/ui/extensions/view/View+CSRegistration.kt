@@ -183,15 +183,15 @@ suspend fun <T : View> T.waitForWidth(): Int = Main {
 
 inline fun <T : View> T.hasWidth(
     parent: CSHasRegistrations? = null
-): CSHasChangeValue<Boolean> = onBoundsChange.delegate(parent, from = { hasWidth })
+): CSHasChangeValue<Boolean> = onSizeChange.delegate(parent, from = { hasWidth })
 
 inline fun <T : View> T.hasHeight(
     parent: CSHasRegistrations? = null
-): CSHasChangeValue<Boolean> = onBoundsChange.delegate(parent, from = { hasHeight })
+): CSHasChangeValue<Boolean> = onSizeChange.delegate(parent, from = { hasHeight })
 
 inline fun <T : View> T.hasSize(
     parent: CSHasRegistrations? = null
-): CSHasChangeValue<Boolean> = onBoundsChange.delegate(parent, from = { hasSize })
+): CSHasChangeValue<Boolean> = onSizeChange.delegate(parent, from = { hasSize })
 
 inline fun View.onHasSize(
     parent: CSHasRegistrations,
