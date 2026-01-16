@@ -147,5 +147,9 @@ fun CSViewInterface.destroyAndRemoveFromParentWhenDestroyed(parent: CSHasDestruc
 
 val CSViewInterface.leftMarginInWindow: Int get() = view.rectangleInWindow.left
 
+/**
+ * @return [CSRegistration] of this listener. The registration is self-cancelled
+ * on first change and must NOT be added to [CSHasRegistrations].
+ */
 fun CSViewInterface.onHasSize(function: () -> Unit): CSRegistration? =
     view.onHasSize(this) { function() }

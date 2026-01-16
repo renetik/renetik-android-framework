@@ -193,11 +193,15 @@ inline fun <T : View> T.hasSize(
     parent: CSHasRegistrations? = null
 ): CSHasChangeValue<Boolean> = onSizeChange.delegate(parent, from = { hasSize })
 
+/**
+ * @return [CSRegistration] of this listener. The registration is self-cancelled
+ * on first change and must NOT be added to [CSHasRegistrations].
+ */
 inline fun View.onHasSize(
     parent: CSHasRegistrations,
     crossinline function: (View) -> Unit
 ): CSRegistration? {
-    if (!hasSize) hasSize().onChangeOnce(parent) { -> function(this) }
+    if (!hasSize) return hasSize().onChangeOnce(parent) { -> function(this) }
     else function(this)
     return null
 }
