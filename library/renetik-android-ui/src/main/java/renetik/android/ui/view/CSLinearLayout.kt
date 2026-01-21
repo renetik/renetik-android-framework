@@ -1,5 +1,6 @@
 package renetik.android.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
@@ -21,11 +22,11 @@ open class CSLinearLayout @JvmOverloads constructor(
     val minWidth: Int?
     val maxWidth: Int?
     var dispatchState: Boolean
-    var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
+    private var onDispatchTouchEvent: ((event: MotionEvent) -> Boolean)? = null
     override val self: View get() = this
     override val eventOnTouch: CSEvent<CSTouchEventArgs> = event<CSTouchEventArgs>()
     val eventOnDraw = event<Canvas>()
-    var eventOnLayout = event()
+    private var eventOnLayout = event()
 
     init {
         val attributes =
@@ -65,6 +66,7 @@ open class CSLinearLayout @JvmOverloads constructor(
         return if (!handled) super.dispatchTouchEvent(event) else true
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return false
         return if (processTouchEvent(event)) true else super.onTouchEvent(event)
