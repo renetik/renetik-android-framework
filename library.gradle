@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.android'
 if (rootProject.ext.is_renetik_library_release) {
     apply plugin: 'maven-publish'
     apply plugin: 'org.jetbrains.dokka'
