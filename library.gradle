@@ -13,8 +13,8 @@ android {
     kotlin { jvmToolchain(21) }
     compileSdk = project.properties.sdk_version
     defaultConfig {
-        minSdkVersion = project.properties.min_sdk_version
-        targetSdkVersion = project.properties.sdk_version
+        minSdkVersion  project.properties.min_sdk_version
+        targetSdkVersion   project.properties.sdk_version
     }
     testOptions {
         unitTests.all {
