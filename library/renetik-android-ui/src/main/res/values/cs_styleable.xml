@@ -9,5 +9,6 @@
         <attr name="dispatchState" format="boolean" />
         <attr name="goneIfWidthUntil" format="dimension" />
         <attr name="goneIfHeightUntil" format="dimension" />
+        <attr name="isRotatedClockwise" format="boolean" />
     </declare-styleable>
 </resources>
