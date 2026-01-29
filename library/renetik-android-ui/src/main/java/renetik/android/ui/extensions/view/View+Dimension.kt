@@ -44,6 +44,12 @@ fun <T : View> T.topMargin(value: Int) = apply {
     }
 }
 
+var <T : View> T.startMargin: Int
+    get() = (layoutParams as? MarginLayoutParams)?.leftMargin ?: 0
+    set(value) {
+        startMargin(value)
+    }
+
 fun <T : View> T.startMargin(value: Int) = apply {
     updateLayoutParams<MarginLayoutParams> {
         setMargins(value, topMargin, rightMargin, bottomMargin)
