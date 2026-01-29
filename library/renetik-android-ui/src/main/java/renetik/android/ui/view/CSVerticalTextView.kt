@@ -16,7 +16,11 @@ import kotlin.math.abs
 class CSVerticalTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatTextView(context, attrs) {
+
     private val textBounds = Rect()
+    private var minTextSize = 12
+    private var maxTextSize = 112
+
     var isRotatedClockwise: Boolean = false
         set(value) {
             field = value
@@ -27,8 +31,7 @@ class CSVerticalTextView @JvmOverloads constructor(
     var isAutoSized: Boolean = false //TODO when necessary
         set(value) {
             field = value
-            invalidate()
-            requestLayout()
+            if (value) requestLayout()
         }
 
     init {
@@ -37,6 +40,10 @@ class CSVerticalTextView @JvmOverloads constructor(
             isRotatedClockwise = it.getBoolean(CSLayout_isRotatedClockwise, isRotatedClockwise)
             it.recycle()
         }
+        isAutoSized = autoSizeTextType == 1
+        minTextSize = autoSizeMinTextSize
+        maxTextSize = autoSizeMaxTextSize
+        super.setAutoSizeTextTypeWithDefaults(AUTO_SIZE_TEXT_TYPE_NONE)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -50,22 +57,19 @@ class CSVerticalTextView @JvmOverloads constructor(
     }
 
     private fun adjustTextSize(parentHeight: Int, parentWidth: Int) {
-        val targetWidth = parentHeight.toFloat() - (paddingLeft + paddingRight)
-        val targetHeight = parentWidth.toFloat() - (paddingTop + paddingBottom)
-
+        val targetTextWidth =
+            parentHeight.toFloat() - (paddingTop + paddingBottom) // Was paddingLeft/Right, vertical uses Top/Bottom in view coords
+        val targetTextHeight = parentWidth.toFloat() - (paddingLeft + paddingRight)
         val testPaint = paint
         testPaint.textSize = 100f
         testPaint.getTextBounds(text.toString(), 0, text.length, textBounds)
-
         val currentVisualHeight = textBounds.height().toFloat()
         val currentVisualWidth = textBounds.width().toFloat()
-
         if (currentVisualHeight > 0 && currentVisualWidth > 0) {
-            val scaleX = targetWidth / currentVisualWidth
-            val scaleY = targetHeight / currentVisualHeight
-
-            val scale = minOf(scaleX, scaleY) * 0.9f
-            val newSize = 100f * scale
+            val scaleX = targetTextWidth / currentVisualWidth
+            val scaleY = targetTextHeight / currentVisualHeight
+            var newSize = 100f * minOf(scaleX, scaleY) * 0.9f
+            newSize = newSize.coerceIn(minTextSize.toFloat(), maxTextSize.toFloat())
             if (abs(textSize - newSize) > 1f) {
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize)
             }
