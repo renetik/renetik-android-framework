@@ -4,13 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
+import android.text.Layout
+import android.text.StaticLayout
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.graphics.withSave
+import androidx.core.widget.TextViewCompat
 import renetik.android.ui.R
 import renetik.android.ui.R.styleable.CSLayout_isRotatedClockwise
+import renetik.android.ui.extensions.widget.text
 import kotlin.math.abs
 
 class CSVerticalTextView @JvmOverloads constructor(
@@ -28,7 +32,7 @@ class CSVerticalTextView @JvmOverloads constructor(
             requestLayout()
         }
 
-    var isAutoSized: Boolean = false //TODO when necessary
+    var isAutoSized: Boolean = false
         set(value) {
             field = value
             if (value) requestLayout()
@@ -40,29 +44,33 @@ class CSVerticalTextView @JvmOverloads constructor(
             isRotatedClockwise = it.getBoolean(CSLayout_isRotatedClockwise, isRotatedClockwise)
             it.recycle()
         }
-        isAutoSized = autoSizeTextType == 1
-        minTextSize = autoSizeMinTextSize
-        maxTextSize = autoSizeMaxTextSize
-        super.setAutoSizeTextTypeWithDefaults(AUTO_SIZE_TEXT_TYPE_NONE)
+        @SuppressLint("RestrictedApi")
+        run {
+            isAutoSized = autoSizeTextType == 1
+            minTextSize = autoSizeMinTextSize
+            maxTextSize = autoSizeMaxTextSize
+            super.setAutoSizeTextTypeWithDefaults(TextViewCompat.AUTO_SIZE_TEXT_TYPE_NONE)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val parentHeight = MeasureSpec.getSize(heightMeasureSpec)
         val parentWidth = MeasureSpec.getSize(widthMeasureSpec)
-        if (isAutoSized && parentHeight > 0 && parentWidth > 0 && text.isNotEmpty()) {
-            adjustTextSize(parentHeight, parentWidth)
+        val content = if (text.isNullOrEmpty()) hint else text()
+        if (isAutoSized && parentHeight > 0 && parentWidth > 0 && !content.isNotEmpty()) {
+            adjustTextSize(parentHeight, parentWidth, content.toString())
         }
         super.onMeasure(heightMeasureSpec, widthMeasureSpec)
         setMeasuredDimension(measuredHeight, measuredWidth)
     }
 
-    private fun adjustTextSize(parentHeight: Int, parentWidth: Int) {
+    private fun adjustTextSize(parentHeight: Int, parentWidth: Int, content: String) {
         val targetTextWidth =
-            parentHeight.toFloat() - (paddingTop + paddingBottom) // Was paddingLeft/Right, vertical uses Top/Bottom in view coords
+            parentHeight.toFloat() - (paddingTop + paddingBottom)
         val targetTextHeight = parentWidth.toFloat() - (paddingLeft + paddingRight)
         val testPaint = paint
         testPaint.textSize = 100f
-        testPaint.getTextBounds(text.toString(), 0, text.length, textBounds)
+        testPaint.getTextBounds(content, 0, content.length, textBounds)
         val currentVisualHeight = textBounds.height().toFloat()
         val currentVisualWidth = textBounds.width().toFloat()
         if (currentVisualHeight > 0 && currentVisualWidth > 0) {
@@ -78,7 +86,9 @@ class CSVerticalTextView @JvmOverloads constructor(
 
     @SuppressLint("RtlHardcoded")
     override fun onDraw(canvas: Canvas) {
-        val textLayout = layout ?: return
+        val isHint = text.isNullOrEmpty()
+        if (isHint && hint.isNullOrEmpty()) return
+        val textLayout = if (isHint) makeHintLayout() else layout ?: return
         canvas.withSave {
             if (isRotatedClockwise) {
                 translate(width.toFloat(), 0f)
@@ -111,9 +121,18 @@ class CSVerticalTextView @JvmOverloads constructor(
             }
 
             translate(xOffset, yOffset)
-            paint.color = currentTextColor
+            paint.color = if (isHint) currentHintTextColor else currentTextColor
             paint.drawableState = drawableState
             textLayout.draw(this)
         }
+    }
+
+    private fun makeHintLayout(): Layout {
+        val availableWidth = height - paddingTop - paddingBottom
+        val alignment = layout?.alignment ?: Layout.Alignment.ALIGN_NORMAL
+        return StaticLayout.Builder.obtain(hint, 0, hint.length, paint, availableWidth)
+            .setAlignment(alignment)
+            .setIncludePad(includeFontPadding)
+            .build()
     }
 }

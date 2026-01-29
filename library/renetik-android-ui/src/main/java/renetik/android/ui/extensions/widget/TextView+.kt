@@ -2,18 +2,22 @@
 
 package renetik.android.ui.extensions.widget
 
+import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify.EMAIL_ADDRESSES
 import android.text.util.Linkify.PHONE_NUMBERS
 import android.text.util.Linkify.WEB_URLS
+import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
+import androidx.core.widget.doAfterTextChanged
 import renetik.android.core.extensions.content.isPhone
 import renetik.android.core.kotlin.asString
 import renetik.android.core.kotlin.primitives.vertical
+import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.registration.CSHasChangeValue
@@ -182,4 +186,23 @@ fun <T : TextView> T.lines(max: Int) = apply { maxLines = max }
 
 fun TextView.hideEndDrawableOnSmallWidth() = apply {
     if (context.isPhone) drawableEnd(null)
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun <T : TextView> T.withClear(onClear: ArgFun<T>? = null) = apply {
+    fun updateClearIcon() = drawableEnd(
+        if (text().isNotEmpty())
+            androidx.appcompat.R.drawable.abc_ic_clear_material
+        else null
+    )
+    updateClearIcon()
+    doAfterTextChanged { updateClearIcon() }
+    setOnTouchListener { _, event ->
+        if (event.action == ACTION_UP && event.x >= (width - this.compoundPaddingRight)) {
+            text = ""
+            return@setOnTouchListener true
+        }
+        false
+    }
+    onClear?.let { onClear(this) }
 }
