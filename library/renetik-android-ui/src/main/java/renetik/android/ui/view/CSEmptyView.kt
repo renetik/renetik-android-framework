@@ -7,8 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.View.MeasureSpec.makeMeasureSpec
-import renetik.android.core.extensions.graphics.height
-import renetik.android.core.extensions.graphics.width
 import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
@@ -19,7 +17,8 @@ import renetik.android.ui.R.styleable.CSLayout_goneIfWidthUntil
 import renetik.android.ui.R.styleable.CSLayout_maxWidth
 import renetik.android.ui.R.styleable.CSLayout_minWidth
 import renetik.android.ui.extensions.view.gone
-import renetik.android.ui.extensions.view.windowRectangle
+import renetik.android.ui.extensions.view.screenHeight
+import renetik.android.ui.extensions.view.screenWidth
 
 open class CSEmptyView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
@@ -51,9 +50,9 @@ open class CSEmptyView @JvmOverloads constructor(
             it.recycle()
         }
         if (goneIfWidthUntil != -1)
-            gone(windowRectangle.width <= goneIfWidthUntil)
+            gone(screenWidth <= goneIfWidthUntil)
         else if (goneIfHeightUntil != -1)
-            gone(windowRectangle.height <= goneIfHeightUntil)
+            gone(screenHeight <= goneIfHeightUntil)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

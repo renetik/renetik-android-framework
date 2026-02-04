@@ -3,8 +3,6 @@ package renetik.android.ui.view
 import android.util.AttributeSet
 import android.view.View
 import android.view.View.MeasureSpec.makeMeasureSpec
-import renetik.android.core.extensions.graphics.height
-import renetik.android.core.extensions.graphics.width
 import renetik.android.ui.R
 import renetik.android.ui.R.styleable.CSLayout_clipToOutline
 import renetik.android.ui.R.styleable.CSLayout_dispatchState
@@ -15,7 +13,8 @@ import renetik.android.ui.R.styleable.CSLayout_maxWidth
 import renetik.android.ui.R.styleable.CSLayout_minHeight
 import renetik.android.ui.R.styleable.CSLayout_minWidth
 import renetik.android.ui.extensions.view.gone
-import renetik.android.ui.extensions.view.windowRectangle
+import renetik.android.ui.extensions.view.screenHeight
+import renetik.android.ui.extensions.view.screenWidth
 
 interface CSAndroidView {
     val self: View
@@ -59,8 +58,8 @@ fun CSAndroidView.loadCSAttributes(attrs: AttributeSet?) {
 
         val goneIfWidthUntil = attributes.getDimensionPixelSize(CSLayout_goneIfWidthUntil, -1)
         val goneIfHeightUntil = attributes.getDimensionPixelSize(CSLayout_goneIfHeightUntil, -1)
-        if (goneIfWidthUntil != -1) self.gone(self.windowRectangle.width <= goneIfWidthUntil)
-        else if (goneIfHeightUntil != -1) self.gone(self.windowRectangle.height <= goneIfHeightUntil)
+        if (goneIfWidthUntil != -1) self.gone(self.screenWidth <= goneIfWidthUntil)
+        else if (goneIfHeightUntil != -1) self.gone(self.screenHeight <= goneIfHeightUntil)
     } finally {
         attributes.recycle()
     }
