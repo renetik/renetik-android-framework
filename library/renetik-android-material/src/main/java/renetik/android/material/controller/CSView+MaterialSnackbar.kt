@@ -2,7 +2,7 @@ package renetik.android.material.controller
 
 import renetik.android.controller.base.CSView
 import renetik.android.core.lang.CSButtonAction
-import renetik.android.event.util.CSLater.onMain
+import renetik.android.event.common.onMain
 import renetik.android.material.extensions.snackError
 import renetik.android.material.extensions.snackInfo
 import renetik.android.material.extensions.snackWarn

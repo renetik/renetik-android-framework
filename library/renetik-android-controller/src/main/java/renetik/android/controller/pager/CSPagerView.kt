@@ -7,7 +7,7 @@ import renetik.android.core.kotlin.collections.hasItems
 import renetik.android.core.kotlin.collections.putAll
 import renetik.android.core.kotlin.collections.reload
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.util.CSLater.later
+import renetik.android.event.common.later
 import renetik.android.ui.extensions.view.show
 import renetik.android.ui.view.CSViewPager
 

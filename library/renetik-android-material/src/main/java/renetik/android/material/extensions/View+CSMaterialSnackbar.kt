@@ -19,7 +19,7 @@ import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.lang.CSButtonAction
 import renetik.android.core.lang.Fun
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.util.CSLater.later
+import renetik.android.event.common.later
 import renetik.android.ui.extensions.view.removeFromSuperview
 import renetik.android.ui.extensions.widget.layoutMatch
 import kotlin.time.Duration

@@ -22,7 +22,7 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChangeValue
 import renetik.android.event.registration.CSHasChangeValue.Companion.hasChangeValue
-import renetik.android.event.util.CSLater.later
+import renetik.android.event.common.later
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.disabledByAlpha
