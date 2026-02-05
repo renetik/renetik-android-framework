@@ -7,15 +7,15 @@ import renetik.android.event.registration.waitForFalse
 import renetik.android.event.registration.waitForTrue
 
 fun CSVisibility.onShowing(function: (CSRegistration) -> Unit): CSRegistration =
-    isVisible.onChange { registration, visible -> if (visible) function(registration) }
+    isVisibility.onChange { registration, visible -> if (visible) function(registration) }
 
 
 fun CSVisibility.onShowingFirstTime(function: () -> Unit) {
-    isVisible.onChangeOnce(parent = null, function)
+    isVisibility.onChangeOnce(parent = null, function)
 }
 
 fun CSVisibility.onHiding(function: (CSRegistration) -> Unit): CSRegistration =
-    isVisible.onChange { registration, visible -> if (!visible) function(registration) }
+    isVisibility.onChange { registration, visible -> if (!visible) function(registration) }
 
-suspend fun CSVisibility.waitForShow(): Unit = isVisible.waitForTrue()
-suspend fun CSVisibility.waitForGone(): Unit = isVisible.waitForFalse()
+suspend fun CSVisibility.waitForShow(): Unit = isVisibility.waitForTrue()
+suspend fun CSVisibility.waitForGone(): Unit = isVisibility.waitForFalse()

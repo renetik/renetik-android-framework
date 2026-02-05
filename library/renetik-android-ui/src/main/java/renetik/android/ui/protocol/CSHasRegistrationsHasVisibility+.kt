@@ -20,7 +20,7 @@ fun <T> T.untilHide(registration: CSRegistration?): CSRegistration?
 
 fun <T> T.onShowUntilHide(registration: () -> CSRegistration?)
         where T : CSHasRegistrations, T : CSVisibility {
-    isVisible.actionTrue { untilHide(registration()) }
+    isVisibility.actionTrue { untilHide(registration()) }
 }
 
 fun <T> T.untilHide(registration: CSRegistration): CSRegistration
@@ -36,7 +36,7 @@ fun <T> T.untilShow(registration: CSRegistration?): CSRegistration?
 
 fun <T> T.onHideUntilShow(registration: () -> CSRegistration)
         where T : CSHasRegistrations, T : CSVisibility {
-    isVisible.actionFalse { untilShow(registration()) }
+    isVisibility.actionFalse { untilShow(registration()) }
 }
 
 fun <T> T.untilShow(registration: CSRegistration): CSRegistration
@@ -64,7 +64,7 @@ fun <T> T.laterEachIfShowing(delay: Int, period: Int, function: Fun): CSRegistra
             fun start() {
                 registration = untilHide(this + mainHandler.laterEach(delay, period, function))
             }
-            if (isVisible.isTrue) start()
+            if (isVisibility.isTrue) start()
             onShowingRegistration = onShowing { start() }
         },
         onPause = {

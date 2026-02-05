@@ -20,7 +20,7 @@ abstract class CSActivity : AppCompatActivity(), CSVisibility, CSHasContext, CSV
     val onRequestPermissionsResult = event<CSRequestPermissionResult>()
 
     //CSVisibility
-    override val isVisible = property(true)
+    override val isVisibility = property(true)
 
     //CSViewInterface
     override val view: View get() = window.decorView

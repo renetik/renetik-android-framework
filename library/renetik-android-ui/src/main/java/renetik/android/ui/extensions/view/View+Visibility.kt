@@ -223,7 +223,7 @@ inline fun View.isVisibleInParentRecursively(): Boolean {
             parent == null -> return false
             parent !is View -> return true
             parent::class.java.name == "androidx.appcompat.widget.ContentFrameLayout" -> return true
-            (parent.tag as? CSVisibility)?.isVisible?.isTrue == true -> return true
+            (parent.tag as? CSVisibility)?.isVisibility?.isTrue == true -> return true
             !parent.isVisible -> return false
             else -> view = parent
         }

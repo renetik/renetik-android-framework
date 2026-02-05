@@ -62,8 +62,8 @@ class CSNavigationViewTest {
             .fullScreen().push()
         val itemView2 = CSNavigationItemView(navigation, viewLayout = cs_frame_match)
             .fullScreen().push()
-        assertTrue(!itemView1.isVisible.isTrue)
-        assertTrue(itemView2.isVisible.isTrue)
+        assertTrue(!itemView1.isVisibility.isTrue)
+        assertTrue(itemView2.isVisibility.isTrue)
     }
 
     @Test
@@ -75,13 +75,13 @@ class CSNavigationViewTest {
             .fullScreen().push()
         val itemView3 = CSNavigationItemView(itemView2, viewLayout = cs_frame_match)
             .fullScreen().push()
-        assertTrue(!itemView1.isVisible.isTrue)
-        assertTrue(!itemView2.isVisible.isTrue)
-        assertTrue(itemView3.isVisible.isTrue)
+        assertTrue(!itemView1.isVisibility.isTrue)
+        assertTrue(!itemView2.isVisibility.isTrue)
+        assertTrue(itemView3.isVisibility.isTrue)
 
         itemView2.dismiss()
 
-        assertTrue(itemView1.isVisible.isTrue)
+        assertTrue(itemView1.isVisibility.isTrue)
         assertTrue(itemView2.isDestructed)
         assertTrue(itemView3.isDestructed)
     }

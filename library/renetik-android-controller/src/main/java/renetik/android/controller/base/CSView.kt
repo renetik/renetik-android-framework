@@ -53,7 +53,7 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
     constructor(parent: CSViewInterface, view: ViewType) :
             super(parent, view.context) {
         this.parentView = parent
-        this + parentView.isVisible.onChange(::updateVisibility)
+        this + parentView.isVisibility.onChange(::updateVisibility)
         this.layout = null
         this.viewId = null
         setView(view)
@@ -62,7 +62,7 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
     constructor(parent: CSViewInterface, layout: CSLayoutRes) :
             super(parent, context(parent)) {
         this.parentView = parent
-        this + parentView.isVisible.onChange(::updateVisibility)
+        this + parentView.isVisibility.onChange(::updateVisibility)
         this.layout = layout.id
         this.viewId = null
     }
@@ -70,7 +70,7 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
     constructor(parent: CSViewInterface, group: ViewGroup, layout: CSLayoutRes) :
             super(parent, context(parent)) {
         this.parentView = parent
-        this + parentView.isVisible.onChange(::updateVisibility)
+        this + parentView.isVisibility.onChange(::updateVisibility)
         this.group = group
         this.layout = layout.id
         this.viewId = null
@@ -78,14 +78,14 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
 
     constructor(parent: CSViewInterface, @IdRes viewId: Int) : super(parent) {
         this.parentView = parent
-        this + parentView.isVisible.onChange(::updateVisibility)
+        this + parentView.isVisibility.onChange(::updateVisibility)
         this.layout = null
         this.viewId = viewId
     }
 
     constructor(parent: CSViewInterface, @LayoutRes layout: Int? = null) : super(parent) {
         this.parentView = parent
-        this + parentView.isVisible.onChange(::updateVisibility)
+        this + parentView.isVisibility.onChange(::updateVisibility)
         this.layout = layout
     }
 
@@ -159,23 +159,23 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
 
     //Visibility
     private val _isVisible = property(false)
-    override val isVisible: CSHasChangeValue<Boolean> get() = _isVisible
+    override val isVisibility: CSHasChangeValue<Boolean> get() = _isVisible
     private var onViewShowingCalled = false
 
     override fun updateVisibility() {
         if (checkIfIsShowing()) {
-            if (!isVisible.isTrue) onViewVisibilityChanged(true)
-        } else if (isVisible.isTrue) onViewVisibilityChanged(false)
+            if (!isVisibility.isTrue) onViewVisibilityChanged(true)
+        } else if (isVisibility.isTrue) onViewVisibilityChanged(false)
     }
 
     protected open fun checkIfIsShowing(): Boolean =
         // Maybe parentView.view.isVisible in some cases will cause problems...
-        view.isVisible && parentView.isVisible.isTrue
+        view.isVisible && parentView.isVisibility.isTrue
 
     private fun onViewVisibilityChanged(showing: Boolean) {
-        if (isVisible.value == showing) return
+        if (isVisibility.value == showing) return
         _isVisible.value(showing)
-        if (isVisible.isTrue) onViewShowing() else onViewHiding()
+        if (isVisibility.isTrue) onViewShowing() else onViewHiding()
     }
 
     protected open fun onViewShowing() {

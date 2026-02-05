@@ -104,7 +104,7 @@ open class CSActivityView<ViewType : View>
     protected open fun onResumeAgain() {}
 
     open fun onPause() {
-        if (isPaused && isVisible.isTrue) {
+        if (isPaused && isVisibility.isTrue) {
             logWarnTrace { "Not Resumed while paused, should be resumed first:$this" }
             return
         }
@@ -132,12 +132,12 @@ open class CSActivityView<ViewType : View>
         this + parent.eventResume.listen(::onResume)
         this + parent.eventPause.listen(::onPause)
         this + parent.eventBack.listen(::onBack)
-        this + parent.isVisible.onChange(::updateVisibility)
+        this + parent.isVisibility.onChange(::updateVisibility)
     }
 
     protected open fun onBack(goBack: CSVariable<Boolean>) {
         eventBack.fire(goBack)
-        if (goBack.value && isVisible.isTrue) {
+        if (goBack.value && isVisibility.isTrue) {
             hideKeyboard()
             goBack.value = onGoBack()
         }
@@ -186,9 +186,9 @@ open class CSActivityView<ViewType : View>
         if (overrideVisibility != null) return overrideVisibility!!
         if (!view.isVisible) return false
         if (showingInPager == false) return false
-        if (isShowingInPager && parentActivityView?.isVisible.isTrue) return true
+        if (isShowingInPager && parentActivityView?.isVisibility.isTrue) return true
         if (isShowingInPager && navigation?.last == this) return true
-        if (parentActivityView?.isVisible?.isTrue == false) return false
+        if (parentActivityView?.isVisibility?.isTrue == false) return false
         return view.isVisibleInParentRecursively()
     }
 
