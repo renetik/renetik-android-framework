@@ -2,6 +2,7 @@ package renetik.android.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
@@ -30,4 +31,12 @@ class CSViewPager @JvmOverloads constructor(
 
     private fun IllegalArgumentException.isFrameworkBug() =
         this.message?.contains("pointerIndex", ignoreCase = true) == true
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        try {
+            super.onRestoreInstanceState(state)
+        } catch (e: IllegalStateException) {
+            logWarn(e) { "Fragment state restoration failed, resetting to default state" }
+        }
+    }
 }
