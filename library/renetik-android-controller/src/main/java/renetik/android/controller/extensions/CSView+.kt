@@ -10,7 +10,7 @@ import renetik.android.core.extensions.content.orientation
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.event.CSEvent
-import renetik.android.event.property.CSActionInterface
+import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.launch
@@ -35,7 +35,7 @@ fun <T : CSView<*>> T.reusable() = apply { lifecycleStopOnRemoveFromParentView =
 
 fun <Type : CSView<*>> Type.disabledIf(condition: Boolean) = apply { isEnabled = !condition }
 
-fun <T : CSView<*>> T.onClick(action: CSActionInterface): T =
+fun <T : CSView<*>> T.onClick(action: CSProperty<Boolean>): T =
     apply { contentView.onClick(action) }
 
 fun <T : CSView<*>> T.onClick(action: CSEvent<Unit>): T =

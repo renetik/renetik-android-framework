@@ -52,7 +52,6 @@ import renetik.android.event.CSEvent
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.invoke
-import renetik.android.event.property.CSActionInterface
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasRegistrations
@@ -182,7 +181,7 @@ fun View.active(value: Boolean = true) = activeIf(value)
 fun View.activeIf(value: Boolean) = apply { isActivated = value }
 fun View.selectIf(property: CSProperty<Boolean>) = selectIf(property, true)
 fun View.activateIf(property: CSProperty<Boolean>) = activateIf(property, true)
-fun View.onClick(action: CSActionInterface) = onClick { action.setTrue() }
+fun View.onClick(action: CSProperty<Boolean>) = onClick { action.setTrue() }
 fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 
 @Suppress("DEPRECATION")
