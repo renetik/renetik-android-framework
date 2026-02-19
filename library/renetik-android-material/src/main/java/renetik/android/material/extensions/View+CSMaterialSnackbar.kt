@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.Callback
 import com.google.android.material.snackbar.Snackbar.make
 import renetik.android.core.extensions.content.attributeColor
-import renetik.android.core.lang.CSButtonAction
+import renetik.android.core.lang.CSAction
 import renetik.android.core.lang.Fun
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.common.later
@@ -27,7 +27,7 @@ import kotlin.time.Duration.Companion.seconds
 
 fun View.snackWarn(
     parent: CSHasRegistrations, title: String,
-    time: Duration? = null, action: CSButtonAction? = null
+    time: Duration? = null, action: CSAction? = null
 ) = snackbar(
     parent, title, backColor = context.attributeColor(colorError),
     textColor = context.attributeColor(colorOnError), action = action, time
@@ -35,7 +35,7 @@ fun View.snackWarn(
 
 fun View.snackError(
     parent: CSHasRegistrations, title: String,
-    time: Duration? = null, action: CSButtonAction? = null
+    time: Duration? = null, action: CSAction? = null
 ) = snackbar(
     parent, title, backColor = context.attributeColor(colorError),
     textColor = context.attributeColor(colorOnError), action = action, time
@@ -43,7 +43,7 @@ fun View.snackError(
 
 fun View.snackInfo(
     parent: CSHasRegistrations, title: String,
-    time: Duration? = null, action: CSButtonAction? = null
+    time: Duration? = null, action: CSAction? = null
 ) = snackbar(
     parent, title, backColor = context.attributeColor(colorSurface),
     textColor = context.attributeColor(colorPrimary), action = action, time
@@ -57,7 +57,7 @@ fun View.snackbar(
     title: String,
     @ColorInt backColor: Int? = null,
     @ColorInt textColor: Int? = null,
-    action: CSButtonAction? = null,
+    action: CSAction? = null,
     time: Duration? = null
 ) {
     (this as? FrameLayout)?.also {
@@ -77,7 +77,7 @@ fun View.snackbar(
 private fun View.showBar(
     parent: CSHasRegistrations,
     title: String, @ColorInt backColor: Int? = null, @ColorInt textColor: Int? = null,
-    time: Duration?, action: CSButtonAction? = null, onDismiss: Fun? = null
+    time: Duration?, action: CSAction? = null, onDismiss: Fun? = null
 ): Snackbar {
     val snackbar = make(this, title, LENGTH_INDEFINITE)
     action?.also { snackbar.setAction(action.title) { action.onClick(); snackbar.dismiss() } }
