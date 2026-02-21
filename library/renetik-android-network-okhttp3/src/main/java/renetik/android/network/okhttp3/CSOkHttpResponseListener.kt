@@ -7,7 +7,6 @@ import okhttp3.Response
 import renetik.android.core.lang.catchError
 import renetik.android.core.lang.catchErrorReturn
 import renetik.android.core.logging.CSLog.logInfo
-import renetik.android.core.logging.CSLogMessage.Companion.message
 import renetik.android.network.data.CSHttpResponseData
 import renetik.android.network.CSHttpProcess
 import java.io.IOException
