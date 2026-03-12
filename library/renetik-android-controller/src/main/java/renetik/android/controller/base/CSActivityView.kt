@@ -2,7 +2,6 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
 import androidx.annotation.IdRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -169,7 +168,8 @@ open class CSActivityView<ViewType : View>
             ?: activity?.window?.decorView ?: view.rootView ?: return
         val insets = ViewCompat.getRootWindowInsets(rootView) ?: return
         if (!insets.isVisible(WindowInsetsCompat.Type.ime())) return
-        rootView.windowInsetsController?.hide(WindowInsets.Type.ime())
+        @Suppress("DEPRECATION") // Keep compat while minSdk stays 26
+        ViewCompat.getWindowInsetsController(rootView)?.hide(WindowInsetsCompat.Type.ime())
     }
 
     override val lifecycle: Lifecycle get() = activity().lifecycle

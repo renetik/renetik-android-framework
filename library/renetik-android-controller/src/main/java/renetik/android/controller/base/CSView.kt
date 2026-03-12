@@ -4,7 +4,6 @@ package renetik.android.controller.base
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.core.view.ViewCompat
@@ -128,7 +127,8 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
         val rootView = view.rootView ?: return
         val insets = ViewCompat.getRootWindowInsets(rootView) ?: return
         if (!insets.isVisible(WindowInsetsCompat.Type.ime())) return
-        rootView.windowInsetsController?.hide(WindowInsets.Type.ime())
+        @Suppress("DEPRECATION") // Keep compat while minSdk stays 26
+        ViewCompat.getWindowInsetsController(rootView)?.hide(WindowInsetsCompat.Type.ime())
     }
 
     override fun onAddedToParentView() = updateVisibility()
