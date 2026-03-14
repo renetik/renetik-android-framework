@@ -44,8 +44,8 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
 
     var parentView: CSViewInterface by variable()
 
-    private var group: ViewGroup? by lazyNullableVar {
-        parentView.view as? ViewGroup ?: (parentView as? CSView<*>)?.group
+    private var container: ViewGroup? by lazyNullableVar {
+        parentView.view as? ViewGroup ?: (parentView as? CSView<*>)?.container
     }
 
     private var _view: ViewType? = null
@@ -72,11 +72,11 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
         this.viewId = null
     }
 
-    constructor(parent: CSViewInterface, group: ViewGroup, layout: CSLayoutRes) :
+    constructor(parent: CSViewInterface, container: ViewGroup, layout: CSLayoutRes) :
             super(parent, context(parent)) {
         this.parentView = parent
         this + parentView.isVisibility.onChange(::updateVisibility)
-        this.group = group
+        this.container = container
         this.layout = layout.id
         this.viewId = null
     }
@@ -108,7 +108,7 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
     @Suppress("UNCHECKED_CAST")
     override suspend fun view(): View = _view ?: run {
         if (isDestructed) logErrorTrace { "$className $this Already destroyed" }
-        layout?.let { setView(context.inflateAsync(it, group)) }
+        layout?.let { setView(context.inflateAsync(it, container)) }
             ?: viewId?.let { setView(parentView.view<View>(viewId!!) as ViewType) }
             ?: createView()?.let { setView(it) }
             ?: (parentView.view as? ViewType).also { _view = it; onViewReady() }
@@ -124,7 +124,7 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
     }
 
     fun <ViewType : View> inflate(@LayoutRes layoutId: Int): ViewType =
-        context.inflate(layoutId, group)
+        context.inflate(layoutId, container)
 
     protected open fun createView(): ViewType? = null
 
