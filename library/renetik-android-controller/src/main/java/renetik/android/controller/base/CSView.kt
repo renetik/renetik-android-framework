@@ -50,11 +50,6 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
 
     private var _view: ViewType? = null
 
-    private val attachStateListener = object : OnAttachStateChangeListener {
-        override fun onViewAttachedToWindow(view: View) = updateVisibility()
-        override fun onViewDetachedFromWindow(view: View) = updateVisibility()
-    }
-
     constructor(parent: CSViewInterface, view: ViewType) :
             super(parent, view.context) {
         this.parentView = parent
@@ -118,7 +113,6 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
     private fun setView(view: ViewType): ViewType {
         _view = view
         if (view.tag !is CSView<*>) view.tag = this@CSView
-        view.addOnAttachStateChangeListener(attachStateListener)
         onViewReady()
         return view
     }
@@ -177,7 +171,7 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
 
     protected open fun checkIfIsShowing(): Boolean =
         // Maybe parentView.view.isVisible in some cases will cause problems...
-        view.isAttachedToWindow && view.isVisible && parentView.isVisibility.isTrue
+        view.isVisible && parentView.isVisibility.isTrue
 
     private fun onViewVisibilityChanged(showing: Boolean) {
         if (isVisibility.value == showing) return
@@ -211,7 +205,6 @@ open class CSView<ViewType : View> : CSContext, CSHasParentView, CSViewInterface
         super.onDestruct()
         // View doesn't have to be created in some cases
         _view?.let {
-            it.removeOnAttachStateChangeListener(attachStateListener)
             if (it.tag == this) {
                 it.tag = "tag instance of $className removed, onDestroy called"
                 it.onDestruct()
