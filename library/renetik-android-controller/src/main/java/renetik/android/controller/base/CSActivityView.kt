@@ -156,7 +156,7 @@ open class CSActivityView<ViewType : View>
         super.onRemovedFromParentView()
     }
 
-    fun showingInPager(isShowing: Boolean) = apply {
+    fun showingInPager(isShowing: Boolean): CSActivityView<ViewType> = apply {
         if (showingInPager == isShowing) return this
         showingInPager = isShowing
         updateVisibility()

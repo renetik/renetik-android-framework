@@ -27,4 +27,4 @@ var <T : View> CSActivityView<T>.requestedOrientation
     }
 
 fun ViewParent.asActivityView() = ((this as? View)?.tag as? CSActivityView<*>)
-fun View.asActivityView() = ((this as? View)?.tag as? CSActivityView<*>)
+fun View.asActivityView() = (this.tag as? CSActivityView<*>)

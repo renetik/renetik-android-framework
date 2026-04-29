@@ -41,6 +41,7 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
     override fun onBackPressed() {
         val goBack = property(true)
         eventBack.fire(goBack)
+        @Suppress("DEPRECATION")
         if (goBack.value) super.onBackPressed()
         logInfo()
     }
