@@ -184,17 +184,6 @@ fun View.activateIf(property: CSProperty<Boolean>) = activateIf(property, true)
 fun View.onClick(action: CSProperty<Boolean>) = onClick { action.setTrue() }
 fun View.onClick(action: CSEvent<Unit>) = onClick { action.fire() }
 
-@Suppress("DEPRECATION")
-fun View.enterFullScreen() {
-    systemUiVisibility =
-        SYSTEM_UI_FLAG_IMMERSIVE or SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION
-}
-
-@Suppress("DEPRECATION")
-fun View.exitFullscreen() {
-    systemUiVisibility = SYSTEM_UI_FLAG_VISIBLE
-}
-
 @SuppressLint("ClickableViewAccessibility")
 inline fun <T : View> T.onDoubleTap(crossinline function: (T) -> Unit) = apply {
     val view = this
