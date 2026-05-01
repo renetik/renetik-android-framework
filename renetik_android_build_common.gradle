@@ -26,7 +26,7 @@ allprojects {
     repositories {
         mavenLocal()
         google()
-        jcenter()
+        mavenCentral()
         maven { url = 'https://github.com/renetik/maven-snapshot/raw/master/repository' }
         maven { url = 'https://github.com/renetik/maven/raw/master/repository' }
     }
