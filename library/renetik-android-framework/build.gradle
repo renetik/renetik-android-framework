@@ -2,20 +2,15 @@ rootProject.ext.namespace = 'renetik.android.framework'
 if (rootProject.ext.is_renetik_library_module) apply from: '../../library.gradle'
 else apply from: '../../../library.gradle'
 dependencies {
-    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_core"
-    else api project(':renetik-android-core')
+    api project(':renetik-android-core')
 
-    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_event"
-    else api project(':renetik-android-event')
+    api project(':renetik-android-event')
 
-    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_json"
-    else api project(':renetik-android-json')
+    api project(':renetik-android-json')
 
-    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_store"
-    else api project(':renetik-android-store')
+    api project(':renetik-android-store')
 
-    if (rootProject.ext.is_renetik_library_release) api "$renetik_android_preset"
-    else api project(':renetik-android-preset')
+    api project(':renetik-android-preset')
 
     if (rootProject.ext.is_renetik_library_network) {
         api project(':renetik-android-network')

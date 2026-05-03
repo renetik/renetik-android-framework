@@ -15,7 +15,6 @@ buildscript {
         junit_version = '4.13.2'
         play_version = '18.0.1'
         kotlin_version = '2.3.21'
-        is_renetik_library_release = project.properties["renetik_library_release"] == "true"
     }
 //    configurations.all {
 //        resolutionStrategy.cacheDynamicVersionsFor 1, 'minutes'
