@@ -1,10 +1,10 @@
 package renetik.android.controller.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import renetik.android.core.base.CSApplication.Companion.app
+import renetik.android.core.lang.tryAndFinally
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
@@ -31,16 +31,16 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
             eventBack.fire(goBack)
             if (goBack.value) {
                 isEnabled = false
-                runCatching { onBackPressedDispatcher.onBackPressed() }
-                isEnabled = true
+                tryAndFinally({ onBackPressedDispatcher.onBackPressed() },
+                    finally = { isEnabled = true })
             }
         }
     }
 
     fun setContentView() = setContentView(activityView.view)
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         onBackPressedDispatcher.addCallback(this, onBackPressed)
     }
 
