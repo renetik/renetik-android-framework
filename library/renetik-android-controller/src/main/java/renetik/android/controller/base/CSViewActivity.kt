@@ -1,6 +1,7 @@
 package renetik.android.controller.base
 
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logInfo
@@ -35,6 +36,27 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
         eventPause.fire()
         super.onPause()
         logInfo()
+    }
+
+    init {
+        setupOnBackPressed()
+    }
+
+    private fun setupOnBackPressed() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val goBack = property(true)
+                eventBack.fire(goBack)
+                if (goBack.value) {
+                    isEnabled = false
+                    try {
+                        onBackPressedDispatcher.onBackPressed()
+                    } finally {
+                        isEnabled = true
+                    }
+                }
+            }
+        })
     }
 
     @Deprecated("Deprecated in Java")
