@@ -1,5 +1,7 @@
 package renetik.android.controller.base
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import renetik.android.core.base.CSApplication.Companion.app
@@ -23,8 +25,24 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
     override fun activity(): CSViewActivity<ActivityView> = this
     abstract fun createView(): ActivityView
     val activityView: ActivityView by lazy { createView() }
+    val onBackPressed = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val goBack = property(true)
+            eventBack.fire(goBack)
+            if (goBack.value) {
+                isEnabled = false
+                runCatching { onBackPressedDispatcher.onBackPressed() }
+                isEnabled = true
+            }
+        }
+    }
 
     fun setContentView() = setContentView(activityView.view)
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        onBackPressedDispatcher.addCallback(this, onBackPressed)
+    }
 
     public override fun onResume() {
         eventResume.fire()
@@ -35,36 +53,6 @@ abstract class CSViewActivity<ActivityView : CSActivityView<out ViewGroup>>
     public override fun onPause() {
         eventPause.fire()
         super.onPause()
-        logInfo()
-    }
-
-    init {
-        setupOnBackPressed()
-    }
-
-    private fun setupOnBackPressed() {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val goBack = property(true)
-                eventBack.fire(goBack)
-                if (goBack.value) {
-                    isEnabled = false
-                    try {
-                        onBackPressedDispatcher.onBackPressed()
-                    } finally {
-                        isEnabled = true
-                    }
-                }
-            }
-        })
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        val goBack = property(true)
-        eventBack.fire(goBack)
-        @Suppress("DEPRECATION")
-        if (goBack.value) super.onBackPressed()
         logInfo()
     }
 }
