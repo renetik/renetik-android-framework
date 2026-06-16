@@ -21,7 +21,7 @@ import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSHasChangeValue.Companion.ValueFunction
+import renetik.android.event.registration.CSValueFunction
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
@@ -68,7 +68,7 @@ val <T : TextView> T.textChange
         override val value: String get() = text()
 
         override fun onChange(function: (String) -> Unit): CSRegistration {
-            val value = ValueFunction(this, value, function)
+            val value = CSValueFunction(this, value, function)
             return onTextChange { value(text()) }
         }
     }
@@ -159,7 +159,7 @@ inline fun <T, V> TextView.text(
 ): CSRegistration {
     val value = text(property1.value, property2.value)
     text(value.asString)
-    val valueFunction = ValueFunction(this, value) { text(it.asString) }
+    val valueFunction = CSValueFunction(this, value) { text(it.asString) }
     return CSRegistration(
         property1.onChange { valueFunction(text(it, property2.value)) },
         property2.onChange { valueFunction(text(property1.value, it)) },
@@ -174,7 +174,7 @@ inline fun <T, V, K> TextView.text(
 ): CSRegistration {
     val value = text(property1.value, property2.value, property3.value)
     text(value.asString)
-    val valueFunction = ValueFunction(this, value) { text(it.asString) }
+    val valueFunction = CSValueFunction(this, value) { text(it.asString) }
     return CSRegistration(
         property1.onChange { valueFunction(text(it, property2.value, property3.value)) },
         property2.onChange { valueFunction(text(property1.value, it, property3.value)) },
