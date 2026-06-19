@@ -21,9 +21,9 @@ import renetik.android.core.lang.ArgFun
 import renetik.android.core.lang.value.CSValue
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.CSValueFunction
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.CSValueFunction
 import renetik.android.event.registration.action
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.gone

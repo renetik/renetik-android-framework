@@ -7,7 +7,10 @@ import androidx.annotation.IntDef
 import androidx.core.view.GravityCompat.END
 import androidx.core.view.GravityCompat.START
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.drawerlayout.widget.DrawerLayout.*
+import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
+import androidx.drawerlayout.widget.DrawerLayout.STATE_IDLE
+import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
 import renetik.android.ui.extensions.view.view
 import renetik.android.ui.view.adapter.CSDrawerAdapter
 

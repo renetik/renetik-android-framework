@@ -3,7 +3,6 @@
 package renetik.android.controller.base
 
 import android.view.View
-import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes

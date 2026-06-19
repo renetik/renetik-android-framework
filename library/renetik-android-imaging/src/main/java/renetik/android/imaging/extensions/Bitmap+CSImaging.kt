@@ -13,10 +13,10 @@ import android.graphics.Color.red
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
-import java.io.File
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.get
 import androidx.core.graphics.set
+import java.io.File
 
 fun Bitmap.destruct() {
     if (!isRecycled) recycle()

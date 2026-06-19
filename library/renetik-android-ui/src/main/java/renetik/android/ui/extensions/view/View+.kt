@@ -14,10 +14,6 @@ import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.obtain
 import android.view.View
-import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE
-import android.view.View.SYSTEM_UI_FLAG_VISIBLE
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.CheckBox

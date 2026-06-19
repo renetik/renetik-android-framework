@@ -3,7 +3,7 @@ package renetik.android.ui.extensions.widget
 import android.widget.TimePicker
 import renetik.android.core.java.util.calendar
 import renetik.android.core.java.util.timeFrom
-import java.util.*
+import java.util.Date
 
 @Suppress("DEPRECATION")
 val TimePicker.time: Date

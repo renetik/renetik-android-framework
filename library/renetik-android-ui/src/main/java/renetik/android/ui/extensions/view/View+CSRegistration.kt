@@ -21,11 +21,11 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChange
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.delegate
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.action
+import renetik.android.event.registration.delegate
 import renetik.android.event.registration.onChange
 import renetik.android.event.registration.onChangeOnce
 import renetik.android.event.registration.start
