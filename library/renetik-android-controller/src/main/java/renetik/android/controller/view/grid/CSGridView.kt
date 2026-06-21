@@ -22,7 +22,7 @@ import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasChangeValue
-import renetik.android.event.registration.hasChangeValue
+import renetik.android.event.registration.stateDelegate
 import renetik.android.ui.extensions.findView
 import renetik.android.ui.extensions.view.alphaToDisabled
 import renetik.android.ui.extensions.view.disabledByAlpha
@@ -56,7 +56,7 @@ class CSGridView<ItemType : Any,
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = mutableListOf<Pair<ItemType, Int>>()
     val selectedIndex: CSHasChangeValue<Int?> =
-        selectedItem.hasChangeValue(from = { item -> data.firstIndex { it.first == item } })
+        selectedItem.stateDelegate(from = { item -> data.firstIndex { it.first == item } })
 
     private val adapter = Adapter()
 
