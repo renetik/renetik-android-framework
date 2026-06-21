@@ -56,7 +56,7 @@ class CSGridView<ItemType : Any,
     val selectedItem: CSProperty<ItemType?> = property(null)
     val data = mutableListOf<Pair<ItemType, Int>>()
     val selectedIndex: CSHasChangeValue<Int?> =
-        selectedItem.stateDelegate(from = { item -> data.firstIndex { it.first == item } })
+        selectedItem.stateDelegate(fromValue = { item -> data.firstIndex { it.first == item } })
 
     private val adapter = Adapter()
 
