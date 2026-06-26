@@ -10,7 +10,7 @@ import renetik.android.core.kotlin.collections.index
 import renetik.android.core.lang.variable.assign
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.action
+import renetik.android.event.change.action
 import renetik.android.event.registration.paused
 import renetik.android.ui.extensions.view
 import renetik.android.ui.extensions.view.fadeIn

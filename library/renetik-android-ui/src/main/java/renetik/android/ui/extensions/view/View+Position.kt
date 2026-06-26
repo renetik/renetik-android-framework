@@ -5,7 +5,7 @@ import renetik.android.core.lang.CSHandler.mainHandler
 import renetik.android.core.lang.send
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.CSPoint.Companion.point
-import renetik.android.event.registration.action
+import renetik.android.event.change.action
 
 val <T : View> T.center: CSPoint<Int>
     get() = point(width / 2, height / 2)

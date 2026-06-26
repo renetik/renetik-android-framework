@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.ContextThemeWrapper
 import android.view.View
 import androidx.annotation.StyleRes
-import renetik.android.event.common.CSHasContext
+import renetik.android.event.android.CSHasContext
 
 interface CSViewInterface : CSHasContext, CSVisibility {
     companion object {

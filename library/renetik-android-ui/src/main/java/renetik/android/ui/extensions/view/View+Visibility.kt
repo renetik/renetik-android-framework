@@ -8,9 +8,9 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.value.isTrue
-import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.change.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.onValue
+import renetik.android.event.change.onValue
 import renetik.android.ui.protocol.CSVisibility
 
 inline fun <T : View> T.updateVisibility() {

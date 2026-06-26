@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import androidx.core.view.contains
 import renetik.android.core.kotlin.primitives.isTrue
-import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.change.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.action
+import renetik.android.event.change.action
 import renetik.android.ui.extensions.view.add
 import renetik.android.ui.extensions.view.remove
 import renetik.android.ui.protocol.CSViewInterface

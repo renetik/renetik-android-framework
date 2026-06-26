@@ -51,7 +51,7 @@ import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.launch
+import renetik.android.event.dispatch.launch
 import renetik.android.ui.R
 import renetik.android.ui.view.adapter.CSClickAdapter
 

@@ -8,7 +8,7 @@ import renetik.android.core.kotlin.asString
 import renetik.android.core.kotlin.primitives.isBlank
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.action
+import renetik.android.event.change.action
 import renetik.android.event.registration.paused
 
 fun <T : EditText> T.multiline() = apply {

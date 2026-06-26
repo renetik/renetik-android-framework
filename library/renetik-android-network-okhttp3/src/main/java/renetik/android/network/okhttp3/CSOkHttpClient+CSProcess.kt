@@ -10,7 +10,7 @@ import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.lang.CSTimeConstants.Minute
 import renetik.android.core.logging.CSLog.logInfo
-import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.lifecycle.CSHasDestruct
 import renetik.android.json.obj.CSJsonObject
 import renetik.android.json.obj.toJsonObject
 import renetik.android.json.toJSONArray

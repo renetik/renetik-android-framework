@@ -14,10 +14,10 @@ import renetik.android.core.android.graphics.toAlpha
 import renetik.android.core.common.CSColor
 import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.extensions.content.dpToPixel
-import renetik.android.event.registration.CSHasChangeValue
+import renetik.android.event.change.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.action
+import renetik.android.event.change.action
 import renetik.android.ui.R
 import renetik.android.ui.extensions.widget.layoutMatch
 

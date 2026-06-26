@@ -8,9 +8,9 @@ import android.view.MotionEvent.ACTION_UP
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.action
-import renetik.android.event.registration.invoke
-import renetik.android.event.registration.launchRepeat
+import renetik.android.event.change.action
+import renetik.android.event.change.invoke
+import renetik.android.event.dispatch.launchRepeat
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.view.enabledChange

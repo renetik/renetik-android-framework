@@ -12,7 +12,7 @@ import renetik.android.core.extensions.content.toDp
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
 import renetik.android.core.math.top
-import renetik.android.event.registration.delegate
+import renetik.android.event.change.delegate
 
 inline val <T : View> T.hasSize get() = hasWidth && hasHeight
 inline val <T : View> T.hasWidth: Boolean get() = width > 0

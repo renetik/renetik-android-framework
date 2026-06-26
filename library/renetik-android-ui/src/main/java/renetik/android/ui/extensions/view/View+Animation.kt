@@ -3,7 +3,7 @@ package renetik.android.ui.extensions.view
 import android.view.View
 import android.view.ViewPropertyAnimator
 import renetik.android.core.lang.CSLeakCanary
-import renetik.android.event.common.CSHasDestruct
+import renetik.android.event.lifecycle.CSHasDestruct
 
 const val shortAnimationDuration = 200
 const val mediumAnimationDuration = 400

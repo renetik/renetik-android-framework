@@ -6,7 +6,7 @@ import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.action
+import renetik.android.event.change.action
 import renetik.android.ui.protocol.CSViewInterface
 
 fun <ItemView : CSViewInterface> CSProperty<Int>.updates(

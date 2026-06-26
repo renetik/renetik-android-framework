@@ -17,11 +17,11 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.core.lang.variable.CSVariable
 import renetik.android.core.logging.CSLog.logWarnTrace
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.destruct
+import renetik.android.event.lifecycle.destruct
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.onChange
+import renetik.android.event.change.onChange
 import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.view.isVisible
 import renetik.android.ui.extensions.view.isVisibleInParentRecursively

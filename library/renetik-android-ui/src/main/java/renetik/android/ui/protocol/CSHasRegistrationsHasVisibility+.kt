@@ -6,9 +6,9 @@ import renetik.android.core.lang.value.isTrue
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.registration.actionFalse
-import renetik.android.event.registration.actionTrue
-import renetik.android.event.registration.laterEach
+import renetik.android.event.change.actionFalse
+import renetik.android.event.change.actionTrue
+import renetik.android.event.dispatch.laterEach
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import kotlin.time.Duration

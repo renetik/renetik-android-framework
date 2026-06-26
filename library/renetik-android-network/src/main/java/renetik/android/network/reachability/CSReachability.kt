@@ -12,8 +12,8 @@ import renetik.android.core.extensions.content.register
 import renetik.android.core.extensions.content.unregister
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.CSHasDestruct
-import renetik.android.event.common.CSModel
+import renetik.android.event.lifecycle.CSHasDestruct
+import renetik.android.event.lifecycle.CSModel
 
 class CSReachability(parent: CSHasDestruct) : CSModel(parent) {
     val eventOnConnected = event<CSReachability>()

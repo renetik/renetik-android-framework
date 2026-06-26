@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import renetik.android.core.kotlin.className
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.common.CSHasContext
-import renetik.android.event.common.destruct
+import renetik.android.event.android.CSHasContext
+import renetik.android.event.lifecycle.destruct
 import renetik.android.event.fire
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistrationsMap
