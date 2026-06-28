@@ -16,7 +16,6 @@ import renetik.android.core.common.CSColor.Companion.colorRes
 import renetik.android.core.extensions.content.attributeColor
 import renetik.android.core.extensions.content.drawable
 import renetik.android.core.kotlin.primitives.at
-import renetik.android.core.lang.CSHasDrawable
 import renetik.android.event.property.CSProperty
 import renetik.android.event.change.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
@@ -57,10 +56,6 @@ fun <T : TextView> T.drawable(
         bottom?.let { context.drawable(it) } ?: compoundDrawables.at(3)
     )
 }
-
-fun <T : CSHasDrawable> TextView.drawableStart(property: CSHasChangeValue<T>) =
-    property.action { drawable(start = context.drawable(it.drawable)) }
-
 
 fun <T : TextView> T.drawableStart(@DrawableRes start: Int?) = apply {
     setCompoundDrawables(
