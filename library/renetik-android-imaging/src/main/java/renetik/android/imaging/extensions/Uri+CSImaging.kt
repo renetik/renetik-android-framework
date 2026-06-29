@@ -19,7 +19,7 @@ import androidx.exifinterface.media.ExifInterface.ORIENTATION_TRANSPOSE
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_TRANSVERSE
 import androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED
 import androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION
-import renetik.android.core.extensions.content.openInputStream
+import renetik.android.core.android.content.openInputStream
 import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.core.lang.catchAllError
 import java.io.OutputStream

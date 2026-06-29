@@ -1,8 +1,8 @@
 package renetik.android.ui.extensions.view
 
 import android.view.View
-import renetik.android.core.lang.CSHandler.mainHandler
-import renetik.android.core.lang.send
+import renetik.android.core.android.os.CSHandler.mainHandler
+import renetik.android.core.android.os.send
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.CSPoint.Companion.point
 import renetik.android.event.change.action

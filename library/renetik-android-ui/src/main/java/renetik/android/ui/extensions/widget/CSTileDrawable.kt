@@ -17,8 +17,8 @@ import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.toBitmap
-import renetik.android.core.extensions.content.drawable
-import renetik.android.core.kotlin.primitives.alphaInt
+import renetik.android.core.android.content.drawable
+import renetik.android.core.android.graphics.alphaInt
 
 class CSTileDrawable(
     src: Drawable, tileMode: TileMode = REPEAT

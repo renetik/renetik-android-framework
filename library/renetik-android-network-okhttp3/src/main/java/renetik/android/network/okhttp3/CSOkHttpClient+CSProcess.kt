@@ -3,7 +3,7 @@ package renetik.android.network.okhttp3
 import com.androidnetworking.AndroidNetworking
 import org.json.JSONObject
 import org.json.JSONTokener
-import renetik.android.core.extensions.content.isNetworkConnected
+import renetik.android.core.android.content.isNetworkConnected
 import renetik.android.core.kotlin.isNotNull
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue

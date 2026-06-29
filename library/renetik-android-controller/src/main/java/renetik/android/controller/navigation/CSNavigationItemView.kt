@@ -19,7 +19,7 @@ import renetik.android.controller.navigation.CSNavigationItemPopupSide.Bottom
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Left
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Right
 import renetik.android.controller.navigation.CSNavigationItemPopupSide.Top
-import renetik.android.core.common.CSColor.Companion.colorRes
+import renetik.android.core.android.graphics.CSColor.Companion.colorRes
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.lifecycle.destruct

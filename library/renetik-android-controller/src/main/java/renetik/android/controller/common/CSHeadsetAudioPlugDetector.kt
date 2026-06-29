@@ -7,8 +7,8 @@ import android.content.Intent.ACTION_HEADSET_PLUG
 import android.content.IntentFilter
 import android.view.View
 import renetik.android.controller.base.CSActivityView
-import renetik.android.core.extensions.content.register
-import renetik.android.core.extensions.content.unregister
+import renetik.android.core.android.content.register
+import renetik.android.core.android.content.unregister
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
 

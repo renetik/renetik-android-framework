@@ -7,8 +7,8 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.updateLayoutParams
-import renetik.android.core.extensions.content.dpToPixel
-import renetik.android.core.extensions.content.toDp
+import renetik.android.core.android.content.dpToPixel
+import renetik.android.core.android.content.toDp
 import renetik.android.core.math.CSPoint
 import renetik.android.core.math.left
 import renetik.android.core.math.top

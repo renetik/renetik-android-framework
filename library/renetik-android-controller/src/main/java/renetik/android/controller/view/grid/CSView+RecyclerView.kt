@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import renetik.android.controller.base.CSView
-import renetik.android.core.extensions.content.displayWidth
+import renetik.android.core.android.content.displayWidth
 
 val <T : CSView<RecyclerView>> T.columnCount: Int
     get() = (view.layoutManager as? GridLayoutManager)?.spanCount ?: 1

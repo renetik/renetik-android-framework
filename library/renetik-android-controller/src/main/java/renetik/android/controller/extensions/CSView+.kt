@@ -5,8 +5,8 @@ import android.view.OrientationEventListener
 import androidx.core.view.doOnAttach
 import kotlinx.coroutines.delay
 import renetik.android.controller.base.CSView
-import renetik.android.core.extensions.content.CSDisplayOrientation
-import renetik.android.core.extensions.content.orientation
+import renetik.android.core.android.content.CSDisplayOrientation
+import renetik.android.core.android.content.orientation
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.event.CSEvent

@@ -15,7 +15,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFI
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.Callback
 import com.google.android.material.snackbar.Snackbar.make
-import renetik.android.core.extensions.content.attributeColor
+import renetik.android.core.android.content.attributeColor
 import renetik.android.core.lang.CSAction
 import renetik.android.core.lang.Fun
 import renetik.android.event.dispatch.later

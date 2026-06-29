@@ -5,7 +5,7 @@ import android.graphics.Rect
 import android.view.DisplayCutout
 import renetik.android.core.android.util.orientedWidthPixels
 import renetik.android.core.base.CSApplication.Companion.app
-import renetik.android.core.extensions.content.displayMetrics
+import renetik.android.core.android.content.displayMetrics
 
 @TargetApi(28)
 class CSDisplayCutout(private val cutout: DisplayCutout) {

@@ -1,6 +1,6 @@
 package renetik.android.ui.protocol
 
-import renetik.android.core.lang.CSHandler.mainHandler
+import renetik.android.core.android.os.CSHandler.mainHandler
 import renetik.android.core.lang.Fun
 import renetik.android.core.lang.value.isTrue
 import renetik.android.event.registration.CSHasRegistrations

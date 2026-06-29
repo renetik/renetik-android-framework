@@ -4,8 +4,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.updateLayoutParams
-import renetik.android.core.extensions.content.displayWidth
-import renetik.android.core.extensions.content.dpToPixel
+import renetik.android.core.android.content.displayWidth
+import renetik.android.core.android.content.dpToPixel
 import renetik.android.core.math.CSPoint
 import renetik.android.ui.extensions.view.locationOnScreen
 import renetik.android.ui.protocol.CSViewInterface

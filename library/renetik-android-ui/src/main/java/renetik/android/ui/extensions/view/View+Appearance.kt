@@ -11,9 +11,9 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import renetik.android.core.android.graphics.toAlpha
-import renetik.android.core.common.CSColor
-import renetik.android.core.extensions.content.attributeColor
-import renetik.android.core.extensions.content.dpToPixel
+import renetik.android.core.android.graphics.CSColor
+import renetik.android.core.android.content.attributeColor
+import renetik.android.core.android.content.dpToPixel
 import renetik.android.event.change.CSHasChangeValue
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration

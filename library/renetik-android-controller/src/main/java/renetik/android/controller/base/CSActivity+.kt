@@ -2,7 +2,7 @@ package renetik.android.controller.base
 
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
-import renetik.android.core.extensions.content.getDeniedPermissions
+import renetik.android.core.android.content.getDeniedPermissions
 import renetik.android.core.kotlin.primitives.isSet
 import renetik.android.core.math.CSMath.randomInt
 import renetik.android.event.registration.CSRegistration

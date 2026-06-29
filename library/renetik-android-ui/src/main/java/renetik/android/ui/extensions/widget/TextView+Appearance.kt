@@ -11,10 +11,10 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
 import androidx.core.content.res.ResourcesCompat
-import renetik.android.core.common.CSColor
-import renetik.android.core.common.CSColor.Companion.colorRes
-import renetik.android.core.extensions.content.attributeColor
-import renetik.android.core.extensions.content.drawable
+import renetik.android.core.android.graphics.CSColor
+import renetik.android.core.android.graphics.CSColor.Companion.colorRes
+import renetik.android.core.android.content.attributeColor
+import renetik.android.core.android.content.drawable
 import renetik.android.core.kotlin.primitives.at
 import renetik.android.event.property.CSProperty
 import renetik.android.event.change.CSHasChangeValue

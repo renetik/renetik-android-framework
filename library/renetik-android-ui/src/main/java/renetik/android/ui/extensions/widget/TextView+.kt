@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.text.util.LinkifyCompat
 import androidx.core.widget.doAfterTextChanged
-import renetik.android.core.extensions.content.isPhone
+import renetik.android.core.android.content.isPhone
 import renetik.android.core.kotlin.asString
 import renetik.android.core.kotlin.primitives.vertical
 import renetik.android.core.lang.ArgFun
