@@ -3,12 +3,12 @@ package renetik.android.ui.protocol
 import renetik.android.core.android.os.CSHandler.mainHandler
 import renetik.android.core.lang.Fun
 import renetik.android.core.lang.value.isTrue
-import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.change.actionFalse
 import renetik.android.event.change.actionTrue
 import renetik.android.event.dispatch.laterEach
+import renetik.android.event.registration.CSHasRegistrations
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import kotlin.time.Duration

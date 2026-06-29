@@ -17,11 +17,11 @@ import renetik.android.core.lang.variable.CSVariable.Companion.variable
 import renetik.android.core.logging.CSLog.logErrorTrace
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.android.CSContext
-import renetik.android.event.lifecycle.destruct
-import renetik.android.event.invoke
-import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.change.CSHasChangeValue
 import renetik.android.event.change.onChange
+import renetik.android.event.invoke
+import renetik.android.event.lifecycle.destruct
+import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.plus
 import renetik.android.ui.extensions.inflate
 import renetik.android.ui.extensions.inflateAsync

@@ -17,19 +17,19 @@ import renetik.android.core.lang.variable.setFalse
 import renetik.android.core.lang.variable.setTrue
 import renetik.android.core.lang.variable.toggle
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.property.CSProperty
-import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.change.CSHasChange
 import renetik.android.event.change.CSHasChangeValue
-import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.change.action
 import renetik.android.event.change.delegate
 import renetik.android.event.change.onChange
 import renetik.android.event.change.onChangeOnce
-import renetik.android.event.registration.start
 import renetik.android.event.change.wait
+import renetik.android.event.property.CSProperty
+import renetik.android.event.property.CSProperty.Companion.property
+import renetik.android.event.registration.CSHasRegistrations
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
+import renetik.android.event.registration.start
 import renetik.android.ui.R
 
 

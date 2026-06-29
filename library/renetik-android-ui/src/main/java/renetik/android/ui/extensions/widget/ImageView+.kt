@@ -8,8 +8,8 @@ import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import renetik.android.event.change.CSHasChangeValue
-import renetik.android.event.registration.CSRegistration
 import renetik.android.event.change.action
+import renetik.android.event.registration.CSRegistration
 import java.io.File
 
 fun <T : ImageView> T.image(@DrawableRes resourceId: Int?): T = apply {

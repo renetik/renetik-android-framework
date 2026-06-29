@@ -15,11 +15,11 @@ import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.bumptech.glide.signature.ObjectKey
 import renetik.android.core.kotlin.changeIf
 import renetik.android.core.kotlin.changeIfNotNull
-import renetik.android.event.property.CSProperty
 import renetik.android.event.change.CSHasChangeValue
+import renetik.android.event.change.action
+import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.change.action
 import renetik.android.ui.extensions.view.onHasSize
 import renetik.android.ui.extensions.widget.image
 import java.io.File

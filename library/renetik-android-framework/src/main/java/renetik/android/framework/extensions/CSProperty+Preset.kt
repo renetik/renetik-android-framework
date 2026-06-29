@@ -8,9 +8,9 @@ import renetik.android.core.kotlin.collections.put
 import renetik.android.core.kotlin.primitives.update
 import renetik.android.event.change.CSHasChange
 import renetik.android.event.change.CSHasChangeValue
+import renetik.android.event.change.invoke
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
-import renetik.android.event.change.invoke
 import renetik.android.event.registration.plus
 import renetik.android.preset.Preset
 import renetik.android.preset.extensions.action

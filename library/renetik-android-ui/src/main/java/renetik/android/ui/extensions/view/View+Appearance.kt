@@ -10,14 +10,14 @@ import android.widget.FrameLayout
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import renetik.android.core.android.graphics.toAlpha
-import renetik.android.core.android.graphics.CSColor
 import renetik.android.core.android.content.attributeColor
 import renetik.android.core.android.content.dpToPixel
+import renetik.android.core.android.graphics.CSColor
+import renetik.android.core.android.graphics.toAlpha
 import renetik.android.event.change.CSHasChangeValue
+import renetik.android.event.change.action
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.change.action
 import renetik.android.ui.R
 import renetik.android.ui.extensions.widget.layoutMatch
 

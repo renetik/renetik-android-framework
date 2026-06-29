@@ -6,8 +6,8 @@ import com.google.android.material.slider.Slider.OnChangeListener
 import renetik.android.core.kotlin.primitives.max
 import renetik.android.core.kotlin.primitives.min
 import renetik.android.core.kotlin.primitives.roundToStep
-import renetik.android.event.property.CSProperty
 import renetik.android.event.change.CSHasChangeValue
+import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.paused

@@ -10,10 +10,10 @@ import renetik.android.core.android.content.orientation
 import renetik.android.core.logging.CSLog.logInfo
 import renetik.android.core.logging.CSLog.logWarn
 import renetik.android.event.CSEvent
+import renetik.android.event.dispatch.launch
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
-import renetik.android.event.dispatch.launch
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
 import renetik.android.ui.extensions.view.alphaToDisabled

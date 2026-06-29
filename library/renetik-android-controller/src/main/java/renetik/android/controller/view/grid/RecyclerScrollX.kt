@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import renetik.android.core.lang.value.minus
 import renetik.android.core.lang.variable.assign
 import renetik.android.core.lang.variable.plusAssign
-import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.change.CSHasChangeValue
+import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.CSRegistration
 import kotlin.math.abs
 

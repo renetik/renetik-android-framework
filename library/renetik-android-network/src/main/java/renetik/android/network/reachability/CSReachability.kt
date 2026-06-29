@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
-import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.android.content.asString
 import renetik.android.core.android.content.isNetworkConnected
 import renetik.android.core.android.content.register
 import renetik.android.core.android.content.unregister
+import renetik.android.core.base.CSApplication.Companion.app
 import renetik.android.core.logging.CSLog.logDebug
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.lifecycle.CSHasDestruct

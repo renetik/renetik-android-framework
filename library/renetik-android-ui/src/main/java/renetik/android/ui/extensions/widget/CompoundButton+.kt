@@ -7,12 +7,12 @@ import androidx.annotation.ColorInt
 import renetik.android.core.kotlin.primitives.isFalse
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.property.CSProperty
 import renetik.android.event.change.CSHasChangeValue
-import renetik.android.event.registration.CSRegistration
-import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.change.action
 import renetik.android.event.change.onChange
+import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSRegistration
+import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.ui.R
 import renetik.android.ui.extensions.view.propertyWithTag
