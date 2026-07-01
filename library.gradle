@@ -21,6 +21,11 @@ android {
         }
     }
     testOptions {
+        testOptions {
+            unitTests {
+                includeAndroidResources = true //https://robolectric.org/getting-started/
+            }
+        }
         unitTests.all {
             testLogging {
                 outputs.upToDateWhen { false }

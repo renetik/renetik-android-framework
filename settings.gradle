@@ -1,19 +1,13 @@
-include ':renetik-android-network',
-        ':renetik-android-network-okhttp3',
-        ':renetik-android-ui',
+include ':renetik-android-ui',
         ':renetik-android-ui-picker',
         ':renetik-android-material',
         ':renetik-android-imaging',
         ':renetik-android-controller',
-        ':renetik-android-controller-maps',
         ':renetik-android-framework'
 
-project(':renetik-android-network').projectDir = file("library/renetik-android-network")
-project(':renetik-android-network-okhttp3').projectDir = file("library/renetik-android-network-okhttp3")
 project(':renetik-android-ui').projectDir = file("library/renetik-android-ui")
 project(':renetik-android-ui-picker').projectDir = file("library/renetik-android-ui-picker")
 project(':renetik-android-material').projectDir = file("library/renetik-android-material")
 project(':renetik-android-imaging').projectDir = file("library/renetik-android-imaging")
 project(':renetik-android-controller').projectDir = file("library/renetik-android-controller")
-project(':renetik-android-controller-maps').projectDir = file("library/renetik-android-controller-maps")
 project(':renetik-android-framework').projectDir = file("library/renetik-android-framework")

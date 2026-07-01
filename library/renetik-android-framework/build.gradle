@@ -22,16 +22,9 @@ dependencies {
         api project(':renetik-android-preset')
     else api "com.github.renetik:renetik-android-preset:master-SNAPSHOT"
 
-    if (rootProject.ext.is_renetik_library_network) {
-        api project(':renetik-android-network')
-        api project(':renetik-android-network-okhttp3')
-    }
     api project(':renetik-android-ui')
     api project(':renetik-android-ui-picker')
     api project(':renetik-android-material')
     api project(':renetik-android-imaging')
     api project(':renetik-android-controller')
-    if (rootProject.ext.is_renetik_library_maps) {
-        api project(':renetik-android-controller-maps')
-    }
 }
