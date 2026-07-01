@@ -1,28 +1,18 @@
 buildscript {
     ext {
-        renetik_android_core = "com.renetik.library:renetik-android-core:$renetik_library_version"
-        renetik_android_event = "com.renetik.library:renetik-android-event:$renetik_library_version"
-        renetik_android_json = "com.renetik.library:renetik-android-json:$renetik_library_version"
-        renetik_android_store = "com.renetik.library:renetik-android-store:$renetik_library_version"
-        renetik_android_preset = "com.renetik.library:renetik-android-preset:$renetik_library_version"
-        renetik_android_ui = "com.renetik.library:renetik-android-ui:$renetik_library_version"
-        renetik_android_framework = "com.renetik.library:renetik-android-framework:$renetik_library_version"
         sdk_version = 36
         min_sdk_version = 26
+        kotlin_version = '2.3.21'
+        coroutines_version = '1.11.0'
         appcompat_version = '1.7.1'
         material_version = '1.9.0'
         ktx_version = '1.18.0'
         junit_version = '4.13.2'
         play_version = '18.0.1'
-        kotlin_version = '2.3.21'
         is_renetik_development = false
         is_renetik_library_network = false
         is_renetik_library_maps = false
     }
-//    configurations.all {
-//        resolutionStrategy.cacheDynamicVersionsFor 1, 'minutes'
-//        resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
-//    }
 }
 allprojects {
     repositories {
@@ -33,17 +23,13 @@ allprojects {
         maven { url = 'https://github.com/renetik/maven-snapshot/raw/master/repository' }
         maven { url = 'https://github.com/renetik/maven/raw/master/repository' }
     }
-//    configurations.all {
-//        resolutionStrategy.cacheDynamicVersionsFor 1, 'minutes'
-//        resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
-//    }
 }
 wrapper {
     gradleVersion = "9.5.0"
     distributionType = Wrapper.DistributionType.BIN
 }
 allprojects {
-    configurations.all {
+    configurations.configureEach {
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     }
 }

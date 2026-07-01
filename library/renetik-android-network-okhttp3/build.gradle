@@ -13,6 +13,6 @@ dependencies {
     else implementation "com.github.renetik:renetik-android-json:master-SNAPSHOT"
     implementation project(':renetik-android-ui')
     implementation project(':renetik-android-network')
-    implementation 'com.github.amitshekhariitbhu:Fast-Android-Networking:1.0.2'
-    implementation 'com.squareup.okhttp3:okhttp-urlconnection:5.0.0-alpha.11'
+    implementation 'com.github.amitshekhariitbhu.Fast-Android-Networking:android-networking:1.0.4'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:5.4.0'
 }
