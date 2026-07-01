@@ -10,8 +10,8 @@ buildscript {
         junit_version = '4.13.2'
         play_version = '18.0.1'
         is_renetik_development = false
-        is_renetik_library_network = false
-        is_renetik_library_maps = false
+        is_renetik_library_network = true
+        is_renetik_library_maps = true
     }
 }
 allprojects {
