@@ -11,4 +11,8 @@ dependencies {
     implementation project(':renetik-android-ui')
     implementation project(':renetik-android-controller')
     api 'com.google.android.material:material:1.13.0'
+
+    if (rootProject.ext.is_renetik_development)
+        testImplementation project(':renetik-android-testing')
+    else testImplementation "com.github.renetik:renetik-android-testing:master-SNAPSHOT"
 }

@@ -27,4 +27,8 @@ dependencies {
     api project(':renetik-android-material')
     api project(':renetik-android-imaging')
     api project(':renetik-android-controller')
+
+    if (rootProject.ext.is_renetik_development)
+        testImplementation project(':renetik-android-testing')
+    else testImplementation "com.github.renetik:renetik-android-testing:master-SNAPSHOT"
 }
