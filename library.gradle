@@ -1,8 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
-group = providers.gradleProperty('group').getOrElse('com.github.renetik.renetik-android-framework')
+group = providers.gradleProperty('group')
+        .getOrElse('com.github.renetik.renetik-android-framework')
 version = providers.gradleProperty('version').getOrElse('LOCAL')
+
+def libraryRoot = projectDir
+while (libraryRoot != null && !new File(libraryRoot, ".git").exists())
+    libraryRoot = libraryRoot.parentFile
+def libraryLintConfig = new File(libraryRoot ?: projectDir.parentFile, "lint.xml")
 
 android {
     namespace = rootProject.ext.namespace
@@ -14,6 +20,10 @@ android {
     compileSdk = project.properties.sdk_version
     defaultConfig {
         minSdk = project.properties.min_sdk_version
+    }
+    lint {
+        // Keep library lint independent from parent checkout lint.xml suppressions.
+        lintConfig = libraryLintConfig
     }
     publishing {
         singleVariant('release') {
