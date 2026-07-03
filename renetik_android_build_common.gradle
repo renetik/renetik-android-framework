@@ -27,8 +27,8 @@ wrapper {
     gradleVersion = "9.5.0"
     distributionType = Wrapper.DistributionType.BIN
 }
-allprojects {
-    configurations.configureEach {
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    }
-}
+//allprojects {
+//    configurations.configureEach {
+//        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+//    }
+//}
