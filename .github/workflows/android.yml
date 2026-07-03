@@ -18,9 +18,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: |
-          for attempt in 1 2 3; do
-            ./gradlew build --no-daemon --no-configuration-cache && exit 0
-            if [ "$attempt" = 3 ]; then exit 1; fi
-            sleep $((attempt * 30))
-          done
+        run: ./gradlew build --no-daemon --no-configuration-cache
+#        run: |
+#          for attempt in 1 2 3; do
+#            ./gradlew build --no-daemon --no-configuration-cache && exit 0
+#            if [ "$attempt" = 3 ]; then exit 1; fi
+#            sleep $((attempt * 30))
+#          done
