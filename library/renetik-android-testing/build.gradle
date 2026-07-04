@@ -1,0 +1,9 @@
+rootProject.ext.namespace = 'renetik.android.testing'
+if (!rootProject.ext.is_renetik_development) apply from: '../../library.gradle'
+else apply from: '../../../library.gradle'
+dependencies {
+    api "junit:junit:$junit_version"
+    api "io.mockk:mockk:$mockk_version"
+    api "org.robolectric:robolectric:$robolectric_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+}

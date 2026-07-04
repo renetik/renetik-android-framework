@@ -1,0 +1,15 @@
+package renetik.android.preset.model
+
+const val ClearPresetItemId = "clear parent preset item id"
+const val ParentPresetItemId1 = "prent preset item id 1"
+const val ParentPresetItemId2 = "prent preset item id 2"
+const val ParentPropertyInitialValue = "parent property initial value"
+const val ParentPropertyNewValue1 = "parent property new value 1"
+const val ParentPropertyNewValue2 = "parent property new value 2"
+const val ClearChildPresetItemId = "clear child preset item id"
+const val ChildPresetItemId2 = "child preset item id 2"
+const val ChildPropertyInitialValue = "child property initial value"
+const val ChildPropertyNewValue0 = "child property new value 1"
+const val ChildPropertyNewValue1 = "child property new value 2"
+const val ChildPropertyNewValue2 = "child property new value 3"
+const val ChildPropertyNewValue3 = "child property new value 4"

@@ -1,0 +1,12 @@
+rootProject.ext.namespace = 'renetik.android.core'
+if (!rootProject.ext.is_renetik_development) apply from: '../../library.gradle'
+else apply from: '../../../library.gradle'
+android {
+    buildFeatures { buildConfig = true }
+}
+dependencies {
+    // Fixes: Cannot access 'androidx.navigationevent.NavigationEventDispatcherOwner' in Android Studio editor.
+    implementation 'androidx.navigationevent:navigationevent:1.1.2'
+
+    testImplementation project(':renetik-android-testing')
+}

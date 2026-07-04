@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="test_formatted_string">Hello [B]Bold[/B]</string>
+
+    <string-array name="test_strings">
+        <item>one</item>
+        <item>two</item>
+    </string-array>
+
+    <integer-array name="test_ints">
+        <item>3</item>
+        <item>5</item>
+        <item>8</item>
+    </integer-array>
+
+    <dimen name="test_dimension">16dp</dimen>
+    <color name="test_color">#123456</color>
+</resources>

@@ -2,14 +2,8 @@ rootProject.ext.namespace = 'renetik.android.imaging'
 if (!rootProject.ext.is_renetik_development) apply from: '../../library.gradle'
 else apply from: '../../../library.gradle'
 dependencies {
-    if (rootProject.ext.is_renetik_development)
-        implementation project(':renetik-android-core')
-    else implementation "com.github.renetik:renetik-android-core:master-SNAPSHOT"
-
-    if (rootProject.ext.is_renetik_development)
-        implementation project(':renetik-android-event')
-    else implementation "com.github.renetik:renetik-android-event:master-SNAPSHOT"
-
+    implementation project(':renetik-android-core')
+    implementation project(':renetik-android-event')
     implementation project(':renetik-android-ui')
 
     implementation 'androidx.exifinterface:exifinterface:1.4.2'
@@ -17,7 +11,5 @@ dependencies {
     // https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:5.0.7'
 
-    if (rootProject.ext.is_renetik_development)
-        testImplementation project(':renetik-android-testing')
-    else testImplementation "com.github.renetik:renetik-android-testing:master-SNAPSHOT"
+    testImplementation project(':renetik-android-testing')
 }

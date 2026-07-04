@@ -1,17 +1,38 @@
-[![Android Build](https://github.com/renetik/renetik-android/workflows/Android%20Build/badge.svg)
-](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android-framework/workflows/Android%20Build/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
 
-# Renetik Android - Framework
-#### [https://github.com/renetik/renetik-android-framework](https://github.com/renetik/renetik-android-framework/) ➜ [Documentation](https://renetik.github.io/renetik-android-framework/)
+# Renetik Android Framework
 
-Framework to enjoy, improve and speed up your application development while writing readable code.
-Used as library in many projects and improving it while developing new projects.
-I am open for [Hire](https://renetik.github.io) or investment in my mobile app music production & perfromance project Renetik Instruments www.renetik.com.
+Android framework and related Renetik Android modules for application development.
 
-## Renetik Android - Libraries
-#### [https://github.com/renetik/renetik-android-core](https://github.com/renetik/renetik-android-core/) ➜ [Documentation](https://renetik.github.io/renetik-android-core/)
-#### [https://github.com/renetik/renetik-android-json](https://github.com/renetik/renetik-android-json/) ➜ [Documentation](https://renetik.github.io/renetik-android-json/)
-#### [https://github.com/renetik/renetik-android-event](https://github.com/renetik/renetik-android-event/) ➜ [Documentation](https://renetik.github.io/renetik-android-event/)
-#### [https://github.com/renetik/renetik-android-store](https://github.com/renetik/renetik-android-store/) ➜ [Documentation](https://renetik.github.io/renetik-android-store/)
-#### [https://github.com/renetik/renetik-android-preset](https://github.com/renetik/renetik-android-preset/) ➜ [Documentation](https://renetik.github.io/renetik-android-preset/)
-#### [https://github.com/renetik/renetik-android-framework](https://github.com/renetik/renetik-android-framework/) ➜ [Documentation](https://renetik.github.io/renetik-android-framework/)
+Repository: [https://github.com/renetik/renetik-android-framework](https://github.com/renetik/renetik-android-framework/)
+
+## Usage
+
+```gradle
+repositories {
+    maven { url = 'https://jitpack.io' }
+}
+```
+
+Use `master-SNAPSHOT`, a commit hash, or another JitPack version from this repository.
+
+## Modules
+
+| Module | JitPack dependency |
+| --- | --- |
+| `renetik-android-testing` | `com.github.renetik.renetik-android-framework:renetik-android-testing:master-SNAPSHOT` |
+| `renetik-android-core` | `com.github.renetik.renetik-android-framework:renetik-android-core:master-SNAPSHOT` |
+| `renetik-android-core-leakcanary` | `com.github.renetik.renetik-android-framework:renetik-android-core-leakcanary:master-SNAPSHOT` |
+| `renetik-android-event` | `com.github.renetik.renetik-android-framework:renetik-android-event:master-SNAPSHOT` |
+| `renetik-android-json` | `com.github.renetik.renetik-android-framework:renetik-android-json:master-SNAPSHOT` |
+| `renetik-android-store` | `com.github.renetik.renetik-android-framework:renetik-android-store:master-SNAPSHOT` |
+| `renetik-android-preset` | `com.github.renetik.renetik-android-framework:renetik-android-preset:master-SNAPSHOT` |
+| `renetik-android-ui` | `com.github.renetik.renetik-android-framework:renetik-android-ui:master-SNAPSHOT` |
+| `renetik-android-ui-picker` | `com.github.renetik.renetik-android-framework:renetik-android-ui-picker:master-SNAPSHOT` |
+| `renetik-android-material` | `com.github.renetik.renetik-android-framework:renetik-android-material:master-SNAPSHOT` |
+| `renetik-android-imaging` | `com.github.renetik.renetik-android-framework:renetik-android-imaging:master-SNAPSHOT` |
+| `renetik-android-controller` | `com.github.renetik.renetik-android-framework:renetik-android-controller:master-SNAPSHOT` |
+| `renetik-android-framework` | `com.github.renetik.renetik-android-framework:renetik-android-framework:master-SNAPSHOT` |
+| `renetik-android-testing-ui` | `com.github.renetik.renetik-android-framework:renetik-android-testing-ui:master-SNAPSHOT` |
+
+Module README files live next to each module under `library/`.

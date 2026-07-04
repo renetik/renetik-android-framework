@@ -2,23 +2,13 @@ rootProject.ext.namespace = 'renetik.android.controller'
 if (!rootProject.ext.is_renetik_development) apply from: '../../library.gradle'
 else apply from: '../../../library.gradle'
 dependencies {
-    if (rootProject.ext.is_renetik_development)
-        api project(':renetik-android-core')
-    else api "com.github.renetik:renetik-android-core:master-SNAPSHOT"
-
-    if (rootProject.ext.is_renetik_development)
-        api project(':renetik-android-event')
-    else api "com.github.renetik:renetik-android-event:master-SNAPSHOT"
-
+    api project(':renetik-android-core')
+    api project(':renetik-android-event')
     api project(':renetik-android-ui')
-    if (rootProject.ext.is_renetik_development)
-        api project(':renetik-android-store')
-    else api "com.github.renetik:renetik-android-store:master-SNAPSHOT"
+    api project(':renetik-android-store')
 
     api 'androidx.recyclerview:recyclerview:1.4.0'
     api 'androidx.activity:activity:1.13.0'
 
-    if (rootProject.ext.is_renetik_development)
-        testImplementation project(':renetik-android-testing')
-    else testImplementation "com.github.renetik:renetik-android-testing:master-SNAPSHOT"
+    testImplementation project(':renetik-android-testing')
 }

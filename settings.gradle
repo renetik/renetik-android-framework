@@ -1,13 +1,29 @@
-include ':renetik-android-ui',
+include ':renetik-android-testing',
+        ':renetik-android-core',
+        ':renetik-android-core-leakcanary',
+        ':renetik-android-event',
+        ':renetik-android-json',
+        ':renetik-android-store',
+        ':renetik-android-preset',
+        ':renetik-android-ui',
         ':renetik-android-ui-picker',
         ':renetik-android-material',
         ':renetik-android-imaging',
         ':renetik-android-controller',
-        ':renetik-android-framework'
+        ':renetik-android-framework',
+        ':renetik-android-testing-ui'
 
+project(':renetik-android-testing').projectDir = file("library/renetik-android-testing")
+project(':renetik-android-core').projectDir = file("library/renetik-android-core")
+project(':renetik-android-core-leakcanary').projectDir = file("library/renetik-android-core-leakcanary")
+project(':renetik-android-event').projectDir = file("library/renetik-android-event")
+project(':renetik-android-json').projectDir = file("library/renetik-android-json")
+project(':renetik-android-store').projectDir = file("library/renetik-android-store")
+project(':renetik-android-preset').projectDir = file("library/renetik-android-preset")
 project(':renetik-android-ui').projectDir = file("library/renetik-android-ui")
 project(':renetik-android-ui-picker').projectDir = file("library/renetik-android-ui-picker")
 project(':renetik-android-material').projectDir = file("library/renetik-android-material")
 project(':renetik-android-imaging').projectDir = file("library/renetik-android-imaging")
 project(':renetik-android-controller').projectDir = file("library/renetik-android-controller")
 project(':renetik-android-framework').projectDir = file("library/renetik-android-framework")
+project(':renetik-android-testing-ui').projectDir = file("library/renetik-android-testing-ui")
