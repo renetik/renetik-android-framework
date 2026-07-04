@@ -1,8 +1,9 @@
+[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+
 # Renetik Android Testing
 
-[![Android Build](https://github.com/renetik/renetik-android-testing/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-testing/actions/workflows/android.yml)
-
 Shared Android test dependencies and helpers for Renetik Android libraries.
+Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
 
 ## Installation
 
@@ -23,9 +24,11 @@ Add the testing artifact to test dependencies:
 
 ```gradle
 dependencies {
-    testImplementation 'com.github.renetik:renetik-android-testing:1.0.1'
+    testImplementation 'com.github.renetik.renetik-android-framework:renetik-android-testing:2.0'
 }
 ```
+
+Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
 
 ## Compatibility
 
@@ -33,7 +36,7 @@ dependencies {
 - Gradle wrapper: 9.5.0
 - Android Gradle Plugin: 9.2.1
 - Kotlin: 2.3.21
-- compileSdk: 36
+- compileSdk: 37
 - minSdk: 26
 
 ## Included Test Dependencies
@@ -43,12 +46,6 @@ dependencies {
 - Robolectric
 - kotlinx-coroutines-test
 
-## Release
+## Renetik Android Libraries
 
-Commit all intended release changes, make sure the `master` working tree is clean, then pass the new version to the release script:
-
-```sh
-./release.sh 1.0.1
-```
-
-The script validates the version and repository state, builds and publishes the release locally with the requested coordinates, pushes `master`, and creates the matching GitHub release and tag. JitPack then builds that tag on demand.
+See [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/) for all modules and release coordinates.

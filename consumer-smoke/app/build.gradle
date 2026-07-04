@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+def smokeVersion = providers.gradleProperty('smokeVersion').getOrElse('master-SNAPSHOT')
+def frameworkGroup = 'com.github.renetik.renetik-android-framework'
+
+android {
+    namespace = 'renetik.android.framework.consumer.smoke'
+    compileSdk = 37
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+    kotlin { jvmToolchain(21) }
+
+    defaultConfig {
+        applicationId 'renetik.android.framework.consumer.smoke'
+        minSdk = 26
+        targetSdk = 37
+        versionCode = 1
+        versionName = '1.0'
+    }
+}
+
+dependencies {
+    implementation "$frameworkGroup:renetik-android-core:$smokeVersion"
+    debugImplementation "$frameworkGroup:renetik-android-core-leakcanary:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-event:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-json:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-store:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-preset:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-ui:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-ui-picker:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-material:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-imaging:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-controller:$smokeVersion"
+    implementation "$frameworkGroup:renetik-android-framework:$smokeVersion"
+    testImplementation "$frameworkGroup:renetik-android-testing:$smokeVersion"
+    androidTestImplementation "$frameworkGroup:renetik-android-testing-ui:$smokeVersion"
+    implementation "androidx.appcompat:appcompat:1.7.1"
+}

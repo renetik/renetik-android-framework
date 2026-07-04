@@ -19,3 +19,7 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build --no-daemon --no-configuration-cache
+      - name: Publish smoke artifacts to Maven local
+        run: ./gradlew publishToMavenLocal --no-daemon --no-configuration-cache -Pgroup=com.github.renetik.renetik-android-framework -Pversion=0.0.0-smoke
+      - name: Build consumer smoke app
+        run: ./gradlew -p consumer-smoke assembleDebug --no-daemon --no-configuration-cache -PsmokeVersion=0.0.0-smoke

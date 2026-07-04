@@ -1,10 +1,8 @@
-<!---Header-->
-[![Android Build](https://github.com/renetik/renetik-android-event/workflows/Android%20Build/badge.svg)](https://github.com/renetik/renetik-android-event/actions/workflows/android.yml)
-[![Maven Packages](https://img.shields.io/badge/Maven-GitHub%20Packages-blue)](https://github.com/renetik/maven)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.20-purple)](https://kotlinlang.org)
+[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
 
-## Renetik Android — Event & Property
-### [Repository](https://github.com/renetik/renetik-android-event/) • [API Docs](https://renetik.github.io/renetik-android-event/)
+## Renetik Android Event
+
+Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
 
 Lightweight event and reactive property primitives for Android/Kotlin.
 
@@ -15,13 +13,27 @@ Lightweight event and reactive property primitives for Android/Kotlin.
 Used across Renetik projects to keep app logic clear and decoupled.
 
 ### Installation
-Add the Renetik GitHub Maven repositories and the dependency:
+Add JitPack and the event dependency:
+
+```gradle
+repositories {
+    google()
+    mavenCentral()
+    maven { url = 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.renetik.renetik-android-framework:renetik-android-event:2.0'
+}
+```
+
+Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
 
 ### Compatibility
 - **minSdk**: 26
-- **target/compileSdk**: 35
-- **Kotlin**: 2.2.20
-- **AGP**: 8.1.x
+- **target/compileSdk**: 37
+- **Kotlin**: 2.3.21
+- **AGP**: 9.2.1
 
 ### Quick start
 Events:
@@ -147,16 +159,8 @@ value.onChangeLaunch { newValue ->
 }
 ```
 
-### API Reference
-Browse the generated docs: [API Docs](https://renetik.github.io/renetik-android-event/)
-
 ### Related Renetik libraries
-- [renetik-android-core](https://github.com/renetik/renetik-android-core/) • [Docs](https://renetik.github.io/renetik-android-core/)
-- [renetik-android-json](https://github.com/renetik/renetik-android-json/) • [Docs](https://renetik.github.io/renetik-android-json/)
-- [renetik-android-event](https://github.com/renetik/renetik-android-event/) • [Docs](https://renetik.github.io/renetik-android-event/)
-- [renetik-android-store](https://github.com/renetik/renetik-android-store/) • [Docs](https://renetik.github.io/renetik-android-store/)
-- [renetik-android-preset](https://github.com/renetik/renetik-android-preset/) • [Docs](https://renetik.github.io/renetik-android-preset/)
-- [renetik-android-framework](https://github.com/renetik/renetik-android-framework/) • [Docs](https://renetik.github.io/renetik-android-framework/)
+- [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/)
 
 ### Contributing
 Issues and PRs are welcome. Please include a clear description and small, focused changes.

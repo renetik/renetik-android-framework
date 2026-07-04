@@ -1,9 +1,9 @@
 <!---Header--->
-[![Android Build](https://github.com/renetik/renetik-android-core/workflows/Android%20Build/badge.svg)
-](https://github.com/renetik/renetik-android-core/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
 
 # Renetik Android Core
-#### [https://github.com/renetik/renetik-android-core](https://github.com/renetik/renetik-android-core/) ➜ [Documentation](https://renetik.github.io/renetik-android-core/)
+
+Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
 
 Core library for the Renetik Android libraries collection.
 It provides shared application runtime helpers, Kotlin/Java/Android extensions,
@@ -34,17 +34,17 @@ Add the core module to the application or library module:
 
 ```gradle
 dependencies {
-    implementation 'com.github.renetik:renetik-android-core:VERSION'
+    implementation 'com.github.renetik.renetik-android-framework:renetik-android-core:2.0'
 }
 ```
 
-Replace `VERSION` with a GitHub release tag, for example `1.0.1`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
 
 LeakCanary integration is published separately:
 
 ```gradle
 dependencies {
-    debugImplementation 'com.github.renetik:renetik-android-core-leakcanary:VERSION'
+    debugImplementation 'com.github.renetik.renetik-android-framework:renetik-android-core-leakcanary:2.0'
 }
 ```
 
@@ -52,11 +52,10 @@ dependencies {
 
 | Path | Purpose |
 | --- | --- |
-| `library/` | Main `renetik-android-core` Android library artifact. |
-| `leakcanary/` | Optional `renetik-android-core-leakcanary` integration artifact. |
+| `library/renetik-android-core/` | Main `renetik-android-core` Android library artifact. |
+| `library/renetik-android-core-leakcanary/` | Optional `renetik-android-core-leakcanary` integration artifact. |
 | `docs/package-map.md` | Package guide for finding source areas quickly. |
-| `library.gradle` | Shared Android library build configuration. |
-| `renetik_android_build_common.gradle` | Shared repository build constants and repositories. |
+| `../../library.gradle` | Shared Android library build configuration. |
 
 ## Package Map
 
@@ -77,17 +76,6 @@ dependencies {
 | `renetik.android.core.math` | Math and point helpers. |
 
 See [docs/package-map.md](docs/package-map.md) for the fuller navigation guide.
-
-## Release
-
-Commit all intended release changes, make sure the `master` working tree is clean, then pass the new version to the release script:
-
-```sh
-./release.sh 1.0.1
-```
-
-The script validates the version and repository state, builds and publishes both modules locally with the requested coordinates, pushes `master`, and creates the matching GitHub release and tag. JitPack then builds that tag on demand.
-
 
 ## Examples
 ```kotlin
@@ -181,10 +169,6 @@ class CSAndroidLoggerTest {
 }
 ```
 
-## Renetik Android - Libraries
-#### [https://github.com/renetik/renetik-android-core](https://github.com/renetik/renetik-android-core/) ➜ [Documentation](https://renetik.github.io/renetik-android-core/)
-#### [https://github.com/renetik/renetik-android-json](https://github.com/renetik/renetik-android-json/) ➜ [Documentation](https://renetik.github.io/renetik-android-json/)
-#### [https://github.com/renetik/renetik-android-event](https://github.com/renetik/renetik-android-event/) ➜ [Documentation](https://renetik.github.io/renetik-android-event/)
-#### [https://github.com/renetik/renetik-android-store](https://github.com/renetik/renetik-android-store/) ➜ [Documentation](https://renetik.github.io/renetik-android-store/)
-#### [https://github.com/renetik/renetik-android-preset](https://github.com/renetik/renetik-android-preset/) ➜ [Documentation](https://renetik.github.io/renetik-android-preset/)
-#### [https://github.com/renetik/renetik-android-framework](https://github.com/renetik/renetik-android-framework/) ➜ [Documentation](https://renetik.github.io/renetik-android-framework/)
+## Renetik Android Libraries
+
+See [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/) for all modules and release coordinates.
