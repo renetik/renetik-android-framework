@@ -1,4 +1,4 @@
-[![Android Build](https://github.com/renetik/renetik-android-framework/workflows/Android%20Build/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Build & Tests](https://github.com/renetik/renetik-android-framework/workflows/Android%20Build/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
 
 # Renetik Android Framework
 
