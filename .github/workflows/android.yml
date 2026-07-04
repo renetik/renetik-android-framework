@@ -19,9 +19,3 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build --no-daemon --no-configuration-cache --refresh-dependencies
-#        run: |
-#          for attempt in 1 2 3; do
-#            ./gradlew build --no-daemon --no-configuration-cache && exit 0
-#            if [ "$attempt" = 3 ]; then exit 1; fi
-#            sleep $((attempt * 30))
-#          done
