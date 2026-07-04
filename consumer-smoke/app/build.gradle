@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
 }
 
 def smokeVersion = providers.gradleProperty('smokeVersion').getOrElse('master-SNAPSHOT')
