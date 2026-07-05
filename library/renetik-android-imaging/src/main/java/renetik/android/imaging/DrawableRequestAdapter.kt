@@ -1,4 +1,4 @@
-package renetik.android.imaging.extensions
+package renetik.android.imaging
 
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.load.DataSource

@@ -1,4 +1,4 @@
-package renetik.android.imaging.extensions
+package renetik.android.imaging
 
 import android.graphics.Bitmap
 import android.graphics.Color
