@@ -4,6 +4,9 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+concurrency:
+  group: android-build-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,3 +28,12 @@ jobs:
         run: ./gradlew -p sample assembleDebug --no-daemon --no-configuration-cache -PsmokeVersion=0.0.0-smoke
       - name: Run sample unit tests
         run: ./gradlew -p sample testDebugUnitTest --no-daemon --no-configuration-cache -PsmokeVersion=0.0.0-smoke
+      - name: Upload test reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            library/*/build/reports/tests/
+            sample/app/build/reports/tests/
+          retention-days: 7
