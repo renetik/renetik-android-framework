@@ -146,11 +146,6 @@ fun FrameLayout.disabledByOverlayIf(
     })
 }
 
-@Deprecated("Use or")
-fun View.disabledByAlphaIf(
-    property1: CSHasChangeValue<Boolean>, property2: CSHasChangeValue<Boolean>,
-) = disabledByAlphaIf(property1, property2) { one, two -> one or two }
-
 fun View.disabledByAlphaIfNot(
     property: CSHasChangeValue<Boolean>, disable: Boolean = true,
 ) = disabledByAlphaIf(property, disable) { !it }

@@ -9,7 +9,12 @@ import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.ui.R
 
-@Deprecated("TODO: replace by https://github.com/Carbs0126/NumberPickerView")
+/**
+ * Number picker wheel view.
+ *
+ * TODO: consider replacing the underlying implementation with
+ *  https://github.com/Carbs0126/NumberPickerView
+ */
 class CSNumberPicker @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : NumberPicker(context, attrs, defStyleAttr) {
