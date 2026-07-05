@@ -1,4 +1,4 @@
-package renetik.android.picker
+package renetik.android.ui.picker
 
 import android.widget.NumberPicker.FOCUS_BEFORE_DESCENDANTS
 import android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS

@@ -1,4 +1,4 @@
-package renetik.android.picker
+package renetik.android.ui.picker
 
 import android.content.Context
 import android.util.AttributeSet
