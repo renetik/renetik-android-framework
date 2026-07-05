@@ -1,4 +1,4 @@
-package renetik.android.controller.extensions
+package renetik.android.controller.base
 
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.requestPermissions

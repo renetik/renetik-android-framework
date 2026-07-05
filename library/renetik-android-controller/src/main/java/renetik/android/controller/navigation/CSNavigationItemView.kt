@@ -9,8 +9,8 @@ import android.widget.FrameLayout.LayoutParams
 import androidx.annotation.LayoutRes
 import androidx.core.view.updateLayoutParams
 import renetik.android.controller.base.CSActivityView
-import renetik.android.controller.extensions.height
-import renetik.android.controller.extensions.width
+import renetik.android.controller.base.height
+import renetik.android.controller.base.width
 import renetik.android.controller.navigation.CSNavigationItemAnimation.Fade
 import renetik.android.controller.navigation.CSNavigationItemAnimation.None
 import renetik.android.controller.navigation.CSNavigationItemAnimation.Slide

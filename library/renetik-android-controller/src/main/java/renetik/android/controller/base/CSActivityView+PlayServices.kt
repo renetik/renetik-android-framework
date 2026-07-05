@@ -3,7 +3,6 @@
 //import com.google.android.gms.common.ConnectionResult
 //import com.google.android.gms.common.GoogleApiAvailability
 //import renetik.android.controller.base.CSActivityView
-//import renetik.android.framework.lang.CSUserAction
 //
 //private const val RESOLUTION_REQUEST = 9000
 //

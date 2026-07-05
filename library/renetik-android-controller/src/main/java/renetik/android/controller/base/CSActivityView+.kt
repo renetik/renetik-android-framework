@@ -1,11 +1,37 @@
 package renetik.android.controller.base
 
+import android.content.Intent
 import android.view.View
+import android.view.ViewParent
 import androidx.annotation.IdRes
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import renetik.android.core.lang.Fun
+
+val CSActivityView<*>.intent: Intent get() = activity().intent
+
+fun <T : View, ViewController : CSActivityView<T>>
+        ViewController.push() = apply { navigation!!.push(this) }
+
+fun <T : View, ViewController : CSActivityView<T>>
+        ViewController.pushMain() = push("mainController")
+
+fun <T : View, ViewController : CSActivityView<T>>
+        ViewController.pushAsLast() = apply { navigation!!.pushAsLast(this) }
+
+fun <T : View, ViewController : CSActivityView<T>>
+        ViewController.push(pushKey: String) =
+    apply { navigation!!.push(pushKey, this) }
+
+var <T : View> CSActivityView<T>.requestedOrientation
+    get() = activity().requestedOrientation
+    set(value) {
+        activity().requestedOrientation = value
+    }
+
+fun ViewParent.asActivityView() = ((this as? View)?.tag as? CSActivityView<*>)
+fun View.asActivityView() = (this.tag as? CSActivityView<*>)
 
 fun CSActivityView<*>.enterFullScreen() {
     WindowCompat.setDecorFitsSystemWindows(activity().window, false)

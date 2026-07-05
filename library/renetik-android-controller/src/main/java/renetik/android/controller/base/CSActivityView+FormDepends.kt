@@ -1,4 +1,4 @@
-package renetik.android.controller.extensions
+package renetik.android.controller.base
 
 import renetik.android.core.kotlin.primitives.isTrue
 import renetik.android.core.lang.CSCondition

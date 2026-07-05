@@ -1,4 +1,4 @@
-package renetik.android.controller.extensions
+package renetik.android.controller.base
 
 import android.content.Intent
 import android.content.Intent.ACTION_SEND

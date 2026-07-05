@@ -12,7 +12,7 @@ import org.robolectric.annotation.Config
 import renetik.android.controller.base.CSActivityView
 import renetik.android.controller.base.CSViewActivity
 import renetik.android.controller.base.isPaused
-import renetik.android.controller.extensions.push
+import renetik.android.controller.base.push
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.lang.value.isTrue
 import renetik.android.testing.TestApplication

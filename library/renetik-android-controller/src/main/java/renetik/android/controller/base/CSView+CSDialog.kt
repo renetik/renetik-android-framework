@@ -1,4 +1,4 @@
-package renetik.android.controller.extensions
+package renetik.android.controller.base
 
 //fun CSView<*>.dialog() = CSDialog(this.view)
 //fun CSView<*>.dialog(message: String) = dialog().title(message)

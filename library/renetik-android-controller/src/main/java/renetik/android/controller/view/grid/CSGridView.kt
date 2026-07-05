@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import renetik.android.controller.base.CSActivityViewInterface
 import renetik.android.controller.base.CSView
-import renetik.android.controller.extensions.reusable
+import renetik.android.controller.base.reusable
 import renetik.android.controller.view.grid.item.CSGridItemView
 import renetik.android.core.kotlin.collections.firstIndex
 import renetik.android.core.kotlin.unexpected
