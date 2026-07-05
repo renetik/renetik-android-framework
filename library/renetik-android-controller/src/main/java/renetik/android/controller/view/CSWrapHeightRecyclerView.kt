@@ -1,4 +1,4 @@
-package renetik.android.framework.extensions
+package renetik.android.controller.view
 
 import android.content.Context
 import android.util.AttributeSet

@@ -1,4 +1,4 @@
-package renetik.android.framework
+package renetik.android.material
 
 import android.widget.EditText
 import androidx.appcompat.R.drawable.abc_ic_clear_material
