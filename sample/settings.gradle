@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'renetik-android-framework-consumer-smoke'
+rootProject.name = 'renetik-android-framework-sample'
 include ':app'

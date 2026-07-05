@@ -47,12 +47,13 @@ Module README files live next to each module under `library/`.
 
 ## Verification
 
-Run the framework build and consumer smoke app before publishing a release:
+Run the framework build and sample app before publishing a release:
 
 ```sh
 ./gradlew build --no-daemon --no-configuration-cache
 ./gradlew publishToMavenLocal --no-daemon --no-configuration-cache -Pgroup=com.github.renetik.renetik-android-framework -Pversion=0.0.0-smoke
-./gradlew -p consumer-smoke assembleDebug --no-daemon --no-configuration-cache -PsmokeVersion=0.0.0-smoke
+./gradlew -p sample assembleDebug --no-daemon --no-configuration-cache -PsmokeVersion=0.0.0-smoke
+./gradlew -p sample testDebugUnitTest --no-daemon --no-configuration-cache -PsmokeVersion=0.0.0-smoke
 ```
 
 After pushing `master` or creating a release tag, verify JitPack POMs:
