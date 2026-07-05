@@ -6,17 +6,13 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:9.2.1'
-        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:2.0.0'
+        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:2.2.0'
     }
 }
 
 // Dokka v2 multi-module API docs: ./gradlew :dokkaGenerate
 // Aggregated HTML is written to build/dokka/html.
 apply plugin: 'org.jetbrains.dokka'
-
-subprojects {
-    apply plugin: 'org.jetbrains.dokka'
-}
 
 dependencies {
     subprojects.each { dokka(it) }
