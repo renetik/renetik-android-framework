@@ -67,6 +67,23 @@ class CSNavigationViewTest {
     }
 
     @Test
+    fun popAndBackNavigation() {
+        assertTrue(navigation.isResume)
+        val itemView1 = CSNavigationItemView(navigation, viewLayout = cs_frame_match)
+            .fullScreen().push()
+        val itemView2 = CSNavigationItemView(navigation, viewLayout = cs_frame_match)
+            .fullScreen().push()
+        assertTrue(!itemView1.isVisibility.isTrue)
+        assertTrue(itemView2.isVisibility.isTrue)
+
+        navigation.pop()
+        assertTrue(itemView1.isVisibility.isTrue)
+
+        navigation.pop()
+        assertTrue(navigation.controllers.isEmpty())
+    }
+
+    @Test
     fun test3() {
         assertTrue(navigation.isResume)
         val itemView1 = CSNavigationItemView(navigation, viewLayout = cs_frame_match)

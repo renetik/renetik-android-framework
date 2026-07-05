@@ -4,4 +4,6 @@ else apply from: '../../../library.gradle'
 dependencies {
     implementation project(':renetik-android-core')
     implementation 'com.squareup.leakcanary:leakcanary-android:2.14'
+
+    testImplementation project(':renetik-android-testing')
 }
