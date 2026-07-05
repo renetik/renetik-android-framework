@@ -21,13 +21,13 @@ import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.fire
 import renetik.android.event.listen
 import renetik.android.ui.R
-import renetik.android.ui.extensions.view.get
-import renetik.android.ui.extensions.view.gone
-import renetik.android.ui.extensions.view.propertyWithTag
-import renetik.android.ui.extensions.widget.onFocusChange
-import renetik.android.ui.extensions.widget.onTextChange
-import renetik.android.ui.extensions.widget.text
-import renetik.android.ui.extensions.widget.typeface
+import renetik.android.ui.view.get
+import renetik.android.ui.view.gone
+import renetik.android.ui.view.propertyWithTag
+import renetik.android.ui.widget.onFocusChange
+import renetik.android.ui.widget.onTextChange
+import renetik.android.ui.widget.text
+import renetik.android.ui.widget.typeface
 
 val <T : TextInputLayout> T.startIconView: CheckableImageButton?
     get() = privateField("startIconView")

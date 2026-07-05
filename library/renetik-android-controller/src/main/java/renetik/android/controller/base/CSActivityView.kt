@@ -23,8 +23,8 @@ import renetik.android.event.lifecycle.destruct
 import renetik.android.event.listen
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.plus
-import renetik.android.ui.extensions.view.isVisible
-import renetik.android.ui.extensions.view.isVisibleInParentRecursively
+import renetik.android.ui.view.isVisible
+import renetik.android.ui.view.isVisibleInParentRecursively
 import renetik.android.ui.protocol.CSVisibility
 
 open class CSActivityView<ViewType : View>

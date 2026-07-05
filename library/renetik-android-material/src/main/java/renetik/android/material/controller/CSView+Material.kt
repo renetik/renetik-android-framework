@@ -5,9 +5,9 @@ import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputLayout
 import renetik.android.controller.base.CSView
-import renetik.android.ui.extensions.findView
-import renetik.android.ui.extensions.view.findView
-import renetik.android.ui.extensions.view.onClick
+import renetik.android.ui.protocol.findView
+import renetik.android.ui.view.findView
+import renetik.android.ui.view.onClick
 
 fun CSView<*>.textInput(
     id: Int, onClick: ((TextInputLayout) -> Unit)? = null

@@ -4,7 +4,7 @@ import android.view.View
 import renetik.android.controller.view.grid.GridViewOut
 import renetik.android.controller.view.grid.columnCount
 import renetik.android.controller.view.grid.dataCount
-import renetik.android.ui.extensions.view.visible
+import renetik.android.ui.view.visible
 
 interface CSBorderedGridItem {
     val rightBorder: View

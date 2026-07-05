@@ -5,9 +5,9 @@ import androidx.appcompat.R.drawable.abc_ic_clear_material
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputLayout
 import renetik.android.core.kotlin.primitives.ifTrue
-import renetik.android.ui.extensions.view.parentView
-import renetik.android.ui.extensions.widget.clearText
-import renetik.android.ui.extensions.widget.onFocusChange
+import renetik.android.ui.view.parentView
+import renetik.android.ui.widget.clearText
+import renetik.android.ui.widget.onFocusChange
 
 val EditText.inputLayout get() = (parentView?.parentView as? TextInputLayout)
 

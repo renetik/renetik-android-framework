@@ -16,9 +16,9 @@ import renetik.android.ui.R.styleable.CSLayout_goneIfHeightUntil
 import renetik.android.ui.R.styleable.CSLayout_goneIfWidthUntil
 import renetik.android.ui.R.styleable.CSLayout_maxWidth
 import renetik.android.ui.R.styleable.CSLayout_minWidth
-import renetik.android.ui.extensions.view.gone
-import renetik.android.ui.extensions.view.screenHeight
-import renetik.android.ui.extensions.view.screenWidth
+import renetik.android.ui.view.gone
+import renetik.android.ui.view.screenHeight
+import renetik.android.ui.view.screenWidth
 
 open class CSEmptyView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,

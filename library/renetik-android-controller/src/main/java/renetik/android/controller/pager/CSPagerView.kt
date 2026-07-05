@@ -8,7 +8,7 @@ import renetik.android.core.kotlin.collections.putAll
 import renetik.android.core.kotlin.collections.reload
 import renetik.android.event.CSEvent.Companion.event
 import renetik.android.event.dispatch.later
-import renetik.android.ui.extensions.view.show
+import renetik.android.ui.view.show
 import renetik.android.ui.view.CSViewPager
 
 class CSPagerView<PageType>(parent: CSActivityView<*>, pagerId: Int) :

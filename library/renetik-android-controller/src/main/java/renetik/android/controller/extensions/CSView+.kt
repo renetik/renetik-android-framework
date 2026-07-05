@@ -16,10 +16,10 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.plus
 import renetik.android.event.registration.start
-import renetik.android.ui.extensions.view.alphaToDisabled
-import renetik.android.ui.extensions.view.clearLongClick
-import renetik.android.ui.extensions.view.onClick
-import renetik.android.ui.extensions.view.onLongClick
+import renetik.android.ui.view.alphaToDisabled
+import renetik.android.ui.view.clearLongClick
+import renetik.android.ui.view.onClick
+import renetik.android.ui.view.onLongClick
 
 inline fun <reified Type : Any> CSView<*>.find(): Type? {
     var type: Type?

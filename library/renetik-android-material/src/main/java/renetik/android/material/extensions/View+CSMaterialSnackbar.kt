@@ -20,8 +20,8 @@ import renetik.android.core.lang.CSAction
 import renetik.android.core.lang.Fun
 import renetik.android.event.dispatch.later
 import renetik.android.event.registration.CSHasRegistrations
-import renetik.android.ui.extensions.view.removeFromSuperview
-import renetik.android.ui.extensions.widget.layoutMatch
+import renetik.android.ui.view.removeFromSuperview
+import renetik.android.ui.widget.layoutMatch
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 

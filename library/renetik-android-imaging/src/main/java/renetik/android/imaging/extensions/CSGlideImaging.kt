@@ -9,8 +9,8 @@ import androidx.core.view.doOnLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy.AUTOMATIC
 import com.bumptech.glide.request.RequestOptions
-import renetik.android.ui.extensions.view.hasSize
-import renetik.android.ui.extensions.widget.CSImaging
+import renetik.android.ui.view.hasSize
+import renetik.android.ui.graphics.CSImaging
 import java.io.File
 
 class CSGlideImaging : CSImaging {

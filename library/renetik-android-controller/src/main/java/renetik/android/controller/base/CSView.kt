@@ -23,11 +23,11 @@ import renetik.android.event.invoke
 import renetik.android.event.lifecycle.destruct
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.plus
-import renetik.android.ui.extensions.inflate
-import renetik.android.ui.extensions.inflateAsync
-import renetik.android.ui.extensions.view
-import renetik.android.ui.extensions.view.isVisible
-import renetik.android.ui.extensions.view.onDestruct
+import renetik.android.ui.inflate
+import renetik.android.ui.inflateAsync
+import renetik.android.ui.protocol.view
+import renetik.android.ui.view.isVisible
+import renetik.android.ui.view.onDestruct
 import renetik.android.ui.protocol.CSHasParentView
 import renetik.android.ui.protocol.CSViewInterface
 import renetik.android.ui.protocol.CSViewInterface.Companion.context

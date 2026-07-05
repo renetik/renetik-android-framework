@@ -12,9 +12,9 @@ import renetik.android.core.kotlin.then
 import renetik.android.core.kotlin.unexpected
 import renetik.android.core.lang.CSLayoutRes.Companion.layout
 import renetik.android.core.logging.CSLog.logWarnTrace
-import renetik.android.ui.extensions.add
-import renetik.android.ui.extensions.onGlobalFocus
-import renetik.android.ui.extensions.remove
+import renetik.android.ui.protocol.add
+import renetik.android.ui.protocol.onGlobalFocus
+import renetik.android.ui.protocol.remove
 
 class CSNavigationView(
     parent: CSActivityView<out FrameLayout>

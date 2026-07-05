@@ -29,20 +29,20 @@ import renetik.android.event.listen
 import renetik.android.event.registration.plus
 import renetik.android.ui.R.color
 import renetik.android.ui.R.layout.cs_frame_match
-import renetik.android.ui.extensions.onHasSize
-import renetik.android.ui.extensions.registerAfterLayout
-import renetik.android.ui.extensions.view.add
-import renetik.android.ui.extensions.view.background
-import renetik.android.ui.extensions.view.bottomFloat
-import renetik.android.ui.extensions.view.heightWrap
-import renetik.android.ui.extensions.view.leftFloat
-import renetik.android.ui.extensions.view.locationInWindow
-import renetik.android.ui.extensions.view.onClick
-import renetik.android.ui.extensions.view.onLayoutChange
-import renetik.android.ui.extensions.view.passClicksUnder
-import renetik.android.ui.extensions.view.rightFloat
-import renetik.android.ui.extensions.view.topFloat
-import renetik.android.ui.extensions.widget.layoutMatch
+import renetik.android.ui.protocol.onHasSize
+import renetik.android.ui.protocol.registerAfterLayout
+import renetik.android.ui.view.add
+import renetik.android.ui.view.background
+import renetik.android.ui.view.bottomFloat
+import renetik.android.ui.view.heightWrap
+import renetik.android.ui.view.leftFloat
+import renetik.android.ui.view.locationInWindow
+import renetik.android.ui.view.onClick
+import renetik.android.ui.view.onLayoutChange
+import renetik.android.ui.view.passClicksUnder
+import renetik.android.ui.view.rightFloat
+import renetik.android.ui.view.topFloat
+import renetik.android.ui.widget.layoutMatch
 
 open class CSNavigationItemView(
     navigationParent: CSActivityView<out ViewGroup>,

@@ -14,7 +14,7 @@ import androidx.core.graphics.withSave
 import androidx.core.widget.TextViewCompat
 import renetik.android.ui.R
 import renetik.android.ui.R.styleable.CSLayout_isRotatedClockwise
-import renetik.android.ui.extensions.widget.text
+import renetik.android.ui.widget.text
 import kotlin.math.abs
 
 class CSVerticalTextView @JvmOverloads constructor(

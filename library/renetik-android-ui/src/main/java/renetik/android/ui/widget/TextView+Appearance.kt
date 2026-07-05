@@ -1,0 +1,114 @@
+package renetik.android.ui.widget
+
+import android.annotation.SuppressLint
+import android.content.ContextWrapper
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
+import android.widget.TextView
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.core.content.res.ResourcesCompat
+import renetik.android.core.android.content.attributeColor
+import renetik.android.core.android.content.drawable
+import renetik.android.core.android.graphics.CSColor
+import renetik.android.core.android.graphics.CSColor.Companion.colorRes
+import renetik.android.core.kotlin.primitives.at
+import renetik.android.event.change.CSHasChangeValue
+import renetik.android.event.change.action
+import renetik.android.event.property.CSProperty
+import renetik.android.event.registration.CSRegistration
+
+fun TextView.textColor(value: CSColor) = apply {
+    setTextColor(value.color)
+}
+
+fun TextView.textColorInt(@ColorInt color: Int) = apply {
+    setTextColor(color)
+}
+
+fun TextView.textColor(@ColorRes value: Int) = apply {
+    textColor(context.colorRes(value))
+}
+
+fun TextView.textColorAttr(@AttrRes attribute: Int) = apply {
+    setTextColor(context.attributeColor(attribute))
+}
+
+fun TextView.drawableTintAttr(@AttrRes value: Int) = apply {
+    setDrawableTint(context.attributeColor(value))
+}
+
+fun TextView.typeface(@FontRes font: Int) = apply {
+    typeface = ResourcesCompat.getFont(context, font)
+}
+
+fun <T : TextView> T.drawable(
+    @DrawableRes start: Int? = null, @DrawableRes top: Int? = null,
+    @DrawableRes end: Int? = null, @DrawableRes bottom: Int? = null
+) = apply {
+    setCompoundDrawables(
+        start?.let { context.drawable(it) } ?: compoundDrawables.at(0),
+        top?.let { context.drawable(it) } ?: compoundDrawables.at(1),
+        end?.let { context.drawable(it) } ?: compoundDrawables.at(2),
+        bottom?.let { context.drawable(it) } ?: compoundDrawables.at(3)
+    )
+}
+
+fun <T : TextView> T.drawableStart(@DrawableRes start: Int?) = apply {
+    setCompoundDrawables(
+        start?.let { context.drawable(it) },
+        compoundDrawables.at(1),
+        compoundDrawables.at(2),
+        compoundDrawables.at(3)
+    )
+}
+
+inline fun <T> TextView.drawableStart(
+    property: CSHasChangeValue<T>, crossinline getDrawable: (T) -> Int?
+) = property.action {
+    drawable(start = getDrawable(it)?.let(context::drawable))
+}
+
+fun <T : TextView> T.drawable(
+    start: Drawable? = null, top: Drawable? = null,
+    end: Drawable? = null, bottom: Drawable? = null
+) = apply {
+    setCompoundDrawables(
+        start ?: compoundDrawables.at(0), top ?: compoundDrawables.at(1),
+        end ?: compoundDrawables.at(2), bottom ?: compoundDrawables.at(3)
+    )
+}
+
+fun <TextViewType : TextView, T> TextViewType.drawableTop(
+    property: CSProperty<T>, function: (T) -> Int
+): CSRegistration = property.action { drawable(top = function(it)) }
+
+fun <TextViewType : TextView, T> TextViewType.drawableStart(
+    property: CSProperty<T>, function: (T) -> Int
+): CSRegistration = property.action { drawable(start = function(it)) }
+
+fun <TextViewType : TextView, T> TextViewType.drawableEnd(
+    property: CSProperty<T>, function: (T) -> Int
+): CSRegistration = property.action { drawable(end = function(it)) }
+
+fun <T : TextView> T.drawableEnd(@DrawableRes end: Int?) = apply {
+    setCompoundDrawables(
+        compoundDrawables.at(0),
+        compoundDrawables.at(1),
+        end?.let { context.drawable(it) },
+        compoundDrawables.at(3)
+    )
+}
+
+@SuppressLint("UseCompatTextViewDrawableApis")
+fun TextView.setDrawableTint(context: ContextWrapper, @ColorRes iconColor: Int) {
+    compoundDrawableTintList = context.getColorStateList(iconColor)
+}
+
+@SuppressLint("UseCompatTextViewDrawableApis")
+fun TextView.setDrawableTint(@ColorInt colorInt: Int) {
+    compoundDrawableTintList = ColorStateList.valueOf(colorInt)
+}

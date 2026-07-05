@@ -23,14 +23,14 @@ import renetik.android.event.dispatch.later
 import renetik.android.event.invoke
 import renetik.android.event.property.CSProperty
 import renetik.android.event.property.CSProperty.Companion.property
-import renetik.android.ui.extensions.findView
-import renetik.android.ui.extensions.view.alphaToDisabled
-import renetik.android.ui.extensions.view.disabledByAlpha
-import renetik.android.ui.extensions.view.fadeIn
-import renetik.android.ui.extensions.view.fadeOut
-import renetik.android.ui.extensions.view.invisible
-import renetik.android.ui.extensions.view.shortAnimationDuration
-import renetik.android.ui.extensions.view.visible
+import renetik.android.ui.protocol.findView
+import renetik.android.ui.view.alphaToDisabled
+import renetik.android.ui.view.disabledByAlpha
+import renetik.android.ui.view.fadeIn
+import renetik.android.ui.view.fadeOut
+import renetik.android.ui.view.invisible
+import renetik.android.ui.view.shortAnimationDuration
+import renetik.android.ui.view.visible
 import renetik.android.ui.protocol.onShowUntilHide
 
 typealias GridViewOut<T> = CSGridView<T, out CSGridItemView<T>>

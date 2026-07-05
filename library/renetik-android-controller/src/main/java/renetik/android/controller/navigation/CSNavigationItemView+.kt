@@ -8,8 +8,8 @@ import renetik.android.controller.base.CSView
 import renetik.android.controller.navigation.CSNavigationItemAnimation.Fade
 import renetik.android.controller.navigation.CSNavigationItemAnimation.None
 import renetik.android.core.lang.CSLeakCanary
-import renetik.android.ui.extensions.registerAfterLayout
-import renetik.android.ui.extensions.view.matchParent
+import renetik.android.ui.protocol.registerAfterLayout
+import renetik.android.ui.view.matchParent
 
 fun <T : CSNavigationItemView> T.popup() = apply { isPopup = true }
 

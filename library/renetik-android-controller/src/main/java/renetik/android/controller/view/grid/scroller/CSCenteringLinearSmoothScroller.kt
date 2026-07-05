@@ -1,7 +1,7 @@
 package renetik.android.controller.view.grid.scroller
 
 import android.content.Context
-import renetik.android.ui.extensions.view.mediumAnimationDuration
+import renetik.android.ui.view.mediumAnimationDuration
 
 class CSCenteringLinearSmoothScroller(
     context: Context, animationDuration: Int = mediumAnimationDuration

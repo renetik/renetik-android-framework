@@ -20,8 +20,8 @@ import renetik.android.event.change.action
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
-import renetik.android.ui.extensions.view.onHasSize
-import renetik.android.ui.extensions.widget.image
+import renetik.android.ui.view.onHasSize
+import renetik.android.ui.widget.image
 import java.io.File
 
 val instance = CSGlideImaging()

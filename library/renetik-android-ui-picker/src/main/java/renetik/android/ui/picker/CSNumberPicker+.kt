@@ -12,9 +12,9 @@ import renetik.android.event.change.action
 import renetik.android.event.property.CSProperty
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
-import renetik.android.ui.extensions.view
-import renetik.android.ui.extensions.view.fadeIn
-import renetik.android.ui.extensions.view.invisible
+import renetik.android.ui.protocol.view
+import renetik.android.ui.view.fadeIn
+import renetik.android.ui.view.invisible
 import renetik.android.ui.protocol.CSViewInterface
 
 fun CSViewInterface.numberPicker(viewId: Int) = view(viewId) as CSNumberPicker

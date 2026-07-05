@@ -12,9 +12,9 @@ import renetik.android.ui.R.styleable.CSLayout_maxHeight
 import renetik.android.ui.R.styleable.CSLayout_maxWidth
 import renetik.android.ui.R.styleable.CSLayout_minHeight
 import renetik.android.ui.R.styleable.CSLayout_minWidth
-import renetik.android.ui.extensions.view.gone
-import renetik.android.ui.extensions.view.screenHeight
-import renetik.android.ui.extensions.view.screenWidth
+import renetik.android.ui.view.gone
+import renetik.android.ui.view.screenHeight
+import renetik.android.ui.view.screenWidth
 
 interface CSAndroidView {
     val self: View

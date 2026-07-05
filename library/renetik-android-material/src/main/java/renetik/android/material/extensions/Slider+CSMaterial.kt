@@ -12,7 +12,7 @@ import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.CSRegistration.Companion.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.start
-import renetik.android.ui.extensions.view.findView
+import renetik.android.ui.view.findView
 import kotlin.math.roundToInt
 
 class CSSlider(val slider: Slider) : CSHasChangeValue<Float> {

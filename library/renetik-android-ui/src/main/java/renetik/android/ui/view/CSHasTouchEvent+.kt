@@ -13,9 +13,9 @@ import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistration
 import renetik.android.event.registration.paused
 import renetik.android.event.registration.plus
-import renetik.android.ui.extensions.view.enabledChange
-import renetik.android.ui.extensions.view.onLongClick
-import renetik.android.ui.extensions.view.pressed
+import renetik.android.ui.view.enabledChange
+import renetik.android.ui.view.onLongClick
+import renetik.android.ui.view.pressed
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.milliseconds

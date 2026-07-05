@@ -8,10 +8,10 @@ import renetik.android.event.change.CSHasChange
 import renetik.android.event.change.invoke
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.plus
-import renetik.android.ui.extensions.add
-import renetik.android.ui.extensions.minusAssign
-import renetik.android.ui.extensions.view.add
-import renetik.android.ui.extensions.view.removeAt
+import renetik.android.ui.protocol.add
+import renetik.android.ui.protocol.minusAssign
+import renetik.android.ui.view.add
+import renetik.android.ui.view.removeAt
 import renetik.android.ui.protocol.CSViewInterface
 
 fun <View : CSViewInterface, Model> MutableList<View>.viewFactory(

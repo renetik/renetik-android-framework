@@ -11,7 +11,7 @@ import renetik.android.event.invoke
 import renetik.android.event.registration.CSHasRegistrations
 import renetik.android.event.registration.CSRegistrationsMap
 import renetik.android.event.registration.plus
-import renetik.android.ui.extensions.view.firstChild
+import renetik.android.ui.view.firstChild
 
 //TODO: Requires item to be wrapped in empty frame layout for now... ?
 // It was like that for some reselection .. Now it is differently done in other places..
