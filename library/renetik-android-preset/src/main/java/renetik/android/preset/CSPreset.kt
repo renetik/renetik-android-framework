@@ -14,7 +14,7 @@ import renetik.android.event.lifecycle.CSHasDestruct
 import renetik.android.event.lifecycle.CSModel
 import renetik.android.event.property.CSProperty.Companion.property
 import renetik.android.event.registration.plus
-import renetik.android.preset.extensions.property
+import renetik.android.preset.property
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
 import renetik.android.store.type.CSJsonObjectStore.Companion.CSJsonObjectStore

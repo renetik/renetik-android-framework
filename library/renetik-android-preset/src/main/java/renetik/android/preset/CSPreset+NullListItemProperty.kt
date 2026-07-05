@@ -1,4 +1,4 @@
-package renetik.android.preset.extensions
+package renetik.android.preset
 
 import renetik.android.event.lifecycle.CSHasRegistrationsHasDestruct
 import renetik.android.preset.Preset

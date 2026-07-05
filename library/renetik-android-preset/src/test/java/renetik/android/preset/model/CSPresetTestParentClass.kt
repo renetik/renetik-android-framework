@@ -2,7 +2,7 @@ package renetik.android.preset.model
 
 import renetik.android.event.lifecycle.CSModel
 import renetik.android.preset.CSPreset
-import renetik.android.preset.extensions.property
+import renetik.android.preset.property
 import renetik.android.preset.init
 import renetik.android.store.CSStore
 

@@ -12,8 +12,8 @@ import renetik.android.event.property.computed
 import renetik.android.event.registration.plus
 import renetik.android.preset.property.CSPresetKeyData
 import renetik.android.store.CSStore
-import renetik.android.store.extensions.isNotEmpty
-import renetik.android.store.extensions.property
+import renetik.android.store.isNotEmpty
+import renetik.android.store.property
 import renetik.android.store.property.saveTo
 
 class CSPresetListItem<

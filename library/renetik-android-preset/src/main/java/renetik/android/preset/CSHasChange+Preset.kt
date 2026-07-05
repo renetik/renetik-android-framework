@@ -1,4 +1,4 @@
-package renetik.android.preset.extensions
+package renetik.android.preset
 
 import renetik.android.core.lang.Fun
 import renetik.android.event.change.CSHasChange

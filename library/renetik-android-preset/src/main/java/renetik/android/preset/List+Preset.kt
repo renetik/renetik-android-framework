@@ -1,4 +1,4 @@
-package renetik.android.preset.extensions
+package renetik.android.preset
 
 import renetik.android.core.kotlin.className
 import renetik.android.core.lang.Fun

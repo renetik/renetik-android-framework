@@ -1,4 +1,4 @@
-package renetik.android.preset.extensions
+package renetik.android.preset
 
 import renetik.android.core.lang.ArgFun
 import renetik.android.event.lifecycle.CSHasRegistrationsHasDestruct

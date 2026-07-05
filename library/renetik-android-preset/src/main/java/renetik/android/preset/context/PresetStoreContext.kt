@@ -9,12 +9,12 @@ import renetik.android.event.lifecycle.CSModel
 import renetik.android.json.obj.CSJsonObjectInterface
 import renetik.android.preset.CSPreset
 import renetik.android.preset.Preset
-import renetik.android.preset.extensions.nullDoubleProperty
-import renetik.android.preset.extensions.nullFloatProperty
-import renetik.android.preset.extensions.nullIntProperty
-import renetik.android.preset.extensions.nullListItemProperty
-import renetik.android.preset.extensions.nullStringProperty
-import renetik.android.preset.extensions.property
+import renetik.android.preset.nullDoubleProperty
+import renetik.android.preset.nullFloatProperty
+import renetik.android.preset.nullIntProperty
+import renetik.android.preset.nullListItemProperty
+import renetik.android.preset.nullStringProperty
+import renetik.android.preset.property
 import renetik.android.preset.property.CSPresetProperty
 import renetik.android.preset.property.nullable.CSDoubleNullablePresetProperty
 import renetik.android.preset.property.nullable.CSFloatNullablePresetProperty
@@ -29,7 +29,7 @@ import renetik.android.preset.property.value.CSIntValuePresetProperty
 import renetik.android.preset.property.value.CSListItemValuePresetProperty
 import renetik.android.preset.property.value.CSStringValuePresetProperty
 import renetik.android.store.context.CSStoreContext
-import renetik.android.store.extensions.operation
+import renetik.android.store.operation
 
 class PresetStoreContext(
     parent: CSHasDestruct,

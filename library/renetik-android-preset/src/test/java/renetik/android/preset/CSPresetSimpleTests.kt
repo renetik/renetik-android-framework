@@ -21,14 +21,14 @@ import renetik.android.event.lifecycle.CSModel
 import renetik.android.event.lifecycle.destruct
 import renetik.android.json.toJson
 import renetik.android.preset.CSPreset.Companion.CSPreset
-import renetik.android.preset.extensions.property
+import renetik.android.preset.property
 import renetik.android.preset.model.ClearPresetItemId
 import renetik.android.preset.model.NotFoundPresetItem
 import renetik.android.preset.model.TestCSPresetItemList
 import renetik.android.preset.model.defaultCategory
 import renetik.android.preset.model.manageItems
 import renetik.android.preset.property.max
-import renetik.android.store.extensions.reload
+import renetik.android.store.reload
 import renetik.android.store.type.CSJsonObjectStore
 import renetik.android.testing.CSAssert.assert
 import renetik.android.testing.CSAssert.assertContains

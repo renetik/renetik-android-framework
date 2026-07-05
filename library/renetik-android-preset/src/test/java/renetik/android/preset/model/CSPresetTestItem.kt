@@ -1,7 +1,7 @@
 package renetik.android.preset.model
 
 import renetik.android.preset.CSPresetItem
-import renetik.android.store.extensions.property
+import renetik.android.store.property
 import renetik.android.store.property.CSStoreProperty
 import renetik.android.store.type.CSJsonObjectStore
 

@@ -2,7 +2,7 @@ package renetik.android.preset.model
 
 import renetik.android.preset.CSPreset
 import renetik.android.preset.property.CSPresetKeyData
-import renetik.android.store.extensions.operation
+import renetik.android.store.operation
 
 const val defaultCategory = "default"
 const val userCategory = "user"
