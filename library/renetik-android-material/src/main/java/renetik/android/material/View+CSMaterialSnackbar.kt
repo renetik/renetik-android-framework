@@ -1,4 +1,4 @@
-package renetik.android.material.extensions
+package renetik.android.material
 
 import android.view.Gravity.BOTTOM
 import android.view.Gravity.CENTER

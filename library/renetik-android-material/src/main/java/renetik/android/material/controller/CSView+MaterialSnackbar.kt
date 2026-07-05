@@ -3,9 +3,9 @@ package renetik.android.material.controller
 import renetik.android.controller.base.CSView
 import renetik.android.core.lang.CSAction
 import renetik.android.event.dispatch.onMain
-import renetik.android.material.extensions.snackError
-import renetik.android.material.extensions.snackInfo
-import renetik.android.material.extensions.snackWarn
+import renetik.android.material.snackError
+import renetik.android.material.snackInfo
+import renetik.android.material.snackWarn
 import kotlin.time.Duration
 
 fun CSView<*>.snackWarn(

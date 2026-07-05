@@ -1,4 +1,4 @@
-package renetik.android.material.extensions
+package renetik.android.material
 
 import android.view.View
 import com.google.android.material.slider.Slider
@@ -14,13 +14,6 @@ import renetik.android.event.registration.paused
 import renetik.android.event.registration.start
 import renetik.android.ui.view.findView
 import kotlin.math.roundToInt
-
-class CSSlider(val slider: Slider) : CSHasChangeValue<Float> {
-    override val value: Float get() = slider.value
-
-    override fun onChange(function: (Float) -> Unit): CSRegistration =
-        slider.onChange { function(value) }
-}
 
 fun View.slider(id: Int) = findView<Slider>(id)!!
 

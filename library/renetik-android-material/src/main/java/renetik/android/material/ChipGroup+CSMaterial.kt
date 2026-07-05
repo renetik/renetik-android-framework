@@ -1,4 +1,4 @@
-package renetik.android.material.extensions
+package renetik.android.material
 
 import com.google.android.material.chip.ChipGroup
 

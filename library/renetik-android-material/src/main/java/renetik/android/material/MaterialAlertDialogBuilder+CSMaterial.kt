@@ -1,2 +1,2 @@
-package renetik.android.material.extensions
+package renetik.android.material
 
