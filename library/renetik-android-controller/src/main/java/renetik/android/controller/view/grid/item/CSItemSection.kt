@@ -2,7 +2,7 @@ package renetik.android.controller.view.grid.item
 
 import renetik.android.store.CSStore
 import renetik.android.store.CSStore.Companion.runtimeStore
-import renetik.android.store.extensions.property
+import renetik.android.store.property
 
 data class CSItemSection<Item>(
     val id: String,
