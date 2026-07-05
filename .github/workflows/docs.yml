@@ -28,10 +28,17 @@ jobs:
         run: chmod +x gradlew
       - name: Generate Dokka HTML
         run: ./gradlew :dokkaGenerate --no-daemon --no-configuration-cache
+      - name: Assemble docs site (landing page + Dokka API under /api)
+        run: |
+          rm -rf build/site
+          mkdir -p build/site
+          cp -R docs/. build/site/
+          mkdir -p build/site/api
+          cp -R build/dokka/html/. build/site/api/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build/dokka/html
+          path: build/site
 
   deploy:
     needs: build

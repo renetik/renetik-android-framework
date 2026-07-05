@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Renetik Android Framework — API Docs</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff; --fg: #1b1f24; --muted: #5a6472;
+      --card: #f6f8fa; --border: #d0d7de; --accent: #2563eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1;
+        --card: #161b22; --border: #30363d; --accent: #58a6ff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--fg);
+      font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+    header h1 { font-size: 2rem; margin: 0 0 8px; }
+    header p { color: var(--muted); margin: 0 0 20px; font-size: 1.05rem; }
+    .links a {
+      display: inline-block; margin-right: 16px; color: var(--accent);
+      text-decoration: none; font-weight: 600;
+    }
+    .links a:hover { text-decoration: underline; }
+    h2 { font-size: 1.2rem; margin: 40px 0 4px; }
+    h2 .hint { color: var(--muted); font-weight: 400; font-size: 0.9rem; }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px; margin-top: 14px;
+    }
+    a.card {
+      display: block; padding: 14px 16px; background: var(--card);
+      border: 1px solid var(--border); border-radius: 10px;
+      text-decoration: none; color: inherit; transition: border-color .15s;
+    }
+    a.card:hover { border-color: var(--accent); }
+    a.card .name { font-weight: 700; color: var(--accent); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.95rem; }
+    a.card .desc { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+    footer { margin-top: 56px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Renetik Android Framework</h1>
+      <p>API reference for the Renetik Android modules. Pick a module to open its
+        generated Dokka API documentation.</p>
+      <div class="links">
+        <a href="https://github.com/renetik/renetik-android-framework">GitHub</a>
+        <a href="api/index.html">Full API index</a>
+        <a href="https://github.com/renetik/renetik-android-framework/tree/master/sample">Sample app</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Foundation <span class="hint">— reactive, data and persistence core</span></h2>
+      <div class="grid">
+        <a class="card" href="api/renetik-android-core/index.html"><div class="name">renetik-android-core</div><div class="desc">Kotlin/Android foundation: logging, lang, math, colors, files, lazy/atomic/variable primitives</div></a>
+        <a class="card" href="api/renetik-android-event/index.html"><div class="name">renetik-android-event</div><div class="desc">Events, observable properties, registrations, coroutines integration</div></a>
+        <a class="card" href="api/renetik-android-json/index.html"><div class="name">renetik-android-json</div><div class="desc">JSON mapping for objects, lists and maps with CSJsonObject</div></a>
+        <a class="card" href="api/renetik-android-store/index.html"><div class="name">renetik-android-store</div><div class="desc">Key-value stores (json/file/preferences) with typed property delegates</div></a>
+        <a class="card" href="api/renetik-android-preset/index.html"><div class="name">renetik-android-preset</div><div class="desc">Presets: named snapshots of store-backed properties with save/load</div></a>
+      </div>
+    </section>
+
+    <section>
+      <h2>UI <span class="hint">— views, controllers and widgets</span></h2>
+      <div class="grid">
+        <a class="card" href="api/renetik-android-ui/index.html"><div class="name">renetik-android-ui</div><div class="desc">CS views, view/widget extensions, graphics helpers, view protocols</div></a>
+        <a class="card" href="api/renetik-android-controller/index.html"><div class="name">renetik-android-controller</div><div class="desc">View-controller layer: CSActivityView, navigation, grid, pager</div></a>
+        <a class="card" href="api/renetik-android-material/index.html"><div class="name">renetik-android-material</div><div class="desc">Material Components: sliders, forms, dialogs, snackbar extensions</div></a>
+        <a class="card" href="api/renetik-android-imaging/index.html"><div class="name">renetik-android-imaging</div><div class="desc">Glide-based image loading and bitmap/file/uri processing</div></a>
+        <a class="card" href="api/renetik-android-ui-picker/index.html"><div class="name">renetik-android-ui-picker</div><div class="desc">CSNumberPicker wheel bound to framework properties</div></a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Testing <span class="hint">— unit and instrumented test stacks</span></h2>
+      <div class="grid">
+        <a class="card" href="api/renetik-android-testing/index.html"><div class="name">renetik-android-testing</div><div class="desc">Unit-test stack: JUnit4 + Robolectric + MockK + coroutines-test</div></a>
+        <a class="card" href="api/renetik-android-testing-ui/index.html"><div class="name">renetik-android-testing-ui</div><div class="desc">Instrumented-test stack: Barista/Espresso + UI Automator helpers</div></a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Aggregate &amp; debug <span class="hint">— convenience and diagnostics</span></h2>
+      <div class="grid">
+        <a class="card" href="https://github.com/renetik/renetik-android-framework/tree/master/library/renetik-android-framework"><div class="name">renetik-android-framework</div><div class="desc">Aggregate artifact depending on all runtime modules above (no API of its own — opens overview)</div></a>
+        <a class="card" href="api/renetik-android-core-leakcanary/index.html"><div class="name">renetik-android-core-leakcanary</div><div class="desc">LeakCanary wiring for core's CSLeakCanary facade (debug builds)</div></a>
+      </div>
+    </section>
+
+    <footer>
+      Generated with <a href="https://kotlinlang.org/docs/dokka-introduction.html">Dokka</a>.
+      All artifacts share the group
+      <code>com.github.renetik.renetik-android-framework</code> and are published via
+      <a href="https://jitpack.io/#renetik/renetik-android-framework">JitPack</a>.
+    </footer>
+  </div>
+</body>
+</html>

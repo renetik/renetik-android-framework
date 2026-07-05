@@ -100,9 +100,17 @@ After pushing `master` or creating a release tag, verify JitPack POMs:
 ./verify_jitpack.sh 2.0
 ```
 
-API docs are generated with Dokka (`./gradlew :dokkaGenerate`, output in
-`build/dokka/html`) and deployed to GitHub Pages by
-[docs.yml](.github/workflows/docs.yml).
+### API docs
+
+The docs site is a curated landing page ([docs/index.html](docs/index.html))
+that lists the modules in product order (foundation → UI → testing → aggregate)
+with descriptions, linking into the per-module Dokka API pages. Each module's
+page gets its description and package guidance from a `Module.md` next to it.
+
+Build the full site locally with `./build_docs.sh` (landing page at
+`build/site/index.html`, Dokka output under `build/site/api/`). On push to
+`master`, [docs.yml](.github/workflows/docs.yml) assembles the same site and
+deploys it to GitHub Pages.
 
 ## License
 

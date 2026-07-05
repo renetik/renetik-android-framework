@@ -55,6 +55,18 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat_version"
 }
 
+// Module- and package-level API docs (Dokka `includes`): a Module.md next to
+// each module supplies its description and package guidance instead of a bare
+// API listing.
+dokka {
+    def moduleDoc = new File(projectDir, "Module.md")
+    if (moduleDoc.exists()) {
+        dokkaSourceSets.configureEach {
+            includes.from(moduleDoc)
+        }
+    }
+}
+
 afterEvaluate {
     publishing {
         publications {
