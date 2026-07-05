@@ -1,6 +1,6 @@
 package renetik.android.store
 
-import renetik.android.store.extensions.dataProperty
+import renetik.android.store.dataProperty
 import renetik.android.store.type.CSJsonObjectStore
 
 class StoreTypesTestData : CSJsonObjectStore() {

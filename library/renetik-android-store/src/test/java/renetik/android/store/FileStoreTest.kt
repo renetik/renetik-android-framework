@@ -12,8 +12,8 @@ import renetik.android.core.base.CSTestApplication
 import renetik.android.core.lang.CSEnvironment.app
 import renetik.android.json.CSJson
 import renetik.android.json.toJson
-import renetik.android.store.extensions.dataProperty
-import renetik.android.store.extensions.reload
+import renetik.android.store.dataProperty
+import renetik.android.store.reload
 import renetik.android.store.type.CSFileJsonStore.Companion.CSFileJsonStore
 
 @RunWith(RobolectricTestRunner::class)

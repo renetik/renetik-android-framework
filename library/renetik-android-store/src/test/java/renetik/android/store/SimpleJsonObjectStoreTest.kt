@@ -8,7 +8,7 @@ import org.robolectric.RobolectricTestRunner
 import renetik.android.json.obj.clone
 import renetik.android.json.obj.load
 import renetik.android.json.toJson
-import renetik.android.store.extensions.reload
+import renetik.android.store.reload
 
 @RunWith(RobolectricTestRunner::class)
 class SimpleJsonObjectStoreTest {

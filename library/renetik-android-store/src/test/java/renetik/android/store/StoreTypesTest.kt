@@ -12,8 +12,8 @@ import renetik.android.core.android.content.temporaryFile
 import renetik.android.core.base.CSTestApplication
 import renetik.android.json.CSJson
 import renetik.android.json.toJson
-import renetik.android.store.extensions.load
-import renetik.android.store.extensions.property
+import renetik.android.store.load
+import renetik.android.store.property
 import renetik.android.store.type.CSFileJsonStore.Companion.CSFileJsonStore
 import renetik.android.store.type.CSJsonObjectStore
 import renetik.android.store.type.CSPreferencesJsonStore

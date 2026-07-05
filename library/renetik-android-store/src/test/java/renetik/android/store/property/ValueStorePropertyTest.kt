@@ -14,11 +14,11 @@ import renetik.android.store.TestIdItem.Companion.TestIdItems
 import renetik.android.store.TestIdItem.First
 import renetik.android.store.TestIdItem.Second
 import renetik.android.store.TestIdItem.Third
-import renetik.android.store.extensions.dataListProperty
-import renetik.android.store.extensions.dataMutableListProperty
-import renetik.android.store.extensions.dataProperty
-import renetik.android.store.extensions.property
-import renetik.android.store.extensions.reload
+import renetik.android.store.dataListProperty
+import renetik.android.store.dataMutableListProperty
+import renetik.android.store.dataProperty
+import renetik.android.store.property
+import renetik.android.store.reload
 import renetik.android.store.type.CSJsonObjectStore
 import renetik.android.testing.CSAssert.assertThrows
 

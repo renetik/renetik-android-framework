@@ -1,8 +1,8 @@
 package renetik.android.store
 
-import renetik.android.store.extensions.dataLateStringProperty
-import renetik.android.store.extensions.dataNullStringProperty
-import renetik.android.store.extensions.dataProperty
+import renetik.android.store.dataLateStringProperty
+import renetik.android.store.dataNullStringProperty
+import renetik.android.store.dataProperty
 import renetik.android.store.type.CSJsonObjectStore
 
 class SimpleJsonObjectStore(

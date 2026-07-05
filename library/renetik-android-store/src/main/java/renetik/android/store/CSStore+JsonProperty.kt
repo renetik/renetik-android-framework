@@ -1,4 +1,4 @@
-package renetik.android.store.extensions
+package renetik.android.store
 
 import renetik.android.core.kotlin.reflect.createInstance
 import renetik.android.core.lang.ArgFun

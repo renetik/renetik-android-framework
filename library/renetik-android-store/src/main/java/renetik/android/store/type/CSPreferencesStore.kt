@@ -16,7 +16,7 @@ import renetik.android.json.parseJsonList
 import renetik.android.json.parseJsonMap
 import renetik.android.json.toJson
 import renetik.android.store.CSStore
-import renetik.android.store.extensions.loadAll
+import renetik.android.store.loadAll
 import kotlin.reflect.KClass
 
 class CSPreferencesStore(val preferences: SharedPreferences) : CSStore {

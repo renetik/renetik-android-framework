@@ -4,7 +4,7 @@ import renetik.android.core.lang.lazy.CSLazyVar.Companion.lazyVar
 import renetik.android.event.CSEvent
 import renetik.android.event.change.CSHasChange
 import renetik.android.json.obj.CSJsonObjectInterface
-import renetik.android.store.extensions.operation
+import renetik.android.store.operation
 import renetik.android.store.type.CSFileJsonStore.Companion.CSFileJsonStore
 import renetik.android.store.type.CSJsonObjectStore
 

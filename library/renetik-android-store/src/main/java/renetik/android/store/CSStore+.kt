@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package renetik.android.store.extensions
+package renetik.android.store
 
 import renetik.android.core.logging.CSLog.logError
 import renetik.android.json.parseJsonMap

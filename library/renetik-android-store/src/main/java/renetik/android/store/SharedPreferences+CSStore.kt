@@ -1,4 +1,4 @@
-package renetik.android.store.extensions
+package renetik.android.store
 
 import android.content.SharedPreferences
 import renetik.android.store.CSStore
