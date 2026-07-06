@@ -38,7 +38,7 @@ Prefer individual modules from the matrix below for a smaller footprint.
 | Module                                               | Description |
 |------------------------------------------------------| --- |
 | [`Core`](renetik-android-core)                       | Kotlin/Android foundation: logging, lang, math, colors, files, lazy/atomic/variable primitives |
-| [`Core Leakcanary`](renetik-android-core-leakcanary) | LeakCanary wiring for core's `CSLeakCanary` facade (debug builds) |
+| [`Core-Leakcanary`](renetik-android-core-leakcanary) | LeakCanary wiring for core's `CSLeakCanary` facade (debug builds) |
 | [`Event`](renetik-android-event)                     | Events, observable properties, registrations, coroutines integration |
 | [`Json`](renetik-android-json)                       | JSON mapping for objects, lists and maps with `CSJsonObject` |
 | [`Store`](renetik-android-store)                     | Key-value stores (json/file/preferences) with typed property delegates |
