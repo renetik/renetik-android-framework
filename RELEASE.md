@@ -1,8 +1,14 @@
 # Release Process
 
-Renetik Android is published by JitPack. A public release version is a Git tag
-on this repository, for example `2.0.1`. There is no separate Gradle version
-file to edit for publishing.
+Renetik Android is published by JitPack from GitHub tags. A complete release
+has three parts:
+
+1. A Git tag on this repository, for example `2.0.1`.
+2. A GitHub Release attached to that tag, so it appears on the repository
+   Releases page.
+3. JitPack artifacts built from that tag.
+
+There is no separate Gradle version file to edit for publishing.
 
 The published coordinates are:
 
@@ -73,13 +79,25 @@ git tag 2.0.1
 Push tag 2.0.1 to origin? [y/N]
 ```
 
-Answer `y` to publish the release tag to GitHub. JitPack builds the release
-from that pushed tag.
+Answer `y` to publish the release tag to GitHub. The script then creates the
+GitHub Release entry with generated release notes and marks it as the latest
+release.
+
+6. Creates the GitHub Release:
+
+```sh
+gh release create 2.0.1 --verify-tag --title 2.0.1 --generate-notes --latest
+```
+
+The script requires the GitHub CLI (`gh`) for this step. JitPack builds the
+artifacts from the pushed tag, not from the GitHub Release object, but the
+GitHub Release object is what appears in the repository Releases page.
 
 If you answer `N`, the tag remains local. Publish it later with:
 
 ```sh
 git push origin 2.0.1
+gh release create 2.0.1 --verify-tag --title 2.0.1 --generate-notes --latest
 ```
 
 ## Verify JitPack
