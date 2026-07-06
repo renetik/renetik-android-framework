@@ -1,174 +1,116 @@
-<!---Header--->
 [![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
-# Renetik Android Core
+## Renetik Android Core
 
 Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
-Core library for the Renetik Android libraries collection.
-It provides shared application runtime helpers, Kotlin/Java/Android extensions,
-state primitives, logging, math helpers, resources, and optional LeakCanary wiring.
+Kotlin and Android foundation for the Renetik Android modules: logging,
+language primitives, collection helpers, math and geometry, colors, file and
+content helpers, and lazy/atomic/variable primitives. Every runtime module
+depends on core.
 
-The project favors compact extension files such as `Context+.kt`, `Int+.kt`,
-and `CSValue+.kt`. The `+` suffix is intentional and marks files that extend
-an existing platform or Renetik type.
+- **Language primitives**: `CSLazyVal`, `CSLazyVar`, `CSVariable`, atomics,
+  tuples, results, guards, and runtime helpers.
+- **Kotlin/Java extensions**: compact helpers for common types, collections,
+  strings, files, and reflection.
+- **Android helpers**: context, resources, display, handler, graphics, file, and
+  shared-preferences helpers.
+- **Logging**: `CSLog`, `CSAndroidLogger`, `CSPrintLogger`, and listener support.
+- **Leak facade**: `CSLeakCanary` facade implemented by the optional
+  Core LeakCanary module.
 
-Used as a library in many projects and improved while developing new projects.
-I am open for [Hire](https://renetik.github.io) or investment in my mobile app music production & performance project Renetik Instruments www.renetik.com.
+### Installation
 
-## Installation
-
-Add JitPack to dependency repositories in `settings.gradle`:
+Add JitPack and the core dependency:
 
 ```gradle
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
+repositories {
+    google()
+    mavenCentral()
+    maven { url = 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.renetik.renetik-android:renetik-android-core:2.0.1'
 }
 ```
 
-Add the core module to the application or library module:
+Use `master-SNAPSHOT` instead of `2.0.1` to test the latest Renetik Android
+`master`.
+
+Add LeakCanary wiring only to debug builds:
 
 ```gradle
 dependencies {
-    implementation 'com.github.renetik.renetik-android:renetik-android-core:2.0'
+    debugImplementation 'com.github.renetik.renetik-android:renetik-android-core-leakcanary:2.0.1'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
+### Compatibility
 
-LeakCanary integration is published separately:
+- **minSdk**: 26
+- **compileSdk**: 37
+- **Java**: 21
+- **Kotlin**: 2.3.21
+- **AGP**: 9.2.1
 
-```gradle
-dependencies {
-    debugImplementation 'com.github.renetik.renetik-android:renetik-android-core-leakcanary:2.0'
-}
-```
+### Quick start
 
-## Project Layout
-
-| Path | Purpose |
-| --- | --- |
-| `renetik-android-core/` | Main `renetik-android-core` Android library artifact. |
-| `renetik-android-core-leakcanary/` | Optional `renetik-android-core-leakcanary` integration artifact. |
-| `docs/package-map.md` | Package guide for finding source areas quickly. |
-| `../library.gradle` | Shared Android library build configuration. |
-
-## Package Map
-
-| Package | Contains |
-| --- | --- |
-| `renetik.android.core.base` | `CSApplication` and app lifecycle base classes. |
-| `renetik.android.core.lang` | Core Renetik contracts, runtime helpers, guards, handlers, and type aliases. |
-| `renetik.android.core.lang.value` | Read-only value primitives. |
-| `renetik.android.core.lang.variable` | Mutable variable primitives and weak/safe variants. |
-| `renetik.android.core.lang.lazy` | Lazy property primitives. |
-| `renetik.android.core.lang.result` | Coroutine and result helpers. |
-| `renetik.android.core.kotlin` | Kotlin type extensions. |
-| `renetik.android.core.java` | Java/JDK type extensions. |
-| `renetik.android.core.android` | Android framework extensions and platform helpers by Android package area. |
-| `renetik.android.core.android.os` | Android handler, looper, and main-thread helpers. |
-| `renetik.android.core.android.graphics` | Android graphics helpers and color types. |
-| `renetik.android.core.logging` | Logger abstraction and implementations. |
-| `renetik.android.core.math` | Math and point helpers. |
-
-See [docs/package-map.md](docs/package-map.md) for the fuller navigation guide.
-
-## Examples
 ```kotlin
-class CSLazyVarTest {
-    @Test
-    fun testLazyVar() {
-        var testVar: String by lazyVar { "initial" }
-        assertEquals("initial", testVar)
-        testVar = "test"
-        assertEquals("test", testVar)
-    }
+import renetik.android.core.kotlin.equalsAny
+import renetik.android.core.lang.lazy.CSLazyVar.Companion.lazyVar
+import renetik.android.core.logging.CSAndroidLogger
+import renetik.android.core.logging.CSLog
 
-    @Test
-    fun testNullableLazyVar() {
-        var testVar: String? by lazyVar { "initial" }
-        assertEquals("initial", testVar)
-        testVar = "test"
-        assertEquals("test", testVar)
-        testVar = null
-        assertEquals(null, testVar)
-    }
-}
-```
-```kotlin
-class AnyCSEqualsTest {
-    @Test
-    fun equalsAny() {
-        assertTrue("third".equalsAny("first", "second", "third"))
-        assertFalse("fourth".equalsAny("first", "second", "third"))
+var title by lazyVar { "Untitled" }
+title = "Lead"
 
-        val values = listOf("first", "second", "third")
-        assertTrue("third" equalsAny values)
-        assertFalse("fourth" equalsAny values)
-    }
+val isAudio = "wav".equalsAny("wav", "flac", "mp3")
 
-    @Test
-    fun equalsNone() {
-        assertTrue("fourth".equalsNone("first", "second", "third"))
-        assertFalse("second".equalsNone("first", "second", "third"))
-
-        val values = listOf("first", "second", "third")
-        assertTrue("fourth" equalsNone values)
-        assertFalse("first" equalsNone values)
-    }
-
-    @Test
-    fun equalsAll() {
-        assertTrue("fourth".equalsAll("fourth", "fourth", "fourth"))
-        assertFalse("fourth".equalsAll("first", "second", "third"))
-
-        assertTrue("fourth" equalsAll listOf("fourth", "fourth", "fourth"))
-        assertFalse("fourth" equalsAll listOf("first", "second", "third"))
-    }
-}
-```
-```kotlin
-class CSAndroidLoggerTest {
-
-    var event: CSLoggerEvent? = null
-    var message: String? = null
-    private val listener = { event: CSLoggerEvent, message: String ->
-        this.event = event
-        this.message = message
-    }
-
-    @Test
-    fun logWithListener() {
-        init(CSAndroidLogger(name = "TestLog", isDebug = true, listener))
-        logWarn("test")
-
-        assertEquals(Warn, event)
-        val messageEnd =
-            "renetik.android.core.logging.CSAndroidLoggerTest\$logWithListener(CSAndroidLoggerTest.kt:26) test"
-        assertTrue(message!!.endsWith(messageEnd))
-    }
-
-    @Test
-    fun isDebug() {
-        init(CSAndroidLogger(name = "TestLog", isDebug = false, listener))
-        logDebug { "test" }
-        assertNull(event)
-        assertNull(message)
-
-        init(CSAndroidLogger(name = "TestLog", isDebug = true, listener))
-        logDebug { "test2" }
-        assertEquals(Debug, event)
-        val messageEnd =
-            "renetik.android.core.logging.CSAndroidLoggerTest\$isDebug(CSAndroidLoggerTest.kt:42) test2"
-        assertTrue(message!!.endsWith(messageEnd))
-    }
-}
+CSLog.init(CSAndroidLogger(tag = "Player"), isTraceLineEnabled = true)
+CSLog.logWarn { "audio format accepted: $isAudio" }
 ```
 
-## Renetik Android Libraries
+### Core concepts
 
-See [Renetik Android](https://github.com/renetik/renetik-android/) for all modules and release coordinates.
+- **`renetik.android.core.lang`**: core contracts, values, variables, lazy
+  primitives, atomics, results, tuples, and `CSLeakCanary`.
+- **`renetik.android.core.kotlin`**: Kotlin extensions for equality, casting,
+  collections, strings, reflection, and small language helpers.
+- **`renetik.android.core.java`**: Java/JDK file, stream, and concurrency
+  helpers.
+- **`renetik.android.core.android`**: Android platform helpers grouped by
+  framework area.
+- **`renetik.android.core.logging`**: logger abstraction and implementations.
+- **`renetik.android.core.math`**: math and point helpers.
+
+See [docs/package-map.md](docs/package-map.md) for a fuller package guide.
+
+### Dependencies
+
+- **Renetik modules**: none.
+- **External runtime**: AndroidX Navigation Event `1.1.2`, plus the shared
+  Kotlin/Android stack from `library.gradle`.
+- **Test scope**: [Testing](../renetik-android-testing).
+
+### Related Renetik libraries
+
+- [Renetik Android](https://github.com/renetik/renetik-android/)
+- [Renetik Android Core LeakCanary](../renetik-android-core-leakcanary)
+- [Renetik Android Event](../renetik-android-event)
+- [Renetik Android Framework](../renetik-android-framework)
+
+### Contributing
+
+Issues and PRs are welcome. Please include a clear description and small,
+focused changes.
+
+### License
+
+This library is released under the terms of [LICENSE.txt](../LICENSE.txt).
+
+---
+
+If you find this useful, consider supporting the broader Renetik Instruments
+effort at [renetik.com](https://www.renetik.com) or get in touch for
+[Hire](https://renetik.github.io).

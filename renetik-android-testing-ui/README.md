@@ -4,15 +4,22 @@
 
 Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
-Instrumented UI testing toolkit used in `androidTest` source sets. Bundles
-[Barista](https://github.com/AdevintaSpain/Barista) (Espresso),
-UI Automator and AndroidX test core, plus Renetik Android helpers.
+Instrumented UI-test toolkit for `androidTest` source sets. It bundles Barista
+(Espresso), UI Automator, AndroidX test core, and Renetik Android helpers for
+screen interaction, view lookup, idle waiting, and screenshots.
 
-- **`CSAutomator`**: UI Automator helpers (`UIDevice` extensions, screen sides, scrolling).
-- **`CSScreenshotMaker`**: device screenshots during instrumented runs.
-- **`CSEspresso`**: Espresso/Barista glue for CS views.
+- **`CSEspresso`**: launch helpers, text/view assertions, root actions, random
+  clicks/swipes, and view lookup with timeouts.
+- **`CSDevice` and `UiDevice` extensions**: wait, press, swipe, click, and
+  visibility helpers around UI Automator.
+- **`CSScreenshotMaker`**: sequential device screenshots during instrumented
+  runs.
+- **Framework access**: includes `renetik-android-framework` for app-facing
+  UI/controller APIs in tests.
 
 ### Installation
+
+Add JitPack and the UI testing dependency:
 
 ```gradle
 repositories {
@@ -22,33 +29,75 @@ repositories {
 }
 
 dependencies {
-    androidTestImplementation 'com.github.renetik.renetik-android:renetik-android-testing-ui:2.0'
+    androidTestImplementation 'com.github.renetik.renetik-android:renetik-android-testing-ui:2.0.1'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
+Use `master-SNAPSHOT` instead of `2.0.1` to test the latest Renetik Android
+`master`.
 
 ### Compatibility
+
 - **minSdk**: 26
-- **target/compileSdk**: 37
+- **compileSdk**: 37
+- **Java**: 21
 - **Kotlin**: 2.3.21
 - **AGP**: 9.2.1
 
 ### Quick start
 
 ```kotlin
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Test
+import org.junit.runner.RunWith
+import renetik.android.testing.ui.automator.CSDevice.device
+import renetik.android.testing.ui.automator.waitForMoreIdle
+import renetik.android.testing.ui.espresso.CSEspresso
+
 @RunWith(AndroidJUnit4::class)
 class ChecklistUiTest {
     @Test
     fun checklistLaunches() {
-        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
-            scenario.onActivity { activity -> /* assert on CS views */ }
+        CSEspresso.launch<MainActivity>().use {
+            CSEspresso.checkTextDisplayed("Renetik Android")
+            device.waitForMoreIdle()
         }
     }
 }
 ```
 
-See the [sample app](../sample) `androidTest` for a working example.
+### Core concepts
+
+- **`renetik.android.testing.ui.espresso`**: Espresso/Barista helpers for
+  launching activities, waiting for text, and finding views.
+- **`renetik.android.testing.ui.automator`**: `CSDevice`, screen side helpers,
+  `UiDevice` extensions, and screenshots.
+- **`CSScreenshotMaker`**: repeatable screenshot naming and capture flow.
+
+### Dependencies
+
+- **Renetik modules**: [Framework](../renetik-android-framework),
+  [Testing](../renetik-android-testing).
+- **External androidTest APIs**: AndroidX Test Core KTX `1.7.0`, UI Automator
+  `2.3.0`, Barista `4.3.0`.
+
+### Related Renetik libraries
+
+- [Renetik Android](https://github.com/renetik/renetik-android/)
+- [Renetik Android Testing](../renetik-android-testing)
+- [Renetik Android Framework](../renetik-android-framework)
+
+### Contributing
+
+Issues and PRs are welcome. Please include a clear description and small,
+focused changes.
 
 ### License
-This library is released under the terms of the license in `LICENSE.txt`.
+
+This library is released under the terms of [LICENSE.txt](../LICENSE.txt).
+
+---
+
+If you find this useful, consider supporting the broader Renetik Instruments
+effort at [renetik.com](https://www.renetik.com) or get in touch for
+[Hire](https://renetik.github.io).

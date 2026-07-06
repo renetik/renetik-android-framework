@@ -4,15 +4,21 @@
 
 Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
-Lightweight event and reactive property primitives for Android/Kotlin.
+Reactive core of the framework: type-safe events, observable properties,
+disposable registrations, lifecycle primitives, and coroutine integration.
 
-- **Events**: type-safe signals with `listen`, `listenOnce`, `pause`/`resume`, `cancel`, and optional main-thread delivery.
-- **Properties**: observable values with `onChange`, `computed`, two‑way `connect`, pausable updates, and Kotlin delegate helpers.
-- **Registrations**: disposable subscriptions with lifecycle helpers, `pause`/`resume`, and `eventCancel` for clean teardown.
-
-Used across Renetik projects to keep app logic clear and decoupled.
+- **Events**: type-safe signals with `listen`, `listenOnce`, `pause`, `resume`,
+  `cancel`, and optional main-thread delivery.
+- **Properties**: observable values with `onChange`, `computed`, two-way
+  `connect`, pausable updates, and Kotlin delegate helpers.
+- **Registrations**: disposable subscriptions with lifecycle helpers, pause,
+  resume, and clean teardown.
+- **Lifecycle**: `CSModel` and `CSHasDestruct` for parent-child object
+  lifetimes.
+- **Coroutines**: suspend events/properties, wait helpers, and launch helpers.
 
 ### Installation
+
 Add JitPack and the event dependency:
 
 ```gradle
@@ -23,30 +29,37 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.renetik.renetik-android:renetik-android-event:2.0'
+    implementation 'com.github.renetik.renetik-android:renetik-android-event:2.0.1'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
+Use `master-SNAPSHOT` instead of `2.0.1` to test the latest Renetik Android
+`master`.
 
 ### Compatibility
+
 - **minSdk**: 26
-- **target/compileSdk**: 37
+- **compileSdk**: 37
+- **Java**: 21
 - **Kotlin**: 2.3.21
 - **AGP**: 9.2.1
 
 ### Quick start
+
 Events:
+
 ```kotlin
 import renetik.android.event.CSEvent.Companion.event
 
 val onTick = event<Unit>()
-val reg = onTick.listen { println("tick") }
+val registration = onTick.listen { println("tick") }
+
 onTick.fire()
-reg.cancel()
+registration.cancel()
 ```
 
 Properties:
+
 ```kotlin
 import renetik.android.event.property.CSProperty.Companion.property
 
@@ -55,118 +68,134 @@ name = "Alice"
 ```
 
 Listen once and pause/resume:
+
 ```kotlin
 val clicks = event<Unit>()
 clicks.listenOnce { println("first and only") }
-val r = clicks.listen { println("every time") }
-r.pause(); clicks.fire(); r.resume(); clicks.fire()
+
+val registration = clicks.listen { println("every time") }
+registration.pause()
+clicks.fire()
+registration.resume()
+clicks.fire()
 ```
 
-Two‑way connect and computed properties:
+Two-way connect and computed properties:
+
 ```kotlin
 val a = property(0)
 val b = property(0)
-a.connect(b) // keep in sync both ways
-val percent = a.computed(from = { it / 100f }, to = { (it * 100).toInt() })
+
+a.connect(b)
+
+val percent = a.computed(
+    from = { it / 100f },
+    to = { (it * 100).toInt() }
+)
 ```
 
 ### Core concepts
-- **`CSEvent<T>`**: `listen`, `listenOnce`, `fire(T)`, `pause()/resume()`, `isListened`, `clear()`; `onMain()` to deliver on main thread.
-- **`CSProperty<T>`**: `value`, `onChange`, `fireChange`, `pause()/resume(fire)`; helpers: `computed`, `connect`, `paused {}`, delegates.
-- **`CSRegistration`**: result of `listen`/`onChange`; supports `pause()/resume()/cancel()`, `isActive`, and `eventCancel`.
 
-### Delegates (derived values and projections)
-Delegates let you derive values and signals from existing events/properties with minimal boilerplate. They return lightweight `CSHasChangeValue<T>` or `CSProperty<T>` that stay in sync.
+- **`CSEvent<T>`**: `listen`, `listenOnce`, `fire(T)`, `pause`, `resume`,
+  `isListened`, `clear`, and `onMain`.
+- **`CSProperty<T>`**: `value`, `onChange`, `fireChange`, `pause`, `resume`,
+  `computed`, `connect`, `paused`, and delegate support.
+- **`CSRegistration`**: result of `listen` and `onChange`; supports `pause`,
+  `resume`, `cancel`, `isActive`, and `eventCancel`.
+- **`CSModel` / `CSHasDestruct`**: parent-child lifecycles with
+  `eventDestruct` and `destruct()`.
 
-- From `CSEvent<T>`:
-  - `delegate { from() }` • `delegateLate { from() }`
+### Delegates
 
-- From `CSProperty<T>` and `CSHasChangeValue<T>`:
-  - `computed(from, to)` and `computed { get, set }`
-  - `delegateValue { transform(it) }`, `delegate { combine(...) }`
-  - Convenience delegates: boolean logic (`and`, `or`, `not`), equality checks, null checks, type casts, list delegates, etc.
+Delegates derive values and signals from existing events/properties with little
+boilerplate. They return lightweight `CSHasChangeValue<T>` or `CSProperty<T>`
+instances that stay in sync.
 
-Examples:
+- From `CSEvent<T>`: `delegate { from() }` and `delegateLate { from() }`.
+- From `CSProperty<T>` and `CSHasChangeValue<T>`: `computed(from, to)`,
+  `computed { get, set }`, `delegateValue { transform(it) }`, and
+  `delegate { combine(...) }`.
+- Convenience delegates cover boolean logic, equality checks, null checks, type
+  casts, list delegates, and related transforms.
+
 ```kotlin
-// Project an event into a property-like value that updates on each fire
 val meterEvent = event<Int>()
 val latest = meterEvent.delegate { it }
-println(latest.value)
 
-// Late (nullable) projection
 val maybeLatest = meterEvent.delegateLate { it }
 
-// Compute a percent view over an Int property with two-way mapping
 val volume = property(50)
-val volumePercent = volume.computed(from = { it / 100f }, to = { (it * 100).toInt() })
+val volumePercent = volume.computed(
+    from = { it / 100f },
+    to = { (it * 100).toInt() }
+)
 
-// Boolean delegates
 val isMuted = property(false)
-val isAudible = !isMuted // via computed/not delegate
-
-// Combine multiple change sources
-val width = property(100)
-val height = property(50)
-val area = CSProperty.property(parent = null, item1 = width, item2 = height, item3 = isAudible) { w, h, audible ->
-    if (audible) w * h else 0
-}
+val isAudible = !isMuted
 ```
 
 ### Threading
-Deliver event callbacks on the main thread by chaining `onMain(owner)` on the created event:
+
+Deliver event callbacks on the main thread by chaining `onMain(owner)` on the
+created event:
 
 ```kotlin
 val owner = /* something implementing CSHasDestruct */
-val e = CSEvent.event<Unit>().onMain(owner)
-e.listen { /* runs on main */ }
+val event = CSEvent.event<Unit>().onMain(owner)
+
+event.listen { /* runs on main */ }
 ```
 
 ### Coroutines
+
 Suspend-friendly primitives and helpers:
 
-- Await on values (for any `CSHasChangeValue<T>`):
-  - `waitFor { condition(it) }`
-  - For booleans: `waitForTrue()`, `waitForFalse()`, plus `suspendIfTrue()/suspendIfFalse()`
-- Await next change (for any `CSHasChange<T>`):
-  - `waitForChange()` returns the new value
-- Suspend types:
-  - `CSSuspendEvent<T>`: `listen { suspend }`, `fire(arg)` is `suspend`
-  - `CSSuspendProperty<T>`: `onChange { suspend }`
-- Launch helpers (default dispatcher = Main):
-  - `onChangeLaunch { suspend }`, `actionLaunch { suspend }`
-  - Boolean: `onTrueLaunch {}`, `onFalseLaunch {}`
-  - From `CSHasRegistrations`: `launch { job -> }`, `launchWhileActive {}`, `launch(key) {}`
+- Await values with `waitFor { condition(it) }`, `waitForTrue()`,
+  `waitForFalse()`, `suspendIfTrue()`, and `suspendIfFalse()`.
+- Use `CSSuspendEvent<T>` and `CSSuspendProperty<T>` for suspending listeners.
+- Launch work from changes with `onChangeLaunch`, `actionLaunch`,
+  `onTrueLaunch`, and `onFalseLaunch`.
+- Use registration-owned launch helpers from `CSHasRegistrations`.
 
 ```kotlin
-// Wait for a property to reach a state
 val isReady = property(false)
 scope.launch { isReady.waitForTrue() }
 
-// Await the next value change
 val value = property(0)
-scope.launch {
-    val next = value.waitForChange()
-}
+scope.launch { value.waitFor { it > 10 } }
 
-// Suspend event
-val onLoaded = CSSuspendEvent.suspendEvent<Unit>()
-scope.launch { onLoaded.listen { /* suspending work */ } }
-scope.launch { onLoaded() } // fire Unit
+val onReady = CSSuspendEvent.suspendEvent<Unit>()
+scope.launch { onReady.listen { /* suspending work */ } }
+scope.launch { onReady() }
 
-// Launch on change
 value.onChangeLaunch { newValue ->
     // suspending work using newValue
 }
 ```
 
+### Dependencies
+
+- **Renetik modules**: [Core](../renetik-android-core).
+- **External runtime**: none beyond the shared Android/Kotlin stack.
+- **Test scope**: [Testing](../renetik-android-testing).
+
 ### Related Renetik libraries
+
 - [Renetik Android](https://github.com/renetik/renetik-android/)
+- [Renetik Android Core](../renetik-android-core)
+- [Renetik Android Framework](../renetik-android-framework)
 
 ### Contributing
-Issues and PRs are welcome. Please include a clear description and small, focused changes.
+
+Issues and PRs are welcome. Please include a clear description and small,
+focused changes.
 
 ### License
-This library is released under the terms of the license in `LICENSE.txt`.
 
-—
-If you find this useful, consider supporting the broader Renetik Instruments effort at `https://www.renetik.com` or get in touch for [Hire](https://renetik.github.io).
+This library is released under the terms of [LICENSE.txt](../LICENSE.txt).
+
+---
+
+If you find this useful, consider supporting the broader Renetik Instruments
+effort at [renetik.com](https://www.renetik.com) or get in touch for
+[Hire](https://renetik.github.io).
