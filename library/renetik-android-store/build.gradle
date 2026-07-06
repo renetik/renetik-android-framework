@@ -1,9 +1,0 @@
-rootProject.ext.namespace = 'renetik.android.store'
-if (!rootProject.ext.is_renetik_development) apply from: '../../library.gradle'
-else apply from: '../../../library.gradle'
-dependencies {
-    api project(':renetik-android-core')
-    api project(':renetik-android-json')
-    api project(':renetik-android-event')
-    testImplementation project(':renetik-android-testing')
-}
