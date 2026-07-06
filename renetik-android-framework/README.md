@@ -1,10 +1,10 @@
-[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 ## Renetik Android Framework (aggregate)
 
-Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
+Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
-Aggregate artifact that pulls in every runtime module of the framework as an
+Aggregate artifact that pulls in every runtime module of Renetik Android as an
 `api` dependency — one line instead of eleven: core, event, json, store,
 preset, ui, ui-picker, material, imaging and controller. It contains no code
 of its own.
@@ -19,12 +19,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.renetik.renetik-android-framework:renetik-android-framework:2.0'
-    debugImplementation 'com.github.renetik.renetik-android-framework:renetik-android-core-leakcanary:2.0'
+    implementation 'com.github.renetik.renetik-android:renetik-android-framework:2.0'
+    debugImplementation 'com.github.renetik.renetik-android:renetik-android-core-leakcanary:2.0'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
 Pick individual modules instead if you want a smaller dependency footprint —
 see the [module matrix](../README.md#modules).
 

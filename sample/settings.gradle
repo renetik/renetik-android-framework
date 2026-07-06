@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'renetik-android-framework-sample'
+rootProject.name = 'renetik-android-sample'
 include ':app'

@@ -1,8 +1,8 @@
-[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 ## Renetik Android Event
 
-Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
+Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
 Lightweight event and reactive property primitives for Android/Kotlin.
 
@@ -23,11 +23,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.renetik.renetik-android-framework:renetik-android-event:2.0'
+    implementation 'com.github.renetik.renetik-android:renetik-android-event:2.0'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
 
 ### Compatibility
 - **minSdk**: 26
@@ -160,7 +160,7 @@ value.onChangeLaunch { newValue ->
 ```
 
 ### Related Renetik libraries
-- [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/)
+- [Renetik Android](https://github.com/renetik/renetik-android/)
 
 ### Contributing
 Issues and PRs are welcome. Please include a clear description and small, focused changes.

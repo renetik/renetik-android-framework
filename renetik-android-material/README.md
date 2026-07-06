@@ -1,10 +1,10 @@
-[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 ## Renetik Android Material
 
-Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
+Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
-Material Components integration: CS slider views and extensions binding Material widgets to framework properties.
+Material Components integration: CS slider views and extensions binding Material widgets to Renetik Android properties.
 
 - **`CSSlider`, `CSRangeSlider`, `CSVerticalSlider`**: Material sliders usable inside CS touch handling (`CSMaterialSlider`).
 - **`Slider`/`RangeSlider` extensions**: `value(property, min, max, step)` two-way binding, `onChange`, `onDragStart/Stop`, clamped `value(...)` setters.
@@ -21,11 +21,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.renetik.renetik-android-framework:renetik-android-material:2.0'
+    implementation 'com.github.renetik.renetik-android:renetik-android-material:2.0'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
 
 ### Compatibility
 - **minSdk**: 26

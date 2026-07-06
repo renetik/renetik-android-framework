@@ -1,6 +1,6 @@
 # Module renetik-android-core-leakcanary
 
-LeakCanary wiring for the framework's `CSLeakCanary` facade in
+LeakCanary wiring for Renetik Android `CSLeakCanary` facade in
 `renetik-android-core`. Add it as a `debugImplementation` only; the facade
 stays a no-op in release builds.
 

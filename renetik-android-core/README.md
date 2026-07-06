@@ -1,9 +1,9 @@
 <!---Header--->
-[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 # Renetik Android Core
 
-Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
+Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
 Core library for the Renetik Android libraries collection.
 It provides shared application runtime helpers, Kotlin/Java/Android extensions,
@@ -34,17 +34,17 @@ Add the core module to the application or library module:
 
 ```gradle
 dependencies {
-    implementation 'com.github.renetik.renetik-android-framework:renetik-android-core:2.0'
+    implementation 'com.github.renetik.renetik-android:renetik-android-core:2.0'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
 
 LeakCanary integration is published separately:
 
 ```gradle
 dependencies {
-    debugImplementation 'com.github.renetik.renetik-android-framework:renetik-android-core-leakcanary:2.0'
+    debugImplementation 'com.github.renetik.renetik-android:renetik-android-core-leakcanary:2.0'
 }
 ```
 
@@ -171,4 +171,4 @@ class CSAndroidLoggerTest {
 
 ## Renetik Android Libraries
 
-See [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/) for all modules and release coordinates.
+See [Renetik Android](https://github.com/renetik/renetik-android/) for all modules and release coordinates.

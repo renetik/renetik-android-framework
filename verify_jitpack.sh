@@ -5,7 +5,7 @@ set -euo pipefail
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPT_NAME="$(basename "$0")"
 JITPACK_BASE_URL="https://jitpack.io"
-GROUP_ID="com.github.renetik.renetik-android-framework"
+GROUP_ID="com.github.renetik.renetik-android"
 GROUP_PATH="${GROUP_ID//.//}"
 DEFAULT_VERSION="master-SNAPSHOT"
 ARTIFACTS=(
@@ -30,9 +30,9 @@ usage() {
     cat <<EOF
 Usage: $SCRIPT_NAME [version] [artifact ...]
 
-Verifies JitPack POM availability for Renetik Android Framework artifacts.
+Verifies JitPack POM availability for Renetik Android artifacts.
 When version ends with -SNAPSHOT, the JitPack redirect must point to the
-current local framework HEAD commit. For release versions, the POM only needs
+current local Renetik Android HEAD commit. For release versions, the POM only needs
 to be available with the expected group and artifact.
 
 Examples:

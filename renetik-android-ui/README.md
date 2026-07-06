@@ -1,8 +1,8 @@
-[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 ## Renetik Android UI
 
-Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
+Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
 View classes and Kotlin extensions for building Android UI with less boilerplate.
 
@@ -21,11 +21,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.renetik.renetik-android-framework:renetik-android-ui:2.0'
+    implementation 'com.github.renetik.renetik-android:renetik-android-ui:2.0'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
 
 ### Compatibility
 - **minSdk**: 26

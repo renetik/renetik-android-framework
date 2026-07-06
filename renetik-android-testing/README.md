@@ -1,9 +1,9 @@
-[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 # Renetik Android Testing
 
 Shared Android test dependencies and helpers for Renetik Android libraries.
-Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
+Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
 ## Installation
 
@@ -24,11 +24,11 @@ Add the testing artifact to test dependencies:
 
 ```gradle
 dependencies {
-    testImplementation 'com.github.renetik.renetik-android-framework:renetik-android-testing:2.0'
+    testImplementation 'com.github.renetik.renetik-android:renetik-android-testing:2.0'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
 
 ## Compatibility
 
@@ -48,4 +48,4 @@ Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
 
 ## Renetik Android Libraries
 
-See [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/) for all modules and release coordinates.
+See [Renetik Android](https://github.com/renetik/renetik-android/) for all modules and release coordinates.

@@ -8,7 +8,7 @@ while (libraryRoot != null && !new File(libraryRoot, ".git").exists())
 def libraryLintConfig = new File(libraryRoot ?: projectDir.parentFile, "lint.xml")
 
 group = providers.gradleProperty('group')
-        .getOrElse('com.github.renetik.renetik-android-framework')
+        .getOrElse('com.github.renetik.renetik-android')
 version = providers.gradleProperty('version').getOrElse('LOCAL')
 
 android {
@@ -75,12 +75,12 @@ afterEvaluate {
                 artifactId = project.name
                 pom {
                     name = project.name
-                    description = "Renetik Android Framework module ${project.name}"
-                    url = 'https://github.com/renetik/renetik-android-framework'
+                    description = "Renetik Android module ${project.name}"
+                    url = 'https://github.com/renetik/renetik-android'
                     licenses {
                         license {
                             name = 'MIT License'
-                            url = 'https://github.com/renetik/renetik-android-framework/blob/master/LICENSE.txt'
+                            url = 'https://github.com/renetik/renetik-android/blob/master/LICENSE.txt'
                         }
                     }
                     developers {
@@ -91,9 +91,9 @@ afterEvaluate {
                         }
                     }
                     scm {
-                        connection = 'scm:git:https://github.com/renetik/renetik-android-framework.git'
-                        developerConnection = 'scm:git:ssh://git@github.com/renetik/renetik-android-framework.git'
-                        url = 'https://github.com/renetik/renetik-android-framework'
+                        connection = 'scm:git:https://github.com/renetik/renetik-android.git'
+                        developerConnection = 'scm:git:ssh://git@github.com/renetik/renetik-android.git'
+                        url = 'https://github.com/renetik/renetik-android'
                     }
                 }
             }

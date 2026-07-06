@@ -1,12 +1,12 @@
-[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 ## Renetik Android Testing UI
 
-Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
+Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
 Instrumented UI testing toolkit used in `androidTest` source sets. Bundles
 [Barista](https://github.com/AdevintaSpain/Barista) (Espresso),
-UI Automator and AndroidX test core, plus framework helpers.
+UI Automator and AndroidX test core, plus Renetik Android helpers.
 
 - **`CSAutomator`**: UI Automator helpers (`UIDevice` extensions, screen sides, scrolling).
 - **`CSScreenshotMaker`**: device screenshots during instrumented runs.
@@ -22,11 +22,11 @@ repositories {
 }
 
 dependencies {
-    androidTestImplementation 'com.github.renetik.renetik-android-framework:renetik-android-testing-ui:2.0'
+    androidTestImplementation 'com.github.renetik.renetik-android:renetik-android-testing-ui:2.0'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
 
 ### Compatibility
 - **minSdk**: 26

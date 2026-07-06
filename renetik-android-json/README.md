@@ -1,10 +1,10 @@
-[![Android Build](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android-framework/actions/workflows/android.yml)
+[![Android Build](https://github.com/renetik/renetik-android/actions/workflows/android.yml/badge.svg)](https://github.com/renetik/renetik-android/actions/workflows/android.yml)
 
 # Renetik Android Json
 
-Part of [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/).
+Part of [Renetik Android](https://github.com/renetik/renetik-android/).
 
-Framework to enjoy, improve and speed up your application development while writing readable code.
+Renetik Android utilities to improve and speed up application development while writing readable code.
 Used as library in many projects and improving it while developing new projects. I am open
 for [Hire](https://renetik.github.io) or investment in my mobile app music production & perfromance
 project Renetik Instruments www.renetik.com.
@@ -19,11 +19,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.renetik.renetik-android-framework:renetik-android-json:2.0'
+    implementation 'com.github.renetik.renetik-android:renetik-android-json:2.0'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to test the latest framework `master`.
+Use `master-SNAPSHOT` instead of `2.0` to test the latest Renetik Android `master`.
 
 ## Examples
 
@@ -257,4 +257,4 @@ class JsonObjectTest {
 
 ## Renetik Android Libraries
 
-See [Renetik Android Framework](https://github.com/renetik/renetik-android-framework/) for all modules and release coordinates.
+See [Renetik Android](https://github.com/renetik/renetik-android/) for all modules and release coordinates.

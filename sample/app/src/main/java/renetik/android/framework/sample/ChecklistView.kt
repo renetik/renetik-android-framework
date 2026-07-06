@@ -30,7 +30,7 @@ class ChecklistView(parent: MainView) :
         super.onViewReady()
         val container: LinearLayout =
             viewContent.findView(R.id.sample_checklist_container)!!
-        container.addView(TextView(context).text("Renetik Android Framework 2.0")
+        container.addView(TextView(context).text("Renetik Android 2.0")
             .apply { textSize = 22f })
         container.addView(TextView(context)
             .text("Module checklist — every row is a live exercise")

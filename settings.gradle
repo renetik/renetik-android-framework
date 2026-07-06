@@ -27,3 +27,5 @@ project(':renetik-android-imaging').projectDir = file("renetik-android-imaging")
 project(':renetik-android-controller').projectDir = file("renetik-android-controller")
 project(':renetik-android-framework').projectDir = file("renetik-android-framework")
 project(':renetik-android-testing-ui').projectDir = file("renetik-android-testing-ui")
+
+rootProject.name = "renetik-android"

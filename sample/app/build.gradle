@@ -3,7 +3,7 @@ plugins {
 }
 
 def smokeVersion = providers.gradleProperty('smokeVersion').getOrElse('master-SNAPSHOT')
-def frameworkGroup = 'com.github.renetik.renetik-android-framework'
+def frameworkGroup = 'com.github.renetik.renetik-android'
 
 android {
     namespace = 'renetik.android.framework.sample'

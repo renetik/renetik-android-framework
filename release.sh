@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Release a renetik-android-framework version:
-#   framework build -> mavenLocal smoke publish -> sample assemble + unit
+# Release a renetik-android version:
+#   Renetik Android build -> mavenLocal smoke publish -> sample assemble + unit
 #   tests -> git tag + push -> JitPack verification.
 #
 # Usage: ./release.sh <version>   e.g. ./release.sh 2.0
@@ -11,7 +11,7 @@ SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 VERSION="${1:?Usage: $0 <version>}"
-GROUP="com.github.renetik.renetik-android-framework"
+GROUP="com.github.renetik.renetik-android"
 SMOKE_VERSION="0.0.0-smoke"
 
 if ! git diff-index --quiet HEAD --; then
@@ -19,7 +19,7 @@ if ! git diff-index --quiet HEAD --; then
     exit 1
 fi
 
-echo "==> Framework build"
+echo "==> Renetik Android build"
 ./gradlew build --no-daemon --no-configuration-cache
 
 echo "==> Publish smoke artifacts to mavenLocal"

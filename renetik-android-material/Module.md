@@ -1,7 +1,7 @@
 # Module renetik-android-material
 
 Material Components integration: CS slider views and extensions binding Material
-widgets to framework properties. Requires a Material Components theme.
+widgets to Renetik Android properties. Requires a Material Components theme.
 
 # Package renetik.android.material
 
