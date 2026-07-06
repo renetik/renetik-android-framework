@@ -35,22 +35,22 @@ Prefer individual modules from the matrix below for a smaller footprint.
 
 ## Modules
 
-| Module | Description |
-| --- | --- |
-| [`renetik-android-core`](renetik-android-core) | Kotlin/Android foundation: logging, lang, math, colors, files, lazy/atomic/variable primitives |
-| [`renetik-android-core-leakcanary`](renetik-android-core-leakcanary) | LeakCanary wiring for core's `CSLeakCanary` facade (debug builds) |
-| [`renetik-android-event`](renetik-android-event) | Events, observable properties, registrations, coroutines integration |
-| [`renetik-android-json`](renetik-android-json) | JSON mapping for objects, lists and maps with `CSJsonObject` |
-| [`renetik-android-store`](renetik-android-store) | Key-value stores (json/file/preferences) with typed property delegates |
-| [`renetik-android-preset`](renetik-android-preset) | Presets: named snapshots of store-backed properties with save/load |
-| [`renetik-android-ui`](renetik-android-ui) | CS views, view/widget extensions, graphics helpers, view protocols |
-| [`renetik-android-ui-picker`](renetik-android-ui-picker) | `CSNumberPicker` wheel bound to Renetik Android properties |
-| [`renetik-android-material`](renetik-android-material) | Material Components: sliders, forms, dialogs, snackbar extensions |
-| [`renetik-android-imaging`](renetik-android-imaging) | Glide-based image loading and bitmap/file/uri processing |
-| [`renetik-android-controller`](renetik-android-controller) | View-controller layer: `CSActivityView`, navigation, grid, pager |
-| [`renetik-android-framework`](renetik-android-framework) | Aggregate artifact depending on all runtime modules above |
-| [`renetik-android-testing`](renetik-android-testing) | Unit-test stack: JUnit4 + Robolectric + MockK + coroutines-test |
-| [`renetik-android-testing-ui`](renetik-android-testing-ui) | Instrumented-test stack: Barista/Espresso + UI Automator helpers |
+| Module                                               | Description |
+|------------------------------------------------------| --- |
+| [`Core`](renetik-android-core)                       | Kotlin/Android foundation: logging, lang, math, colors, files, lazy/atomic/variable primitives |
+| [`Core Leakcanary`](renetik-android-core-leakcanary) | LeakCanary wiring for core's `CSLeakCanary` facade (debug builds) |
+| [`Event`](renetik-android-event)                     | Events, observable properties, registrations, coroutines integration |
+| [`Json`](renetik-android-json)                       | JSON mapping for objects, lists and maps with `CSJsonObject` |
+| [`Store`](renetik-android-store)                     | Key-value stores (json/file/preferences) with typed property delegates |
+| [`Preset`](renetik-android-preset)                   | Presets: named snapshots of store-backed properties with save/load |
+| [`UI`](renetik-android-ui)                           | CS views, view/widget extensions, graphics helpers, view protocols |
+| [`UI Picker`](renetik-android-ui-picker)             | `CSNumberPicker` wheel bound to Renetik Android properties |
+| [`Material`](renetik-android-material)               | Material Components: sliders, forms, dialogs, snackbar extensions |
+| [`Imaging`](renetik-android-imaging)                 | Glide-based image loading and bitmap/file/uri processing |
+| [`Controller`](renetik-android-controller)           | View-controller layer: `CSActivityView`, navigation, grid, pager |
+| [`Framework`](renetik-android-framework)             | Aggregate artifact depending on all runtime modules above |
+| [`Testing`](renetik-android-testing)                 | Unit-test stack: JUnit4 + Robolectric + MockK + coroutines-test |
+| [`Testing UI`](renetik-android-testing-ui)           | Instrumented-test stack: Barista/Espresso + UI Automator helpers |
 
 All artifacts share the group `com.github.renetik.renetik-android`
 and are published via [JitPack](https://jitpack.io/#renetik/renetik-android).
