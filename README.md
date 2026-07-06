@@ -25,12 +25,12 @@ repositories {
 
 dependencies {
     // everything at once (aggregate artifact):
-    implementation 'com.github.renetik.renetik-android:renetik-android-framework:2.0'
-    debugImplementation 'com.github.renetik.renetik-android:renetik-android-core-leakcanary:2.0'
+    implementation 'com.github.renetik.renetik-android:renetik-android-framework:2.0.1'
+    debugImplementation 'com.github.renetik.renetik-android:renetik-android-core-leakcanary:2.0.1'
 }
 ```
 
-Use `master-SNAPSHOT` instead of `2.0` to follow the current `master`.
+Use `master-SNAPSHOT` instead of `2.0.1` to follow the current `master`.
 Prefer individual modules from the matrix below for a smaller footprint.
 
 ## Modules
@@ -78,7 +78,8 @@ push/pop demo.
 
 ## Verification
 
-Run the Renetik Android build and sample app before publishing a release:
+Run the Renetik Android build and sample app before publishing a release or
+when checking a local change:
 
 ```sh
 ./gradlew build --no-daemon --no-configuration-cache
@@ -87,18 +88,16 @@ Run the Renetik Android build and sample app before publishing a release:
 ./gradlew -p sample testDebugUnitTest --no-daemon --no-configuration-cache -PsmokeVersion=0.0.0-smoke
 ```
 
-Or everything at once, including tagging and JitPack verification:
-
-```sh
-./release.sh 2.0
-```
-
 After pushing `master` or creating a release tag, verify JitPack POMs:
 
 ```sh
 ./verify_jitpack.sh master-SNAPSHOT
-./verify_jitpack.sh 2.0
+./verify_jitpack.sh 2.0.1
 ```
+
+Release publishing is separate from verification. See [RELEASE.md](RELEASE.md)
+for the full release process, including how `./release.sh <version>` tags the
+repository and verifies JitPack.
 
 ### API docs
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1 — 2026-07-06
+
+Release documentation cleanup: added a dedicated release guide and clarified
+the difference between local verification, tag publishing, and JitPack
+verification.
+
 ## 2.0 — 2026-07-05
 
 Unification of all Renetik Android libraries into this single
