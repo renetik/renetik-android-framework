@@ -33,6 +33,13 @@ val Context.packageInfo
         packageManager.getPackageInfo(packageName, 0)
     }.onFailure(::logWarn).getOrNull()
 
+val Context.isInitialInstalledVersion: Boolean
+    get() = runCatching {
+        packageManager.getPackageInfo(packageName, 0).let {
+            it.firstInstallTime == it.lastUpdateTime
+        }
+    }.getOrDefault(true)
+
 val Context.isPlayStoreInstalled get() = isPackageInstalled("com.android.vending")
 
 fun Context.isPackageInstalled(packageName: String): Boolean = try {
