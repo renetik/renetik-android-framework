@@ -6,7 +6,7 @@ buildscript {
         coroutines_version = '1.11.0'
         appcompat_version = '1.7.1'
         material_version = '1.9.0'
-        ktx_version = '1.18.0'
+        ktx_version = '1.19.0'
         junit_version = '4.13.2'
         mockk_version = '1.14.9'
         robolectric_version = '4.16.1'
