@@ -7,7 +7,8 @@
 A pragmatic Kotlin library for Android application development: reactive
 events and properties, JSON, persistent stores and presets, a view-controller
 layer over a single Activity, and a set of UI widgets and extensions — the
-foundation of the [Renetik Instruments](https://www.renetik.com) apps.
+foundation of the [Renetik Instruments](https://www.renetik.com) apps and
+[Motorkari](https://play.google.com/store/apps/details?id=cz.motorkari.android) app.
 
 - **API docs**: https://renetik.github.io/renetik-android/
 - **Sample**: [`sample/`](sample) — its main screen is a live checklist that
