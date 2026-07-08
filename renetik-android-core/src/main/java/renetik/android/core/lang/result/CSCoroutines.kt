@@ -10,20 +10,33 @@ object CSCoroutines {
     suspend fun waitFor(
         timeout: Duration,
         delay: Duration,
-        message: String = "Condition not met within $timeout",
+        message: () -> String = { "Condition not met within $timeout" },
         condition: () -> Boolean
     ) {
         val startTime = nowDuration
         while (!condition()) {
             if (nowDuration - startTime > timeout)
-                throw TimeoutException(message)
+                throw TimeoutException(message())
             delay(delay)
         }
     }
 
     suspend fun waitFor(
         timeout: Duration,
+        delay: Duration,
+        message: String,
+        condition: () -> Boolean
+    ) = waitFor(timeout, delay, { message }, condition)
+
+    suspend fun waitFor(
+        timeout: Duration,
         message: String = "Condition not met within $timeout",
+        condition: () -> Boolean
+    ) = waitFor(timeout, 10.milliseconds, { message }, condition)
+
+    suspend fun waitFor(
+        timeout: Duration,
+        message: () -> String,
         condition: () -> Boolean
     ) = waitFor(timeout, 10.milliseconds, message, condition)
 }
