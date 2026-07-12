@@ -130,10 +130,9 @@ class ModuleChecks(private val context: Context) {
         val data = listOf("one", "two", "three")
         return check("ui-picker", "embedded CSNumberPicker wheel", demoView = {
             CSNumberPicker(it).apply {
-                textColor = it.attributeColor(android.R.attr.textColorSecondary)
-                val primary = it.attributeColor(android.R.attr.textColorPrimary)
-                selectedTextColor = primary
-                dividerColor = primary
+                textColor = it.attributeColor(android.R.attr.colorPrimary)
+                selectedTextColor = it.attributeColor(android.R.attr.colorSecondary)
+                dividerColor =  it.attributeColor(android.R.attr.colorAccent)
                 load(data, selected = 1)
             }
         }, exercise = {
