@@ -15,4 +15,12 @@
 
     <dimen name="test_dimension">16dp</dimen>
     <color name="test_color">#123456</color>
+
+    <attr name="test_literal_color_attribute" format="color" />
+    <attr name="test_state_list_color_attribute" format="color" />
+
+    <style name="TestColorTheme">
+        <item name="test_literal_color_attribute">#123456</item>
+        <item name="test_state_list_color_attribute">@color/test_color_state_list</item>
+    </style>
 </resources>

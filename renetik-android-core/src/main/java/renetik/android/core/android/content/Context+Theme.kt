@@ -34,16 +34,16 @@ fun Context.resourceColor(@ColorRes resource: Int): Int = getColor(resource)
 
 @ColorInt
 fun Context.attributeColor(@AttrRes attribute: Int): Int =
-    attributeValue(attribute).data.apply {
-        if (this == 0) throw NotFoundException()
-    }
+    obtainStyledAttributes(intArrayOf(attribute)).use { it.getColorOrThrow(0) }
 
 fun Context.attributeDrawable(@AttrRes attribute: Int): Drawable? =
     attributeValue(attribute).let { ContextCompat.getDrawable(this, it.resourceId) }
 
 @ColorInt
 fun Context.attributeColorOrNull(@AttrRes attribute: Int): Int? =
-    attributeValue(attribute).data.takeIf { it != 0 }
+    obtainStyledAttributes(intArrayOf(attribute)).use { attributes ->
+        runCatching { attributes.getColorOrThrow(0) }.getOrNull()
+    }
 
 fun Context.attributeDimensionPixel(@AttrRes attribute: Int, default: Int = 0): Int {
     val attributes = obtainStyledAttributes(intArrayOf(attribute))

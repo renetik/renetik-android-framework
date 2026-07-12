@@ -9,6 +9,7 @@ import android.content.Intent.EXTRA_TEXT
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.view.ContextThemeWrapper
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -36,6 +37,22 @@ class ContextExtensionsTest {
         assertEquals(context.resources.getDimension(dimenId), context.dimension(dimenId))
         assertEquals(context.resources.getDimensionPixelSize(dimenId), context.dimensionPx(dimenId))
         assertEquals("Hello, Foo!\n", context.assetsReadText("foo.txt"))
+    }
+
+    @Test
+    fun attributeColorsResolveLiteralAndColorStateListValues() {
+        val themedContext = ContextThemeWrapper(
+            context, resource("TestColorTheme", "style")
+        )
+        val literalAttribute = resource("test_literal_color_attribute", "attr")
+        val stateListAttribute = resource("test_state_list_color_attribute", "attr")
+
+        assertEquals(Color.rgb(0x12, 0x34, 0x56),
+            themedContext.attributeColor(literalAttribute))
+        assertEquals(Color.rgb(0x45, 0x67, 0x89),
+            themedContext.attributeColor(stateListAttribute))
+        assertEquals(Color.rgb(0x45, 0x67, 0x89),
+            themedContext.attributeColorOrNull(stateListAttribute))
     }
 
     @Test
