@@ -8,10 +8,15 @@ import android.widget.LinearLayout.LayoutParams
 import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.displayCutout
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
+import renetik.android.controller.base.push
 import renetik.android.controller.navigation.CSNavigationItemView
 import renetik.android.controller.navigation.fullScreen
-import renetik.android.controller.base.push
 import renetik.android.core.android.content.dpToPixel
+import renetik.android.core.lang.tuples.to
 import renetik.android.ui.view.findView
 import renetik.android.ui.view.onClick
 import renetik.android.ui.widget.HorizontalLayout
@@ -28,6 +33,7 @@ class ChecklistView(parent: MainView) :
 
     override fun onViewReady() {
         super.onViewReady()
+        applySystemBarInsets()
         val container: LinearLayout =
             viewContent.findView(R.id.sample_checklist_container)!!
         container.addView(TextView(context).text("Renetik Android 2.0")
@@ -37,6 +43,21 @@ class ChecklistView(parent: MainView) :
             .apply { textSize = 14f })
         checks.forEach { container.addView(row(it)) }
         container.addView(pushDemoButton())
+    }
+
+    private fun applySystemBarInsets() {
+        val (left, top, right, bottom) = viewContent.paddingLeft to
+                viewContent.paddingTop to viewContent.paddingRight to
+                viewContent.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(viewContent) { view, windowInsets ->
+            val insets = windowInsets.getInsets(systemBars() or displayCutout())
+            view.updatePadding(
+                left + insets.left, top + insets.top,
+                right + insets.right, bottom + insets.bottom,
+            )
+            windowInsets
+        }
+        ViewCompat.requestApplyInsets(viewContent)
     }
 
     private fun row(check: ModuleCheck): LinearLayout =
