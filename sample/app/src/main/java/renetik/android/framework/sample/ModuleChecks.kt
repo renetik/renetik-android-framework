@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import kotlinx.coroutines.runBlocking
+import renetik.android.core.android.content.attributeColor
 import renetik.android.core.android.content.dpToPixel
 import renetik.android.core.android.content.temporaryFolder
 import renetik.android.core.android.graphics.CSColor
@@ -14,7 +15,6 @@ import renetik.android.core.java.io.createFileAndDirs
 import renetik.android.core.java.io.write
 import renetik.android.core.lang.CSLeakCanary
 import renetik.android.event.CSEvent.Companion.event
-import renetik.android.event.fire
 import renetik.android.event.lifecycle.CSModel
 import renetik.android.event.lifecycle.destruct
 import renetik.android.event.property.CSProperty.Companion.property
@@ -128,13 +128,20 @@ class ModuleChecks(private val context: Context) {
 
     private fun uiPicker(): ModuleCheck {
         val data = listOf("one", "two", "three")
-        return check("ui-picker", "embedded CSNumberPicker wheel",
-            demoView = { CSNumberPicker(it).apply { load(data, selected = 1) } }) {
+        return check("ui-picker", "embedded CSNumberPicker wheel", demoView = {
+            CSNumberPicker(it).apply {
+                textColor = it.attributeColor(android.R.attr.textColorSecondary)
+                val primary = it.attributeColor(android.R.attr.textColorPrimary)
+                selectedTextColor = primary
+                dividerColor = primary
+                load(data, selected = 1)
+            }
+        }, exercise = {
             val picker = CSNumberPicker(context)
             picker.load(data, selected = 1)
             check(picker.displayedValues.size == 3)
             check(picker.value == 1)
-        }
+        })
     }
 
     private fun material(): ModuleCheck =
